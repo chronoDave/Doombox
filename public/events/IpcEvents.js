@@ -57,5 +57,29 @@ module.exports = {
         populateDatabase(Database, payload.rootFolder);
       });
     });
+    ipcMain.on('FETCH_LABEL_SIZE', event => {
+      Database.labels.count({}, (err, payload) => {
+        if (err) throw Error(err);
+        event.sender.send('RECEIVE_LABEL_SIZE', {
+          payload
+        });
+      });
+    });
+    ipcMain.on('FETCH_ALBUM_SIZE', event => {
+      Database.albums.count({}, (err, payload) => {
+        if (err) throw Error(err);
+        event.sender.send('RECEIVE_ALBUM_SIZE', {
+          payload
+        });
+      });
+    });
+    ipcMain.on('FETCH_SONG_SIZE', event => {
+      Database.songs.count({}, (err, payload) => {
+        if (err) throw Error(err);
+        event.sender.send('RECEIVE_SONG_SIZE', {
+          payload
+        });
+      });
+    });
   }
 };

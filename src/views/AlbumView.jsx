@@ -8,14 +8,13 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import AlbumItem from '../../components/AlbumItem/AlbumItem';
+import AlbumItem from '../components/AlbumItem/AlbumItem';
 
 // Actions
-import { fetchSongs } from '../../actions/databaseActions';
+import { fetchSongs } from '../actions/databaseActions';
 
 // Style
 import AlbumViewStyle from './AlbumViewStyle';
-import { toggleWindow } from '../../actions/windowActions';
 
 const AlbumView = props => {
   const {
@@ -28,7 +27,6 @@ const AlbumView = props => {
 
   const handleClick = (index, id) => {
     getSongs(id);
-    toggleMenu(index, id);
   };
 
   return (
@@ -97,7 +95,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSongs: id => dispatch(fetchSongs(id)),
-  toggleMenu: (id, index) => dispatch(toggleWindow(id, index))
 });
 
 export default connect(

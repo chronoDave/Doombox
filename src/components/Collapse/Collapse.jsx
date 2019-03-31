@@ -16,11 +16,11 @@ import Typography from '../Typography/Typography';
 import CollapseStyle from './CollapseStyle';
 
 const Collapse = props => {
-  const { classes, title, children } = props;
+  const { classes, title, children, defaultExpanded, paddingTop } = props;
 
   return (
     <ExpansionPanel
-      defaultExpanded
+      defaultExpanded={defaultExpanded}
       classes={{ root: classes.expansionPanelRoot }}
     >
       <ExpansionPanelSummary
@@ -34,7 +34,10 @@ const Collapse = props => {
       >
         <Typography variant="body1">{title}</Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails classes={{ root: classes.expansionPanelDetails }}>
+      <ExpansionPanelDetails
+        classes={{ root: classes.expansionPanelDetails }}
+        className={paddingTop ? classes.paddingTop : undefined}
+      >
         {children}
       </ExpansionPanelDetails>
     </ExpansionPanel>
@@ -43,8 +46,10 @@ const Collapse = props => {
 
 Collapse.propTypes = {
   classes: PropTypes.object.isRequired,
+  defaultExpanded: PropTypes.bool,
   title: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  paddingTop: PropTypes.bool
 };
 
 export default withStyles(CollapseStyle)(Collapse);

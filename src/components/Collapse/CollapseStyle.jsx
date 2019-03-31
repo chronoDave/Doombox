@@ -23,9 +23,11 @@ const CollapseStyle = theme => ({
       margin: '0 !important'
     }
   },
+  paddingTop: {
+    paddingTop: `${theme.spacing.unit * 2}px !important`
+  },
   expansionPanelDetails: {
     padding: theme.spacing.unit,
-    paddingTop: theme.spacing.unit * 2,
     borderBottom: `1px solid ${theme.palette.getAlpha(theme.palette.grey[50], 0.1)}`
   }
 });

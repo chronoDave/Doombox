@@ -1,30 +1,10 @@
 import {
-  TOGGLE_SONG_VIEW,
-  CLOSE_SONG_VIEW,
-  SET_ACTIVE_WINDOW
+  SET_VIEW
 } from '../actionTypes/windowTypes';
 
-export const toggleWindow = (index, id) => dispatch => {
+export const setView = view => dispatch => {
   dispatch({
-    type: TOGGLE_SONG_VIEW,
-    payload: {
-      index,
-      id
-    }
-  });
-};
-
-export const closeWindow = () => dispatch => {
-  dispatch({
-    type: CLOSE_SONG_VIEW
-  });
-};
-
-export const setActiveWindow = id => dispatch => {
-  dispatch({
-    type: SET_ACTIVE_WINDOW,
-    payload: {
-      id
-    }
+    type: SET_VIEW,
+    payload: view
   });
 };

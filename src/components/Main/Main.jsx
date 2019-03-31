@@ -7,23 +7,65 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { GridContainer, GridItem } from '../Grid';
-import { AlbumView, StartView, PlaylistView } from '../../views';
+import {
+  AlbumView,
+  PlaylistView,
+  LabelView,
+  SongView
+} from '../../views';
 import { MainDrawer, AlbumDrawer } from '../Drawer';
 
 // Actions
-import { fetchAlbumList, fetchSongs, fetchSong } from '../../actions/databaseActions';
-import { closeWindow, toggleWindow } from '../../actions/windowActions';
+import {
+  fetchLabelList,
+  fetchAlbumList,
+  fetchSongList,
+  fetchSongs,
+  fetchSong,
+  fetchLabelSize,
+  fetchAlbumSize,
+  fetchSongSize
+} from '../../actions/databaseActions';
 import { setPlaylist } from '../../actions/playlistActions';
 import { setPosition } from '../../actions/songActions';
+
+// Types
+import { VIEW_PLAYLIST, VIEW_LABEL, VIEW_ALBUM, VIEW_SONG } from '../../actionTypes/windowTypes';
 
 // Style
 import MainStyle from './MainStyle';
 
 class Main extends Component {
   componentDidMount() {
-    const { getAlbumList } = this.props;
+    const {
+      view,
+      getLabelList,
+      getAlbumList,
+      getSongList,
+      getLabelSize,
+      getAlbumSize,
+      getSongSize
+    } = this.props;
 
-    getAlbumList();
+    getLabelSize();
+    getAlbumSize();
+    getSongSize();
+
+    switch (view) {
+      case VIEW_PLAYLIST: {
+        return getAlbumList();
+      }
+      case VIEW_LABEL: {
+        return getLabelList();
+      }
+      case VIEW_ALBUM: {
+        return getAlbumList();
+      }
+      case VIEW_SONG: {
+        return getSongList();
+      }
+      default: return null;
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -47,15 +89,32 @@ class Main extends Component {
     }
   }
 
+  renderView() {
+    const {
+      view,
+      labelList,
+      albumList,
+      songList,
+      playlist
+    } = this.props;
+
+    switch (view) {
+      case VIEW_PLAYLIST: return playlist ? <PlaylistView /> : <CircularProgress />;
+      case VIEW_LABEL: return labelList ? <LabelView /> : <CircularProgress />;
+      case VIEW_ALBUM: return albumList ? <AlbumView /> : <CircularProgress />;
+      case VIEW_SONG: return songList ? <SongView /> : <CircularProgress />;
+      default: return null;
+    }
+  }
+
   render() {
     const {
       classes,
-      menuVisible,
-      songList,
-      albumList,
-      closeSongMenu,
-      selected,
-      playlist
+      view,
+      playlistSize,
+      labelSize,
+      albumSize,
+      songSize
     } = this.props;
 
     return (
@@ -67,12 +126,16 @@ class Main extends Component {
           classes={{ root: classes.gridContainerRoot }}
         >
           <GridItem xs>
-            {/* {(albumList && albumList.length === 0) && <StartView onSubmit={this.submit} />} */}
-            {albumList ? <AlbumView /> : <CircularProgress />}
-            {/* <PlaylistView /> */}
+            {this.renderView()}
           </GridItem>
         </GridContainer>
-        <MainDrawer />
+        <MainDrawer
+          active={view}
+          playlistSize={playlistSize}
+          labelSize={labelSize}
+          albumSize={albumSize}
+          songSize={songSize}
+        />
         {/* {(albumList && albumList.length !== 0) && (
           <AlbumDrawer
             onClose={() => closeSongMenu()}
@@ -89,15 +152,8 @@ class Main extends Component {
 
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
-  menuVisible: PropTypes.bool,
-  songList: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.bool
-  ]),
-  albumList: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.bool
-  ]),
+  songList: PropTypes.array.isRequired,
+  albumList: PropTypes.array.isRequired,
   getAlbumList: PropTypes.func.isRequired,
 };
 
@@ -107,17 +163,25 @@ const mapStateToProps = state => ({
   menuVisible: state.window.menuVisible,
   selected: state.window.selected,
   playlist: state.playlist.collection,
-  playlistIndex: state.playlist.index
+  playlistIndex: state.playlist.index,
+  view: state.window.view,
+  labelSize: state.list.labelSize,
+  albumSize: state.list.albumSize,
+  songSize: state.list.songSize,
+  playlistSize: state.playlist.size
 });
 
 const mapDispatchToProps = dispatch => ({
+  getLabelList: () => dispatch(fetchLabelList()),
   getAlbumList: () => dispatch(fetchAlbumList()),
+  getSongList: () => dispatch(fetchSongList()),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
-  closeSongMenu: () => dispatch(closeWindow()),
   getSongs: id => dispatch(fetchSongs(id)),
   getSong: id => dispatch(fetchSong(id)),
   setSongPosition: position => dispatch(setPosition(position)),
-  toggleMenu: (id, index) => dispatch(toggleWindow(id, index))
+  getLabelSize: () => dispatch(fetchLabelSize()),
+  getAlbumSize: () => dispatch(fetchAlbumSize()),
+  getSongSize: () => dispatch(fetchSongSize())
 });
 
 export default connect(

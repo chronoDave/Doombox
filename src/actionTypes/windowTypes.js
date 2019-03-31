@@ -1,3 +1,6 @@
-export const TOGGLE_SONG_VIEW = 'TOGGLE_SONG_VIEW';
-export const CLOSE_SONG_VIEW = 'CLOSE_SONG_VIEW';
-export const SET_ACTIVE_WINDOW = 'SET_ACTIVE_WINDOW';
+export const VIEW_PLAYLIST = 'VIEW_PLAYLIST';
+export const VIEW_LABEL = 'VIEW_LABEL';
+export const VIEW_ALBUM = 'VIEW_ALBUM';
+export const VIEW_SONG = 'VIEW_SONG';
+
+export const SET_VIEW = 'SET_VIEW';

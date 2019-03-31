@@ -5,9 +5,13 @@ import {
   FETCH_ALBUMS,
   FETCH_SONGS,
   FETCH_SONG,
-  UPDATE_DATABASE
+  UPDATE_DATABASE,
+  FETCH_LABEL_SIZE,
+  FETCH_ALBUM_SIZE,
+  FETCH_SONG_SIZE
 } from '../actionTypes/databaseTypes';
 
+// eslint-disable-next-line no-undef
 const { ipcRenderer } = window.require('electron');
 
 export const fetchLabelList = () => dispatch => {
@@ -38,6 +42,21 @@ export const fetchSongs = id => dispatch => {
 export const fetchSong = id => dispatch => {
   dispatch({ type: FETCH_SONG });
   ipcRenderer.send(FETCH_SONG, id);
+};
+
+export const fetchLabelSize = () => dispatch => {
+  dispatch({ type: FETCH_LABEL_SIZE });
+  ipcRenderer.send(FETCH_LABEL_SIZE);
+};
+
+export const fetchAlbumSize = () => dispatch => {
+  dispatch({ type: FETCH_ALBUM_SIZE });
+  ipcRenderer.send(FETCH_ALBUM_SIZE);
+};
+
+export const fetchSongSize = () => dispatch => {
+  dispatch({ type: FETCH_SONG_SIZE });
+  ipcRenderer.send(FETCH_SONG_SIZE);
 };
 
 export const updateDatabase = () => ipcRenderer.send(UPDATE_DATABASE);

@@ -5,9 +5,13 @@ import {
   RECEIVE_ALBUMS,
   RECEIVE_SONGS,
   RECEIVE_SONG,
-  RECEIVE_ROOT_FOLDER
+  RECEIVE_ROOT_FOLDER,
+  RECEIVE_LABEL_SIZE,
+  RECEIVE_ALBUM_SIZE,
+  RECEIVE_SONG_SIZE
 } from '../actionTypes/databaseTypes';
 
+// eslint-disable-next-line no-undef
 const { ipcRenderer } = window.require('electron');
 
 export const ipcListener = store => {
@@ -50,6 +54,24 @@ export const ipcListener = store => {
   ipcRenderer.on(RECEIVE_ROOT_FOLDER, (event, arg) => {
     store.dispatch(dispatch => {
       dispatch({ type: RECEIVE_ROOT_FOLDER, payload: arg });
+    });
+  });
+
+  ipcRenderer.on(RECEIVE_LABEL_SIZE, (event, arg) => {
+    store.dispatch(dispatch => {
+      dispatch({ type: RECEIVE_LABEL_SIZE, payload: arg });
+    });
+  });
+
+  ipcRenderer.on(RECEIVE_ALBUM_SIZE, (event, arg) => {
+    store.dispatch(dispatch => {
+      dispatch({ type: RECEIVE_ALBUM_SIZE, payload: arg });
+    });
+  });
+
+  ipcRenderer.on(RECEIVE_SONG_SIZE, (event, arg) => {
+    store.dispatch(dispatch => {
+      dispatch({ type: RECEIVE_SONG_SIZE, payload: arg });
     });
   });
 };
