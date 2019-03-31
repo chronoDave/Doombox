@@ -13,9 +13,11 @@ import { shuffleArray } from '../functions';
 export const playlistReducer = (
   state = {
     collection: [],
+    size: 0,
     index: 0,
     isCustom: false,
-    customCollection: []
+    customCollection: [],
+    customSize: 0
   },
   action
 ) => {
@@ -24,6 +26,7 @@ export const playlistReducer = (
       return {
         ...state,
         collection: action.payload,
+        size: action.payload.length,
         isCustom: false
       };
     }
@@ -31,6 +34,7 @@ export const playlistReducer = (
       return {
         ...state,
         customCollection: action.payload,
+        customSize: action.payload.length,
         isCustom: true
       };
     }
@@ -38,20 +42,8 @@ export const playlistReducer = (
       return {
         ...state,
         isCustom: true,
-        customCollection: state.customCollection.concat(action.payload)
-      };
-    }
-    case POP_PLAYLIST: {
-      if (state.customCollection.length <= 1) {
-        return {
-          ...state,
-          isCustom: false,
-          customCollection: []
-        };
-      }
-      return {
-        ...state,
-        customCollection: state.customCollection.slice(1, state.customCollection.length)
+        customCollection: state.customCollection.concat(action.payload),
+        customSize: state.customSize + action.payload.length
       };
     }
     case SET_PLAYLIST_INDEX: {

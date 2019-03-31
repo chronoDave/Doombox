@@ -8,12 +8,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-import ImgCover from '../ImgCover/ImgCover';
+import Img from '../Img/Img';
 
 // Style
 import AlbumItemStyle from './AlbumItemStyle';
 
-export const AlbumItem = props => {
+const AlbumItem = props => {
   const {
     cover,
     classes,
@@ -29,14 +29,15 @@ export const AlbumItem = props => {
     <div style={style}>
       <div className={classNames(
         classes.root,
-        active && classes.active
+        active ? classes.active : undefined
       )}>
         <ButtonBase
           onClick={onClick}
           classes={{ root: classes.buttonBaseRoot }}
         >
-          <ImgCover
+          <Img
             cover={cover}
+            alt={`${name} album cover.`}
           />
         </ButtonBase>
         <Typography
@@ -46,7 +47,7 @@ export const AlbumItem = props => {
           {name}
         </Typography>
         <Typography
-          className={active && classes.active}
+          className={active ? classes.active : undefined}
           variant="subtitle2"
           color="textSecondary"
           classes={{ root: classes.typographyRoot }}
@@ -54,7 +55,7 @@ export const AlbumItem = props => {
           {label}
         </Typography>
         <Typography
-          className={active && classes.active}
+          className={active ? classes.active : undefined}
           variant="subtitle2"
           color="textSecondary"
           classes={{ root: classes.typographyRoot }}
@@ -67,7 +68,10 @@ export const AlbumItem = props => {
 };
 
 AlbumItem.propTypes = {
-  cover: PropTypes.string,
+  cover: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ]),
   classes: PropTypes.object.isRequired,
   style: PropTypes.object.isRequired,
   name: PropTypes.string,
@@ -77,4 +81,4 @@ AlbumItem.propTypes = {
   active: PropTypes.bool
 };
 
-export default memo(withStyles(AlbumItemStyle)(AlbumItem), areEqual);
+export default memo(withStyles(AlbumItemStyle)(AlbumItem));

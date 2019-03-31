@@ -53,11 +53,12 @@ const AlbumView = props => {
             width={width}
             height={height}
             // Overscan
-            overscanColumnsCount={5}
+            overscanRowCount={rowCount}
+            overscanColumnsCount={10}
           >
             {({ columnIndex, rowIndex, style }) => {
               const index = rowIndex * itemCount + columnIndex;
-              const cover = albumList[index] ? albumList[index].cover : [];
+              const cover = albumList[index] ? albumList[index].cover : undefined;
 
               return (
                 index < albumCount && (
@@ -86,7 +87,7 @@ AlbumView.propTypes = {
   classes: PropTypes.object.isRequired,
   getSongs: PropTypes.func,
   toggleMenu: PropTypes.func,
-  selectedId: PropTypes.string
+  selectedId: PropTypes.number
 };
 
 const mapStateToProps = state => ({

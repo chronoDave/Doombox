@@ -27,7 +27,7 @@ export const popPlaylist = () => dispatch => {
   });
 };
 
-export const setPlaylistIndex = index => dispatch => {
+export const setIndex = index => dispatch => {
   dispatch({
     type: SET_PLAYLIST_INDEX,
     payload: index

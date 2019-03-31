@@ -7,15 +7,13 @@ import * as Spacing from './Spacing';
 const Theme = createMuiTheme({
   palette: {
     primary: {
-      main: Colors.DISCORD_PURPLE_PRIMARY,
-      dark: Colors.DISCORD_PURPLE_DARK,
-      contrastText: Colors.GREY['0']
-    },
-    secondary: {
-      main: Colors.DISCORD_BLURPLE
+      main: Colors.DEFAULT_PRIMARY_MAIN,
+      dark: Colors.DEFAULT_PRIMARY_DARK,
+      light: Colors.DEFAULT_PRIMARY_LIGHT
     },
     text: {
-      secondary: Colors.GREY['100']
+      primary: Colors.GREY[50],
+      secondary: Colors.GREY[100]
     },
     grey: Colors.GREY,
     getAlpha: (hex, alpha) => {
@@ -35,19 +33,19 @@ const Theme = createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: Typography.FONT_FAMILY,
-    h1: Typography.H1(Colors.GREY['0']),
-    h2: Typography.H2(Colors.GREY['0']),
-    h3: Typography.H3(Colors.GREY['0']),
-    h4: Typography.H4(Colors.GREY['0']),
-    h5: Typography.H5(Colors.GREY['0']),
-    h6: Typography.H6(Colors.GREY['0']),
-    subtitle1: Typography.SUBTITLE_1(Colors.GREY['0']),
-    subtitle2: Typography.SUBTITLE_2(Colors.GREY['0']),
-    body1: Typography.BODY_1(Colors.GREY['0']),
-    body2: Typography.BODY_2(Colors.GREY['0']),
-    button: Typography.BUTTON(Colors.GREY['0']),
-    caption: Typography.CAPTION(Colors.GREY['0']),
-    overline: Typography.OVERLINE(Colors.GREY['0'])
+    h1: Typography.H1(Colors.GREY[50]),
+    h2: Typography.H2(Colors.GREY[50]),
+    h3: Typography.H3(Colors.GREY[50]),
+    h4: Typography.H4(Colors.GREY[50]),
+    h5: Typography.H5(Colors.GREY[50]),
+    h6: Typography.H6(Colors.GREY[50]),
+    subtitle1: Typography.SUBTITLE_1(Colors.GREY[50]),
+    subtitle2: Typography.SUBTITLE_2(Colors.GREY[50]),
+    body1: Typography.BODY_1(Colors.GREY[50]),
+    body2: Typography.BODY_2(Colors.GREY[50]),
+    button: Typography.BUTTON(Colors.GREY[50]),
+    caption: Typography.CAPTION(Colors.GREY[50]),
+    overline: Typography.OVERLINE(Colors.GREY[50])
   },
   spacing: {
     unit: 8,

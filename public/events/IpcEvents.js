@@ -47,7 +47,7 @@ module.exports = {
       Database.songs.findOne({ _id }, (err, payload) => {
         if (err) throw Error(err);
         event.sender.send('RECEIVE_SONG', {
-          payload
+          song: payload
         });
       });
     });

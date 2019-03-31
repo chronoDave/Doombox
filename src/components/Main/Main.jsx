@@ -6,16 +6,15 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import PlayerControls from '../PlayerControls/PlayerControls';
 import { GridContainer, GridItem } from '../Grid';
-import { AlbumView, StartView } from '../../views';
-import SideMenu from '../SideMenu/SideMenu';
-import Optionbar from '../Optionbar/Optionbar';
+import { AlbumView, StartView, PlaylistView } from '../../views';
+import { MainDrawer, AlbumDrawer } from '../Drawer';
 
 // Actions
-import { fetchAlbumList, fetchSongs } from '../../actions/databaseActions';
+import { fetchAlbumList, fetchSongs, fetchSong } from '../../actions/databaseActions';
 import { closeWindow, toggleWindow } from '../../actions/windowActions';
 import { setPlaylist } from '../../actions/playlistActions';
+import { setPosition } from '../../actions/songActions';
 
 // Style
 import MainStyle from './MainStyle';
@@ -28,25 +27,25 @@ class Main extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { albumList, setCurrentPlaylist } = this.props;
+    const {
+      albumList,
+      setCurrentPlaylist,
+      setSongPosition,
+      getSong,
+      playlistIndex,
+      playlist
+    } = this.props;
 
     if (prevProps.albumList !== albumList) {
       const collection = Object.values(albumList).map(album => album.songs).reduce((acc, val) => acc.concat(val), []);
       setCurrentPlaylist(collection);
     }
+
+    if (prevProps.playlist !== playlist || prevProps.playlistIndex !== playlistIndex) {
+      setSongPosition(0);
+      getSong(playlist[playlistIndex]);
+    }
   }
-
-  submit = values => {
-    const { setMusicFolder } = this.props;
-    setMusicFolder(values);
-  }
-
-  handleClick = (index, id) => {
-    const { getSongs, toggleMenu } = this.props;
-
-    getSongs(id);
-    toggleMenu(index, id);
-  };
 
   render() {
     const {
@@ -70,24 +69,19 @@ class Main extends Component {
           <GridItem xs>
             {/* {(albumList && albumList.length === 0) && <StartView onSubmit={this.submit} />} */}
             {albumList ? <AlbumView /> : <CircularProgress />}
+            {/* <PlaylistView /> */}
           </GridItem>
         </GridContainer>
-        <Optionbar />
-        {playlist.length !== 0 && (
-          <PlayerControls
-            playlist={playlist}
-            onClick={() => this.handleClick(selected, albumList[selected]._id)}
-          />
-        )}
-        {(albumList && albumList.length !== 0) && (
-          <SideMenu
+        <MainDrawer />
+        {/* {(albumList && albumList.length !== 0) && (
+          <AlbumDrawer
             onClose={() => closeSongMenu()}
             songs={songList}
             open={menuVisible}
             cover={albumList[selected].cover}
             label={albumList[selected].label}
           />
-        )}
+        )} */}
       </div>
     );
   }
@@ -96,8 +90,14 @@ class Main extends Component {
 Main.propTypes = {
   classes: PropTypes.object.isRequired,
   menuVisible: PropTypes.bool,
-  songList: PropTypes.array,
-  albumList: PropTypes.array,
+  songList: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.bool
+  ]),
+  albumList: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.bool
+  ]),
   getAlbumList: PropTypes.func.isRequired,
 };
 
@@ -106,7 +106,8 @@ const mapStateToProps = state => ({
   songList: state.list.songList,
   menuVisible: state.window.menuVisible,
   selected: state.window.selected,
-  playlist: state.playlist.collection
+  playlist: state.playlist.collection,
+  playlistIndex: state.playlist.index
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -114,6 +115,8 @@ const mapDispatchToProps = dispatch => ({
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   closeSongMenu: () => dispatch(closeWindow()),
   getSongs: id => dispatch(fetchSongs(id)),
+  getSong: id => dispatch(fetchSong(id)),
+  setSongPosition: position => dispatch(setPosition(position)),
   toggleMenu: (id, index) => dispatch(toggleWindow(id, index))
 });
 

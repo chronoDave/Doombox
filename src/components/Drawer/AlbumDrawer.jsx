@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import ImgCover from '../ImgCover/ImgCover';
+import Img from '../Img/Img';
 import SideMenuButtons from '../SideMenuButtons/SideMenuButtons';
 import SideMenuItem from '../SideMenuItem/SideMenuItem';
 
@@ -23,16 +23,16 @@ import {
   shufflePlaylist,
   pushPlaylist,
   setCustomPlaylist,
-  setPlaylistIndex
+  setIndex
 } from '../../actions/playlistActions';
 
 // Utils
 import { getDurationFormat } from '../../functions';
 
 // Style
-import SideMenuStyle from './SideMenuStyle';
+import AlbumDrawerStyle from './AlbumDrawerStyle';
 
-const SideMenu = props => {
+const AlbumDrawer = props => {
   const {
     open,
     classes,
@@ -83,7 +83,7 @@ const SideMenu = props => {
     >
       {songs ? (
         <List
-          subheader={<ImgCover big cover={cover} />}
+          subheader={<Img big cover={cover} />}
           disablePadding
         >
           <ListItem classes={{ root: classes.listItemHeader }}>
@@ -135,11 +135,14 @@ const SideMenu = props => {
   );
 };
 
-SideMenu.propTypes = {
+AlbumDrawer.propTypes = {
   open: PropTypes.bool,
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func,
-  songs: PropTypes.array,
+  songs: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
   cover: PropTypes.string,
   setCurrentStatus: PropTypes.func,
   shuffleCurrentPlaylist: PropTypes.func,
@@ -160,7 +163,7 @@ const mapDispatchToProps = dispatch => ({
   setCurrentStatus: status => dispatch(setStatus(status)),
   setCurrentPosition: position => dispatch(setPosition(position)),
   setCurrentCustomPlaylist: collection => dispatch(setCustomPlaylist(collection)),
-  setCurrentIndex: index => dispatch(setPlaylistIndex(index)),
+  setCurrentIndex: index => dispatch(setIndex(index)),
   shuffleCurrentPlaylist: () => dispatch(shufflePlaylist()),
   pushCurrentPlaylist: collection => dispatch(pushPlaylist(collection))
 });
@@ -168,4 +171,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(SideMenuStyle)(SideMenu));
+)(withStyles(AlbumDrawerStyle)(AlbumDrawer));

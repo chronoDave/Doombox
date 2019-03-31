@@ -6,60 +6,43 @@ import Slider from '@material-ui/lab/Slider';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
-import Typography from '@material-ui/core/Typography';
 
 import { GridContainer } from '../Grid';
+import Typography from '../Typography/Typography';
 
 // Style
 import PlayerSliderStyle from './PlayerSliderStyle';
 
 const PlayerSlider = props => {
-  const {
-    position,
-    onDrag,
-    elapsed,
-    remaining,
-    classes
-  } = props;
+  const { elapsed, remaining, position, onDrag, classes } = props;
 
   return (
-    <div className={classes.root}>
+    <GridContainer classes={{ root: classes.root }}>
       <Slider
         value={position}
         onChange={onDrag}
         classes={{
           track: classes.track,
-          trackBefore: classes.trackBefore,
           thumb: classes.thumb
         }}
       />
       <GridContainer
         justify="space-between"
-        classes={{ root: classes.textContainer }}
+        classes={{ root: classes.numbers }}
       >
-        <Typography
-          variant="caption"
-          color="textSecondary"
-        >
-          {elapsed}
-        </Typography>
-        <Typography
-          variant="caption"
-          color="textSecondary"
-        >
-          {`-${remaining}`}
-        </Typography>
+        <Typography variant="caption">{elapsed}</Typography>
+        <Typography variant="caption">{`-${remaining}`}</Typography>
       </GridContainer>
-    </div>
+    </GridContainer>
   );
 };
 
 PlayerSlider.propTypes = {
-  position: PropTypes.number.isRequired,
-  onDrag: PropTypes.func,
+  classes: PropTypes.object.isRequired,
   elapsed: PropTypes.string,
   remaining: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  position: PropTypes.number,
+  onDrag: PropTypes.func
 };
 
 export default withStyles(PlayerSliderStyle)(PlayerSlider);

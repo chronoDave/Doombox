@@ -1,6 +1,6 @@
 {
     "env": {
-        "browser": true,
+        "browser": false,
         "es6": true,
         "node": true
     },
@@ -29,7 +29,7 @@
         "flowtype"
     ],
     "rules": {
-        "object-curly-newline": "warn",
+        "object-curly-newline": "off",
         "import/no-extraneous-dependencies": "off",
         "no-underscore-dangle": "off",
         "linebreak-style": "off",
@@ -53,7 +53,7 @@
         ],
         "react/jsx-closing-bracket-location": "off",
         "no-unused-vars": "warn",
-        "no-unused-expressions": ["error", { "allowShortCircuit": true }],
+        "no-unused-expressions": "error",
         "import/prefer-default-export": "off",
         "import/first": "warn",
         "space-before-function-paren": "off",
@@ -75,7 +75,6 @@
         "import/no-named-as-default": "off",
         "import/newline-after-import": "off",
         "react/prop-types": "warn",
-        "react/prefer-stateless-function": "off",
         "react/jsx-one-expression-per-line": "off",
         "react/jsx-filename-extension": 0,
         "react/require-default-props": "off",

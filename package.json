@@ -18,7 +18,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-image": "^2.0.0",
     "react-lazyload": "^2.5.0",
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",

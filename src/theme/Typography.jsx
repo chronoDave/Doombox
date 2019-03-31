@@ -1,5 +1,5 @@
 export const FONT_FAMILY = [
-  'Roboto',
+  'Hind',
   'sans-serif'
 ].join(',');
 

@@ -1,4 +1,4 @@
 export const COMPONENT = {
-  playerControls: 75,
+  playerControls: 60,
   optionbar: 210
 };

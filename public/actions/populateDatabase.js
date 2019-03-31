@@ -56,7 +56,7 @@ module.exports = function populateDatabase(Database, rootFolder) {
         const songId = `${album}-${song}`;
         const albumId = `${label}-${album}`;
 
-        let cover = false;
+        let cover;
 
         // Create image
         if (metadata.common.picture) {
@@ -82,7 +82,7 @@ module.exports = function populateDatabase(Database, rootFolder) {
           title: metadata.common.title,
           year: metadata.common.year,
           track: metadata.common.track.no,
-          duration: metadata.format.duration
+          duration: metadata.format.duration * 1000
         });
         batchCounterSong += 1;
         if (batchCounterSong > batchSizeSong) {

@@ -2,7 +2,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 const AlbumItemStyle = theme => createStyles({
   root: {
-    padding: theme.spacing.unit
+    padding: theme.spacing.unit,
   },
   active: {
     backgroundColor: theme.palette.primary.main,

@@ -1,8 +1,8 @@
-const SideMenuContainerStyle = theme => ({
+const AlbumDrawerStyle = theme => ({
   root: {
     width: '50%',
     maxWidth: 420,
-    backgroundColor: theme.palette.grey[400]
+    backgroundColor: theme.palette.grey[500]
   },
   scrollbar: theme.scrollbar,
   listItemTextPrimary: {
@@ -13,4 +13,4 @@ const SideMenuContainerStyle = theme => ({
   }
 });
 
-export default SideMenuContainerStyle;
+export default AlbumDrawerStyle;
