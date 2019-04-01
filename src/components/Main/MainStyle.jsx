@@ -7,8 +7,7 @@ const MainStyle = theme => createStyles({
   },
   gridContainerRoot: {
     height: '100%',
-    paddingBottom: theme.spacing.component.playerControls,
-    paddingLeft: theme.spacing.component.optionbar
+    paddingLeft: theme.spacing.unit * 4 + theme.spacing.component.mainDrawer
   },
 });
 

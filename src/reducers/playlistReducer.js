@@ -15,9 +15,6 @@ export const playlistReducer = (
     collection: [],
     size: 0,
     index: 0,
-    isCustom: false,
-    customCollection: [],
-    customSize: 0
   },
   action
 ) => {
@@ -27,23 +24,13 @@ export const playlistReducer = (
         ...state,
         collection: action.payload,
         size: action.payload.length,
-        isCustom: false
-      };
-    }
-    case SET_CUSTOM_PLAYLIST: {
-      return {
-        ...state,
-        customCollection: action.payload,
-        customSize: action.payload.length,
-        isCustom: true
       };
     }
     case PUSH_PLAYLIST: {
       return {
         ...state,
-        isCustom: true,
-        customCollection: state.customCollection.concat(action.payload),
-        customSize: state.customSize + action.payload.length
+        collection: state.collection.concat(action.payload),
+        size: state.size + action.payload.length
       };
     }
     case SET_PLAYLIST_INDEX: {
@@ -53,10 +40,7 @@ export const playlistReducer = (
       };
     }
     case SHUFFLE_PLAYLIST: {
-      return state.isCustom ? ({
-        ...state,
-        customCollection: shuffleArray(state.customCollection)
-      }) : ({
+      return ({
         ...state,
         collection: shuffleArray(state.collection)
       });

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { Field, Form, reduxForm } from 'redux-form';
+import classNames from 'classnames';
 
 // Icons
 import PlaylistIcon from '@material-ui/icons/ArtTrack';
@@ -11,29 +12,24 @@ import SongIcon from '@material-ui/icons/QueueMusic';
 import withStyles from '@material-ui/core/styles/withStyles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import Button from '@material-ui/core/Button';
+
+import {
+  DatabaseAddIcon,
+  DatabaseUpdateIcon,
+  DatabaseRemoveIcon
+} from '../Icons';
 
 import Typography from '../Typography/Typography';
 import { GridContainer } from '../Grid';
 import { SearchField } from '../Field';
 import { PlayerDisplay, PlayerButtons } from '../Player';
-import Divider from '../Divider/Divider';
 import Collapse from '../Collapse/Collapse';
+import MainDrawerList from './MainDrawerList';
+import { SelectPathDialog } from '../Dialog';
 
 // Actions
 import { updateDatabase } from '../../actions/databaseActions';
-
-// Types
-import {
-  VIEW_PLAYLIST,
-  VIEW_LABEL,
-  VIEW_ALBUM,
-  VIEW_SONG
-} from '../../actionTypes/windowTypes';
 
 // Assets
 import Icon from '../../assets/icons/icon.png';
@@ -51,126 +47,136 @@ const MainDrawer = props => {
     playlistSize,
     labelSize,
     albumSize,
-    songSize
+    songSize,
+    isEmpty,
+    isBusy,
+    onDelete
   } = props;
+
+  const [open, setOpen] = useState(false);
 
   const views = {
     VIEW_PLAYLIST: {
       name: 'Playlist',
       icon: () => <PlaylistIcon />,
-      size: playlistSize
+      number: playlistSize
     },
     VIEW_LABEL: {
       name: 'Label',
       icon: () => <LabelIcon />,
-      size: labelSize
+      number: labelSize
     },
     VIEW_ALBUM: {
       name: 'Album',
       icon: () => <AlbumIcon />,
-      size: albumSize
+      number: albumSize
     },
     VIEW_SONG: {
       name: 'Song',
       icon: () => <SongIcon />,
-      size: songSize
+      number: songSize
     }
   };
 
-  const renderViewList = () => (
-    <List
-      disablePadding
-      classes={{ root: classes.listRoot }}
-    >
-      {Object.keys(views).map(key => (
-        <ListItem
-          key={key}
-          disableGutters
-          classes={{ root: classes.listItemRoot }}
-        >
-          <ListItemAvatar
-            classes={{ root: classes.listItemAvatarRoot }}
-            className={key === active && classes.active}
-          >
-            {views[key].icon()}
-          </ListItemAvatar>
-          <ListItemText
-            primary={views[key].name}
-            primaryTypographyProps={{ color: 'inherit' }}
-            classes={{
-              primary: key === active ? classes.active : undefined
-            }}
-          />
-          <ListItemSecondaryAction>
-            <Typography
-              variant="body2"
-              color="inherit"
-              classes={{
-                root: key === active ? classes.active : classes.listItemSecondaryActionTypography
-              }}
-            >
-              {views[key].size}
-            </Typography>
-          </ListItemSecondaryAction>
-        </ListItem>
-      ))}
-    </List>
-  );
+  const options = {
+    INIT_DATABASE: {
+      name: 'Create database',
+      icon: () => <DatabaseAddIcon />,
+      func: () => setOpen(true),
+      disabled: isBusy || !isEmpty
+    },
+    UPDATE_DATABASE: {
+      name: 'Update database',
+      icon: () => <DatabaseUpdateIcon />,
+      func: () => '',
+      disabled: isBusy || isEmpty
+    },
+    RESET_DATABASE: {
+      name: 'Delete database',
+      icon: () => <DatabaseRemoveIcon />,
+      func: () => onDelete(),
+      disabled: isBusy || isEmpty
+    }
+  };
 
   return (
-    <div className={classes.root}>
-      <List
-        dense
-        subheader={(
-          <ListSubheader classes={{ root: classes.listSubheaderRoot }}>
-            <GridContainer
-              direction="column"
-              alignItems="center"
+    <Fragment>
+      <div className={classNames(
+        classes.root,
+        classes.scrollbar
+      )}>
+        <List
+          dense
+          subheader={(
+            <ListSubheader
+              disableSticky
+              classes={{ root: classes.listSubheaderRoot }}
             >
-              <img src={Icon} alt="Main application icon." />
-              <Typography
-                variant="body1"
-                classes={{ root: classes.typographyTitle }}
+              <GridContainer
+                direction="column"
+                alignItems="center"
               >
-                Doombox
-              </Typography>
-            </GridContainer>
-          </ListSubheader>
-        )}
-      >
-        <ListItem>
-          <Form onSubmit={handleSubmit}>
-            <Field
-              name="search"
-              component={SearchField}
-            />
-          </Form>
-        </ListItem>
-        <ListItem>
-          <Collapse
-            title="Playing"
-            defaultExpanded
-            paddingTop
-          >
-            <PlayerDisplay
-              playlist={playlist}
-              onClick={onClick}
-            />
-          </Collapse>
-        </ListItem>
-        <ListItem>
-          <PlayerButtons />
-        </ListItem>
-        <ListItem>
-          <Collapse
-            title="Views"
-            defaultExpanded
-          >
-            {renderViewList()}
-          </Collapse>
-        </ListItem>
-      </List>
-    </div>
+                <img src={Icon} alt="Main application icon." />
+                <Typography
+                  variant="body1"
+                  classes={{ root: classes.typographyTitle }}
+                >
+                  Doombox
+                </Typography>
+              </GridContainer>
+            </ListSubheader>
+          )}
+        >
+          <ListItem>
+            <Form onSubmit={handleSubmit}>
+              <Field
+                name="search"
+                component={SearchField}
+              />
+            </Form>
+          </ListItem>
+          <ListItem>
+            <Collapse
+              title="Playing"
+              defaultExpanded
+              paddingTop
+            >
+              <PlayerDisplay
+                playlist={playlist}
+                onClick={onClick}
+              />
+            </Collapse>
+          </ListItem>
+          <ListItem>
+            <PlayerButtons />
+          </ListItem>
+          <ListItem>
+            <Collapse
+              title="Views"
+              defaultExpanded
+            >
+              <MainDrawerList
+                active={active}
+                content={views}
+                secondary="number"
+              />
+            </Collapse>
+          </ListItem>
+          <ListItem>
+            <Collapse title="Setting">
+              <MainDrawerList
+                content={options}
+                secondary="func"
+              />
+            </Collapse>
+          </ListItem>
+        </List>
+      </div>
+      <SelectPathDialog
+        open={open}
+        onClose={() => setOpen(false)}
+      />
+    </Fragment>
   );
 };
 

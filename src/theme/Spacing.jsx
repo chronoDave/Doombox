@@ -1,4 +1,4 @@
 export const COMPONENT = {
-  playerControls: 60,
-  optionbar: 210
+  mainDrawer: 210,
+  albumDrawer: 360
 };

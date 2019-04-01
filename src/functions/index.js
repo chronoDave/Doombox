@@ -21,7 +21,7 @@ export const shuffleArray = array => array
   .map(a => a[1]);
 
 export const cleanUrl = url => {
-  const cleanedUrl = url.replace(/#/gi, '%23');
+  const cleanedUrl = url.replace(/#/gi, '%23').replace(/\\/gi, '/');
   const splitUrl = cleanedUrl.split('.');
 
   if (splitUrl.length === 2) return cleanedUrl;

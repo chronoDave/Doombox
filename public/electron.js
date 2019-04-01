@@ -42,11 +42,18 @@ function createWindow() {
 
   // Exports
   exports.selectDirectory = () => dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory']
+    properties: ['openDirectory'],
+    message: 'Select music folder'
   }, filePath => {
-    mainWindow.webContents.send('RECEIVE_ROOT_FOLDER', filePath[0]);
-    db.user.update({ _id: 'user' }, { rootFolder: filePath[0] }, {});
-    populateDatabase(db, filePath[0]);
+    if (filePath) {
+      mainWindow.webContents.send('RECEIVE_ROOT_FOLDER', filePath[0]);
+      db.user.update({ _id: 'user' }, { rootFolder: filePath[0] }, {});
+      populateDatabase(db, filePath[0]);
+      // Callback
+      mainWindow.webContents.send('SET_BUSY', { payload: true });
+      return mainWindow.webContents.send('SELECT_PATH_DIALOG');
+    }
+    return mainWindow.webContents.send('SELECT_PATH_DIALOG');
   });
 }
 

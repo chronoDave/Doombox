@@ -8,7 +8,9 @@ import {
   RECEIVE_ROOT_FOLDER,
   RECEIVE_LABEL_SIZE,
   RECEIVE_ALBUM_SIZE,
-  RECEIVE_SONG_SIZE
+  RECEIVE_SONG_SIZE,
+  IS_BUSY,
+  SET_BUSY
 } from '../actionTypes/databaseTypes';
 
 // eslint-disable-next-line no-undef
@@ -72,6 +74,12 @@ export const ipcListener = store => {
   ipcRenderer.on(RECEIVE_SONG_SIZE, (event, arg) => {
     store.dispatch(dispatch => {
       dispatch({ type: RECEIVE_SONG_SIZE, payload: arg });
+    });
+  });
+
+  ipcRenderer.on(SET_BUSY, (event, arg) => {
+    store.dispatch(dispatch => {
+      dispatch({ type: SET_BUSY, payload: arg });
     });
   });
 };

@@ -1,11 +1,14 @@
 import {
   VIEW_ALBUM,
-  SET_VIEW
+  SET_VIEW,
+  TOGGLE_DRAWER
 } from '../actionTypes/windowTypes';
 
 export const windowReducer = (
   state = {
     view: VIEW_ALBUM,
+    drawer: false,
+    id: 0
   },
   action
 ) => {
@@ -14,6 +17,13 @@ export const windowReducer = (
       return {
         ...state,
         view: action.payload.view
+      };
+    }
+    case TOGGLE_DRAWER: {
+      return {
+        ...state,
+        drawer: !state.drawer,
+        id: action.payload
       };
     }
     default:

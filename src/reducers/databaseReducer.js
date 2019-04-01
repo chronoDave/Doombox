@@ -7,7 +7,9 @@ import {
   RECEIVE_ROOT_FOLDER,
   RECEIVE_LABEL_SIZE,
   RECEIVE_ALBUM_SIZE,
-  RECEIVE_SONG_SIZE
+  RECEIVE_SONG_SIZE,
+  SET_BUSY,
+  DELETE_DATABASE
 } from '../actionTypes/databaseTypes';
 
 export const databaseReducer = (
@@ -18,7 +20,8 @@ export const databaseReducer = (
     albumSize: 0,
     songList: [],
     songSize: 0,
-    folderPath: ''
+    folderPath: '',
+    isBusy: false
   },
   action
 ) => {
@@ -75,6 +78,24 @@ export const databaseReducer = (
       return {
         ...state,
         songSize: action.payload.payload
+      };
+    }
+    case SET_BUSY: {
+      return {
+        ...state,
+        isBusy: action.payload.payload
+      };
+    }
+    case DELETE_DATABASE: {
+      return {
+        ...state,
+        labelList: [],
+        labelSize: 0,
+        albumList: [],
+        albumSize: 0,
+        songList: [],
+        songSize: 0,
+        isBusy: false
       };
     }
     default:

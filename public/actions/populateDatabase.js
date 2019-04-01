@@ -121,6 +121,7 @@ module.exports = function populateDatabase(Database, rootFolder) {
             name: album,
             label,
             cover,
+            year: metadata.common.year,
             songs: []
           });
           batchCounterAlbum += 1;

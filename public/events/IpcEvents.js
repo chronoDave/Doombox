@@ -81,5 +81,10 @@ module.exports = {
         });
       });
     });
+    ipcMain.on('DELETE_DATABASE', () => {
+      Database.songs.remove({}, { multi: true });
+      Database.albums.remove({}, { multi: true });
+      Database.labels.remove({}, { multi: true });
+    });
   }
 };

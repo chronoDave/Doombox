@@ -14,6 +14,7 @@ import {
   SongView
 } from '../../views';
 import { MainDrawer, AlbumDrawer } from '../Drawer';
+import { MainBackground } from '../Background';
 
 // Actions
 import {
@@ -24,7 +25,8 @@ import {
   fetchSong,
   fetchLabelSize,
   fetchAlbumSize,
-  fetchSongSize
+  fetchSongSize,
+  deleteDatabase
 } from '../../actions/databaseActions';
 import { setPlaylist } from '../../actions/playlistActions';
 import { setPosition } from '../../actions/songActions';
@@ -75,7 +77,8 @@ class Main extends Component {
       setSongPosition,
       getSong,
       playlistIndex,
-      playlist
+      playlist,
+      customPlaylist
     } = this.props;
 
     if (prevProps.albumList !== albumList) {
@@ -84,8 +87,28 @@ class Main extends Component {
     }
 
     if (prevProps.playlist !== playlist || prevProps.playlistIndex !== playlistIndex) {
-      setSongPosition(0);
-      getSong(playlist[playlistIndex]);
+      if (playlist.length !== 0) {
+        setSongPosition(0);
+        getSong(playlist[playlistIndex]);
+      }
+    }
+  }
+
+  getActiveCollection() {
+    const {
+      view,
+      labelList,
+      albumList,
+      songList,
+      playlist
+    } = this.props;
+
+    switch (view) {
+      case VIEW_PLAYLIST: return playlist;
+      case VIEW_LABEL: return labelList;
+      case VIEW_ALBUM: return albumList;
+      case VIEW_SONG: return songList;
+      default: return null;
     }
   }
 
@@ -99,10 +122,10 @@ class Main extends Component {
     } = this.props;
 
     switch (view) {
-      case VIEW_PLAYLIST: return playlist ? <PlaylistView /> : <CircularProgress />;
-      case VIEW_LABEL: return labelList ? <LabelView /> : <CircularProgress />;
-      case VIEW_ALBUM: return albumList ? <AlbumView /> : <CircularProgress />;
-      case VIEW_SONG: return songList ? <SongView /> : <CircularProgress />;
+      case VIEW_PLAYLIST: return playlist.length !== 0 ? <PlaylistView /> : <CircularProgress />;
+      case VIEW_LABEL: return labelList.length !== 0 ? <LabelView /> : <CircularProgress />;
+      case VIEW_ALBUM: return albumList.length !== 0 ? <AlbumView /> : <CircularProgress />;
+      case VIEW_SONG: return songList.length !== 0 ? <SongView /> : <CircularProgress />;
       default: return null;
     }
   }
@@ -114,11 +137,16 @@ class Main extends Component {
       playlistSize,
       labelSize,
       albumSize,
-      songSize
+      songSize,
+      isBusy,
+      playlist,
+      deleteDb,
+      menuId
     } = this.props;
 
     return (
       <div className={classes.root}>
+        <MainBackground />
         <GridContainer
           direction="column"
           fullHeight
@@ -135,16 +163,11 @@ class Main extends Component {
           labelSize={labelSize}
           albumSize={albumSize}
           songSize={songSize}
+          isBusy={isBusy}
+          isEmpty={playlist.length === 0}
+          onDelete={deleteDb}
         />
-        {/* {(albumList && albumList.length !== 0) && (
-          <AlbumDrawer
-            onClose={() => closeSongMenu()}
-            songs={songList}
-            open={menuVisible}
-            cover={albumList[selected].cover}
-            label={albumList[selected].label}
-          />
-        )} */}
+        <AlbumDrawer album={this.getActiveCollection()[menuId]} />
       </div>
     );
   }
@@ -163,12 +186,15 @@ const mapStateToProps = state => ({
   menuVisible: state.window.menuVisible,
   selected: state.window.selected,
   playlist: state.playlist.collection,
+  customPlaylist: state.playlist.customCollection,
   playlistIndex: state.playlist.index,
   view: state.window.view,
   labelSize: state.list.labelSize,
   albumSize: state.list.albumSize,
   songSize: state.list.songSize,
-  playlistSize: state.playlist.size
+  playlistSize: state.playlist.size,
+  isBusy: state.list.isBusy,
+  menuId: state.window.id
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -181,7 +207,8 @@ const mapDispatchToProps = dispatch => ({
   setSongPosition: position => dispatch(setPosition(position)),
   getLabelSize: () => dispatch(fetchLabelSize()),
   getAlbumSize: () => dispatch(fetchAlbumSize()),
-  getSongSize: () => dispatch(fetchSongSize())
+  getSongSize: () => dispatch(fetchSongSize()),
+  deleteDb: () => dispatch(deleteDatabase())
 });
 
 export default connect(

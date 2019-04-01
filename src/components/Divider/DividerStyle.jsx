@@ -6,6 +6,9 @@ const DividerStyle = theme => createStyles({
   },
   light: {
     backgroundColor: theme.palette.getAlpha(theme.palette.grey[50], 0.1)
+  },
+  padding: {
+    margin: `${theme.spacing.unit}px 0`
   }
 });
 

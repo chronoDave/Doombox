@@ -2,8 +2,8 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 const ImgStyle = theme => createStyles({
   root: {
-    width: 150,
-    height: 150
+    width: '100%',
+    height: '100%'
   },
   albumItem: {
 
