@@ -9,9 +9,6 @@ const { initDatabase, populateDatabase } = require('./actions');
 // Database
 const db = initDatabase();
 
-// Debug
-debug();
-
 // Events
 const { ipcListener } = require('./events/IpcEvents');
 
@@ -48,7 +45,7 @@ function createWindow() {
     if (filePath) {
       mainWindow.webContents.send('RECEIVE_ROOT_FOLDER', filePath[0]);
       db.user.update({ _id: 'user' }, { rootFolder: filePath[0] }, {});
-      populateDatabase(db, filePath[0]);
+      populateDatabase(db, filePath[0], mainWindow.webContents);
       // Callback
       mainWindow.webContents.send('SET_BUSY', { payload: true });
       return mainWindow.webContents.send('SELECT_PATH_DIALOG');

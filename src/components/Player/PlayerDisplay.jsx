@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,14 +21,13 @@ import PlayerDisplayStyle from './PlayerDisplayStyle';
 
 const PlayerDisplay = props => {
   const {
-    songId,
     cover,
     title,
     artist,
     classes,
     duration,
     position,
-    setSongPosition
+    setSongPosition,
   } = props;
 
   const getPercentage = () => (position / duration) * 100;
@@ -80,6 +79,16 @@ const PlayerDisplay = props => {
       />
     </GridContainer>
   );
+};
+
+PlayerDisplay.propTypes = {
+  cover: PropTypes.string,
+  title: PropTypes.string,
+  artist: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+  duration: PropTypes.number,
+  position: PropTypes.number,
+  setSongPosition: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

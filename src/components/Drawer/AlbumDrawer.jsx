@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 // Icons
 import PlayIcon from '@material-ui/icons/PlayArrow';
@@ -45,9 +46,7 @@ const AlbumDrawer = props => {
   const {
     open,
     close,
-    songs,
     classes,
-    album,
     setPlaying,
     resetPosition,
     setCurrentPlaylist,
@@ -55,11 +54,12 @@ const AlbumDrawer = props => {
     addToPlaylist,
     shuffle,
     menuId,
-    currentSongId
+    album,
+    currentSongId,
   } = props;
 
   const handlePlay = () => {
-    setCurrentPlaylist(songs.map(song => song._id));
+    setCurrentPlaylist(album);
     resetPosition();
     setPlaying();
   };
@@ -70,7 +70,7 @@ const AlbumDrawer = props => {
   };
 
   const handleAddPlaylist = () => {
-    addToPlaylist(songs.map(song => song._id));
+    addToPlaylist(album);
   };
 
   const handleClick = index => {
@@ -87,9 +87,9 @@ const AlbumDrawer = props => {
         paper: classNames(classes.root, classes.scrollbar)
       }}
     >
-      {songs[0] ? (
+      {album ? (
         <List
-          subheader={<Img cover={album.cover} />}
+          subheader={<Img cover={album[0].cover} />}
           disablePadding
         >
           <ListItem classes={{ root: classes.listItemTitle }}>
@@ -98,11 +98,11 @@ const AlbumDrawer = props => {
               alignItems="center"
             >
               <ListItemText
-                primary={album.name}
+                primary={album[0].album}
                 primaryTypographyProps={{
                   variant: 'h4'
                 }}
-                secondary={album.label}
+                secondary={album[0].label}
                 secondaryTypographyProps={{
                   variant: 'subtitle1'
                 }}
@@ -111,7 +111,7 @@ const AlbumDrawer = props => {
                 }}
               />
               <ListItemText
-                primary={album.year}
+                primary={album[0].year}
                 primaryTypographyProps={{
                   variant: 'subtitle2'
                 }}
@@ -150,7 +150,7 @@ const AlbumDrawer = props => {
               </GridItem>
               <GridItem>
                 <ListItemText
-                  primary={getDurationFormat(songs
+                  primary={getDurationFormat(album
                     .map(song => song.duration)
                     .reduce((acc, cur) => acc + cur))
                   }
@@ -165,7 +165,7 @@ const AlbumDrawer = props => {
           <ListItem>
             <Divider light />
           </ListItem>
-          {songs.map((song, index) => (
+          {album.map((song, index) => (
             <ListItem
               key={song._id}
               classes={{ container: classes.listItemSong }}
@@ -174,10 +174,12 @@ const AlbumDrawer = props => {
               className={song._id === currentSongId ? classes.active : undefined}
             >
               <ListItemIcon classes={{ root: classes.listItemSongIcon }}>
-                <ListItemText
-                  primary={`${index}.`}
-                  classes={{ root: classes.listItemSongIcon }}
-                />
+                {song.track && (
+                  <ListItemText
+                    primary={`${song.track}.`}
+                    classes={{ root: classes.listItemSongIcon }}
+                  />
+                )}
               </ListItemIcon>
               <ListItemText
                 primary={song.title}
@@ -199,14 +201,30 @@ const AlbumDrawer = props => {
             </ListItem>
           ))}
         </List>
-      ) : <CircularProgress />}
+      ) : (
+        <CircularProgress />
+      )}
     </Drawer>
   );
 };
 
+AlbumDrawer.propTypes = {
+  open: PropTypes.bool,
+  close: PropTypes.func,
+  classes: PropTypes.object.isRequired,
+  setPlaying: PropTypes.func,
+  resetPosition: PropTypes.func,
+  setCurrentPlaylist: PropTypes.func,
+  setCurrentIndex: PropTypes.func,
+  addToPlaylist: PropTypes.func,
+  shuffle: PropTypes.func,
+  menuId: PropTypes.number,
+  album: PropTypes.array,
+  currentSongId: PropTypes.string,
+};
+
 const mapStateToProps = state => ({
   open: state.window.drawer,
-  songs: state.list.songList,
   menuId: state.window.id,
   currentSongId: state.song.id
 });

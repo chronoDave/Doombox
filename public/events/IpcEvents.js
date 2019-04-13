@@ -1,53 +1,46 @@
+const _ = require('lodash');
 const { ipcMain } = require('electron');
 const { populateDatabase } = require('../actions');
 
 module.exports = {
   ipcListener(Database) {
-    ipcMain.on('FETCH_LABEL_LIST', event => {
-      Database.labels.find({}, (err, payload) => {
+    ipcMain.on('FETCH_ALL', (event, view) => {
+      Database.songs.find({}).sort({ label: 1, track: 2, year: 3 }).exec((err, payload) => {
         if (err) throw Error(err);
-        event.sender.send('RECEIVE_LABEL_LIST', {
-          payload
-        });
-      });
-    });
-    ipcMain.on('FETCH_ALBUM_LIST', event => {
-      Database.albums.find({}).sort({ label: 1 }).exec((err, payload) => {
-        if (err) throw Error(err);
-        event.sender.send('RECEIVE_ALBUM_LIST', {
-          payload
-        });
-      });
-    });
-    ipcMain.on('FETCH_SONG_LIST', event => {
-      Database.songs.find({}, (err, payload) => {
-        if (err) throw Error(err);
-        event.sender.send('RECEIVE_SONG_LIST', {
-          payload
-        });
-      });
-    });
-    ipcMain.on('FETCH_ALBUMS', (event, id) => {
-      Database.albums.find({ label: id }, (err, payload) => {
-        if (err) throw Error(err);
-        event.sender.send('RECEIVE_ALBUMS', {
-          payload
-        });
-      });
-    });
-    ipcMain.on('FETCH_SONGS', (event, id) => {
-      Database.songs.find({ albumId: id }).sort({ track: 1 }).exec((err, payload) => {
-        if (err) throw Error(err);
-        event.sender.send('RECEIVE_SONGS', {
-          payload
-        });
-      });
-    });
-    ipcMain.on('FETCH_SONG', (event, _id) => {
-      Database.songs.findOne({ _id }, (err, payload) => {
-        if (err) throw Error(err);
-        event.sender.send('RECEIVE_SONG', {
-          song: payload
+
+        const albums = _.values(_.mapValues(_.groupBy(payload, 'album')));
+        const labels = _.values(_.mapValues(_.groupBy(payload, 'label')));
+
+        switch (view) {
+          case 'VIEW_LABEL':
+            event.sender.send('RECEIVE_COLLECTION', {
+              type: view,
+              payload: labels
+            });
+            break;
+          case 'VIEW_ALBUM':
+            event.sender.send('RECEIVE_COLLECTION', {
+              type: view,
+              payload: albums
+            });
+            break;
+          case 'VIEW_SONGS':
+            event.sender.send('RECEIVE_COLLECTION', {
+              type: view,
+              payload
+            });
+            break;
+          default:
+            return null;
+        }
+
+        return event.sender.send('RECEIVE_SIZES', {
+          type: 'RECEIVE_SIZES',
+          payload: {
+            label: labels.length,
+            album: albums.length,
+            song: payload.length
+          }
         });
       });
     });
@@ -57,34 +50,14 @@ module.exports = {
         populateDatabase(Database, payload.rootFolder);
       });
     });
-    ipcMain.on('FETCH_LABEL_SIZE', event => {
-      Database.labels.count({}, (err, payload) => {
+    ipcMain.on('DELETE_DATABASE', event => {
+      Database.songs.remove({}, { multi: true }, err => {
         if (err) throw Error(err);
-        event.sender.send('RECEIVE_LABEL_SIZE', {
-          payload
+        event.sender.send('RECEIVE_STATUS', {
+          payload: 'Successfully deleted SONGS database',
+          variant: 'success'
         });
       });
-    });
-    ipcMain.on('FETCH_ALBUM_SIZE', event => {
-      Database.albums.count({}, (err, payload) => {
-        if (err) throw Error(err);
-        event.sender.send('RECEIVE_ALBUM_SIZE', {
-          payload
-        });
-      });
-    });
-    ipcMain.on('FETCH_SONG_SIZE', event => {
-      Database.songs.count({}, (err, payload) => {
-        if (err) throw Error(err);
-        event.sender.send('RECEIVE_SONG_SIZE', {
-          payload
-        });
-      });
-    });
-    ipcMain.on('DELETE_DATABASE', () => {
-      Database.songs.remove({}, { multi: true });
-      Database.albums.remove({}, { multi: true });
-      Database.labels.remove({}, { multi: true });
     });
   }
 };

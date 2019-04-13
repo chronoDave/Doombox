@@ -1,16 +1,13 @@
 import {
+  DELETE_DATABASE
+} from '../actionTypes/databaseTypes';
+
+import {
   RECEIVE_LABEL_LIST,
   RECEIVE_ALBUM_LIST,
   RECEIVE_SONG_LIST,
-  RECEIVE_ALBUMS,
-  RECEIVE_SONGS,
-  RECEIVE_ROOT_FOLDER,
-  RECEIVE_LABEL_SIZE,
-  RECEIVE_ALBUM_SIZE,
-  RECEIVE_SONG_SIZE,
-  SET_BUSY,
-  DELETE_DATABASE
-} from '../actionTypes/databaseTypes';
+  RECEIVE_SIZES,
+} from '../actionTypes/receiveTypes';
 
 export const databaseReducer = (
   state = {
@@ -21,7 +18,6 @@ export const databaseReducer = (
     songList: [],
     songSize: 0,
     folderPath: '',
-    isBusy: false
   },
   action
 ) => {
@@ -29,61 +25,27 @@ export const databaseReducer = (
     case RECEIVE_LABEL_LIST: {
       return {
         ...state,
-        labelList: action.payload.payload
+        labelList: action.payload
       };
     }
     case RECEIVE_ALBUM_LIST: {
       return {
         ...state,
-        albumList: action.payload.payload
+        albumList: action.payload
       };
     }
     case RECEIVE_SONG_LIST: {
       return {
         ...state,
-        songList: action.payload.payload
+        songList: action.payload
       };
     }
-    case RECEIVE_ALBUMS: {
+    case RECEIVE_SIZES: {
       return {
         ...state,
-        albumList: action.payload.payload
-      };
-    }
-    case RECEIVE_SONGS: {
-      return {
-        ...state,
-        songList: action.payload.payload
-      };
-    }
-    case RECEIVE_ROOT_FOLDER: {
-      return {
-        ...state,
-        folderPath: action.payload.payload
-      };
-    }
-    case RECEIVE_LABEL_SIZE: {
-      return {
-        ...state,
-        labelSize: action.payload.payload
-      };
-    }
-    case RECEIVE_ALBUM_SIZE: {
-      return {
-        ...state,
-        albumSize: action.payload.payload
-      };
-    }
-    case RECEIVE_SONG_SIZE: {
-      return {
-        ...state,
-        songSize: action.payload.payload
-      };
-    }
-    case SET_BUSY: {
-      return {
-        ...state,
-        isBusy: action.payload.payload
+        labelSize: action.payload.label,
+        albumSize: action.payload.album,
+        songSize: action.payload.song
       };
     }
     case DELETE_DATABASE: {
@@ -95,7 +57,6 @@ export const databaseReducer = (
         albumSize: 0,
         songList: [],
         songSize: 0,
-        isBusy: false
       };
     }
     default:

@@ -8,7 +8,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
 // Actions
-import { fetchSongList } from '../actions/databaseActions';
 import { setStatus } from '../actions/songActions';
 
 // Style
@@ -156,7 +155,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getSongList: () => dispatch(fetchSongList()),
   setSongStatus: status => dispatch(setStatus(status)),
 });
 

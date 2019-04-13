@@ -10,7 +10,6 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 
 import AlbumItem from '../components/AlbumItem/AlbumItem';
@@ -19,11 +18,10 @@ import Divider from '../components/Divider/Divider';
 import { GridContainer } from '../components/Grid';
 
 // Actions
-import { fetchSongs } from '../actions/databaseActions';
 import { toggleDrawer } from '../actions/windowActions';
 import {
   setStatus,
-  setPosition
+  setPosition,
 } from '../actions/songActions';
 import {
   shufflePlaylist,
@@ -37,23 +35,21 @@ const AlbumView = props => {
   const {
     albumList,
     classes,
-    getSongs,
     toggleAlbumDrawer,
     selectedId,
-    albumSize,
     setCurrentPlaylist,
     resetPosition,
     setPlaying,
-    shuffle
+    shuffle,
+    size
   } = props;
 
-  const handleClick = (index, id) => {
-    getSongs(id);
+  const handleClick = index => {
     toggleAlbumDrawer(index);
   };
 
   const handlePlay = () => {
-    const collection = Object.values(albumList).map(album => album.songs).reduce((acc, val) => acc.concat(val), []);
+    const collection = albumList.reduce((acc, val) => acc.concat(val), []);
     setCurrentPlaylist(collection);
     resetPosition();
     setPlaying();
@@ -68,7 +64,7 @@ const AlbumView = props => {
     <Fragment>
       <div className={classes.root}>
         <Typography variant="h4">Album collection</Typography>
-        <Typography variant="body1">{`${albumSize} albums`}</Typography>
+        <Typography variant="body1">{`${size} albums`}</Typography>
         <Divider light padding />
         <GridContainer
           wrap="nowrap"
@@ -90,11 +86,10 @@ const AlbumView = props => {
       </div>
       <AutoSizer>
         {({ height, width }) => {
-          const itemWidth = 210;
-          const itemHeight = 300;
+          const itemWidth = 180;
+          const itemHeight = 270;
           const itemCount = Math.floor(width / (itemWidth + 5));
-          const albumCount = albumList.length;
-          const rowCount = Math.ceil(albumCount / itemCount);
+          const rowCount = Math.ceil(size / itemCount);
 
           return (
             <Grid
@@ -108,25 +103,22 @@ const AlbumView = props => {
               // Container dimensions
               width={width}
               height={height}
-              // Overscan
-              overscanRowCount={rowCount}
-              overscanColumnsCount={10}
             >
               {({ columnIndex, rowIndex, style }) => {
                 const index = rowIndex * itemCount + columnIndex;
-                const cover = albumList[index] ? albumList[index].cover : undefined;
+                const { cover, label, album, id } = albumList[index][0];
 
                 return (
-                  index < albumCount && (
+                  index < size && (
                     <AlbumItem
-                      onClick={() => handleClick(index, albumList[index]._id)}
+                      onClick={() => handleClick(index, id)}
                       key={index}
                       style={style}
                       cover={cover}
-                      name={albumList[index].name}
-                      label={albumList[index].label}
-                      size={albumList[index].songs.length}
-                      active={selectedId === albumList[index]._id}
+                      name={album}
+                      label={label}
+                      size={albumList[index].length}
+                      active={selectedId === id}
                     />
                   )
                 );
@@ -142,19 +134,22 @@ const AlbumView = props => {
 AlbumView.propTypes = {
   albumList: PropTypes.array,
   classes: PropTypes.object.isRequired,
-  getSongs: PropTypes.func,
   toggleAlbumDrawer: PropTypes.func,
-  selectedId: PropTypes.number
+  selectedId: PropTypes.number,
+  setCurrentPlaylist: PropTypes.func,
+  resetPosition: PropTypes.func,
+  setPlaying: PropTypes.func,
+  shuffle: PropTypes.func,
+  size: PropTypes.number
 };
 
 const mapStateToProps = state => ({
   albumList: state.list.albumList,
+  size: state.list.albumSize,
   selectedId: state.window.id,
-  albumSize: state.list.albumSize
 });
 
 const mapDispatchToProps = dispatch => ({
-  getSongs: id => dispatch(fetchSongs(id)),
   setPlaying: () => dispatch(setStatus('PLAYING')),
   resetPosition: () => dispatch(setPosition(0)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),

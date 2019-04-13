@@ -2,6 +2,7 @@ import {
   SET_VOLUME,
   SET_POSITION,
   SET_STATUS,
+  SET_SONG
 } from '../actionTypes/songTypes';
 
 export const setVolume = volume => dispatch => {
@@ -22,5 +23,12 @@ export const setStatus = status => dispatch => {
   dispatch({
     type: SET_STATUS,
     payload: status
+  });
+};
+
+export const setSong = song => dispatch => {
+  dispatch({
+    type: SET_SONG,
+    payload: song
   });
 };

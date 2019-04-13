@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,18 +18,13 @@ import { MainBackground } from '../Background';
 
 // Actions
 import {
-  fetchLabelList,
-  fetchAlbumList,
-  fetchSongList,
-  fetchSongs,
-  fetchSong,
-  fetchLabelSize,
-  fetchAlbumSize,
-  fetchSongSize,
+  fetchAll
+} from '../../actions/fetchActions';
+import {
   deleteDatabase
 } from '../../actions/databaseActions';
 import { setPlaylist } from '../../actions/playlistActions';
-import { setPosition } from '../../actions/songActions';
+import { setPosition, setSong } from '../../actions/songActions';
 
 // Types
 import { VIEW_PLAYLIST, VIEW_LABEL, VIEW_ALBUM, VIEW_SONG } from '../../actionTypes/windowTypes';
@@ -41,33 +36,10 @@ class Main extends Component {
   componentDidMount() {
     const {
       view,
-      getLabelList,
-      getAlbumList,
-      getSongList,
-      getLabelSize,
-      getAlbumSize,
-      getSongSize
+      getAll
     } = this.props;
 
-    getLabelSize();
-    getAlbumSize();
-    getSongSize();
-
-    switch (view) {
-      case VIEW_PLAYLIST: {
-        return getAlbumList();
-      }
-      case VIEW_LABEL: {
-        return getLabelList();
-      }
-      case VIEW_ALBUM: {
-        return getAlbumList();
-      }
-      case VIEW_SONG: {
-        return getSongList();
-      }
-      default: return null;
-    }
+    getAll(view);
   }
 
   componentDidUpdate(prevProps) {
@@ -75,21 +47,21 @@ class Main extends Component {
       albumList,
       setCurrentPlaylist,
       setSongPosition,
-      getSong,
       playlistIndex,
       playlist,
-      customPlaylist
+      setCurrentSong
     } = this.props;
 
     if (prevProps.albumList !== albumList) {
-      const collection = Object.values(albumList).map(album => album.songs).reduce((acc, val) => acc.concat(val), []);
+      const collection = Object.values(albumList)
+        .reduce((acc, val) => acc.concat(val), []);
       setCurrentPlaylist(collection);
     }
 
     if (prevProps.playlist !== playlist || prevProps.playlistIndex !== playlistIndex) {
       if (playlist.length !== 0) {
+        setCurrentSong(playlist[playlistIndex]);
         setSongPosition(0);
-        getSong(playlist[playlistIndex]);
       }
     }
   }
@@ -177,7 +149,6 @@ Main.propTypes = {
   classes: PropTypes.object.isRequired,
   songList: PropTypes.array.isRequired,
   albumList: PropTypes.array.isRequired,
-  getAlbumList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -198,16 +169,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getLabelList: () => dispatch(fetchLabelList()),
-  getAlbumList: () => dispatch(fetchAlbumList()),
-  getSongList: () => dispatch(fetchSongList()),
+  getAll: view => dispatch(fetchAll(view)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
-  getSongs: id => dispatch(fetchSongs(id)),
-  getSong: id => dispatch(fetchSong(id)),
+  setCurrentSong: song => dispatch(setSong(song)),
   setSongPosition: position => dispatch(setPosition(position)),
-  getLabelSize: () => dispatch(fetchLabelSize()),
-  getAlbumSize: () => dispatch(fetchAlbumSize()),
-  getSongSize: () => dispatch(fetchSongSize()),
   deleteDb: () => dispatch(deleteDatabase())
 });
 

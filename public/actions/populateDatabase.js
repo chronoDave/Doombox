@@ -1,10 +1,9 @@
-/* eslint-disable max-len */
 const { app } = require('electron');
 const walk = require('walk');
 const fs = require('fs');
 const mm = require('music-metadata');
 
-module.exports = function populateDatabase(Database, rootFolder) {
+module.exports = function populateDatabase(Database, rootFolder, sender) {
   if (!rootFolder) {
     console.log('ERROR: No directory found!');
     return;
@@ -12,7 +11,7 @@ module.exports = function populateDatabase(Database, rootFolder) {
   console.log('WALKER: Starting scan...');
 
   // RegEx
-  const reSong = RegExp(/(.*.mp3|.*.flac)/);
+  const reSong = RegExp(/(.*.mp3|.*.flac|.*.ogg)/);
   const reImageFormat = RegExp(/([^/]*.$)/);
 
   // Create directory
@@ -24,20 +23,10 @@ module.exports = function populateDatabase(Database, rootFolder) {
 
   // Payloads
   const payloadSong = new Set();
-  const payloadAlbum = new Set();
-  const payloadLabel = new Set();
   const batchSizeSong = 500;
-  const batchSizeAlbum = 25;
-  const batchSizeLabel = 10;
   let batchCounterSong = 0;
-  let batchCounterAlbum = 0;
-  let batchCounterLabel = 0;
-  let iterationSong = 1;
-  let iterationAlbum = 1;
-  let iterationLabel = 1;
-  let prevAlbumId = false;
-  let prevLabelId = false;
 
+  let iterationSong = 1;
   walker.on('file', (root, fileStats, next) => {
     const song = reSong.test(fileStats.name) ? reSong.exec(fileStats.name)[1] : false;
 
@@ -53,9 +42,6 @@ module.exports = function populateDatabase(Database, rootFolder) {
         const label = metadata.common.albumartist || '???';
         const album = metadata.common.album || '???';
 
-        const songId = `${album}-${song}`;
-        const albumId = `${label}-${album}`;
-
         let cover;
 
         // Create image
@@ -63,7 +49,8 @@ module.exports = function populateDatabase(Database, rootFolder) {
           const imageFormat = reImageFormat.test(metadata.common.picture[0].format)
             ? reImageFormat.exec(metadata.common.picture[0].format)[1]
             : 'jpeg';
-          const imagePath = `${imageDir}\\${album.replace(/\/|\\|\?|%|\*|:|\||"|<|>|\./g, '')}.${imageFormat}`.replace(/\s/g, '_');
+          const imagePath = `${imageDir}\\${album.replace(/\/|\\|\?|%|\*|:|\||"|<|>|\./g, '')}.${imageFormat}`
+            .replace(/\s/g, '_');
 
           // Save file to disk
           fs.writeFileSync(imagePath, metadata.common.picture[0].data, 'base64');
@@ -71,27 +58,30 @@ module.exports = function populateDatabase(Database, rootFolder) {
           cover = imagePath;
         }
 
-        // Songs
-        payloadSong.add({
-          _id: songId,
-          albumId,
-          url,
-          cover,
+        const songData = {
+          title: metadata.common.title,
           artist,
           album,
-          title: metadata.common.title,
           year: metadata.common.year,
           track: metadata.common.track.no,
-          duration: metadata.format.duration * 1000
-        });
+          label,
+          duration: metadata.format.duration * 1000,
+          cover,
+          url
+        };
+
+        // Songs
+        payloadSong.add(songData);
         batchCounterSong += 1;
         if (batchCounterSong > batchSizeSong) {
           Database.songs.insert(Array.from(payloadSong), err => {
-            if (err) {
-              if (err.errorType !== 'uniqueViolated') throw Error(`Error when inserting SONGS: ${err}`);
-              console.log(`[${new Date().toLocaleTimeString()}] Duplicates found between, moving on...`);
+            if (err && err.errorType !== 'uniqueViolated') {
+              throw Error(`Error whilst inserting songs: ${err}`);
             } else {
-              console.log(`[${new Date().toLocaleTimeString()}] Batch inserted ${batchSizeSong * iterationSong} SONGS`);
+              sender.send('RECEIVE_STATUS', {
+                payload: `Successfully inserted ${batchSizeSong * iterationSong} songs`,
+                variant: 'success'
+              });
             }
             iterationSong += 1;
           });
@@ -99,61 +89,6 @@ module.exports = function populateDatabase(Database, rootFolder) {
           batchCounterSong = 0;
           payloadSong.clear();
         }
-
-        // Albums
-        if (prevAlbumId !== albumId) {
-          if (batchCounterAlbum > batchSizeAlbum) {
-            Database.albums.insert(Array.from(payloadAlbum), err => {
-              if (err) {
-                if (err.errorType !== 'uniqueViolated') throw Error(`Error when inserting ALBUMS: ${err}`);
-                console.log(`[${new Date().toLocaleTimeString()}] Duplicates found between ${Array.from(payloadAlbum)[0]._id} and ${Array.from(payloadAlbum)[Array.from(payloadAlbum).length - 1]._id}, moving on...`);
-              } else {
-                console.log(`[${new Date().toLocaleTimeString()}] Batch inserted ${batchSizeAlbum * iterationAlbum} ALBUMS`);
-              }
-              iterationAlbum += 1;
-            });
-            // Clear payload & reset counter
-            batchCounterAlbum = 0;
-            payloadAlbum.clear();
-          }
-          payloadAlbum.add({
-            _id: albumId,
-            name: album,
-            label,
-            cover,
-            year: metadata.common.year,
-            songs: []
-          });
-          batchCounterAlbum += 1;
-        }
-        prevAlbumId = albumId;
-        payloadAlbum.forEach(item => item._id === albumId && item.songs.push(songId));
-
-        // Labels
-        if (prevLabelId !== label) {
-          if (batchCounterLabel > batchSizeLabel) {
-            Database.labels.insert(Array.from(payloadLabel), err => {
-              if (err) {
-                if (err.errorType !== 'uniqueViolated') throw Error(`Error when inserting LABELS: ${err}`);
-                console.log(`[${new Date().toLocaleTimeString()}] Duplicates found between ${Array.from(payloadLabel)[0]._id} and ${Array.from(payloadLabel)[Array.from(payloadLabel).length - 1]._id}, moving on...`);
-              } else {
-                console.log(`[${new Date().toLocaleTimeString()}] Batch inserted ${batchSizeLabel * iterationLabel} ALBUMS`);
-              }
-              iterationLabel += 1;
-            });
-            // Clear payload & reset counter
-            batchCounterLabel = 0;
-            payloadLabel.clear();
-          }
-          payloadLabel.add({
-            _id: label,
-            name: label,
-            albums: []
-          });
-          batchCounterLabel += 1;
-        }
-        prevLabelId = label;
-        payloadLabel.forEach(item => item._id === label && item.albums.push(albumId));
 
         next();
       });
@@ -167,29 +102,15 @@ module.exports = function populateDatabase(Database, rootFolder) {
     Database.songs.insert(Array.from(payloadSong), err => {
       if (err) {
         if (err.errorType !== 'uniqueViolated') throw Error(`Error when inserting SONGS: ${err}`);
-        console.log(`[${new Date().toLocaleTimeString()}] Duplicates found in last ${batchCounterSong} SONGS, moving on...`);
-      } else {
-        console.log(`[${new Date().toLocaleTimeString()}] Batch inserted final ${batchCounterSong} SONGS`);
+        sender.send('RECEIVE_STATUS', {
+          payload: `Duplicates found in last ${batchCounterSong} SONGS, moving on...`,
+          variant: 'warning'
+        });
       }
+      sender.send('RECEIVE_STATUS', {
+        payload: `Batch inserted final ${batchCounterSong} SONGS`,
+        variant: 'success'
+      });
     });
-    Database.albums.insert(Array.from(payloadAlbum), err => {
-      if (err) {
-        if (err.errorType !== 'uniqueViolated') throw Error(`Error when inserting ALBUMS: ${err}`);
-        console.log(`[${new Date().toLocaleTimeString()}] Duplicates found in last ${batchCounterAlbum} ALBUMS, moving on...`);
-      } else {
-        console.log(`[${new Date().toLocaleTimeString()}] Batch inserted final ${batchCounterAlbum} ALBUMS`);
-      }
-      iterationAlbum += 1;
-    });
-    Database.labels.insert(Array.from(payloadLabel), err => {
-      if (err) {
-        if (err.errorType !== 'uniqueViolated') throw Error(`Error when inserting LABELS: ${err}`);
-        console.log(`[${new Date().toLocaleTimeString()}] Duplicates found in last ${batchCounterLabel} LABELS, moving on...`);
-      } else {
-        console.log(`[${new Date().toLocaleTimeString()}] Batch inserted final ${batchCounterLabel} LABELS`);
-      }
-      iterationAlbum += 1;
-    });
-    console.log('WALKER: Finished scan!');
   });
 };

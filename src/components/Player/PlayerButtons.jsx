@@ -40,8 +40,15 @@ const PlayerButtons = props => {
     shuffle
   } = props;
 
-  const handleNext = () => setPlaylistIndex(playlistIndex === playlistSize - 1 ? 0 : playlistIndex + 1);
-  const handlePrevious = () => setPlaylistIndex(playlistIndex === 0 ? playlistSize - 1 : playlistIndex - 1);
+  const handleNext = () => {
+    setPlaylistIndex(playlistIndex === playlistSize - 1 ? 0 : playlistIndex + 1);
+    setSongStatus('PLAYING');
+  };
+
+  const handlePrevious = () => {
+    setPlaylistIndex(playlistIndex === 0 ? playlistSize - 1 : playlistIndex - 1);
+    setSongStatus('PLAYING');
+  };
 
   return (
     <Fragment>

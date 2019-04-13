@@ -2,8 +2,8 @@ import {
   SET_VOLUME,
   SET_POSITION,
   SET_STATUS,
+  SET_SONG
 } from '../actionTypes/songTypes';
-import { RECEIVE_SONG } from '../actionTypes/databaseTypes';
 
 export const songReducer = (
   state = {
@@ -39,17 +39,17 @@ export const songReducer = (
         playStatus: action.payload
       };
     }
-    case RECEIVE_SONG: {
+    case SET_SONG: {
       return {
         ...state,
-        id: action.payload.song._id,
-        url: action.payload.song.url,
-        artist: action.payload.song.artist,
-        album: action.payload.song.album,
-        title: action.payload.song.title,
-        track: action.payload.song.track,
-        duration: action.payload.song.duration,
-        cover: action.payload.song.cover
+        id: action.payload._id,
+        url: action.payload.url,
+        artist: action.payload.artist,
+        album: action.payload.album,
+        title: action.payload.title,
+        track: action.payload.track,
+        duration: action.payload.duration,
+        cover: action.payload.cover
       };
     }
     default:
