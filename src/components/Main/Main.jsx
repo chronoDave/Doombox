@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -17,52 +17,76 @@ import { MainDrawer, AlbumDrawer } from '../Drawer';
 import { MainBackground } from '../Background';
 
 // Actions
-import {
-  fetchAll
-} from '../../actions/fetchActions';
-import {
-  deleteDatabase
-} from '../../actions/databaseActions';
+import { fetchAll } from '../../actions/fetchActions';
+import { deleteDatabase } from '../../actions/databaseActions';
 import { setPlaylist } from '../../actions/playlistActions';
-import { setPosition, setSong } from '../../actions/songActions';
+import { setSong } from '../../actions/songActions';
 
 // Types
-import { VIEW_PLAYLIST, VIEW_LABEL, VIEW_ALBUM, VIEW_SONG } from '../../actionTypes/windowTypes';
+import {
+  VIEW_PLAYLIST,
+  VIEW_LABEL,
+  VIEW_ALBUM,
+  VIEW_SONG
+} from '../../actionTypes/windowTypes';
 
 // Style
 import MainStyle from './MainStyle';
 
 class Main extends Component {
   componentDidMount() {
-    const {
-      view,
-      getAll
-    } = this.props;
+    const { view, getAll } = this.props;
 
     getAll(view);
   }
 
   componentDidUpdate(prevProps) {
     const {
-      albumList,
-      setCurrentPlaylist,
-      setSongPosition,
-      playlistIndex,
+      view,
+      getAll,
       playlist,
-      setCurrentSong
+      labelList,
+      albumList,
+      songList,
+      setCurrentPlaylist,
+      setCurrentSong,
+      playlistIndex
     } = this.props;
 
-    if (prevProps.albumList !== albumList) {
-      const collection = Object.values(albumList)
-        .reduce((acc, val) => acc.concat(val), []);
+    // Fetch data on view change
+    if (prevProps.view !== view) getAll(view);
+
+    // Generate playlist on startup.
+    if (playlist.length === 0) {
+      let collection;
+
+      switch (view) {
+        case VIEW_LABEL:
+          collection = labelList.reduce((acc, val) => acc.concat(val), []);
+          break;
+        case VIEW_ALBUM:
+          collection = albumList.reduce((acc, val) => acc.concat(val), []);
+          break;
+        case VIEW_SONG:
+          collection = songList;
+          break;
+        default:
+          break;
+      }
+
       setCurrentPlaylist(collection);
+      setCurrentSong(collection[0]);
     }
 
-    if (prevProps.playlist !== playlist || prevProps.playlistIndex !== playlistIndex) {
-      if (playlist.length !== 0) {
-        setCurrentSong(playlist[playlistIndex]);
-        setSongPosition(0);
-      }
+    /*
+      Update playlist on index change (prev / next song)
+      or playlist change (added / deleted song from playlist)
+    */
+    if (
+      prevProps.playlistIndex !== playlistIndex
+      || prevProps.playlist !== playlist
+    ) {
+      setCurrentSong(playlist[playlistIndex]);
     }
   }
 
@@ -90,13 +114,19 @@ class Main extends Component {
       labelList,
       albumList,
       songList,
-      playlist
+      playlist,
+      menuId
     } = this.props;
 
     switch (view) {
       case VIEW_PLAYLIST: return playlist.length !== 0 ? <PlaylistView /> : <CircularProgress />;
       case VIEW_LABEL: return labelList.length !== 0 ? <LabelView /> : <CircularProgress />;
-      case VIEW_ALBUM: return albumList.length !== 0 ? <AlbumView /> : <CircularProgress />;
+      case VIEW_ALBUM: return albumList.length !== 0 ? (
+        <Fragment>
+          <AlbumView />
+          <AlbumDrawer album={this.getActiveCollection()[menuId]} />
+        </Fragment>
+      ) : <CircularProgress />;
       case VIEW_SONG: return songList.length !== 0 ? <SongView /> : <CircularProgress />;
       default: return null;
     }
@@ -113,7 +143,6 @@ class Main extends Component {
       isBusy,
       playlist,
       deleteDb,
-      menuId
     } = this.props;
 
     return (
@@ -139,7 +168,6 @@ class Main extends Component {
           isEmpty={playlist.length === 0}
           onDelete={deleteDb}
         />
-        <AlbumDrawer album={this.getActiveCollection()[menuId]} />
       </div>
     );
   }
@@ -149,11 +177,26 @@ Main.propTypes = {
   classes: PropTypes.object.isRequired,
   songList: PropTypes.array.isRequired,
   albumList: PropTypes.array.isRequired,
+  labelList: PropTypes.array.isRequired,
+  setCurrentPlaylist: PropTypes.func,
+  setCurrentSong: PropTypes.func,
+  view: PropTypes.string,
+  getAll: PropTypes.func.isRequired,
+  playlistSize: PropTypes.number,
+  labelSize: PropTypes.number,
+  albumSize: PropTypes.number,
+  songSize: PropTypes.number,
+  isBusy: PropTypes.bool,
+  playlist: PropTypes.array,
+  deleteDb: PropTypes.func,
+  menuId: PropTypes.number,
+  playlistIndex: PropTypes.number
 };
 
 const mapStateToProps = state => ({
   albumList: state.list.albumList,
   songList: state.list.songList,
+  labelList: state.list.labelList,
   menuVisible: state.window.menuVisible,
   selected: state.window.selected,
   playlist: state.playlist.collection,
@@ -172,7 +215,6 @@ const mapDispatchToProps = dispatch => ({
   getAll: view => dispatch(fetchAll(view)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   setCurrentSong: song => dispatch(setSong(song)),
-  setSongPosition: position => dispatch(setPosition(position)),
   deleteDb: () => dispatch(deleteDatabase())
 });
 

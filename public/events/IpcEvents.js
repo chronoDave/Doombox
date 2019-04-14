@@ -5,7 +5,7 @@ const { populateDatabase } = require('../actions');
 module.exports = {
   ipcListener(Database) {
     ipcMain.on('FETCH_ALL', (event, view) => {
-      Database.songs.find({}).sort({ label: 1, track: 2, year: 3 }).exec((err, payload) => {
+      Database.songs.find({}).sort({ label: 1, album: 2, track: 3, year: 4 }).exec((err, payload) => {
         if (err) throw Error(err);
 
         const albums = _.values(_.mapValues(_.groupBy(payload, 'album')));
@@ -24,7 +24,7 @@ module.exports = {
               payload: albums
             });
             break;
-          case 'VIEW_SONGS':
+          case 'VIEW_SONG':
             event.sender.send('RECEIVE_COLLECTION', {
               type: view,
               payload

@@ -1,10 +1,7 @@
-import createStyles from '@material-ui/core/styles/createStyles'
-
-const AlbumViewStyle = theme => createStyles({
+const AlbumViewStyle = theme => ({
   root: {
-    padding: theme.spacing.unit,
-    paddingTop: theme.spacing.unit * 8,
-    width: 'fit-content'
+    height: '100%',
+    paddingLeft: theme.spacing.unit * 4
   },
   img: {
     maxWidth: '100%',

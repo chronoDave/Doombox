@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { Field, Form, reduxForm } from 'redux-form';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
 // Icons
 import PlaylistIcon from '@material-ui/icons/ArtTrack';
@@ -29,7 +30,16 @@ import MainDrawerList from './MainDrawerList';
 import { SelectPathDialog } from '../Dialog';
 
 // Actions
-import { updateDatabase } from '../../actions/databaseActions';
+// import { updateDatabase } from '../../actions/databaseActions';
+import { setView } from '../../actions/windowActions';
+
+// Types
+import {
+  VIEW_PLAYLIST,
+  VIEW_LABEL,
+  VIEW_ALBUM,
+  VIEW_SONG
+} from '../../actionTypes/windowTypes';
 
 // Assets
 import Icon from '../../assets/icons/icon.png';
@@ -43,6 +53,7 @@ const MainDrawer = props => {
     playlist,
     onClick,
     handleSubmit,
+    changeView,
     active,
     playlistSize,
     labelSize,
@@ -59,21 +70,25 @@ const MainDrawer = props => {
     VIEW_PLAYLIST: {
       name: 'Playlist',
       icon: () => <PlaylistIcon />,
+      func: () => changeView(VIEW_PLAYLIST),
       number: playlistSize
     },
     VIEW_LABEL: {
       name: 'Label',
       icon: () => <LabelIcon />,
+      func: () => changeView(VIEW_LABEL),
       number: labelSize
     },
     VIEW_ALBUM: {
       name: 'Album',
       icon: () => <AlbumIcon />,
+      func: () => changeView(VIEW_ALBUM),
       number: albumSize
     },
     VIEW_SONG: {
       name: 'Song',
       icon: () => <SongIcon />,
+      func: () => changeView(VIEW_SONG),
       number: songSize
     }
   };
@@ -158,7 +173,7 @@ const MainDrawer = props => {
               <MainDrawerList
                 active={active}
                 content={views}
-                secondary="number"
+                secondary={["number", "func"]}
               />
             </Collapse>
           </ListItem>
@@ -166,7 +181,7 @@ const MainDrawer = props => {
             <Collapse title="Setting">
               <MainDrawerList
                 content={options}
-                secondary="func"
+                secondary={["func"]}
               />
             </Collapse>
           </ListItem>
@@ -180,6 +195,13 @@ const MainDrawer = props => {
   );
 };
 
+const mapDispatchToProps = dispatch => ({
+  changeView: view => dispatch(setView(view))
+});
+
 export default reduxForm({
   form: 'search'
-})(withStyles(MainDrawerStyle)(MainDrawer));
+})(connect(
+  null,
+  mapDispatchToProps
+)(withStyles(MainDrawerStyle)(MainDrawer)));

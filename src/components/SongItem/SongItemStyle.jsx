@@ -1,11 +1,11 @@
-const SongItemStyle = theme => ({
-  buttonBaseRoot: {
-    width: '100%',
-    justifyContent: 'flex-start',
-    textAlign: 'left'
+import createStyles from '@material-ui/core/styles/createStyles';
+
+const SongItemStyle = theme => createStyles({
+  active: {
+    backgroundColor: `${theme.palette.primary.main} !important`
   },
-  typographyTrack: {
-    padding: theme.spacing.unit,
+  duration: {
+    maxWidth: 60
   }
 });
 

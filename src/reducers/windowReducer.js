@@ -1,5 +1,6 @@
 import {
   VIEW_ALBUM,
+  VIEW_SONG,
   SET_VIEW,
   TOGGLE_DRAWER
 } from '../actionTypes/windowTypes';
@@ -16,7 +17,7 @@ export const windowReducer = (
     case SET_VIEW: {
       return {
         ...state,
-        view: action.payload.view
+        view: action.payload
       };
     }
     case TOGGLE_DRAWER: {

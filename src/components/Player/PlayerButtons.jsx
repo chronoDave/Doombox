@@ -42,11 +42,13 @@ const PlayerButtons = props => {
 
   const handleNext = () => {
     setPlaylistIndex(playlistIndex === playlistSize - 1 ? 0 : playlistIndex + 1);
+    setSongPosition(0);
     setSongStatus('PLAYING');
   };
 
   const handlePrevious = () => {
     setPlaylistIndex(playlistIndex === 0 ? playlistSize - 1 : playlistIndex - 1);
+    setSongPosition(0);
     setSongStatus('PLAYING');
   };
 

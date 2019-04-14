@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -13,9 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import IconButton from '@material-ui/core/IconButton';
 
 import AlbumItem from '../components/AlbumItem/AlbumItem';
-import Typography from '../components/Typography/Typography';
-import Divider from '../components/Divider/Divider';
-import { GridContainer } from '../components/Grid';
+import ViewHeader from '../components/ViewHeader/ViewHeader';
 
 // Actions
 import { toggleDrawer } from '../actions/windowActions';
@@ -36,12 +34,12 @@ const AlbumView = props => {
     albumList,
     classes,
     toggleAlbumDrawer,
-    selectedId,
     setCurrentPlaylist,
     resetPosition,
     setPlaying,
     shuffle,
-    size
+    size,
+    songId
   } = props;
 
   const handleClick = index => {
@@ -61,33 +59,29 @@ const AlbumView = props => {
   };
 
   return (
-    <Fragment>
-      <div className={classes.root}>
-        <Typography variant="h4">Album collection</Typography>
-        <Typography variant="body1">{`${size} albums`}</Typography>
-        <Divider light padding />
-        <GridContainer
-          wrap="nowrap"
-          alignItems="center"
+    <div className={classes.root}>
+      <ViewHeader
+        size={size}
+        title="Album Collection"
+        type="albums"
+      >
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handlePlay()}
         >
-          <IconButton
-            classes={{ root: classes.icon }}
-            onClick={() => handlePlay()}
-          >
-            <PlayIcon />
-          </IconButton>
-          <IconButton
-            classes={{ root: classes.icon }}
-            onClick={() => handleShuffle()}
-          >
-            <ShuffleIcon />
-          </IconButton>
-        </GridContainer>
-      </div>
+          <PlayIcon />
+        </IconButton>
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handleShuffle()}
+        >
+          <ShuffleIcon />
+        </IconButton>
+      </ViewHeader>
       <AutoSizer>
         {({ height, width }) => {
-          const itemWidth = 180;
-          const itemHeight = 270;
+          const itemWidth = 210;
+          const itemHeight = 300;
           const itemCount = Math.floor(width / (itemWidth + 5));
           const rowCount = Math.ceil(size / itemCount);
 
@@ -102,32 +96,34 @@ const AlbumView = props => {
               rowHeight={itemHeight}
               // Container dimensions
               width={width}
-              height={height}
+              height={height - 192}
+              // Overscan
+              overscanColumnsCount={5}
             >
               {({ columnIndex, rowIndex, style }) => {
                 const index = rowIndex * itemCount + columnIndex;
-                const { cover, label, album, id } = albumList[index][0];
 
+                if (index > size - 1) return null;
+                const { cover, label, album, id } = albumList[index][0];
                 return (
-                  index < size && (
-                    <AlbumItem
-                      onClick={() => handleClick(index, id)}
-                      key={index}
-                      style={style}
-                      cover={cover}
-                      name={album}
-                      label={label}
-                      size={albumList[index].length}
-                      active={selectedId === id}
-                    />
-                  )
+                  <AlbumItem
+                    onClick={() => handleClick(index)}
+                    album={albumList[index]}
+                    key={id}
+                    style={style}
+                    cover={cover}
+                    name={album}
+                    label={label}
+                    size={albumList[index].length}
+                    active={albumList[index].map(song => song._id).includes(songId)}
+                  />
                 );
               }}
             </Grid>
           );
         }}
       </AutoSizer>
-    </Fragment>
+    </div>
   );
 };
 
@@ -135,7 +131,7 @@ AlbumView.propTypes = {
   albumList: PropTypes.array,
   classes: PropTypes.object.isRequired,
   toggleAlbumDrawer: PropTypes.func,
-  selectedId: PropTypes.number,
+  songId: PropTypes.string,
   setCurrentPlaylist: PropTypes.func,
   resetPosition: PropTypes.func,
   setPlaying: PropTypes.func,
@@ -145,6 +141,7 @@ AlbumView.propTypes = {
 
 const mapStateToProps = state => ({
   albumList: state.list.albumList,
+  songId: state.song.id,
   size: state.list.albumSize,
   selectedId: state.window.id,
 });

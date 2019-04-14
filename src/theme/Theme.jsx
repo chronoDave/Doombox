@@ -60,18 +60,11 @@ const Theme = createMuiTheme({
       backgroundColor: 'rgba(0, 0, 0, 0)'
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: Colors.GREY[600],
-      borderStyle: 'solid',
-      borderColor: Colors.GREY[300],
-      borderRadius: 7,
-      borderWidth: 3
+      backgroundColor: Colors.GREY[300],
+      border: `4px solid ${Colors.GREY[400]}`
     },
     '&::-webkit-scrollbar-track': {
       backgroundClip: 'padding-box',
-      borderRadius: 7,
-      borderStyle: 'solid',
-      borderColor: Colors.GREY[300],
-      borderWidth: 3,
       backgroundColor: Colors.GREY[400]
     }
   }

@@ -13,6 +13,7 @@ const MainDrawerStyle = theme => createStyles({
     top: 0,
     width: theme.spacing.component.mainDrawer,
     overflowY: 'auto',
+    overflowX: 'hidden',
     height: '100%',
     backgroundColor: theme.palette.grey[600],
     boxShadow: theme.shadows[8]

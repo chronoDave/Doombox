@@ -1,164 +1,190 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { FixedSizeList as List } from 'react-window';
 import classNames from 'classnames';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import PropTypes from 'prop-types';
+
+// Icons
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import { GridContainer, GridItem } from '../components/Grid';
+import ViewHeader from '../components/ViewHeader/ViewHeader';
+import SongItem from '../components/SongItem/SongItem';
+import Typography from '../components/Typography/Typography';
 
 // Actions
-import { setStatus } from '../actions/songActions';
+import {
+  setStatus,
+  setPosition,
+} from '../actions/songActions';
+import {
+  shufflePlaylist,
+  setPlaylist,
+} from '../actions/playlistActions';
 
 // Style
 import SongViewStyle from './SongViewStyle';
 
-function convertToMinutes(time) {
-  const date = new Date(time);
+const SongView = props => {
+  const {
+    size,
+    classes,
+    songList,
+    resetPosition,
+    setCurrentPlaylist,
+    setPlaying,
+    shuffle,
+    songId
+  } = props;
 
-  const addZero = i => (i < 10 ? `0${i}` : i);
+  const handlePlay = () => {
+    const collection = songList.reduce((acc, val) => acc.concat(val), []);
+    setCurrentPlaylist(collection);
+    resetPosition();
+    setPlaying();
+  };
 
-  return `${addZero(date.getMinutes())}:${addZero(date.getSeconds())}`;
-}
+  const handleShuffle = () => {
+    handlePlay();
+    shuffle();
+  };
 
-class LabelView extends Component {
-  componentDidMount() {
-    const { getSongList } = this.props;
+  const handleClick = index => {
+    setCurrentPlaylist([songList[index]]);
+    resetPosition();
+    setPlaying();
+  };
 
-    getSongList();
-  }
+  return (
+    <div className={classes.root}>
+      <ViewHeader
+        size={size}
+        title="Song collection"
+        type="songs"
+      >
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handlePlay()}
+        >
+          <PlayIcon />
+        </IconButton>
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handleShuffle()}
+        >
+          <ShuffleIcon />
+        </IconButton>
+      </ViewHeader>
+      <div className={classes.listHeader}>
+        <GridContainer
+          wrap="nowrap"
+          justify="space-between"
+          alignItems="flex-end"
+          classes={{ root: classes.grid }}
+        >
+          <GridItem xs={3}>
+            <ListItemText
+              primary="Title"
+            />
+          </GridItem>
+          <GridItem xs={2}>
+            <ListItemText
+              primary="Artist"
+            />
+          </GridItem>
+          <GridItem xs={3}>
+            <ListItemText
+              primary="Album"
+            />
+          </GridItem>
+          <GridItem xs={2}>
+            <ListItemText
+              primary="Label"
+            />
+          </GridItem>
+          <ListItemText
+            primary="Duration"
+            classes={{ root: classes.duration }}
+          />
+        </GridContainer>
+      </div>
+      <AutoSizer>
+        {({ height, width }) => (
+          <List
+            height={height - 272}
+            itemCount={size - 1}
+            itemSize={50}
+            width={width}
+            className={classNames(
+              classes.list,
+              classes.scrollbar
+            )}
+          >
+            {({ index, style }) => {
+              const {
+                _id,
+                title,
+                artist,
+                album,
+                label,
+                duration
+              } = songList[index];
 
-  render() {
-    const {
-      songList,
-      count,
-      setSongIndex,
-      songIndex,
-      classes
-    } = this.props;
+              return (
+                <SongItem
+                  onClick={() => handleClick(index)}
+                  active={_id === songId}
+                  key={_id}
+                  style={style}
+                  title={title}
+                  artist={artist}
+                  album={album}
+                  label={label}
+                  duration={duration}
+                />
+              );
+            }}
+          </List>
+        )}
+      </AutoSizer>
+    </div>
+  );
+};
 
-    // return (
-    //   !songList ? (
-    //     <CircularProgress />
-    //   ) : (
-    //     <AutoSizer>
-    //       {({ width, height }) => (
-    //         <ColumnSizer
-    //           columnMinWidth={30}
-    //           columnCount={5}
-    //           width={width}
-    //         >
-    //           {({ adjustedWidth, registerChild }) => (
-    //             <Table
-    //               ref={registerChild}
-    //               width={width}
-    //               height={height}
-    //               headerHeight={45}
-    //               rowHeight={39}
-    //               rowCount={count}
-    //               rowGetter={({ index }) => songList[index]}
-    //               overscanRowCount={5}
-    //               onRowDoubleClick={event => setSongIndex(event.index)}
-    //               // Custom rendering
-    //               gridClassName={classes.table}
-    //               headerRowRenderer={({
-    //                 className,
-    //                 columns,
-    //                 style
-    //               }) => (
-    //                 <div
-    //                   className={classNames(classes.tableHeaderRow, className)}
-    //                   rolw='row'
-    //                   style={style}
-    //                 >
-    //                   {columns}
-    //                 </div>
-    //               )}
-    //               rowRenderer={({
-    //                 index,
-    //                 columns,
-    //                 style,
-    //                 className,
-    //                 onRowDoubleClick,
-    //                 rowData,
-    //                 key
-    //               }) => {
-    //                 const a11yProps = { 'aria-rowindex': index + 1 };
-
-    //                 if (onRowDoubleClick) {
-    //                   a11yProps['aria-label'] = 'row';
-    //                   a11yProps.tabIndex = 0;
-
-    //                   if (onRowDoubleClick) {
-    //                     a11yProps.onDoubleClick = event => onRowDoubleClick({ event, index, rowData });
-    //                   }
-    //                 }
-
-    //                 return (
-    //                   <div
-    //                     {...a11yProps}
-    //                     style={style}
-    //                     key={key}
-    //                     className={classNames(
-    //                       (index % 2) ? classes.tableRowEven : classes.tableRowOdd,
-    //                       index === songIndex && classes.tableRowActive,
-    //                       classes.tableRow,
-    //                       className
-    //                     )}
-    //                   >
-    //                     {columns}
-    //                   </div>
-    //                 );
-    //               }}
-    //             >
-    //               <Column
-    //                 width={adjustedWidth}
-    //                 maxWidth={30}
-    //                 label='#'
-    //                 cellDataGetter={({ rowData }) => (rowData.track !== 0 ? rowData.track : undefined)}
-    //               />
-    //               <Column
-    //                 width={adjustedWidth}
-    //                 label='Title'
-    //                 dataKey='title'
-    //               />
-    //               <Column
-    //                 width={adjustedWidth}
-    //                 label='Artist'
-    //                 dataKey='artist'
-    //               />
-    //               <Column
-    //                 width={adjustedWidth}
-    //                 label='Album'
-    //                 dataKey='album'
-    //               />
-    //               <Column
-    //                 width={adjustedWidth}
-    //                 label='Duration'
-    //                 cellDataGetter={({ rowData }) => convertToMinutes(rowData.duration * 1000)}
-    //               />
-    //             </Table>
-    //           )}
-    //         </ColumnSizer>
-    //       )}
-    //     </AutoSizer>
-    //   )
-    // );
-    return (null);
-  }
-}
+SongView.propTypes = {
+  size: PropTypes.number,
+  classes: PropTypes.object.isRequired,
+  songList: PropTypes.array,
+  resetPosition: PropTypes.func,
+  setCurrentPlaylist: PropTypes.func,
+  setPlaying: PropTypes.func,
+  shuffle: PropTypes.func,
+  songId: PropTypes.string
+};
 
 const mapStateToProps = state => ({
-  count: state.list.songList.count,
-  songList: state.list.songList.songs,
-  songIndex: state.song.index
+  size: state.list.songSize,
+  songList: state.list.songList,
+  songIndex: state.song.index,
+  songId: state.song.id
 });
 
 const mapDispatchToProps = dispatch => ({
-  setSongStatus: status => dispatch(setStatus(status)),
+  setPlaying: () => dispatch(setStatus('PLAYING')),
+  resetPosition: () => dispatch(setPosition(0)),
+  setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
+  shuffle: () => dispatch(shufflePlaylist()),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(SongViewStyle)(LabelView));
+)(withStyles(SongViewStyle)(SongView));

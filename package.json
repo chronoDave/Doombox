@@ -2,7 +2,7 @@
   "name": "doombox",
   "description": "A music player",
   "author": "Chronocide",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",

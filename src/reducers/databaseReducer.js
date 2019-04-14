@@ -25,19 +25,19 @@ export const databaseReducer = (
     case RECEIVE_LABEL_LIST: {
       return {
         ...state,
-        labelList: action.payload
+        labelList: action.payload,
       };
     }
     case RECEIVE_ALBUM_LIST: {
       return {
         ...state,
-        albumList: action.payload
+        albumList: action.payload,
       };
     }
     case RECEIVE_SONG_LIST: {
       return {
         ...state,
-        songList: action.payload
+        songList: action.payload,
       };
     }
     case RECEIVE_SIZES: {

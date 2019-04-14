@@ -27,8 +27,8 @@ const MainDrawerList = props => {
           key={key}
           disableGutters
           classes={{ root: classes.listItemRoot }}
-          button={secondary === 'func'}
-          onClick={() => secondary === 'func' && content[key].func()}
+          button={secondary.includes('func')}
+          onClick={() => secondary.includes('func') && content[key].func()}
           disabled={content[key].disabled}
         >
           <ListItemAvatar
@@ -46,7 +46,7 @@ const MainDrawerList = props => {
               primary: key === active ? classes.active : undefined
             }}
           />
-          {secondary === 'number' && (
+          {secondary.includes('number') && (
             <ListItemSecondaryAction>
               <Typography
                 variant="body2"
@@ -69,10 +69,7 @@ MainDrawerList.propTypes = {
   classes: PropTypes.object.isRequired,
   content: PropTypes.object.isRequired,
   active: PropTypes.string,
-  secondary: PropTypes.oneOf([
-    'number',
-    'func'
-  ])
+  secondary: PropTypes.array.isRequired
 };
 
 export default withStyles(MainDrawerListStyle)(MainDrawerList);
