@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -57,7 +58,12 @@ class Main extends Component {
     if (prevProps.view !== view) getAll(view);
 
     // Generate playlist on startup.
-    if (playlist.length === 0) {
+    // Make sure to not generate a playlist if database does not exist
+    if (playlist.length === 0 && (
+      labelList.length !== 0
+      || albumList.length !== 0
+      || songList.length !== 0
+    )) {
       let collection;
 
       switch (view) {
@@ -108,6 +114,12 @@ class Main extends Component {
     }
   }
 
+  handleDelete() {
+    const { deleteDb, setCurrentPlaylist } = this.props;
+
+    deleteDb();
+  }
+
   renderView() {
     const {
       view,
@@ -115,12 +127,23 @@ class Main extends Component {
       albumList,
       songList,
       playlist,
-      menuId
+      menuId,
+      albumIndex
     } = this.props;
 
     switch (view) {
       case VIEW_PLAYLIST: return playlist.length !== 0 ? <PlaylistView /> : <CircularProgress />;
-      case VIEW_LABEL: return labelList.length !== 0 ? <LabelView /> : <CircularProgress />;
+      case VIEW_LABEL: return labelList.length !== 0 ? (
+        <Fragment>
+          <LabelView />
+          <AlbumDrawer album={_.chain(labelList[menuId])
+            .groupBy(label => label.album)
+            .toPairs()
+            .map(array => array[1])
+            .sortBy(array => array[0].year)
+            .value()[albumIndex]} />
+        </Fragment>
+      ) : <CircularProgress />;
       case VIEW_ALBUM: return albumList.length !== 0 ? (
         <Fragment>
           <AlbumView />
@@ -166,7 +189,7 @@ class Main extends Component {
           songSize={songSize}
           isBusy={isBusy}
           isEmpty={playlist.length === 0}
-          onDelete={deleteDb}
+          onDelete={() => this.handleDelete()}
         />
       </div>
     );
@@ -190,6 +213,7 @@ Main.propTypes = {
   playlist: PropTypes.array,
   deleteDb: PropTypes.func,
   menuId: PropTypes.number,
+  albumIndex: PropTypes.number,
   playlistIndex: PropTypes.number
 };
 
@@ -208,7 +232,8 @@ const mapStateToProps = state => ({
   songSize: state.list.songSize,
   playlistSize: state.playlist.size,
   isBusy: state.list.isBusy,
-  menuId: state.window.id
+  menuId: state.window.id,
+  albumIndex: state.window.albumIndex
 });
 
 const mapDispatchToProps = dispatch => ({

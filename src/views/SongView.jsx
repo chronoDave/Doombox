@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { FixedSizeList as List } from 'react-window';
 import classNames from 'classnames';
@@ -12,13 +12,11 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
 import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import { GridContainer, GridItem } from '../components/Grid';
 import ViewHeader from '../components/ViewHeader/ViewHeader';
-import SongItem from '../components/SongItem/SongItem';
-import Typography from '../components/Typography/Typography';
+import { SongItem } from '../components/ViewItem';
 
 // Actions
 import {

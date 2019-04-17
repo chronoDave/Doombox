@@ -1,15 +1,17 @@
 import {
   VIEW_ALBUM,
   VIEW_SONG,
+  VIEW_LABEL,
   SET_VIEW,
   TOGGLE_DRAWER
 } from '../actionTypes/windowTypes';
 
 export const windowReducer = (
   state = {
-    view: VIEW_ALBUM,
+    view: VIEW_LABEL,
     drawer: false,
-    id: 0
+    id: 0,
+    albumIndex: 0
   },
   action
 ) => {
@@ -24,7 +26,8 @@ export const windowReducer = (
       return {
         ...state,
         drawer: !state.drawer,
-        id: action.payload
+        id: action.payload.id,
+        albumIndex: action.payload.albumIndex
       };
     }
     default:

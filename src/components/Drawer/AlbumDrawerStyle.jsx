@@ -31,7 +31,8 @@ const AlbumDrawerStyle = theme => ({
   },
   active: {
     backgroundColor: `${theme.palette.primary.main} !important`
-  }
+  },
+  scrollbar: theme.scrollbar
 });
 
 export default AlbumDrawerStyle;

@@ -60,7 +60,7 @@ const Theme = createMuiTheme({
       backgroundColor: 'rgba(0, 0, 0, 0)'
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: Colors.GREY[300],
+      backgroundColor: Colors.GREY[50],
       border: `4px solid ${Colors.GREY[400]}`
     },
     '&::-webkit-scrollbar-track': {

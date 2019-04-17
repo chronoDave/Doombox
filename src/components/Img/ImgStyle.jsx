@@ -5,8 +5,9 @@ const ImgStyle = theme => createStyles({
     width: '100%',
     height: '100%'
   },
-  albumItem: {
-
+  labelItem: {
+    width: 120,
+    height: 120
   },
   playerController: {
     width: 60,

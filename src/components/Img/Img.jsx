@@ -48,7 +48,7 @@ Img.propTypes = {
   cover: PropTypes.node,
   classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf([
-    'albumItem',
+    'labelItem',
     'playerController'
   ]),
   alt: PropTypes.string.isRequired

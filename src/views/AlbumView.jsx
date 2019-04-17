@@ -12,7 +12,7 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import IconButton from '@material-ui/core/IconButton';
 
-import AlbumItem from '../components/AlbumItem/AlbumItem';
+import { AlbumItem } from '../components/ViewItem';
 import ViewHeader from '../components/ViewHeader/ViewHeader';
 
 // Actions
@@ -62,7 +62,7 @@ const AlbumView = props => {
     <div className={classes.root}>
       <ViewHeader
         size={size}
-        title="Album Collection"
+        title="Album collection"
         type="albums"
       >
         <IconButton
@@ -99,6 +99,7 @@ const AlbumView = props => {
               height={height - 192}
               // Overscan
               overscanColumnsCount={5}
+              overscanRowCount={rowCount}
             >
               {({ columnIndex, rowIndex, style }) => {
                 const index = rowIndex * itemCount + columnIndex;

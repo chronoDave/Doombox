@@ -55,6 +55,7 @@ const AlbumDrawer = props => {
     menuId,
     album,
     currentSongId,
+    albumIndex
   } = props;
 
   const handlePlay = () => {
@@ -81,7 +82,7 @@ const AlbumDrawer = props => {
   return (
     <Drawer
       open={open}
-      onClose={() => close(menuId)}
+      onClose={() => close(menuId, albumIndex)}
       anchor="right"
       classes={{
         paper: classNames(classes.root, classes.scrollbar)
@@ -217,16 +218,18 @@ AlbumDrawer.propTypes = {
   menuId: PropTypes.number,
   album: PropTypes.array,
   currentSongId: PropTypes.string,
+  albumIndex: PropTypes.number
 };
 
 const mapStateToProps = state => ({
   open: state.window.drawer,
   menuId: state.window.id,
+  albumIndex: state.window.albumIndex,
   currentSongId: state.song.id
 });
 
 const dispatchMapToProps = dispatch => ({
-  close: id => dispatch(toggleDrawer(id)),
+  close: (id, index) => dispatch(toggleDrawer(id, index)),
   setPlaying: () => dispatch(setStatus('PLAYING')),
   resetPosition: () => dispatch(setPosition(0)),
   setCurrentIndex: index => dispatch(setIndex(index)),

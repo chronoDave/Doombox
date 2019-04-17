@@ -49,8 +49,7 @@ module.exports = function populateDatabase(Database, rootFolder, sender) {
           const imageFormat = reImageFormat.test(metadata.common.picture[0].format)
             ? reImageFormat.exec(metadata.common.picture[0].format)[1]
             : 'jpeg';
-          const imagePath = `${imageDir}\\${album.replace(/\/|\\|\?|%|\*|:|\||"|<|>|\./g, '')}.${imageFormat}`
-            .replace(/\s/g, '_');
+          const imagePath = `${imageDir}\\${album.replace(/\/|\\|\?|%|\*|:|\||"|<|>|\./g, '')}.${imageFormat}`;
 
           // Save file to disk
           fs.writeFileSync(imagePath, metadata.common.picture[0].data, 'base64');
@@ -80,7 +79,7 @@ module.exports = function populateDatabase(Database, rootFolder, sender) {
             } else {
               sender.send('RECEIVE_STATUS', {
                 payload: `Successfully inserted ${batchSizeSong * iterationSong} songs`,
-                variant: 'success'
+                variant: 'info'
               });
             }
             iterationSong += 1;
@@ -108,7 +107,7 @@ module.exports = function populateDatabase(Database, rootFolder, sender) {
         });
       }
       sender.send('RECEIVE_STATUS', {
-        payload: `Batch inserted final ${batchCounterSong} SONGS`,
+        payload: `Scanning complete! Batch inserted the remaining ${batchCounterSong} songs`,
         variant: 'success'
       });
     });

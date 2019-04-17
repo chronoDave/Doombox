@@ -23,7 +23,6 @@ import {
   setPosition
 } from '../../actions/songActions';
 import {
-  shufflePlaylist,
   pushPlaylist,
   setPlaylist,
   setIndex
@@ -142,7 +141,6 @@ const dispatchMapToProps = dispatch => ({
   resetPosition: () => dispatch(setPosition(0)),
   setCurrentIndex: index => dispatch(setIndex(index)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
-  shuffle: () => dispatch(shufflePlaylist()),
   addToPlaylist: collection => dispatch(pushPlaylist(collection))
 });
 

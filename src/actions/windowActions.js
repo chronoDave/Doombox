@@ -10,9 +10,12 @@ export const setView = view => dispatch => {
   });
 };
 
-export const toggleDrawer = id => dispatch => {
+export const toggleDrawer = (id, albumIndex) => dispatch => {
   dispatch({
     type: TOGGLE_DRAWER,
-    payload: id
+    payload: {
+      id,
+      albumIndex: albumIndex || 0
+    }
   });
 };

@@ -2,8 +2,8 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 const SongViewStyle = theme => createStyles({
   root: {
-    padding: `0 ${theme.spacing.unit * 4}px`,
     height: '100%',
+    padding: `0 ${theme.spacing.unit * 4}px`,
   },
   scrollbar: theme.scrollbar,
   list: {
