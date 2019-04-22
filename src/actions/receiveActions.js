@@ -2,7 +2,8 @@ import {
   RECEIVE_LABEL_LIST,
   RECEIVE_ALBUM_LIST,
   RECEIVE_SONG_LIST,
-  RECEIVE_SIZES
+  RECEIVE_SIZES,
+  RECEIVE_DATABASE_CREATED
 } from '../actionTypes/receiveTypes';
 
 import {
@@ -24,4 +25,11 @@ export const receiveCollection = (payload, type) => dispatch => {
   }
 };
 
-export const receiveSizes = payload => dispatch => dispatch({ type: RECEIVE_SIZES, payload });
+export const receiveDatabaseCreated = () => dispatch => dispatch({
+  type: RECEIVE_DATABASE_CREATED
+});
+
+export const receiveSizes = payload => dispatch => dispatch({
+  type: RECEIVE_SIZES,
+  payload
+});

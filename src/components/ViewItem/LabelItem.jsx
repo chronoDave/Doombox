@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-import { GridContainer } from '../Grid';
+import { GridContainer, GridItem } from '../Grid';
 import Divider from '../Divider/Divider';
 import Img from '../Img/Img';
 
@@ -79,7 +79,7 @@ const LabelItem = memo(
             <GridContainer
               wrap="nowrap"
               justify="space-between"
-              alignItems="flex-end"
+              alignItems="baseline"
               classes={{ root: classes.textContainer }}
             >
               <Typography
@@ -88,13 +88,15 @@ const LabelItem = memo(
               >
                 {label}
               </Typography>
-              <Typography
-                variant="subtitle2"
-                color="textSecondary"
-                noWrap
-              >
-                {`${albums.length} album${albums.length !== 1 ? 's' : ''}`}
-              </Typography>
+              <GridItem>
+                <Typography
+                  variant="subtitle2"
+                  color="textSecondary"
+                  noWrap
+                >
+                  {`${albums.length} album${albums.length !== 1 ? 's' : ''}`}
+                </Typography>
+              </GridItem>
             </GridContainer>
             <Divider light />
             <GridContainer
@@ -131,6 +133,7 @@ const LabelItem = memo(
 
               return (
                 <GridContainer
+                  key={item[0]._id}
                   wrap="nowrap"
                   direction="column"
                   classes={{ root: classes.albumItemRoot }}

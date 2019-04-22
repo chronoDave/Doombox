@@ -19,7 +19,7 @@ import { MainBackground } from '../Background';
 
 // Actions
 import { fetchAll } from '../../actions/fetchActions';
-import { deleteDatabase } from '../../actions/databaseActions';
+import { deleteDatabase, setDatabaseCreated } from '../../actions/databaseActions';
 import { setPlaylist } from '../../actions/playlistActions';
 import { setSong } from '../../actions/songActions';
 
@@ -51,19 +51,31 @@ class Main extends Component {
       songList,
       setCurrentPlaylist,
       setCurrentSong,
-      playlistIndex
+      isDatabaseUpdated
     } = this.props;
 
-    // Fetch data on view change
-    if (prevProps.view !== view) getAll(view);
+    /*
+      Fetch collection from database on:
+        - View change
+        - Database update
+    */
+    if (
+      prevProps.view !== view
+      || (
+        prevProps.isDatabaseUpdated !== isDatabaseUpdated
+        && isDatabaseUpdated
+      )
+    ) getAll(view);
 
-    // Generate playlist on startup.
-    // Make sure to not generate a playlist if database does not exist
-    if (playlist.length === 0 && (
-      labelList.length !== 0
-      || albumList.length !== 0
-      || songList.length !== 0
-    )) {
+    // Generate playlist on startup
+    if (
+      playlist.length === 0
+      && (
+        labelList.length !== 0
+        || albumList.length !== 0
+        || songList.length !== 0
+      )
+    ) {
       let collection;
 
       switch (view) {
@@ -81,18 +93,7 @@ class Main extends Component {
       }
 
       setCurrentPlaylist(collection);
-      setCurrentSong(collection[0]);
-    }
-
-    /*
-      Update playlist on index change (prev / next song)
-      or playlist change (added / deleted song from playlist)
-    */
-    if (
-      prevProps.playlistIndex !== playlistIndex
-      || prevProps.playlist !== playlist
-    ) {
-      setCurrentSong(playlist[playlistIndex]);
+      if (collection.length !== 0) setCurrentSong(collection[0]);
     }
   }
 
@@ -115,9 +116,11 @@ class Main extends Component {
   }
 
   handleDelete() {
-    const { deleteDb, setCurrentPlaylist } = this.props;
+    const { deleteDb, setCurrentPlaylist, toggleDatabaseCreated } = this.props;
 
     deleteDb();
+    setCurrentPlaylist([]);
+    toggleDatabaseCreated();
   }
 
   renderView() {
@@ -165,7 +168,6 @@ class Main extends Component {
       songSize,
       isBusy,
       playlist,
-      deleteDb,
     } = this.props;
 
     return (
@@ -214,7 +216,8 @@ Main.propTypes = {
   deleteDb: PropTypes.func,
   menuId: PropTypes.number,
   albumIndex: PropTypes.number,
-  playlistIndex: PropTypes.number
+  isDatabaseUpdated: PropTypes.bool,
+  toggleDatabaseCreated: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -233,14 +236,16 @@ const mapStateToProps = state => ({
   playlistSize: state.playlist.size,
   isBusy: state.list.isBusy,
   menuId: state.window.id,
-  albumIndex: state.window.albumIndex
+  albumIndex: state.window.albumIndex,
+  isDatabaseUpdated: state.system.databaseUpdated
 });
 
 const mapDispatchToProps = dispatch => ({
   getAll: view => dispatch(fetchAll(view)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   setCurrentSong: song => dispatch(setSong(song)),
-  deleteDb: () => dispatch(deleteDatabase())
+  deleteDb: () => dispatch(deleteDatabase()),
+  toggleDatabaseCreated: () => dispatch(setDatabaseCreated(false))
 });
 
 export default connect(

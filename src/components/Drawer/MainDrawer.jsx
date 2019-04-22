@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Field, Form, reduxForm } from 'redux-form';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 
@@ -17,7 +18,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 
 import {
   DatabaseAddIcon,
-  DatabaseUpdateIcon,
   DatabaseRemoveIcon
 } from '../Icons';
 
@@ -30,7 +30,6 @@ import MainDrawerList from './MainDrawerList';
 import { SelectPathDialog } from '../Dialog';
 
 // Actions
-// import { updateDatabase } from '../../actions/databaseActions';
 import { setView } from '../../actions/windowActions';
 
 // Types
@@ -99,12 +98,6 @@ const MainDrawer = props => {
       icon: () => <DatabaseAddIcon />,
       func: () => setOpen(true),
       disabled: isBusy || !isEmpty
-    },
-    UPDATE_DATABASE: {
-      name: 'Update database',
-      icon: () => <DatabaseUpdateIcon />,
-      func: () => '',
-      disabled: isBusy || isEmpty
     },
     RESET_DATABASE: {
       name: 'Delete database',
@@ -193,6 +186,22 @@ const MainDrawer = props => {
       />
     </Fragment>
   );
+};
+
+MainDrawer.propTypes = {
+  classes: PropTypes.object.isRequired,
+  playlist: PropTypes.array,
+  onClick: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  changeView: PropTypes.func,
+  active: PropTypes.string,
+  playlistSize: PropTypes.number,
+  labelSize: PropTypes.number,
+  albumSize: PropTypes.number,
+  songSize: PropTypes.number,
+  isEmpty: PropTypes.bool,
+  isBusy: PropTypes.bool,
+  onDelete: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => ({

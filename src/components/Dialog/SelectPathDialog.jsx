@@ -39,6 +39,7 @@ const SelectPathDialog = props => {
       <DialogContent>
         <DialogContentText id="select-path-dialog-description">
           Doombox currently only supports a single folder, so make sure all your music shares the same folder.
+          Make sure no application is actively reading your files, Doombox will skip over them.
         </DialogContentText>
       </DialogContent>
       <DialogActions>

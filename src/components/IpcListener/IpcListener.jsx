@@ -4,14 +4,16 @@ import { withSnackbar } from 'notistack';
 // Actions
 import {
   receiveCollection,
-  receiveSizes
+  receiveSizes,
+  receiveDatabaseCreated
 } from '../../actions/receiveActions';
 
 // Utils
 import {
   RECEIVE_COLLECTION,
   RECEIVE_STATUS,
-  RECEIVE_SIZES
+  RECEIVE_SIZES,
+  RECEIVE_DATABASE_CREATED
 } from '../../actionTypes/receiveTypes';
 
 // eslint-disable-next-line no-undef
@@ -19,8 +21,15 @@ const { ipcRenderer } = window.require('electron');
 
 const addTimestamp = message => `[${new Date().toLocaleTimeString()}] ${message}`;
 
-const IpcTest = props => {
-  const { onCollectionReceive, onSizesReceive, enqueueSnackbar } = props;
+const IpcListener = props => {
+  const {
+    onCollectionReceive,
+    onSizesReceive,
+    enqueueSnackbar,
+    onDatabaseCreated
+  } = props;
+
+  ipcRenderer.on(RECEIVE_DATABASE_CREATED, () => onDatabaseCreated());
 
   ipcRenderer.on(RECEIVE_COLLECTION, (event, arg) => {
     onCollectionReceive(arg.payload, arg.type);
@@ -63,10 +72,11 @@ const IpcTest = props => {
 
 const mapDispatchToProps = dispatch => ({
   onCollectionReceive: (payload, type) => dispatch(receiveCollection(payload, type)),
-  onSizesReceive: payload => dispatch(receiveSizes(payload))
+  onSizesReceive: payload => dispatch(receiveSizes(payload)),
+  onDatabaseCreated: () => dispatch(receiveDatabaseCreated())
 });
 
 export default connect(
   null,
   mapDispatchToProps
-)(withSnackbar(IpcTest));
+)(withSnackbar(IpcListener));

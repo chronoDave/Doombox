@@ -17,7 +17,6 @@ export const databaseReducer = (
     albumSize: 0,
     songList: [],
     songSize: 0,
-    folderPath: '',
   },
   action
 ) => {

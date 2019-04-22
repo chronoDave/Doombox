@@ -5,10 +5,16 @@ const mm = require('music-metadata');
 
 module.exports = function populateDatabase(Database, rootFolder, sender) {
   if (!rootFolder) {
-    console.log('ERROR: No directory found!');
+    sender.send('RECEIVE_STATUS', {
+      payload: `No directory found!`,
+      variant: 'error'
+    });
     return;
   }
-  console.log('WALKER: Starting scan...');
+  sender.send('RECEIVE_STATUS', {
+    payload: `Starting scan...`,
+    variant: 'info'
+  });
 
   // RegEx
   const reSong = RegExp(/(.*.mp3|.*.flac|.*.ogg)/);
@@ -105,11 +111,13 @@ module.exports = function populateDatabase(Database, rootFolder, sender) {
           payload: `Duplicates found in last ${batchCounterSong} SONGS, moving on...`,
           variant: 'warning'
         });
+      } else {
+        sender.send('RECEIVE_STATUS', {
+          payload: `Scanning complete! Batch inserted the remaining ${batchCounterSong} songs`,
+          variant: 'success'
+        });
       }
-      sender.send('RECEIVE_STATUS', {
-        payload: `Scanning complete! Batch inserted the remaining ${batchCounterSong} songs`,
-        variant: 'success'
-      });
+      sender.send('RECEIVE_DATABASE_CREATED');
     });
   });
 };

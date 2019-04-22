@@ -32,8 +32,8 @@ const LabelView = props => {
       </ViewHeader>
       <AutoSizer>
         {({ height, width }) => {
-          const itemWidth = 480;
-          const itemHeight = 398;
+          const itemWidth = 336;
+          const itemHeight = 338;
           const itemCount = Math.floor(width / (itemWidth + 5));
           const rowCount = Math.ceil(size / itemCount);
 

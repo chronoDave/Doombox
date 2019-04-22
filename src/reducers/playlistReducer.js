@@ -2,9 +2,7 @@ import {
   SET_PLAYLIST,
   SET_PLAYLIST_INDEX,
   SHUFFLE_PLAYLIST,
-  PUSH_PLAYLIST,
-  POP_PLAYLIST,
-  SET_CUSTOM_PLAYLIST
+  PUSH_PLAYLIST
 } from '../actionTypes/playlistTypes';
 
 // Utils

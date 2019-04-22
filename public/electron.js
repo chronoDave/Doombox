@@ -16,9 +16,11 @@ function createWindow() {
   let mainWindow = new BrowserWindow({
     width: 900,
     height: 680,
+    title: 'Doombox',
     webPreferences: {
       webSecurity: false
-    }
+    },
+    icon: path.join(__dirname, 'assets/icon/favicon_512.png')
   });
 
   mainWindow.loadURL(
@@ -48,7 +50,6 @@ function createWindow() {
       populateDatabase(db, filePath[0], mainWindow.webContents);
       // Callback
       mainWindow.webContents.send('SET_BUSY', { payload: true });
-      return mainWindow.webContents.send('SELECT_PATH_DIALOG');
     }
     return mainWindow.webContents.send('SELECT_PATH_DIALOG');
   });

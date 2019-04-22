@@ -52,6 +52,11 @@ const PlayerButtons = props => {
     setSongStatus('PLAYING');
   };
 
+  const handleShuffle = () => {
+    setSongPosition(0);
+    shuffle();
+  };
+
   return (
     <Fragment>
       <GridContainer
@@ -81,7 +86,7 @@ const PlayerButtons = props => {
         </IconButton>
         <IconButton
           classes={{ root: classes.root }}
-          onClick={() => shuffle()}
+          onClick={() => handleShuffle()}
         >
           <ShuffleIcon color="inherit" />
         </IconButton>
