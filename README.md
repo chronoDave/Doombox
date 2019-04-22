@@ -1,5 +1,5 @@
 # Doombox
-A music player designed with large collections in mind.
+A music player designed with large music collections in mind.
 
 ## Installation
 
