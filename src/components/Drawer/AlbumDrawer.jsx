@@ -225,7 +225,7 @@ const mapStateToProps = state => ({
   open: state.window.drawer,
   menuId: state.window.id,
   albumIndex: state.window.albumIndex,
-  currentSongId: state.song.id
+  currentSongId: state.song._id
 });
 
 const dispatchMapToProps = dispatch => ({

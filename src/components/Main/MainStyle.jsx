@@ -2,7 +2,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 
 const MainStyle = theme => createStyles({
   root: {
-    backgroundColor: theme.palette.grey[500],
+    backgroundColor: theme.palette.grey[600],
     height: '100%'
   },
   gridContainerRoot: {

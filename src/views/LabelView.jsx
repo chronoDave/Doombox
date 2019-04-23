@@ -64,11 +64,11 @@ const LabelView = props => {
                   .sortBy(array => array[0].year)
                   .value();
 
-                const { label, id } = labelList[index][0];
+                const { label, _id } = labelList[index][0];
                 return (
                   <LabelItem
                     style={style}
-                    key={id}
+                    key={_id}
                     index={index}
                     label={label}
                     collection={labelList[index]}

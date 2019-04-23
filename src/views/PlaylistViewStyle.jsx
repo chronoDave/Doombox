@@ -7,8 +7,21 @@ const PlaylistViewStyle = theme => createStyles({
   },
   scrollbar: theme.scrollbar,
   list: {
+    marginLeft: theme.spacing.unit * 2,
     backgroundColor: theme.palette.getAlpha(theme.palette.grey[500], 0.9)
   },
+  playlistItem: {
+    width: 300,
+    height: 'fit-content',
+    padding: theme.spacing.unit * 2,
+    backgroundColor: theme.palette.grey[500]
+  },
+  playlistTextContainer: {
+    padding: theme.spacing.unit
+  },
+  textYear: {
+    paddingLeft: theme.spacing.unit
+  }
 });
 
 export default PlaylistViewStyle;

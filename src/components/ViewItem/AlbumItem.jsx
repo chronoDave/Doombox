@@ -20,7 +20,8 @@ import Img from '../Img/Img';
 // Actions
 import {
   setStatus,
-  setPosition
+  setPosition,
+  setSong
 } from '../../actions/songActions';
 import {
   pushPlaylist,
@@ -48,12 +49,14 @@ const AlbumItem = memo(
       setCurrentPlaylist,
       setCurrentIndex,
       addToPlaylist,
+      setCurrentSong
     } = props;
 
     const handlePlay = () => {
       setCurrentIndex(0);
       setCurrentPlaylist(album);
       resetPosition();
+      setCurrentSong(album[0]);
       setPlaying();
     };
 
@@ -139,6 +142,7 @@ const AlbumItem = memo(
 const dispatchMapToProps = dispatch => ({
   setPlaying: () => dispatch(setStatus('PLAYING')),
   resetPosition: () => dispatch(setPosition(0)),
+  setCurrentSong: song => dispatch(setSong(song)),
   setCurrentIndex: index => dispatch(setIndex(index)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   addToPlaylist: collection => dispatch(pushPlaylist(collection))
@@ -149,6 +153,7 @@ AlbumItem.propTypes = {
     PropTypes.bool,
     PropTypes.string
   ]),
+  setCurrentSong: PropTypes.func,
   album: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   style: PropTypes.object.isRequired,

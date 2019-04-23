@@ -5,6 +5,10 @@ const ImgStyle = theme => createStyles({
     width: '100%',
     height: '100%'
   },
+  playlistItem: {
+    width: 300,
+    height: 300
+  },
   labelItem: {
     width: 120,
     height: 120

@@ -42,14 +42,7 @@ export const songReducer = (
     case SET_SONG: {
       return {
         ...state,
-        id: action.payload._id,
-        url: action.payload.url,
-        artist: action.payload.artist,
-        album: action.payload.album,
-        title: action.payload.title,
-        track: action.payload.track,
-        duration: action.payload.duration,
-        cover: action.payload.cover
+        ...action.payload
       };
     }
     default:

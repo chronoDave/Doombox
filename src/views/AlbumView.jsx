@@ -39,7 +39,7 @@ const AlbumView = props => {
     setPlaying,
     shuffle,
     size,
-    songId
+    songId,
   } = props;
 
   const handleClick = index => {
@@ -105,12 +105,12 @@ const AlbumView = props => {
                 const index = rowIndex * itemCount + columnIndex;
 
                 if (index > size - 1) return null;
-                const { cover, label, album, id } = albumList[index][0];
+                const { cover, label, album, _id } = albumList[index][0];
                 return (
                   <AlbumItem
                     onClick={() => handleClick(index)}
                     album={albumList[index]}
-                    key={id}
+                    key={_id}
                     style={style}
                     cover={cover}
                     name={album}
@@ -137,12 +137,12 @@ AlbumView.propTypes = {
   resetPosition: PropTypes.func,
   setPlaying: PropTypes.func,
   shuffle: PropTypes.func,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
   albumList: state.list.albumList,
-  songId: state.song.id,
+  songId: state.song._id,
   size: state.list.albumSize,
   selectedId: state.window.id,
 });

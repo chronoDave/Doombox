@@ -22,6 +22,7 @@ import { SongItem } from '../components/ViewItem';
 import {
   setStatus,
   setPosition,
+  setSong
 } from '../actions/songActions';
 import {
   shufflePlaylist,
@@ -40,13 +41,15 @@ const SongView = props => {
     setCurrentPlaylist,
     setPlaying,
     shuffle,
-    songId
+    songId,
+    setCurrentSong
   } = props;
 
   const handlePlay = () => {
     const collection = songList.reduce((acc, val) => acc.concat(val), []);
     setCurrentPlaylist(collection);
     resetPosition();
+    setCurrentSong(collection[0]);
     setPlaying();
   };
 
@@ -56,7 +59,7 @@ const SongView = props => {
   };
 
   const handleClick = index => {
-    setCurrentPlaylist([songList[index]]);
+    setCurrentSong(songList[index]);
     resetPosition();
     setPlaying();
   };
@@ -118,7 +121,7 @@ const SongView = props => {
         {({ height, width }) => (
           <List
             height={height - 272}
-            itemCount={size - 1}
+            itemCount={size}
             itemSize={50}
             width={width}
             className={classNames(
@@ -165,19 +168,21 @@ SongView.propTypes = {
   setCurrentPlaylist: PropTypes.func,
   setPlaying: PropTypes.func,
   shuffle: PropTypes.func,
-  songId: PropTypes.string
+  songId: PropTypes.string,
+  setCurrentSong: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   size: state.list.songSize,
   songList: state.list.songList,
   songIndex: state.song.index,
-  songId: state.song.id
+  songId: state.song._id
 });
 
 const mapDispatchToProps = dispatch => ({
   setPlaying: () => dispatch(setStatus('PLAYING')),
   resetPosition: () => dispatch(setPosition(0)),
+  setCurrentSong: song => dispatch(setSong(song)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   shuffle: () => dispatch(shufflePlaylist()),
 });

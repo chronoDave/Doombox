@@ -55,6 +55,7 @@ const PlayerButtons = props => {
   const handleShuffle = () => {
     setSongPosition(0);
     shuffle();
+    setPlaylistIndex(0);
   };
 
   return (

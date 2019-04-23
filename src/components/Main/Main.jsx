@@ -15,7 +15,6 @@ import {
   SongView
 } from '../../views';
 import { MainDrawer, AlbumDrawer } from '../Drawer';
-import { MainBackground } from '../Background';
 
 // Actions
 import { fetchAll } from '../../actions/fetchActions';
@@ -30,6 +29,9 @@ import {
   VIEW_ALBUM,
   VIEW_SONG
 } from '../../actionTypes/windowTypes';
+
+// Img
+import MainBackgroundImage from '../../assets/images/bg.jpg';
 
 // Style
 import MainStyle from './MainStyle';
@@ -94,11 +96,18 @@ class Main extends Component {
       }
 
       setCurrentPlaylist(collection);
-      if (collection.length !== 0) setCurrentSong(collection[0]);
+
+      // Only set active song if collection isn't empty
+      if (collection.length !== 0) {
+        setCurrentSong(collection[0]);
+      }
     }
 
-    // Set playlist
-    if (prevProps.playlistIndex !== playlistIndex) setCurrentSong(playlist[playlistIndex]);
+    // Set playlist on next/previous song or shuffle
+    if (
+      prevProps.playlistIndex !== playlistIndex
+      || prevProps.playlist !== playlist
+    ) setCurrentSong(playlist[playlistIndex]);
   }
 
   getActiveCollection() {
@@ -175,8 +184,15 @@ class Main extends Component {
     } = this.props;
 
     return (
-      <div className={classes.root}>
-        <MainBackground />
+      <div
+        className={classes.root}
+        style={{
+          backgroundImage: `url(${MainBackgroundImage})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: '210px 0px',
+          backgroundSize: 'cover',
+        }}
+      >
         <GridContainer
           direction="column"
           fullHeight

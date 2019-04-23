@@ -21,6 +21,7 @@ import Img from '../Img/Img';
 // Actions
 import { toggleDrawer } from '../../actions/windowActions';
 import {
+  setSong,
   setStatus,
   setPosition
 } from '../../actions/songActions';
@@ -49,7 +50,8 @@ const LabelItem = memo(
       resetPosition,
       setPlaying,
       addToPlaylist,
-      shuffle
+      shuffle,
+      setCurrentSong
     } = props;
 
     const handlePlay = () => {
@@ -57,6 +59,7 @@ const LabelItem = memo(
       setCurrentPlaylist(collection);
       resetPosition();
       setPlaying();
+      setCurrentSong(collection[0]);
     };
 
     const handleAddPlaylist = () => {
@@ -181,7 +184,8 @@ LabelItem.propTypes = {
   resetPosition: PropTypes.func,
   setPlaying: PropTypes.func,
   addToPlaylist: PropTypes.func,
-  shuffle: PropTypes.func
+  shuffle: PropTypes.func,
+  setCurrentSong: PropTypes.func
 };
 
 const dispatchMapToProps = dispatch => ({
@@ -189,6 +193,7 @@ const dispatchMapToProps = dispatch => ({
   shuffle: () => dispatch(shufflePlaylist()),
   setPlaying: () => dispatch(setStatus('PLAYING')),
   resetPosition: () => dispatch(setPosition(0)),
+  setCurrentSong: song => dispatch(setSong(song)),
   setCurrentIndex: index => dispatch(setIndex(index)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   addToPlaylist: collection => dispatch(pushPlaylist(collection))

@@ -49,7 +49,8 @@ Img.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf([
     'labelItem',
-    'playerController'
+    'playerController',
+    'playlistItem'
   ]),
   alt: PropTypes.string.isRequired
 };
