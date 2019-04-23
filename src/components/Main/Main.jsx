@@ -51,7 +51,8 @@ class Main extends Component {
       songList,
       setCurrentPlaylist,
       setCurrentSong,
-      isDatabaseUpdated
+      isDatabaseUpdated,
+      playlistIndex
     } = this.props;
 
     /*
@@ -95,6 +96,9 @@ class Main extends Component {
       setCurrentPlaylist(collection);
       if (collection.length !== 0) setCurrentSong(collection[0]);
     }
+
+    // Set playlist
+    if (prevProps.playlistIndex !== playlistIndex) setCurrentSong(playlist[playlistIndex]);
   }
 
   getActiveCollection() {
@@ -217,7 +221,8 @@ Main.propTypes = {
   menuId: PropTypes.number,
   albumIndex: PropTypes.number,
   isDatabaseUpdated: PropTypes.bool,
-  toggleDatabaseCreated: PropTypes.func
+  toggleDatabaseCreated: PropTypes.func,
+  playlistIndex: PropTypes.number
 };
 
 const mapStateToProps = state => ({
