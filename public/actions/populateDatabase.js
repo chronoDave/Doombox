@@ -29,7 +29,7 @@ module.exports = function populateDatabase(Database, rootFolder, sender) {
 
   // Payloads
   const payloadSong = new Set();
-  const batchSizeSong = 500;
+  const batchSizeSong = 1000;
   let batchCounterSong = 0;
 
   let iterationSong = 1;

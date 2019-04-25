@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 
 // Reducers
 import { databaseReducer } from './databaseReducer';
@@ -13,6 +12,5 @@ export const rootReducer = combineReducers({
   song: songReducer,
   window: windowReducer,
   playlist: playlistReducer,
-  form: formReducer,
   system: systemReducer
 });

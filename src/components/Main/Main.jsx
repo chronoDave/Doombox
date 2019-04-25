@@ -189,7 +189,6 @@ class Main extends Component {
         style={{
           backgroundImage: `url(${MainBackgroundImage})`,
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: '210px 0px',
           backgroundSize: 'cover',
         }}
       >

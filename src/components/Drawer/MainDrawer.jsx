@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { Field, Form, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
@@ -31,6 +30,7 @@ import { SelectPathDialog } from '../Dialog';
 
 // Actions
 import { setView } from '../../actions/windowActions';
+import { searchDatabase } from '../../actions/databaseActions';
 
 // Types
 import {
@@ -51,7 +51,6 @@ const MainDrawer = props => {
     classes,
     playlist,
     onClick,
-    handleSubmit,
     changeView,
     active,
     playlistSize,
@@ -64,6 +63,7 @@ const MainDrawer = props => {
   } = props;
 
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
 
   const views = {
     VIEW_PLAYLIST: {
@@ -107,6 +107,13 @@ const MainDrawer = props => {
     }
   };
 
+  const handleSearch = () => {
+    const queryClean = query.trim();
+
+    if (queryClean.length < 2) return null;
+    return searchDatabase(queryClean);
+  };
+
   return (
     <Fragment>
       <div className={classNames(
@@ -136,12 +143,10 @@ const MainDrawer = props => {
           )}
         >
           <ListItem>
-            <Form onSubmit={handleSubmit}>
-              <Field
-                name="search"
-                component={SearchField}
-              />
-            </Form>
+            <SearchField
+              onChange={event => setQuery(event.target.value)}
+              onKeyPress={event => event.key === 'Enter' && handleSearch()}
+            />
           </ListItem>
           <ListItem>
             <Collapse
@@ -192,7 +197,6 @@ MainDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   playlist: PropTypes.array,
   onClick: PropTypes.func,
-  handleSubmit: PropTypes.func,
   changeView: PropTypes.func,
   active: PropTypes.string,
   playlistSize: PropTypes.number,
@@ -208,9 +212,7 @@ const mapDispatchToProps = dispatch => ({
   changeView: view => dispatch(setView(view))
 });
 
-export default reduxForm({
-  form: 'search'
-})(connect(
+export default connect(
   null,
   mapDispatchToProps
-)(withStyles(MainDrawerStyle)(MainDrawer)));
+)(withStyles(MainDrawerStyle)(MainDrawer));

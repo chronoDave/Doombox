@@ -44,6 +44,19 @@ module.exports = {
         });
       });
     });
+    ipcMain.on('SEARCH_DATABASE', (event, payload) => {
+      Database.songs.find({ $or: [
+        { artist: payload.query },
+        { payload: payload.query },
+        { label: payload.query }
+      ] }, (err, docs) => {
+        if (err) throw Error(err);
+        return event.sender.send('RECEIVE_COLLECTION', {
+          type: 'VIEW_SONG',
+          payload: docs
+        });
+      });
+    });
     ipcMain.on('UPDATE_DATABASE', () => {
       Database.user.findOne({ _id: 'user' }, (err, payload) => {
         if (err) throw Error(err);

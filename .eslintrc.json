@@ -74,7 +74,7 @@
         ],
         "import/no-named-as-default": "off",
         "import/newline-after-import": "off",
-        "react/prop-types": "warn",
+        "react/prop-types": "error",
         "react/jsx-one-expression-per-line": "off",
         "react/jsx-filename-extension": 0,
         "react/require-default-props": "off",

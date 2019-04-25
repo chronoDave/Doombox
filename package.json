@@ -27,7 +27,6 @@
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.6.2",
     "redux": "^4.0.1",
-    "redux-form": "^8.1.0",
     "redux-thunk": "^2.3.0",
     "walk": "^2.3.14"
   },
