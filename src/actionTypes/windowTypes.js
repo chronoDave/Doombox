@@ -2,6 +2,7 @@ export const VIEW_PLAYLIST = 'VIEW_PLAYLIST';
 export const VIEW_LABEL = 'VIEW_LABEL';
 export const VIEW_ALBUM = 'VIEW_ALBUM';
 export const VIEW_SONG = 'VIEW_SONG';
+export const VIEW_SEARCH = 'VIEW_SEARCH';
 
 export const SET_VIEW = 'SET_VIEW';
 
