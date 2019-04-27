@@ -12,7 +12,8 @@ import {
   AlbumView,
   PlaylistView,
   LabelView,
-  SongView
+  SongView,
+  SearchView
 } from '../../views';
 import { MainDrawer, AlbumDrawer } from '../Drawer';
 
@@ -27,7 +28,8 @@ import {
   VIEW_PLAYLIST,
   VIEW_LABEL,
   VIEW_ALBUM,
-  VIEW_SONG
+  VIEW_SONG,
+  VIEW_SEARCH
 } from '../../actionTypes/windowTypes';
 
 // Img
@@ -167,6 +169,7 @@ class Main extends Component {
         </Fragment>
       ) : <CircularProgress />;
       case VIEW_SONG: return songList.length !== 0 ? <SongView /> : <CircularProgress />;
+      case VIEW_SEARCH: return <SearchView />;
       default: return null;
     }
   }
