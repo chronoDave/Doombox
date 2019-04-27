@@ -2,7 +2,9 @@ import {
   SET_PLAYLIST,
   SET_PLAYLIST_INDEX,
   SHUFFLE_PLAYLIST,
-  PUSH_PLAYLIST
+  PUSH_PLAYLIST,
+  SET_INDEX_NEXT,
+  SET_INDEX_PREVIOUS
 } from '../actionTypes/playlistTypes';
 
 // Utils
@@ -17,6 +19,18 @@ export const playlistReducer = (
   action
 ) => {
   switch (action.type) {
+    case SET_INDEX_NEXT: {
+      return {
+        ...state,
+        index: state.index === state.size - 1 ? 0 : state.index + 1
+      };
+    }
+    case SET_INDEX_PREVIOUS: {
+      return {
+        ...state,
+        index: state.index === 0 ? state.size - 1 : state.index - 1
+      };
+    }
     case SET_PLAYLIST: {
       return {
         ...state,

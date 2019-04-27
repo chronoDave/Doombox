@@ -96,6 +96,7 @@ const AlbumDrawer = props => {
           <GridContainer
             wrap="nowrap"
             alignItems="center"
+            justify="space-between"
           >
             <ListItemText
               primary={album[0].album}
@@ -113,7 +114,8 @@ const AlbumDrawer = props => {
             <ListItemText
               primary={album[0].year}
               primaryTypographyProps={{
-                variant: 'subtitle2'
+                variant: 'subtitle2',
+                align: 'right'
               }}
               classes={{ primary: classes.light }}
             />

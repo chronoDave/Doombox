@@ -4,7 +4,9 @@ import {
   SET_PLAYLIST_INDEX,
   SHUFFLE_PLAYLIST,
   PUSH_PLAYLIST,
-  SET_CUSTOM_PLAYLIST
+  SET_CUSTOM_PLAYLIST,
+  SET_INDEX_NEXT,
+  SET_INDEX_PREVIOUS
 } from '../actionTypes/playlistTypes';
 
 export const setPlaylist = collection => dispatch => {
@@ -18,6 +20,18 @@ export const setCustomPlaylist = collection => dispatch => {
   dispatch({
     type: SET_CUSTOM_PLAYLIST,
     payload: collection
+  });
+};
+
+export const setIndexNext = () => dispatch => {
+  dispatch({
+    type: SET_INDEX_NEXT
+  });
+};
+
+export const setIndexPrevious = () => dispatch => {
+  dispatch({
+    type: SET_INDEX_PREVIOUS
   });
 };
 

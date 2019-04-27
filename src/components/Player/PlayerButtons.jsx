@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 import { connect } from 'react-redux';
 import Sound from 'react-sound';
 import PropTypes from 'prop-types';
@@ -26,7 +26,7 @@ import Divider from '../Divider/Divider';
 
 // Actions
 import { setStatus, setPosition, setVolume } from '../../actions/songActions';
-import { setIndex, shufflePlaylist } from '../../actions/playlistActions';
+import { setIndex, shufflePlaylist, setIndexNext, setIndexPrevious } from '../../actions/playlistActions';
 
 // Utils
 import { cleanUrl } from '../../functions';
@@ -44,24 +44,12 @@ const PlayerButtons = props => {
     songPosition,
     setSongStatus,
     setSongPosition,
-    playlistIndex,
-    playlistSize,
     setPlaylistIndex,
     shuffle,
-    setSystemVolume
+    setSystemVolume,
+    setPlaylistIndexNext,
+    setPlaylistIndexPrevious
   } = props;
-
-  const handleNext = () => {
-    setPlaylistIndex(playlistIndex === playlistSize - 1 ? 0 : playlistIndex + 1);
-    setSongPosition(0);
-    setSongStatus('PLAYING');
-  };
-
-  const handlePrevious = () => {
-    setPlaylistIndex(playlistIndex === 0 ? playlistSize - 1 : playlistIndex - 1);
-    setSongPosition(0);
-    setSongStatus('PLAYING');
-  };
 
   const handleShuffle = () => {
     setSongPosition(0);
@@ -70,7 +58,7 @@ const PlayerButtons = props => {
   };
 
   const handleScroll = delta => {
-    const newVolume = volume + (delta / 10);
+    const newVolume = volume - (delta / 10);
 
     if (newVolume <= 100 && newVolume >= 0) setSystemVolume(newVolume);
   };
@@ -95,7 +83,7 @@ const PlayerButtons = props => {
         >
           <IconButton
             classes={{ root: classes.root }}
-            onClick={() => handlePrevious()}
+            onClick={() => setPlaylistIndexPrevious()}
           >
             <PreviousIcon color="inherit" />
           </IconButton>
@@ -110,7 +98,7 @@ const PlayerButtons = props => {
           </IconButton>
           <IconButton
             classes={{ root: classes.root }}
-            onClick={() => handleNext()}
+            onClick={() => setPlaylistIndexNext()}
           >
             <NextIcon color="inherit" />
           </IconButton>
@@ -159,7 +147,7 @@ const PlayerButtons = props => {
         playStatus={status}
         position={songPosition}
         onPlaying={({ position }) => setSongPosition(position)}
-        onFinishedPlaying={() => handleNext()}
+        onFinishedPlaying={() => setPlaylistIndexNext()}
       />
     </Fragment>
   );
@@ -167,14 +155,14 @@ const PlayerButtons = props => {
 
 PlayerButtons.propTypes = {
   classes: PropTypes.object.isRequired,
+  setPlaylistIndexNext: PropTypes.func,
+  setPlaylistIndexPrevious: PropTypes.func,
   url: PropTypes.string,
   volume: PropTypes.number,
   status: PropTypes.string,
   songPosition: PropTypes.number,
   setSongStatus: PropTypes.func,
   setSongPosition: PropTypes.func,
-  playlistIndex: PropTypes.number,
-  playlistSize: PropTypes.number,
   setPlaylistIndex: PropTypes.func,
   shuffle: PropTypes.func,
   setSystemVolume: PropTypes.func
@@ -190,6 +178,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  setPlaylistIndexNext: () => dispatch(setIndexNext()),
+  setPlaylistIndexPrevious: () => dispatch(setIndexPrevious()),
   setSongStatus: status => dispatch(setStatus(status)),
   setSystemVolume: volume => dispatch(setVolume(volume)),
   setSongPosition: position => dispatch(setPosition(position)),
@@ -197,7 +187,7 @@ const mapDispatchToProps = dispatch => ({
   shuffle: () => dispatch(shufflePlaylist())
 });
 
-export default connect(
+export default memo(connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(PlayerButtonsStyle)(PlayerButtons));
+)(withStyles(PlayerButtonsStyle)(PlayerButtons)));

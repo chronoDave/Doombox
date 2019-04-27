@@ -10,7 +10,7 @@ const { initDatabase, populateDatabase } = require('./actions');
 const db = initDatabase();
 
 // Events
-const { ipcListener } = require('./events/IpcEvents');
+const { ipcListener, keyboardListener, removeListeners } = require('./events');
 
 function createWindow() {
   let mainWindow = new BrowserWindow({
@@ -35,6 +35,7 @@ function createWindow() {
 
   // Add event listeners
   ipcListener(db);
+  keyboardListener(mainWindow.webContents);
 
   // Debug
   mainWindow.webContents.openDevTools();
@@ -55,10 +56,6 @@ function createWindow() {
   });
 }
 
-app.on("ready", () => {
-  createWindow();
-});
-
-app.on("window-all-closed", () => {
-  app.quit();
-});
+app.on("ready", () => createWindow());
+app.on('will-quit', () => removeListeners());
+app.on("window-all-closed", () => app.quit());

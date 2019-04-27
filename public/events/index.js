@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { ipcMain } = require('electron');
+const { ipcMain, globalShortcut } = require('electron');
 const { populateDatabase } = require('../actions');
 
 module.exports = {
@@ -77,5 +77,30 @@ module.exports = {
         });
       });
     });
+  },
+  keyboardListener(sender) {
+    globalShortcut.register(
+      'CommandOrControl+Alt+Right',
+      () => sender.send('RECEIVE_COMMAND', { type: 'RECEIVE_COMMAND_NEXT' })
+    );
+    globalShortcut.register(
+      'CommandOrControl+Alt+Left',
+      () => sender.send('RECEIVE_COMMAND', { type: 'RECEIVE_COMMAND_PREVIOUS' })
+    );
+    globalShortcut.register(
+      'CommandOrControl+Alt+\\',
+      () => sender.send('RECEIVE_COMMAND', { type: 'RECEIVE_COMMAND_PLAY' })
+    );
+    globalShortcut.register(
+      'CommandOrControl+Alt+Up',
+      () => sender.send('RECEIVE_COMMAND', { type: 'RECEIVE_COMMAND_VOLUME_UP' })
+    );
+    globalShortcut.register(
+      'CommandOrControl+Alt+Down',
+      () => sender.send('RECEIVE_COMMAND', { type: 'RECEIVE_COMMAND_VOLUME_DOWN' })
+    );
+  },
+  removeListeners() {
+    globalShortcut.unregisterAll();
   }
 };

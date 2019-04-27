@@ -21,7 +21,7 @@ import { MainDrawer, AlbumDrawer } from '../Drawer';
 import { fetchAll } from '../../actions/fetchActions';
 import { deleteDatabase, setDatabaseCreated } from '../../actions/databaseActions';
 import { setPlaylist } from '../../actions/playlistActions';
-import { setSong } from '../../actions/songActions';
+import { setSong, setStatus, setPosition } from '../../actions/songActions';
 
 // Types
 import {
@@ -56,7 +56,7 @@ class Main extends Component {
       setCurrentPlaylist,
       setCurrentSong,
       isDatabaseUpdated,
-      playlistIndex
+      playlistIndex,
     } = this.props;
 
     /*
@@ -112,7 +112,9 @@ class Main extends Component {
     if (
       prevProps.playlistIndex !== playlistIndex
       || prevProps.playlist !== playlist
-    ) setCurrentSong(playlist[playlistIndex]);
+    ) {
+      setCurrentSong(playlist[playlistIndex]);
+    }
   }
 
   getActiveCollection() {
@@ -243,7 +245,7 @@ Main.propTypes = {
   albumIndex: PropTypes.number,
   isDatabaseUpdated: PropTypes.bool,
   toggleDatabaseCreated: PropTypes.func,
-  playlistIndex: PropTypes.number
+  playlistIndex: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
@@ -267,6 +269,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  setSongStatus: status => dispatch(setStatus(status)),
+  setSongPosition: position => dispatch(setPosition(position)),
   getAll: view => dispatch(fetchAll(view)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   setCurrentSong: song => dispatch(setSong(song)),
