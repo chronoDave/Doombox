@@ -65,7 +65,10 @@ class Main extends Component {
         - Database update
     */
     if (
-      prevProps.view !== view
+      (
+        prevProps.view !== view
+        && view !== VIEW_SEARCH
+      )
       || (
         prevProps.isDatabaseUpdated !== isDatabaseUpdated
         && isDatabaseUpdated

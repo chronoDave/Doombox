@@ -5,7 +5,9 @@ import { withSnackbar } from 'notistack';
 import {
   receiveCollection,
   receiveSizes,
-  receiveDatabaseCreated
+  receiveDatabaseCreated,
+  receiveSearchSize,
+  receiveSearchQuery
 } from '../../actions/receiveActions';
 
 // Utils
@@ -13,8 +15,14 @@ import {
   RECEIVE_COLLECTION,
   RECEIVE_STATUS,
   RECEIVE_SIZES,
-  RECEIVE_DATABASE_CREATED
+  RECEIVE_DATABASE_CREATED,
+  RECEIVE_SEARCH
 } from '../../actionTypes/receiveTypes';
+import {
+  VIEW_SONG,
+  VIEW_ALBUM,
+  VIEW_LABEL,
+} from '../../actionTypes/windowTypes';
 
 // eslint-disable-next-line no-undef
 const { ipcRenderer } = window.require('electron');
@@ -26,8 +34,23 @@ const IpcListener = props => {
     onCollectionReceive,
     onSizesReceive,
     enqueueSnackbar,
-    onDatabaseCreated
+    onDatabaseCreated,
+    onSearchSizeReceive,
+    onQueryReceive
   } = props;
+
+  const getViewName = view => {
+    switch (view) {
+      case VIEW_SONG:
+        return 'songs';
+      case VIEW_ALBUM:
+        return 'albums';
+      case VIEW_LABEL:
+        return 'labels';
+      default:
+        return null;
+    }
+  };
 
   ipcRenderer.on(RECEIVE_DATABASE_CREATED, () => onDatabaseCreated());
 
@@ -35,7 +58,7 @@ const IpcListener = props => {
     onCollectionReceive(arg.payload, arg.type);
     if (arg.payload.length === 0) {
       return enqueueSnackbar(
-        addTimestamp(`Fetched 0 ${arg.type}`), {
+        addTimestamp(`Fetched 0 ${getViewName(arg.type)}`), {
           variant: 'warning',
           anchorOrigin: {
             vertical: 'bottom',
@@ -45,7 +68,22 @@ const IpcListener = props => {
       );
     }
     return enqueueSnackbar(
-      addTimestamp(`Fetched ${arg.payload.length} ${arg.type}`), {
+      addTimestamp(`Fetched ${arg.payload.length} ${getViewName(arg.type)}`), {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'right'
+        }
+      }
+    );
+  });
+
+  ipcRenderer.on(RECEIVE_SEARCH, (event, arg) => {
+    onCollectionReceive(arg.payload.collection, arg.type);
+    onSearchSizeReceive(arg.payload.size);
+    onQueryReceive(arg.payload.query);
+    enqueueSnackbar(
+      addTimestamp(`Found ${arg.payload.size} songs with the query: "${arg.payload.query}"`), {
         variant: 'success',
         anchorOrigin: {
           vertical: 'bottom',
@@ -73,7 +111,9 @@ const IpcListener = props => {
 const mapDispatchToProps = dispatch => ({
   onCollectionReceive: (payload, type) => dispatch(receiveCollection(payload, type)),
   onSizesReceive: payload => dispatch(receiveSizes(payload)),
-  onDatabaseCreated: () => dispatch(receiveDatabaseCreated())
+  onSearchSizeReceive: payload => dispatch(receiveSearchSize(payload)),
+  onDatabaseCreated: () => dispatch(receiveDatabaseCreated()),
+  onQueryReceive: payload => dispatch(receiveSearchQuery(payload))
 });
 
 export default connect(

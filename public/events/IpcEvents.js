@@ -46,14 +46,19 @@ module.exports = {
     });
     ipcMain.on('SEARCH_DATABASE', (event, payload) => {
       Database.songs.find({ $or: [
-        { artist: payload.query },
-        { payload: payload.query },
-        { label: payload.query }
+        { artist: { $regex: new RegExp(payload.query, "i") } },
+        { title: { $regex: new RegExp(payload.query, "i") } },
+        { album: { $regex: new RegExp(payload.query, "i") } },
+        { label: { $regex: new RegExp(payload.query, "i") } }
       ] }, (err, docs) => {
         if (err) throw Error(err);
-        return event.sender.send('RECEIVE_COLLECTION', {
-          type: 'VIEW_SONG',
-          payload: docs
+        return event.sender.send('RECEIVE_SEARCH', {
+          type: 'VIEW_SEARCH',
+          payload: {
+            collection: docs,
+            size: docs.length,
+            query: payload.query
+          }
         });
       });
     });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -7,13 +7,14 @@ import classNames from 'classnames';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import ViewHeader from '../components/ViewHeader/ViewHeader';
 import { SongItem } from '../components/ViewItem';
+import { GridContainer, GridItem } from '../components/Grid';
 
 // Actions
-import { setIndex } from '../actions/playlistActions';
-import { setStatus, setPosition } from '../actions/songActions';
+import { setStatus, setPosition, setSong } from '../actions/songActions';
 
 // Style
 import SearchViewStyle from './SearchViewStyle';
@@ -21,18 +22,19 @@ import SearchViewStyle from './SearchViewStyle';
 const SearchView = props => {
   const {
     classes,
-    size,
     query,
     collection,
-    setPlaylistIndex,
-    setStatusPlaying,
-    resetSongPosition,
+    setCurrentSong,
+    resetPosition,
+    setPlaying
   } = props;
 
+  const size = collection.length;
+
   const handleClick = index => {
-    resetSongPosition(0);
-    setPlaylistIndex(index);
-    setStatusPlaying();
+    setCurrentSong(collection[index]);
+    resetPosition();
+    setPlaying();
   };
 
   return (
@@ -44,68 +46,103 @@ const SearchView = props => {
       >
         <div>Playerholders</div>
       </ViewHeader>
-      <AutoSizer>
-        {({ height, width }) => (
-          <List
-            height={height - 272}
-            itemCount={size}
-            itemSize={50}
-            width={width - 316}
-            className={classNames(
-              classes.list,
-              classes.scrollbar
-            )}
-          >
-            {({ index, style }) => {
-              const {
-                _id,
-                title,
-                artist,
-                album,
-                label,
-                duration
-              } = collection[index];
-
-              return (
-                <SongItem
-                  onClick={() => handleClick(index)}
-                  key={_id}
-                  style={style}
-                  title={title}
-                  artist={artist}
-                  album={album}
-                  label={label}
-                  duration={duration}
+      {collection.length !== 0 ? (
+        <Fragment>
+          <div className={classes.listHeader}>
+            <GridContainer
+              wrap="nowrap"
+              justify="space-between"
+              alignItems="flex-end"
+              classes={{ root: classes.grid }}
+            >
+              <GridItem xs={3}>
+                <ListItemText
+                  primary="Title"
                 />
-              );
-            }}
-          </List>
-        )}
-      </AutoSizer>
+              </GridItem>
+              <GridItem xs={2}>
+                <ListItemText
+                  primary="Artist"
+                />
+              </GridItem>
+              <GridItem xs={3}>
+                <ListItemText
+                  primary="Album"
+                />
+              </GridItem>
+              <GridItem xs={2}>
+                <ListItemText
+                  primary="Label"
+                />
+              </GridItem>
+              <ListItemText
+                primary="Duration"
+                classes={{ root: classes.duration }}
+              />
+            </GridContainer>
+          </div>
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                height={height - 272}
+                itemCount={size}
+                itemSize={50}
+                width={width}
+                className={classNames(
+                  classes.list,
+                  classes.scrollbar
+                )}
+              >
+                {({ index, style }) => {
+                  const {
+                    _id,
+                    title,
+                    artist,
+                    album,
+                    label,
+                    duration
+                  } = collection[index];
+
+                  return (
+                    <SongItem
+                      onClick={() => handleClick(index)}
+                      key={_id}
+                      style={style}
+                      title={title}
+                      artist={artist}
+                      album={album}
+                      label={label}
+                      duration={duration}
+                    />
+                  );
+                }}
+              </List>
+            )}
+          </AutoSizer>
+        </Fragment>
+      ) : null}
     </div>
   );
 };
 
 SearchView.propTypes = {
   classes: PropTypes.object.isRequired,
-  size: PropTypes.number,
   query: PropTypes.string,
   collection: PropTypes.array,
-  setPlaylistIndex: PropTypes.func,
-  setStatusPlaying: PropTypes.func,
-  resetSongPosition: PropTypes.func,
+  setCurrentSong: PropTypes.func,
+  resetPosition: PropTypes.func,
+  setPlaying: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   collection: state.list.searchList,
-  size: state.list.searchSize,
   query: state.list.searchQuery,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setPlaylistIndex: index => dispatch(setIndex(index)),
-  setStatusPlaying: () => dispatch(setStatus('PLAYING')),
-  resetSongPosition: () => dispatch(setPosition(0)),
+  setPlaying: () => dispatch(setStatus('PLAYING')),
+  resetPosition: () => dispatch(setPosition(0)),
+  setCurrentSong: song => dispatch(setSong(song)),
 });
 
 export default connect(

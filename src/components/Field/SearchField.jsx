@@ -14,7 +14,7 @@ import { GridContainer } from '../Grid';
 import SearchFieldStyle from './SearchFieldStyle';
 
 const SearchField = props => {
-  const { classes, onChange, ...rest } = props;
+  const { classes, onChange, value, ...rest } = props;
 
   return (
     <GridContainer
@@ -27,6 +27,7 @@ const SearchField = props => {
         placeholder="Search"
         classes={{ input: classes.inputBaseInput }}
         autoComplete="off"
+        value={value}
         onChange={onChange}
         {...rest}
       />
@@ -37,7 +38,8 @@ const SearchField = props => {
 
 SearchField.propTypes = {
   classes: PropTypes.object.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  value: PropTypes.string
 };
 
 export default withStyles(SearchFieldStyle)(SearchField);

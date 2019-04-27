@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 import { GridContainer, GridItem } from '../Grid';
 import Img from '../Img/Img';
@@ -12,9 +13,11 @@ import PlayerSlider from './PlayerSlider';
 
 // Actions
 import { setPosition } from '../../actions/songActions';
+import { setView } from '../../actions/windowActions';
 
 // Utils
 import { getDurationFormat } from '../../functions';
+import { VIEW_PLAYLIST } from '../../actionTypes/windowTypes';
 
 // Style
 import PlayerDisplayStyle from './PlayerDisplayStyle';
@@ -28,6 +31,7 @@ const PlayerDisplay = props => {
     duration,
     position,
     setSongPosition,
+    gotoPlaylist
   } = props;
 
   const getPercentage = () => (position / duration) * 100;
@@ -41,12 +45,14 @@ const PlayerDisplay = props => {
         <GridContainer
           wrap="nowrap"
         >
-          <Img
-            type="playerController"
-            cover={cover}
-            alt="Current song cover"
-            classes={{ root: classes.imgRoot }}
-          />
+          <ButtonBase onClick={() => gotoPlaylist()}>
+            <Img
+              type="playerController"
+              cover={cover}
+              alt="Current song cover"
+              classes={{ root: classes.imgRoot }}
+            />
+          </ButtonBase>
           <GridItem>
             <GridContainer
               direction="column"
@@ -89,6 +95,7 @@ PlayerDisplay.propTypes = {
   duration: PropTypes.number,
   position: PropTypes.number,
   setSongPosition: PropTypes.func,
+  gotoPlaylist: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -100,7 +107,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setSongPosition: position => dispatch(setPosition(position))
+  setSongPosition: position => dispatch(setPosition(position)),
+  gotoPlaylist: () => dispatch(setView(VIEW_PLAYLIST))
 });
 
 export default connect(

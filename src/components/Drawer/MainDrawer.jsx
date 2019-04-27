@@ -111,6 +111,7 @@ const MainDrawer = props => {
     const queryClean = query.trim();
 
     if (queryClean.length < 2) return null;
+    setQuery('');
     return searchDatabase(queryClean);
   };
 
@@ -145,6 +146,7 @@ const MainDrawer = props => {
           <ListItem>
             <SearchField
               onChange={event => setQuery(event.target.value)}
+              value={query}
               onKeyPress={event => event.key === 'Enter' && handleSearch()}
             />
           </ListItem>
