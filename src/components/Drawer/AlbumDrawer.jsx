@@ -36,7 +36,7 @@ import {
 } from '../../actions/playlistActions';
 
 // Utils
-import { getDurationFormat } from '../../functions';
+import { getDurationFormat } from '../../utils';
 
 // Style
 import AlbumDrawerStyle from './AlbumDrawerStyle';

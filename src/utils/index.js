@@ -32,3 +32,5 @@ export const cleanUrl = url => {
     return item;
   }).join('');
 };
+
+export const escapeRegExp = query => query.replace(/[.*+?^${}()|[\]\\]/gi, '\\$&');

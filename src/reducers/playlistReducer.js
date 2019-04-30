@@ -8,7 +8,7 @@ import {
 } from '../actionTypes/playlistTypes';
 
 // Utils
-import { shuffleArray } from '../functions';
+import { shuffleArray } from '../utils';
 
 export const playlistReducer = (
   state = {

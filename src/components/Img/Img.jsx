@@ -9,7 +9,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import FallbackImg from '../../assets/images/fallback.jpg';
 
 // Utils
-import { cleanUrl } from '../../functions';
+import { cleanUrl } from '../../utils';
 
 // Style
 import ImgStyle from './ImgStyle';

@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { GridContainer, GridItem } from '../Grid';
 
 // Utils
-import { getDurationFormat } from '../../functions';
+import { getDurationFormat } from '../../utils';
 
 // Style
 import SongItemStyle from './SongItemStyle';

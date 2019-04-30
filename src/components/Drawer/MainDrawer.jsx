@@ -40,6 +40,9 @@ import {
   VIEW_SONG
 } from '../../actionTypes/windowTypes';
 
+// Utils
+import { escapeRegExp } from '../../utils';
+
 // Assets
 import Icon from '../../assets/icons/icon.png';
 
@@ -108,11 +111,9 @@ const MainDrawer = props => {
   };
 
   const handleSearch = () => {
-    const queryClean = query.trim();
-
-    if (queryClean.length < 2) return null;
+    if (query.length < 2) return null;
     setQuery('');
-    return searchDatabase(queryClean);
+    return searchDatabase(escapeRegExp(query));
   };
 
   return (

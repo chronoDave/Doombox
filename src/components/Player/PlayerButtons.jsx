@@ -29,7 +29,7 @@ import { setStatus, setPosition, setVolume } from '../../actions/songActions';
 import { setIndex, shufflePlaylist, setIndexNext, setIndexPrevious } from '../../actions/playlistActions';
 
 // Utils
-import { cleanUrl } from '../../functions';
+import { cleanUrl } from '../../utils';
 
 // Style
 import PlayerButtonsStyle from './PlayerButtonsStyle';

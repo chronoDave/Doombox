@@ -16,7 +16,7 @@ import { setPosition } from '../../actions/songActions';
 import { setView } from '../../actions/windowActions';
 
 // Utils
-import { getDurationFormat } from '../../functions';
+import { getDurationFormat } from '../../utils';
 import { VIEW_PLAYLIST } from '../../actionTypes/windowTypes';
 
 // Style
