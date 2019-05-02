@@ -2,13 +2,15 @@ import {
   RECEIVE_DATABASE_CREATED
 } from '../actionTypes/receiveTypes';
 import {
-  SET_DATABASE_UPDATED
+  SET_DATABASE_UPDATED,
+  SET_BACKGROUND_IMAGE
 } from '../actionTypes/databaseTypes';
 
 export const systemReducer = (
   state = {
     path: '',
-    databaseUpdated: false
+    databaseUpdated: false,
+    backgroundImage: ''
   },
   action
 ) => {
@@ -17,6 +19,11 @@ export const systemReducer = (
       return ({
         ...state,
         databaseUpdated: true
+      });
+    case SET_BACKGROUND_IMAGE:
+      return ({
+        ...state,
+        backgroundImage: action.payload
       });
     case SET_DATABASE_UPDATED:
       return ({

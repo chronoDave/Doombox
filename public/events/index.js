@@ -44,6 +44,14 @@ module.exports = {
         });
       });
     });
+    ipcMain.on('FETCH_BACKGROUND_IMAGE', event => {
+      Database.user.findOne({ _id: 'user' }, (err, payload) => {
+        if (err) throw Error(err);
+        return event.sender.send('RECEIVE_BACKGROUND_IMAGE', {
+          payload: payload.backgroundPath
+        });
+      });
+    });
     ipcMain.on('SEARCH_DATABASE', (event, payload) => {
       Database.songs.find({ $or: [
         { artist: { $regex: new RegExp(payload.query, "i") } },

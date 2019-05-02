@@ -8,6 +8,7 @@ import PlaylistIcon from '@material-ui/icons/ArtTrack';
 import LabelIcon from '@material-ui/icons/Album';
 import AlbumIcon from '@material-ui/icons/LibraryMusic';
 import SongIcon from '@material-ui/icons/QueueMusic';
+import BackgroundIcon from '@material-ui/icons/AddPhotoAlternate';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -26,7 +27,7 @@ import { SearchField } from '../Field';
 import { PlayerDisplay, PlayerButtons } from '../Player';
 import Collapse from '../Collapse/Collapse';
 import MainDrawerList from './MainDrawerList';
-import { SelectPathDialog } from '../Dialog';
+import { SelectPathDialog, SelectBackgroundDialog } from '../Dialog';
 
 // Actions
 import { setView } from '../../actions/windowActions';
@@ -65,7 +66,10 @@ const MainDrawer = props => {
     onDelete
   } = props;
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState({
+    dialogPath: false,
+    dialogBackground: false
+  });
   const [query, setQuery] = useState('');
 
   const views = {
@@ -99,8 +103,13 @@ const MainDrawer = props => {
     INIT_DATABASE: {
       name: 'Create database',
       icon: () => <DatabaseAddIcon />,
-      func: () => setOpen(true),
+      func: () => setOpen({ dialogPath: true }),
       disabled: isBusy || !isEmpty
+    },
+    ADD_BACKGROUND: {
+      name: 'Add background',
+      icon: () => <BackgroundIcon />,
+      func: () => setOpen({ dialogBackground: true })
     },
     RESET_DATABASE: {
       name: 'Delete database',
@@ -189,8 +198,12 @@ const MainDrawer = props => {
         </List>
       </div>
       <SelectPathDialog
-        open={open}
-        onClose={() => setOpen(false)}
+        open={open.dialogPath}
+        onClose={() => setOpen({ dialogPath: false })}
+      />
+      <SelectBackgroundDialog
+        open={open.dialogBackground}
+        onClose={() => setOpen({ dialogBackground: false })}
       />
     </Fragment>
   );

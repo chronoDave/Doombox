@@ -1,1 +1,2 @@
 export const FETCH_ALL = 'FETCH_ALL';
+export const FETCH_BACKGROUND_IMAGE = 'FETCH_BACKGROUND_IMAGE';

@@ -9,7 +9,8 @@ import {
   receiveSizes,
   receiveDatabaseCreated,
   receiveSearchSize,
-  receiveSearchQuery
+  receiveSearchQuery,
+  receiveBackground
 } from '../../actions/receiveActions';
 
 // Utils
@@ -24,7 +25,8 @@ import {
   RECEIVE_COMMAND_PREVIOUS,
   RECEIVE_COMMAND_PLAY,
   RECEIVE_COMMAND_VOLUME_UP,
-  RECEIVE_COMMAND_VOLUME_DOWN
+  RECEIVE_COMMAND_VOLUME_DOWN,
+  RECEIVE_BACKGROUND_IMAGE
 } from '../../actionTypes/receiveTypes';
 import {
   VIEW_SONG,
@@ -66,7 +68,8 @@ class IpcListener extends Component {
       onSearchSizeReceive,
       onQueryReceive,
       onSizesReceive,
-      onStatusToggle
+      onStatusToggle,
+      onBackgroundReceive
     } = props;
 
     ipcRenderer.on(RECEIVE_COMMAND, (event, arg) => {
@@ -92,6 +95,7 @@ class IpcListener extends Component {
     });
 
     ipcRenderer.on(RECEIVE_DATABASE_CREATED, () => onDatabaseCreated());
+    ipcRenderer.on(RECEIVE_BACKGROUND_IMAGE, (event, arg) => onBackgroundReceive(arg.payload));
 
     ipcRenderer.on(RECEIVE_COLLECTION, (event, arg) => {
       onCollectionReceive(arg.payload, arg.type);
@@ -150,6 +154,21 @@ class IpcListener extends Component {
   }
 }
 
+IpcListener.propTypes = {
+  onVolumeIncrease: PropTypes.func,
+  onVolumeDecrease: PropTypes.func,
+  onIndexNext: PropTypes.func,
+  onIndexPrevious: PropTypes.func,
+  onDatabaseCreated: PropTypes.func,
+  onCollectionReceive: PropTypes.func,
+  enqueueSnackbar: PropTypes.func,
+  onSearchSizeReceive: PropTypes.func,
+  onQueryReceive: PropTypes.func,
+  onSizesReceive: PropTypes.func,
+  onStatusToggle: PropTypes.func,
+  onBackgroundReceive: PropTypes.func
+};
+
 const mapDispatchToProps = dispatch => ({
   onIndexNext: () => dispatch(setIndexNext()),
   onIndexPrevious: () => dispatch(setIndexPrevious()),
@@ -160,7 +179,8 @@ const mapDispatchToProps = dispatch => ({
   onSizesReceive: payload => dispatch(receiveSizes(payload)),
   onSearchSizeReceive: payload => dispatch(receiveSearchSize(payload)),
   onDatabaseCreated: () => dispatch(receiveDatabaseCreated()),
-  onQueryReceive: payload => dispatch(receiveSearchQuery(payload))
+  onQueryReceive: payload => dispatch(receiveSearchQuery(payload)),
+  onBackgroundReceive: payload => dispatch(receiveBackground(payload))
 });
 
 export default connect(

@@ -18,7 +18,7 @@ import {
 import { MainDrawer, AlbumDrawer } from '../Drawer';
 
 // Actions
-import { fetchAll } from '../../actions/fetchActions';
+import { fetchAll, fetchBackground } from '../../actions/fetchActions';
 import { deleteDatabase, setDatabaseCreated } from '../../actions/databaseActions';
 import { setPlaylist } from '../../actions/playlistActions';
 import { setSong, setStatus, setPosition } from '../../actions/songActions';
@@ -33,16 +33,17 @@ import {
 } from '../../actionTypes/windowTypes';
 
 // Img
-import MainBackgroundImage from '../../assets/images/bg.jpg';
+// import MainBackgroundImage from '../../assets/images/bg.jpg';
 
 // Style
 import MainStyle from './MainStyle';
 
 class Main extends Component {
   componentDidMount() {
-    const { view, getAll } = this.props;
+    const { view, getAll, getBackgroundImage } = this.props;
 
     getAll(view);
+    getBackgroundImage();
   }
 
   componentDidUpdate(prevProps) {
@@ -189,13 +190,14 @@ class Main extends Component {
       songSize,
       isBusy,
       playlist,
+      backgroundImage
     } = this.props;
 
     return (
       <div
         className={classes.root}
         style={{
-          backgroundImage: `url(${MainBackgroundImage})`,
+          backgroundImage: `url("file://${backgroundImage}")`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
@@ -246,6 +248,8 @@ Main.propTypes = {
   isDatabaseUpdated: PropTypes.bool,
   toggleDatabaseCreated: PropTypes.func,
   playlistIndex: PropTypes.number,
+  backgroundImage: PropTypes.string,
+  getBackgroundImage: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -265,13 +269,15 @@ const mapStateToProps = state => ({
   isBusy: state.list.isBusy,
   menuId: state.window.id,
   albumIndex: state.window.albumIndex,
-  isDatabaseUpdated: state.system.databaseUpdated
+  isDatabaseUpdated: state.system.databaseUpdated,
+  backgroundImage: state.system.backgroundImage
 });
 
 const mapDispatchToProps = dispatch => ({
   setSongStatus: status => dispatch(setStatus(status)),
   setSongPosition: position => dispatch(setPosition(position)),
   getAll: view => dispatch(fetchAll(view)),
+  getBackgroundImage: () => dispatch(fetchBackground()),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   setCurrentSong: song => dispatch(setSong(song)),
   deleteDb: () => dispatch(deleteDatabase()),

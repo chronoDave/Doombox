@@ -14,19 +14,20 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogStyle from './DialogStyle';
 
 // Utils
-import { SELECT_PATH_DIALOG } from '../../actionTypes/databaseTypes';
+import { SELECT_BACKGROUND_DIALOG } from '../../actionTypes/databaseTypes';
 
 // Electron
 // eslint-disable-next-line no-undef
 const { remote, ipcRenderer } = window.require('electron');
 const mainProcess = remote.require('./electron');
 
-class SelectPathDialog extends Component {
+class SelectBackgroundDialog extends Component {
   constructor(props) {
     super(props);
 
     const { onClose } = props;
-    ipcRenderer.on(SELECT_PATH_DIALOG, () => onClose());
+
+    ipcRenderer.on(SELECT_BACKGROUND_DIALOG, () => onClose());
   }
 
   render() {
@@ -34,18 +35,17 @@ class SelectPathDialog extends Component {
 
     return (
       <Dialog
-        aria-labelledby="select-path-dialog"
-        aria-describedby="select-path-dialog-description"
+        aria-labelledby="select-background-dialog"
+        aria-describedby="select-background-dialog-description"
         open={open}
         onClose={onClose}
         classes={{ paper: classes.paper }}
         {...rest}
       >
-        <DialogTitle id="select-path-dialog">Select music folder</DialogTitle>
+        <DialogTitle id="select-background-dialog">Select background image</DialogTitle>
         <DialogContent>
-          <DialogContentText id="select-path-dialog-description">
-            Doombox currently only supports a single folder, so make sure all your music shares the same folder.
-            Make sure no application is actively reading your files, Doombox will skip over them.
+          <DialogContentText id="select-background-dialog-description">
+            Sets the background image
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -53,10 +53,10 @@ class SelectPathDialog extends Component {
             Cancel
           </Button>
           <Button
-            onClick={() => mainProcess.selectDirectory()}
+            onClick={() => mainProcess.selectFile()}
             autoFocus
           >
-            Select folder
+            Select background
           </Button>
         </DialogActions>
       </Dialog>
@@ -64,10 +64,10 @@ class SelectPathDialog extends Component {
   }
 }
 
-SelectPathDialog.propTypes = {
+SelectBackgroundDialog.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(DialogStyle)(SelectPathDialog);
+export default withStyles(DialogStyle)(SelectBackgroundDialog);

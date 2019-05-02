@@ -1,7 +1,6 @@
 const { app, BrowserWindow, dialog } = require('electron');
 const path = require("path");
 const isDev = require("electron-is-dev");
-const debug = require('electron-debug');
 
 // Actions
 const { initDatabase, populateDatabase } = require('./actions');
@@ -46,13 +45,26 @@ function createWindow() {
     message: 'Select music folder'
   }, filePath => {
     if (filePath) {
-      mainWindow.webContents.send('RECEIVE_ROOT_FOLDER', filePath[0]);
-      db.user.update({ _id: 'user' }, { rootFolder: filePath[0] }, {});
+      // Doesn't get used ???
+      // mainWindow.webContents.send('RECEIVE_ROOT_FOLDER', filePath[0]);
+      db.user.update({ _id: 'user' }, { rootPath: filePath[0] }, {});
       populateDatabase(db, filePath[0], mainWindow.webContents);
-      // Callback
-      mainWindow.webContents.send('SET_BUSY', { payload: true });
     }
     return mainWindow.webContents.send('SELECT_PATH_DIALOG');
+  });
+
+  exports.selectFile = () => dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    message: 'Select background image',
+    filters: [
+      { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
+    ]
+  }, filePath => {
+    if (filePath) {
+      mainWindow.webContents.send('RECEIVE_BACKGROUND_IMAGE', { payload: filePath[0] });
+      db.user.update({ _id: 'user' }, { backgroundPath: filePath[0] }, {});
+    }
+    return mainWindow.webContents.send('SELECT_BACKGROUND_DIALOG');
   });
 }
 

@@ -16,7 +16,8 @@ module.exports = function initDatabase() {
 
   Database.user.insert({
     _id: 'user',
-    rootPath: false
+    rootPath: false,
+    backgroundPath: false
   });
 
   return Database;

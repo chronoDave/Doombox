@@ -10,6 +10,10 @@ import {
 } from '../actionTypes/receiveTypes';
 
 import {
+  SET_BACKGROUND_IMAGE
+} from '../actionTypes/databaseTypes';
+
+import {
   VIEW_LABEL,
   VIEW_ALBUM,
   VIEW_SONG,
@@ -51,5 +55,10 @@ export const receiveSearchSize = payload => dispatch => dispatch({
 
 export const receiveSearchQuery = payload => dispatch => dispatch({
   type: RECEIVE_SEARCH_QUERY,
+  payload
+});
+
+export const receiveBackground = payload => dispatch => dispatch({
+  type: SET_BACKGROUND_IMAGE,
   payload
 });

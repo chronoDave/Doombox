@@ -1,5 +1,7 @@
 import SelectPathDialog from './SelectPathDialog';
+import SelectBackgroundDialog from './SelectBackgroundDialog';
 
 export {
-  SelectPathDialog
+  SelectPathDialog,
+  SelectBackgroundDialog
 };
