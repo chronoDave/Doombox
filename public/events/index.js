@@ -3,7 +3,7 @@ const { ipcMain, globalShortcut } = require('electron');
 const { populateDatabase } = require('../actions');
 
 module.exports = {
-  ipcListener(Database) {
+  databaseListener(Database) {
     ipcMain.on('FETCH_ALL', (event, view) => {
       Database.songs.find({}).sort({ label: 1, album: 2, track: 3, year: 4 }).exec((err, payload) => {
         if (err) throw Error(err);
@@ -83,6 +83,23 @@ module.exports = {
           payload: 'Successfully deleted SONGS database',
           variant: 'success'
         });
+      });
+    });
+  },
+  discordListener(discord) {
+    ipcMain.on('SET_SONG', (event, payload) => {
+      discord.updatePresence({
+        largeImageKey: 'favicon_512',
+        smallImageKey: 'favicon_512',
+        startTimestamp: Date.now(),
+        endTimestamp: Date.now() + payload.duration,
+        state: payload.artist,
+        details: payload.title
+      });
+    });
+    ipcMain.on('SET_STATUS', (event, payload) => {
+      discord.updatePresence({
+        
       });
     });
   },

@@ -1,6 +1,8 @@
 const { app, BrowserWindow, dialog } = require('electron');
 const path = require("path");
 const isDev = require("electron-is-dev");
+const debug = require('electron-debug');
+const client = require('discord-rich-presence')('572881076008124518');
 
 // Actions
 const { initDatabase, populateDatabase } = require('./actions');
@@ -9,7 +11,12 @@ const { initDatabase, populateDatabase } = require('./actions');
 const db = initDatabase();
 
 // Events
-const { ipcListener, keyboardListener, removeListeners } = require('./events');
+const {
+  databaseListener,
+  discordListener,
+  keyboardListener,
+  removeListeners
+} = require('./events');
 
 function createWindow() {
   let mainWindow = new BrowserWindow({
@@ -33,7 +40,8 @@ function createWindow() {
   });
 
   // Add event listeners
-  ipcListener(db);
+  databaseListener(db);
+  discordListener(client);
   keyboardListener(mainWindow.webContents);
 
   // Debug

@@ -8,6 +8,9 @@ import {
   TOGGLE_STATUS
 } from '../actionTypes/songTypes';
 
+// eslint-disable-next-line no-undef
+const { ipcRenderer } = window.require('electron');
+
 export const setVolume = volume => dispatch => {
   dispatch({
     type: SET_VOLUME,
@@ -45,6 +48,7 @@ export const setStatus = status => dispatch => {
     type: SET_STATUS,
     payload: status
   });
+  ipcRenderer.send(SET_STATUS, status);
 };
 
 export const setSong = song => dispatch => {
@@ -52,4 +56,5 @@ export const setSong = song => dispatch => {
     type: SET_SONG,
     payload: song
   });
+  ipcRenderer.send(SET_SONG, song);
 };

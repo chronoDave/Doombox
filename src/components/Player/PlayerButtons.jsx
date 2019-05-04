@@ -142,7 +142,8 @@ const PlayerButtons = props => {
         </GridContainer>
       </GridContainer>
       <Sound
-        url={cleanUrl(url)}
+        // url={cleanUrl(url)}
+        url="https://r1---sn-5hne6nsr.googlevideo.com/videoplayback?id=o-ACPSICtwLVcLq3Kz65UtRkxzQBx0QhnK6Hns6SEBrwrr&itag=18&source=youtube&requiressl=yes&mm=31%2C29&mn=sn-5hne6nsr%2Csn-5hnedn7s&ms=au%2Crdu&mv=m&pl=22&ei=EsrIXP-QCZf81wLujIuYAw&initcwndbps=945000&mime=video%2Fmp4&gir=yes&clen=61199759&ratebypass=yes&dur=2182.327&lmt=1540729765041462&mt=1556662718&fvip=4&c=WEB&txp=5531432&ip=37.0.94.188&ipbits=0&expire=1556684402&sparams=ip%2Cipbits%2Cexpire%2Cid%2Citag%2Csource%2Crequiressl%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cei%2Cinitcwndbps%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&key=yt8&signature=A40DDBB5B1EAFCD0617C8169789D7270E9BDF12E.1B2383F9CFC220E46BA57CD6D49DE89CDC79AB6F"
         volume={volume}
         playStatus={status}
         position={songPosition}
