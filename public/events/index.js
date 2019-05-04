@@ -99,7 +99,12 @@ module.exports = {
     });
     ipcMain.on('SET_STATUS', (event, payload) => {
       discord.updatePresence({
-        
+        largeImageKey: 'favicon_512',
+        smallImageKey: 'favicon_512',
+        startTimestamp: Date.now(),
+        endTimestamp: Date.now() + payload.duration,
+        state: payload.artist,
+        details: payload.title
       });
     });
   },

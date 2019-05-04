@@ -2,7 +2,7 @@ const { app, BrowserWindow, dialog } = require('electron');
 const path = require("path");
 const isDev = require("electron-is-dev");
 const debug = require('electron-debug');
-const client = require('discord-rich-presence')('572881076008124518');
+const client = require('discord-rich-presence')('');
 
 // Actions
 const { initDatabase, populateDatabase } = require('./actions');
