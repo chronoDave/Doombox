@@ -96,8 +96,6 @@ module.exports = function populateDatabase(Database, rootFolder, sender) {
           batchCounterSong = 0;
           payloadSong.clear();
         }
-
-        next();
       });
     }
     next();

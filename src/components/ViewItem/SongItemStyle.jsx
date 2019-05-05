@@ -6,6 +6,9 @@ const SongItemStyle = theme => createStyles({
   },
   duration: {
     maxWidth: 60
+  },
+  white: {
+    color: theme.palette.grey[50]
   }
 });
 

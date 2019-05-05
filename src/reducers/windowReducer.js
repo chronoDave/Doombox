@@ -1,8 +1,5 @@
 import {
-  VIEW_ALBUM,
-  VIEW_SONG,
   VIEW_LABEL,
-  VIEW_PLAYLIST,
   SET_VIEW,
   TOGGLE_DRAWER
 } from '../actionTypes/windowTypes';

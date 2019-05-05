@@ -5,9 +5,14 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 import classNames from 'classnames';
 
+// Icons
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
 import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
 
 import ViewHeader from '../components/ViewHeader/ViewHeader';
 import { SongItem } from '../components/ViewItem';
@@ -15,6 +20,11 @@ import { GridContainer, GridItem } from '../components/Grid';
 
 // Actions
 import { setStatus, setPosition, setSong } from '../actions/songActions';
+import {
+  shufflePlaylist,
+  setPlaylist,
+  pushPlaylist
+} from '../actions/playlistActions';
 
 // Style
 import SearchViewStyle from './SearchViewStyle';
@@ -26,7 +36,10 @@ const SearchView = props => {
     collection,
     setCurrentSong,
     resetPosition,
-    setPlaying
+    setPlaying,
+    setCurrentPlaylist,
+    shuffle,
+    addToPlaylist
   } = props;
 
   const size = collection.length;
@@ -37,6 +50,23 @@ const SearchView = props => {
     setPlaying();
   };
 
+  const handlePlay = () => {
+    const newCollection = collection.reduce((acc, val) => acc.concat(val), []);
+    setCurrentPlaylist(newCollection);
+    resetPosition();
+    setCurrentSong(newCollection[0]);
+    setPlaying();
+  };
+
+  const handleShuffle = () => {
+    handlePlay();
+    shuffle();
+  };
+
+  const handleAddPlaylist = song => {
+    addToPlaylist([song]);
+  };
+
   return (
     <div className={classes.root}>
       <ViewHeader
@@ -44,7 +74,18 @@ const SearchView = props => {
         title={`Search results for "${query}"`}
         type="results"
       >
-        <div>Playerholders</div>
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handlePlay()}
+        >
+          <PlayIcon />
+        </IconButton>
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handleShuffle()}
+        >
+          <ShuffleIcon />
+        </IconButton>
       </ViewHeader>
       {collection.length !== 0 ? (
         <Fragment>
@@ -113,6 +154,7 @@ const SearchView = props => {
                       album={album}
                       label={label}
                       duration={duration}
+                      onAddPlaylist={() => handleAddPlaylist(collection[index])}
                     />
                   );
                 }}
@@ -131,7 +173,10 @@ SearchView.propTypes = {
   collection: PropTypes.array,
   setCurrentSong: PropTypes.func,
   resetPosition: PropTypes.func,
-  setPlaying: PropTypes.func
+  setPlaying: PropTypes.func,
+  addToPlaylist: PropTypes.func,
+  setCurrentPlaylist: PropTypes.func,
+  shuffle: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -143,6 +188,9 @@ const mapDispatchToProps = dispatch => ({
   setPlaying: () => dispatch(setStatus('PLAYING')),
   resetPosition: () => dispatch(setPosition(0)),
   setCurrentSong: song => dispatch(setSong(song)),
+  setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
+  shuffle: () => dispatch(shufflePlaylist()),
+  addToPlaylist: collection => dispatch(pushPlaylist(collection))
 });
 
 export default connect(

@@ -23,7 +23,7 @@ import { deleteDatabase, setDatabaseCreated } from '../../actions/databaseAction
 import { setPlaylist } from '../../actions/playlistActions';
 import { setSong, setStatus, setPosition } from '../../actions/songActions';
 
-// Types
+// Utils
 import {
   VIEW_PLAYLIST,
   VIEW_LABEL,
@@ -31,9 +31,7 @@ import {
   VIEW_SONG,
   VIEW_SEARCH
 } from '../../actionTypes/windowTypes';
-
-// Img
-// import MainBackgroundImage from '../../assets/images/bg.jpg';
+import { cleanUrl } from '../../utils';
 
 // Style
 import MainStyle from './MainStyle';
@@ -109,10 +107,13 @@ class Main extends Component {
       }
     }
 
-    // Set playlist on next/previous song or shuffle
+    // Set playlist on next/previous song or shuffle, but keep the same on playlist add
     if (
       prevProps.playlistIndex !== playlistIndex
-      || prevProps.playlist !== playlist
+      || (
+        prevProps.playlist !== playlist
+        && prevProps.playlist.length === playlist.length
+      )
     ) {
       setCurrentSong(playlist[playlistIndex]);
     }
@@ -197,7 +198,7 @@ class Main extends Component {
       <div
         className={classes.root}
         style={{
-          backgroundImage: `url("file://${backgroundImage}")`,
+          backgroundImage: `url("file://${cleanUrl(backgroundImage || '')}")`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
@@ -276,7 +277,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setSongStatus: status => dispatch(setStatus(status)),
   setSongPosition: position => dispatch(setPosition(position)),
-  getAll: view => dispatch(fetchAll(view)),
+  getAll: (view, options) => dispatch(fetchAll(view, options)),
   getBackgroundImage: () => dispatch(fetchBackground()),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   setCurrentSong: song => dispatch(setSong(song)),

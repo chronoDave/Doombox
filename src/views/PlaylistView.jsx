@@ -51,9 +51,7 @@ const PlaylistView = props => {
         size={size}
         title="Playlist collection"
         type="songs"
-      >
-        <div>Playerholders</div>
-      </ViewHeader>
+      />
       <GridContainer fullHeight>
         <div className={classes.playlistItem}>
           <Img cover={songCover} type="playlistItem" />
@@ -125,6 +123,7 @@ const PlaylistView = props => {
                     album={album}
                     label={label}
                     duration={duration}
+                    disableIcon
                   />
                 );
               }}
