@@ -8,7 +8,6 @@
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "@material-ui/lab": "^3.0.0-alpha.30",
-    "auto-changelog": "^1.13.0",
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "electron-is-dev": "^0.3.0",
