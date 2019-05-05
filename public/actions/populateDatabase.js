@@ -57,7 +57,7 @@ module.exports = function populateDatabase(Database, rootFolder, sender) {
             : 'jpeg';
           const imagePath = process.platform === 'win32'
             ? `${imageDir}\\${album.replace(/\/|\\|\?|%|\*|:|\||"|<|>|\./g, '')}.${imageFormat}`
-            : `${imageDir}/${album.replace(/\/|\\|\?|%|\*|:|\||"|<|>|\./g, '')}.${imageFormat}`
+            : `${imageDir}/${album.replace(/\/|\\|\?|%|\*|:|\||"|<|>|\./g, '')}.${imageFormat}`;
 
           // Save file to disk
           fs.writeFileSync(imagePath, metadata.common.picture[0].data, 'base64');
