@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FixedSizeList as List } from 'react-window';
 import classNames from 'classnames';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
+// Icons
+import AddIcon from '@material-ui/icons/PlaylistAdd';
+
 // Core
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 
 import { GridContainer, GridItem } from '../components/Grid';
 import ViewHeader from '../components/ViewHeader/ViewHeader';
 import { SongItem } from '../components/ViewItem';
 import Img from '../components/Img/Img';
 import Divider from '../components/Divider/Divider';
+import { TextField } from '../components/Field';
 
 // Actions
 import { setIndex } from '../actions/playlistActions';
@@ -21,6 +26,7 @@ import { setStatus, setPosition } from '../actions/songActions';
 
 // Style
 import PlaylistViewStyle from './PlaylistViewStyle';
+import { addPlaylist } from '../actions/databaseActions';
 
 const PlaylistView = props => {
   const {
@@ -36,8 +42,9 @@ const PlaylistView = props => {
     setPlaylistIndex,
     setStatusPlaying,
     resetSongPosition,
-    songAlbum
+    songAlbum,
   } = props;
+  const [name, setName] = useState('');
 
   const handleClick = index => {
     resetSongPosition(0);
@@ -52,7 +59,17 @@ const PlaylistView = props => {
         title="Playlist collection"
         type="songs"
       >
-        <div>Playerholders</div>
+        <TextField
+          value={name}
+          onChange={event => setName(event.target.value)}
+        >
+          <IconButton
+            classes={{ root: classes.icon }}
+            onClick={() => addPlaylist(playlist, name)}
+          >
+            <AddIcon />
+          </IconButton>
+        </TextField>
       </ViewHeader>
       <GridContainer fullHeight>
         <div className={classes.playlistItem}>
@@ -125,6 +142,7 @@ const PlaylistView = props => {
                     album={album}
                     label={label}
                     duration={duration}
+                    disableIcon
                   />
                 );
               }}

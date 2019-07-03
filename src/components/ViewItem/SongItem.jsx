@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Icons
+import AddIcon from '@material-ui/icons/AddCircle';
+
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 import { GridContainer, GridItem } from '../Grid';
 
@@ -25,19 +29,18 @@ const SongItem = props => {
     duration,
     classes,
     active,
+    onAddPlaylist,
+    disableIcon
   } = props;
 
   return (
     <div style={style}>
-      <ListItem
-        button
-        onClick={onClick}
-        className={active ? classes.active : undefined}
-      >
+      <ListItem className={active ? classes.active : undefined}>
         <GridContainer
           wrap="nowrap"
           justify="space-between"
           alignItems="center"
+          onClick={onClick}
         >
           <GridItem xs={3}>
             <ListItemText
@@ -76,6 +79,14 @@ const SongItem = props => {
             primary={getDurationFormat(duration)}
           />
         </GridContainer>
+        {!disableIcon && (
+          <ListItemIcon
+            onClick={() => onAddPlaylist()}
+            classes={{ root: classes.white }}
+          >
+            <AddIcon />
+          </ListItemIcon>
+        )}
       </ListItem>
     </div>
   );
@@ -90,7 +101,9 @@ SongItem.propTypes = {
   label: PropTypes.string,
   duration: PropTypes.number,
   classes: PropTypes.object.isRequired,
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  onAddPlaylist: PropTypes.func,
+  disableIcon: PropTypes.bool
 };
 
 export default withStyles(SongItemStyle)(SongItem);

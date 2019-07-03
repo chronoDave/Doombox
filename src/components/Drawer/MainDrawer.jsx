@@ -177,6 +177,14 @@ const MainDrawer = props => {
           </ListItem>
           <ListItem>
             <Collapse
+              title="Playlist"
+              defaultExpanded
+            >
+              a
+            </Collapse>
+          </ListItem>
+          <ListItem>
+            <Collapse
               title="Views"
               defaultExpanded
             >

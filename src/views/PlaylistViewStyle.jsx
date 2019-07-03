@@ -21,6 +21,9 @@ const PlaylistViewStyle = theme => createStyles({
   },
   textYear: {
     paddingLeft: theme.spacing.unit
+  },
+  icon: {
+    color: theme.palette.grey[50]
   }
 });
 

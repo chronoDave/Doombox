@@ -5,7 +5,10 @@ const LabelViewStyle = theme => createStyles({
     height: '100%',
     paddingLeft: theme.spacing.unit * 4
   },
-  scrollbar: theme.scrollbar
+  scrollbar: theme.scrollbar,
+  icon: {
+    color: theme.palette.grey[50]
+  }
 });
 
 export default LabelViewStyle;

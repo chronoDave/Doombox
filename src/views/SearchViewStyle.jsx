@@ -20,6 +20,9 @@ const SearchViewStyle = theme => createStyles({
   duration: {
     maxWidth: 60
   },
+  icon: {
+    color: theme.palette.grey[50]
+  }
 });
 
 export default SearchViewStyle;

@@ -12,7 +12,7 @@ import store from './store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <SnackbarProvider maxSnack={5}>
+    <SnackbarProvider maxSnack={5} dense>
       <IpcListener />
       <App />
     </SnackbarProvider>

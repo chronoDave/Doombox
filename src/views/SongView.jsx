@@ -27,6 +27,7 @@ import {
 import {
   shufflePlaylist,
   setPlaylist,
+  pushPlaylist
 } from '../actions/playlistActions';
 
 // Style
@@ -42,7 +43,8 @@ const SongView = props => {
     setPlaying,
     shuffle,
     songId,
-    setCurrentSong
+    setCurrentSong,
+    addToPlaylist
   } = props;
 
   const handlePlay = () => {
@@ -62,6 +64,10 @@ const SongView = props => {
     setCurrentSong(songList[index]);
     resetPosition();
     setPlaying();
+  };
+
+  const handleAddPlaylist = song => {
+    addToPlaylist([song]);
   };
 
   return (
@@ -150,6 +156,7 @@ const SongView = props => {
                   album={album}
                   label={label}
                   duration={duration}
+                  onAddPlaylist={() => handleAddPlaylist(songList[index])}
                 />
               );
             }}
@@ -169,7 +176,8 @@ SongView.propTypes = {
   setPlaying: PropTypes.func,
   shuffle: PropTypes.func,
   songId: PropTypes.string,
-  setCurrentSong: PropTypes.func
+  setCurrentSong: PropTypes.func,
+  addToPlaylist: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -185,6 +193,7 @@ const mapDispatchToProps = dispatch => ({
   setCurrentSong: song => dispatch(setSong(song)),
   setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
   shuffle: () => dispatch(shufflePlaylist()),
+  addToPlaylist: collection => dispatch(pushPlaylist(collection))
 });
 
 export default connect(

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import PlayIcon from '@material-ui/icons/PlayArrow';
 import ShuffleIcon from '@material-ui/icons/Shuffle';
 import AddPlaylistIcon from '@material-ui/icons/PlaylistAdd';
+import AddIcon from '@material-ui/icons/AddCircle';
 
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -194,11 +195,19 @@ const AlbumDrawer = props => {
               }}
             />
             <ListItemSecondaryAction>
-              <ListItemText
-                primary={getDurationFormat(song.duration)}
-                primaryTypographyProps={{ variant: 'caption' }}
-                classes={{ primary: classes.light }}
-              />
+              <GridContainer direction="column" alignItems="center">
+                <ListItemText
+                  primary={getDurationFormat(song.duration)}
+                  primaryTypographyProps={{ variant: 'caption' }}
+                  classes={{ primary: classes.light }}
+                />
+                <ListItemIcon
+                  classes={{ root: classes.light }}
+                  onClick={() => addToPlaylist([song])}
+                >
+                  <AddIcon />
+                </ListItemIcon>
+              </GridContainer>
             </ListItemSecondaryAction>
           </ListItem>
         ))}

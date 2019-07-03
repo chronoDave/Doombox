@@ -13,6 +13,10 @@ module.exports = function initDatabase() {
     filename: `${app.getPath('userData')}/data/user.db`,
     autoload: true
   });
+  Database.playlists = new Datastore({
+    filename: `${app.getPath('userData')}/data/playlists.db`,
+    autoload: true
+  });
 
   Database.user.insert({
     _id: 'user',

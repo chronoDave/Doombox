@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Icons
-import SearchIcon from '@material-ui/icons/Search';
-
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
 import InputBase from '@material-ui/core/InputBase';
@@ -13,8 +10,8 @@ import { GridContainer } from '../Grid';
 // Style
 import FieldStyle from './FieldStyle';
 
-const SearchField = props => {
-  const { classes, onChange, value, ...rest } = props;
+const TextField = props => {
+  const { classes, value, onChange, children, ...rest } = props;
 
   return (
     <GridContainer
@@ -22,24 +19,22 @@ const SearchField = props => {
       wrap="nowrap"
     >
       <InputBase
-        id="search"
-        type="text"
-        placeholder="Search"
-        classes={{ input: classes.inputBaseInput }}
-        autoComplete="off"
         value={value}
+        classes={{ input: classes.inputBaseInput }}
         onChange={onChange}
+        autoComplete="off"
         {...rest}
       />
-      <SearchIcon classes={{ root: classes.icon }} />
+      {children}
     </GridContainer>
   );
 };
 
-SearchField.propTypes = {
+TextField.propTypes = {
   classes: PropTypes.object.isRequired,
+  value: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string
+  children: PropTypes.node
 };
 
-export default withStyles(FieldStyle)(SearchField);
+export default withStyles(FieldStyle)(TextField);

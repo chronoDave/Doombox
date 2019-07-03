@@ -3,31 +3,31 @@ const { ipcMain, globalShortcut } = require('electron');
 const { populateDatabase } = require('../actions');
 
 module.exports = {
-  databaseListener(Database) {
-    ipcMain.on('FETCH_ALL', (event, view) => {
-      Database.songs.find({}).sort({ label: 1, album: 2, track: 3, year: 4 }).exec((err, payload) => {
+  ipcListener(Database) {
+    ipcMain.on('FETCH_ALL', (event, payload) => {
+      Database.songs.find({}).sort(Object.assign({}, ...payload.options)).exec((err, songs) => {
         if (err) throw Error(err);
 
-        const albums = _.values(_.mapValues(_.groupBy(payload, 'album')));
-        const labels = _.values(_.mapValues(_.groupBy(payload, 'label')));
+        const albums = _.values(_.mapValues(_.groupBy(songs, 'album')));
+        const labels = _.values(_.mapValues(_.groupBy(songs, 'label')));
 
-        switch (view) {
+        switch (payload.view) {
           case 'VIEW_LABEL':
             event.sender.send('RECEIVE_COLLECTION', {
-              type: view,
+              type: payload.view,
               payload: labels
             });
             break;
           case 'VIEW_ALBUM':
             event.sender.send('RECEIVE_COLLECTION', {
-              type: view,
+              type: payload.view,
               payload: albums
             });
             break;
           case 'VIEW_SONG':
             event.sender.send('RECEIVE_COLLECTION', {
-              type: view,
-              payload
+              type: payload.view,
+              payload: songs
             });
             break;
           default:
@@ -39,7 +39,7 @@ module.exports = {
           payload: {
             label: labels.length,
             album: albums.length,
-            song: payload.length
+            song: songs.length
           }
         });
       });
@@ -85,26 +85,22 @@ module.exports = {
         });
       });
     });
-  },
-  discordListener(discord) {
-    ipcMain.on('SET_SONG', (event, payload) => {
-      discord.updatePresence({
-        largeImageKey: 'favicon_512',
-        smallImageKey: 'favicon_512',
-        startTimestamp: Date.now(),
-        endTimestamp: Date.now() + payload.duration,
-        state: payload.artist,
-        details: payload.title
+    ipcMain.on('FETCH_PLAYLISTS', event => {
+      Database.playlists.find({}, (err, payload) => {
+        if (err) throw Error(err);
+        return event.sender.send('RECEIVE_PLAYLISTS', payload);
       });
     });
-    ipcMain.on('SET_STATUS', (event, payload) => {
-      discord.updatePresence({
-        largeImageKey: 'favicon_512',
-        smallImageKey: 'favicon_512',
-        startTimestamp: Date.now(),
-        endTimestamp: Date.now() + payload.duration,
-        state: payload.artist,
-        details: payload.title
+    ipcMain.on('ADD_PLAYLIST', (event, payload) => {
+      Database.playlists.insert({
+        _id: payload.name,
+        collection: payload.collection
+      }, err => {
+        if (err) throw Error(err);
+        event.sender.send('RECEIVE_STATUS', {
+          payload: `Successfully added ${payload.name} to custom collections`,
+          variant: 'succes'
+        });
       });
     });
   },

@@ -2,13 +2,13 @@ import {
   UPDATE_DATABASE,
   DELETE_DATABASE,
   SET_DATABASE_UPDATED,
-  SEARCH_DATABASE
+  SEARCH_DATABASE,
+  ADD_PLAYLIST
 } from '../actionTypes/databaseTypes';
 
 // eslint-disable-next-line no-undef
 const { ipcRenderer } = window.require('electron');
 
-// Fetch
 export const updateDatabase = () => ipcRenderer.send(UPDATE_DATABASE);
 
 export const deleteDatabase = () => dispatch => {
@@ -25,5 +25,15 @@ export const searchDatabase = query => {
   ipcRenderer.send(
     SEARCH_DATABASE,
     { query }
+  );
+};
+
+export const addPlaylist = (collection, name) => {
+  ipcRenderer.send(
+    ADD_PLAYLIST,
+    {
+      name,
+      collection
+    }
   );
 };

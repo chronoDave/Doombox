@@ -1,5 +1,7 @@
 import SearchField from './SearchField';
+import TextField from './TextField';
 
 export {
-  SearchField
+  SearchField,
+  TextField
 };

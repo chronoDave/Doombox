@@ -5,11 +5,20 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+// Icons
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+
 // Core
 import withStyles from '@material-ui/core/styles/withStyles';
+import IconButton from '@material-ui/core/IconButton';
 
 import ViewHeader from '../components/ViewHeader/ViewHeader';
 import { LabelItem } from '../components/ViewItem';
+
+// Actions
+import { setStatus, setPosition } from '../actions/songActions';
+import { shufflePlaylist, setPlaylist } from '../actions/playlistActions';
 
 // Style
 import LabelViewStyle from './LabelViewStyle';
@@ -18,8 +27,24 @@ const LabelView = props => {
   const {
     classes,
     size,
-    labelList
+    labelList,
+    setCurrentPlaylist,
+    resetPosition,
+    setPlaying,
+    shuffle,
   } = props;
+
+  const handlePlay = () => {
+    const collection = labelList.reduce((acc, val) => acc.concat(val), []);
+    setCurrentPlaylist(collection);
+    resetPosition();
+    setPlaying();
+  };
+
+  const handleShuffle = () => {
+    handlePlay();
+    shuffle();
+  };
 
   return (
     <div className={classes.root}>
@@ -28,7 +53,18 @@ const LabelView = props => {
         title="Label collection"
         type="labels"
       >
-        a
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handlePlay()}
+        >
+          <PlayIcon />
+        </IconButton>
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => handleShuffle()}
+        >
+          <ShuffleIcon />
+        </IconButton>
       </ViewHeader>
       <AutoSizer>
         {({ height, width }) => {
@@ -86,15 +122,28 @@ const LabelView = props => {
 
 const mapStateToProps = state => ({
   size: state.list.labelSize,
-  labelList: state.list.labelList
+  labelList: state.list.labelList,
+  view: state.window.view
+});
+
+const mapDispatchToProps = dispatch => ({
+  setPlaying: () => dispatch(setStatus('PLAYING')),
+  resetPosition: () => dispatch(setPosition(0)),
+  setCurrentPlaylist: collection => dispatch(setPlaylist(collection)),
+  shuffle: () => dispatch(shufflePlaylist()),
 });
 
 LabelView.propTypes = {
   classes: PropTypes.object.isRequired,
   size: PropTypes.number,
-  labelList: PropTypes.array
+  labelList: PropTypes.array,
+  setCurrentPlaylist: PropTypes.func,
+  resetPosition: PropTypes.func,
+  setPlaying: PropTypes.func,
+  shuffle: PropTypes.func,
 };
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(withStyles(LabelViewStyle)(LabelView));
