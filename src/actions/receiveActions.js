@@ -6,7 +6,8 @@ import {
   RECEIVE_DATABASE_CREATED,
   RECEIVE_SEARCH_LIST,
   RECEIVE_SEARCH_SIZE,
-  RECEIVE_SEARCH_QUERY
+  RECEIVE_SEARCH_QUERY,
+  RECEIVE_PLAYLISTS
 } from '../actionTypes/receiveTypes';
 
 import {
@@ -60,5 +61,10 @@ export const receiveSearchQuery = payload => dispatch => dispatch({
 
 export const receiveBackground = payload => dispatch => dispatch({
   type: SET_BACKGROUND_IMAGE,
+  payload
+});
+
+export const receivePlaylists = payload => dispatch => dispatch({
+  type: RECEIVE_PLAYLISTS,
   payload
 });

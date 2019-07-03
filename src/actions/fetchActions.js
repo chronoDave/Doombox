@@ -1,6 +1,7 @@
 import {
   FETCH_ALL,
-  FETCH_BACKGROUND_IMAGE
+  FETCH_BACKGROUND_IMAGE,
+  FETCH_PLAYLISTS
 } from '../actionTypes/fetchTypes';
 
 // eslint-disable-next-line no-undef
@@ -18,4 +19,8 @@ export const fetchAll = (view, options) => dispatch => {
 export const fetchBackground = () => dispatch => {
   dispatch({ type: FETCH_BACKGROUND_IMAGE });
   ipcRenderer.send(FETCH_BACKGROUND_IMAGE);
+};
+
+export const fetchPlaylists = () => {
+  ipcRenderer.send(FETCH_PLAYLISTS);
 };

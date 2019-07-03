@@ -85,6 +85,24 @@ module.exports = {
         });
       });
     });
+    ipcMain.on('FETCH_PLAYLISTS', event => {
+      Database.playlists.find({}, (err, payload) => {
+        if (err) throw Error(err);
+        return event.sender.send('RECEIVE_PLAYLISTS', payload);
+      });
+    });
+    ipcMain.on('ADD_PLAYLIST', (event, payload) => {
+      Database.playlists.insert({
+        _id: payload.name,
+        collection: payload.collection
+      }, err => {
+        if (err) throw Error(err);
+        event.sender.send('RECEIVE_STATUS', {
+          payload: `Successfully added ${payload.name} to custom collections`,
+          variant: 'succes'
+        });
+      });
+    });
   },
   keyboardListener(sender) {
     globalShortcut.register(
