@@ -1,0 +1,30 @@
+{
+  "name": "@doombox/electron",
+  "version": "1.0.0-ce",
+  "private": true,
+  "author": "Chronocide",
+  "description": "An open-source web-based audio player built for large music libraries",
+  "keywords": [
+    "electron",
+    "doombox",
+    "audio player",
+    "music"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chronoDave/Doombox.git",
+    "directory": "packages/doombox-electron"
+  },
+  "license": "GNU General Public License",
+  "homepage": "https://www.chronostudios.net",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "nodemon --watch src --exec cross-env NODE_ENV=development electron ."
+  },
+  "devDependencies": {
+    "electron-prebuilt-compile": "^4.0.0"
+  },
+  "dependencies": {
+    "electron": "^5.0.6"
+  }
+}
