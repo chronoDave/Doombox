@@ -17,8 +17,6 @@ module.exports = {
         window.loadURL('http://localhost:5000');
         break;
       default:
-        // window.loadFile(`${__dirname}/../../client/index.html`);
-        // window.loadFile(path.resolve(__dirname, 'client/index.html'));
         window.loadFile(path.normalize(`${app.getAppPath()}/../client/index.html`));
         break;
     }
