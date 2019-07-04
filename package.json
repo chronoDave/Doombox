@@ -4,7 +4,10 @@
   "scripts": {
     "lint": "eslint .",
     "start:react": "cd ./packages/doombox-react && yarn start",
-    "start:electron": "cd ./packages/doombox-electron && yarn start"
+    "start:electron": "cd ./packages/doombox-electron && yarn start",
+    "build:react": "cd ./packages/doombox-react && yarn build",
+    "build:electron": "cd ./packages/doombox-electron && yarn build",
+    "build:electron-test": "cd ./packages/doombox-electron && yarn build:test"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",

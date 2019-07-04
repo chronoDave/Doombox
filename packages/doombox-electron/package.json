@@ -17,14 +17,29 @@
   },
   "license": "GNU General Public License",
   "homepage": "https://www.chronostudios.net",
-  "main": "./src/index.js",
+  "main": "./src",
   "scripts": {
-    "start": "nodemon --watch src --exec cross-env NODE_ENV=development electron ."
+    "start": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
+    "build": "electron-builder",
+    "build:test": "electron-builder --dir"
   },
   "devDependencies": {
-    "electron-prebuilt-compile": "^4.0.0"
+    "electron": "^5.0.6",
+    "electron-builder": "^20.44.4"
   },
-  "dependencies": {
-    "electron": "^5.0.6"
+  "dependencies": {},
+  "build": {
+    "appId": "com.electron.doombox",
+    "productName": "Doombox",
+    "copyright": "Copyright ©2019 ${author}",
+    "directories": {
+      "output": "../../build"
+    },
+    "extraResources": [
+      {
+        "from": "../doombox-react/build",
+        "to": "client"
+      }
+    ]
   }
 }

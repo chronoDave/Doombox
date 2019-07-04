@@ -1,7 +1,7 @@
-import { app } from 'electron';
+const { app } = require('electron');
 
 // Core
-import { createWindow } from './lib/window';
+const { createWindow } = require('./lib/window');
 
 app.on('ready', createWindow);
 

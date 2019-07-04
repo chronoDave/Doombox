@@ -21,6 +21,7 @@ module.exports = {
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
     // Import
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'import/no-extraneous-dependencies': 'off' // Electron builder requires devDependency
   }
 }
