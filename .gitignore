@@ -1,6 +1,6 @@
-node_modules
+
+*.log
+.DS_STORE
 build
-dist
-roaming.lnk
-store
-assets
+node_modules
+package-lock.json

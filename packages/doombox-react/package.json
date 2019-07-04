@@ -1,0 +1,33 @@
+{
+  "name": "@doombox/react",
+  "version": "1.0.0-ce",
+  "private": true,
+  "author": "Chronocide",
+  "description": "An open-source web-based audio player built for large music libraries",
+  "keywords": [
+    "react",
+    "material-ui",
+    "doombox",
+    "audio player",
+    "music"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chronoDave/Doombox.git",
+    "directory": "packages/doombox-react"
+  },
+  "license": "GNU General Public License",
+  "homepage": "https://www.chronostudios.net",
+  "scripts": {
+    "start": "neutrino start",
+    "build": "neutrino build"
+  },
+  "devDependencies": {
+    "@neutrinojs/react": "^8.3.0",
+    "neutrino": "^8.3.0"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
