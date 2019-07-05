@@ -3,9 +3,8 @@ const { graphql } = require('graphql');
 const mongoose = require('mongoose');
 
 // Core
-const { schema } = require('./schema');
-const { resolver } = require('./resolver');
 const { createWindow } = require('./lib/window');
+const { ipcListener } = require('./events/ipcListener');
 
 app.on('ready', () => {
   createWindow();
@@ -40,14 +39,8 @@ app.on('ready', () => {
 
   mongoose.connect('mongodb://localhost:32768/doombox', { useNewUrlParser: true })
     .then(() => {
-      console.log('Connected');
-      graphql(
-        schema,
-        queryUser,
-        resolver
-      ).then(response => {
-        console.log(response.data.users);
-      });
+      console.log('connected');
+      ipcListener();
     })
     .catch(err => console.log(err));
 });

@@ -1,0 +1,4 @@
+module.exports = {
+  RECEIVE_USERS: 'RECEIVE_USERS',
+  RECEIVE_ERROR: 'RECEIVE_ERROR'
+};
