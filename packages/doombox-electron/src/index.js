@@ -3,44 +3,38 @@ const { graphql } = require('graphql');
 const mongoose = require('mongoose');
 
 // Core
+const { schema } = require('./schema');
+const { resolver } = require('./resolver');
 const { createWindow } = require('./lib/window');
-const { schema } = require('./lib/graphql/schema');
-const { events } = require('./lib/graphql/resolver');
 
 app.on('ready', () => {
   createWindow();
 
-  const mutate = `mutation {
-    createEvent(input: {
-      title: "Event",
-      description: "Description",
-      price: 50,
-      date: "2018-12-11T07:26:30.680Z"
-    }) {
-      title
-    }
-  }`
-
-  const query = `query {
-    events {
-      title
-      _id
-    }
-  }`
-
   const queryUser = `query {
-    events {
-      creator {
-        username
+    users {
+      username
+      avatar {
+        url
       }
     }
   }`
 
   const createUser = `mutation {
     createUser(input: {
-      username: "Chronocide"
+      username: "Chronocide",
+      avatar: "5d1f320862ce6647bcedc452"
     }) {
       username
+    }
+  }`
+
+  const createImage = `mutation {
+    createImage(input: {
+      file_name: "bg",
+      file_type: "png",
+      url: "https://chrono.s-ul.eu/DaASwsS2"
+    }) {
+      url
     }
   }`
 
@@ -50,9 +44,9 @@ app.on('ready', () => {
       graphql(
         schema,
         queryUser,
-        events
+        resolver
       ).then(response => {
-        console.log(response);
+        console.log(response.data.users);
       });
     })
     .catch(err => console.log(err));

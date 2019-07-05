@@ -22,6 +22,7 @@ module.exports = {
     'arrow-body-style': 'warn',
     "arrow-parens": ["error", "as-needed"],
     "no-underscore-dangle": "off", // Mongoose _doc
+    "camelcase": "off", // Mongoose data types
     // Import
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': 'off' // Electron builder requires devDependency

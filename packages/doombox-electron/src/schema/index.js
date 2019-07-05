@@ -2,38 +2,37 @@ const { buildSchema } = require('graphql');
 
 module.exports = {
   schema: buildSchema(`
-    type Event {
+    type Image {
       _id: ID!
-      title: String!
-      description: String!
-      price: Float!
-      date: String!
-      creator: User!
+      file_name: String!
+      file_type: String!
+      url: String!
     }
 
     type User {
       _id: ID!
       username: String!
-    }
-
-    input EventInput {
-      title: String!
-      description: String!
-      price: Float!
-      date: String!
+      avatar: Image
     }
 
     input UserInput {
       username: String!
+      avatar: ID
+    }
+
+    input ImageInput {
+      file_name: String!
+      file_type: String!
+      url: String!
     }
 
     type RootQuery {
-      events: [Event!]!
+      users: [User!]!
     }
 
     type RootMutation {
-      createEvent(input: EventInput): Event
       createUser(input: UserInput): User
+      createImage(input: ImageInput): Image
     }
 
     schema {

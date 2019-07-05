@@ -7,10 +7,10 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  createdEvents: [{
+  avatar: {
     type: Schema.Types.ObjectId,
-    ref: 'Event'
-  }]
+    ref: 'Image'
+  }
 });
 
 module.exports = mongoose.model('User', userSchema);
