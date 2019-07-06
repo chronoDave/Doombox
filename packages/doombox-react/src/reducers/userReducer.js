@@ -1,4 +1,5 @@
 import {
+  RECEIVE_USER,
   RECEIVE_USERS
 } from '../../../../utils/types/receive';
 
@@ -9,9 +10,13 @@ export const userReducer = (
   }, action
 ) => {
   switch (action.type) {
+    case RECEIVE_USER:
+      return {
+        ...state,
+        ...action.payload
+      };
     // For testing purposes only
     case RECEIVE_USERS:
-      console.log(action.payload);
       return {
         ...state,
         username: action.payload

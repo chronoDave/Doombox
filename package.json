@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
+    "size": "source-map-explorer ./packages/doombox-react/build/*.js",
     "start:react": "cd ./packages/doombox-react && yarn start",
     "start:electron": "cd ./packages/doombox-electron && yarn start",
     "build:react": "cd ./packages/doombox-react && yarn build",

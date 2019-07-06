@@ -2,10 +2,10 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
 module.exports = {
-  createWindow: () => {
+  createWindow: args => {
     let window = new BrowserWindow({
-      width: 800,
-      height: 600,
+      width: args.width,
+      height: args.height,
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false
@@ -24,5 +24,7 @@ module.exports = {
     window.on('closed', () => {
       window = null;
     });
+
+    return window;
   }
 };

@@ -23,6 +23,8 @@ module.exports = {
     "arrow-parens": ["error", "as-needed"],
     "no-underscore-dangle": "off", // Mongoose _doc
     "camelcase": "off", // Mongoose data types
+    // React
+    "react/forbid-prop-types": "off", // Most packages don't have shapes
     // Import
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': 'off' // Electron builder requires devDependency

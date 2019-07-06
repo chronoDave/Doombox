@@ -1,26 +1,23 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
+import {
+  BrowserRouter,
+  Switch,
+  Route
+} from 'react-router-dom';
 
-// Actions
-import { fetchUsers } from '../../actions/fetchActions';
+// Core
+import { Sidebar } from '../Sidebar';
 
-const { ipcRenderer } = window.require('electron');
+// Routes
+import { Routes } from '../../routes';
 
-const App = props => {
-  const { getUsers } = props;
+const App = () => (
+  <BrowserRouter>
+    <Sidebar />
+    <Switch>
+      {Routes.map(route => <Route key={route.key} {...route} />)}
+    </Switch>
+  </BrowserRouter>
+);
 
-  return (
-    <div>
-      <button onClick={getUsers}>Click me</button>
-    </div>
-  );
-};
-
-const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(fetchUsers())
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(App);
+export default App;
