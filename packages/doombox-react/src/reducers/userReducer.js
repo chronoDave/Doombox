@@ -6,14 +6,22 @@ import {
 export const userReducer = (
   state = {
     username: null,
-    avatar: null
+    avatar: null,
+    isNew: false
   }, action
 ) => {
   switch (action.type) {
     case RECEIVE_USER:
+      if (Object.keys(action.payload).length === 0) {
+        return {
+          ...state,
+          isNew: true
+        };
+      }
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        isNew: false
       };
     // For testing purposes only
     case RECEIVE_USERS:

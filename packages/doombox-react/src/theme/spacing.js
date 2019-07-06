@@ -1,3 +1,3 @@
-export const spacing = {
+export const SPACING = {
   sidebar: 210
 };

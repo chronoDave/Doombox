@@ -1,10 +1,25 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 // Core
-import { spacing } from './spacing';
+import { SPACING } from './spacing';
+import * as Colors from './colors';
 
 export const theme = createMuiTheme({
   palette: {
+    primary: Colors.PRIMARY,
+    grey: Colors.GREY,
+    text: {
+      primary: Colors.GREY[50],
+      secondary: Colors.GREY[200]
+    },
+    background: {
+      default: Colors.GREY[400],
+      paper: Colors.GREY[500]
+    },
+    error: Colors.ERROR,
+    warning: Colors.WARNING,
+    success: Colors.SUCCESS,
+    info: Colors.INFO,
     getAlpha: (hex, alpha) => {
       const composite = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
@@ -20,5 +35,5 @@ export const theme = createMuiTheme({
       return hex;
     },
   },
-  component: { ...spacing }
+  component: { ...SPACING }
 });

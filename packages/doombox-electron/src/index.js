@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 // Core
 const { createWindow } = require('./lib/window');
 const Store = require('./lib/store');
-const { ipcListener } = require('./events/ipcListener');
+
+// Events
+const { createListener } = require('./events/createListener');
+const { deleteListener } = require('./events/deleteListener');
+const { fetchListener } = require('./events/fetchListener');
 
 const store = new Store({
   configName: 'user-preferences',
@@ -13,25 +17,26 @@ const store = new Store({
       width: 800,
       height: 600
     },
-    user: {
-      username: 'User',
-      avatar: null
-    }
+    user: {}
   }
 });
 
 app.on('ready', () => {
   const { width, height } = store.get('window');
 
+  // Main
   const mainWindow = createWindow({ width, height });
   mainWindow.on('resize', () => {
     store.set('window', { ...mainWindow.getBounds() });
   });
 
+  // Events
+  createListener(store);
+  deleteListener(store);
+  fetchListener(store);
+
+  // Database
   mongoose.connect('mongodb://localhost:32768/doombox', { useNewUrlParser: true })
-    .then(() => {
-      ipcListener(store);
-    })
     .catch(err => { throw err; });
 });
 

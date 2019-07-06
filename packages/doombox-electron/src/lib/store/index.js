@@ -4,7 +4,10 @@ const fs = require('fs');
 
 function parseDataFile(filePath, defaults) {
   try {
-    return JSON.parse(fs.readFileSync(filePath));
+    return {
+      ...defaults,
+      ...JSON.parse(fs.readFileSync(filePath))
+    };
   } catch (err) {
     return defaults;
   }
@@ -25,6 +28,16 @@ module.exports = class Store {
 
   set(key, value) {
     this.data[key] = value;
+
+    try {
+      fs.writeFileSync(this.path, JSON.stringify(this.data));
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  delete(key) {
+    this.data[key] = {};
 
     try {
       fs.writeFileSync(this.path, JSON.stringify(this.data));

@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 
 // Core
 import { withStyles } from '@material-ui/core/styles';
-import { Drawer } from '@material-ui/core';
+import {
+  Drawer,
+  Box
+} from '@material-ui/core';
+
+import { SidebarItemUser } from '../SidebarItem';
+import { Logo } from '../Logo';
 
 // Style
 import SidebarStyle from './SidebarStyle';
@@ -17,7 +23,15 @@ const Sidebar = props => {
       anchor="left"
       classes={{ paper: classes.paper }}
     >
-      Content
+      <Box
+        p={2}
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <Logo />
+        <SidebarItemUser />
+      </Box>
     </Drawer>
   );
 };

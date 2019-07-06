@@ -18,11 +18,23 @@ const {
 const {
   CREATE_USER,
 } = require('../../../../utils/types/receive');
+const {
+  DELETE_USER
+} = require('../../../../utils/types/delete');
 
 module.exports = {
   ipcListener(store) {
     ipcMain.on(CREATE_USER, (event, payload) => {
       store.set('user', { ...payload });
+
+      const newUser = store.get('user');
+      event.sender.send(RECEIVE_USER, newUser);
+    });
+    ipcMain.on(DELETE_USER, event => {
+      store.delete('user');
+
+      const newUser = store.get('user');
+      event.sender.send(RECEIVE_USER, newUser);
     });
     ipcMain.on(FETCH_USER, event => {
       const user = store.get('user');

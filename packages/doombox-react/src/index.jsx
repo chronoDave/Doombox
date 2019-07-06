@@ -16,13 +16,13 @@ import { store } from './store';
 import { theme } from './theme';
 
 render(
-  <CssBaseline>
-    <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline>
         <IpcListener />
         <App />
-      </MuiThemeProvider>
-    </Provider>
-  </CssBaseline>,
+      </CssBaseline>
+    </MuiThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );

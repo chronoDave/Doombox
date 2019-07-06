@@ -1,6 +1,7 @@
 const SidebarStyle = theme => ({
   paper: {
-    width: theme.component.sidebar
+    width: theme.component.sidebar,
+    backgroundColor: theme.palette.grey[500],
   }
 });
 

@@ -24,9 +24,12 @@ module.exports = {
     "no-underscore-dangle": "off", // Mongoose _doc
     "camelcase": "off", // Mongoose data types
     // React
-    "react/forbid-prop-types": "off", // Most packages don't have shapes
+    "react/forbid-prop-types": "off", // Most packages don't have shapes,
+    "react/jsx-closing-bracket-location": "off", // Prefer not to use newline on single-prop JSX
     // Import
     'import/prefer-default-export': 'off',
-    'import/no-extraneous-dependencies': 'off' // Electron builder requires devDependency
+    'import/no-extraneous-dependencies': 'off', // Electron builder requires devDependency
+    // JSX
+    'jsx-a11y/label-has-for': 'off' // This rule was deprecated in v6.1.0.
   }
 }
