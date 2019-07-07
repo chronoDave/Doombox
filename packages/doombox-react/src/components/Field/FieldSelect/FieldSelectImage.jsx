@@ -10,28 +10,34 @@ import FieldSelectStyle from './FieldSelectStyle';
 const FieldSelectImage = props => {
   const {
     classes,
-    inputProps,
+    field,
     setValue,
-    children
+    render
   } = props;
+
+  const onSelect = () => {
+    const input = document.getElementById(`select-${field.name}`);
+
+    if (input) input.click();
+  };
 
   return (
     <Fragment>
       <input
-        {...inputProps}
+        id={`select-${field.name}`}
         type="file"
         accept="image/png, image/jpg, image/jpeg, image/gif"
         onChange={event => setValue(
-          inputProps.name,
+          field.name,
           event.currentTarget.files[0]
         )}
         className={classes.hidden}
       />
       <label
         className={classes.label}
-        htmlFor={inputProps.id}
+        htmlFor={`select-${field.name}`}
       >
-        {children}
+        {render({ onSelect })}
       </label>
     </Fragment>
 
@@ -39,13 +45,10 @@ const FieldSelectImage = props => {
 };
 
 FieldSelectImage.propTypes = {
-  inputProps: PropTypes.shape({
-    name: PropTypes.string,
-    id: PropTypes.string
-  }).isRequired,
+  field: PropTypes.object.isRequired,
   setValue: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired
+  render: PropTypes.func.isRequired
 };
 
 export default withStyles(

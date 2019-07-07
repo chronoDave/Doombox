@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Button as MuiButton,
-  Box
+  Box,
+  CircularProgress
 } from '@material-ui/core';
 
 // Style
@@ -24,6 +25,7 @@ const Button = props => {
     classes,
     color,
     disableLowercase,
+    loading,
     BoxProps,
     ...rest
   } = props;
@@ -31,12 +33,15 @@ const Button = props => {
   return (
     <Box {...BoxProps}>
       <MuiButton
+        disabled={rest.disabled || loading}
         color={MuiColors.includes(color) ? color : null}
         className={!disableLowercase ? classes.lowercase : null}
         classes={{ root: classes[`color_${rest.variant || 'text'}_${color}`] }}
         {...rest}
       >
-        {children}
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : children}
       </MuiButton>
     </Box>
   );
@@ -45,6 +50,7 @@ const Button = props => {
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
   color: PropTypes.oneOf([
     'default',
     'inherit',
@@ -61,6 +67,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   color: 'default',
+  loading: false,
   disableLowercase: false,
   BoxProps: {}
 };

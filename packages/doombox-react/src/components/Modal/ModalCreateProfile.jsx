@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   Dialog,
@@ -15,26 +14,23 @@ import {
 
 import { Button } from '../Button';
 import { FieldSelectAvatar } from '../Field';
-import { Avatar } from '../Avatar';
 
 // Actions
-import { createUser } from '../../actions/createActions';
+import { createImage, createUser } from '../../actions/createActions';
 
-// Style
-import ModalStyle from './ModalStyle';
+// Validation
+import { schemaImage } from '../../validation';
 
 const ModalCreateProfile = props => {
   const {
     classes,
-    isNew,
     onCancel,
+    onSuccess,
     ...rest
   } = props;
 
   return (
-    <Dialog
-      {...rest}
-    >
+    <Dialog {...rest}>
       <DialogTitle id="dialog-create-user-title">
         Create Profile
       </DialogTitle>
@@ -46,15 +42,29 @@ const ModalCreateProfile = props => {
         validationSchema={Yup.object().shape({
           username: Yup.string()
             .max(30, 'Username too long')
-            .required('Required'),
-          avatar: Yup.mixed()
-            .notRequired()
+            .required('Username is required'),
+          avatar: schemaImage
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          const normalizedAvatar = JSON.stringify(values.avatar);
-          // createUser(values);
-          console.log(values);
-          if (!isNew) setSubmitting(false);
+        onSubmit={async (values, { setSubmitting }) => {
+          createUser({
+            ...values,
+            avatar: values.avatar ? ({
+              lastModified: values.avatar.lastModified,
+              lastModifiedDate: values.avatar.lastModifiedDate,
+              name: values.avatar.name,
+              path: values.avatar.path,
+              size: values.avatar.size,
+              type: values.avatar.type
+            }) : null
+          })
+            .then(response => {
+              console.log(response);
+              return setSubmitting(false);
+            })
+            .catch(response => {
+              console.log(response);
+              return setSubmitting(false);
+            });
         }}
       >
         {({
@@ -75,9 +85,9 @@ const ModalCreateProfile = props => {
                   <Box pb={2}>
                     <Field
                       name="avatar"
-                      render={({ field: { name } }) => (
+                      render={({ field }) => (
                         <FieldSelectAvatar
-                          inputProps={{ name, id: `create-profile-${name}` }}
+                          field={field}
                           setValue={setFieldValue}
                           path={values.avatar ? values.avatar.path : null}
                         />
@@ -98,15 +108,21 @@ const ModalCreateProfile = props => {
                     )}
                   />
                 </Box>
+                <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
+                  <Button BoxProps={{ p: 1 }} onClick={onCancel}>
+                    Cancel
+                  </Button>
+                  <Button
+                    BoxProps={{ p: 1, pr: 0 }}
+                    variant="contained"
+                    color="success"
+                    loading={isSubmitting}
+                    type="submit"
+                  >
+                    Save
+                  </Button>
+                </Box>
               </Form>
-              <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
-                <Button BoxProps={{ p: 1 }} onClick={onCancel}>
-                  Cancel
-                </Button>
-                <Button BoxProps={{ p: 1, pr: 0 }} variant="contained" color="success">
-                  Save
-                </Button>
-              </Box>
             </DialogContent>
           </Fragment>
         )}
@@ -118,9 +134,7 @@ const ModalCreateProfile = props => {
 ModalCreateProfile.propTypes = {
   classes: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
-  isNew: PropTypes.bool.isRequired
+  onSuccess: PropTypes.func.isRequired
 };
 
-export default withStyles(
-  ModalStyle
-)(ModalCreateProfile);
+export default ModalCreateProfile;

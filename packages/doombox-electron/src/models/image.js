@@ -3,15 +3,27 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const imageSchema = new Schema({
-  file_name: {
+  lastModified: {
+    type: Number,
+    required: true
+  },
+  lastModifiedDate: {
     type: String,
     required: true
   },
-  file_type: {
+  name: {
     type: String,
     required: true
   },
-  url: {
+  path: {
+    type: String,
+    required: true
+  },
+  size: {
+    type: Number,
+    required: true
+  },
+  type: {
     type: String,
     required: true
   }

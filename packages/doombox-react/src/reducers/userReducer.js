@@ -4,31 +4,17 @@ import {
 } from '../../../../utils/types/receive';
 
 export const userReducer = (
-  state = {
-    username: null,
-    avatar: null,
-    isNew: false
-  }, action
+  state = {}, action
 ) => {
   switch (action.type) {
     case RECEIVE_USER:
-      if (Object.keys(action.payload).length === 0) {
-        return {
-          ...state,
-          isNew: true
-        };
-      }
       return {
         ...state,
-        ...action.payload,
-        isNew: false
+        ...action.payload
       };
-    // For testing purposes only
+    // Temp
     case RECEIVE_USERS:
-      return {
-        ...state,
-        username: action.payload
-      };
+      return state;
     default:
       return state;
   }

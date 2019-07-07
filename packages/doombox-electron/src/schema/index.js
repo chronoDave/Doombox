@@ -4,9 +4,12 @@ module.exports = {
   schema: buildSchema(`
     type Image {
       _id: ID!
-      file_name: String!
-      file_type: String!
-      url: String!
+      lastModified: Float!
+      lastModifiedDate: String!
+      name: String!
+      path: String!
+      size: Float!
+      type: String!
     }
 
     type User {
@@ -21,18 +24,24 @@ module.exports = {
     }
 
     input ImageInput {
-      file_name: String!
-      file_type: String!
-      url: String!
+      lastModified: Float!
+      lastModifiedDate: String!
+      name: String!
+      path: String!
+      size: Float!
+      type: String!
     }
 
     type RootQuery {
+      user(username: String!): User
       users: [User!]!
     }
 
     type RootMutation {
       createUser(input: UserInput): User
       createImage(input: ImageInput): Image
+
+      deleteUser(userId: ID!): User
     }
 
     schema {

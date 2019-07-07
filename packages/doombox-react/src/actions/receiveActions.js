@@ -8,5 +8,5 @@ export const receiveUsers = payload => dispatch => {
 };
 
 export const receiveUser = payload => dispatch => {
-  dispatch({ type: RECEIVE_USER, payload });
+  dispatch({ type: RECEIVE_USER, payload: payload.data.user });
 };

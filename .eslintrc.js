@@ -23,6 +23,7 @@ module.exports = {
     "arrow-parens": ["error", "as-needed"],
     "no-underscore-dangle": "off", // Mongoose _doc
     "camelcase": "off", // Mongoose data types
+    "quote-props": ["error", "as-needed", { "unnecessary": false }], // GraphQL string props
     // React
     "react/forbid-prop-types": "off", // Most packages don't have shapes,
     "react/jsx-closing-bracket-location": "off", // Prefer not to use newline on single-prop JSX

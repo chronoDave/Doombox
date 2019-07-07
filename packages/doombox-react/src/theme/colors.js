@@ -1,7 +1,7 @@
 export const PRIMARY = {
   main: '#664d82',
-  dark: '#9073ae',
-  light: '#443555',
+  dark: '#443555',
+  light: '#9073ae',
   contrastText: '#ffffff'
 };
 

@@ -14,6 +14,20 @@ const FieldSelectStyle = theme => ({
   },
   error: {
     color: theme.palette.error.main
+  },
+  root: {
+    position: 'relative'
+  },
+  fieldSelectIcon: {
+    position: 'absolute',
+    backgroundColor: theme.palette.primary.main,
+    left: 80,
+    bottom: 80,
+    zIndex: 1,
+    color: theme.palette.grey[0],
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light
+    }
   }
 });
 

@@ -5,6 +5,13 @@ import { SPACING } from './spacing';
 import * as Colors from './colors';
 
 export const theme = createMuiTheme({
+  overrides: {
+    MuiOutlinedInput: {
+      notchedOutline: {
+        borderColor: 'rgba(255, 255, 255, 0.23)'
+      }
+    }
+  },
   palette: {
     primary: Colors.PRIMARY,
     grey: Colors.GREY,

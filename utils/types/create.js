@@ -1,3 +1,4 @@
 module.exports = {
-  CREATE_USER: 'CREATE_USER'
+  CREATE_USER: 'CREATE_USER',
+  CREATE_IMAGE: 'CREATE_IMAGE'
 };

@@ -32,8 +32,8 @@ app.on('ready', () => {
 
   // Events
   createListener(store);
-  deleteListener(store);
-  fetchListener(store);
+  deleteListener();
+  fetchListener();
 
   // Database
   mongoose.connect('mongodb://localhost:32768/doombox', { useNewUrlParser: true })

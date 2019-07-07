@@ -22,7 +22,7 @@ import SidebarItemStyle from './SidebarItemStyle';
 const SidebarItemUser = props => {
   const {
     classes,
-    user: { username, avatar, isNew }
+    user,
   } = props;
   const [open, setOpen] = useState(false);
 
@@ -30,8 +30,9 @@ const SidebarItemUser = props => {
     fetchUser();
   }, []);
 
-  return (
-    isNew ? (
+  if (!user) return <CircularProgress />;
+  if (Object.keys(user).length === 0) {
+    return (
       <Fragment>
         <Button
           variant="contained"
@@ -47,24 +48,29 @@ const SidebarItemUser = props => {
           disableBackdropClick
           onClose={() => setOpen(false)}
           onCancel={() => setOpen(false)}
-          isNew={isNew || true}
+          onSuccess={() => setOpen(false)}
         />
       </Fragment>
-    ) : (
-      <Box
-        width="100%"
-      >
-        <Img
-          className={classes.avatar}
-          src={[
-            avatar,
-            'https://chrono.s-ul.eu/DaASwsS2'
-          ]}
-          loader={<CircularProgress size={20} />}
-        />
-      </Box>
-    )
-  );
+    );
+  }
+  return <div>a</div>
+  // return (
+  //   isNew ? (
+  //     
+  //   ) : (
+  //       <Box
+  //       width="100%"
+  //     >
+  //       <Img
+  //         className={classes.avatar}
+  //         src={[
+  //           user.avatar.path,
+  //           'https://chrono.s-ul.eu/DaASwsS2'
+  //         ]}
+  //         loader={<CircularProgress size={20} />}
+  //       />
+  //     </Box>
+  //   )
 };
 
 const mapStateToProps = state => ({

@@ -1,7 +1,13 @@
 const { ipcMain } = require('electron');
+const { graphql } = require('graphql');
+
+// Core
+const { schema } = require('../schema');
+const { rootResolver } = require('../resolver');
 
 // Types
 const {
+  RECEIVE_ERROR,
   RECEIVE_USER
 } = require('../../../../utils/types/receive');
 const {
@@ -9,11 +15,11 @@ const {
 } = require('../../../../utils/types/delete');
 
 module.exports = {
-  deleteListener(store) {
-    ipcMain.on(DELETE_USER, event => {
-      store.delete('user');
-
-      event.sender.send(RECEIVE_USER, {});
+  deleteListener() {
+    ipcMain.on(DELETE_USER, (event, query) => {
+      graphql(schema, query, rootResolver)
+        .then(payload => event.sender.send(RECEIVE_USER, payload))
+        .catch(err => event.sender.send(RECEIVE_ERROR, err));
     });
   }
 };
