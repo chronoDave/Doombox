@@ -11,7 +11,9 @@ module.exports = {
         throw new Error('User already exists');
       }
 
-      const newUser = await new User({ ...args.input }).save();
+      await User.create({ ...args.input });
+      const newUser = await User.findOne({ username }).populate('avatar');
+
       return newUser;
     } catch (err) {
       return err;

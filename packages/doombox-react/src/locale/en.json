@@ -1,0 +1,14 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "username": "Username"
+  },
+  "title": {
+    "createProfile": "Create Profile"
+  },
+  "validation": {
+    "max": "{{input}} is too long",
+    "required": "{{input}} is required"
+  }
+}

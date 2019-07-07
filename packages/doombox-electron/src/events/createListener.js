@@ -20,14 +20,12 @@ module.exports = {
     ipcMain.on(CREATE_USER, (event, query) => {
       graphql(schema, query, rootResolver)
         .then(payload => {
-          if (Array.isArray(payload.error)) {
-            store.set('user', { _id: payload.data.createUser._id });
+          if (!Array.isArray(payload.error)) {
+            store.set('user', { username: payload.data.createUser.username });
           }
           return event.sender.send(RECEIVE_USER, payload);
         })
-        .catch(err => {
-          return event.sender.send(RECEIVE_USER, err);
-        });
+        .catch(err => event.sender.send(RECEIVE_USER, err));
     });
     ipcMain.on(CREATE_IMAGE, (event, query) => {
       graphql(schema, query, rootResolver)

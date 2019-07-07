@@ -1,7 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import Img from 'react-image';
+
+// Icon
+import IconPerson from '@material-ui/icons/Person';
 
 // Core
 import { withStyles } from '@material-ui/core/styles';
@@ -13,25 +15,21 @@ import {
 import { ModalCreateProfile } from '../Modal';
 import { Button } from '../Button';
 
-// Actions
-import { fetchUser } from '../../actions/fetchActions';
+// Hooks
+import { useSubscribeUser } from '../../hooks';
 
 // Style
 import SidebarItemStyle from './SidebarItemStyle';
 
 const SidebarItemUser = props => {
   const {
-    classes,
-    user,
+    classes
   } = props;
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  const user = useSubscribeUser();
 
   if (!user) return <CircularProgress />;
-  if (Object.keys(user).length === 0) {
+  if (!user.username) {
     return (
       <Fragment>
         <Button
@@ -53,41 +51,30 @@ const SidebarItemUser = props => {
       </Fragment>
     );
   }
-  return <div>a</div>
-  // return (
-  //   isNew ? (
-  //     
-  //   ) : (
-  //       <Box
-  //       width="100%"
-  //     >
-  //       <Img
-  //         className={classes.avatar}
-  //         src={[
-  //           user.avatar.path,
-  //           'https://chrono.s-ul.eu/DaASwsS2'
-  //         ]}
-  //         loader={<CircularProgress size={20} />}
-  //       />
-  //     </Box>
-  //   )
+  return (
+    <Box
+      width="100%"
+    >
+      {user.avatar ? (
+        <Img
+          className={classes.avatar}
+          src={[
+            user.avatar.path,
+            'https://chrono.s-ul.eu/DaASwsS2'
+          ]}
+          loader={<CircularProgress size={20} />}
+        />
+      ) : (
+        <IconPerson />
+      )}
+    </Box>
+  );
 };
-
-const mapStateToProps = state => ({
-  user: state.user
-});
 
 SidebarItemUser.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object,
 };
 
-SidebarItemUser.defaultProps = {
-  user: {}
-};
-
-export default connect(
-  mapStateToProps
-)(withStyles(
+export default withStyles(
   SidebarItemStyle
-)(SidebarItemUser));
+)(SidebarItemUser);

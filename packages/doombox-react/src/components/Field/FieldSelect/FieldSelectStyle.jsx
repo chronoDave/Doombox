@@ -20,13 +20,13 @@ const FieldSelectStyle = theme => ({
   },
   fieldSelectIcon: {
     position: 'absolute',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.grey[200],
     left: 80,
     bottom: 80,
     zIndex: 1,
     color: theme.palette.grey[0],
     '&:hover': {
-      backgroundColor: theme.palette.primary.light
+      backgroundColor: theme.palette.grey[100]
     }
   }
 });

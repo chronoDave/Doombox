@@ -7,6 +7,7 @@ const Store = require('./lib/store');
 
 // Events
 const { createListener } = require('./events/createListener');
+const { cacheListener } = require('./events/cacheListener');
 const { deleteListener } = require('./events/deleteListener');
 const { fetchListener } = require('./events/fetchListener');
 
@@ -32,6 +33,7 @@ app.on('ready', () => {
 
   // Events
   createListener(store);
+  cacheListener(store);
   deleteListener();
   fetchListener();
 

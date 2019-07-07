@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 // Core
 import {
@@ -25,41 +26,24 @@ import { createUser } from '../../actions/createActions';
 import { schemaImage } from '../../validation';
 
 const ModalCreateProfile = props => {
-  const {
-    classes,
-    onCancel,
-    onSuccess,
-    ...rest
-  } = props;
+  const { onCancel, onSuccess, ...rest } = props;
+  const translate = useTranslation().t;
 
   return (
     <Dialog {...rest}>
       <DialogTitle id="dialog-create-user-title">
-        Create Profile
+        {translate('title:createProfile')}
       </DialogTitle>
       <Formik
-        initialValues={{
-          username: '',
-          avatar: null
-        }}
+        initialValues={{ username: '', avatar: null }}
         validationSchema={Yup.object().shape({
           username: Yup.string()
-            .max(30, 'Username too long')
-            .required('Username is required'),
+            .max(30, translate('validation:max', { input: translate('username') }))
+            .required(translate('validation:required', { input: translate('username') })),
           avatar: schemaImage
         })}
         onSubmit={async (values, { setSubmitting, setStatus }) => {
-          createUser({
-            ...values,
-            avatar: values.avatar ? ({
-              lastModified: values.avatar.lastModified,
-              lastModifiedDate: values.avatar.lastModifiedDate,
-              name: values.avatar.name,
-              path: values.avatar.path,
-              size: values.avatar.size,
-              type: values.avatar.type
-            }) : null
-          })
+          createUser(values)
             .then(() => {
               setSubmitting(false);
               onSuccess();
@@ -78,58 +62,52 @@ const ModalCreateProfile = props => {
           isSubmitting,
           setFieldValue
         }) => (
-          <Fragment>
-            <DialogContent>
-              <Form>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                >
-                  <Box pb={2}>
-                    <Field
-                      name="avatar"
-                      render={({ field }) => (
-                        <FieldSelectAvatar
-                          field={field}
-                          setValue={setFieldValue}
-                          path={values.avatar ? values.avatar.path : null}
-                        />
-                      )}
-                    />
-                  </Box>
+          <DialogContent>
+            <Form>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Box pb={2}>
                   <Field
-                    name="username"
+                    name="avatar"
                     render={({ field }) => (
-                      <TextField
-                        {...field}
-                        id="create-profile-username"
-                        label="Username"
-                        variant="outlined"
-                        error={!!errors.username && touched.username}
-                        helperText={errors.username}
+                      <FieldSelectAvatar
+                        field={field}
+                        setValue={setFieldValue}
+                        path={values.avatar ? values.avatar.path : null}
                       />
                     )}
                   />
                 </Box>
-                {(status && status.msg) && <FieldError errors={status.msg} />}
-                <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
-                  <Button BoxProps={{ p: 1 }} onClick={onCancel}>
-                    Cancel
-                  </Button>
-                  <Button
-                    BoxProps={{ p: 1, pr: 0 }}
-                    variant="contained"
-                    color="success"
-                    loading={isSubmitting}
-                    type="submit"
-                  >
-                    Save
-                  </Button>
-                </Box>
-              </Form>
-            </DialogContent>
-          </Fragment>
+                <Field
+                  name="username"
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="create-profile-username"
+                      label={translate('username')}
+                      variant="outlined"
+                      error={!!errors.username && touched.username}
+                      helperText={errors.username}
+                    />
+                  )}
+                />
+              </Box>
+              {(status && status.msg) && <FieldError errors={status.msg} />}
+              <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
+                <Button BoxProps={{ p: 1 }} onClick={onCancel}>
+                  {translate('cancel')}
+                </Button>
+                <Button
+                  BoxProps={{ p: 1, pr: 0 }}
+                  variant="contained"
+                  color="success"
+                  loading={isSubmitting}
+                  type="submit"
+                >
+                  {translate('save')}
+                </Button>
+              </Box>
+            </Form>
+          </DialogContent>
         )}
       </Formik>
     </Dialog>

@@ -54,7 +54,7 @@ export const createUser = async ({
     createUser(input: {
       username: ${JSON.stringify(username)}
       avatar: ${image ? JSON.stringify(image._id) : null}
-    }) { _id, username }
+    }) { _id, username, avatar { path } }
   }`);
 
   return new Promise((resolve, reject) => {

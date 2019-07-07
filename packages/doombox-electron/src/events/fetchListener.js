@@ -10,8 +10,7 @@ const {
   FETCH_USER
 } = require('../../../../utils/types/fetch');
 const {
-  RECEIVE_USER,
-  RECEIVE_ERROR
+  RECEIVE_USER
 } = require('../../../../utils/types/receive');
 
 module.exports = {
@@ -19,7 +18,7 @@ module.exports = {
     ipcMain.on(FETCH_USER, (event, query) => {
       graphql(schema, query, rootResolver)
         .then(payload => event.sender.send(RECEIVE_USER, payload))
-        .catch(err => event.sender.send(RECEIVE_ERROR, err));
+        .catch(err => event.sender.send(RECEIVE_USER, err));
     });
   }
 };
