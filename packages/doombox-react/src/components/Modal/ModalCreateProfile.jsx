@@ -13,10 +13,13 @@ import {
 } from '@material-ui/core';
 
 import { Button } from '../Button';
-import { FieldSelectAvatar } from '../Field';
+import {
+  FieldSelectAvatar,
+  FieldError
+} from '../Field';
 
 // Actions
-import { createImage, createUser } from '../../actions/createActions';
+import { createUser } from '../../actions/createActions';
 
 // Validation
 import { schemaImage } from '../../validation';
@@ -45,7 +48,7 @@ const ModalCreateProfile = props => {
             .required('Username is required'),
           avatar: schemaImage
         })}
-        onSubmit={async (values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting, setStatus }) => {
           createUser({
             ...values,
             avatar: values.avatar ? ({
@@ -57,18 +60,19 @@ const ModalCreateProfile = props => {
               type: values.avatar.type
             }) : null
           })
-            .then(response => {
-              console.log(response);
-              return setSubmitting(false);
+            .then(() => {
+              setSubmitting(false);
+              onSuccess();
             })
             .catch(response => {
-              console.log(response);
+              setStatus({ msg: response });
               return setSubmitting(false);
             });
         }}
       >
         {({
           errors,
+          status,
           touched,
           values,
           isSubmitting,
@@ -108,6 +112,7 @@ const ModalCreateProfile = props => {
                     )}
                   />
                 </Box>
+                {(status && status.msg) && <FieldError errors={status.msg} />}
                 <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
                   <Button BoxProps={{ p: 1 }} onClick={onCancel}>
                     Cancel
@@ -132,7 +137,6 @@ const ModalCreateProfile = props => {
 };
 
 ModalCreateProfile.propTypes = {
-  classes: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSuccess: PropTypes.func.isRequired
 };

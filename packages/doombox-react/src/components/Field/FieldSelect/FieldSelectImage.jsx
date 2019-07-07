@@ -22,6 +22,7 @@ const FieldSelectImage = props => {
   };
 
   return (
+    // Accessibility must be managed by it's children
     <Fragment>
       <input
         id={`select-${field.name}`}
@@ -32,10 +33,12 @@ const FieldSelectImage = props => {
           event.currentTarget.files[0]
         )}
         className={classes.hidden}
+        tabIndex="-1"
       />
       <label
         className={classes.label}
         htmlFor={`select-${field.name}`}
+        tabIndex="-1"
       >
         {render({ onSelect })}
       </label>

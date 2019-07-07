@@ -41,7 +41,12 @@ export const createUser = async ({
     try {
       image = await createImage({ image: avatar });
     } catch (err) {
-      throw new Error(err);
+      if (/\bIMAGE_ID-\b/.test(err[0].message)) {
+        // Image already exists
+        image = { _id: err[0].message.split('-')[1] };
+      } else {
+        throw err;
+      }
     }
   }
 
@@ -53,7 +58,7 @@ export const createUser = async ({
   }`);
 
   return new Promise((resolve, reject) => {
-    ipcRenderer.on(RECEIVE_USER, (_, payload) => {
+    ipcRenderer.on(RECEIVE_USER, (event, payload) => {
       if (payload.errors) reject(payload.errors);
       resolve(payload.data.createUser);
     });

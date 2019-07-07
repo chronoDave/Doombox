@@ -10,6 +10,9 @@ const TypographyStyle = theme => ({
   },
   color_info: {
     color: theme.palette.info.main
+  },
+  color_white: {
+    color: theme.palette.grey[0]
   }
 });
 

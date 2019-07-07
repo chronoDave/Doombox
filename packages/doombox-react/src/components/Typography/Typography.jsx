@@ -46,7 +46,8 @@ Typography.propTypes = {
     'error',
     'warning',
     'success',
-    'info'
+    'info',
+    'white'
   ])
 };
 

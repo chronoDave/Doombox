@@ -19,7 +19,7 @@ render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
       <CssBaseline>
-        <IpcListener />
+        {/* <IpcListener /> */}
         <App />
       </CssBaseline>
     </MuiThemeProvider>
