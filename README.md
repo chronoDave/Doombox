@@ -19,7 +19,7 @@ The following keyboard shortcuts can be used globally (meaning they trigger even
  - Ctr+Alt+\\:    Toggle play / pause
 
 ## Roadmap
-Doombox is currently in early development. You can follow the development of Doombox on [Notion](https://www.notion.so/chronodave/c4662486b3484d5cb3a5bc9a51a3d4d1?v=8c72fc47dcf04071b8f3588126dbf82f).
+Doombox is currently in early development. You can follow the development of Doombox on the [Projects page](https://github.com/chronoDave/Doombox/projects/1).
 
 ## License
 This project is licensed under the [Gnu General Public License](https://github.com/chronoDave/Doombox/blob/master/LICENSE).
