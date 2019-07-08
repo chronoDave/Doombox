@@ -59,7 +59,7 @@ const SidebarItemUser = props => {
         <Img
           className={classes.avatar}
           src={[
-            user.avatar.path,
+            `file:${user.avatar.path}`,
             'https://chrono.s-ul.eu/DaASwsS2'
           ]}
           loader={<CircularProgress size={20} />}

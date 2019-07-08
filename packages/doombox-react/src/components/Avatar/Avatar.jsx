@@ -17,7 +17,7 @@ const Avatar = props => {
     <MuiAvatar classes={{ root: classes.root }}>
       {path ? (
         <img
-          src={path}
+          src={`file:${path}`}
           style={{
             width: '100%',
             height: '100%',
