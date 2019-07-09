@@ -1,17 +1,17 @@
 const { ipcMain } = require('electron');
 const { graphql } = require('graphql');
 
-// Core
-const { schema } = require('../schema');
-const { rootResolver } = require('../resolver');
-
 // Types
 const {
   FETCH_USER
-} = require('../../../../utils/types/fetch');
+} = require('@doombox/utils/types/fetch');
 const {
   RECEIVE_USER
-} = require('../../../../utils/types/receive');
+} = require('@doombox/utils/types/receive');
+
+// Core
+const { schema } = require('../schema');
+const { rootResolver } = require('../resolver');
 
 module.exports = {
   fetchListener() {

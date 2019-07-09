@@ -109,6 +109,9 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@doombox/utils@./packages/doombox-utils":
+  version "1.0.0-ce"
+
 "@emotion/hash@^0.7.1":
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.7.2.tgz#53211e564604beb9befa7a4400ebf8147473eeef"

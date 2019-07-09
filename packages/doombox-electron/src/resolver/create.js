@@ -8,7 +8,7 @@ module.exports = {
 
       const user = await User.findOne({ username });
       if (user) {
-        throw new Error('User already exists');
+        throw new Error('validation:userExists');
       }
 
       await User.create({ ...args.input });

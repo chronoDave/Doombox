@@ -1,6 +1,6 @@
 import {
   DELETE_USER
-} from '../../../../utils/types/delete';
+} from '@doombox/utils/types/delete';
 
 const { ipcRenderer } = window.require('electron');
 

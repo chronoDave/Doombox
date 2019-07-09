@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import {
   FETCH_USER,
   FETCH_USERS
-} from '../../../../utils/types/fetch';
+} from '@doombox/utils/types/fetch';
 import {
   RECEIVE_USER,
   RECEIVE_USERS
-} from '../../../../utils/types/receive';
+} from '@doombox/utils/types/receive';
 
 // Actions
 import { fetchCachedUser, fetchUser } from '../actions/fetchActions';

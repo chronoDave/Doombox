@@ -1,41 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // Icon
 import IconError from '@material-ui/icons/ErrorOutline';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 
 import { Typography } from '../Typography';
 
-// Style
-import FieldStyle from './FieldStyle';
-
 const FieldError = props => {
-  const { classes, errors } = props;
+  const { errors, ...rest } = props;
+  const { t } = useTranslation();
 
   return (
-    <div className={classes.root}>
-      <IconError classes={{ root: classes.icon }} />
-      {errors.map(error => (
-        <Typography
-          key={error.key || error.message}
-          color="white"
-          paragraph
-        >
-          {error.message}
-        </Typography>
-      ))}
-    </div>
+    <Box
+      display="flex"
+      alignItems="center"
+      px={1}
+      py={2}
+      bgcolor="error.main"
+      border={1}
+      borderColor="error.dark"
+      borderRadius={4}
+      color="grey.0"
+      {...rest}
+    >
+      <IconError />
+      <Box px={1}>
+        {errors.map(error => (
+          <Typography
+            key={error.key || error.message}
+            paragraph
+          >
+            {t(error.message)}
+          </Typography>
+        ))}
+      </Box>
+    </Box>
   );
 };
 
 FieldError.propTypes = {
-  classes: PropTypes.object.isRequired,
   errors: PropTypes.array.isRequired
 };
 
-export default withStyles(
-  FieldStyle
-)(FieldError);
+export default FieldError;

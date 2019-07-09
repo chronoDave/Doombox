@@ -3,10 +3,10 @@ const { ipcMain } = require('electron');
 // Types
 const {
   FETCH_CACHED_USER
-} = require('../../../../utils/types/fetch');
+} = require('@doombox/utils/types/fetch');
 const {
-  RECEIVE_CACHED_USER,
-} = require('../../../../utils/types/receive');
+  RECEIVE_CACHED_USER
+} = require('@doombox/utils/types/receive');
 
 module.exports = {
   cacheListener(store) {

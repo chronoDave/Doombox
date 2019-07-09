@@ -1,18 +1,18 @@
 const { ipcMain } = require('electron');
 const { graphql } = require('graphql');
 
-// Core
-const { schema } = require('../schema');
-const { rootResolver } = require('../resolver');
-
 // Types
 const {
   RECEIVE_ERROR,
   RECEIVE_USER
-} = require('../../../../utils/types/receive');
+} = require('@doombox/utils/types/receive');
 const {
   DELETE_USER
-} = require('../../../../utils/types/delete');
+} = require('@doombox/utils/types/delete');
+
+// Core
+const { schema } = require('../schema');
+const { rootResolver } = require('../resolver');
 
 module.exports = {
   deleteListener() {

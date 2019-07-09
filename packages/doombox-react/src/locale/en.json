@@ -5,10 +5,11 @@
     "username": "Username"
   },
   "title": {
-    "createProfile": "Create Profile"
+    "createProfile": "Create profile"
   },
   "validation": {
     "max": "{{input}} is too long",
-    "required": "{{input}} is required"
+    "required": "{{input}} is required",
+    "userExists": "User already exists"
   }
 }

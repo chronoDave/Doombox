@@ -1,9 +1,9 @@
-import FieldSelectImage from './FieldSelect/FieldSelectImage';
-import FieldSelectAvatar from './FieldSelect/FieldSelectAvatar';
+import FieldFileBase from './FieldFile/FieldFileBase';
+import FieldFileAvatar from './FieldFile/FieldFileAvatar';
 import FieldError from './FieldError';
 
 export {
-  FieldSelectImage,
-  FieldSelectAvatar,
+  FieldFileBase,
+  FieldFileAvatar,
   FieldError
 };

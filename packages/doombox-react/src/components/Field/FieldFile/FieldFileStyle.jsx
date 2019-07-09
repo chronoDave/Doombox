@@ -18,7 +18,7 @@ const FieldSelectStyle = theme => ({
   root: {
     position: 'relative'
   },
-  fieldSelectIcon: {
+  fieldFileIcon: {
     position: 'absolute',
     backgroundColor: theme.palette.grey[200],
     left: 80,

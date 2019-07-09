@@ -1,19 +1,19 @@
 const { ipcMain } = require('electron');
 const { graphql } = require('graphql');
 
-// Core
-const { schema } = require('../schema');
-const { rootResolver } = require('../resolver');
-
 // Types
 const {
   CREATE_USER,
   CREATE_IMAGE
-} = require('../../../../utils/types/create');
+} = require('@doombox/utils/types/create');
 const {
   RECEIVE_USER,
   RECEIVE_IMAGE
-} = require('../../../../utils/types/receive');
+} = require('@doombox/utils/types/receive');
+
+// Core
+const { schema } = require('../schema');
+const { rootResolver } = require('../resolver');
 
 module.exports = {
   createListener(store) {

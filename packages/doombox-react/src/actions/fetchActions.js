@@ -2,12 +2,12 @@ import {
   FETCH_USER,
   FETCH_USERS,
   FETCH_CACHED_USER
-} from '../../../../utils/types/fetch';
+} from '@doombox/utils/types/fetch';
 import {
   RECEIVE_CACHED_USER,
   RECEIVE_USER,
   RECEIVE_USERS
-} from '../../../../utils/types/receive';
+} from '@doombox/utils/types/receive';
 
 const { ipcRenderer } = window.require('electron');
 

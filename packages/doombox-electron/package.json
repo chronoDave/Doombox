@@ -28,6 +28,7 @@
     "electron-builder": "^20.44.4"
   },
   "dependencies": {
+    "@doombox/utils": "./packages/doombox-utils",
     "graphql": "^14.4.2",
     "mongoose": "^5.6.3"
   },
@@ -35,14 +36,25 @@
     "appId": "com.electron.doombox",
     "productName": "Doombox",
     "copyright": "Copyright ©2019 ${author}",
-    "directories": {
-      "output": "../../build"
-    },
     "extraResources": [
       {
         "from": "../doombox-react/build",
         "to": "client"
       }
-    ]
+    ],
+    "directories": {
+      "output": "../../build",
+      "buildResources": "../assets"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true,
+      "uninstallDisplayName": "Uninstall Doombox"
+    },
+    "win": {
+      "target": "nsis",
+      "publisherName": "Chronocide"
+    }
   }
 }

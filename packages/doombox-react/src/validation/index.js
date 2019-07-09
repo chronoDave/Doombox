@@ -1,5 +1,5 @@
-import schemaImage from './schemaImage';
+import SchemaCreateProfile from './SchemaCreateProfile';
 
 export {
-  schemaImage
+  SchemaCreateProfile
 };

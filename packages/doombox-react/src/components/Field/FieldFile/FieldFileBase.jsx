@@ -6,18 +6,20 @@ import path from 'path';
 import { withStyles } from '@material-ui/core/styles';
 
 // Style
-import FieldSelectStyle from './FieldSelectStyle';
+import FieldFileStyle from './FieldFileStyle';
 
-const FieldSelectImage = props => {
+const FieldFileBase = props => {
   const {
     classes,
-    field,
+    name,
     setValue,
-    render
+    render,
+    validator,
+    type
   } = props;
 
   const onSelect = () => {
-    const input = document.getElementById(`select-${field.name}`);
+    const input = document.getElementById(`select-${name}`);
 
     if (input) input.click();
   };
@@ -26,11 +28,11 @@ const FieldSelectImage = props => {
     // Accessibility must be managed by it's children
     <Fragment>
       <input
-        id={`select-${field.name}`}
+        id={`select-${name}`}
         type="file"
-        accept="image/png, image/jpg, image/jpeg, image/gif"
+        accept={validator.map(value => `${type ? `${type}/` : ''}${value}`).join(',')}
         onChange={event => setValue(
-          field.name,
+          name,
           // Cast File object into regular object
           {
             lastModified: event.currentTarget.files[0].lastModified,
@@ -46,7 +48,7 @@ const FieldSelectImage = props => {
       />
       <label
         className={classes.label}
-        htmlFor={`select-${field.name}`}
+        htmlFor={`select-${name}`}
         tabIndex="-1"
       >
         {render({ onSelect })}
@@ -56,13 +58,24 @@ const FieldSelectImage = props => {
   );
 };
 
-FieldSelectImage.propTypes = {
-  field: PropTypes.object.isRequired,
+FieldFileBase.propTypes = {
+  name: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  render: PropTypes.func.isRequired
+  validator: PropTypes.array,
+  render: PropTypes.func.isRequired,
+  type: PropTypes.oneOf([
+    'audio',
+    'video',
+    'image'
+  ])
+};
+
+FieldFileBase.defaultProps = {
+  validator: [],
+  type: null
 };
 
 export default withStyles(
-  FieldSelectStyle
-)(FieldSelectImage);
+  FieldFileStyle
+)(FieldFileBase);

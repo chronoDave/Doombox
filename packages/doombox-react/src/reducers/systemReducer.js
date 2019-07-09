@@ -1,6 +1,6 @@
 import {
   RECEIVE_USERS
-} from '../../../../utils/types/receive';
+} from '@doombox/utils/types/receive';
 
 export const systemReducer = (
   state = {}, action

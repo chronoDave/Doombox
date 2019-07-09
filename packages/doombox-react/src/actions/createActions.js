@@ -2,11 +2,11 @@
 import {
   CREATE_IMAGE,
   CREATE_USER
-} from '../../../../utils/types/create';
+} from '@doombox/utils/types/create';
 import {
   RECEIVE_IMAGE,
   RECEIVE_USER
-} from '../../../../utils/types/receive';
+} from '@doombox/utils/types/receive';
 
 // Utils
 import { isEmptyObj } from '../utils';

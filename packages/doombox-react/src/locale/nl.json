@@ -5,10 +5,11 @@
     "username": "Gebruikersnaam"
   },
   "title": {
-    "createProfile": "Profiel Aanmaken"
+    "createProfile": "Profiel aanmaken"
   },
   "validation": {
     "max": "{{input}} is te lang",
-    "required": "{{input}} is verplicht"
+    "required": "{{input}} is verplicht",
+    "userExists": "Gebruikersnaam bestaat al"
   }
 }
