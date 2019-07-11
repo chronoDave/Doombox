@@ -14,7 +14,6 @@ import { FormCreateProfile } from '../Form';
 const ModalCreateProfile = props => {
   const {
     onCancel,
-    onSuccess,
     ...rest
   } = props;
   const { t } = useTranslation();
@@ -25,10 +24,7 @@ const ModalCreateProfile = props => {
         {t('title:createProfile')}
       </DialogTitle>
       <DialogContent>
-        <FormCreateProfile
-          onSuccess={onSuccess}
-          onCancel={onCancel}
-        />
+        <FormCreateProfile onCancel={onCancel} />
       </DialogContent>
     </Dialog>
   );

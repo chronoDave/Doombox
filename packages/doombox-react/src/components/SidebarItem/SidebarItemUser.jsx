@@ -15,9 +15,6 @@ import {
 import { ModalCreateProfile } from '../Modal';
 import { Button } from '../Button';
 
-// Hooks
-import { useSubscribeUser } from '../../hooks';
-
 // Style
 import SidebarItemStyle from './SidebarItemStyle';
 
@@ -26,48 +23,26 @@ const SidebarItemUser = props => {
     classes
   } = props;
   const [open, setOpen] = useState(false);
-  const user = useSubscribeUser();
 
-  if (!user) return <CircularProgress />;
-  if (!user.username) {
-    return (
-      <Fragment>
-        <Button
-          variant="contained"
-          fullWidth
-          color="primary"
-          onClick={() => setOpen(true)}
-          disableLowercase
-        >
-          Create profile
-        </Button>
-        <ModalCreateProfile
-          open={open}
-          disableBackdropClick
-          onClose={() => setOpen(false)}
-          onCancel={() => setOpen(false)}
-          onSuccess={() => setOpen(false)}
-        />
-      </Fragment>
-    );
-  }
   return (
-    <Box
-      width="100%"
-    >
-      {user.avatar ? (
-        <Img
-          className={classes.avatar}
-          src={[
-            `file:${user.avatar.path}`,
-            'https://chrono.s-ul.eu/DaASwsS2'
-          ]}
-          loader={<CircularProgress size={20} />}
-        />
-      ) : (
-        <IconPerson />
-      )}
-    </Box>
+    <Fragment>
+      <Button
+        variant="contained"
+        fullWidth
+        color="primary"
+        onClick={() => setOpen(true)}
+        disableLowercase
+      >
+        Create profile
+      </Button>
+      <ModalCreateProfile
+        open={open}
+        disableBackdropClick
+        onClose={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+        onSuccess={() => setOpen(false)}
+      />
+    </Fragment>
   );
 };
 

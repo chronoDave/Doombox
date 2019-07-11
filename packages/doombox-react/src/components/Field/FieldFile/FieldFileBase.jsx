@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import path from 'path';
 
 // Core
 import { withStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 
 // Style
 import FieldFileStyle from './FieldFileStyle';
@@ -11,34 +11,35 @@ import FieldFileStyle from './FieldFileStyle';
 const FieldFileBase = props => {
   const {
     classes,
+    id,
     name,
-    setValue,
+    setFieldValue,
     render,
     validator,
-    type
+    type,
+    ...rest
   } = props;
 
-  const onSelect = () => {
-    const input = document.getElementById(`select-${name}`);
+  const onClick = () => {
+    const input = document.getElementById(`${id}-select-${name}`);
 
     if (input) input.click();
   };
 
   return (
-    // Accessibility must be managed by it's children
-    <Fragment>
+    <Box py={1} {...rest}>
       <input
-        id={`select-${name}`}
+        id={`${id}-select-${name}`}
         type="file"
         accept={validator.map(value => `${type ? `${type}/` : ''}${value}`).join(',')}
-        onChange={event => setValue(
+        onChange={event => setFieldValue(
           name,
           // Cast File object into regular object
           {
             lastModified: event.currentTarget.files[0].lastModified,
             lastModifiedDate: event.currentTarget.files[0].lastModifiedDate,
             name: event.currentTarget.files[0].name,
-            path: path.normalize(event.currentTarget.files[0].path),
+            path: event.currentTarget.files[0].path,
             size: event.currentTarget.files[0].size,
             type: event.currentTarget.files[0].type,
           }
@@ -51,16 +52,16 @@ const FieldFileBase = props => {
         htmlFor={`select-${name}`}
         tabIndex="-1"
       >
-        {render({ onSelect })}
+        {render({ onClick })}
       </label>
-    </Fragment>
-
+    </Box>
   );
 };
 
 FieldFileBase.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  setValue: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   validator: PropTypes.array,
   render: PropTypes.func.isRequired,

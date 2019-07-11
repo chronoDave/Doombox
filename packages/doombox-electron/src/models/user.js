@@ -10,6 +10,10 @@ const userSchema = new Schema({
   avatar: {
     type: Schema.Types.ObjectId,
     ref: 'Image'
+  },
+  language: {
+    type: String,
+    required: true
   }
 });
 

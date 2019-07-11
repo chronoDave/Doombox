@@ -2,7 +2,12 @@
   "common": {
     "cancel": "Annuleren",
     "save": "Opslaan",
-    "username": "Gebruikersnaam"
+    "username": "Gebruikersnaam",
+    "language": "Taal",
+    "en": "Engels",
+    "en_native": "English",
+    "nl": "Nederlands",
+    "nl_native": "Nederlands"
   },
   "title": {
     "createProfile": "Profiel aanmaken"

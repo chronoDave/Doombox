@@ -2,7 +2,12 @@
   "common": {
     "cancel": "Cancel",
     "save": "Save",
-    "username": "Username"
+    "username": "Username",
+    "language": "Language",
+    "en": "English",
+    "en_native": "English",
+    "nl": "Dutch",
+    "nl_native": "Nederlands"
   },
   "title": {
     "createProfile": "Create profile"

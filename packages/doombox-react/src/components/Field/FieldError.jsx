@@ -11,7 +11,7 @@ import { Box } from '@material-ui/core';
 import { Typography } from '../Typography';
 
 const FieldError = props => {
-  const { errors, ...rest } = props;
+  const { error, ...rest } = props;
   const { t } = useTranslation();
 
   return (
@@ -29,21 +29,16 @@ const FieldError = props => {
     >
       <IconError />
       <Box px={1}>
-        {errors.map(error => (
-          <Typography
-            key={error.key || error.message}
-            paragraph
-          >
-            {t(error.message)}
-          </Typography>
-        ))}
+        <Typography paragraph>
+          {t(error.message)}
+        </Typography>
       </Box>
     </Box>
   );
 };
 
 FieldError.propTypes = {
-  errors: PropTypes.array.isRequired
+  error: PropTypes.object.isRequired
 };
 
 export default FieldError;

@@ -11,18 +11,30 @@ import { isDev } from './utils';
 i18n.use(initReactI18next).init({
   // Debug
   debug: isDev(),
-  // Resources
+  // General
   resources: { en, nl },
+  react: {
+    useSuspense: false
+  },
   // Langauge
-  lng: 'nl',
-  fallbackLng: 'en',
+  lng: 'en',
+  fallbackLng: ['en', 'nl'],
   // Namespace
   ns: ['common', 'title', 'validation'],
   defaultNS: 'common',
   // Interpolation
   interpolation: {
-    escapeValue: false // React escapes by default
+    escapeValue: false, // React escapes by default
+    format: (value, format) => {
+      if (format === 'lowercase') return value.toLowerCase();
+      if (format === 'uppercase') return value.toUpperCase();
+      return value;
+    }
   }
+});
+
+i18n.on('languageChanged', () => {
+  return null;
 });
 
 export default i18n;

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
 // Reducers
-import { systemReducer } from './systemReducer';
+import { profileReducer } from './profileReducer';
 
 export const rootReducer = combineReducers({
-  system: systemReducer
+  profile: profileReducer
 });

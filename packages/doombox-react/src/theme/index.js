@@ -10,6 +10,12 @@ export const theme = createMuiTheme({
       notchedOutline: {
         borderColor: 'rgba(255, 255, 255, 0.23)'
       }
+    },
+    MuiSelect: {
+      icon: {
+        color: Colors.GREY[50],
+        marginRight: 8
+      }
     }
   },
   palette: {

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Field } from 'formik';
 
 // Icon
-import IconImageAdd from '@material-ui/icons/AddPhotoAlternate';
+import IconAddImage from '@material-ui/icons/AddPhotoAlternate';
 import IconPerson from '@material-ui/icons/Person';
 
 // Core
@@ -15,51 +16,46 @@ import FieldSelectBase from './FieldFileBase';
 // Style
 import FieldFileStyle from './FieldFileStyle';
 
-const FieldFileAvatar = props => {
-  const {
-    classes,
-    name,
-    setValue,
-    path
-  } = props;
-
-  return (
-    <FieldSelectBase
-      name={name}
-      setValue={setValue}
-      type="image"
-      validator={['png', 'jpg', 'jpeg', 'gif']}
-      render={renderProps => {
-        const { onSelect } = renderProps;
-
-        return (
+const FieldFileAvatar = ({ id, classes }) => (
+  <Field
+    name="avatar"
+    render={({
+      field: { name, value },
+      form: { setFieldValue }
+    }) => (
+      <FieldSelectBase
+        id={id}
+        name={name}
+        setFieldValue={setFieldValue}
+        type="image"
+        validator={['png', 'jpg', 'jpeg', 'gif']}
+        render={({ onClick }) => (
           <div className={classes.root}>
             <IconButton
               classes={{ root: classes.fieldFileIcon }}
-              onClick={onSelect}
+              onClick={onClick}
             >
-              <IconImageAdd />
+              <IconAddImage />
             </IconButton>
-            <Avatar
-              path={path}
-              fallback={<IconPerson fontSize="large" />}
-            />
+            <IconButton
+              classes={{ root: classes.fieldFileAvatar }}
+              onClick={onClick}
+            >
+              <Avatar
+                path={value ? value.path : null}
+                fallback={<IconPerson fontSize="large" />}
+              />
+            </IconButton>
           </div>
-        );
-      }}
-    />
-  );
-};
+        )}
+      />
+    )}
+  />
+);
 
 FieldFileAvatar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  setValue: PropTypes.func.isRequired,
-  path: PropTypes.string
-};
-
-FieldFileAvatar.defaultProps = {
-  path: null
+  id: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(

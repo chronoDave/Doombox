@@ -6,10 +6,8 @@ const { createWindow } = require('./lib/window');
 const Store = require('./lib/store');
 
 // Events
-const { createListener } = require('./events/createListener');
-const { cacheListener } = require('./events/cacheListener');
-const { deleteListener } = require('./events/deleteListener');
-const { fetchListener } = require('./events/fetchListener');
+const { userListener } = require('./events/userListener');
+const { imageListener } = require('./events/imageListener');
 
 const store = new Store({
   configName: 'user-preferences',
@@ -31,14 +29,13 @@ app.on('ready', () => {
     store.set('window', { ...mainWindow.getBounds() });
   });
 
-  // Events
-  createListener(store);
-  cacheListener(store);
-  deleteListener();
-  fetchListener();
-
   // Database
   mongoose.connect('mongodb://localhost:32768/doombox', { useNewUrlParser: true })
+    .then(() => {
+      // Events
+      userListener(store);
+      imageListener();
+    })
     .catch(err => { throw err; });
 });
 

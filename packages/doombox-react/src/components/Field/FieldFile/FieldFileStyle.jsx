@@ -9,8 +9,9 @@ const FieldSelectStyle = theme => ({
   },
   label: {
     display: 'inline-block',
-    // Accessibility
-    cursor: 'pointer'
+    '&:focus': {
+      outline: 'none'
+    }
   },
   error: {
     color: theme.palette.error.main
@@ -28,6 +29,9 @@ const FieldSelectStyle = theme => ({
     '&:hover': {
       backgroundColor: theme.palette.grey[100]
     }
+  },
+  fieldFileAvatar: {
+    padding: 0
   }
 });
 

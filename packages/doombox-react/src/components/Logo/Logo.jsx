@@ -1,32 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Core
+import { withStyles } from '@material-ui/core/styles';
+
 // Assets
-import LogoImage from '../../assets/image/icon.png';
+import LogoImage from '../../assets/image/doombox.png';
+
+// Style
+import LogoStyle from './LogoStyle';
 
 const Logo = props => {
-  const { width, height } = props;
+  const { classes } = props;
 
   return (
     <img
-      style={{
-        width,
-        height
-      }}
-      alt="Doombox application logo"
+      className={classes.root}
+      alt="Doombox application logo drawn by @loggtheout"
       src={LogoImage}
     />
   );
 };
 
 Logo.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number
+  classes: PropTypes.object.isRequired
 };
 
-Logo.defaultProps = {
-  width: null,
-  height: null
-};
-
-export default Logo;
+export default withStyles(
+  LogoStyle
+)(Logo);
