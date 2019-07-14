@@ -38,7 +38,10 @@ const FormCreateProfile = props => {
         language
       }}
       validationSchema={SchemaUser}
-      onSubmit={values => createProfile(values)}
+      onSubmit={values => {
+        createProfile(values);
+        if (!pending) onCancel();
+      }}
     >
       <Form>
         <Box display="flex" flexDirection="column" alignItems="center">

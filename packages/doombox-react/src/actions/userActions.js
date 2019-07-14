@@ -15,33 +15,39 @@ import { createImage } from './imageActions';
 
 const { ipcRenderer } = window.require('electron');
 
+const getImageId = async image => {
+  try {
+    if (image) {
+      const newImage = await createImage(image);
+      return newImage._id.toString();
+    }
+    return image;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const createUser = user => async dispatch => {
   try {
     dispatch({ type: asyncActionPending(CREATE_USER) });
-    const avatar = user.avatar ? await createImage(user.avatar) : null;
 
-    ipcRenderer.send(asyncActionPending(CREATE_USER), {
-      ...user,
-      avatar: avatar ? avatar._id.toString() : null
-    });
+    const avatar = await getImageId(user.avatar);
+
+    ipcRenderer.send(asyncActionPending(CREATE_USER), { ...user, avatar });
   } catch (err) {
     dispatch({ type: asyncActionError(CREATE_USER), payload: err.payload });
   }
 };
 
-export const updateUser = (id, values) => async dispatch => {
+export const updateUser = (id, user) => async dispatch => {
   try {
     dispatch({ type: asyncActionPending(UPDATE_USER) });
-    const background = values.background ? await createImage(values.background) : null;
-    const avatar = values.avatar ? await createImage(values.avatar) : null;
+
+    const background = await getImageId(user.background);
+    const avatar = await getImageId(user.avatar);
 
     ipcRenderer.send(asyncActionPending(UPDATE_USER), {
-      id,
-      values: {
-        ...values,
-        avatar: avatar ? avatar._id.toString() : null,
-        background: background ? background._id.toString() : null
-      }
+      id, values: { ...user, avatar, background }
     });
   } catch (err) {
     dispatch({ type: asyncActionError(CREATE_USER), payload: err.payload });

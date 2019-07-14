@@ -94,7 +94,8 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
 
 MyProfileView.propTypes = {
   user: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired
+  pending: PropTypes.bool.isRequired,
+  deleteProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

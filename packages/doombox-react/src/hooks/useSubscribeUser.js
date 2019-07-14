@@ -13,13 +13,18 @@ import {
   asyncActionError
 } from '@doombox/utils/types/asyncTypes';
 
+// Language
+import i18n from '../locale';
+
 const { ipcRenderer } = window.require('electron');
+const changeLanguage = lng => i18n.changeLanguage(lng);
 
 export const useSubscribeUser = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     ipcRenderer.on(asyncActionSuccess(CREATE_USER), (event, payload) => {
+      changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(CREATE_USER), payload });
     });
   }, []);
@@ -32,6 +37,7 @@ export const useSubscribeUser = () => {
 
   useEffect(() => {
     ipcRenderer.on(asyncActionSuccess(GET_USER_CACHE), (event, payload) => {
+      changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(GET_USER_CACHE), payload });
     });
   }, []);
@@ -44,6 +50,7 @@ export const useSubscribeUser = () => {
 
   useEffect(() => {
     ipcRenderer.on(asyncActionSuccess(UPDATE_USER), (event, payload) => {
+      changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(UPDATE_USER), payload });
     });
   }, []);
@@ -55,8 +62,8 @@ export const useSubscribeUser = () => {
   }, []);
 
   useEffect(() => {
-    ipcRenderer.on(asyncActionSuccess(DELETE_USER), (event, payload) => {
-      dispatch({ type: asyncActionSuccess(DELETE_USER), payload });
+    ipcRenderer.on(asyncActionSuccess(DELETE_USER), () => {
+      dispatch({ type: asyncActionSuccess(DELETE_USER) });
     });
   }, []);
 

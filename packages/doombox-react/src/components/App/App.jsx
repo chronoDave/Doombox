@@ -17,21 +17,29 @@ import {
   PrivateRoutes
 } from '../../routes';
 
+// Hooks
+import { useScrollbar } from '../../hooks';
+
 // Paths
 import { homePath } from '../../paths';
 
-const App = ({ hasProfile }) => (
-  <BrowserRouter>
-    <Sidebar />
-    <Switch>
-      {hasProfile && (
-        PrivateRoutes.map(route => <Route key={route.key} {...route} />)
-      )}
-      {PublicRoutes.map(route => <Route key={route.key} {...route} />)}
-      <Redirect to={homePath} />
-    </Switch>
-  </BrowserRouter>
-);
+
+const App = ({ hasProfile }) => {
+  useScrollbar();
+
+  return (
+    <BrowserRouter>
+      <Sidebar />
+      <Switch>
+        {hasProfile && (
+          PrivateRoutes.map(route => <Route key={route.key} {...route} />)
+        )}
+        {PublicRoutes.map(route => <Route key={route.key} {...route} />)}
+        <Redirect to={homePath} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 App.propTypes = {
   hasProfile: PropTypes.bool.isRequired

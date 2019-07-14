@@ -1,5 +1,7 @@
-import { useSubscribeUser } from './subscribeUser';
+import { useSubscribeUser } from './useSubscribeUser';
+import { useScrollbar } from './useScrollbar';
 
 export {
-  useSubscribeUser
+  useSubscribeUser,
+  useScrollbar
 };

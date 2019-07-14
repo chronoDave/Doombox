@@ -6,7 +6,9 @@ import { Main } from '../components/Main';
 const HomePage = () => {
   return (
     <Main>
-      Hompage
+      <div style={{ height: '100vh' }}>
+        Home page
+      </div>
     </Main>
   );
 };

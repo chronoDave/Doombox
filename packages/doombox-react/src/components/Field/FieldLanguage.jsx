@@ -16,6 +16,9 @@ import { IconFlag } from '../Icon';
 // Language
 import i18n from '../../locale';
 
+// Utils
+import { languages } from '../../utils'; 
+
 // Styles
 import FieldStyle from './FieldStyle';
 
@@ -23,7 +26,7 @@ const changeLanguage = lng => i18n.changeLanguage(lng);
 
 const FieldLanguage = props => {
   const { id, classes, ...rest } = props;
-  const { t, i18n: { languages } } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Field
@@ -39,7 +42,7 @@ const FieldLanguage = props => {
             value={value}
             inputProps={{
               id: `${id}-${name}`,
-              onBlur: handleBlur
+              onBlur: handleBlur(name)
             }}
             SelectProps={{ classes: { selectMenu: classes.selectMenu } }}
             onChange={event => {

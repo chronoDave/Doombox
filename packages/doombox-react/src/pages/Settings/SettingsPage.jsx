@@ -1,5 +1,6 @@
 import React, { useState, createElement } from 'react';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 // Core
 import { withStyles, withTheme } from '@material-ui/core/styles';
@@ -43,7 +44,7 @@ const SettingsPage = ({ theme, classes }) => {
           bgcolor={theme.palette.getAlpha(theme.palette.grey[400], 0.9)}
         >
           <List subheader={(
-            <ListSubheader classes={{ root: classes.listSubheaderRoot }}>
+            <ListSubheader classes={{ root: classes.listSubheaderRoot }} disableSticky>
               <strong>{t('title:userSettings').toUpperCase()}</strong>
             </ListSubheader>
           )}>
@@ -72,6 +73,7 @@ const SettingsPage = ({ theme, classes }) => {
                 <ListSubheader
                   key={translation}
                   classes={{ root: classes.listSubheaderRoot }}
+                  disableSticky
                 >
                   <strong>{t(translation).toUpperCase()}</strong>
                 </ListSubheader>
@@ -103,6 +105,11 @@ const SettingsPage = ({ theme, classes }) => {
       </Box>
     </Main>
   );
+};
+
+SettingsPage.propTypes = {
+  theme: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withTheme(withStyles(

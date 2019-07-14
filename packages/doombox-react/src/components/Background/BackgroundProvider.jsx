@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const BackgroundProvider = ({ children, path }) => (
+// Utils
+import { normalizeUrl } from '../../utils';
+
+const BackgroundProvider = ({ children, user }) => (
   <div
     style={{
-      backgroundImage: `url(${path})`,
+      backgroundImage: (user && user.background && user.background.path) ?
+        `url("${normalizeUrl(user.background.path)}")` :
+        null,
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat'
     }}
@@ -16,11 +21,11 @@ const BackgroundProvider = ({ children, path }) => (
 
 BackgroundProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  path: PropTypes.string.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  path: state.profile.background.path || ''
+  user: state.profile.user
 });
 
 export default connect(

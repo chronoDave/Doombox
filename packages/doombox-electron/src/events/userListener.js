@@ -63,7 +63,7 @@ module.exports = {
       try {
         const { id, values } = payload;
 
-        await User.findOneAndUpdate({ _id: id }, { ...values });
+        await User.findByIdAndUpdate(id, { ...values }, { omitUndefined: true });
         const newUser = await User.findById(id)
           .populate('avatar')
           .populate('background')
@@ -77,10 +77,10 @@ module.exports = {
         event.sender.send(asyncActionError(UPDATE_USER), err);
       }
     });
-    ipcMain.on(asyncActionPending(DELETE_USER), async (event, _id) => {
+    ipcMain.on(asyncActionPending(DELETE_USER), async (event, id) => {
       try {
-        await User.deleteOne({ _id });
-        event.sender.send(asyncActionSuccess(DELETE_USER), null);
+        await User.findByIdAndDelete(id);
+        event.sender.send(asyncActionSuccess(DELETE_USER));
       } catch (err) {
         event.sender.send(asyncActionError(DELETE_USER), err);
       }

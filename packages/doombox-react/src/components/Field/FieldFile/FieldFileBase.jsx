@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
+// Utils
+import { normalizeUrl } from '../../../utils';
+
 // Style
 import FieldFileStyle from './FieldFileStyle';
 
@@ -41,7 +44,7 @@ const FieldFileBase = props => {
             lastModified: event.currentTarget.files[0].lastModified,
             lastModifiedDate: event.currentTarget.files[0].lastModifiedDate,
             name: event.currentTarget.files[0].name,
-            path: event.currentTarget.files[0].path,
+            path: normalizeUrl(event.currentTarget.files[0]),
             size: event.currentTarget.files[0].size,
             type: event.currentTarget.files[0].type,
           }

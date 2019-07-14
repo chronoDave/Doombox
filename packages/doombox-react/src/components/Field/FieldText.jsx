@@ -33,7 +33,7 @@ const FieldText = props => {
           <TextField
             inputProps={{
               id: `${id}-${name}`,
-              onBlur: handleBlur
+              onBlur: handleBlur(name)
             }}
             label={t(name)}
             variant="outlined"

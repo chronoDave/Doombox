@@ -34,8 +34,4 @@ i18n.use(initReactI18next).init({
   }
 });
 
-i18n.on('languageChanged', () => {
-  return null;
-});
-
 export default i18n;

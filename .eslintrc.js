@@ -17,6 +17,7 @@ module.exports = {
   plugins: ['react-hooks'],
   rules: {
     // General
+    'operator-linebreak': ["error", "after"],
     'linebreak-style': 'off',
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',

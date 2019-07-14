@@ -21,22 +21,17 @@ const FieldSelectStyle = theme => ({
   },
   fieldFileIcon: {
     position: 'absolute',
-    backgroundColor: theme.palette.grey[200],
     left: 80,
     bottom: 80,
     zIndex: 1,
     color: theme.palette.grey[0],
+    backgroundColor: theme.palette.grey[200],
     '&:hover': {
       backgroundColor: theme.palette.grey[100]
     }
   },
   fieldFileAvatar: {
     padding: 0
-  },
-  fieldFileBackground: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
   }
 });
 
