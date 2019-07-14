@@ -1,0 +1,36 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "username": "Username",
+    "language": "Language",
+    "uk": "English",
+    "us": "English (US)",
+    "nl": "Dutch",
+    "connections": "Connections",
+    "appearance": "Appearance",
+    "general": "General",
+    "background": "Background",
+    "edit": "Edit",
+    "remove": "Remove",
+    "delete": "Delete",
+    "profile": "Profile"
+  },
+  "title": {
+    "createProfile": "Create profile",
+    "myProfile": "My Profile",
+    "userSettings": "User Settings",
+    "appSettings": "App Settings",
+    "deleteProfile": "Delete Profile",
+    "updateProfile": "Update Profile",
+    "areYouSure": "Are you sure?"
+  },
+  "description": {
+    "deleteProfile": "Deleted profiles cannot be restored."
+  },
+  "validation": {
+    "max": "{{input}} is too long",
+    "required": "{{input}} is required",
+    "userExists": "User already exists"
+  }
+}

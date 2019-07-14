@@ -11,11 +11,7 @@ import {
 
 import { FormCreateProfile } from '../Form';
 
-const ModalCreateProfile = props => {
-  const {
-    onCancel,
-    ...rest
-  } = props;
+const DialogCreateProfile = ({ onCancel, ...rest }) => {
   const { t } = useTranslation();
 
   return (
@@ -30,9 +26,8 @@ const ModalCreateProfile = props => {
   );
 };
 
-ModalCreateProfile.propTypes = {
-  onCancel: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func.isRequired
+DialogCreateProfile.propTypes = {
+  onCancel: PropTypes.func.isRequired
 };
 
-export default ModalCreateProfile;
+export default DialogCreateProfile;

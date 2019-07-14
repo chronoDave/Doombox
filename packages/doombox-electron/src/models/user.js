@@ -14,6 +14,10 @@ const userSchema = new Schema({
   language: {
     type: String,
     required: true
+  },
+  background: {
+    type: Schema.Types.ObjectId,
+    ref: 'Image'
   }
 });
 

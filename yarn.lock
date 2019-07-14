@@ -110,7 +110,7 @@
     to-fast-properties "^2.0.0"
 
 "@doombox/utils@./packages/doombox-utils":
-  version "1.0.0-ce"
+  version "1.0.1-ce"
 
 "@emotion/hash@^0.7.1":
   version "0.7.2"

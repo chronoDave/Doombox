@@ -4,19 +4,25 @@ import { useTranslation } from 'react-i18next';
 import { Field } from 'formik';
 
 // Core
+import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   MenuItem,
   TextField,
 } from '@material-ui/core';
 
+import { IconFlag } from '../Icon';
+
 // Language
 import i18n from '../../locale';
+
+// Styles
+import FieldStyle from './FieldStyle';
 
 const changeLanguage = lng => i18n.changeLanguage(lng);
 
 const FieldLanguage = props => {
-  const { id, ...rest } = props;
+  const { id, classes, ...rest } = props;
   const { t, i18n: { languages } } = useTranslation();
 
   return (
@@ -28,11 +34,14 @@ const FieldLanguage = props => {
       }) => (
         <Box width="100%" {...rest}>
           <TextField
-            id={`${id}-${name}`}
             select
             label={t(name)}
             value={value}
-            inputProps={{ onBlur: handleBlur }}
+            inputProps={{
+              id: `${id}-${name}`,
+              onBlur: handleBlur
+            }}
+            SelectProps={{ classes: { selectMenu: classes.selectMenu } }}
             onChange={event => {
               // Language validation is not needed
               setFieldValue(name, event.target.value, false);
@@ -43,8 +52,13 @@ const FieldLanguage = props => {
             variant="outlined"
           >
             {languages.map(lang => (
-              <MenuItem key={lang} value={lang}>
-                {t(`${lang}_native`)}
+              <MenuItem
+                key={lang}
+                value={lang}
+                classes={{ root: classes.menuItemRoot }}
+              >
+                <IconFlag country={lang} />
+                {t(lang)}
               </MenuItem>
             ))}
           </TextField>
@@ -55,7 +69,10 @@ const FieldLanguage = props => {
 };
 
 FieldLanguage.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
-export default FieldLanguage;
+export default withStyles(
+  FieldStyle
+)(FieldLanguage);

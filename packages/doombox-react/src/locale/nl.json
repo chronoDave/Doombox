@@ -4,13 +4,29 @@
     "save": "Opslaan",
     "username": "Gebruikersnaam",
     "language": "Taal",
-    "en": "Engels",
-    "en_native": "English",
+    "uk": "Engels (UK)",
+    "us": "Engels (US)",
     "nl": "Nederlands",
-    "nl_native": "Nederlands"
+    "connections": "Verbindingen",
+    "appearance": "Weergave",
+    "general": "Algemeen",
+    "background": "Achtergrond",
+    "edit": "Bewerken",
+    "remove": "Verwijderen",
+    "delete": "Verwijderen",
+    "profile": "Profiel"
   },
   "title": {
-    "createProfile": "Profiel aanmaken"
+    "createProfile": "Profiel Aanmaken",
+    "myProfile": "Mijn Profiel",
+    "userSettings": "Gebruikers Instellingen",
+    "appSettings": "Applicatie Instellingen",
+    "deleteProfile": "Profiel Verwijderen",
+    "updateProfile": "Profiel Bewerken",
+    "areYouSure": "Weet je het zeker?"
+  },
+  "description": {
+    "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld."
   },
   "validation": {
     "max": "{{input}} is te lang",

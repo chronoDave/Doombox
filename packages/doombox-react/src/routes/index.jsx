@@ -4,12 +4,25 @@ import React from 'react';
 import * as Paths from '../paths';
 
 // Pages
-import { HomePage } from '../pages';
+import {
+  HomePage,
+  SettingsPage
+} from '../pages';
 
-export const Routes = [
+export const PrivateRoutes = [
+  {
+    key: 'settings',
+    exact: true,
+    path: Paths.settingsPath,
+    render: props => <SettingsPage {...props} />
+  }
+];
+
+export const PublicRoutes = [
   {
     key: 'home',
+    exact: true,
     path: Paths.homePath,
     render: props => <HomePage {...props} />
-  }
+  },
 ];

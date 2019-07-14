@@ -1,5 +1,5 @@
-import SchemaCreateProfile from './SchemaCreateProfile';
+import SchemaUser from './SchemaUser';
 
 export {
-  SchemaCreateProfile
+  SchemaUser
 };

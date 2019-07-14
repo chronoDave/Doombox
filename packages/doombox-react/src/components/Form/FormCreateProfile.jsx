@@ -19,7 +19,7 @@ import {
 import { createUser } from '../../actions/userActions';
 
 // Validation
-import { SchemaCreateProfile } from '../../validation';
+import { SchemaUser } from '../../validation';
 
 const FormCreateProfile = props => {
   const {
@@ -37,7 +37,7 @@ const FormCreateProfile = props => {
         avatar: null,
         language
       }}
-      validationSchema={SchemaCreateProfile}
+      validationSchema={SchemaUser}
       onSubmit={values => createProfile(values)}
     >
       <Form>
@@ -77,7 +77,10 @@ FormCreateProfile.defaultProps = {
   error: null
 };
 
-const mapStateToProps = state => ({ ...state.profile });
+const mapStateToProps = state => ({
+  error: state.profile.error,
+  pending: state.profile.pending
+});
 
 const mapDispatchToProps = dispatch => ({
   createProfile: values => dispatch(createUser(values))

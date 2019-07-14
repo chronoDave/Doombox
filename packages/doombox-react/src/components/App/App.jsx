@@ -2,22 +2,45 @@ import React from 'react';
 import {
   BrowserRouter,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Core
 import { Sidebar } from '../Sidebar';
 
 // Routes
-import { Routes } from '../../routes';
+import {
+  PublicRoutes,
+  PrivateRoutes
+} from '../../routes';
 
-const App = () => (
+// Paths
+import { homePath } from '../../paths';
+
+const App = ({ hasProfile }) => (
   <BrowserRouter>
     <Sidebar />
     <Switch>
-      {Routes.map(route => <Route key={route.key} {...route} />)}
+      {hasProfile && (
+        PrivateRoutes.map(route => <Route key={route.key} {...route} />)
+      )}
+      {PublicRoutes.map(route => <Route key={route.key} {...route} />)}
+      <Redirect to={homePath} />
     </Switch>
   </BrowserRouter>
 );
 
-export default App;
+App.propTypes = {
+  hasProfile: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+  hasProfile: state.profile.cache
+});
+
+export default connect(
+  mapStateToProps
+)(App);

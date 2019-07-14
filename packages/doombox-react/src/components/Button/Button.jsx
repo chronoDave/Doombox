@@ -24,18 +24,18 @@ const Button = props => {
     children,
     classes,
     color,
-    disableLowercase,
+    lowercase,
     loading,
     BoxProps,
     ...rest
   } = props;
 
   return (
-    <Box {...BoxProps}>
+    <Box width={rest.fullWidth && '100%'} {...BoxProps}>
       <MuiButton
         disabled={rest.disabled || loading}
         color={MuiColors.includes(color) ? color : null}
-        className={!disableLowercase ? classes.lowercase : null}
+        className={lowercase ? classes.lowercase : null}
         classes={{ root: classes[`color_${rest.variant || 'text'}_${color}`] }}
         {...rest}
       >
@@ -61,14 +61,14 @@ Button.propTypes = {
     'success',
     'info'
   ]),
-  disableLowercase: PropTypes.bool,
+  lowercase: PropTypes.bool,
   BoxProps: PropTypes.object
 };
 
 Button.defaultProps = {
   color: 'default',
   loading: false,
-  disableLowercase: false,
+  lowercase: false,
   BoxProps: {}
 };
 

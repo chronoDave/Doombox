@@ -16,7 +16,7 @@ const store = new Store({
       width: 800,
       height: 600
     },
-    user: {}
+    user: null
   }
 });
 

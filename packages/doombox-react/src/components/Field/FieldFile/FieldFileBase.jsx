@@ -26,6 +26,8 @@ const FieldFileBase = props => {
     if (input) input.click();
   };
 
+  const onClear = () => setFieldValue(name, null);
+
   return (
     <Box py={1} {...rest}>
       <input
@@ -52,7 +54,7 @@ const FieldFileBase = props => {
         htmlFor={`select-${name}`}
         tabIndex="-1"
       >
-        {render({ onClick })}
+        {render({ onClick, onClear })}
       </label>
     </Box>
   );

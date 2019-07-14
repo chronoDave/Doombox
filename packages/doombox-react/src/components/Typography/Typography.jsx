@@ -19,7 +19,12 @@ const MuiColors = [
 ];
 
 const Typography = props => {
-  const { children, classes, color } = props;
+  const {
+    children,
+    classes,
+    color,
+    ...rest
+  } = props;
 
   return (
     <MuiTypography
@@ -27,6 +32,7 @@ const Typography = props => {
       className={clsx(
         !MuiColors.includes(color) && classes[`color_${color}`]
       )}
+      {...rest}
     >
       {children}
     </MuiTypography>

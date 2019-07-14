@@ -32,6 +32,11 @@ const FieldSelectStyle = theme => ({
   },
   fieldFileAvatar: {
     padding: 0
+  },
+  fieldFileBackground: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover'
   }
 });
 

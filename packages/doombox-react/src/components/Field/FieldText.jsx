@@ -31,8 +31,10 @@ const FieldText = props => {
       }) => (
         <Box width="100%" {...rest}>
           <TextField
-            id={`${id}-${name}`}
-            inputProps={{ onBlur: handleBlur }}
+            inputProps={{
+              id: `${id}-${name}`,
+              onBlur: handleBlur
+            }}
             label={t(name)}
             variant="outlined"
             fullWidth

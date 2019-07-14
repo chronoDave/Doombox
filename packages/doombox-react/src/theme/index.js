@@ -26,8 +26,8 @@ export const theme = createMuiTheme({
       secondary: Colors.GREY[200]
     },
     background: {
-      default: Colors.GREY[400],
-      paper: Colors.GREY[500]
+      default: Colors.GREY[300],
+      paper: Colors.GREY[400]
     },
     error: Colors.ERROR,
     warning: Colors.WARNING,

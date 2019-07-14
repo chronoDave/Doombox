@@ -2,8 +2,9 @@ import { handleActions, combineActions } from 'redux-actions';
 
 // Types
 import {
+  UPDATE_USER,
   CREATE_USER,
-  GET_USER
+  GET_USER_CACHE
 } from '@doombox/utils/types/userTypes';
 import {
   asyncActionPending,
@@ -14,7 +15,8 @@ import {
 export const profileReducer = handleActions({
   [combineActions(
     asyncActionPending(CREATE_USER),
-    asyncActionPending(GET_USER)
+    asyncActionPending(GET_USER_CACHE),
+    asyncActionPending(UPDATE_USER),
   )]: state => ({
     ...state,
     pending: true,
@@ -22,23 +24,34 @@ export const profileReducer = handleActions({
   }),
   [combineActions(
     asyncActionSuccess(CREATE_USER),
-    asyncActionSuccess(GET_USER)
+    asyncActionSuccess(UPDATE_USER),
+    asyncActionSuccess(GET_USER_CACHE)
   )]: (state, action) => ({
     ...state,
     pending: false,
     error: null,
-    profile: action.payload
+    user: action.payload,
+    cache: true
   }),
   [combineActions(
     asyncActionError(CREATE_USER),
-    asyncActionError(GET_USER)
-  )]: (state, action) => ({
-    ...state,
-    pending: false,
-    error: action.payload
-  })
+    asyncActionError(UPDATE_USER)
+  )]:
+    (state, action) => ({
+      ...state,
+      pending: false,
+      error: action.payload
+    }),
+  [asyncActionError(GET_USER_CACHE)]:
+    state => ({
+      ...state,
+      pending: false,
+      cache: false
+    })
 }, {
   pending: false,
   error: null,
-  profile: null
+  cache: false,
+  user: {},
+  background: {}
 });
