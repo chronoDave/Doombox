@@ -30,7 +30,7 @@ app.on('ready', () => {
   });
 
   // Database
-  mongoose.connect('mongodb://localhost:32768/doombox', { useNewUrlParser: true })
+  mongoose.connect('mongodb://localhost:32769/doombox', { useNewUrlParser: true })
     .then(() => {
       // Events
       userListener(store);

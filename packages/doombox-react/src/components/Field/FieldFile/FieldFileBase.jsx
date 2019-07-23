@@ -44,7 +44,7 @@ const FieldFileBase = props => {
             lastModified: event.currentTarget.files[0].lastModified,
             lastModifiedDate: event.currentTarget.files[0].lastModifiedDate,
             name: event.currentTarget.files[0].name,
-            path: normalizeUrl(event.currentTarget.files[0]),
+            path: normalizeUrl(event.currentTarget.files[0].path),
             size: event.currentTarget.files[0].size,
             type: event.currentTarget.files[0].type,
           }

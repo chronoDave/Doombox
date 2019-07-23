@@ -1,5 +1,4 @@
 const SettingsPageStyle = theme => ({
-  scroll: theme.scrollbar,
   listItemRoot: {
     borderRadius: theme.shape.borderRadius,
     '&:hover': {

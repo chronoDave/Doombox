@@ -1,6 +1,10 @@
 import React, { useState, createElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
+
+// Icons
+import IconClose from '@material-ui/icons/Cancel';
 
 // Core
 import { withStyles, withTheme } from '@material-ui/core/styles';
@@ -9,7 +13,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListSubheader
+  ListSubheader,
+  IconButton
 } from '@material-ui/core';
 
 import { Main } from '../../components/Main';
@@ -17,6 +22,9 @@ import { Typography } from '../../components/Typography';
 
 // Views
 import * as Views from './views';
+
+// Utils
+import { homePath } from '../../paths';
 
 // Style
 import SettingsPageStyle from './SettingsPageStyle';
@@ -100,6 +108,20 @@ const SettingsPage = ({ theme, classes }) => {
               </Typography>
             </Box>
             {createElement(Views[view.key], {})}
+          </Box>
+          <Box
+            display="flex"
+            flexGrow={1}
+            justifyContent="flex-end"
+            alignItems="flex-start"
+          >
+            <IconButton
+              component={RouterLink}
+              to={homePath}
+              color="inherit"
+            >
+              <IconClose />
+            </IconButton>
           </Box>
         </Box>
       </Box>
