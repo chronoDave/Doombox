@@ -33,17 +33,14 @@ const FieldLanguage = props => {
       name="language"
       render={({
         field: { name, value },
-        form: { setFieldValue, handleBlur }
+        form: { setFieldValue }
       }) => (
         <Box width="100%" {...rest}>
           <TextField
             select
             label={t(name)}
             value={value}
-            inputProps={{
-              id: `${id}-${name}`,
-              onBlur: handleBlur(name)
-            }}
+            inputProps={{ id: `${id}-${name}` }}
             SelectProps={{ classes: { selectMenu: classes.selectMenu } }}
             onChange={event => {
               // Language validation is not needed

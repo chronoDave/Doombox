@@ -1,5 +1,7 @@
-import BackgroundProvider from './BackgroundProvider';
+import BgImageProvider from './BgImageProvider';
+import BgColorProvider from './BgColorProvider';
 
 export {
-  BackgroundProvider
+  BgImageProvider,
+  BgColorProvider
 };

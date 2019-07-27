@@ -9,7 +9,9 @@ module.exports = {
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false
-      }
+      },
+      backgroundColor: '#36393f',
+      show: false
     });
 
     switch (process.env.NODE_ENV) {

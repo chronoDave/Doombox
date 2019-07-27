@@ -5,6 +5,13 @@ export const PRIMARY = {
   contrastText: '#ffffff'
 };
 
+export const SECONDARY = {
+  main: '#f06292',
+  dark: '#ba2d65',
+  light: '#ff94c2',
+  contrastText: '#ffffff'
+};
+
 export const ERROR = {
   main: '#f04747',
   dark: '#b6001f',

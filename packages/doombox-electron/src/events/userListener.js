@@ -27,7 +27,10 @@ module.exports = {
           .lean();
 
         // Cache user
-        store.set('user', newUser._id);
+        store.set('user', {
+          id: newUser._id,
+          connection: payload.connection
+        });
 
         event.sender.send(asyncActionSuccess(CREATE_USER), {
           ...newUser,
@@ -39,11 +42,11 @@ module.exports = {
     });
     ipcMain.on(asyncActionPending(GET_USER_CACHE), async event => {
       try {
-        const cachedId = store.get('user');
+        const cachedUser = store.get('user');
 
-        if (cachedId) {
+        if (cachedUser && cachedUser.id) {
           const user = await User
-            .findById(cachedId)
+            .findById(cachedUser.id)
             .populate('avatar')
             .populate('background')
             .lean();
@@ -79,11 +82,20 @@ module.exports = {
     });
     ipcMain.on(asyncActionPending(DELETE_USER), async (event, id) => {
       try {
+        store.set('user', null);
         await User.findByIdAndDelete(id);
         event.sender.send(asyncActionSuccess(DELETE_USER));
       } catch (err) {
         event.sender.send(asyncActionError(DELETE_USER), err);
       }
     });
+  },
+  userCleanup() {
+    ipcMain.removeAllListeners([
+      asyncActionPending(CREATE_USER),
+      asyncActionPending(GET_USER_CACHE),
+      asyncActionPending(UPDATE_USER),
+      asyncActionPending(DELETE_USER)
+    ]);
   }
 };

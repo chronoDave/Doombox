@@ -18,7 +18,7 @@ import {
 import { updateUser } from '../../actions/userActions';
 
 // Validation
-import { SchemaUser } from '../../validation';
+import { SchemaUpdateUser } from './validation';
 
 const FormUpdateProfile = props => {
   const {
@@ -42,7 +42,7 @@ const FormUpdateProfile = props => {
         language,
         username
       }}
-      validationSchema={SchemaUser}
+      validationSchema={SchemaUpdateUser}
       onSubmit={values => {
         updateProfile(_id, values);
         if (!pending) onCancel();
@@ -55,7 +55,12 @@ const FormUpdateProfile = props => {
         </Box>
         {error && <FieldError mt={2} error={error} />}
         <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
-          <Button BoxProps={{ p: 1 }} onClick={onCancel}>
+          <Button
+            BoxProps={{ p: 1 }}
+            onClick={onCancel}
+            variant="outlined"
+            color="error"
+          >
             {t('cancel')}
           </Button>
           <Button

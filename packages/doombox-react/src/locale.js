@@ -9,6 +9,16 @@ import nl from './locale/nl.json';
 // Utils
 import { isDev } from './utils';
 
+const getLocale = () => {
+  const locale = navigator.language;
+
+  switch (locale) {
+    case ('en-GB'): return 'uk';
+    case ('en-US'): return 'us';
+    default: return locale;
+  }
+};
+
 i18n.use(initReactI18next).init({
   // Debug
   debug: isDev(),
@@ -18,7 +28,7 @@ i18n.use(initReactI18next).init({
     useSuspense: false
   },
   // Langauge
-  lng: 'uk',
+  lng: getLocale(),
   fallbackLng: ['uk', 'us', 'nl'],
   // Namespace
   ns: ['common', 'title', 'validation'],
@@ -26,11 +36,6 @@ i18n.use(initReactI18next).init({
   // Interpolation
   interpolation: {
     escapeValue: false, // React escapes by default
-    format: (value, format) => {
-      if (format === 'lowercase') return value.toLowerCase();
-      if (format === 'uppercase') return value.toUpperCase();
-      return value;
-    }
   }
 });
 

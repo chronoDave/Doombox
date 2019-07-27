@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   BrowserRouter,
   Switch,
@@ -13,40 +13,81 @@ import { Sidebar } from '../Sidebar';
 
 // Routes
 import {
-  PublicRoutes,
-  PrivateRoutes
+  PrivateRoutes,
+  LoadingRoute,
+  OfflineRoute,
+  CreateProfileRoute
 } from '../../routes';
 
 // Hooks
-import { useScrollbar } from '../../hooks';
+import {
+  useScrollbar,
+  useSubscribeUser,
+  useSubscribeSystem
+} from '../../hooks';
 
 // Paths
-import { homePath } from '../../paths';
+import {
+  homePath,
+  loadingPath,
+  offlinePath,
+  createProfilePath
+} from '../../paths';
 
 
-const App = ({ hasProfile }) => {
+const App = ({
+  pendingCache,
+  isConnected,
+  isCached
+}) => {
   useScrollbar();
+  useSubscribeUser();
+  useSubscribeSystem();
 
   return (
     <BrowserRouter>
-      <Sidebar />
       <Switch>
-        {hasProfile && (
-          PrivateRoutes.map(route => <Route key={route.key} {...route} />)
+        {pendingCache ? (
+          <Fragment>
+            <Route {...LoadingRoute} />
+            <Redirect to={loadingPath} />
+          </Fragment>
+        ) : (
+          isCached ? (
+            isConnected ? (
+              <Fragment>
+                <Sidebar />
+                {PrivateRoutes.map(route => <Route key={route.key} {...route} />)}
+                <Redirect to={homePath} />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <Route {...OfflineRoute} />
+                <Redirect to={offlinePath} />
+              </Fragment>
+            )
+          ) : (
+            <Fragment>
+              <Route {...CreateProfileRoute} />
+              <Redirect to={createProfilePath} />
+            </Fragment>
+          )
         )}
-        {PublicRoutes.map(route => <Route key={route.key} {...route} />)}
-        <Redirect to={homePath} />
       </Switch>
     </BrowserRouter>
   );
 };
 
 App.propTypes = {
-  hasProfile: PropTypes.bool.isRequired
+  pendingCache: PropTypes.bool.isRequired,
+  isConnected: PropTypes.bool.isRequired,
+  isCached: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  hasProfile: state.profile.cache
+  pendingCache: state.system.pendingCache,
+  isConnected: state.system.connectedDatabase,
+  isCached: state.system.connectedCache
 });
 
 export default connect(

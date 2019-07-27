@@ -23,53 +23,50 @@ export const useSubscribeUser = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Create
     ipcRenderer.on(asyncActionSuccess(CREATE_USER), (event, payload) => {
       changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(CREATE_USER), payload });
     });
-  }, []);
-
-  useEffect(() => {
     ipcRenderer.on(asyncActionError(CREATE_USER), (event, payload) => {
       dispatch({ type: asyncActionError(CREATE_USER), payload });
     });
-  }, []);
-
-  useEffect(() => {
+    // Cache
     ipcRenderer.on(asyncActionSuccess(GET_USER_CACHE), (event, payload) => {
       changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(GET_USER_CACHE), payload });
     });
-  }, []);
-
-  useEffect(() => {
     ipcRenderer.on(asyncActionError(GET_USER_CACHE), (event, payload) => {
       dispatch({ type: asyncActionError(GET_USER_CACHE), payload });
     });
-  }, []);
-
-  useEffect(() => {
+    // Update
     ipcRenderer.on(asyncActionSuccess(UPDATE_USER), (event, payload) => {
       changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(UPDATE_USER), payload });
     });
-  }, []);
-
-  useEffect(() => {
     ipcRenderer.on(asyncActionError(UPDATE_USER), (event, payload) => {
       dispatch({ type: asyncActionError(UPDATE_USER), payload });
     });
-  }, []);
-
-  useEffect(() => {
+    // Delete
     ipcRenderer.on(asyncActionSuccess(DELETE_USER), () => {
       dispatch({ type: asyncActionSuccess(DELETE_USER) });
     });
-  }, []);
-
-  useEffect(() => {
     ipcRenderer.on(asyncActionError(DELETE_USER), (event, payload) => {
       dispatch({ type: asyncActionError(DELETE_USER), payload });
     });
+
+    // Cleanup
+    return () => {
+      ipcRenderer.removeAllListeners([
+        asyncActionSuccess(CREATE_USER),
+        asyncActionError(CREATE_USER),
+        asyncActionSuccess(GET_USER_CACHE),
+        asyncActionError(GET_USER_CACHE),
+        asyncActionSuccess(UPDATE_USER),
+        asyncActionError(UPDATE_USER),
+        asyncActionSuccess(DELETE_USER),
+        asyncActionError(DELETE_USER)
+      ]);
+    };
   }, []);
 };

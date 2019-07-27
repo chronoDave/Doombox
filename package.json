@@ -19,6 +19,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-react-i18next": "^1.1.0",
     "nodemon": "^1.19.1"
   },
   "dependencies": {},

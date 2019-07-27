@@ -6,6 +6,16 @@ import * as Colors from './colors';
 
 export const theme = createMuiTheme({
   overrides: {
+    MuiLink: {
+      root: {
+        color: Colors.SECONDARY.main
+      }
+    },
+    MuiTooltip: {
+      tooltip: {
+        backgroundColor: Colors.GREY[500]
+      }
+    },
     MuiOutlinedInput: {
       notchedOutline: {
         borderColor: 'rgba(255, 255, 255, 0.23)'
@@ -20,6 +30,7 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: Colors.PRIMARY,
+    secondary: Colors.SECONDARY,
     grey: Colors.GREY,
     text: {
       primary: Colors.GREY[50],

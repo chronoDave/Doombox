@@ -110,7 +110,7 @@
     to-fast-properties "^2.0.0"
 
 "@doombox/utils@./packages/doombox-utils":
-  version "1.0.1-ce"
+  version "1.0.2-ce"
 
 "@emotion/hash@^0.7.1":
   version "0.7.2"
@@ -4274,6 +4274,14 @@ eslint-plugin-react-hooks@^1.6.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-1.6.1.tgz#3c66a5515ea3e0a221ffc5d4e75c971c217b1a4c"
   integrity sha512-wHhmGJyVuijnYIJXZJHDUF2WM+rJYTjulUTqF9k61d3BTk8etydz+M4dXUVH7M76ZRS85rqBTCx0Es/lLsrjnA==
 
+eslint-plugin-react-i18next@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-i18next/-/eslint-plugin-react-i18next-1.1.0.tgz#c439726614c09278dfef0dc578f0a3f2939fd520"
+  integrity sha512-4taS3uf1w69nmSQp8nhTT8nQlkpYWVxiTBUtU0XxDlsvA23E8+D5yBuWMD+3HKwIbiL0+x+fxMrxFIAfJ1muNw==
+  dependencies:
+    lodash.get "^4.4.2"
+    requireindex "~1.1.0"
+
 eslint-plugin-react@^7.14.2, eslint-plugin-react@^7.8.2:
   version "7.14.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.14.2.tgz#94c193cc77a899ac0ecbb2766fbef88685b7ecc1"
@@ -7195,6 +7203,11 @@ lodash.escape@^3.0.0:
   dependencies:
     lodash._root "^3.0.0"
 
+lodash.get@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
+
 lodash.isarguments@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/lodash.isarguments/-/lodash.isarguments-3.1.0.tgz#2f573d85c6a24289ff00663b491c1d338ff3458a"
@@ -10095,6 +10108,11 @@ require_optional@^1.0.1:
   dependencies:
     resolve-from "^2.0.0"
     semver "^5.1.0"
+
+requireindex@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/requireindex/-/requireindex-1.1.0.tgz#e5404b81557ef75db6e49c5a72004893fe03e162"
+  integrity sha1-5UBLgVV+91225JxacgBIk/4D4WI=
 
 requires-port@^1.0.0:
   version "1.0.0"

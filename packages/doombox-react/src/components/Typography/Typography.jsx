@@ -23,6 +23,7 @@ const Typography = props => {
     children,
     classes,
     color,
+    transform,
     ...rest
   } = props;
 
@@ -30,7 +31,8 @@ const Typography = props => {
     <MuiTypography
       color={MuiColors.includes(color) ? color : 'initial'}
       className={clsx(
-        !MuiColors.includes(color) && classes[`color_${color}`]
+        !MuiColors.includes(color) && classes[`color_${color}`],
+        classes[`transform_${transform}`]
       )}
       {...rest}
     >
@@ -49,16 +51,23 @@ Typography.propTypes = {
     'secondary',
     'textPrimary',
     'textSecondary',
+    'textTertiary',
     'error',
     'warning',
     'success',
     'info',
     'white'
+  ]),
+  transform: PropTypes.oneOf([
+    'lowercase',
+    'uppercase',
+    'default'
   ])
 };
 
 Typography.defaultProps = {
-  color: 'initial'
+  color: 'initial',
+  transform: 'default'
 };
 
 export default withStyles(

@@ -4,6 +4,9 @@ const ButtonStyle = theme => ({
   lowercase: {
     textTransform: 'none',
   },
+  progressWhite: {
+    color: theme.palette.grey[0]
+  },
   color_text_error: {
     color: theme.palette.error.main,
     '&:hover': {

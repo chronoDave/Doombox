@@ -9,12 +9,7 @@ import {
   TextField
 } from '@material-ui/core';
 
-const FieldText = props => {
-  const {
-    name,
-    id,
-    ...rest
-  } = props;
+const FieldText = ({ name, id, ...rest }) => {
   const { t } = useTranslation();
 
   return (
@@ -24,25 +19,25 @@ const FieldText = props => {
         field: { value },
         form: {
           setFieldValue,
-          errors,
+          setFieldTouched,
           touched,
-          handleBlur
+          errors
         }
       }) => (
         <Box width="100%" {...rest}>
           <TextField
-            inputProps={{
-              id: `${id}-${name}`,
-              onBlur: handleBlur(name)
-            }}
+            inputProps={{ id: `${id}-${name}` }}
             label={t(name)}
             variant="outlined"
             fullWidth
             margin="normal"
-            error={!!errors[name] && touched[`${id}-${name}`]}
+            error={!!errors[name] && touched[name]}
             helperText={t(errors[name], { input: t(name) })}
             value={value}
-            onChange={event => setFieldValue(name, event.target.value)}
+            onChange={event => {
+              setFieldValue(name, event.target.value);
+              setFieldTouched(name, true);
+            }}
           />
         </Box>
       )}

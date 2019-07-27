@@ -18,6 +18,10 @@ const userSchema = new Schema({
   background: {
     type: Schema.Types.ObjectId,
     ref: 'Image'
+  },
+  connection: {
+    type: String,
+    required: true
   }
 });
 

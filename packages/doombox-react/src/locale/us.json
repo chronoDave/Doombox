@@ -7,11 +7,16 @@
     "uk": "English (UK)",
     "us": "English (US)",
     "nl": "Dutch",
+    "url": "Url",
+    "connect": "Connect",
+    "connecting": "Connecting",
+    "connection": "Connection",
     "connections": "Connections",
     "appearance": "Appearance",
     "general": "General",
     "background": "Background",
     "edit": "Edit",
+    "add": "Add",
     "remove": "Remove",
     "delete": "Delete",
     "profile": "Profile"
@@ -23,14 +28,29 @@
     "appSettings": "App Settings",
     "deleteProfile": "Delete Profile",
     "updateProfile": "Update Profile",
-    "areYouSure": "Are you sure?"
+    "areYouSure": "Are you sure?",
+    "slogan": "Your collection, your way"
+  },
+  "tooltip": {
+    "mongo0": "Doombox uses <1>MongoDB</1> to store and retrieve data.",
+    "mongo1": "Doombox does not provide a database for you, meaning you're responsible for your own database.",
+    "mongo2": "For more information, please refer to <1>README.md</1>."
   },
   "description": {
-    "deleteProfile": "Deleted profiles cannot be restored."
+    "deleteProfile": "Deleted profiles cannot be restored.",
+    "bgCredits": "Photo by <1>David Dvořáček</1> on <3>Unsplash</3>"
   },
   "validation": {
     "max": "{{input}} is too long",
     "required": "{{input}} is required",
-    "userExists": "User already exists"
+    "url": "{{input}} is not an url",
+    "url_mongodb": "{{input}} is not a valid MongoDB url",
+    "userExists": "User already exists",
+    "testConnection": "Test connection"
+  },
+  "flavour": {
+    "0": "Preparing ensemble",
+    "1": "Searching for conductor",
+    "2": "Judging taste in music"
   }
 }

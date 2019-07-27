@@ -9,7 +9,6 @@ import IconImage from '@material-ui/icons/Image';
 // Core
 import {
   Box,
-  IconButton,
   ButtonBase
 } from '@material-ui/core';
 
@@ -76,7 +75,7 @@ const AppearanceView = props => {
                 disabled={loading}
                 color={background ? 'error' : 'default'}
                 variant={background ? 'contained' : 'text'}
-                BoxProps={{ pl: 1 }}
+                pl={1}
                 onClick={() => (background ? clearBackground(id) : onClick())}
               >
                 {t(background ? 'remove' : 'add')}
@@ -93,6 +92,8 @@ AppearanceView.propTypes = {
   id: PropTypes.string.isRequired,
   background: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
+  updateBackground: PropTypes.func.isRequired,
+  clearBackground: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

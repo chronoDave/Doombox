@@ -37,5 +37,10 @@ module.exports = {
         });
       }
     });
+  },
+  imageCleanup() {
+    ipcMain.removeAllListeners([
+      asyncActionPending(CREATE_IMAGE)
+    ]);
   }
 };

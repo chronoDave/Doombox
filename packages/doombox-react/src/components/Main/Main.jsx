@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Core
 import { withStyles } from '@material-ui/core/styles';
 
-import { BackgroundProvider } from '../Background';
+import { BgImageProvider } from '../Background';
 
 // Style
 import MainStyle from './MainStyle';
@@ -14,9 +14,9 @@ const Main = props => {
 
   return (
     <div className={classes.root}>
-      <BackgroundProvider>
+      <BgImageProvider>
         {children}
-      </BackgroundProvider>
+      </BgImageProvider>
     </div>
   );
 };

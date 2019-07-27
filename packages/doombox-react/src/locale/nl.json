@@ -7,11 +7,16 @@
     "uk": "Engels (GB)",
     "us": "Engels (VS)",
     "nl": "Nederlands",
+    "url": "Url",
+    "connect": "Verbind",
+    "connecting": "Verbinden",
+    "connection": "Verbinding",
     "connections": "Verbindingen",
     "appearance": "Weergave",
     "general": "Algemeen",
     "background": "Achtergrond",
     "edit": "Bewerken",
+    "add": "Toevoegen",
     "remove": "Verwijderen",
     "delete": "Verwijderen",
     "profile": "Profiel"
@@ -23,14 +28,29 @@
     "appSettings": "Applicatie Instellingen",
     "deleteProfile": "Profiel Verwijderen",
     "updateProfile": "Profiel Bewerken",
-    "areYouSure": "Weet je het zeker?"
+    "areYouSure": "Weet je het zeker?",
+    "slogan": "Jouw collectie, op jouw manier"
+  },
+  "tooltip": {
+    "mongo0": "Doombox gebruikt <1>MongoDB</1> om data op te halen / op te slaan.",
+    "mongo1": "Doombox biedt zelf geen database aan, deze dien je zelf aan te maken. Je bent zelf verantwoordelijk voor jouw eigen database.",
+    "mongo2": "Voor meer informatie, zie <1>README.md</1>."
   },
   "description": {
-    "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld."
+    "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld.",
+    "bgCredits": "Foto door <1>David Dvořáček</1>, opgehaald van <3>Unsplash</3>"
   },
   "validation": {
     "max": "{{input}} is te lang",
     "required": "{{input}} is verplicht",
-    "userExists": "Gebruikersnaam bestaat al"
+    "url": "{{input}} is geen valide url",
+    "url_mongodb": "{{input}} is geen valide MongoDB url",
+    "userExists": "Gebruikersnaam bestaat al",
+    "testConnection": "Test verbinding"
+  },
+  "flavour": {
+    "0": "Gereed maken ensemble",
+    "1": "Op zoek naar dirigent",
+    "2": "Betwisten van muzieksmaak"
   }
 }

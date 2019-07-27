@@ -27,16 +27,10 @@ const getImageId = async image => {
   }
 };
 
-export const createUser = user => async dispatch => {
-  try {
-    dispatch({ type: asyncActionPending(CREATE_USER) });
+export const createUser = user => dispatch => {
+  dispatch({ type: asyncActionPending(CREATE_USER) });
 
-    const avatar = await getImageId(user.avatar);
-
-    ipcRenderer.send(asyncActionPending(CREATE_USER), { ...user, avatar });
-  } catch (err) {
-    dispatch({ type: asyncActionError(CREATE_USER), payload: err.payload });
-  }
+  ipcRenderer.send(asyncActionPending(CREATE_USER), user);
 };
 
 export const updateUser = (id, user) => async dispatch => {
