@@ -22,7 +22,9 @@
     "remove": "Remove",
     "delete": "Delete",
     "profile": "Profile",
-    "slogan": "Your collection, your way"
+    "slogan": "Your collection, your way",
+    "online": "Online",
+    "offline": "Offline"
   },
   "title": {
     "createProfile": "Create Profile",
@@ -51,6 +53,8 @@
     "required": "{{input}} is required",
     "url": "{{input}} is not a valid url",
     "url_mongodb": "{{input}} is not a valid MongoDB url",
+    "name_mongodb": "{{input}} is missing a database name",
+    "port_mongodb": "{{input}} is missing a port",
     "userExists": "User already exists",
     "testConnection": "Test connection"
   },

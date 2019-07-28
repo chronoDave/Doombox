@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import {
   CREATE_CONNECTION,
   UPDATE_CONNECTION,
+  GET_CONNECTION,
   GET_CONNECTION_CACHE
 } from '@doombox/utils/types/systemTypes';
 import {
@@ -28,14 +29,17 @@ export const useSubscribeSystem = () => {
     ipcRenderer.on(asyncActionSuccess(GET_CONNECTION_CACHE), () => {
       dispatch({ type: asyncActionSuccess(GET_CONNECTION_CACHE) });
     });
-    ipcRenderer.on(asyncActionError(GET_CONNECTION_CACHE), (event, payload) => {
-      dispatch({ type: asyncActionError(GET_CONNECTION_CACHE), payload });
+    ipcRenderer.on(asyncActionError(GET_CONNECTION_CACHE), () => {
+      dispatch({ type: asyncActionError(GET_CONNECTION_CACHE) });
     });
-    ipcRenderer.on(asyncActionSuccess(UPDATE_CONNECTION), () => {
-      dispatch({ type: asyncActionSuccess(UPDATE_CONNECTION) });
+    ipcRenderer.on(asyncActionSuccess(UPDATE_CONNECTION), (event, payload) => {
+      dispatch({ type: asyncActionSuccess(UPDATE_CONNECTION), payload });
     });
     ipcRenderer.on(asyncActionError(UPDATE_CONNECTION), (event, payload) => {
       dispatch({ type: asyncActionError(UPDATE_CONNECTION), payload });
+    });
+    ipcRenderer.on(asyncActionError(GET_CONNECTION), (event, payload) => {
+      dispatch({ type: asyncActionError(GET_CONNECTION), payload });
     });
 
     ipcRenderer.send(asyncActionPending(GET_CONNECTION_CACHE));
@@ -49,7 +53,8 @@ export const useSubscribeSystem = () => {
         asyncActionSuccess(GET_CONNECTION_CACHE),
         asyncActionError(GET_CONNECTION_CACHE),
         asyncActionSuccess(UPDATE_CONNECTION),
-        asyncActionError(UPDATE_CONNECTION)
+        asyncActionError(UPDATE_CONNECTION),
+        asyncActionError(GET_CONNECTION)
       ]);
     };
   }, []);

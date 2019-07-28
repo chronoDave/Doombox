@@ -8,6 +8,7 @@ import {
 import {
   CREATE_CONNECTION,
   UPDATE_CONNECTION,
+  GET_CONNECTION,
   GET_CONNECTION_CACHE
 } from '@doombox/utils/types/systemTypes';
 import {
@@ -36,6 +37,13 @@ export const systemReducer = handleActions({
       connectedCache: false,
       connectedDatabase: false
     }),
+  [asyncActionError(GET_CONNECTION)]:
+    (state, action) => ({
+      ...state,
+      error: action.payload,
+      connectedCache: true,
+      pendingCache: false
+    }),
   [asyncActionPending(GET_CONNECTION_CACHE)]:
     state => ({
       ...state,
@@ -50,10 +58,8 @@ export const systemReducer = handleActions({
       pendingCache: false
     }),
   [asyncActionError(GET_CONNECTION_CACHE)]:
-    (state, action) => ({
+    state => ({
       ...state,
-      connectedCache: true,
-      error: action.payload,
       pendingCache: false
     }),
   [asyncActionPending(CREATE_CONNECTION)]:

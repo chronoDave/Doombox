@@ -42,7 +42,7 @@ const FieldFileBackground = props => {
             <Box
               bgcolor="grey.500"
               border={1}
-              borderRadius={8}
+              borderRadius="borderRadius"
               borderColor="grey.600"
               p={2}
               width="100%"
@@ -59,7 +59,7 @@ const FieldFileBackground = props => {
                   maxWidth={maxWidth}
                   maxHeight={maxHeight}
                   bgcolor="grey.300"
-                  borderRadius={8}
+                  borderRadius="borderRadius"
                 >
                   {value ? (
                     <img

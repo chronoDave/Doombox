@@ -8,6 +8,7 @@ import IconImage from '@material-ui/icons/Image';
 
 // Core
 import {
+  Card,
   Box,
   ButtonBase
 } from '@material-ui/core';
@@ -41,47 +42,44 @@ const AppearanceView = props => {
         validator={['png', 'jpg', 'jpeg', 'gif']}
         setFieldValue={(name, value) => updateBackground(id, { background: value })}
         render={({ onClick }) => (
-          <Box
-            bgcolor="grey.500"
-            border={1}
-            borderRadius={8}
-            borderColor="grey.600"
-            p={2}
-            width="100%"
-            display="flex"
-            flexDirection="column"
-          >
-            <ButtonBase onClick={onClick}>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minWidth={480}
-                minHeight={360}
-                bgcolor="grey.300"
-                borderRadius={8}
-              >
-                {background ? (
-                  <img
-                    src={background.path}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    alt="User-selected Doombox background"
-                  />
-                ) : <IconImage fontSize="large" />}
+          <Card>
+            <Box
+              p={2}
+              display="flex"
+              flexDirection="column"
+            >
+              <ButtonBase onClick={onClick}>
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  minWidth={480}
+                  minHeight={360}
+                  bgcolor="grey.300"
+                  borderRadius="borderRadius"
+                >
+                  {background ? (
+                    <img
+                      src={background.path}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      alt="User-selected Doombox background"
+                    />
+                  ) : <IconImage fontSize="large" />}
+                </Box>
+              </ButtonBase>
+              <Box pt={2} display="flex" justifyContent="flex-end">
+                <Button
+                  disabled={loading}
+                  color={background ? 'error' : 'default'}
+                  variant={background ? 'contained' : 'text'}
+                  pl={1}
+                  onClick={() => (background ? clearBackground(id) : onClick())}
+                >
+                  {t(background ? 'remove' : 'add')}
+                </Button>
               </Box>
-            </ButtonBase>
-            <Box pt={2} display="flex" justifyContent="flex-end">
-              <Button
-                disabled={loading}
-                color={background ? 'error' : 'default'}
-                variant={background ? 'contained' : 'text'}
-                pl={1}
-                onClick={() => (background ? clearBackground(id) : onClick())}
-              >
-                {t(background ? 'remove' : 'add')}
-              </Button>
             </Box>
-          </Box>
+          </Card>
         )}
       />
     </Box>
@@ -90,10 +88,14 @@ const AppearanceView = props => {
 
 AppearanceView.propTypes = {
   id: PropTypes.string.isRequired,
-  background: PropTypes.object.isRequired,
+  background: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   updateBackground: PropTypes.func.isRequired,
   clearBackground: PropTypes.func.isRequired,
+};
+
+AppearanceView.defaultProps = {
+  background: null
 };
 
 const mapStateToProps = state => ({

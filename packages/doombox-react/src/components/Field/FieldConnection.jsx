@@ -11,7 +11,6 @@ import {
   TextField
 } from '@material-ui/core';
 
-import { Button } from '../Button';
 import {
   IconDatabaseRefresh,
   IconDatabaseRemove,
@@ -19,33 +18,27 @@ import {
   IconDatabase
 } from '../Icon';
 
-// Actions
-import {
-  createConnection,
-  disconnect
-} from '../../actions/systemActions';
-
 // Style
 import FieldStyle from './FieldStyle';
 
 const FieldConnection = props => {
   const {
     classes,
+    context,
     name,
     id,
     error,
     pending,
-    testConnection,
-    resetConnection,
+    disabled,
+    children,
     isConnected,
-    context,
   } = props;
   const { t } = useTranslation();
 
   const getEndAdornment = () => {
-    if (isConnected) return <IconDatabaseCheck classes={{ root: classes.iconDatabaseCheck }} />;
     if (error) return <IconDatabaseRemove classes={{ root: classes.iconDatabaseError }} />;
     if (pending) return <IconDatabaseRefresh />;
+    if (isConnected) return <IconDatabaseCheck classes={{ root: classes.iconDatabaseCheck }} />;
     return <IconDatabase />;
   };
 
@@ -75,8 +68,11 @@ const FieldConnection = props => {
             variant="outlined"
             fullWidth
             margin="normal"
-            disabled={isConnected}
-            error={!!errors[name] && touched[name]}
+            disabled={disabled}
+            error={
+              (!!errors[name] && touched[name]) ||
+              (error && touched[name])
+            }
             helperText={t(errors[name], { input: t(name), context })}
             value={value}
             onChange={event => {
@@ -84,31 +80,8 @@ const FieldConnection = props => {
               setFieldTouched(name, true);
             }}
           />
-          <Box display="flex" width="100%" pt={1}>
-            <Button
-              BoxProps={{ mr: 1 }}
-              variant="outlined"
-              color="error"
-              disabled={!isConnected}
-              fullWidth
-              onClick={() => {
-                setFieldValue(name, '');
-                resetConnection();
-              }}
-            >
-              {t('remove')}
-            </Button>
-            <Button
-              BoxProps={{ ml: 1 }}
-              variant="contained"
-              color={isConnected ? 'success' : 'primary'}
-              disabled={isConnected}
-              fullWidth
-              onClick={() => testConnection(value)}
-              loading={pending}
-            >
-              {t('connect')}
-            </Button>
+          <Box display="flex" width="100%" py={1}>
+            {children}
           </Box>
         </Box>
       )}
@@ -120,19 +93,20 @@ FieldConnection.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  context: PropTypes.string.isRequired,
   error: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object
   ]),
   pending: PropTypes.bool.isRequired,
-  testConnection: PropTypes.func.isRequired,
-  resetConnection: PropTypes.func.isRequired,
   isConnected: PropTypes.bool.isRequired,
-  context: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 FieldConnection.defaultProps = {
-  error: null
+  error: null,
+  disabled: false
 };
 
 const mapStateToProps = state => ({
@@ -141,14 +115,8 @@ const mapStateToProps = state => ({
   isConnected: state.system.connectedDatabase
 });
 
-const mapDispatchToProps = dispatch => ({
-  testConnection: url => dispatch(createConnection(url)),
-  resetConnection: () => dispatch(disconnect())
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(withStyles(
   FieldStyle
 )(FieldConnection));

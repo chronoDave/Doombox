@@ -65,6 +65,7 @@ const OfflinePage = ({ error: { name, address } }) => {
       <DialogUpdateConnection
         onCancel={() => setOpen(false)}
         onClose={() => setOpen(false)}
+        disableBackdropClick
         address={address}
         open={open}
       />
@@ -73,7 +74,14 @@ const OfflinePage = ({ error: { name, address } }) => {
 };
 
 OfflinePage.propTypes = {
-  error: PropTypes.object.isRequired
+  error: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object
+  ])
+};
+
+OfflinePage.defaultProps = {
+  error: null
 };
 
 const mapStateToProps = state => ({

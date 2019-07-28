@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const {
   CREATE_CONNECTION,
   UPDATE_CONNECTION,
+  GET_CONNECTION,
   GET_CONNECTION_CACHE
 } = require('@doombox/utils/types/systemTypes');
 const {
@@ -27,10 +28,14 @@ module.exports = {
 
         event.sender.send(asyncActionSuccess(GET_CONNECTION_CACHE));
       } catch (err) {
-        event.sender.send(asyncActionError(GET_CONNECTION_CACHE), {
-          ...err,
-          address: user.connection
-        });
+        if (user) {
+          event.sender.send(asyncActionError(GET_CONNECTION), {
+            ...err,
+            address: user.connection
+          });
+        } else {
+          event.sender.send(asyncActionError(GET_CONNECTION_CACHE));
+        }
       }
     });
     ipcMain.on(asyncActionPending(CREATE_CONNECTION), async (event, url) => {
@@ -52,11 +57,19 @@ module.exports = {
 
         const user = store.get('user');
         await User.findByIdAndUpdate(user.id, { connection: url });
+        const newUser = await User.findById(user.id)
+          .populate('avatar')
+          .populate('background')
+          .lean();
+
         store.set('user', { ...user, connection: url });
 
-        event.sender.send(asyncActionSuccess(UPDATE_CONNECTION));
+        event.sender.send(asyncActionSuccess(UPDATE_CONNECTION), {
+          ...newUser,
+          _id: newUser._id.toString()
+        });
       } catch (err) {
-        event.sender.send(asyncActionError(UPDATE_CONNECTION));
+        event.sender.send(asyncActionError(UPDATE_CONNECTION), err);
       }
     });
   }

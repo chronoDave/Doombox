@@ -4,6 +4,8 @@ export const shapeUsername = Yup.string()
   .max(30, 'validation:max')
   .required('validation:required');
 
-export const shapeConnection = Yup.string()
-  .matches(/mongodb:\/\//i, 'validation:url')
+export const shapeMongoDb = Yup.string()
+  .matches(/mongodb:\/\//, 'validation:url')
+  .matches(/:\d/, 'validation:port')
+  .matches(/\b\/\w/, 'validation:name')
   .required('validation:required');

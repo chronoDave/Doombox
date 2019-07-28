@@ -3,10 +3,10 @@ import * as Yup from 'yup';
 // Shapes
 import {
   shapeUsername,
-  shapeConnection
+  shapeMongoDb
 } from './SchemaShapes';
 
 export const SchemaCreateUser = Yup.object().shape({
   username: shapeUsername,
-  connection: shapeConnection
+  connection: shapeMongoDb
 });

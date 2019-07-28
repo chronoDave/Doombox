@@ -18,7 +18,6 @@ import {
 import { Button } from '../Button';
 import { Typography } from '../Typography';
 import {
-  FieldError,
   FieldLanguage,
   FieldText,
   FieldConnection
@@ -26,6 +25,10 @@ import {
 
 // Actions
 import { createUser } from '../../actions/userActions';
+import {
+  createConnection,
+  disconnect
+} from '../../actions/systemActions';
 
 // Validation
 import { SchemaCreateUser } from './validation';
@@ -38,7 +41,8 @@ const FormCreateProfile = props => {
     classes,
     createProfile,
     isConnected,
-    error,
+    setConnection,
+    resetConnection,
     pending
   } = props;
   const { t, i18n: { language } } = useTranslation();
@@ -54,87 +58,117 @@ const FormCreateProfile = props => {
       validationSchema={SchemaCreateUser}
       onSubmit={values => createProfile(values)}
     >
-      <Form>
-        <Box display="flex" flexDirection="column">
-          <Typography variant="button" color="grey">
-            {t('general')}
-          </Typography>
-          <FieldText id={id} name="username" />
-          <FieldLanguage id={id} />
-          <Box pt={1} display="flex" alignItems="baseline">
+      {({ values, errors }) => (
+        <Form>
+          <Box display="flex" flexDirection="column">
             <Typography variant="button" color="grey">
-              {t('connection')}
+              {t('general')}
             </Typography>
-            <Tooltip
-              interactive
-              title={(
-                <Box p={1}>
-                  <Typography paragraph>
-                    <Trans i18nKey="tooltip:mongo0">
-                      Doombox uses&nbsp;
-                      <Link href="https://www.mongodb.com/">
-                        MongoDB
-                      </Link>
-                      &nbsp;to store and retrieve data.
-                    </Trans>
-                  </Typography>
-                  <Typography paragraph>
-                    {t('tooltip:mongo1')}
-                  </Typography>
-                  <Typography>
-                    <Trans i18nKey="tooltip:mongo2">
-                      For more information, please refer to&nbsp;
-                      <Link href="https://github.com/chronoDave/Doombox/blob/master/README.md#database">
-                        README.md
-                      </Link>
-                    </Trans>
-                  </Typography>
-                </Box>
-              )}
+            <FieldText id={id} name="username" />
+            <FieldLanguage id={id} />
+            <Box pt={1} display="flex" alignItems="baseline">
+              <Typography variant="button" color="grey">
+                {t('connection')}
+              </Typography>
+              <Tooltip
+                interactive
+                title={(
+                  <Box p={1}>
+                    <Typography paragraph>
+                      <Trans i18nKey="tooltip:mongo0">
+                        Doombox uses&nbsp;
+                        <Link href="https://www.mongodb.com/">
+                          MongoDB
+                        </Link>
+                        &nbsp;to store and retrieve data.
+                      </Trans>
+                    </Typography>
+                    <Typography paragraph>
+                      {t('tooltip:mongo1')}
+                    </Typography>
+                    <Typography>
+                      <Trans i18nKey="tooltip:mongo2">
+                        For more information, please refer to&nbsp;
+                        <Link href="https://github.com/chronoDave/Doombox/blob/master/README.md#database">
+                          README.md
+                        </Link>
+                      </Trans>
+                    </Typography>
+                  </Box>
+                )}
+              >
+                <IconInfo classes={{ root: classes.iconSmall }} fontSize="small" />
+              </Tooltip>
+            </Box>
+            <FieldConnection
+              id={id}
+              name="connection"
+              context="mongodb"
+              disabled={isConnected}
             >
-              <IconInfo classes={{ root: classes.iconSmall }} fontSize="small" />
-            </Tooltip>
+              <Button
+                BoxProps={{ mr: 1 }}
+                variant="outlined"
+                color="error"
+                fullWidth
+                disabled={!isConnected}
+                onClick={() => resetConnection()}
+              >
+                {t('remove')}
+              </Button>
+              <Button
+                BoxProps={{ ml: 1 }}
+                variant="contained"
+                color={isConnected ? 'success' : 'primary'}
+                disabled={isConnected}
+                fullWidth
+                loading={pending}
+                onClick={() => {
+                  if (values.connection !== '' && !errors.connection) {
+                    setConnection(values.connection);
+                  }
+                }}
+              >
+                {t('connect')}
+              </Button>
+            </FieldConnection>
           </Box>
-          <FieldConnection id={id} name="connection" context="mongodb" />
-        </Box>
-        {error && <FieldError mt={2} error={error} />}
-        <Box pb={1} pt={2} display="flex" justifyContent="flex-end">
-          <Button
-            variant="contained"
-            color="success"
-            loading={pending}
-            fullWidth
-            type="submit"
-            disabled={!isConnected}
-          >
-            {t('save')}
-          </Button>
-        </Box>
-      </Form>
+          <Box pb={1} pt={2} display="flex" justifyContent="flex-end">
+            <Button
+              variant="contained"
+              color="success"
+              loading={pending}
+              fullWidth
+              type="submit"
+              disabled={!isConnected}
+            >
+              {t('save')}
+            </Button>
+          </Box>
+        </Form>
+      )}
     </Formik>
   );
 };
 
 FormCreateProfile.propTypes = {
   classes: PropTypes.object.isRequired,
-  error: PropTypes.object,
   pending: PropTypes.bool.isRequired,
   createProfile: PropTypes.func.isRequired,
+  setConnection: PropTypes.func.isRequired,
+  resetConnection: PropTypes.func.isRequired,
   isConnected: PropTypes.bool.isRequired
 };
 
-FormCreateProfile.defaultProps = {
-  error: null
-};
-
 const mapStateToProps = state => ({
-  error: state.profile.error,
   pending: state.profile.pending,
   isConnected: state.system.connectedDatabase
 });
 
 const mapDispatchToProps = dispatch => ({
-  createProfile: values => dispatch(createUser(values))
+  createProfile: values => dispatch(createUser(values)),
+  setConnection: url => dispatch(createConnection(url)),
+  resetConnection: () => dispatch(disconnect())
 });
 
 export default connect(

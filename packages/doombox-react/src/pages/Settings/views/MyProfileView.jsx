@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 import IconPerson from '@material-ui/icons/Person';
 
 // Core
-import { Box } from '@material-ui/core';
+import {
+  Card,
+  Box
+} from '@material-ui/core';
 
 import { Typography } from '../../../components/Typography';
 import { Avatar } from '../../../components/Avatar';
@@ -27,45 +30,42 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
 
   return (
     <Fragment>
-      <Box
-        bgcolor="grey.500"
-        border={1}
-        borderRadius={8}
-        borderColor="grey.600"
-        p={2}
-        width="100%"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-      >
-        <Avatar
-          path={user.avatar ? user.avatar.path : null}
-          fallback={<IconPerson />}
-        />
-        <Box pt={1}>
-          <Typography variant="h6" align="center">
-            {user.username}
-          </Typography>
+      <Card>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          p={2}
+        >
+          <Avatar
+            path={user.avatar ? user.avatar.path : null}
+            fallback={<IconPerson />}
+          />
+          <Box pt={1}>
+            <Typography variant="h6" align="center">
+              {user.username}
+            </Typography>
+          </Box>
+          <Divider mb={2} />
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            BoxProps={{ pb: 1.5 }}
+            onClick={() => setOpen('updateProfile')}
+          >
+            {t('edit')}
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            fullWidth
+            onClick={() => setOpen('deleteProfile')}
+          >
+            {t('title:deleteProfile')}
+          </Button>
         </Box>
-        <Divider mb={2} />
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          BoxProps={{ pb: 1.5 }}
-          onClick={() => setOpen('updateProfile')}
-        >
-          {t('edit')}
-        </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          fullWidth
-          onClick={() => setOpen('deleteProfile')}
-        >
-          {t('title:deleteProfile')}
-        </Button>
-      </Box>
+      </Card>
       <DialogUpdateProfile
         open={open === 'updateProfile'}
         onClose={() => setOpen(null)}

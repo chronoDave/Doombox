@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 // Core
 import { withStyles } from '@material-ui/core/styles';
 import {
+  Card,
   Box,
   List,
   ListItem,
@@ -34,30 +35,25 @@ const LanguageView = props => {
   const { t } = useTranslation();
 
   return (
-    <Box
-      bgcolor="grey.500"
-      border={1}
-      borderRadius={8}
-      borderColor="grey.600"
-      p={2}
-      width="100%"
-    >
-      <List>
-        {languages.map(lang => (
-          <ListItem
-            key={lang}
-            className={language === lang ? classes.listLanguageSelected : null}
-            button
-            onClick={() => updateLanguage(id, { language: lang })}
-          >
-            <ListItemIcon>
-              <IconFlag country={lang} />
-            </ListItemIcon>
-            <ListItemText primary={t(lang)} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+    <Card>
+      <Box px={2} py={1}>
+        <List>
+          {languages.map(lang => (
+            <ListItem
+              key={lang}
+              className={language === lang ? classes.listLanguageSelected : null}
+              button
+              onClick={() => updateLanguage(id, { language: lang })}
+            >
+              <ListItemIcon>
+                <IconFlag country={lang} />
+              </ListItemIcon>
+              <ListItemText primary={t(lang)} />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Card>
   );
 };
 

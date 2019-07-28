@@ -38,7 +38,7 @@ export const theme = createMuiTheme({
     },
     background: {
       default: Colors.GREY[300],
-      paper: Colors.GREY[400]
+      paper: Colors.GREY[500]
     },
     error: Colors.ERROR,
     warning: Colors.WARNING,

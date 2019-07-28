@@ -22,7 +22,9 @@
     "remove": "Verwijderen",
     "delete": "Verwijderen",
     "profile": "Profiel",
-    "slogan": "Jouw collectie, op jouw manier"
+    "slogan": "Jouw collectie, op jouw manier",
+    "online": "Online",
+    "offline": "Offline"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",
@@ -51,6 +53,8 @@
     "required": "{{input}} is verplicht",
     "url": "{{input}} is geen valide url",
     "url_mongodb": "{{input}} is geen valide MongoDB url",
+    "name_mongodb": "{{input}} bevat geen database naam",
+    "port_mongodb": "{{input}} bevat geen poort",
     "userExists": "Gebruikersnaam bestaat al",
     "testConnection": "Test verbinding"
   },
