@@ -56,13 +56,13 @@ const FormCreateProfile = props => {
     >
       <Form>
         <Box display="flex" flexDirection="column">
-          <Typography variant="button" color="textTertiary">
+          <Typography variant="button" color="grey">
             {t('general')}
           </Typography>
           <FieldText id={id} name="username" />
           <FieldLanguage id={id} />
           <Box pt={1} display="flex" alignItems="baseline">
-            <Typography variant="button" color="textTertiary">
+            <Typography variant="button" color="grey">
               {t('connection')}
             </Typography>
             <Tooltip

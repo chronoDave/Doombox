@@ -8,14 +8,14 @@ const TypographyStyle = theme => ({
   color_success: {
     color: theme.palette.success.main
   },
-  color_textTertiary: {
-    color: theme.palette.getAlpha(theme.palette.grey[0], 0.5)
-  },
   color_info: {
     color: theme.palette.info.main
   },
   color_white: {
     color: theme.palette.grey[0]
+  },
+  color_grey: {
+    color: theme.palette.grey[100]
   },
   transform_default: {},
   transform_uppercase: {

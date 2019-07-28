@@ -23,7 +23,6 @@ export const useSubscribeUser = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Create
     ipcRenderer.on(asyncActionSuccess(CREATE_USER), (event, payload) => {
       changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(CREATE_USER), payload });
@@ -31,7 +30,6 @@ export const useSubscribeUser = () => {
     ipcRenderer.on(asyncActionError(CREATE_USER), (event, payload) => {
       dispatch({ type: asyncActionError(CREATE_USER), payload });
     });
-    // Cache
     ipcRenderer.on(asyncActionSuccess(GET_USER_CACHE), (event, payload) => {
       changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(GET_USER_CACHE), payload });
@@ -39,7 +37,6 @@ export const useSubscribeUser = () => {
     ipcRenderer.on(asyncActionError(GET_USER_CACHE), (event, payload) => {
       dispatch({ type: asyncActionError(GET_USER_CACHE), payload });
     });
-    // Update
     ipcRenderer.on(asyncActionSuccess(UPDATE_USER), (event, payload) => {
       changeLanguage(payload.language);
       dispatch({ type: asyncActionSuccess(UPDATE_USER), payload });
@@ -47,7 +44,6 @@ export const useSubscribeUser = () => {
     ipcRenderer.on(asyncActionError(UPDATE_USER), (event, payload) => {
       dispatch({ type: asyncActionError(UPDATE_USER), payload });
     });
-    // Delete
     ipcRenderer.on(asyncActionSuccess(DELETE_USER), () => {
       dispatch({ type: asyncActionSuccess(DELETE_USER) });
     });

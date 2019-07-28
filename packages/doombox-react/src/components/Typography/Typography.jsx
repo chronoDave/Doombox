@@ -51,12 +51,12 @@ Typography.propTypes = {
     'secondary',
     'textPrimary',
     'textSecondary',
-    'textTertiary',
     'error',
     'warning',
     'success',
     'info',
-    'white'
+    'white',
+    'grey'
   ]),
   transform: PropTypes.oneOf([
     'lowercase',

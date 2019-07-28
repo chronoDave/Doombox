@@ -16,10 +16,13 @@
     "general": "Algemeen",
     "background": "Achtergrond",
     "edit": "Bewerken",
+    "edit_connection": "Verbinding bewerken",
     "add": "Toevoegen",
+    "retry": "Probeer opnieuw",
     "remove": "Verwijderen",
     "delete": "Verwijderen",
-    "profile": "Profiel"
+    "profile": "Profiel",
+    "slogan": "Jouw collectie, op jouw manier"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",
@@ -29,7 +32,7 @@
     "deleteProfile": "Profiel Verwijderen",
     "updateProfile": "Profiel Bewerken",
     "areYouSure": "Weet je het zeker?",
-    "slogan": "Jouw collectie, op jouw manier"
+    "updateConnection": "Verbinding Bewerken"
   },
   "tooltip": {
     "mongo0": "Doombox gebruikt <1>MongoDB</1> om data op te halen / op te slaan.",
@@ -37,8 +40,11 @@
     "mongo2": "Voor meer informatie, zie <1>README.md</1>."
   },
   "description": {
-    "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld.",
-    "bgCredits": "Foto door <1>David Dvořáček</1>, opgehaald van <3>Unsplash</3>"
+    "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld."
+  },
+  "error": {
+    "mongodb_connection": "Verbinding met MongoDB database mislukt",
+    "mongodb_connectionWhy": "Doombox was niet in staat om de applicatie te laden omdat de verbinding met de MongoDB database op dit adres was mislukt:"
   },
   "validation": {
     "max": "{{input}} is te lang",

@@ -1,6 +1,7 @@
 // Types
 import {
-  CREATE_CONNECTION
+  CREATE_CONNECTION,
+  UPDATE_CONNECTION
 } from '@doombox/utils/types/systemTypes';
 import {
   asyncActionPending,
@@ -9,14 +10,16 @@ import {
 
 const { ipcRenderer } = window.require('electron');
 
-export const tryConnection = url => async dispatch => {
-  try {
-    dispatch({ type: asyncActionPending(CREATE_CONNECTION) });
+export const createConnection = url => dispatch => {
+  dispatch({ type: asyncActionPending(CREATE_CONNECTION) });
 
-    ipcRenderer.send(asyncActionPending(CREATE_CONNECTION), url);
-  } catch (err) {
-    dispatch({ type: asyncActionError(CREATE_CONNECTION), payload: err.payload });
-  }
+  ipcRenderer.send(asyncActionPending(CREATE_CONNECTION), url);
+};
+
+export const updateConnection = url => dispatch => {
+  dispatch({ type: asyncActionPending(UPDATE_CONNECTION) });
+
+  ipcRenderer.send(asyncActionPending(UPDATE_CONNECTION), url);
 };
 
 export const disconnect = () => dispatch => {

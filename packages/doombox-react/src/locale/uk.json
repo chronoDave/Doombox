@@ -16,10 +16,13 @@
     "general": "General",
     "background": "Background",
     "edit": "Edit",
+    "edit_connection": "Edit connection",
     "add": "Add",
+    "retry": "Retry",
     "remove": "Remove",
     "delete": "Delete",
-    "profile": "Profile"
+    "profile": "Profile",
+    "slogan": "Your collection, your way"
   },
   "title": {
     "createProfile": "Create Profile",
@@ -29,7 +32,7 @@
     "deleteProfile": "Delete Profile",
     "updateProfile": "Update Profile",
     "areYouSure": "Are you sure?",
-    "slogan": "Your collection, your way"
+    "updateConnection": "Update Connection"
   },
   "tooltip": {
     "mongo0": "Doombox uses <1>MongoDB</1> to store and retrieve data.",
@@ -37,8 +40,11 @@
     "mongo2": "For more information, please refer to <1>README.md</1>."
   },
   "description": {
-    "deleteProfile": "Deleted profiles cannot be restored.",
-    "bgCredits": "Photo by <1>David Dvořáček</1> on <3>Unsplash</3>"
+    "deleteProfile": "Deleted profiles cannot be restored."
+  },
+  "error": {
+    "mongodb_connection": "Unable to connect to the MongoDB database",
+    "mongodb_connectionWhy": "Doombox couldn't load the application because it failed to connect to the MongoDB database at this adress:"
   },
   "validation": {
     "max": "{{input}} is too long",

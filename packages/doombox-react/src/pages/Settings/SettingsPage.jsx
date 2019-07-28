@@ -51,11 +51,13 @@ const SettingsPage = ({ theme, classes }) => {
           flexGrow={1}
           bgcolor={theme.palette.getAlpha(theme.palette.grey[400], 0.9)}
         >
-          <List subheader={(
-            <ListSubheader classes={{ root: classes.listSubheaderRoot }} disableSticky>
-              <strong>{t('title:userSettings').toUpperCase()}</strong>
-            </ListSubheader>
-          )}>
+          <List
+            subheader={(
+              <ListSubheader classes={{ root: classes.listSubheaderRoot }} disableSticky>
+                <strong>{t('title:userSettings').toUpperCase()}</strong>
+              </ListSubheader>
+            )}
+          >
             {[
               {
                 key: 'MyProfileView',

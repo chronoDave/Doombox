@@ -1,84 +1,79 @@
-import React, { Fragment } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Core
-import { withTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import {
   Box,
   Card,
-  Link
+  useMediaQuery,
+  Hidden
 } from '@material-ui/core';
 
-import {
-  BgImageProvider,
-  BgColorProvider
-} from '../../components/Background';
+import { BackgroundProvider } from '../../components/Background';
 import { FormCreateProfile } from '../../components/Form';
 import { Typography } from '../../components/Typography';
 
-const CreateProfilePage = ({ theme }) => {
+// Utils
+import { version } from '../../../package.json';
+
+const CreateProfilePage = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isDownSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <BgImageProvider>
-      <BgColorProvider color={theme.palette.getAlpha(theme.palette.grey[500], 0.66)}>
-        <Fragment>
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="100vh"
-          >
-            <Card>
-              <Box pt={3} display="flex" justifyContent="center">
-                <Typography variant="h6" align="center">
-                  {t('title:createProfile')}
-                </Typography>
-              </Box>
-              <Box p={3} pb={2} minWidth={300}>
-                <FormCreateProfile />
-              </Box>
-            </Card>
-            <Box pl={12}>
+    <BackgroundProvider>
+      <Box
+        display="flex"
+        justifyContent="center"
+        flexDirection={isDownSm ? 'column' : 'row-reverse'}
+        alignItems="center"
+        height="100%"
+        minHeight="min-content"
+        p={4}
+      >
+        <Box
+          pb={isDownSm ? 4 : 0}
+          display="flex"
+          justifyContent="center"
+          flexGrow={isDownSm ? 0 : 0.33}
+        >
+          <Box>
+            <Box display="flex" alignItems="baseline">
               <Typography variant="h1">
                 Doombox
               </Typography>
-              <Typography variant="h4" color="textTertiary">
-                {t('title:slogan')}
-              </Typography>
+              <Hidden smDown>
+                <Box pl={1}>
+                  <Typography color="grey">
+                    {version}
+                  </Typography>
+                </Box>
+              </Hidden>
             </Box>
-          </Box>
-          <Box
-            position="fixed"
-            bottom={16}
-            left={0}
-            width="100%"
-            display="flex"
-            justifyContent="center"
-            color={theme.palette.getAlpha(theme.palette.grey[0], 0.5)}
-          >
-            <Typography variant="caption">
-              <Trans i18nKey="description:bgCredits">
-                Photo by&nbsp;
-                <Link href="https://unsplash.com/@dafidvor?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
-                  David Dvořáček
-                </Link>
-                &nbsp;on&nbsp;
-                <Link href="https://unsplash.com/search/photos/koi?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
-                  Unsplash
-                </Link>
-              </Trans>
+            <Typography
+              variant={isDownSm ? 'body1' : 'h4'}
+              color="grey"
+              align={isDownSm ? 'center' : 'left'}
+            >
+              {isDownSm ? version : t('slogan')}
             </Typography>
           </Box>
-        </Fragment>
-      </BgColorProvider>
-    </BgImageProvider>
+        </Box>
+        <Card>
+          <Box pt={3}>
+            <Typography variant="h6" align="center">
+              {t('title:createProfile')}
+            </Typography>
+          </Box>
+          <Box p={3} pb={2} minWidth={300}>
+            <FormCreateProfile />
+          </Box>
+        </Card>
+      </Box>
+    </BackgroundProvider>
   );
 };
 
-CreateProfilePage.propTypes = {
-  theme: PropTypes.object.isRequired
-};
-
-export default withTheme(CreateProfilePage);
+export default CreateProfilePage;

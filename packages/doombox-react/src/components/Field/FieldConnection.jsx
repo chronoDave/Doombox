@@ -21,7 +21,7 @@ import {
 
 // Actions
 import {
-  tryConnection,
+  createConnection,
   disconnect
 } from '../../actions/systemActions';
 
@@ -44,7 +44,7 @@ const FieldConnection = props => {
 
   const getEndAdornment = () => {
     if (isConnected) return <IconDatabaseCheck classes={{ root: classes.iconDatabaseCheck }} />;
-    if (error) return <IconDatabaseRemove classes={{ root: classes.iconDatabaseError }} />
+    if (error) return <IconDatabaseRemove classes={{ root: classes.iconDatabaseError }} />;
     if (pending) return <IconDatabaseRefresh />;
     return <IconDatabase />;
   };
@@ -84,9 +84,9 @@ const FieldConnection = props => {
               setFieldTouched(name, true);
             }}
           />
-          <Box display="flex" width="100%">
+          <Box display="flex" width="100%" pt={1}>
             <Button
-              BoxProps={{ mt: 1, mr: 1 }}
+              BoxProps={{ mr: 1 }}
               variant="outlined"
               color="error"
               disabled={!isConnected}
@@ -99,7 +99,7 @@ const FieldConnection = props => {
               {t('remove')}
             </Button>
             <Button
-              BoxProps={{ mt: 1, ml: 1 }}
+              BoxProps={{ ml: 1 }}
               variant="contained"
               color={isConnected ? 'success' : 'primary'}
               disabled={isConnected}
@@ -142,7 +142,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  testConnection: url => dispatch(tryConnection(url)),
+  testConnection: url => dispatch(createConnection(url)),
   resetConnection: () => dispatch(disconnect())
 });
 

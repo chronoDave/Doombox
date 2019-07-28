@@ -30,8 +30,7 @@ module.exports = {
     "no-nested-ternary": "off",
     // React
     "react/jsx-no-duplicate-props": ["warn", { "ignoreCase": false }], // MUI inputProps / InputProps
-    "react/forbid-prop-types": "off", // Most packages don't have shapes,
-    "react/jsx-closing-bracket-location": "off", // Prefer not to use newline on single-prop JSX
+    "react/forbid-prop-types": "off", // Most packages don't have shapes
     // Import
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': 'off', // Electron builder requires devDependency
