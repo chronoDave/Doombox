@@ -4,10 +4,10 @@ const { app } = require('electron');
 const { createWindow } = require('./lib/window');
 const Store = require('./lib/store');
 
-// Events
-const { userListener, userCleanup } = require('./events/userListener');
-const { imageListener, imageCleanup } = require('./events/imageListener');
-const { systemListener } = require('./events/systemListener');
+// Listeners
+const { userListener, userCleanup } = require('./modules/user/userListener');
+const { imageListener, imageCleanup } = require('./modules/image/imageListener');
+const { systemListener } = require('./modules/system/systemListener');
 
 const store = new Store({
   configName: 'user-preferences',

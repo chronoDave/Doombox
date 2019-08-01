@@ -33,7 +33,6 @@ module.exports = {
     "react/forbid-prop-types": "off", // Most packages don't have shapes
     // Import
     'import/prefer-default-export': 'off',
-    'import/no-extraneous-dependencies': 'off', // Electron builder requires devDependency
     // JSX
     'jsx-a11y/label-has-for': 'off' // This rule was deprecated in v6.1.0.
   }

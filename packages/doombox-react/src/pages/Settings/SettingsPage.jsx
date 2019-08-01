@@ -49,7 +49,7 @@ const SettingsPage = ({ theme, classes }) => {
           p={4}
           display="flex"
           flexGrow={1}
-          bgcolor={theme.palette.getAlpha(theme.palette.grey[400], 0.9)}
+          bgcolor={theme.palette.getAlpha(theme.palette.grey[300], 0.66)}
         >
           <List
             subheader={(

@@ -24,14 +24,14 @@ import {
 } from '../Field';
 
 // Actions
-import { createUser } from '../../actions/userActions';
+import { createUser } from '../../api/userApi';
 import {
   createConnection,
   disconnect
-} from '../../actions/systemActions';
+} from '../../api/systemApi';
 
 // Validation
-import { SchemaCreateUser } from './validation';
+import { schemaCreateUser } from '../../validation/schema';
 
 // Style
 import FormStyle from './FormStyle';
@@ -55,7 +55,7 @@ const FormCreateProfile = props => {
         connection: '',
         language
       }}
-      validationSchema={SchemaCreateUser}
+      validationSchema={schemaCreateUser}
       onSubmit={values => createProfile(values)}
     >
       {({ values, errors }) => (

@@ -22,7 +22,7 @@ import {
 } from '../../../components/Dialog';
 
 // Actions
-import { deleteUser } from '../../../actions/userActions';
+import { deleteUser } from '../../../api/userApi';
 
 const MyProfileView = ({ user, deleteProfile, pending }) => {
   const { t } = useTranslation();

@@ -1,42 +1,33 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
-// Languages
-import uk from './locale/uk.json';
-import us from './locale/us.json';
-import nl from './locale/nl.json';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Utils
-import { isDev } from './utils';
+import { isDev } from '@doombox/utils';
 
-const getLocale = () => {
-  const locale = navigator.language;
+// Locales
+import * as uk from './static/locales/en-GB.json';
+import * as us from './static/locales/en-US.json';
+import * as nl from './static/locales/nl.json';
 
-  switch (locale) {
-    case ('en-GB'): return 'uk';
-    case ('en-US'): return 'us';
-    default: return locale;
-  }
-};
-
-i18n.use(initReactI18next).init({
-  // Debug
-  debug: isDev(),
-  // General
-  resources: { uk, us, nl },
-  react: {
-    useSuspense: false
-  },
-  // Langauge
-  lng: getLocale(),
-  fallbackLng: ['uk', 'us', 'nl'],
-  // Namespace
-  ns: ['common', 'title', 'validation'],
-  defaultNS: 'common',
-  // Interpolation
-  interpolation: {
-    escapeValue: false, // React escapes by default
-  }
-});
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    debug: isDev(),
+    resources: {
+      'en-GB': uk,
+      'en-US': us,
+      nl
+    },
+    react: {
+      useSuspense: false
+    },
+    fallbackLng: 'en-GB',
+    defaultNS: 'common',
+    interpolation: {
+      escapeValue: false, // React escapes by default
+    }
+  });
 
 export default i18n;

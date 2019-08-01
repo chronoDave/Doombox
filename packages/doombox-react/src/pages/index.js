@@ -1,17 +1,7 @@
-import HomePage from './HomePage';
-import SettingsPage from './Settings/SettingsPage';
-
-// Status
-import LoadingPage from './Status/LoadingPage';
-import OfflinePage from './Status/OfflinePage';
-
-// Create
-import CreateProfilePage from './Create/CreateProfilePage';
-
+export { HomePage } from './Home';
+export { SettingsPage } from './Settings';
 export {
-  HomePage,
-  SettingsPage,
   LoadingPage,
-  OfflinePage,
-  CreateProfilePage
-};
+  OfflinePage
+} from './Status';
+export { CreateProfilePage } from './Create';

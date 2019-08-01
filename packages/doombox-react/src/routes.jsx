@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Paths
-import * as Paths from '../paths';
+import * as Paths from './paths';
 
 // Pages
 import {
@@ -10,7 +10,7 @@ import {
   LoadingPage,
   OfflinePage,
   CreateProfilePage
-} from '../pages';
+} from './pages';
 
 export const PrivateRoutes = [
   {

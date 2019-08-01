@@ -1,9 +1,3 @@
-import FormCreateProfile from './FormCreateProfile';
-import FormUpdateProfile from './FormUpdateProfile';
-import FormUpdateConnection from './FormUpdateConnection';
-
-export {
-  FormCreateProfile,
-  FormUpdateProfile,
-  FormUpdateConnection
-};
+export { default as FormCreateProfile } from './FormCreateProfile';
+export { default as FormUpdateProfile } from './FormUpdateProfile';
+export { default as FormUpdateConnection } from './FormUpdateConnection';

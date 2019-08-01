@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 // Assets
-import LogoImage from '../../assets/image/doombox.png';
+import LogoImage from '../../static/images/doombox.png';
 
 // Style
 import LogoStyle from './LogoStyle';

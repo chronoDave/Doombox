@@ -1,19 +1,28 @@
-import { createStore, compose, applyMiddleware } from 'redux';
-import { logger } from 'redux-logger';
+import {
+  createStore,
+  compose,
+  applyMiddleware,
+  combineReducers
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { isDev } from '@doombox/utils';
 
 // Reducers
-import { rootReducer } from './reducers';
+import {
+  profileReducer,
+  systemReducer
+} from './reducers';
 
-// Utils
-import { isDev } from './utils';
-
-const middleware = [thunkMiddleware];
-if (isDev()) {
-  middleware.push(logger);
-}
+// Middleware
+const middleware = [
+  thunkMiddleware,
+  isDev() ? require('redux-logger').createLogger() : null // eslint-disable-line global-require
+].filter(item => item);
 
 export const store = createStore(
-  rootReducer,
+  combineReducers({
+    profile: profileReducer,
+    system: systemReducer
+  }),
   compose(applyMiddleware(...middleware))
 );

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import {
-  BrowserRouter,
+  HashRouter,
   Switch,
   Route,
   Redirect
@@ -45,7 +45,7 @@ const App = ({
   useSubscribeSystem();
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         {pendingCache ? (
           <Fragment>
@@ -74,7 +74,7 @@ const App = ({
           )
         )}
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

@@ -1,3 +1,3 @@
-export const SPACING = {
+export const COMPONENT = {
   sidebar: 210
 };

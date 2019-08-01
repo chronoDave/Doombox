@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Core
-import { Main } from '../components/Main';
+import { Main } from '../../components/Main';
 
 const HomePage = () => {
   return (

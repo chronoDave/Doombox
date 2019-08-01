@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const IconFlag = ({ country }) => (
   <img
-    src={`assets/image/flags/${country}.png`}
+    src={`static/images/flags/${country}.png`}
     alt={`Flag ${country}`}
     style={{
       marginRight: 8,

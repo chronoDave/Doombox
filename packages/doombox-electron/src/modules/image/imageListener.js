@@ -9,7 +9,7 @@ const {
 } = require('@doombox/utils/types/asyncTypes');
 
 // Model
-const Image = require('../models/image');
+const Image = require('./imageModel');
 
 module.exports = {
   imageListener() {

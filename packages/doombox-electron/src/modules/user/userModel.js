@@ -19,10 +19,20 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Image'
   },
-  connection: {
+  database: {
     type: String,
     required: true
-  }
+  },
+  folders: [{
+    path: {
+      type: String,
+      required: true
+    },
+    watch: {
+      type: Boolean,
+      default: false
+    }
+  }]
 });
 
 module.exports = mongoose.model('User', userSchema);

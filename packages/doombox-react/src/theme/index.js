@@ -1,11 +1,21 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 // Core
-import { SPACING } from './spacing';
+import * as Spacing from './spacing';
 import * as Colors from './colors';
 
 export const theme = createMuiTheme({
   overrides: {
+    MuiListItemIcon: {
+      root: {
+        color: Colors.GREY[50]
+      }
+    },
+    MuiListSubheader: {
+      root: {
+        color: Colors.GREY[200]
+      }
+    },
     MuiLink: {
       root: {
         color: Colors.SECONDARY.main
@@ -13,7 +23,7 @@ export const theme = createMuiTheme({
     },
     MuiTooltip: {
       tooltip: {
-        backgroundColor: Colors.GREY[500]
+        backgroundColor: Colors.GREY[600]
       }
     },
     MuiOutlinedInput: {
@@ -34,11 +44,11 @@ export const theme = createMuiTheme({
     grey: Colors.GREY,
     text: {
       primary: Colors.GREY[50],
-      secondary: Colors.GREY[200]
+      secondary: Colors.GREY[300]
     },
     background: {
-      default: Colors.GREY[300],
-      paper: Colors.GREY[500]
+      default: Colors.GREY[400],
+      paper: Colors.GREY[600]
     },
     error: Colors.ERROR,
     warning: Colors.WARNING,
@@ -59,5 +69,5 @@ export const theme = createMuiTheme({
       return hex;
     },
   },
-  component: { ...SPACING }
+  component: Spacing.COMPONENT
 });

@@ -17,7 +17,7 @@ import {
 import { IconFlag } from '../../../components/Icon';
 
 // Actions
-import { updateUser } from '../../../actions/userActions';
+import { updateUser } from '../../../api/userApi';
 
 // Utils
 import { languages } from '../../../utils';

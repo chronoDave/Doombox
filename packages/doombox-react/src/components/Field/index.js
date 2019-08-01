@@ -1,18 +1,7 @@
-import FieldFileBase from './FieldFile/FieldFileBase';
-import FieldFileAvatar from './FieldFile/FieldFileAvatar';
-import FieldFileBackground from './FieldFile/FieldFileBackground';
+export { default as FieldFileAvatar } from './FieldFile/FieldFileAvatar';
+export { default as FieldFileBackground } from './FieldFile/FieldFileBackground';
+export { default as FieldFileBase } from './FieldFile/FieldFileBase';
 
-import FieldError from './FieldError';
-import FieldLanguage from './FieldLanguage';
-import FieldText from './FieldText';
-import FieldConnection from './FieldConnection';
-
-export {
-  FieldFileBase,
-  FieldFileAvatar,
-  FieldFileBackground,
-  FieldConnection,
-  FieldLanguage,
-  FieldError,
-  FieldText
-};
+export { default as FieldConnection } from './FieldConnection';
+export { default as FieldLanguage } from './FieldLanguage';
+export { default as FieldText } from './FieldText';

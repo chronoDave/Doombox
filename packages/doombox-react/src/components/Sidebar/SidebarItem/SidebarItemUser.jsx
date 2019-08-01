@@ -18,7 +18,7 @@ import {
 import { Typography } from '../../Typography';
 
 // Actions
-import { getCachedUser } from '../../../actions/userActions';
+import { getCachedUser } from '../../../api/userApi';
 
 // Utils
 import { settingsPath } from '../../../paths';

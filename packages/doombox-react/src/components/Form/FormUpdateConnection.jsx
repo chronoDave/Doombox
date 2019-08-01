@@ -9,10 +9,10 @@ import { Button } from '../Button';
 import { FieldConnection } from '../Field';
 
 // Actions
-import { updateConnection } from '../../actions/systemActions';
+import { updateConnection } from '../../api/systemApi';
 
 // Validation
-import { SchemaUpdateConnection } from './validation';
+import { schemaUpdateConnection } from '../../validation/schema';
 
 const FormUpdateConnection = props => {
   const {
@@ -27,7 +27,7 @@ const FormUpdateConnection = props => {
   return (
     <Formik
       initialValues={{ connection: address }}
-      validationSchema={SchemaUpdateConnection}
+      validationSchema={schemaUpdateConnection}
       onSubmit={value => setConnection(value.connection)}
     >
       <Form>

@@ -1,11 +1,12 @@
-const { app, BrowserWindow } = require('electron');
+const { BrowserWindow } = require('electron');
 const path = require('path');
+const { isDev } = require('@doombox/utils');
 
 module.exports = {
   createWindow: args => {
     let window = new BrowserWindow({
-      width: args.width,
-      height: args.height,
+      width: args.width || 800,
+      height: args.height || 600,
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false
@@ -14,14 +15,11 @@ module.exports = {
       show: false
     });
 
-    switch (process.env.NODE_ENV) {
-      case 'development':
-        window.loadURL('http://localhost:5000');
-        break;
-      default:
-        window.loadFile(path.normalize(`${app.getAppPath()}/../client/index.html`));
-        break;
-    }
+    window.loadURL(
+      isDev() ?
+        'http://localhost:5000' :
+        `file://${path.normalize(`${__dirname}../../../../client/index.html`)}`
+    );
 
     window.on('closed', () => {
       window = null;

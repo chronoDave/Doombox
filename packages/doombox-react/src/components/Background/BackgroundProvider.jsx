@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import path from 'path';
 
 // Core
 import { useTheme } from '@material-ui/core/styles';
 
 // Utils
 import { normalizeUrl } from '../../utils';
-
-// Assets
-import backgroundDefault from '../../assets/image/backgroundDefault.jpg';
 
 const BackgroundProvider = props => {
   const {
@@ -21,9 +19,11 @@ const BackgroundProvider = props => {
   return (
     <div
       style={{
-        backgroundImage: (user && user.background && user.background.path) ?
-          `url("${normalizeUrl(user.background.path)}")` :
-          `url("${backgroundDefault}")`,
+        backgroundImage: `url("${path.normalize(normalizeUrl(
+          (user && user.background && user.background.path) ?
+            user.background.path :
+            `${__dirname}/static/images/backgroundDefault.png`
+        ))}")`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         height: '100vh'

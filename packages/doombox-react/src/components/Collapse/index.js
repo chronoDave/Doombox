@@ -1,5 +1,1 @@
-import Collapse from './Collapse';
-
-export {
-  Collapse
-};
+export { default as Collapse } from './Collapse';

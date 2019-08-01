@@ -11,7 +11,7 @@ import {
 } from '@doombox/utils/types/asyncTypes';
 
 // Actions
-import { createImage } from './imageActions';
+import { createImage } from './imageApi';
 
 const { ipcRenderer } = window.require('electron');
 

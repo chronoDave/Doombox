@@ -14,7 +14,7 @@ const {
 } = require('@doombox/utils/types/asyncTypes');
 
 // Model
-const User = require('../models/user');
+const User = require('./userModel');
 
 module.exports = {
   userListener(store) {
@@ -29,7 +29,7 @@ module.exports = {
         // Cache user
         store.set('user', {
           id: newUser._id,
-          connection: payload.connection
+          database: payload.database
         });
 
         event.sender.send(asyncActionSuccess(CREATE_USER), {

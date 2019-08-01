@@ -1,16 +1,7 @@
-import IconFlag from './IconFlag';
+export { default as IconDatabase } from './Database/IconDatabase';
+export { default as IconDatabaseCheck } from './Database/IconDatabaseCheck';
+export { default as IconDatabaseEdit } from './Database/IconDatabaseEdit';
+export { default as IconDatabaseRefresh } from './Database/IconDatabaseRefresh';
+export { default as IconDatabaseRemove } from './Database/IconDatabaseRemove';
 
-import IconDatabase from './Database/IconDatabase';
-import IconDatabaseCheck from './Database/IconDatabaseCheck';
-import IconDatabaseEdit from './Database/IconDatabaseEdit';
-import IconDatabaseRefresh from './Database/IconDatabaseRefresh';
-import IconDatabaseRemove from './Database/IconDatabaseRemove';
-
-export {
-  IconFlag,
-  IconDatabase,
-  IconDatabaseCheck,
-  IconDatabaseEdit,
-  IconDatabaseRefresh,
-  IconDatabaseRemove
-};
+export { default as IconFlag } from './IconFlag';

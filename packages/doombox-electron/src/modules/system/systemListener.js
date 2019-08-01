@@ -15,7 +15,7 @@ const {
 } = require('@doombox/utils/types/asyncTypes');
 
 // Model
-const User = require('../models/user');
+const User = require('../user/userModel');
 
 module.exports = {
   systemListener(store) {
@@ -23,7 +23,7 @@ module.exports = {
       const user = store.get('user');
       try {
         await mongoose.disconnect();
-        await mongoose.connect(user.connection, { useNewUrlParser: true });
+        await mongoose.connect(user.database, { useNewUrlParser: true });
         mongoose.set('useFindAndModify', false);
 
         event.sender.send(asyncActionSuccess(GET_CONNECTION_CACHE));
@@ -31,7 +31,7 @@ module.exports = {
         if (user) {
           event.sender.send(asyncActionError(GET_CONNECTION), {
             ...err,
-            address: user.connection
+            address: user.database
           });
         } else {
           event.sender.send(asyncActionError(GET_CONNECTION_CACHE));
@@ -56,13 +56,13 @@ module.exports = {
         mongoose.set('useFindAndModify', false);
 
         const user = store.get('user');
-        await User.findByIdAndUpdate(user.id, { connection: url });
+        await User.findByIdAndUpdate(user.id, { database: url });
         const newUser = await User.findById(user.id)
           .populate('avatar')
           .populate('background')
           .lean();
 
-        store.set('user', { ...user, connection: url });
+        store.set('user', { ...user, database: url });
 
         event.sender.send(asyncActionSuccess(UPDATE_CONNECTION), {
           ...newUser,

@@ -7,8 +7,9 @@
     "start:react": "cd ./packages/doombox-react && yarn start",
     "start:electron": "cd ./packages/doombox-electron && yarn start",
     "build:react": "cd ./packages/doombox-react && yarn build",
+    "build:react-debug": "cd ./packages/doombox-react && yarn build:debug",
     "build:electron": "cd ./packages/doombox-electron && yarn build",
-    "build:electron-test": "cd ./packages/doombox-electron && yarn build:test"
+    "build:electron-debug": "cd ./packages/doombox-electron && yarn build:test"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
@@ -20,7 +21,8 @@
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-react-hooks": "^1.6.1",
     "eslint-plugin-react-i18next": "^1.1.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "source-map-explorer": "^2.0.1"
   },
   "dependencies": {},
   "workspaces": [

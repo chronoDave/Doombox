@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
+// Icon
+import IconAdd from '@material-ui/icons/Add';
+
 // Core
 import {
   Box,
   Card,
   List,
   ListItem,
+  ListItemIcon,
   ListSubheader,
   ListItemText
 } from '@material-ui/core';
@@ -16,9 +20,17 @@ import {
 import { Button } from '../../../components/Button';
 import { DialogUpdateConnection } from '../../../components/Dialog';
 
-const ConnectionsView = ({ address }) => {
+// Utils
+import { selectFolder } from '../../../utils';
+
+const ConnectionsView = ({ user }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const handleFolderSelect = async () => {
+    const folder = await selectFolder();
+    // TODO
+  };
 
   return (
     <Fragment>
@@ -29,7 +41,7 @@ const ConnectionsView = ({ address }) => {
               MongoDB
             </ListSubheader>
             <ListItem>
-              <ListItemText primary={address} />
+              <ListItemText primary={user.database} />
               <Button
                 variant="contained"
                 color="primary"
@@ -39,12 +51,31 @@ const ConnectionsView = ({ address }) => {
                 {t('edit')}
               </Button>
             </ListItem>
+            <ListSubheader disableSticky>
+              Library
+            </ListSubheader>
+            {(user.folders && user.folders.length !== 0) && (
+              user.folders.map(folder => (
+                <ListItem key={folder.path}>
+                  <ListItemText
+                    primary={folder.path}
+                    secondary={folder.watch}
+                  />
+                </ListItem>
+              ))
+            )}
+            <ListItem button onClick={handleFolderSelect}>
+              <ListItemIcon>
+                <IconAdd />
+              </ListItemIcon>
+              <ListItemText primary={t('add', { context: 'folder' })} />
+            </ListItem>
           </List>
         </Box>
       </Card>
       <DialogUpdateConnection
         open={open}
-        address={address}
+        address={user.database}
         onClose={() => setOpen(false)}
         onCancel={() => setOpen(false)}
       />
@@ -53,11 +84,11 @@ const ConnectionsView = ({ address }) => {
 };
 
 ConnectionsView.propTypes = {
-  address: PropTypes.string.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  address: state.profile.user.connection
+  user: state.profile.user
 });
 
 export default connect(

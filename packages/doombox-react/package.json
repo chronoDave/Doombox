@@ -20,11 +20,13 @@
   "homepage": "https://www.chronostudios.net",
   "scripts": {
     "start": "neutrino start",
-    "build": "neutrino build"
+    "build": "neutrino build",
+    "build:debug": "neutrino build --debug"
   },
   "devDependencies": {
     "@neutrinojs/react": "^8.3.0",
-    "neutrino": "^8.3.0"
+    "neutrino": "^8.3.0",
+    "redux-logger": "^3.0.6"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
@@ -33,6 +35,7 @@
     "clsx": "^1.0.4",
     "formik": "^1.5.7",
     "i18next": "^17.0.6",
+    "i18next-browser-languagedetector": "^3.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-i18next": "^10.11.4",

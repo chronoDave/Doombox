@@ -10,15 +10,14 @@ import { Box } from '@material-ui/core';
 import { Button } from '../Button';
 import {
   FieldFileAvatar,
-  FieldError,
   FieldText
 } from '../Field';
 
 // Actions
-import { updateUser } from '../../actions/userActions';
+import { updateUser } from '../../api/userApi';
 
 // Validation
-import { SchemaUpdateUser } from './validation';
+import { schemaUpdateUser } from '../../validation/schema';
 
 const FormUpdateProfile = props => {
   const {
@@ -30,7 +29,6 @@ const FormUpdateProfile = props => {
     },
     onCancel,
     updateProfile,
-    error,
     pending
   } = props;
   const { t } = useTranslation();
@@ -42,7 +40,7 @@ const FormUpdateProfile = props => {
         language,
         username
       }}
-      validationSchema={SchemaUpdateUser}
+      validationSchema={schemaUpdateUser}
       onSubmit={values => {
         updateProfile(_id, values);
         if (!pending) onCancel();
@@ -53,7 +51,6 @@ const FormUpdateProfile = props => {
           <FieldFileAvatar id="create-profile" />
           <FieldText id="create-profile" name="username" />
         </Box>
-        {error && <FieldError mt={2} error={error} />}
         <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
           <Button
             BoxProps={{ p: 1 }}
@@ -81,13 +78,8 @@ const FormUpdateProfile = props => {
 FormUpdateProfile.propTypes = {
   initialValues: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
-  error: PropTypes.object,
   pending: PropTypes.bool.isRequired,
   updateProfile: PropTypes.func.isRequired
-};
-
-FormUpdateProfile.defaultProps = {
-  error: null
 };
 
 const mapStateToProps = state => ({

@@ -18,7 +18,7 @@ import { FieldFileBase } from '../../../components/Field';
 import { Button } from '../../../components/Button';
 
 // Actions
-import { updateUser } from '../../../actions/userActions';
+import { updateUser } from '../../../api/userApi';
 
 const AppearanceView = props => {
   const {
