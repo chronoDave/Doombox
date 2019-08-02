@@ -11,7 +11,7 @@
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "electron-is-dev": "^0.3.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "music-metadata": "^3.5.3",
     "nedb": "^1.8.0",
     "notistack": "^0.6.1",
