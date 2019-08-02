@@ -2,22 +2,26 @@
   "version": "1.0.0-ce",
   "private": true,
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --ext .js --ext .jsx .",
     "size": "source-map-explorer ./packages/doombox-react/build/*.js",
     "start:react": "cd ./packages/doombox-react && yarn start",
     "start:electron": "cd ./packages/doombox-electron && yarn start",
+    "build": "yarn build:react && yarn build:electron",
     "build:react": "cd ./packages/doombox-react && yarn build",
     "build:react-debug": "cd ./packages/doombox-react && yarn build:debug",
     "build:electron": "cd ./packages/doombox-electron && yarn build",
-    "build:electron-debug": "cd ./packages/doombox-electron && yarn build:test"
+    "build:electron-debug": "cd ./packages/doombox-electron && yarn build:test",
+    "test:react": "cd ./packages/doombox-react && yarn test"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
+    "chai": "^4.2.0",
     "cross-env": "^5.2.0",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-mocha": "^6.0.0",
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-react-hooks": "^1.6.1",
     "eslint-plugin-react-i18next": "^1.1.0",

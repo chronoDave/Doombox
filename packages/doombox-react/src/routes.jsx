@@ -45,5 +45,5 @@ export const CreateProfileRoute = {
   key: 'createProfile',
   exact: true,
   path: Paths.createProfilePath,
-  render: props => <CreateProfilePage {...props} /> 
+  render: props => <CreateProfilePage {...props} />
 };

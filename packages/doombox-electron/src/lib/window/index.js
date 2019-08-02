@@ -3,7 +3,7 @@ const path = require('path');
 const { isDev } = require('@doombox/utils');
 
 module.exports = {
-  createWindow: args => {
+  createWindow: (args = {}) => {
     let window = new BrowserWindow({
       width: args.width || 800,
       height: args.height || 600,

@@ -17,7 +17,7 @@ import { IconFlag } from '../Icon';
 import i18n from '../../locale';
 
 // Utils
-import { languages } from '../../utils'; 
+import { languages } from '../../utils';
 
 // Styles
 import FieldStyle from './FieldStyle';

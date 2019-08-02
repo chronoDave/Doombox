@@ -3,11 +3,13 @@ module.exports = {
   env: {
     es6: true,
     browser: true,
-    node: true
+    node: true,
+    mocha: true
   },
   extends: [
+    'airbnb',
     'plugin:import/recommended',
-    'airbnb'
+    "plugin:mocha/recommended"
   ],
   parser: 'babel-eslint',
   parserOptions: {
@@ -16,24 +18,36 @@ module.exports = {
   },
   plugins: [
     'react-hooks',
-    'react-i18next'
+    'react-i18next',
+    "mocha"
   ],
+  settings: {
+    'import/core-modules': [
+      'electron',
+      'chai',
+      'enzyme',
+      'enzyme-adapter-react-16'
+    ]
+  },
   rules: {
     // General
-    'operator-linebreak': ["error", "after"],
+    'operator-linebreak': ['error', 'after'],
     'linebreak-style': 'off',
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
-    "arrow-parens": ["error", "as-needed"],
-    "no-underscore-dangle": "off", // Mongoose _doc
-    "camelcase": "off", // Mongoose data types
-    "no-nested-ternary": "off",
+    'arrow-parens': ['error', 'as-needed'],
+    'no-underscore-dangle': 'off', // Mongoose _doc
+    'camelcase': 'off', // Mongoose data types
+    'no-nested-ternary': 'off',
     // React
-    "react/jsx-no-duplicate-props": ["warn", { "ignoreCase": false }], // MUI inputProps / InputProps
-    "react/forbid-prop-types": "off", // Most packages don't have shapes
+    'react/jsx-no-duplicate-props': ['warn', { 'ignoreCase': false }], // MUI inputProps / InputProps
+    'react/forbid-prop-types': 'off', // Most packages don't have shapes
     // Import
+    'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',
     // JSX
-    'jsx-a11y/label-has-for': 'off' // This rule was deprecated in v6.1.0.
+    'jsx-a11y/label-has-for': 'off', // This rule was deprecated in v6.1.0.
+    // Mocha
+    'mocha/no-mocha-arrows': 'off' // We don't need Mocha context
   }
 }
