@@ -17,6 +17,9 @@ import {
   actionDelete
 } from '@doombox/utils/types/crudTypes';
 
+// Language
+import i18n from '../locale';
+
 const { ipcRenderer } = window.require('electron');
 
 export const useSubscribeUser = () => {
@@ -39,10 +42,13 @@ export const useSubscribeUser = () => {
     );
     ipcRenderer.on(
       actionSuccess(actionRead(USER_CACHE)),
-      (event, payload) => dispatch({
-        type: actionSuccess(actionRead(USER_CACHE)),
-        payload
-      })
+      (event, payload) => {
+        i18n.changeLanguage(payload.language);
+        dispatch({
+          type: actionSuccess(actionRead(USER_CACHE)),
+          payload
+        });
+      }
     );
     ipcRenderer.on(
       actionError(actionDelete(USER)),
@@ -64,10 +70,13 @@ export const useSubscribeUser = () => {
     );
     ipcRenderer.on(
       actionSuccess(actionUpdate(USER)),
-      (event, payload) => dispatch({
-        type: actionSuccess(actionUpdate(USER)),
-        payload
-      })
+      (event, payload) => {
+        i18n.changeLanguage(payload.language);
+        dispatch({
+          type: actionSuccess(actionUpdate(USER)),
+          payload
+        });
+      }
     );
 
     // Cleanup

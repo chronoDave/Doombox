@@ -15,7 +15,7 @@ const IconFlag = ({ country }) => (
 
 IconFlag.propTypes = {
   country: PropTypes.oneOf([
-    'nl', 'uk', 'us'
+    'nl', 'en-GB', 'en-US'
   ]).isRequired
 };
 

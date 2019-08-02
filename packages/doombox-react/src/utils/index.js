@@ -8,7 +8,7 @@ export const getRandomInt = (min, max) => (
 );
 
 // Locale
-export const languages = ['us', 'uk', 'nl'];
+export const languages = ['en-US', 'en-GB', 'nl'];
 
 // Electron
 export const selectFolder = multi => {

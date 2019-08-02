@@ -22,8 +22,6 @@ import { languages } from '../../utils';
 // Styles
 import FieldStyle from './FieldStyle';
 
-const changeLanguage = lng => i18n.changeLanguage(lng);
-
 const FieldLanguage = props => {
   const { id, classes, ...rest } = props;
   const { t } = useTranslation();
@@ -44,7 +42,7 @@ const FieldLanguage = props => {
             SelectProps={{ classes: { selectMenu: classes.selectMenu } }}
             onChange={event => {
               setFieldValue(name, event.target.value, false);
-              changeLanguage(event.target.value);
+              i18n.changeLanguage(event.target.value);
             }}
             fullWidth
             margin="normal"
