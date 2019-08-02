@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
@@ -17,9 +17,6 @@ import {
 
 import { Typography } from '../../Typography';
 
-// Actions
-import { getCachedUser } from '../../../api/userApi';
-
 // Utils
 import { settingsPath } from '../../../paths';
 
@@ -30,13 +27,8 @@ const SidebarItemUser = props => {
   const {
     profile,
     classes,
-    getProfile,
     pending
   } = props;
-
-  useEffect(() => {
-    getProfile();
-  }, []);
 
   return (
     <Fragment>
@@ -78,7 +70,6 @@ SidebarItemUser.propTypes = {
   classes: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
-  getProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -86,13 +77,8 @@ const mapStateToProps = state => ({
   pending: state.profile.pending
 });
 
-const mapDispatchToProps = dispatch => ({
-  getProfile: () => dispatch(getCachedUser())
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(withStyles(
   SidebarItemStyle
 )(SidebarItemUser));

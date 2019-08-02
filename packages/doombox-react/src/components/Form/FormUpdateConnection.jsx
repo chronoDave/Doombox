@@ -8,9 +8,6 @@ import { connect } from 'react-redux';
 import { Button } from '../Button';
 import { FieldConnection } from '../Field';
 
-// Actions
-import { updateConnection } from '../../api/systemApi';
-
 // Validation
 import { schemaUpdateConnection } from '../../validation/schema';
 
@@ -31,7 +28,7 @@ const FormUpdateConnection = props => {
       onSubmit={value => setConnection(value.connection)}
     >
       <Form>
-        <FieldConnection
+        {/* <FieldConnection
           name="connection"
           context="mongodb"
           id="update-connection"
@@ -55,7 +52,7 @@ const FormUpdateConnection = props => {
           >
             {t('connect')}
           </Button>
-        </FieldConnection>
+        </FieldConnection> */}
       </Form>
     </Formik>
   );
@@ -74,11 +71,6 @@ const mapStateToProps = state => ({
   isConnected: state.system.connectedDatabase
 });
 
-const mapDispatchToProps = dispatch => ({
-  setConnection: url => dispatch(updateConnection(url)),
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(FormUpdateConnection);

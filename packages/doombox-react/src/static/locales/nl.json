@@ -37,13 +37,12 @@
     "areYouSure": "Weet je het zeker?",
     "updateConnection": "Verbinding Bewerken"
   },
-  "tooltip": {
-    "mongo0": "Doombox gebruikt <1>MongoDB</1> om data op te halen / op te slaan.",
-    "mongo1": "Doombox biedt zelf geen database aan, deze dien je zelf aan te maken. Je bent zelf verantwoordelijk voor jouw eigen database.",
-    "mongo2": "Voor meer informatie, zie <1>README.md</1>."
-  },
   "description": {
-    "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld."
+    "remote": "Gebruik externe verbinding",
+    "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld.",
+    "flavour_0": "Gereed maken ensemble",
+    "flavour_1": "Zoekend naar dirigent",
+    "flavour_2": "Betwisten muziek smaak"
   },
   "error": {
     "mongodb_connection": "Verbinding met MongoDB database mislukt",
@@ -58,10 +57,5 @@
     "port_mongodb": "{{input}} bevat geen poort",
     "userExists": "Gebruikersnaam bestaat al",
     "testConnection": "Test verbinding"
-  },
-  "flavour": {
-    "0": "Gereed maken ensemble",
-    "1": "Op zoek naar dirigent",
-    "2": "Betwisten van muzieksmaak"
   }
 }

@@ -4,10 +4,9 @@ const { app } = require('electron');
 const { createWindow } = require('./lib/window');
 const Store = require('./lib/store');
 
-// Listeners
-const { userListener, userCleanup } = require('./modules/user/userListener');
-const { imageListener, imageCleanup } = require('./modules/image/imageListener');
-const { systemListener } = require('./modules/system/systemListener');
+// Routes
+const { systemRouter, systemCleanup } = require('./modules/system');
+const { userRouter, userCleanup } = require('./modules/user');
 
 const store = new Store({
   configName: 'user-preferences',
@@ -16,17 +15,17 @@ const store = new Store({
       width: 800,
       height: 600
     },
-    user: null
+    connection: null,
+    user: {}
   }
 });
 
 app.on('ready', () => {
   const { width, height } = store.get('window');
 
-  // Events
-  userListener(store);
-  imageListener();
-  systemListener(store);
+  // Routes
+  systemRouter(store);
+  userRouter(store);
 
   // Main
   const mainWindow = createWindow({ width, height });
@@ -40,7 +39,7 @@ app.on('ready', () => {
 });
 
 app.on('window-all-closed', () => {
+  systemCleanup();
   userCleanup();
-  imageCleanup();
   app.quit();
 });

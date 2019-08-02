@@ -22,8 +22,8 @@ import {
 // Hooks
 import {
   useScrollbar,
-  useSubscribeUser,
-  useSubscribeSystem
+  useSubscribeSystem,
+  useSubscribeUser
 } from '../../hooks';
 
 // Paths
@@ -41,8 +41,8 @@ const App = ({
   isCached
 }) => {
   useScrollbar();
-  useSubscribeUser();
   useSubscribeSystem();
+  useSubscribeUser();
 
   return (
     <HashRouter>

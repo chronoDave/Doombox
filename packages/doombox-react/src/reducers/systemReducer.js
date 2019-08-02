@@ -2,19 +2,19 @@ import { handleActions } from 'redux-actions';
 
 // Types
 import {
-  CREATE_USER,
-  DELETE_USER
-} from '@doombox/utils/types/userTypes';
+  CONNECTION_CACHE,
+  USER_CACHE,
+  USER
+} from '@doombox/utils/types';
 import {
-  CREATE_CONNECTION,
-  UPDATE_CONNECTION,
-  GET_CONNECTION,
-  GET_CONNECTION_CACHE
-} from '@doombox/utils/types/systemTypes';
+  actionCreate,
+  actionDelete,
+  actionRead
+} from '@doombox/utils/types/crudTypes';
 import {
-  asyncActionPending,
-  asyncActionSuccess,
-  asyncActionError
+  actionPending,
+  actionError,
+  actionSuccess
 } from '@doombox/utils/types/asyncTypes';
 
 const initialState = {
@@ -26,78 +26,32 @@ const initialState = {
 };
 
 export const systemReducer = handleActions({
-  [asyncActionSuccess(CREATE_USER)]:
+  [actionPending(actionRead(CONNECTION_CACHE))]:
     state => ({
       ...state,
-      connectedCache: true
-    }),
-  [asyncActionSuccess(DELETE_USER)]:
-    state => ({
-      ...state,
-      connectedCache: false,
-      connectedDatabase: false
-    }),
-  [asyncActionError(GET_CONNECTION)]:
-    (state, action) => ({
-      ...state,
-      error: action.payload,
-      connectedCache: true,
-      pendingCache: false
-    }),
-  [asyncActionPending(GET_CONNECTION_CACHE)]:
-    state => ({
-      ...state,
-      error: false,
       pendingCache: true
     }),
-  [asyncActionSuccess(GET_CONNECTION_CACHE)]:
+  [actionError(actionRead(CONNECTION_CACHE))]:
+    state => ({
+      ...state,
+      pendingCache: false
+    }),
+  [actionSuccess(actionRead(CONNECTION_CACHE))]:
+    state => ({
+      ...state,
+      pendingCache: false,
+      connectedCache: true
+    }),
+  [actionSuccess(actionRead(USER_CACHE))]:
+    state => ({
+      ...state,
+      connectedDatabase: true
+    }),
+  [actionSuccess(actionCreate(USER))]:
     state => ({
       ...state,
       connectedCache: true,
-      connectedDatabase: true,
-      pendingCache: false
-    }),
-  [asyncActionError(GET_CONNECTION_CACHE)]:
-    state => ({
-      ...state,
-      pendingCache: false
-    }),
-  [asyncActionPending(CREATE_CONNECTION)]:
-    state => ({
-      ...state,
-      connectedDatabase: false,
-      error: false,
-      pendingDatabase: true
-    }),
-  [asyncActionSuccess(CREATE_CONNECTION)]:
-    state => ({
-      ...state,
-      connectedDatabase: true,
-      pendingDatabase: false
-    }),
-  [asyncActionError(CREATE_CONNECTION)]:
-    (state, action) => ({
-      ...state,
-      connectedDatabase: false,
-      error: action.payload,
-      pendingDatabase: false
-    }),
-  [asyncActionPending(UPDATE_CONNECTION)]:
-    state => ({
-      ...state,
-      error: false,
-      pendingDatabase: true
-    }),
-  [asyncActionSuccess(UPDATE_CONNECTION)]:
-    state => ({
-      ...state,
-      pendingDatabase: false,
       connectedDatabase: true
     }),
-  [asyncActionError(UPDATE_CONNECTION)]:
-    (state, action) => ({
-      ...state,
-      pendingDatabase: false,
-      error: action.payload
-    })
+  [actionSuccess(actionDelete(USER))]: () => initialState
 }, initialState);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -8,7 +8,10 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
-  TextField
+  TextField,
+  FormControlLabel,
+  Switch,
+  Grow
 } from '@material-ui/core';
 
 import {
@@ -55,58 +58,54 @@ const FieldConnection = props => {
         }
       }) => (
         <Box display="flex" flexDirection="column" alignItems="center">
-          <TextField
-            inputProps={{ id: `${id}-${name}` }}
-            InputProps={{
-              endAdornment: getEndAdornment(),
-              classes: { disabled: classes.inputPropsDisabled }
-            }}
-            InputLabelProps={{
-              classes: { disabled: classes.inputLabelPropsDisabled }
-            }}
-            label={t('url')}
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            disabled={disabled}
-            error={
-              (!!errors[name] && touched[name]) ||
-              (error && touched[name])
-            }
-            helperText={t(errors[name], { input: t(name), context })}
-            value={value}
-            onChange={event => {
-              setFieldValue(name, event.target.value);
-              setFieldTouched(name, true);
-            }}
+          <FormControlLabel
+            label={t('description:remote')}
+            control={(
+              <Switch
+                color="primary"
+                checked={value}
+                onChange={() => {
+                  setFieldValue(name, !value);
+                  setFieldTouched(name, true);
+                }}
+              />
+            )}
           />
-          <Box display="flex" width="100%" py={1}>
-            {children}
-          </Box>
         </Box>
+
+        // <Box display="flex" flexDirection="column" alignItems="center">
+        //   <TextField
+        //     inputProps={{ id: `${id}-${name}` }}
+        //     InputProps={{
+        //       endAdornment: getEndAdornment(),
+        //       classes: { disabled: classes.inputPropsDisabled }
+        //     }}
+        //     InputLabelProps={{
+        //       classes: { disabled: classes.inputLabelPropsDisabled }
+        //     }}
+        //     label={t('url')}
+        //     variant="outlined"
+        //     fullWidth
+        //     margin="normal"
+        //     disabled={disabled}
+        //     error={
+        //       (!!errors[name] && touched[name]) ||
+        //       (error && touched[name])
+        //     }
+        //     helperText={t(errors[name], { input: t(name), context })}
+        //     value={value}
+        //     onChange={event => {
+        //       setFieldValue(name, event.target.value);
+        //       setFieldTouched(name, true);
+        //     }}
+        //   />
+        //   <Box display="flex" width="100%" py={1}>
+        //     {children}
+        //   </Box>
+        // </Box>
       )}
     />
   );
-};
-
-FieldConnection.propTypes = {
-  classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
-  context: PropTypes.string.isRequired,
-  error: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.object
-  ]),
-  pending: PropTypes.bool.isRequired,
-  isConnected: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired
-};
-
-FieldConnection.defaultProps = {
-  error: null,
-  disabled: false
 };
 
 const mapStateToProps = state => ({

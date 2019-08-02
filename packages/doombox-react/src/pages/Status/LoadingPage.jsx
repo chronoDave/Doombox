@@ -26,7 +26,7 @@ const LoadingPage = () => {
         <CircularProgress size={80} />
       </Box>
       <Typography variant="h5">
-        {t(`flavour:${getRandomInt(0, 2)}`)}
+        {t('description:flavour', { context: getRandomInt(0, 2).toString() })}
       </Typography>
       <Box pt={0.5} color="grey.100">
         <Typography variant="button">

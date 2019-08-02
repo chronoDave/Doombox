@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import path from 'path';
@@ -17,42 +17,39 @@ const BackgroundProvider = props => {
   const theme = useTheme();
 
   return (
-    <div
-      style={{
-        backgroundImage: `url("${path.normalize(normalizeUrl(
-          (user && user.background && user.background.path) ?
-            user.background.path :
-            `${__dirname}/static/images/backgroundDefault.png`
-        ))}")`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        height: '100vh'
-      }}
-    >
+    <Fragment>
       <div
         style={{
-          backgroundPosition: 'fixed',
-          backgroundImage: `linear-gradient(
-            180deg,
-            ${theme.palette.getAlpha(theme.palette.background.default, 0.33)},
-            ${theme.palette.getAlpha(theme.palette.background.default, 0.66)}
-          )`,
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%'
+          position: 'fixed',
+          backgroundImage: `url("${path.normalize(normalizeUrl(
+            (user && user.background && user.background.path) ?
+              user.background.path :
+              `${__dirname}/static/images/backgroundDefault.png`
+          ))}")`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          height: '100vh',
+          width: '100vw',
+          zIndex: -1
         }}
       >
         <div
           style={{
-            height: '100%',
-            overflow: 'auto'
+            backgroundPosition: 'fixed',
+            backgroundImage: `linear-gradient(
+              180deg,
+              ${theme.palette.getAlpha(theme.palette.background.default, 0.33)},
+              ${theme.palette.getAlpha(theme.palette.background.default, 0.66)}
+            )`,
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100vh'
           }}
-        >
-          {children}
-        </div>
+        />
       </div>
-    </div>
+      {children}
+    </Fragment>
   );
 };
 

@@ -30,7 +30,7 @@ const CreateProfilePage = () => {
         flexDirection={isDownSm ? 'column' : 'row-reverse'}
         alignItems="center"
         height="100%"
-        minHeight="min-content"
+        minHeight="100vh"
         p={4}
       >
         <Box

@@ -1,27 +1,19 @@
 // Types
 import {
-  CREATE_CONNECTION,
-  UPDATE_CONNECTION
-} from '@doombox/utils/types/systemTypes';
+  CONNECTION_CACHE
+} from '@doombox/utils/types';
 import {
-  asyncActionPending,
-  asyncActionError
+  actionPending
 } from '@doombox/utils/types/asyncTypes';
+import {
+  actionRead
+} from '@doombox/utils/types/crudTypes';
 
 const { ipcRenderer } = window.require('electron');
 
-export const createConnection = url => dispatch => {
-  dispatch({ type: asyncActionPending(CREATE_CONNECTION) });
+export const getCachedConnection = () => dispatch => {
+  const actionType = actionPending(actionRead(CONNECTION_CACHE));
+  dispatch({ type: actionType });
 
-  ipcRenderer.send(asyncActionPending(CREATE_CONNECTION), url);
-};
-
-export const updateConnection = url => dispatch => {
-  dispatch({ type: asyncActionPending(UPDATE_CONNECTION) });
-
-  ipcRenderer.send(asyncActionPending(UPDATE_CONNECTION), url);
-};
-
-export const disconnect = () => dispatch => {
-  dispatch({ type: asyncActionError(CREATE_CONNECTION) });
+  ipcRenderer.send(actionType);
 };

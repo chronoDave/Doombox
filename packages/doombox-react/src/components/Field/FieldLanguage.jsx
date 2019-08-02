@@ -43,7 +43,6 @@ const FieldLanguage = props => {
             inputProps={{ id: `${id}-${name}` }}
             SelectProps={{ classes: { selectMenu: classes.selectMenu } }}
             onChange={event => {
-              // Language validation is not needed
               setFieldValue(name, event.target.value, false);
               changeLanguage(event.target.value);
             }}

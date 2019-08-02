@@ -25,7 +25,11 @@ const Sidebar = props => {
       anchor="left"
       classes={{ paper: classes.paper }}
     >
-      <Box display="flex" flexDirection="column">
+      <Box
+        display="flex"
+        flexDirection="column"
+        maxHeight="100vh"
+      >
         <Box
           p={2}
           pb={0}

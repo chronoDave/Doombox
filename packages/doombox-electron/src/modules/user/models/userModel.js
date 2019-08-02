@@ -19,19 +19,13 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Image'
   },
-  database: {
-    type: String,
-    required: true
-  },
-  folders: [{
-    path: {
-      type: String,
-      required: true
-    },
-    watch: {
-      type: Boolean,
-      default: false
-    }
+  connections: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Connection'
+  }],
+  library: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Library'
   }]
 });
 

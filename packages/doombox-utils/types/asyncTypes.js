@@ -1,5 +1,5 @@
 module.exports = {
-  asyncActionPending: type => `${type}_PENDING`,
-  asyncActionSuccess: type => `${type}_SUCCESS`,
-  asyncActionError: type => `${type}_ERROR`
+  actionPending: type => `${type}_PENDING`,
+  actionSuccess: type => `${type}_SUCCESS`,
+  actionError: type => `${type}_ERROR`
 };

@@ -37,13 +37,12 @@
     "areYouSure": "Are you sure?",
     "updateConnection": "Update Connection"
   },
-  "tooltip": {
-    "mongo0": "Doombox uses <1>MongoDB</1> to store and retrieve data.",
-    "mongo1": "Doombox does not provide a database for you, meaning you're responsible for your own database.",
-    "mongo2": "For more information, please refer to <1>README.md</1>."
-  },
   "description": {
-    "deleteProfile": "Deleted profiles cannot be restored."
+    "remote": "Use remote connection",
+    "deleteProfile": "Deleted profiles cannot be restored.",
+    "flavour_0": "Preparing ensemble",
+    "flavour_1": "Searching for conductor",
+    "flavour_2": "Judging taste in music"
   },
   "error": {
     "mongodb_connection": "Unable to connect to the MongoDB database",
@@ -58,10 +57,5 @@
     "port_mongodb": "{{input}} is missing a port",
     "userExists": "User already exists",
     "testConnection": "Test connection"
-  },
-  "flavour": {
-    "0": "Preparing ensemble",
-    "1": "Searching for conductor",
-    "2": "Judging taste in music"
   }
 }

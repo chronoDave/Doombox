@@ -2,61 +2,57 @@ import { handleActions, combineActions } from 'redux-actions';
 
 // Types
 import {
-  DELETE_USER,
-  UPDATE_USER,
-  CREATE_USER,
-  GET_USER_CACHE
-} from '@doombox/utils/types/userTypes';
-import { UPDATE_CONNECTION } from '@doombox/utils/types/systemTypes';
-import {
-  asyncActionPending,
-  asyncActionSuccess,
-  asyncActionError
+  actionPending,
+  actionError,
+  actionSuccess
 } from '@doombox/utils/types/asyncTypes';
+import {
+  actionCreate,
+  actionRead,
+  actionUpdate,
+  actionDelete
+} from '@doombox/utils/types/crudTypes';
+import {
+  USER,
+  USER_CACHE
+} from '@doombox/utils/types';
 
 const initialState = {
   pending: false,
-  error: null,
+  error: false,
   user: {}
 };
 
 export const profileReducer = handleActions({
   [combineActions(
-    asyncActionPending(CREATE_USER),
-    asyncActionPending(DELETE_USER),
-    asyncActionPending(UPDATE_USER),
-    asyncActionPending(GET_USER_CACHE)
-  )]: state => ({
-    ...state,
-    pending: true,
-    error: null
-  }),
-  [combineActions(
-    asyncActionSuccess(CREATE_USER),
-    asyncActionSuccess(UPDATE_USER),
-    asyncActionSuccess(GET_USER_CACHE)
-  )]: (state, action) => ({
-    ...state,
-    pending: false,
-    error: null,
-    user: action.payload
-  }),
-  [asyncActionSuccess(DELETE_USER)]:
-    () => initialState,
-  [asyncActionSuccess(UPDATE_CONNECTION)]:
-    (state, action) => ({
+    actionPending(actionCreate(USER)),
+    actionPending(actionUpdate(USER)),
+    actionPending(actionDelete(USER))
+  )]:
+    state => ({
       ...state,
-      user: action.payload
+      pending: true,
+      error: false
     }),
   [combineActions(
-    asyncActionError(CREATE_USER),
-    asyncActionError(UPDATE_USER),
-    asyncActionError(DELETE_USER),
-    asyncActionError(GET_USER_CACHE)
+    actionError(actionCreate(USER)),
+    actionError(actionUpdate(USER)),
+    actionError(actionDelete(USER))
   )]:
     (state, action) => ({
       ...state,
       pending: false,
       error: action.payload
-    })
+    }),
+  [combineActions(
+    actionSuccess(actionCreate(USER)),
+    actionSuccess(actionUpdate(USER)),
+    actionSuccess(actionRead(USER_CACHE))
+  )]:
+    (state, action) => ({
+      ...state,
+      pending: false,
+      user: action.payload
+    }),
+  [actionSuccess(actionDelete(USER))]: () => initialState
 }, initialState);

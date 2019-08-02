@@ -3,16 +3,18 @@ import { useDispatch } from 'react-redux';
 
 // Types
 import {
-  CREATE_CONNECTION,
-  UPDATE_CONNECTION,
-  GET_CONNECTION,
-  GET_CONNECTION_CACHE
-} from '@doombox/utils/types/systemTypes';
+  CONNECTION_CACHE
+} from '@doombox/utils/types';
 import {
-  asyncActionPending,
-  asyncActionSuccess,
-  asyncActionError
+  actionError,
+  actionSuccess
 } from '@doombox/utils/types/asyncTypes';
+import {
+  actionRead
+} from '@doombox/utils/types/crudTypes';
+
+// Actions
+import { getCachedConnection } from '../api/systemApi';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -20,41 +22,23 @@ export const useSubscribeSystem = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    ipcRenderer.on(asyncActionSuccess(CREATE_CONNECTION), () => {
-      dispatch({ type: asyncActionSuccess(CREATE_CONNECTION) });
-    });
-    ipcRenderer.on(asyncActionError(CREATE_CONNECTION), (event, payload) => {
-      dispatch({ type: asyncActionError(CREATE_CONNECTION), payload });
-    });
-    ipcRenderer.on(asyncActionSuccess(GET_CONNECTION_CACHE), () => {
-      dispatch({ type: asyncActionSuccess(GET_CONNECTION_CACHE) });
-    });
-    ipcRenderer.on(asyncActionError(GET_CONNECTION_CACHE), () => {
-      dispatch({ type: asyncActionError(GET_CONNECTION_CACHE) });
-    });
-    ipcRenderer.on(asyncActionSuccess(UPDATE_CONNECTION), (event, payload) => {
-      dispatch({ type: asyncActionSuccess(UPDATE_CONNECTION), payload });
-    });
-    ipcRenderer.on(asyncActionError(UPDATE_CONNECTION), (event, payload) => {
-      dispatch({ type: asyncActionError(UPDATE_CONNECTION), payload });
-    });
-    ipcRenderer.on(asyncActionError(GET_CONNECTION), (event, payload) => {
-      dispatch({ type: asyncActionError(GET_CONNECTION), payload });
-    });
+    ipcRenderer.on(
+      actionError(actionRead(CONNECTION_CACHE)),
+      () => dispatch({ type: actionError(actionRead(CONNECTION_CACHE)) })
+    );
+    ipcRenderer.on(
+      actionSuccess(actionRead(CONNECTION_CACHE)),
+      () => dispatch({ type: actionSuccess(actionRead(CONNECTION_CACHE)) })
+    );
 
-    ipcRenderer.send(asyncActionPending(GET_CONNECTION_CACHE));
-    dispatch({ type: asyncActionPending(GET_CONNECTION_CACHE) });
+    // Initialize
+    dispatch(getCachedConnection());
 
     // Cleanup
     return () => {
       ipcRenderer.removeAllListeners([
-        asyncActionSuccess(CREATE_CONNECTION),
-        asyncActionError(CREATE_CONNECTION),
-        asyncActionSuccess(GET_CONNECTION_CACHE),
-        asyncActionError(GET_CONNECTION_CACHE),
-        asyncActionSuccess(UPDATE_CONNECTION),
-        asyncActionError(UPDATE_CONNECTION),
-        asyncActionError(GET_CONNECTION)
+        actionError(actionRead(CONNECTION_CACHE)),
+        actionSuccess(actionRead(CONNECTION_CACHE))
       ]);
     };
   }, []);
