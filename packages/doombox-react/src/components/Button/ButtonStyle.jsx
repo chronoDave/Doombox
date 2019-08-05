@@ -57,9 +57,9 @@ const ButtonStyle = theme => ({
   },
   color_outlined_error: {
     color: theme.palette.error.main,
-    border: `1px solid ${fade(theme.palette.error.main, 0.5)}`,
+    border: theme.border(fade(theme.palette.error.main, 0.5)),
     '&:hover': {
-      border: `1px solid ${theme.palette.error.main}`,
+      border: theme.border(theme.palette.error.main),
       backgroundColor: fade(
         theme.palette.error.main,
         theme.palette.action.hoverOpacity
@@ -71,9 +71,9 @@ const ButtonStyle = theme => ({
   },
   color_outlined_warning: {
     color: theme.palette.warning.main,
-    border: `1px solid ${fade(theme.palette.warning.main, 0.5)}`,
+    border: theme.border(fade(theme.palette.warning.main, 0.5)),
     '&:hover': {
-      border: `1px solid ${theme.palette.warning.main}`,
+      border: theme.border(theme.palette.warning.main),
       backgroundColor: fade(
         theme.palette.warning.main,
         theme.palette.action.hoverOpacity
@@ -85,9 +85,9 @@ const ButtonStyle = theme => ({
   },
   color_outlined_success: {
     color: theme.palette.success.main,
-    border: `1px solid ${fade(theme.palette.success.main, 0.5)}`,
+    border: theme.border(fade(theme.palette.success.main, 0.5)),
     '&:hover': {
-      border: `1px solid ${theme.palette.success.main}`,
+      border: theme.border(theme.palette.success.main),
       backgroundColor: fade(
         theme.palette.success.main,
         theme.palette.action.hoverOpacity
@@ -99,9 +99,9 @@ const ButtonStyle = theme => ({
   },
   color_outlined_info: {
     color: theme.palette.info.main,
-    border: `1px solid ${fade(theme.palette.info.main, 0.5)}`,
+    border: theme.border(fade(theme.palette.info.main, 0.5)),
     '&:hover': {
-      border: `1px solid ${theme.palette.info.main}`,
+      border: theme.border(theme.palette.info.main),
       backgroundColor: fade(
         theme.palette.info.main,
         theme.palette.action.hoverOpacity

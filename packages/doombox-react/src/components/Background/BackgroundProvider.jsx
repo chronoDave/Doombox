@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import path from 'path';
 
 // Core
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, fade } from '@material-ui/core/styles';
 
 // Utils
 import { normalizeUrl } from '../../utils';
@@ -38,8 +38,8 @@ const BackgroundProvider = props => {
             backgroundPosition: 'fixed',
             backgroundImage: `linear-gradient(
               180deg,
-              ${theme.palette.getAlpha(theme.palette.background.default, 0.33)},
-              ${theme.palette.getAlpha(theme.palette.background.default, 0.66)}
+              ${fade(theme.palette.background.default, 0.33)},
+              ${fade(theme.palette.background.default, 0.66)}
             )`,
             top: 0,
             left: 0,

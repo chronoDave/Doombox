@@ -3,7 +3,7 @@ const AvatarStyle = theme => ({
     width: 120,
     height: 120,
     color: theme.palette.grey[50],
-    border: `1px solid ${theme.palette.grey[600]}`
+    border: theme.border(theme.palette.grey[600])
   }
 });
 

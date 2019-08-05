@@ -7,7 +7,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import IconClose from '@material-ui/icons/Cancel';
 
 // Core
-import { withStyles, withTheme } from '@material-ui/core/styles';
+import {
+  withStyles,
+  withTheme,
+  fade
+} from '@material-ui/core/styles';
 import {
   Box,
   List,
@@ -49,7 +53,7 @@ const SettingsPage = ({ theme, classes }) => {
           p={4}
           display="flex"
           flexGrow={1}
-          bgcolor={theme.palette.getAlpha(theme.palette.grey[300], 0.66)}
+          bgcolor={fade(theme.palette.grey[300], 0.66)}
         >
           <List
             subheader={(
