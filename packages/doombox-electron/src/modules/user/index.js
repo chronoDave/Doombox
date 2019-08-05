@@ -2,36 +2,31 @@ const { ipcMain } = require('electron');
 
 // Types
 const {
-  actionPending
+  PENDING
 } = require('@doombox/utils/types/asyncTypes');
 const {
-  actionCreate,
-  actionUpdate,
-  actionDelete
+  CREATE,
+  UPDATE,
+  DELETE
 } = require('@doombox/utils/types/crudTypes');
 const {
   USER
 } = require('@doombox/utils/types');
 
-// Controllers
-const pouchController = require('../system/controllers/pouchController');
-
 const userRouter = store => {
-  ipcMain.on(actionPending(actionCreate(USER)), (event, payload) => {
-    pouchController.create(event, ({ store, payload }));
-  });
-  ipcMain.on(actionPending(actionDelete(USER)), (event, payload) => {
-    pouchController.remove(event, ({ store, _id: payload }));
-  });
-  ipcMain.on(actionPending(actionUpdate(USER)), (event, payload) => {
-    pouchController.update(event, payload);
-  });
+  // ipcMain.on(actionPending(actionCreate(USER)), (event, payload) => {
+  //   pouchController.create(event, USER, ({ store, payload }));
+  // });
+  // ipcMain.on(actionPending(actionDelete(USER)), (event, payload) => {
+  //   pouchController.remove(event, USER, ({ store, _id: payload }));
+  // });
+  // ipcMain.on(actionPending(actionUpdate(USER)), (event, payload) => {
+  //   pouchController.update(event, USER, payload);
+  // });
 };
 
 const userCleanup = () => {
-  ipcMain.removeAllListeners([
-    actionPending(actionCreate(USER))
-  ]);
+
 };
 
 module.exports = {

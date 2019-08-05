@@ -23,7 +23,8 @@ import {
 import {
   useScrollbar,
   useSubscribeSystem,
-  useSubscribeUser
+  useSubscribeUser,
+  useSubscribeLibrary
 } from '../../hooks';
 
 // Paths
@@ -43,6 +44,7 @@ const App = ({
   useScrollbar();
   useSubscribeSystem();
   useSubscribeUser();
+  useSubscribeLibrary();
 
   return (
     <HashRouter>

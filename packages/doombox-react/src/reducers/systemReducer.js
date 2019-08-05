@@ -2,19 +2,20 @@ import { handleActions } from 'redux-actions';
 
 // Types
 import {
+  create,
   CONNECTION_CACHE,
   USER_CACHE,
   USER
 } from '@doombox/utils/types';
 import {
-  actionCreate,
-  actionDelete,
-  actionRead
+  CREATE,
+  DELETE,
+  READ
 } from '@doombox/utils/types/crudTypes';
 import {
-  actionPending,
-  actionError,
-  actionSuccess
+  PENDING,
+  ERROR,
+  SUCCESS
 } from '@doombox/utils/types/asyncTypes';
 
 const initialState = {
@@ -26,32 +27,32 @@ const initialState = {
 };
 
 export const systemReducer = handleActions({
-  [actionPending(actionRead(CONNECTION_CACHE))]:
+  [create([PENDING, READ, CONNECTION_CACHE])]:
     state => ({
       ...state,
       pendingCache: true
     }),
-  [actionError(actionRead(CONNECTION_CACHE))]:
+  [create([ERROR, READ, CONNECTION_CACHE])]:
     state => ({
       ...state,
       pendingCache: false
     }),
-  [actionSuccess(actionRead(CONNECTION_CACHE))]:
+  [create([SUCCESS, READ, CONNECTION_CACHE])]:
     state => ({
       ...state,
       pendingCache: false,
       connectedCache: true
     }),
-  [actionSuccess(actionRead(USER_CACHE))]:
+  [create([SUCCESS, READ, USER_CACHE])]:
     state => ({
       ...state,
       connectedDatabase: true
     }),
-  [actionSuccess(actionCreate(USER))]:
+  [create([SUCCESS, CREATE, USER])]:
     state => ({
       ...state,
       connectedCache: true,
       connectedDatabase: true
     }),
-  [actionSuccess(actionDelete(USER))]: () => initialState
+  [create([SUCCESS, DELETE, USER])]: () => initialState
 }, initialState);

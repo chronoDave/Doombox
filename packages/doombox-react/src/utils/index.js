@@ -1,3 +1,15 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+// Types
+import { create } from '@doombox/utils/types';
+import { ERROR, SUCCESS } from '@doombox/utils/types/asyncTypes';
+
+const {
+  ipcRenderer,
+  remote: { dialog: { showOpenDialog } }
+} = window.require('electron');
+
 // General
 export const isEmptyObj = obj => Object.keys(obj).length === 0;
 export const normalizeUrl = url => url
@@ -8,14 +20,10 @@ export const getRandomInt = (min, max) => (
 );
 
 // Locale
-export const languages = ['en-US', 'en-GB', 'nl'];
+export const languages = ['en-US', 'en-GB', 'nl', 'ar-SA'];
 
 // Electron
 export const selectFolder = multi => {
-  const {
-    remote: { dialog: { showOpenDialog } }
-  } = window.require('electron');
-
   const properties = ['openDirectory'];
   if (multi) properties.push('multiSelections');
 
@@ -28,4 +36,32 @@ export const selectFolder = multi => {
       }
     });
   });
+};
+
+/**
+ * Create an IPC success / error listener
+ *
+ * @param {string[]} type - Type array
+ */
+export const createListener = type => {
+  const dispatch = useDispatch();
+
+  const errorType = create([ERROR, create(type)]);
+  const successType = create([SUCCESS, create(type)]);
+
+  useEffect(() => {
+    ipcRenderer.on(
+      errorType,
+      (event, err) => dispatch({ type: errorType, err })
+    );
+    ipcRenderer.on(
+      successType,
+      (event, payload) => dispatch({ type: successType, payload })
+    );
+
+    // Cleanup
+    return () => {
+      ipcRenderer.removeAllListeners([errorType, successType]);
+    };
+  }, []);
 };

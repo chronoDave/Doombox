@@ -6,6 +6,7 @@
     "language": "Taal",
     "en-GB": "Engels (GB)",
     "en-US": "Engels (VS)",
+    "ar-SA": "Arabisch (Saoedi-Arabië)",
     "nl": "Nederlands",
     "url": "Url",
     "connect": "Verbind",
@@ -25,7 +26,9 @@
     "profile": "Profiel",
     "slogan": "Jouw collectie, op jouw manier",
     "online": "Online",
-    "offline": "Offline"
+    "offline": "Offline",
+    "remote_connections": "Externe verbindingen",
+    "library": "Bibliotheek"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",

@@ -9,6 +9,7 @@ import { isDev } from '@doombox/utils';
 import * as uk from './static/locales/en-GB.json';
 import * as us from './static/locales/en-US.json';
 import * as nl from './static/locales/nl.json';
+import * as sa from './static/locales/ar-SA.json';
 
 i18n
   .use(LanguageDetector)
@@ -18,6 +19,7 @@ i18n
     resources: {
       'en-GB': uk,
       'en-US': us,
+      'ar-SA': sa,
       nl
     },
     react: {

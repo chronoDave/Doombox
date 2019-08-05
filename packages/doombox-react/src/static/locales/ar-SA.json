@@ -1,0 +1,62 @@
+{
+  "common": {
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "username": "اسم المستخدم",
+    "language": "اللغة",
+    "en-GB": "الإنجليزية (المملكة المتحدة)",
+    "en-US": "الإنجليزية (الولايات المتحدة)",
+    "ar-SA": "العربية",
+    "nl": "الهولندية",
+    "url": "رابط",
+    "connect": "إتصال",
+    "connecting": "يتم الآن الإتصال",
+    "connection": "إتصال",
+    "connections": "الإتصالات",
+    "appearance": "المظهر",
+    "general": "عام",
+    "background": "الخلفية",
+    "edit": "تعديل",
+    "edit_connection": "التعديل على الاتصال",
+    "add": "إضافة",
+    "add_folder": "إضافة مجلد جديد",
+    "retry": "إعادة المحاولة",
+    "remove": "إزالة",
+    "delete": "حذف",
+    "profile": "الملف الشخصي",
+    "slogan": "مجموعتك، طريقتك",
+    "online": "متصل",
+    "offline": "غير متصل"
+  },
+  "title": {
+    "createProfile": "ملف شخصي جديد",
+    "myProfile": "ملفي الشخصي",
+    "userSettings": "إعدادات المستخدم",
+    "appSettings": "إعدادات التطبيق",
+    "deleteProfile": "حذف الملف الشخصي",
+    "updateProfile": "تحديث الملف الشخصي",
+    "areYouSure": "هل أنت متأكد؟",
+    "updateConnection": "تحديث الإتصال"
+  },
+  "description": {
+    "remote": "استخدام إتصال عن بعد",
+    "deleteProfile": "الملفات الشخصية المحذوفة لا يمكن إستعادتها",
+    "flavour_0": "يتم الآن تجهيز الفرقة الموسيقية",
+    "flavour_1": "يتم الآن البحث عن مايسترو مناسب",
+    "flavour_2": "يتم الآن نقد ذوقك في الموسيقى"
+  },
+  "error": {
+    "mongodb_connection": "فشل الإتصال بقاعدة بيانات MongoDB",
+    "mongodb_connectionWhy": "دومبوكس لم يستطع أن يفتح البرنامج لأنه فشل في الإتصال بقاعدة بيانات MongoDB في هذا العنوان:"
+  },
+  "validation": {
+    "max": "{{input}} أطول من اللازم",
+    "required": "حقل {{input}} ضروري",
+    "url": "{{input}} ليس رابطاً صحيحاً",
+    "url_mongodb": "{{input}} ليس رابط MongoDB صحيحاً",
+    "name_mongodb": "{{input}} ينقصه اسم لقاعدة البيانات",
+    "port_mongodb": "{{input}} ينقصه port",
+    "userExists": "المستخدم موجود مسبقاً",
+    "testConnection": "إختبار الإتصال"
+  }
+}

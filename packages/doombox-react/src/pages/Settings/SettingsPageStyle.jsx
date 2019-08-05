@@ -1,6 +1,9 @@
 import { fade } from '@material-ui/core/styles';
 
 const SettingsPageStyle = theme => ({
+  iconError: {
+    color: theme.palette.error.main
+  },
   listItemRoot: {
     borderRadius: theme.shape.borderRadius,
     '&:hover': {
@@ -17,6 +20,9 @@ const SettingsPageStyle = theme => ({
   listLanguageSelected: {
     backgroundColor: theme.palette.primary.main,
     borderRadius: theme.shape.borderRadius
+  },
+  listItemPaddingRight: {
+    paddingRight: theme.spacing(10)
   }
 });
 

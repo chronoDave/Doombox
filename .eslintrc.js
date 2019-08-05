@@ -24,9 +24,7 @@ module.exports = {
   settings: {
     'import/core-modules': [
       'electron',
-      'chai',
-      'enzyme',
-      'enzyme-adapter-react-16'
+      'chai'
     ]
   },
   rules: {
@@ -39,6 +37,7 @@ module.exports = {
     'no-underscore-dangle': 'off', // Mongoose _doc
     'camelcase': 'off', // Mongoose data types
     'no-nested-ternary': 'off',
+    'no-bitwise': ["error", { "allow": ['|', '>>', '<<', '&'] }], // MP3 metadata parser
     // React
     'react/jsx-no-duplicate-props': ['warn', { 'ignoreCase': false }], // MUI inputProps / InputProps
     'react/forbid-prop-types': 'off', // Most packages don't have shapes

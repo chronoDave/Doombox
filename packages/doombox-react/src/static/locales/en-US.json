@@ -6,6 +6,7 @@
     "language": "Language",
     "en-GB": "English (UK)",
     "en-US": "English (US)",
+    "ar-SA": "Arabic (Saudi-Arabia)",
     "nl": "Dutch",
     "url": "Url",
     "connect": "Connect",
@@ -25,7 +26,9 @@
     "profile": "Profile",
     "slogan": "Your collection, your way",
     "online": "Online",
-    "offline": "Offline"
+    "offline": "Offline",
+    "remote_connections": "Remote connections",
+    "library": "Library"
   },
   "title": {
     "createProfile": "Create Profile",

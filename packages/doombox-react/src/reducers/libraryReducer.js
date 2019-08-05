@@ -8,27 +8,23 @@ import {
 } from '@doombox/utils/types/asyncTypes';
 import {
   CREATE,
-  READ,
-  UPDATE,
-  DELETE
+  READ
 } from '@doombox/utils/types/crudTypes';
 import {
   create,
-  USER,
-  USER_CACHE
+  LIBRARY
 } from '@doombox/utils/types';
 
-const initialState = {
+const intialState = {
   pending: false,
   error: false,
-  user: {}
+  collection: []
 };
 
-export const profileReducer = handleActions({
+export const libraryReducer = handleActions({
   [combineActions(
-    create([PENDING, CREATE, USER]),
-    create([PENDING, UPDATE, USER]),
-    create([PENDING, DELETE, USER])
+    create([PENDING, CREATE, LIBRARY]),
+    create([PENDING, READ, LIBRARY])
   )]:
     state => ({
       ...state,
@@ -36,9 +32,8 @@ export const profileReducer = handleActions({
       error: false
     }),
   [combineActions(
-    create([ERROR, CREATE, USER]),
-    create([ERROR, UPDATE, USER]),
-    create([ERROR, DELETE, USER])
+    create([ERROR, CREATE, LIBRARY]),
+    create([ERROR, READ, LIBRARY])
   )]:
     (state, action) => ({
       ...state,
@@ -46,14 +41,12 @@ export const profileReducer = handleActions({
       error: action.payload
     }),
   [combineActions(
-    create([SUCCESS, CREATE, USER]),
-    create([SUCCESS, UPDATE, USER]),
-    create([SUCCESS, READ, USER_CACHE])
+    create([SUCCESS, CREATE, LIBRARY]),
+    create([SUCCESS, READ, LIBRARY])
   )]:
     (state, action) => ({
       ...state,
       pending: false,
-      user: action.payload
-    }),
-  [create([SUCCESS, DELETE, USER])]: () => initialState
-}, initialState);
+      collection: action.payload
+    })
+}, intialState);

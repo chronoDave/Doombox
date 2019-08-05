@@ -1,20 +1,20 @@
 // Types
 import {
   create,
-  CONNECTION_CACHE
+  LIBRARY
 } from '@doombox/utils/types';
 import {
   PENDING
 } from '@doombox/utils/types/asyncTypes';
 import {
-  READ
+  CREATE
 } from '@doombox/utils/types/crudTypes';
 
 const { ipcRenderer } = window.require('electron');
 
-export const getCachedConnection = () => dispatch => {
-  const actionType = create([PENDING, READ, CONNECTION_CACHE]);
+export const scanLibrary = paths => dispatch => {
+  const actionType = create([PENDING, CREATE, LIBRARY]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType);
+  ipcRenderer.send(actionType, paths);
 };

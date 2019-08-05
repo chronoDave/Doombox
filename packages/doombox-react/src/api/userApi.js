@@ -1,13 +1,14 @@
 // Types
 import {
-  actionPending
+  PENDING
 } from '@doombox/utils/types/asyncTypes';
 import {
-  actionCreate,
-  actionUpdate,
-  actionDelete
+  CREATE,
+  UPDATE,
+  DELETE
 } from '@doombox/utils/types/crudTypes';
 import {
+  create,
   USER
 } from '@doombox/utils/types';
 
@@ -15,19 +16,22 @@ import {
 const { ipcRenderer } = window.require('electron');
 
 export const createUser = user => dispatch => {
-  dispatch({ type: actionPending(actionCreate(USER)) });
+  const actionType = create([PENDING, CREATE, USER]);
+  dispatch({ type: actionType });
 
-  ipcRenderer.send(actionPending(actionCreate(USER)), user);
+  ipcRenderer.send(actionType, user);
 };
 
 export const updateUser = (_id, values) => dispatch => {
-  dispatch({ type: actionPending(actionUpdate(USER)) });
+  const actionType = create([PENDING, UPDATE, USER]);
+  dispatch({ type: actionType });
 
-  ipcRenderer.send(actionPending(actionUpdate(USER)), { _id, ...values });
+  ipcRenderer.send(actionType, { _id, ...values });
 };
 
 export const deleteUser = _id => dispatch => {
-  dispatch({ type: actionPending(actionDelete(USER)) });
+  const actionType = create([PENDING, DELETE, USER]);
+  dispatch({ type: actionType });
 
-  ipcRenderer.send(actionPending(actionDelete(USER)), _id);
+  ipcRenderer.send(actionType, _id);
 };

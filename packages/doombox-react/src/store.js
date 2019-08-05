@@ -10,7 +10,8 @@ import { isDev } from '@doombox/utils';
 // Reducers
 import {
   profileReducer,
-  systemReducer
+  systemReducer,
+  libraryReducer
 } from './reducers';
 
 // Middleware
@@ -22,7 +23,8 @@ const middleware = [
 export const store = createStore(
   combineReducers({
     profile: profileReducer,
-    system: systemReducer
+    system: systemReducer,
+    library: libraryReducer
   }),
   compose(applyMiddleware(...middleware))
 );

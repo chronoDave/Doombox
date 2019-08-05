@@ -5,31 +5,63 @@ import { useTranslation } from 'react-i18next';
 
 // Icon
 import IconAdd from '@material-ui/icons/Add';
+import IconDelete from '@material-ui/icons/Close';
 
 // Core
+import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   Card,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListSubheader,
+  ListItemSecondaryAction,
   ListItemText
 } from '@material-ui/core';
 
 import { Button } from '../../../components/Button';
 import { DialogUpdateConnection } from '../../../components/Dialog';
 
+// Api
+import { scanLibrary } from '../../../api/libraryApi';
+import { updateUser } from '../../../api/userApi';
+
 // Utils
 import { selectFolder } from '../../../utils';
 
-const ConnectionsView = ({ user }) => {
+// Style
+import SettingsPageStyle from '../SettingsPageStyle';
+
+const ConnectionsView = props => {
+  const {
+    classes,
+    user,
+    updateLibrary,
+    updateConnections,
+    scanning
+  } = props;
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const handleFolderSelect = async () => {
-    const folder = await selectFolder();
-    // TODO
+    const path = await selectFolder();
+    if (!path) return null;
+    if (
+      user.library &&
+      user.library.filter(item => path.includes(item.path)).length !== 0
+    ) return null; // TODO: Throw error
+    updateConnections(
+      user._id,
+      { library: [...user.library || [], { path }] }
+    );
+    return updateLibrary([...user.library || [], { path }]);
+  };
+
+  const handleDelete = path => {
+    const newLibrary = user.library.filter(item => item.path !== path);
+    updateConnections(user._id, { library: newLibrary });
   };
 
   return (
@@ -37,60 +69,61 @@ const ConnectionsView = ({ user }) => {
       <Card>
         <Box p={1}>
           <List dense>
-            <ListSubheader disableSticky>
-              MongoDB
+            <ListSubheader>
+              {t('library')}
             </ListSubheader>
-            <ListItem>
-              <ListItemText primary={user.database} />
-              <Button
-                variant="contained"
-                color="primary"
-                BoxProps={{ ml: 3 }}
-                onClick={() => setOpen(true)}
-              >
-                {t('edit')}
-              </Button>
-            </ListItem>
-            <ListSubheader disableSticky>
-              Library
-            </ListSubheader>
-            {(user.folders && user.folders.length !== 0) && (
-              user.folders.map(folder => (
-                <ListItem key={folder.path}>
-                  <ListItemText
-                    primary={folder.path}
-                    secondary={folder.watch}
-                  />
+            {(user.library && user.library.length !== 0) && (
+              user.library.map(item => (
+                <ListItem
+                  key={item.key || item.path}
+                  disabled={scanning}
+                >
+                  <ListItemText primary={item.path} />
+                  <IconButton
+                    classes={{ root: classes.iconError }}
+                    onClick={() => handleDelete(item.path)}
+                    disabled={scanning}
+                  >
+                    <IconDelete />
+                  </IconButton>
                 </ListItem>
               ))
             )}
-            <ListItem button onClick={handleFolderSelect}>
+            <ListItem
+              button
+              onClick={handleFolderSelect}
+              disabled={scanning}
+            >
               <ListItemIcon>
                 <IconAdd />
               </ListItemIcon>
-              <ListItemText primary={t('add', { context: 'folder' })} />
+              <ListItemText primary={t('add')} />
             </ListItem>
           </List>
         </Box>
       </Card>
-      <DialogUpdateConnection
-        open={open}
-        address={user.database}
-        onClose={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
-      />
     </Fragment>
   );
 };
 
 ConnectionsView.propTypes = {
+  classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+  scanning: state.library.pending,
   user: state.profile.user
 });
 
+const mapDispatchToProps = dispatch => ({
+  updateLibrary: paths => dispatch(scanLibrary(paths)),
+  updateConnections: (id, values) => dispatch(updateUser(id, values))
+});
+
 export default connect(
-  mapStateToProps
-)(ConnectionsView);
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(
+  SettingsPageStyle
+)(ConnectionsView));
