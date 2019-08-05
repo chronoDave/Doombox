@@ -3,6 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 // Core
 import * as Spacing from './spacing';
 import * as Colors from './colors';
+import { border } from './border';
 
 export const theme = createMuiTheme({
   overrides: {
@@ -54,20 +55,7 @@ export const theme = createMuiTheme({
     warning: Colors.WARNING,
     success: Colors.SUCCESS,
     info: Colors.INFO,
-    getAlpha: (hex, alpha) => {
-      const composite = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-      if (composite) {
-        const r = parseInt(composite[1], 16);
-        const g = parseInt(composite[2], 16);
-        const b = parseInt(composite[3], 16);
-
-        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-      }
-
-      // Return hex if invalid
-      return hex;
-    },
   },
+  border,
   component: Spacing.COMPONENT
 });
