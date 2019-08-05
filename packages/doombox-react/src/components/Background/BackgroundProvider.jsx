@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import path from 'path';
 
 // Core
 import { useTheme, fade } from '@material-ui/core/styles';
@@ -21,11 +20,11 @@ const BackgroundProvider = props => {
       <div
         style={{
           position: 'fixed',
-          backgroundImage: `url("${path.normalize(normalizeUrl(
+          backgroundImage: `url("${normalizeUrl(
             (user && user.background && user.background.path) ?
               user.background.path :
               `${__dirname}/static/images/backgroundDefault.png`
-          ))}")`,
+          )}")`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           height: '100vh',

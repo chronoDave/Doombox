@@ -8,6 +8,7 @@ module.exports = {
   },
   extends: [
     'airbnb',
+    "plugin:react/recommended",
     'plugin:import/recommended',
     "plugin:mocha/recommended"
   ],
@@ -41,6 +42,7 @@ module.exports = {
     // React
     'react/jsx-no-duplicate-props': ['warn', { 'ignoreCase': false }], // MUI inputProps / InputProps
     'react/forbid-prop-types': 'off', // Most packages don't have shapes
+    'react/display-name': 'off', // Using MUI, gives false-positive on Routes
     // Import
     'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',

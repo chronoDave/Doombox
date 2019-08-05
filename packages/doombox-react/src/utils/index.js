@@ -1,29 +1,30 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import path from 'path';
 
 // Types
 import { create } from '@doombox/utils/types';
 import { ERROR, SUCCESS } from '@doombox/utils/types/asyncTypes';
 
-const {
-  ipcRenderer,
-  remote: { dialog: { showOpenDialog } }
-} = window.require('electron');
-
 // General
 export const isEmptyObj = obj => Object.keys(obj).length === 0;
-export const normalizeUrl = url => url
-  .replace(/#/g, '%23')
-  .replace(/\\/g, '\\\\');
+export const normalizeUrl = url => path.normalize(url
+  .replace(/#/g, '%23'));
 export const getRandomInt = (min, max) => (
   Math.floor(Math.random() * (max - min + 1) + min)
 );
 
 // Locale
-export const languages = ['en-US', 'en-GB', 'nl', 'ar-SA'];
+export const languages = [
+  'en-US',
+  'en-GB',
+  'nl',
+  'ar-SA'
+];
 
 // Electron
 export const selectFolder = multi => {
+  const { remote: { dialog: { showOpenDialog } } } = window.require('electron');
   const properties = ['openDirectory'];
   if (multi) properties.push('multiSelections');
 
@@ -44,6 +45,7 @@ export const selectFolder = multi => {
  * @param {string[]} type - Type array
  */
 export const createListener = type => {
+  const { ipcRenderer } = window.require('electron');
   const dispatch = useDispatch();
 
   const errorType = create([ERROR, create(type)]);

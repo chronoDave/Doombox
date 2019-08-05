@@ -47,8 +47,8 @@ export const profileReducer = handleActions({
     }),
   [combineActions(
     create([SUCCESS, CREATE, USER]),
-    create([SUCCESS, UPDATE, USER]),
-    create([SUCCESS, READ, USER_CACHE])
+    create([SUCCESS, READ, USER_CACHE]),
+    create([SUCCESS, UPDATE, USER])
   )]:
     (state, action) => ({
       ...state,

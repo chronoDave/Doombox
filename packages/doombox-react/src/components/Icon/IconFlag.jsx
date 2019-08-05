@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
+import { languages } from '../../utils';
+
 const IconFlag = ({ country }) => (
   <img
     src={`static/images/flags/${country}.png`}
@@ -14,9 +17,7 @@ const IconFlag = ({ country }) => (
 );
 
 IconFlag.propTypes = {
-  country: PropTypes.oneOf([
-    'nl', 'en-GB', 'en-US'
-  ]).isRequired
+  country: PropTypes.oneOf(languages).isRequired
 };
 
 export default IconFlag;

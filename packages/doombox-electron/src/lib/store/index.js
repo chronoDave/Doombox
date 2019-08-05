@@ -1,4 +1,4 @@
-const electron = require('electron');
+const { app } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -15,8 +15,7 @@ function parseDataFile(filePath, defaults) {
 
 module.exports = class Store {
   constructor(props) {
-    // Main || Renderer
-    const userDataPath = (electron.app || electron.remote.app).getPath('userData');
+    const userDataPath = app.getPath('userData');
 
     this.path = path.join(userDataPath, `${props.configName}.json`);
     this.data = parseDataFile(this.path, props.defaults);

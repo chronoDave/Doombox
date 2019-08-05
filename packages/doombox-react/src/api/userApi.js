@@ -4,16 +4,22 @@ import {
 } from '@doombox/utils/types/asyncTypes';
 import {
   CREATE,
+  READ,
   UPDATE,
   DELETE
 } from '@doombox/utils/types/crudTypes';
 import {
   create,
-  USER
+  USER,
+  USER_CACHE
 } from '@doombox/utils/types';
 
 // Actions
 const { ipcRenderer } = window.require('electron');
+
+export const getCachedProfile = () => {
+  ipcRenderer.send(create([PENDING, READ, USER_CACHE]));
+};
 
 export const createUser = user => dispatch => {
   const actionType = create([PENDING, CREATE, USER]);

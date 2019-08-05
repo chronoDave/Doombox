@@ -18,8 +18,8 @@ describe('[utils]', () => {
 
   describe('normalizeUrl()', () => {
     it('should return a clean url', () => {
-      const dirty = 'D:\\#Dirty\\Path';
-      const clean = 'D:\\\\%23Dirty\\\\Path';
+      const dirty = 'D:\\#Dirty\\Path/With/Windows/Strings';
+      const clean = 'D:\\%23Dirty\\Path\\With\\Windows\\Strings';
       assert.strictEqual(normalizeUrl(dirty), clean);
     });
   });

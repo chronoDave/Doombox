@@ -15,6 +15,9 @@ import {
 import FieldFileBase from './FieldFileBase';
 import { Button } from '../../Button';
 
+// Utils
+import { normalizeUrl } from '../../../utils';
+
 const FieldFileBackground = props => {
   const {
     id,
@@ -63,7 +66,7 @@ const FieldFileBackground = props => {
                 >
                   {value ? (
                     <img
-                      src={value.path}
+                      src={normalizeUrl(value.path)}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       alt="Selected background"
                     />

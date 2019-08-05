@@ -5,7 +5,7 @@ const { createWindow } = require('./lib/window');
 const Store = require('./lib/store');
 
 // Routes
-const { systemRouter, systemCleanup } = require('./modules/system');
+// const { systemRouter, systemCleanup } = require('./modules/system');
 const { userRouter, userCleanup } = require('./modules/user');
 const { libraryRouter, libraryCleanup } = require('./modules/library');
 
@@ -16,7 +16,7 @@ const store = new Store({
       width: 800,
       height: 600
     },
-    connection: null,
+    connection: {},
     user: {}
   }
 });
@@ -25,7 +25,7 @@ app.on('ready', () => {
   const { width, height } = store.get('window');
 
   // Routes
-  systemRouter(store);
+  // systemRouter(store);
   userRouter(store);
   libraryRouter(store);
 
@@ -41,7 +41,7 @@ app.on('ready', () => {
 });
 
 app.on('window-all-closed', () => {
-  systemCleanup();
+  // systemCleanup();
   userCleanup();
   libraryCleanup();
   app.quit();

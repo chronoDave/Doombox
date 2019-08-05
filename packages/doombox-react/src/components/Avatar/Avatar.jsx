@@ -10,6 +10,9 @@ import {
 // Style
 import AvatarStyle from './AvatarStyle';
 
+// Utils
+import { normalizeUrl } from '../../utils';
+
 const Avatar = props => {
   const { classes, path, fallback } = props;
 
@@ -17,7 +20,7 @@ const Avatar = props => {
     <MuiAvatar classes={{ root: classes.root }}>
       {path ? (
         <img
-          src={`file:${path}`}
+          src={normalizeUrl(path)}
           style={{
             width: '100%',
             height: '100%',

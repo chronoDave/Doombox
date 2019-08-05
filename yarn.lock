@@ -103,7 +103,7 @@
     to-fast-properties "^2.0.0"
 
 "@doombox/utils@./packages/doombox-utils":
-  version "1.1.7-ce"
+  version "1.1.8-ce"
 
 "@emotion/hash@^0.7.1":
   version "0.7.2"
@@ -4382,7 +4382,7 @@ eslint-plugin-react-i18next@^1.1.0:
     lodash.get "^4.4.2"
     requireindex "~1.1.0"
 
-eslint-plugin-react@^7.14.2, eslint-plugin-react@^7.8.2:
+eslint-plugin-react@^7.14.3, eslint-plugin-react@^7.8.2:
   version "7.14.3"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.14.3.tgz#911030dd7e98ba49e1b2208599571846a66bdf13"
   integrity sha512-EzdyyBWC4Uz2hPYBiEJrKCUi2Fn+BJ9B/pJQcjw5X+x/H2Nm59S4MJIvL4O5NEE0+WbnQwEBxWY03oUk+Bc3FA==
