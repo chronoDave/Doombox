@@ -21,6 +21,7 @@ import { updateUser } from '../../../api/userApi';
 
 // Utils
 import { languages } from '../../../utils';
+import i18n from '../../../locale';
 
 // Style
 import SettingsPageStyle from '../SettingsPageStyle';
@@ -43,7 +44,10 @@ const LanguageView = props => {
               key={lang}
               className={language === lang ? classes.listLanguageSelected : null}
               button
-              onClick={() => updateLanguage(id, { language: lang })}
+              onClick={() => {
+                updateLanguage(id, { language: lang });
+                i18n.changeLanguage(lang);
+              }}
             >
               <ListItemIcon>
                 <IconFlag country={lang} />

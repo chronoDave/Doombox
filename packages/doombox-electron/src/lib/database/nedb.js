@@ -1,17 +1,6 @@
 const { app } = require('electron');
 const Datastore = require('nedb');
 
-// Types
-const {
-  create,
-  READ
-} = require('@doombox/utils/types');
-const {
-  SUCCESS,
-  ERROR
-} = require('@doombox/utils/types/asyncTypes');
-
-
 module.exports = class NeDB {
   constructor() {
     const userDataPath = app.getPath('userData');
@@ -25,42 +14,43 @@ module.exports = class NeDB {
       filename: `${userDataPath}/nedb/library.db`,
       autoload: true
     });
+  }
 
-    this.images = new Datastore({
-      filename: `${userDataPath}/nedb/images.db`,
-      autoload: true
+  create(collection, args) {
+    return new Promise((resolve, reject) => {
+      this[collection].insert(args, (err, docs) => {
+        if (err) reject(err);
+        resolve(docs);
+      });
     });
   }
 
-  async read(props) {
-    const {
-      ipcEvent: { event, type },
-      collection,
-      args
-    } = props;
-
-    try {
-      const docs = await this[collection].find(args);
-      event.sender.send(create([SUCCESS, READ, type]), docs);
-    } catch (err) {
-      event.sender.send(create([ERROR, READ, type]), err);
-    }
+  readOne(collection, args) {
+    return new Promise((resolve, reject) => {
+      this[collection].findOne(args, (err, docs) => {
+        if (err || !docs) reject(err);
+        resolve(docs);
+      });
+    });
   }
 
-  async readOne(props) {
-    const {
-      ipcEvent: { event, type },
-      collection,
-      args
-    } = props;
+  update(collection, _id, args) {
+    return new Promise((resolve, reject) => {
+      this[collection].update(
+        { _id }, args, err => {
+          if (err) reject(err);
+          resolve();
+        }
+      );
+    });
+  }
 
-    console.log('hit');
-
-    try {
-      const docs = await this[collection].findOne(args);
-      event.sender.send(create([SUCCESS, READ, type]), docs);
-    } catch (err) {
-      event.sender.send(create([ERROR, READ, type]), err);
-    }
+  delete(collection, _id) {
+    return new Promise((resolve, reject) => {
+      this[collection].remove({ _id }, (err, count) => {
+        if (err || count === 0) reject(err);
+        resolve();
+      });
+    });
   }
 };

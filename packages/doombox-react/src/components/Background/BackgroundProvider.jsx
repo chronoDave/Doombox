@@ -22,11 +22,12 @@ const BackgroundProvider = props => {
           position: 'fixed',
           backgroundImage: `url("${normalizeUrl(
             (user && user.background && user.background.path) ?
-              user.background.path :
+              user.background.path.replace(/\\/g, '\\\\') :
               `${__dirname}/static/images/backgroundDefault.png`
           )}")`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
           height: '100vh',
           width: '100vw',
           zIndex: -1

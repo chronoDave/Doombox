@@ -20,6 +20,9 @@ import { Button } from '../../../components/Button';
 // Actions
 import { updateUser } from '../../../api/userApi';
 
+// Utils
+import { normalizeUrl } from '../../../utils';
+
 const AppearanceView = props => {
   const {
     id,
@@ -60,7 +63,7 @@ const AppearanceView = props => {
                 >
                   {background ? (
                     <img
-                      src={background.path}
+                      src={normalizeUrl(background.path)}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       alt="User-selected Doombox background"
                     />

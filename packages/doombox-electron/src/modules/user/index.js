@@ -3,44 +3,79 @@ const { ipcMain } = require('electron');
 // Types
 const {
   ERROR,
-  PENDING
+  PENDING,
+  SUCCESS
 } = require('@doombox/utils/types/asyncTypes');
 const {
-  READ
+  CREATE,
+  READ,
+  UPDATE,
+  DELETE
 } = require('@doombox/utils/types/crudTypes');
 const {
   create,
+  USER,
   USER_CACHE
 } = require('@doombox/utils/types');
 
-// Controllers
-const mongooseController = require('../system/controllers/mongooseController');
-const nedbController = require('../system/controllers/nedbController');
+// Database
+const NeDB = require('../../lib/database/nedb');
+
+const localDatabase = new NeDB();
 
 const userRouter = store => {
-  ipcMain.on(create([PENDING, READ, USER_CACHE]), event => {
-    const connection = store.get('connection');
+  ipcMain.on(create([PENDING, CREATE, USER]), async (event, payload) => {
+    try {
+      const doc = await localDatabase.create('users', payload);
+
+      const user = store.get('user');
+      store.set('user', { ...user, _id: doc._id });
+
+      event.sender.send(create([SUCCESS, CREATE, USER]), doc);
+    } catch (err) {
+      event.sender.send(create([ERROR, CREATE, USER]), err);
+    }
+  });
+  ipcMain.on(create([PENDING, READ, USER_CACHE]), async event => {
     const user = store.get('user');
 
     if (user._id) {
-      nedbController.getProfile({
-        ipcEvent: { event, type: USER_CACHE },
-        collection: 'users',
-        args: { _id: user._id }
-      });
+      try {
+        const doc = await localDatabase.readOne('users', { _id: user._id });
+        event.sender.send(create([SUCCESS, READ, USER_CACHE]), doc);
+      } catch (err) {
+        event.sender.send(create([ERROR, READ, USER_CACHE]), err);
+      }
     } else {
       event.sender.send(create([ERROR, READ, USER_CACHE]));
     }
+  });
+  ipcMain.on(create([PENDING, UPDATE, USER]), async (event, { _id, ...rest }) => {
+    try {
+      await localDatabase.update('users', _id, { $set: { ...rest } });
+      const doc = await localDatabase.readOne('users', { _id });
 
-    if (connection.remote) {
-      mongooseController.connect(event, connection.path);
+      event.sender.send(create([SUCCESS, UPDATE, USER]), doc);
+    } catch (err) {
+      event.sender.send(create([ERROR, UPDATE, USER]));
+    }
+  });
+  ipcMain.on(create([PENDING, DELETE, USER]), async (event, _id) => {
+    try {
+      await localDatabase.delete('users', _id);
+      event.sender.send(create([SUCCESS, DELETE, USER]));
+    } catch (err) {
+      event.sender.send(create([ERROR, DELETE, USER]));
     }
   });
 };
 
 const userCleanup = () => {
   ipcMain.removeAllListeners([
-    create([PENDING, READ, USER_CACHE])
+    create([PENDING, CREATE, USER]),
+    create([PENDING, READ, USER_CACHE]),
+    create([PENDING, UPDATE, USER]),
+    create([PENDING, DELETE, USER]),
   ]);
 };
 
