@@ -28,11 +28,11 @@
     "online": "Online",
     "offline": "Offline",
     "remote_connections": "Externe verbindingen",
-    "library": "Bibliotheek"
+    "library": "Bibliotheek",
+    "myProfile": "Mijn Profiel"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",
-    "myProfile": "Mijn Profiel",
     "userSettings": "Gebruikers Instellingen",
     "appSettings": "Applicatie Instellingen",
     "deleteProfile": "Profiel Verwijderen",

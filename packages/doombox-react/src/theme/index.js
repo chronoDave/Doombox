@@ -1,9 +1,8 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { fade, createMuiTheme } from '@material-ui/core/styles';
 
 // Core
 import * as Spacing from './spacing';
 import * as Colors from './colors';
-import { border } from './border';
 
 export const theme = createMuiTheme({
   overrides: {
@@ -29,7 +28,7 @@ export const theme = createMuiTheme({
     },
     MuiOutlinedInput: {
       notchedOutline: {
-        borderColor: 'rgba(255, 255, 255, 0.23)'
+        borderColor: fade(Colors.GREY[0], 0.23)
       }
     },
     MuiSelect: {
@@ -56,6 +55,6 @@ export const theme = createMuiTheme({
     success: Colors.SUCCESS,
     info: Colors.INFO,
   },
-  border,
+  border: (color, width = 1) => `${width}px solid ${color}`,
   component: Spacing.COMPONENT
 });

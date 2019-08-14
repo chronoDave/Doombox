@@ -2,30 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
-
-import { BackgroundProvider } from '../Background';
+import { Background } from '../Background';
+import { Sidebar } from '../Sidebar';
 
 // Style
-import MainStyle from './MainStyle';
+import { useMainStyle } from './Main.style';
 
-const Main = props => {
-  const { classes, children } = props;
+const Main = ({ children }) => {
+  const classes = useMainStyle();
 
   return (
     <div className={classes.root}>
-      <BackgroundProvider>
+      <Background>
+        <Sidebar />
         {children}
-      </BackgroundProvider>
+      </Background>
     </div>
   );
 };
 
 Main.propTypes = {
-  classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };
 
-export default withStyles(
-  MainStyle
-)(Main);
+export default Main;

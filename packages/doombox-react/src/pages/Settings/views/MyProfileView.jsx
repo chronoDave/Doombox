@@ -43,7 +43,7 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
           />
           <Box pt={1}>
             <Typography variant="h6" align="center">
-              {user.username}
+              {user.username || ''}
             </Typography>
           </Box>
           <Divider mb={2} />

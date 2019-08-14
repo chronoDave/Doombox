@@ -1,4 +1,6 @@
-const SidebarStyle = theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useSidebarStyle = makeStyles(theme => ({
   paper: {
     width: theme.component.sidebar,
     backgroundColor: theme.palette.grey[400],
@@ -12,6 +14,4 @@ const SidebarStyle = theme => ({
     height: 60,
     width: theme.component.sidebar,
   }
-});
-
-export default SidebarStyle;
+}));

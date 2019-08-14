@@ -26,11 +26,11 @@
     "profile": "الملف الشخصي",
     "slogan": "مجموعتك، طريقتك",
     "online": "متصل",
-    "offline": "غير متصل"
+    "offline": "غير متصل",
+    "myProfile": "ملفي الشخصي"
   },
   "title": {
     "createProfile": "ملف شخصي جديد",
-    "myProfile": "ملفي الشخصي",
     "userSettings": "إعدادات المستخدم",
     "appSettings": "إعدادات التطبيق",
     "deleteProfile": "حذف الملف الشخصي",

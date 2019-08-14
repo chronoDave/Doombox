@@ -2,19 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
-import {
-  Avatar as MuiAvatar
-} from '@material-ui/core';
+import { Avatar as MuiAvatar } from '@material-ui/core';
 
 // Style
-import AvatarStyle from './AvatarStyle';
+import { useAvatarStyle } from './Avatar.style';
 
 // Utils
 import { normalizeUrl } from '../../utils';
 
-const Avatar = props => {
-  const { classes, path, fallback } = props;
+const Avatar = ({ path, fallback }) => {
+  const classes = useAvatarStyle();
 
   return (
     <MuiAvatar classes={{ root: classes.root }}>
@@ -34,7 +31,6 @@ const Avatar = props => {
 };
 
 Avatar.propTypes = {
-  classes: PropTypes.object.isRequired,
   path: PropTypes.string,
   fallback: PropTypes.node.isRequired
 };
@@ -43,6 +39,4 @@ Avatar.defaultProps = {
   path: null
 };
 
-export default withStyles(
-  AvatarStyle
-)(Avatar);
+export default Avatar;

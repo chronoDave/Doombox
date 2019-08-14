@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import path from 'path';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
 // Style
-import FieldFileStyle from './FieldFileStyle';
+import { useFieldFileStyle } from './FieldFile.style';
 
 const FieldFileBase = props => {
   const {
-    classes,
     id,
     name,
     setFieldValue,
@@ -20,9 +18,11 @@ const FieldFileBase = props => {
     type,
     ...rest
   } = props;
+  const classes = useFieldFileStyle();
 
   const onClick = () => {
     const input = document.getElementById(`${id}-select-${name}`);
+    input.value = null;
 
     if (input) input.click();
   };
@@ -80,6 +80,4 @@ FieldFileBase.defaultProps = {
   type: null
 };
 
-export default withStyles(
-  FieldFileStyle
-)(FieldFileBase);
+export default FieldFileBase;

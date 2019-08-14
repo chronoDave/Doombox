@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -15,15 +14,10 @@ import {
 import { Typography } from '../Typography';
 
 // Style
-import CollapseStyle from './CollapseStyle';
+import { useCollapseStyle } from './Collapse.style';
 
-const Collapse = props => {
-  const {
-    classes,
-    title,
-    children,
-    ...rest
-  } = props;
+const Collapse = ({ title, children, ...rest }) => {
+  const classes = useCollapseStyle();
 
   return (
     <ExpansionPanel
@@ -49,11 +43,8 @@ const Collapse = props => {
 };
 
 Collapse.propTypes = {
-  classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default withStyles(
-  CollapseStyle
-)(Collapse);
+export default Collapse;

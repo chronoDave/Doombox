@@ -8,7 +8,6 @@ import IconPerson from '@material-ui/icons/Person';
 import IconSettings from '@material-ui/icons/Settings';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Avatar,
   Box,
@@ -21,14 +20,10 @@ import { Typography } from '../../Typography';
 import { settingsPath } from '../../../paths';
 
 // Style
-import SidebarItemStyle from './SidebarItemStyle';
+import { useSidebarItemStyle } from './SidebarItem.style';
 
-const SidebarItemUser = props => {
-  const {
-    profile,
-    classes,
-    pending
-  } = props;
+const SidebarItemUser = ({ profile, pending }) => {
+  const classes = useSidebarItemStyle();
 
   return (
     <Fragment>
@@ -67,7 +62,6 @@ const SidebarItemUser = props => {
 };
 
 SidebarItemUser.propTypes = {
-  classes: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   pending: PropTypes.bool.isRequired,
 };
@@ -79,6 +73,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(withStyles(
-  SidebarItemStyle
-)(SidebarItemUser));
+)(SidebarItemUser);

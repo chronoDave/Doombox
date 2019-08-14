@@ -1,4 +1,6 @@
-const CollapseStyle = theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useCollapseStyle = makeStyles(theme => ({
   expansionPanelRoot: {
     width: '100%',
     boxShadow: 'none',
@@ -25,6 +27,4 @@ const CollapseStyle = theme => ({
   expansionPanelDetails: {
     padding: 0
   }
-});
-
-export default CollapseStyle;
+}));

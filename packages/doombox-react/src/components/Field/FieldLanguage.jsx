@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Field } from 'formik';
 
+// Icon
+import IconTranslate from '@material-ui/icons/Translate';
+
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   MenuItem,
   TextField,
 } from '@material-ui/core';
-
-import { IconFlag } from '../Icon';
 
 // Language
 import i18n from '../../locale';
@@ -20,10 +20,10 @@ import i18n from '../../locale';
 import { languages } from '../../utils';
 
 // Styles
-import FieldStyle from './FieldStyle';
+import { useFieldStyle } from './Field.style';
 
-const FieldLanguage = props => {
-  const { id, classes, ...rest } = props;
+const FieldLanguage = ({ id, ...rest }) => {
+  const classes = useFieldStyle();
   const { t } = useTranslation();
 
   return (
@@ -39,6 +39,7 @@ const FieldLanguage = props => {
             label={t(name)}
             value={value}
             inputProps={{ id: `${id}-${name}` }}
+            InputProps={{ startAdornment: <IconTranslate /> }}
             SelectProps={{ classes: { selectMenu: classes.selectMenu } }}
             onChange={event => {
               setFieldValue(name, event.target.value, false);
@@ -54,8 +55,7 @@ const FieldLanguage = props => {
                 value={lang}
                 classes={{ root: classes.menuItemRoot }}
               >
-                <IconFlag country={lang} />
-                {t(lang)}
+                {t(lang, { lng: lang })}
               </MenuItem>
             ))}
           </TextField>
@@ -70,6 +70,4 @@ FieldLanguage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(
-  FieldStyle
-)(FieldLanguage);
+export default FieldLanguage;

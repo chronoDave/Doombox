@@ -18,10 +18,10 @@ import {
 } from '@doombox/utils/types/asyncTypes';
 
 const initialState = {
-  connectedCache: false,
-  connectedRemote: false,
   pendingCache: false,
-  pendingRemote: false
+  connectedCache: false,
+  pendingRemote: false,
+  connectedRemote: false,
 };
 
 export const systemReducer = handleActions({
@@ -33,17 +33,13 @@ export const systemReducer = handleActions({
   [create([ERROR, READ, USER_CACHE])]:
     state => ({
       ...state,
-      pendingCache: false
+      pendingCache: false,
+      connectedCache: false
     }),
   [create([SUCCESS, READ, USER_CACHE])]:
     state => ({
       ...state,
       pendingCache: false,
-      connectedCache: true
-    }),
-  [create([SUCCESS, CREATE, USER])]:
-    state => ({
-      ...state,
       connectedCache: true
     }),
   [create([SUCCESS, DELETE, USER])]: () => initialState

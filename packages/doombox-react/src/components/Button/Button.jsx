@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   Button as MuiButton,
@@ -11,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 // Style
-import ButtonStyle from './ButtonStyle';
+import { useButtonStyle } from './Button.style';
 
 const MuiColors = [
   'default',
@@ -23,22 +22,28 @@ const MuiColors = [
 const Button = props => {
   const {
     children,
-    classes,
     color,
     lowercase,
     loading,
     BoxProps,
     fullWidth,
+    variant,
+    disabled,
     ...rest
   } = props;
+  const classes = useButtonStyle({ color });
 
   return (
     <Box width={fullWidth ? '100%' : 'initial'} {...BoxProps}>
       <MuiButton
-        disabled={rest.disabled || loading}
+        disabled={disabled || loading}
+        variant={variant}
         color={MuiColors.includes(color) ? color : 'default'}
-        className={lowercase ? classes.lowercase : null}
-        classes={{ root: classes[`color_${rest.variant || 'text'}_${color}`] }}
+        className={clsx(
+          lowercase ? classes.lowercase : null,
+          classes.variant,
+          classes[variant]
+        )}
         fullWidth={fullWidth}
         {...rest}
       >
@@ -58,9 +63,14 @@ const Button = props => {
 Button.propTypes = {
   BoxProps: PropTypes.object,
   children: PropTypes.node.isRequired,
-  classes: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   fullWidth: PropTypes.bool,
+  disabled: PropTypes.bool,
+  variant: PropTypes.oneOf([
+    'text',
+    'outlined',
+    'contained'
+  ]),
   color: PropTypes.oneOf([
     'default',
     'inherit',
@@ -75,6 +85,8 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  disabled: false,
+  variant: 'text',
   BoxProps: {},
   color: 'default',
   loading: false,
@@ -82,6 +94,4 @@ Button.defaultProps = {
   fullWidth: false
 };
 
-export default withStyles(
-  ButtonStyle
-)(Button);
+export default Button;

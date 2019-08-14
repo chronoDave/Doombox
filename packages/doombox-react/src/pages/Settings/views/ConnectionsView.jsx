@@ -8,7 +8,6 @@ import IconAdd from '@material-ui/icons/Add';
 import IconDelete from '@material-ui/icons/Close';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   Card,
@@ -31,12 +30,8 @@ import { updateUser } from '../../../api/userApi';
 // Utils
 import { selectFolder } from '../../../utils';
 
-// Style
-import SettingsPageStyle from '../SettingsPageStyle';
-
 const ConnectionsView = props => {
   const {
-    classes,
     user,
     updateLibrary,
     updateConnections,
@@ -80,7 +75,6 @@ const ConnectionsView = props => {
                 >
                   <ListItemText primary={item.path} />
                   <IconButton
-                    classes={{ root: classes.iconError }}
                     onClick={() => handleDelete(item.path)}
                     disabled={scanning}
                   >
@@ -107,7 +101,6 @@ const ConnectionsView = props => {
 };
 
 ConnectionsView.propTypes = {
-  classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 
@@ -124,6 +117,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(
-  SettingsPageStyle
-)(ConnectionsView));
+)(ConnectionsView);

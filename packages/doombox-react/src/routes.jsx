@@ -12,7 +12,7 @@ import {
   CreateProfilePage
 } from './pages';
 
-export const PrivateRoutes = [
+export const MainRoutes = [
   {
     key: 'home',
     exact: true,
@@ -24,6 +24,12 @@ export const PrivateRoutes = [
     exact: true,
     path: Paths.settingsPath,
     render: props => <SettingsPage {...props} />
+  },
+  {
+    key: 'createProfile',
+    exact: true,
+    path: Paths.createProfilePath,
+    render: props => <CreateProfilePage {...props} />
   }
 ];
 
@@ -39,11 +45,4 @@ export const OfflineRoute = {
   exact: true,
   path: Paths.offlinePath,
   render: props => <OfflinePage {...props} />
-};
-
-export const CreateProfileRoute = {
-  key: 'createProfile',
-  exact: true,
-  path: Paths.createProfilePath,
-  render: props => <CreateProfilePage {...props} />
 };

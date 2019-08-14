@@ -8,21 +8,17 @@ import IconClose from '@material-ui/icons/Cancel';
 
 // Core
 import {
-  withStyles,
   withTheme,
   fade
 } from '@material-ui/core/styles';
 import {
   Box,
-  List,
-  ListItem,
-  ListItemText,
-  ListSubheader,
   IconButton
 } from '@material-ui/core';
 
 import { Main } from '../../components/Main';
 import { Typography } from '../../components/Typography';
+import { List } from '../../components/List';
 
 // Views
 import * as Views from './views';
@@ -30,15 +26,9 @@ import * as Views from './views';
 // Utils
 import { homePath } from '../../paths';
 
-// Style
-import SettingsPageStyle from './SettingsPageStyle';
-
-const SettingsPage = ({ theme, classes }) => {
+const SettingsPage = ({ theme }) => {
   const { t } = useTranslation();
-  const [view, setView] = useState({
-    key: 'MyProfileView',
-    translation: 'title:myProfile'
-  });
+  const [view, setView] = useState('myProfile');
 
   return (
     <Main>
@@ -56,64 +46,25 @@ const SettingsPage = ({ theme, classes }) => {
           bgcolor={fade(theme.palette.grey[300], 0.66)}
         >
           <List
-            subheader={(
-              <ListSubheader classes={{ root: classes.listSubheaderRoot }} disableSticky>
-                <strong>{t('title:userSettings').toUpperCase()}</strong>
-              </ListSubheader>
-            )}
-          >
-            {[
-              {
-                key: 'MyProfileView',
-                translation: 'title:myProfile',
-              },
-              {
-                key: 'ConnectionsView',
-                translation: 'connections',
-              },
-              {
-                translation: 'title:appSettings'
-              },
-              {
-                key: 'AppearanceView',
-                translation: 'appearance'
-              },
-              {
-                key: 'LanguageView',
-                translation: 'language'
-              }
-            ].map(({ key, translation }) => (
-              !key ? (
-                <ListSubheader
-                  key={translation}
-                  classes={{ root: classes.listSubheaderRoot }}
-                  disableSticky
-                >
-                  <strong>{t(translation).toUpperCase()}</strong>
-                </ListSubheader>
-              ) : (
-                <ListItem
-                  selected={view.key === key}
-                  classes={{
-                    root: classes.listItemRoot,
-                    selected: classes.listItemSelected
-                  }}
-                  key={key}
-                  button
-                  onClick={() => setView({ key, translation })}
-                >
-                  <ListItemText primary={t(translation)} />
-                </ListItem>
-              )
-            ))}
-          </List>
+            active={view}
+            items={[
+              { key: 'title:userSettings' },
+              { key: 'myProfile', onClick: () => setView('myProfile') },
+              { key: 'connections', onClick: () => setView('connections') },
+              { key: 'title:appSettings' },
+              { key: 'appearance', onClick: () => setView('appearance') },
+              { key: 'language', onClick: () => setView('language') }
+            ]}
+          />
           <Box py={2} pl={4} pr={2} minWidth={300}>
             <Box pb={2}>
               <Typography variant="h4">
-                {t(view.translation)}
+                {t(view)}
               </Typography>
             </Box>
-            {createElement(Views[view.key], {})}
+            {createElement(Views[
+              `${view.slice(0, 1).toUpperCase()}${view.slice(1)}View`
+            ], {})}
           </Box>
           <Box
             display="flex"
@@ -136,10 +87,7 @@ const SettingsPage = ({ theme, classes }) => {
 };
 
 SettingsPage.propTypes = {
-  theme: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired
 };
 
-export default withTheme(withStyles(
-  SettingsPageStyle
-)(SettingsPage));
+export default withTheme(SettingsPage);

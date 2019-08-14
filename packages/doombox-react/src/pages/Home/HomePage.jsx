@@ -10,6 +10,7 @@ import {
   ListItemText
 } from '@material-ui/core';
 import { Main } from '../../components/Main';
+import { Button } from '../../components/Button';
 
 const HomePage = ({ library }) => (
   <Main>

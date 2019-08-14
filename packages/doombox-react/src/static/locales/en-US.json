@@ -28,11 +28,11 @@
     "online": "Online",
     "offline": "Offline",
     "remote_connections": "Remote connections",
-    "library": "Library"
+    "library": "Library",
+    "myProfile": "My Profile"
   },
   "title": {
     "createProfile": "Create Profile",
-    "myProfile": "My Profile",
     "userSettings": "User Settings",
     "appSettings": "App Settings",
     "deleteProfile": "Delete Profile",

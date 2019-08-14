@@ -1,11 +1,14 @@
-const FieldStyle = theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useFieldStyle = makeStyles(theme => ({
   menuItemRoot: {
     display: 'flex',
     alignItems: 'center'
   },
   selectMenu: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: theme.spacing(1)
   },
   iconDatabaseCheck: {
     color: theme.palette.success.main
@@ -22,6 +25,4 @@ const FieldStyle = theme => ({
       borderColor: `${theme.palette.success.main} !important`
     }
   },
-});
-
-export default FieldStyle;
+}));

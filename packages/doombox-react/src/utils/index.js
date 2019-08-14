@@ -9,7 +9,8 @@ import { ERROR, SUCCESS } from '@doombox/utils/types/asyncTypes';
 // General
 export const isEmptyObj = obj => Object.keys(obj).length === 0;
 export const normalizeUrl = url => path.normalize(url
-  .replace(/#/g, '%23'));
+  .replace(/#/g, '%23'))
+  .replace(/\\/g, '\\\\');
 export const getRandomInt = (min, max) => (
   Math.floor(Math.random() * (max - min + 1) + min)
 );

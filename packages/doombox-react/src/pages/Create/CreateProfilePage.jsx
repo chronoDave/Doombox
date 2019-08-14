@@ -10,7 +10,7 @@ import {
   Hidden
 } from '@material-ui/core';
 
-import { BackgroundProvider } from '../../components/Background';
+import { Background } from '../../components/Background';
 import { FormCreateProfile } from '../../components/Form';
 import { Typography } from '../../components/Typography';
 
@@ -23,7 +23,7 @@ const CreateProfilePage = () => {
   const isDownSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <BackgroundProvider>
+    <Background>
       <Box
         display="flex"
         justifyContent="center"
@@ -46,7 +46,7 @@ const CreateProfilePage = () => {
               </Typography>
               <Hidden smDown>
                 <Box pl={1}>
-                  <Typography color="grey">
+                  <Typography color="grey.100">
                     {version}
                   </Typography>
                 </Box>
@@ -54,7 +54,7 @@ const CreateProfilePage = () => {
             </Box>
             <Typography
               variant={isDownSm ? 'body1' : 'h4'}
-              color="grey"
+              color="grey.100"
               align={isDownSm ? 'center' : 'left'}
             >
               {isDownSm ? version : t('slogan')}
@@ -72,7 +72,7 @@ const CreateProfilePage = () => {
           </Box>
         </Card>
       </Box>
-    </BackgroundProvider>
+    </Background>
   );
 };
 

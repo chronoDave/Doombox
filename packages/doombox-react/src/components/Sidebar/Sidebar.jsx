@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Drawer,
   Box
@@ -14,10 +12,10 @@ import { Typography } from '../Typography';
 import { Divider } from '../Divider';
 
 // Style
-import SidebarStyle from './SidebarStyle';
+import { useSidebarStyle } from './Sidebar.style';
 
-const Sidebar = props => {
-  const { classes } = props;
+const Sidebar = () => {
+  const classes = useSidebarStyle();
 
   return (
     <Drawer
@@ -51,10 +49,4 @@ const Sidebar = props => {
   );
 };
 
-Sidebar.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(
-  SidebarStyle
-)(Sidebar);
+export default Sidebar;

@@ -1,20 +1,14 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Card,
-  Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText
+  Box
 } from '@material-ui/core';
 
-import { IconFlag } from '../../../components/Icon';
+import { List } from '../../../components/List';
 
 // Actions
 import { updateUser } from '../../../api/userApi';
@@ -23,39 +17,26 @@ import { updateUser } from '../../../api/userApi';
 import { languages } from '../../../utils';
 import i18n from '../../../locale';
 
-// Style
-import SettingsPageStyle from '../SettingsPageStyle';
-
 const LanguageView = props => {
   const {
     language,
     id,
-    updateLanguage,
-    classes
+    updateLanguage
   } = props;
-  const { t } = useTranslation();
+
+  const items = languages.map(lng => ({
+    key: lng,
+    tProps: { lng },
+    onClick: () => {
+      updateLanguage(id, { language: lng });
+      i18n.changeLanguage(lng);
+    }
+  }));
 
   return (
     <Card>
       <Box px={2} py={1}>
-        <List>
-          {languages.map(lang => (
-            <ListItem
-              key={lang}
-              className={language === lang ? classes.listLanguageSelected : null}
-              button
-              onClick={() => {
-                updateLanguage(id, { language: lang });
-                i18n.changeLanguage(lang);
-              }}
-            >
-              <ListItemIcon>
-                <IconFlag country={lang} />
-              </ListItemIcon>
-              <ListItemText primary={t(lang)} />
-            </ListItem>
-          ))}
-        </List>
+        <List active={language} items={items} />
       </Box>
     </Card>
   );
@@ -64,8 +45,7 @@ const LanguageView = props => {
 LanguageView.propTypes = {
   language: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  updateLanguage: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  updateLanguage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -80,6 +60,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(
-  SettingsPageStyle
-)(LanguageView));
+)(LanguageView);

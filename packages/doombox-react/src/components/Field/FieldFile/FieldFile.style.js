@@ -1,4 +1,6 @@
-const FieldSelectStyle = theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useFieldFileStyle = makeStyles(theme => ({
   hidden: {
     width: 0.1,
     height: 0.1,
@@ -33,6 +35,4 @@ const FieldSelectStyle = theme => ({
   fieldFileAvatar: {
     padding: 0
   }
-});
-
-export default FieldSelectStyle;
+}));

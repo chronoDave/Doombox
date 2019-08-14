@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   HashRouter,
   Switch,
@@ -8,14 +8,10 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Core
-import { Sidebar } from '../Sidebar';
-
 // Routes
 import {
-  PrivateRoutes,
-  LoadingRoute,
-  CreateProfileRoute
+  MainRoutes,
+  LoadingRoute
 } from '../../routes';
 
 // Hooks
@@ -36,7 +32,7 @@ import {
 // Actions
 import { getCachedProfile } from '../../api/userApi';
 
-const App = ({ pendingCache, isCached }) => {
+const App = ({ pending, hasProfile }) => {
   useEffect(() => {
     getCachedProfile();
   }, []);
@@ -48,39 +44,29 @@ const App = ({ pendingCache, isCached }) => {
 
   return (
     <HashRouter>
-      <Switch>
-        {pendingCache ? (
-          <Fragment>
-            <Route {...LoadingRoute} />
-            <Redirect to={loadingPath} />
-          </Fragment>
-        ) : (
-          isCached ? (
-            <Fragment>
-              <Sidebar />
-              {PrivateRoutes.map(route => <Route key={route.key} {...route} />)}
-              <Redirect to={homePath} />
-            </Fragment>
-          ) : (
-            <Fragment>
-              <Route {...CreateProfileRoute} />
-              <Redirect to={createProfilePath} />
-            </Fragment>
-          )
-        )}
-      </Switch>
+      {pending ? (
+        <Switch>
+          <Route {...LoadingRoute} />
+          <Redirect to={loadingPath} />
+        </Switch>
+      ) : (
+        <Switch>
+          {MainRoutes.map(route => <Route key={route.key} {...route} />)}
+          <Redirect to={hasProfile ? homePath : createProfilePath} />
+        </Switch>
+      )}
     </HashRouter>
   );
 };
 
 App.propTypes = {
-  isCached: PropTypes.bool.isRequired,
-  pendingCache: PropTypes.bool.isRequired
+  hasProfile: PropTypes.bool.isRequired,
+  pending: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  isCached: state.system.connectedCache,
-  pendingCache: state.system.pendingCache
+  hasProfile: state.system.connectedCache,
+  pending: state.system.pendingCache
 });
 
 export default connect(

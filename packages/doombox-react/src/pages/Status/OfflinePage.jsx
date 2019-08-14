@@ -32,7 +32,7 @@ const OfflinePage = ({ error: { name, address } }) => {
             <Typography variant="h5">
               {t('error:mongodb', { context: 'connection' })}
             </Typography>
-            <Typography color="grey">
+            <Typography color="grey.100">
               {name}
             </Typography>
           </Box>

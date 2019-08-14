@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import { Typography as MuiTypography } from '@material-ui/core';
 
+// Utils
+import { GREY } from '../../theme/colors';
+
 // Style
-import TypographyStyle from './TypographyStyle';
+import { useTypographyStyle } from './Typography.style';
 
 const MuiColors = [
   'initial',
@@ -21,18 +23,18 @@ const MuiColors = [
 const Typography = props => {
   const {
     children,
-    classes,
     color,
     transform,
     ...rest
   } = props;
+  const classes = useTypographyStyle({ color, transform });
 
   return (
     <MuiTypography
       color={MuiColors.includes(color) ? color : 'initial'}
       className={clsx(
-        !MuiColors.includes(color) && classes[`color_${color}`],
-        classes[`transform_${transform}`]
+        !MuiColors.includes(color) && classes.color,
+        classes.transform
       )}
       {...rest}
     >
@@ -43,7 +45,6 @@ const Typography = props => {
 
 Typography.propTypes = {
   children: PropTypes.node.isRequired,
-  classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf([
     'initial',
     'inherit',
@@ -55,8 +56,7 @@ Typography.propTypes = {
     'warning',
     'success',
     'info',
-    'white',
-    'grey'
+    Object.keys(GREY).map(key => `grey.${key}`)
   ]),
   transform: PropTypes.oneOf([
     'lowercase',
@@ -70,6 +70,4 @@ Typography.defaultProps = {
   transform: 'default'
 };
 
-export default withStyles(
-  TypographyStyle
-)(Typography);
+export default Typography;

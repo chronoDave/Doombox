@@ -39,7 +39,7 @@ const FormCreateProfile = props => {
     >
       <Form>
         <Box display="flex" flexDirection="column">
-          <Typography variant="button" color="grey">
+          <Typography variant="button" color="grey.100">
             {t('general')}
           </Typography>
           <FieldText id={id} name="username" />
