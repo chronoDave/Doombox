@@ -1,4 +1,4 @@
-export { default as MyProfileView } from './MyProfileView';
-export { default as ConnectionsView } from './ConnectionsView';
-export { default as AppearanceView } from './AppearanceView';
-export { default as LanguageView } from './LanguageView';
+export { default as MyProfileView } from './MyProfile.view';
+export { default as ConnectionsView } from './Connections.view';
+export { default as AppearanceView } from './Appearance.view';
+export { default as LanguageView } from './Language.view';

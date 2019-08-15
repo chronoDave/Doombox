@@ -7,7 +7,8 @@ import {
   PENDING
 } from '@doombox/utils/types/asyncTypes';
 import {
-  CREATE
+  CREATE,
+  READ
 } from '@doombox/utils/types/crudTypes';
 
 const { ipcRenderer } = window.require('electron');
@@ -17,4 +18,11 @@ export const scanLibrary = paths => dispatch => {
   dispatch({ type: actionType });
 
   ipcRenderer.send(actionType, paths);
+};
+
+export const fetchLibrary = () => dispatch => {
+  const actionType = create([PENDING, READ, LIBRARY]);
+  dispatch({ type: actionType });
+
+  ipcRenderer.send(actionType);
 };

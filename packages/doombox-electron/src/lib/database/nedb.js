@@ -10,15 +10,29 @@ module.exports = class NeDB {
       autoload: true
     });
 
+    this.images = new Datastore({
+      filename: `${userDataPath}/nedb/images.db`,
+      autoload: true
+    });
+
     this.library = new Datastore({
       filename: `${userDataPath}/nedb/library.db`,
       autoload: true
     });
   }
 
-  create(collection, args) {
+  create(collection, args, verbose) {
     return new Promise((resolve, reject) => {
       this[collection].insert(args, (err, docs) => {
+        if (err && verbose) reject(err);
+        resolve(docs);
+      });
+    });
+  }
+
+  read(collection, args) {
+    return new Promise((resolve, reject) => {
+      this[collection].find(args, (err, docs) => {
         if (err) reject(err);
         resolve(docs);
       });
@@ -48,8 +62,17 @@ module.exports = class NeDB {
   delete(collection, _id) {
     return new Promise((resolve, reject) => {
       this[collection].remove({ _id }, (err, count) => {
-        if (err || count === 0) reject(err);
-        resolve();
+        if (err) reject(err);
+        resolve(count);
+      });
+    });
+  }
+
+  drop(collection) {
+    return new Promise((resolve, reject) => {
+      this[collection].remove({}, { multi: true }, (err, count) => {
+        if (err) reject(err);
+        resolve(count);
       });
     });
   }

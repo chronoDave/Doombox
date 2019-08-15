@@ -38,11 +38,12 @@ module.exports = {
     'no-underscore-dangle': 'off', // Mongoose _doc
     'camelcase': 'off', // Mongoose data types
     'no-nested-ternary': 'off',
+    // Advanced
     'no-bitwise': ["error", { "allow": ['|', '>>', '<<', '&'] }], // MP3 metadata parser
+    'no-control-regex': "off", // MP3 metadata parser
     // React
     'react/jsx-no-duplicate-props': ['warn', { 'ignoreCase': false }], // MUI inputProps / InputProps
-    'react/forbid-prop-types': 'off', // Most packages don't have shapes
-    'react/display-name': 'off', // Using MUI, gives false-positive on Routes
+    'react/display-name': 'off', // Gives false-positive on Routes
     // Import
     'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',

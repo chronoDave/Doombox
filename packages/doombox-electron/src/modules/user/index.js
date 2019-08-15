@@ -18,15 +18,13 @@ const {
   USER_CACHE
 } = require('@doombox/utils/types');
 
-// Database
-const NeDB = require('../../lib/database/nedb');
-
-const localDatabase = new NeDB();
+// Controller
+const nedbController = require('../system/controllers/nebdController');
 
 const userRouter = store => {
   ipcMain.on(create([PENDING, CREATE, USER]), async (event, payload) => {
     try {
-      const doc = await localDatabase.create('users', payload);
+      const doc = await nedbController.create('users', payload);
 
       const user = store.get('user');
       store.set('user', { ...user, _id: doc._id });
@@ -41,7 +39,7 @@ const userRouter = store => {
 
     if (user._id) {
       try {
-        const doc = await localDatabase.readOne('users', { _id: user._id });
+        const doc = await nedbController.readOne('users', { _id: user._id });
         event.sender.send(create([SUCCESS, READ, USER_CACHE]), doc);
       } catch (err) {
         event.sender.send(create([ERROR, READ, USER_CACHE]), err);
@@ -52,8 +50,8 @@ const userRouter = store => {
   });
   ipcMain.on(create([PENDING, UPDATE, USER]), async (event, { _id, ...rest }) => {
     try {
-      await localDatabase.update('users', _id, { $set: { ...rest } });
-      const doc = await localDatabase.readOne('users', { _id });
+      await nedbController.update('users', _id, { $set: { ...rest } });
+      const doc = await nedbController.readOne('users', { _id });
 
       event.sender.send(create([SUCCESS, UPDATE, USER]), doc);
     } catch (err) {
@@ -62,7 +60,7 @@ const userRouter = store => {
   });
   ipcMain.on(create([PENDING, DELETE, USER]), async (event, _id) => {
     try {
-      await localDatabase.delete('users', _id);
+      await nedbController.remove('users', _id);
       event.sender.send(create([SUCCESS, DELETE, USER]));
     } catch (err) {
       event.sender.send(create([ERROR, DELETE, USER]));
