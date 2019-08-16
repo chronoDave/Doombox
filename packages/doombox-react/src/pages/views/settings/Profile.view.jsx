@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -18,6 +18,9 @@ import {
   DialogConfirmation
 } from '../../../components/Dialog';
 
+// Template
+import { SettingsTemplate } from '../../templates';
+
 // Actions
 import { deleteUser } from '../../../api/userApi';
 
@@ -29,7 +32,7 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
   const [open, setOpen] = useState(null);
 
   return (
-    <Fragment>
+    <SettingsTemplate>
       <Card>
         <Box
           display="flex"
@@ -84,7 +87,7 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
           {t('delete')}
         </Button>
       </DialogConfirmation>
-    </Fragment>
+    </SettingsTemplate>
   );
 };
 

@@ -20,9 +20,6 @@ export const scanLibrary = paths => dispatch => {
   ipcRenderer.send(actionType, paths);
 };
 
-export const fetchLibrary = () => dispatch => {
-  const actionType = create([PENDING, READ, LIBRARY]);
-  dispatch({ type: actionType });
-
-  ipcRenderer.send(actionType);
+export const fetchLibrary = () => {
+  ipcRenderer.send(create([PENDING, READ, LIBRARY]));
 };

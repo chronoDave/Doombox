@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,9 @@ import {
 // Api
 import { scanLibrary } from '../../../api/libraryApi';
 import { updateUser } from '../../../api/userApi';
+
+// Template
+import { SettingsTemplate } from '../../templates';
 
 // Validation
 import { propUser } from '../../../validation/propTypes';
@@ -58,7 +61,7 @@ const ConnectionsView = props => {
   };
 
   return (
-    <Fragment>
+    <SettingsTemplate>
       <Card>
         <Box p={1}>
           <List dense>
@@ -94,7 +97,7 @@ const ConnectionsView = props => {
           </List>
         </Box>
       </Card>
-    </Fragment>
+    </SettingsTemplate>
   );
 };
 

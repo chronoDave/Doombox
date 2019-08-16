@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 // Core
 import { Box } from '@material-ui/core';
 
-import { IconDatabaseRemove } from '../../components/Icon';
-import { Typography } from '../../components/Typography';
-import { Button } from '../../components/Button';
-import { DialogUpdateConnection } from '../../components/Dialog';
+import { IconDatabaseRemove } from '../components/Icon';
+import { Typography } from '../components/Typography';
+import { Button } from '../components/Button';
+import { DialogUpdateConnection } from '../components/Dialog';
 
 const OfflinePage = ({ error: { name, address } }) => {
   const { t } = useTranslation();

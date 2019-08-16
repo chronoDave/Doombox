@@ -46,9 +46,9 @@ const FormUpdateProfile = props => {
           <FieldFileAvatar id="create-profile" />
           <FieldText id="create-profile" name="username" />
         </Box>
-        <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
+        <Box py={1} display="flex" justifyContent="flex-end">
           <Button
-            p={1}
+            m={1}
             onClick={onCancel}
             variant="outlined"
             color="error"
@@ -56,8 +56,8 @@ const FormUpdateProfile = props => {
             {t('cancel')}
           </Button>
           <Button
-            p={1}
-            pr={0}
+            m={1}
+            mr={0}
             variant="contained"
             color="success"
             loading={pending}

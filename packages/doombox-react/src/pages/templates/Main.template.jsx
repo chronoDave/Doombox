@@ -5,27 +5,27 @@ import PropTypes from 'prop-types';
 import {
   BackgroundImage,
   BackgroundFade
-} from '../Background';
-import { Sidebar } from '../Sidebar';
+} from '../../components/Background';
+import { Sidebar } from '../../components/Sidebar';
 
 // Style
 import { useMainStyle } from './Main.style';
 
-const Main = ({ children }) => {
+const MainTemplate = ({ children }) => {
   const classes = useMainStyle();
 
   return (
     <div className={classes.root}>
       <BackgroundImage />
       <BackgroundFade />
-      {children}
       <Sidebar />
+      {children}
     </div>
   );
 };
 
-Main.propTypes = {
+MainTemplate.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export default Main;
+export default MainTemplate;

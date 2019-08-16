@@ -15,7 +15,7 @@ import {
 // Utils
 import { createListener } from '../utils';
 
-// Actions
+// Api
 import { getCachedProfile } from '../api/userApi';
 
 export const useSubscribeUser = () => {

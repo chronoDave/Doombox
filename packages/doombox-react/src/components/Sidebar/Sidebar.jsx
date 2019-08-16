@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 // Core
 import {
@@ -6,15 +6,16 @@ import {
   Box
 } from '@material-ui/core';
 
-import { SidebarItemUser } from './SidebarItem';
 import { Logo } from '../Logo';
 import { Typography } from '../Typography';
 import { Divider } from '../Divider';
+import SidebarProfile from './SidebarProfile';
+import SidebarPlayer from './SidebarPlayer';
 
 // Style
 import { useSidebarStyle } from './Sidebar.style';
 
-const Sidebar = () => {
+const Sidebar = memo(() => {
   const classes = useSidebarStyle();
 
   return (
@@ -41,12 +42,13 @@ const Sidebar = () => {
           <Typography variant="h6">Doombox</Typography>
           <Divider />
         </Box>
+        <SidebarPlayer />
         <Box p={1} bgcolor="grey.500">
-          <SidebarItemUser />
+          <SidebarProfile />
         </Box>
       </Box>
     </Drawer>
   );
-};
+});
 
 export default Sidebar;

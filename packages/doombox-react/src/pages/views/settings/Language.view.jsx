@@ -10,6 +10,9 @@ import {
 
 import { List } from '../../../components/List';
 
+// Template
+import { SettingsTemplate } from '../../templates';
+
 // Actions
 import { updateUser } from '../../../api/userApi';
 
@@ -34,11 +37,13 @@ const LanguageView = props => {
   }));
 
   return (
-    <Card>
-      <Box px={2} py={1}>
-        <List active={language} items={items} />
-      </Box>
-    </Card>
+    <SettingsTemplate>
+      <Card>
+        <Box px={2} py={1}>
+          <List active={language} items={items} />
+        </Box>
+      </Card>
+    </SettingsTemplate>
   );
 };
 

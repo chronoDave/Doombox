@@ -8,14 +8,17 @@ import IconImage from '@material-ui/icons/Image';
 
 // Core
 import {
-  Card,
   Box,
+  Card,
   ButtonBase
 } from '@material-ui/core';
 
 import { Typography } from '../../../components/Typography';
 import { FieldFileBase } from '../../../components/Field';
 import { Button } from '../../../components/Button';
+
+// Template
+import { SettingsTemplate } from '../../templates';
 
 // Actions
 import { updateUser } from '../../../api/userApi';
@@ -37,7 +40,7 @@ const AppearanceView = props => {
   const { t } = useTranslation();
 
   return (
-    <Box>
+    <SettingsTemplate>
       <Typography variant="button">
         {t('background')}
       </Typography>
@@ -88,7 +91,7 @@ const AppearanceView = props => {
           </Card>
         )}
       />
-    </Box>
+    </SettingsTemplate>
   );
 };
 

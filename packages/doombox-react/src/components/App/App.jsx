@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { useRouter } from '../Router';
+import { useRoute } from '../Router';
 
 // Hooks
 import {
@@ -16,14 +16,14 @@ import {
 // Pages
 import * as Pages from '../../pages';
 
-// Paths
-import * as Paths from '../../paths';
+// Const
+import { PATHS } from '../../const';
 
 // Validation
 import { propUser } from '../../validation/propTypes';
 
 const App = ({ profile, noCache }) => {
-  const { path, setPath } = useRouter();
+  const { path, setPath } = useRoute();
 
   useScrollbar();
   useSubscribeSystem();
@@ -31,17 +31,16 @@ const App = ({ profile, noCache }) => {
   useSubscribeLibrary();
 
   useEffect(() => {
-    if (profile) setPath(Paths.HOME_PATH);
+    if (profile) setPath(PATHS.HOME);
   }, [profile]);
 
   useEffect(() => {
-    if (noCache) setPath(Paths.OFFLINE_PATH);
+    if (noCache) setPath(PATHS.OFFLINE);
   }, [noCache]);
 
-  if (path === Paths.HOME_PATH) return <Pages.HomePage />;
-  if (path === Paths.SETTINGS_PATH) return <Pages.SettingsPage />;
-  if (path === Paths.CREATE_PATH) return <Pages.CreateProfilePage />;
-  if (path === Paths.OFFLINE_PATH) return <Pages.OfflinePage />;
+  if (path === PATHS.HOME) return <Pages.MainPage />;
+  if (path === PATHS.CREATE) return <Pages.CreateProfilePage />;
+  if (path === PATHS.OFFLINE) return <Pages.OfflinePage />;
   return <Pages.LoadingPage />;
 };
 

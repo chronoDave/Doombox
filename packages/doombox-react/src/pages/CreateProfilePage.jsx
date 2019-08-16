@@ -13,12 +13,12 @@ import {
 import {
   BackgroundImage,
   BackgroundFade
-} from '../../components/Background';
-import { FormCreateProfile } from '../../components/Form';
-import { Typography } from '../../components/Typography';
+} from '../components/Background';
+import { FormCreateProfile } from '../components/Form';
+import { Typography } from '../components/Typography';
 
 // Utils
-import { version } from '../../../package.json';
+import { version } from '../../package.json';
 
 const CreateProfilePage = () => {
   const { t } = useTranslation();

@@ -14,6 +14,10 @@ export const normalizeUrl = url => path.normalize(url
 export const getRandomInt = (min, max) => (
   Math.floor(Math.random() * (max - min + 1) + min)
 );
+export const shuffleArray = array => array
+  .map(a => [Math.random(), a])
+  .sort((a, b) => a[0] - b[0])
+  .map(a => a[1]);
 
 // Locale
 export const languages = [

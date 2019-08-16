@@ -6,10 +6,10 @@ import {
   Box,
   CircularProgress
 } from '@material-ui/core';
-import { Typography } from '../../components/Typography';
+import { Typography } from '../components/Typography';
 
 // Utils
-import { getRandomInt } from '../../utils';
+import { getRandomInt } from '../utils';
 
 const LoadingPage = () => {
   const { t } = useTranslation();
