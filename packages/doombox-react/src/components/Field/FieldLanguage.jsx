@@ -66,8 +66,7 @@ const FieldLanguage = ({ id, ...rest }) => {
 };
 
 FieldLanguage.propTypes = {
-  id: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired
+  id: PropTypes.string.isRequired
 };
 
 export default FieldLanguage;

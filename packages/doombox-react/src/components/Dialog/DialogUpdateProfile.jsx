@@ -11,7 +11,7 @@ import {
 
 import { FormUpdateProfile } from '../Form';
 
-const DialogUpdateProfile = ({ initialValues, onCancel, ...rest }) => {
+const DialogUpdateProfile = ({ onCancel, ...rest }) => {
   const { t } = useTranslation();
 
   return (
@@ -20,17 +20,13 @@ const DialogUpdateProfile = ({ initialValues, onCancel, ...rest }) => {
         {t('title:updateProfile')}
       </DialogTitle>
       <DialogContent>
-        <FormUpdateProfile
-          onCancel={onCancel}
-          initialValues={initialValues}
-        />
+        <FormUpdateProfile onCancel={onCancel} />
       </DialogContent>
     </Dialog>
   );
 };
 
 DialogUpdateProfile.propTypes = {
-  initialValues: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 

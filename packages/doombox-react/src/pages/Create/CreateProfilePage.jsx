@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Core
@@ -10,7 +10,10 @@ import {
   Hidden
 } from '@material-ui/core';
 
-import { Background } from '../../components/Background';
+import {
+  BackgroundImage,
+  BackgroundFade
+} from '../../components/Background';
 import { FormCreateProfile } from '../../components/Form';
 import { Typography } from '../../components/Typography';
 
@@ -23,7 +26,10 @@ const CreateProfilePage = () => {
   const isDownSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Background>
+    <Fragment>
+      <BackgroundImage>
+        <BackgroundFade />
+      </BackgroundImage>
       <Box
         display="flex"
         justifyContent="center"
@@ -72,7 +78,7 @@ const CreateProfilePage = () => {
           </Box>
         </Card>
       </Box>
-    </Background>
+    </Fragment>
   );
 };
 

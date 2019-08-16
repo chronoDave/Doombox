@@ -29,7 +29,9 @@
     "offline": "Offline",
     "remote_connections": "Externe verbindingen",
     "library": "Bibliotheek",
-    "myProfile": "Mijn Profiel"
+    "myProfile": "Mijn Profiel",
+    "github": "GitHub",
+    "twitter": "Twitter"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",
@@ -38,7 +40,8 @@
     "deleteProfile": "Profiel Verwijderen",
     "updateProfile": "Profiel Bewerken",
     "areYouSure": "Weet je het zeker?",
-    "updateConnection": "Verbinding Bewerken"
+    "updateConnection": "Verbinding Bewerken",
+    "contact": "Contact"
   },
   "description": {
     "remote": "Gebruik externe verbinding",

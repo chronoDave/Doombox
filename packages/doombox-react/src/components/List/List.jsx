@@ -7,6 +7,7 @@ import {
   List as MuiList,
   ListSubheader,
   ListItem,
+  ListItemIcon,
   ListItemText
 } from '@material-ui/core';
 
@@ -19,7 +20,12 @@ const List = ({ active, items }) => {
 
   return (
     <MuiList>
-      {items.map(({ key, onClick, tProps }) => (
+      {items.map(({
+        key,
+        icon,
+        onClick,
+        tProps
+      }) => (
         key.includes('title') ? (
           <ListSubheader
             key={key}
@@ -36,6 +42,11 @@ const List = ({ active, items }) => {
             classes={{ root: classes.itemRoot }}
             className={active === key ? classes.itemActive : null}
           >
+            {icon && (
+              <ListItemIcon>
+                {icon}
+              </ListItemIcon>
+            )}
             <ListItemText primary={t(key, tProps)} />
           </ListItem>
         )
@@ -49,6 +60,7 @@ List.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.exact({
       key: PropTypes.string.isRequired,
+      icon: PropTypes.node,
       tProps: PropTypes.object,
       onClick: PropTypes.func
     })

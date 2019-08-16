@@ -1,18 +1,9 @@
 import React, { useEffect } from 'react';
-import {
-  HashRouter,
-  Switch,
-  Route,
-  Redirect
-} from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Routes
-import {
-  MainRoutes,
-  LoadingRoute
-} from '../../routes';
+// Core
+import { useRouter } from '../Router';
 
 // Hooks
 import {
@@ -22,51 +13,50 @@ import {
   useSubscribeLibrary
 } from '../../hooks';
 
+// Pages
+import * as Pages from '../../pages';
+
 // Paths
-import {
-  homePath,
-  loadingPath,
-  createProfilePath
-} from '../../paths';
+import * as Paths from '../../paths';
 
-// Actions
-import { getCachedProfile } from '../../api/userApi';
+// Validation
+import { propUser } from '../../validation/propTypes';
 
-const App = ({ pending, hasProfile }) => {
-  useEffect(() => {
-    getCachedProfile();
-  }, []);
+const App = ({ profile, noCache }) => {
+  const { path, setPath } = useRouter();
 
   useScrollbar();
   useSubscribeSystem();
   useSubscribeUser();
   useSubscribeLibrary();
 
-  return (
-    <HashRouter>
-      {pending ? (
-        <Switch>
-          <Route {...LoadingRoute} />
-          <Redirect to={loadingPath} />
-        </Switch>
-      ) : (
-        <Switch>
-          {MainRoutes.map(route => <Route key={route.key} {...route} />)}
-          <Redirect to={hasProfile ? homePath : createProfilePath} />
-        </Switch>
-      )}
-    </HashRouter>
-  );
+  useEffect(() => {
+    if (profile) setPath(Paths.HOME_PATH);
+  }, [profile]);
+
+  useEffect(() => {
+    if (noCache) setPath(Paths.OFFLINE_PATH);
+  }, [noCache]);
+
+  if (path === Paths.HOME_PATH) return <Pages.HomePage />;
+  if (path === Paths.SETTINGS_PATH) return <Pages.SettingsPage />;
+  if (path === Paths.CREATE_PATH) return <Pages.CreateProfilePage />;
+  if (path === Paths.OFFLINE_PATH) return <Pages.OfflinePage />;
+  return <Pages.LoadingPage />;
 };
 
 App.propTypes = {
-  hasProfile: PropTypes.bool.isRequired,
-  pending: PropTypes.bool.isRequired
+  profile: propUser,
+  noCache: PropTypes.bool.isRequired
+};
+
+App.defaultProps = {
+  profile: null,
 };
 
 const mapStateToProps = state => ({
-  hasProfile: state.system.connectedCache,
-  pending: state.system.pendingCache
+  profile: state.profile.user,
+  noCache: state.system.errorCache
 });
 
 export default connect(

@@ -65,8 +65,7 @@ FieldFileBase.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  validator: PropTypes.array,
+  validator: PropTypes.arrayOf(PropTypes.string),
   render: PropTypes.func.isRequired,
   type: PropTypes.oneOf([
     'audio',

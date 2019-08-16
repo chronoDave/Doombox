@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { Background } from '../Background';
+import {
+  BackgroundImage,
+  BackgroundFade
+} from '../Background';
 import { Sidebar } from '../Sidebar';
 
 // Style
@@ -13,10 +16,10 @@ const Main = ({ children }) => {
 
   return (
     <div className={classes.root}>
-      <Background>
-        <Sidebar />
-        {children}
-      </Background>
+      <BackgroundImage />
+      <BackgroundFade />
+      {children}
+      <Sidebar />
     </div>
   );
 };

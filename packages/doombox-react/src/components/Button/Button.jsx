@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 // Core
+import { styled } from '@material-ui/core/styles';
 import {
-  Box,
   Button as MuiButton,
   CircularProgress
 } from '@material-ui/core';
+import { compose, spacing } from '@material-ui/system';
 
 // Style
 import { useButtonStyle } from './Button.style';
@@ -25,8 +26,6 @@ const Button = props => {
     color,
     lowercase,
     loading,
-    BoxProps,
-    fullWidth,
     variant,
     disabled,
     ...rest
@@ -34,37 +33,34 @@ const Button = props => {
   const classes = useButtonStyle({ color });
 
   return (
-    <Box width={fullWidth ? '100%' : 'initial'} {...BoxProps}>
-      <MuiButton
-        disabled={disabled || loading}
-        variant={variant}
-        color={MuiColors.includes(color) ? color : 'default'}
-        className={clsx(
+    <MuiButton
+      disabled={disabled || loading}
+      variant={variant}
+      color={MuiColors.includes(color) ? color : 'default'}
+      classes={{
+        root: clsx(
           lowercase ? classes.lowercase : null,
           classes.variant,
           classes[variant]
-        )}
-        fullWidth={fullWidth}
-        {...rest}
-      >
-        {loading ? (
-          <CircularProgress
-            className={clsx(
-              (color === 'primary' || color === 'secondary') && classes.progressWhite
-            )}
-            size={24}
-          />
-        ) : children}
-      </MuiButton>
-    </Box>
+        )
+      }}
+      {...rest}
+    >
+      {loading ? (
+        <CircularProgress
+          className={clsx(
+            (color === 'primary' || color === 'secondary') && classes.progressWhite
+          )}
+          size={24}
+        />
+      ) : children}
+    </MuiButton>
   );
 };
 
 Button.propTypes = {
-  BoxProps: PropTypes.object,
   children: PropTypes.node.isRequired,
   loading: PropTypes.bool,
-  fullWidth: PropTypes.bool,
   disabled: PropTypes.bool,
   variant: PropTypes.oneOf([
     'text',
@@ -87,11 +83,9 @@ Button.propTypes = {
 Button.defaultProps = {
   disabled: false,
   variant: 'text',
-  BoxProps: {},
   color: 'default',
   loading: false,
-  lowercase: false,
-  fullWidth: false
+  lowercase: false
 };
 
-export default Button;
+export default styled(Button)(compose(spacing));

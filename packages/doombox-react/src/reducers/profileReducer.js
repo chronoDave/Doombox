@@ -21,7 +21,7 @@ import {
 const initialState = {
   pending: false,
   error: false,
-  user: {}
+  user: null
 };
 
 export const profileReducer = handleActions({

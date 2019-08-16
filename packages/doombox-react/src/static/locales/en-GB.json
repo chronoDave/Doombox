@@ -29,7 +29,9 @@
     "offline": "Offline",
     "remote_connections": "Remote connections",
     "library": "Library",
-    "myProfile": "My Profile"
+    "myProfile": "My Profile",
+    "github": "GitHub",
+    "twitter": "Twitter"
   },
   "title": {
     "createProfile": "Create Profile",
@@ -38,7 +40,8 @@
     "deleteProfile": "Delete Profile",
     "updateProfile": "Update Profile",
     "areYouSure": "Are you sure?",
-    "updateConnection": "Update Connection"
+    "updateConnection": "Update Connection",
+    "contact": "Contact"
   },
   "description": {
     "remote": "Use remote connection",

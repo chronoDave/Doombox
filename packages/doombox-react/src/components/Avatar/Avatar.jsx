@@ -1,42 +1,57 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// Icon
+import IconPerson from '@material-ui/icons/Person';
 
 // Core
 import { Avatar as MuiAvatar } from '@material-ui/core';
 
-// Style
-import { useAvatarStyle } from './Avatar.style';
+// Validation
+import { propImage } from '../../validation/propTypes';
 
 // Utils
 import { normalizeUrl } from '../../utils';
 
-const Avatar = ({ path, fallback }) => {
+// Styles
+import { useAvatarStyle } from './Avatar.style';
+
+const Avatar = ({ src, size, avatar }) => {
   const classes = useAvatarStyle();
+  const getSource = () => {
+    if (src) return normalizeUrl(src);
+    if (avatar && avatar.path) return normalizeUrl(avatar.path);
+    return null;
+  };
 
   return (
-    <MuiAvatar classes={{ root: classes.root }}>
-      {path ? (
-        <img
-          src={normalizeUrl(path)}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover'
-          }}
-          alt="Avatar"
-        />
-      ) : fallback}
+    <MuiAvatar
+      src={getSource()}
+      classes={{ root: classes.root }}
+      className={classes[size]}
+    >
+      {getSource() ? null : <IconPerson fontSize={size} />}
     </MuiAvatar>
   );
 };
 
 Avatar.propTypes = {
-  path: PropTypes.string,
-  fallback: PropTypes.node.isRequired
+  avatar: propImage,
+  src: PropTypes.string,
+  size: PropTypes.oneOf(['small', 'medium', 'large'])
 };
 
 Avatar.defaultProps = {
-  path: null
+  avatar: null,
+  src: null,
+  size: 'small'
 };
 
-export default Avatar;
+const mapStateToProps = state => ({
+  avatar: state.profile.user.avatar
+});
+
+export default connect(
+  mapStateToProps
+)(Avatar);

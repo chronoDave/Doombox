@@ -5,12 +5,13 @@ import { normalizeUrl } from '../../utils';
 
 export const useBackgroundStyle = makeStyles(theme => ({
   root: {
+    position: 'fixed',
     height: '100vh',
-    width: '100vw'
+    width: '100vw',
+    zIndex: -1
   },
   image: {
-    position: 'fixed',
-    backgroundImage: user => `url("${normalizeUrl(
+    backgroundImage: ({ user }) => `url("${normalizeUrl(
       (user && user.background && user.background.path) ?
         user.background.path :
         `${__dirname}/static/images/backgroundDefault.png`
@@ -18,15 +19,12 @@ export const useBackgroundStyle = makeStyles(theme => ({
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    zIndex: -1
   },
   fade: {
-    backgroundImage: `linear-gradient(
+    backgroundImage: ({ opacity = 1 }) => `linear-gradient(
       180deg,
-      ${fade(theme.palette.background.default, 0.33)},
-      ${fade(theme.palette.background.default, 0.66)}
-    )`,
-    top: 0,
-    left: 0,
+      ${fade(theme.palette.background.default, opacity / 2)},
+      ${fade(theme.palette.background.default, opacity)}
+    )`
   }
 }));

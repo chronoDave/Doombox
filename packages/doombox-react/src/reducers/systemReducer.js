@@ -7,7 +7,6 @@ import {
   USER
 } from '@doombox/utils/types';
 import {
-  CREATE,
   DELETE,
   READ
 } from '@doombox/utils/types/crudTypes';
@@ -19,7 +18,7 @@ import {
 
 const initialState = {
   pendingCache: false,
-  connectedCache: false,
+  errorCache: false,
   pendingRemote: false,
   connectedRemote: false,
 };
@@ -28,19 +27,14 @@ export const systemReducer = handleActions({
   [create([PENDING, READ, USER_CACHE])]:
     state => ({
       ...state,
-      pendingCache: true
+      pendingCache: true,
+      errorCache: false
     }),
   [create([ERROR, READ, USER_CACHE])]:
     state => ({
       ...state,
       pendingCache: false,
-      connectedCache: false
-    }),
-  [create([SUCCESS, READ, USER_CACHE])]:
-    state => ({
-      ...state,
-      pendingCache: false,
-      connectedCache: true
+      errorCache: true
     }),
   [create([SUCCESS, DELETE, USER])]: () => initialState
 }, initialState);

@@ -27,7 +27,9 @@
     "slogan": "مجموعتك، طريقتك",
     "online": "متصل",
     "offline": "غير متصل",
-    "myProfile": "ملفي الشخصي"
+    "myProfile": "ملفي الشخصي",
+    "github": "",
+    "twitter": ""
   },
   "title": {
     "createProfile": "ملف شخصي جديد",
@@ -36,7 +38,8 @@
     "deleteProfile": "حذف الملف الشخصي",
     "updateProfile": "تحديث الملف الشخصي",
     "areYouSure": "هل أنت متأكد؟",
-    "updateConnection": "تحديث الإتصال"
+    "updateConnection": "تحديث الإتصال",
+    "contact": ""
   },
   "description": {
     "remote": "استخدام إتصال عن بعد",

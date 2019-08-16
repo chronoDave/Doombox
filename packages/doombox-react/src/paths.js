@@ -1,9 +1,4 @@
-export const homePath = '/';
-export const settingsPath = '/settings';
-
-// Connection paths
-export const loadingPath = '/loading';
-export const offlinePath = '/error';
-
-// Create paths
-export const createProfilePath = '/createProfile';
+export const HOME_PATH = '/home';
+export const SETTINGS_PATH = '/settings';
+export const OFFLINE_PATH = '/offline';
+export const CREATE_PATH = '/create';

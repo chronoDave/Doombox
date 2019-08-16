@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -16,16 +16,15 @@ import {
   ListItem,
   ListItemIcon,
   ListSubheader,
-  ListItemSecondaryAction,
   ListItemText
 } from '@material-ui/core';
-
-import { Button } from '../../../components/Button';
-import { DialogUpdateConnection } from '../../../components/Dialog';
 
 // Api
 import { scanLibrary } from '../../../api/libraryApi';
 import { updateUser } from '../../../api/userApi';
+
+// Validation
+import { propUser } from '../../../validation/propTypes';
 
 // Utils
 import { selectFolder } from '../../../utils';
@@ -38,7 +37,6 @@ const ConnectionsView = props => {
     scanning
   } = props;
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
 
   const handleFolderSelect = async () => {
     const path = await selectFolder();
@@ -101,7 +99,10 @@ const ConnectionsView = props => {
 };
 
 ConnectionsView.propTypes = {
-  user: PropTypes.object.isRequired
+  user: propUser.isRequired,
+  updateLibrary: PropTypes.func.isRequired,
+  updateConnections: PropTypes.func.isRequired,
+  scanning: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({

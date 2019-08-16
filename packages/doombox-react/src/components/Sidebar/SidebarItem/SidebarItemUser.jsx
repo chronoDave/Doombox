@@ -1,29 +1,29 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Icon
-import IconPerson from '@material-ui/icons/Person';
 import IconSettings from '@material-ui/icons/Settings';
 
 // Core
 import {
-  Avatar,
   Box,
   IconButton
 } from '@material-ui/core';
 
+import { Avatar } from '../../Avatar';
 import { Typography } from '../../Typography';
+import { useRouter } from '../../Router';
 
-// Utils
-import { settingsPath } from '../../../paths';
+// Paths
+import { SETTINGS_PATH } from '../../../paths';
 
 // Style
 import { useSidebarItemStyle } from './SidebarItem.style';
 
-const SidebarItemUser = ({ profile, pending }) => {
+const SidebarItemUser = ({ username }) => {
   const classes = useSidebarItemStyle();
+  const { setPath } = useRouter();
 
   return (
     <Fragment>
@@ -32,12 +32,7 @@ const SidebarItemUser = ({ profile, pending }) => {
         display="flex"
         alignItems="center"
       >
-        <Avatar
-          src={(!pending && profile.avatar) ? profile.avatar.path : null}
-          classes={{ root: classes.avatar }}
-        >
-          {(pending || !profile.avatar) ? <IconPerson /> : null}
-        </Avatar>
+        <Avatar />
         <Box
           display="flex"
           flexDirection="column"
@@ -46,13 +41,12 @@ const SidebarItemUser = ({ profile, pending }) => {
           ml={1}
         >
           <Typography noWrap variant="body2">
-            {profile.username || ''}
+            {username || ''}
           </Typography>
         </Box>
         <IconButton
-          component={RouterLink}
           classes={{ root: classes.iconSmall }}
-          to={settingsPath}
+          onClick={() => setPath(SETTINGS_PATH)}
         >
           <IconSettings />
         </IconButton>
@@ -62,13 +56,11 @@ const SidebarItemUser = ({ profile, pending }) => {
 };
 
 SidebarItemUser.propTypes = {
-  profile: PropTypes.object.isRequired,
-  pending: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile.user,
-  pending: state.profile.pending
+  username: state.profile.user.username
 });
 
 export default connect(

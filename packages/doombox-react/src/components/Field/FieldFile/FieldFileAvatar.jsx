@@ -4,7 +4,6 @@ import { Field } from 'formik';
 
 // Icon
 import IconAddImage from '@material-ui/icons/AddPhotoAlternate';
-import IconPerson from '@material-ui/icons/Person';
 import IconCancel from '@material-ui/icons/Close';
 
 // Core
@@ -44,10 +43,7 @@ const FieldFileAvatar = ({ id }) => {
                 classes={{ root: classes.fieldFileAvatar }}
                 onClick={onClick}
               >
-                <Avatar
-                  path={value ? value.path : null}
-                  fallback={<IconPerson fontSize="large" />}
-                />
+                <Avatar src={value ? value.path : null} size="large" />
               </IconButton>
             </div>
           )}

@@ -18,14 +18,13 @@ import { updateUser } from '../../api/userApi';
 
 // Validation
 import { schemaUpdateUser } from '../../validation/schema';
+import { propUser } from '../../validation/propTypes';
 
 const FormUpdateProfile = props => {
   const {
-    initialValues: {
-      avatar,
-      language,
-      username,
-      _id
+    profile: {
+      _id,
+      ...rest
     },
     onCancel,
     updateProfile,
@@ -35,11 +34,7 @@ const FormUpdateProfile = props => {
 
   return (
     <Formik
-      initialValues={{
-        avatar,
-        language,
-        username
-      }}
+      initialValues={{ ...rest }}
       validationSchema={schemaUpdateUser}
       onSubmit={values => {
         updateProfile(_id, values);
@@ -53,7 +48,7 @@ const FormUpdateProfile = props => {
         </Box>
         <Box pb={1} pt={3} display="flex" justifyContent="flex-end">
           <Button
-            BoxProps={{ p: 1 }}
+            p={1}
             onClick={onCancel}
             variant="outlined"
             color="error"
@@ -61,7 +56,8 @@ const FormUpdateProfile = props => {
             {t('cancel')}
           </Button>
           <Button
-            BoxProps={{ p: 1, pr: 0 }}
+            p={1}
+            pr={0}
             variant="contained"
             color="success"
             loading={pending}
@@ -76,13 +72,14 @@ const FormUpdateProfile = props => {
 };
 
 FormUpdateProfile.propTypes = {
-  initialValues: PropTypes.object.isRequired,
+  profile: propUser.isRequired,
   onCancel: PropTypes.func.isRequired,
   pending: PropTypes.bool.isRequired,
   updateProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
+  profile: state.profile.user,
   error: state.profile.error,
   pending: state.profile.pending
 });

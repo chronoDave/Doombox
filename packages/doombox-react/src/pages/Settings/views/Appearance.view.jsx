@@ -20,6 +20,9 @@ import { Button } from '../../../components/Button';
 // Actions
 import { updateUser } from '../../../api/userApi';
 
+// Validation
+import { propImage } from '../../../validation/propTypes';
+
 // Utils
 import { normalizeUrl } from '../../../utils';
 
@@ -91,7 +94,7 @@ const AppearanceView = props => {
 
 AppearanceView.propTypes = {
   id: PropTypes.string.isRequired,
-  background: PropTypes.object,
+  background: propImage,
   loading: PropTypes.bool.isRequired,
   updateBackground: PropTypes.func.isRequired,
   clearBackground: PropTypes.func.isRequired,

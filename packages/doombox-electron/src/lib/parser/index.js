@@ -1,7 +1,4 @@
 const fs = require('fs');
-const path = require('path');
-const { app } = require('electron');
-const mkdirp = require('mkdirp');
 
 // Utils
 const {

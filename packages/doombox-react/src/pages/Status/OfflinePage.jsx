@@ -46,7 +46,7 @@ const OfflinePage = ({ error: { name, address } }) => {
             <Button
               color="error"
               variant="outlined"
-              BoxProps={{ mr: 1 }}
+              mr={1}
               onClick={() => setOpen(true)}
             >
               {t('edit', { context: 'connection' })}
@@ -55,7 +55,7 @@ const OfflinePage = ({ error: { name, address } }) => {
               color="primary"
               variant="contained"
               onClick={() => window.location.reload(true)}
-              BoxProps={{ ml: 1 }}
+              ml={1}
             >
               {t('retry')}
             </Button>

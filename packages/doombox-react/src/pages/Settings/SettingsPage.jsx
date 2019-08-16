@@ -1,16 +1,14 @@
-import React, { useState, createElement } from 'react';
+import React, {
+  useState,
+  useEffect,
+  createElement
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
 
 // Icons
 import IconClose from '@material-ui/icons/Cancel';
 
 // Core
-import {
-  withTheme,
-  fade
-} from '@material-ui/core/styles';
 import {
   Box,
   IconButton
@@ -19,19 +17,37 @@ import {
 import { Main } from '../../components/Main';
 import { Typography } from '../../components/Typography';
 import { List } from '../../components/List';
+import { useRouter } from '../../components/Router';
+import { BackgroundFade } from '../../components/Background';
+
+// Paths
+import { HOME_PATH } from '../../paths';
 
 // Views
 import * as Views from './views';
 
-// Utils
-import { homePath } from '../../paths';
-
-const SettingsPage = ({ theme }) => {
+const SettingsPage = () => {
   const { t } = useTranslation();
   const [view, setView] = useState('myProfile');
+  const { setPath } = useRouter();
+
+  useEffect(() => {
+    const handleExit = event => {
+      // Escape
+      if (event.keyCode === 27) {
+        setPath(HOME_PATH);
+      }
+    };
+
+    document.addEventListener('keydown', handleExit);
+
+    // Cleanup
+    return () => document.removeEventListener('keydown', handleExit);
+  }, []);
 
   return (
     <Main>
+      <BackgroundFade />
       <Box
         width="100%"
         height="100%"
@@ -43,7 +59,6 @@ const SettingsPage = ({ theme }) => {
           p={4}
           display="flex"
           flexGrow={1}
-          bgcolor={fade(theme.palette.grey[300], 0.66)}
         >
           <List
             active={view}
@@ -73,9 +88,8 @@ const SettingsPage = ({ theme }) => {
             alignItems="flex-start"
           >
             <IconButton
-              component={RouterLink}
-              to={homePath}
               color="inherit"
+              onClick={() => setPath(HOME_PATH)}
             >
               <IconClose />
             </IconButton>
@@ -86,8 +100,4 @@ const SettingsPage = ({ theme }) => {
   );
 };
 
-SettingsPage.propTypes = {
-  theme: PropTypes.object.isRequired
-};
-
-export default withTheme(SettingsPage);
+export default SettingsPage;

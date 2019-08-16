@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-// Icon
-import IconPerson from '@material-ui/icons/Person';
-
 // Core
 import {
   Card,
@@ -13,9 +10,9 @@ import {
 } from '@material-ui/core';
 
 import { Typography } from '../../../components/Typography';
-import { Avatar } from '../../../components/Avatar';
 import { Button } from '../../../components/Button';
 import { Divider } from '../../../components/Divider';
+import { Avatar } from '../../../components/Avatar';
 import {
   DialogUpdateProfile,
   DialogConfirmation
@@ -23,6 +20,9 @@ import {
 
 // Actions
 import { deleteUser } from '../../../api/userApi';
+
+// Validation
+import { propUser } from '../../../validation/propTypes';
 
 const MyProfileView = ({ user, deleteProfile, pending }) => {
   const { t } = useTranslation();
@@ -37,10 +37,7 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
           alignItems="center"
           p={2}
         >
-          <Avatar
-            path={user.avatar ? user.avatar.path : null}
-            fallback={<IconPerson />}
-          />
+          <Avatar size="large" />
           <Box pt={1}>
             <Typography variant="h6" align="center">
               {user.username || ''}
@@ -51,7 +48,7 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
             variant="contained"
             color="primary"
             fullWidth
-            BoxProps={{ pb: 1.5 }}
+            mb={1.5}
             onClick={() => setOpen('updateProfile')}
           >
             {t('edit')}
@@ -70,7 +67,6 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
         open={open === 'updateProfile'}
         onClose={() => setOpen(null)}
         onCancel={() => setOpen(null)}
-        initialValues={user}
       />
       <DialogConfirmation
         open={open === 'deleteProfile'}
@@ -93,7 +89,7 @@ const MyProfileView = ({ user, deleteProfile, pending }) => {
 };
 
 MyProfileView.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: propUser.isRequired,
   pending: PropTypes.bool.isRequired,
   deleteProfile: PropTypes.func.isRequired
 };

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 // Types
 import {
   USER,
@@ -13,7 +15,14 @@ import {
 // Utils
 import { createListener } from '../utils';
 
+// Actions
+import { getCachedProfile } from '../api/userApi';
+
 export const useSubscribeUser = () => {
+  useEffect(() => {
+    getCachedProfile();
+  }, []);
+
   createListener([CREATE, USER]);
   createListener([READ, USER_CACHE]);
   createListener([UPDATE, USER]);
