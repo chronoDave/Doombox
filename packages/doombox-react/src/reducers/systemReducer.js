@@ -1,4 +1,7 @@
-import { handleActions } from 'redux-actions';
+import {
+  combineActions,
+  handleActions
+} from 'redux-actions';
 
 // Types
 import {
@@ -7,8 +10,9 @@ import {
   USER
 } from '@doombox/utils/types';
 import {
-  DELETE,
-  READ
+  CREATE,
+  READ,
+  DELETE
 } from '@doombox/utils/types/crudTypes';
 import {
   PENDING,
@@ -17,24 +21,28 @@ import {
 } from '@doombox/utils/types/asyncTypes';
 
 const initialState = {
-  pendingCache: false,
-  errorCache: false,
-  pendingRemote: false,
-  connectedRemote: false,
+  connected: false,
+  pending: false,
+  error: null
 };
 
 export const systemReducer = handleActions({
   [create([PENDING, READ, USER_CACHE])]:
     state => ({
       ...state,
-      pendingCache: true,
-      errorCache: false
+      pending: true
     }),
-  [create([ERROR, READ, USER_CACHE])]:
+  [combineActions(
+    create([ERROR, READ, USER_CACHE]),
+    create([PENDING, DELETE, USER])
+  )]: () => initialState,
+  [combineActions(
+    create([SUCCESS, READ, USER_CACHE]),
+    create([SUCCESS, CREATE, USER])
+  )]:
     state => ({
       ...state,
-      pendingCache: false,
-      errorCache: true
+      pending: false,
+      connected: true
     }),
-  [create([SUCCESS, DELETE, USER])]: () => initialState
 }, initialState);

@@ -2,6 +2,7 @@
 export { default as AlbumView } from './main/Album.view';
 export { default as LabelView } from './main/Label.view';
 export { default as SongView } from './main/Song.view';
+export { default as LoadingView } from './main/Loading.view';
 
 // Settings
 export { default as ProfileView } from './settings/Profile.view';

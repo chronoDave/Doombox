@@ -1,4 +1,6 @@
 import React, { createElement } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Core
 import { useRoute } from '../components/Router';
@@ -9,14 +11,31 @@ import * as Views from './views';
 // Template
 import { MainTemplate } from './templates';
 
-const HomePage = () => {
+// Hooks
+import { useSubscribeLibrary } from '../hooks';
+
+const HomePage = ({ loading }) => {
   const { view } = useRoute();
+  useSubscribeLibrary();
 
   return (
     <MainTemplate>
-      {createElement(Views[`${view}View`])}
+      {loading ?
+        <Views.LoadingView /> :
+        createElement(Views[`${view}View`])
+      }
     </MainTemplate>
   );
 };
 
-export default HomePage;
+HomePage.propTypes = {
+  loading: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+  loading: state.library.pending
+});
+
+export default connect(
+  mapStateToProps
+)(HomePage);

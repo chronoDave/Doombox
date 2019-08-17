@@ -30,7 +30,8 @@
     "remote_connections": "Remote connections",
     "library": "Library",
     "github": "GitHub",
-    "twitter": "Twitter"
+    "twitter": "Twitter",
+    "playing": "Playing"
   },
   "title": {
     "createProfile": "Create Profile",

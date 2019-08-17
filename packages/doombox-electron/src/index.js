@@ -8,6 +8,7 @@ const Store = require('./lib/store');
 // const { systemRouter, systemCleanup } = require('./modules/system');
 const { userRouter, userCleanup } = require('./modules/user');
 const { libraryRouter, libraryCleanup } = require('./modules/library');
+const { imageRouter, imageCleanup } = require('./modules/image');
 
 const store = new Store({
   configName: 'user-preferences',
@@ -28,6 +29,7 @@ app.on('ready', () => {
   // systemRouter(store);
   userRouter(store);
   libraryRouter(store);
+  imageRouter();
 
   // Main
   const mainWindow = createWindow({ width, height });
@@ -44,5 +46,6 @@ app.on('window-all-closed', () => {
   // systemCleanup();
   userCleanup();
   libraryCleanup();
+  imageCleanup();
   app.quit();
 });

@@ -13,5 +13,12 @@ export const useSidebarStyle = makeStyles(theme => ({
     bottom: 0,
     height: 60,
     width: theme.component.sidebar,
+  },
+  icon: {
+    color: theme.palette.grey[50]
+  },
+  button: {
+    padding: theme.spacing(),
+    color: theme.palette.grey[50]
   }
 }));

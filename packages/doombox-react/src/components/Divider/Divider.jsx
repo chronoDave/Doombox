@@ -10,7 +10,6 @@ const Divider = ({ ...rest }) => (
   <Box
     width="100%"
     my={1}
-    bgcolor="grey.200"
     {...rest}
   >
     <MuiDivder />

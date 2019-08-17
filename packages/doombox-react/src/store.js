@@ -22,8 +22,8 @@ const middleware = [
 
 export const store = createStore(
   combineReducers({
-    profile: profileReducer,
     system: systemReducer,
+    profile: profileReducer,
     library: libraryReducer
   }),
   compose(applyMiddleware(...middleware))

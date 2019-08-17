@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Core
 import {
@@ -7,16 +8,20 @@ import {
 } from '@material-ui/core';
 
 import { Logo } from '../Logo';
-import { Typography } from '../Typography';
 import { Divider } from '../Divider';
+import { Collapse } from '../Collapse';
+
 import SidebarProfile from './SidebarProfile';
-import SidebarPlayer from './SidebarPlayer';
+import SidebarPlayer from './SidebarPlayer/SidebarPlayer';
+import SidebarButtons from './SidebarButtons';
+import SidebarVolume from './SidebarVolume';
 
 // Style
 import { useSidebarStyle } from './Sidebar.style';
 
 const Sidebar = memo(() => {
   const classes = useSidebarStyle();
+  const { t } = useTranslation();
 
   return (
     <Drawer
@@ -38,11 +43,25 @@ const Sidebar = memo(() => {
           flexGrow={1}
           height="100vh"
         >
-          <Logo />
-          <Typography variant="h6">Doombox</Typography>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            pb={1.5}
+          >
+            <Logo />
+          </Box>
+          <Collapse
+            title={t('playing')}
+            defaultExpanded
+          >
+            <SidebarPlayer />
+          </Collapse>
+          <SidebarButtons mt={1} />
+          <Divider />
+          <SidebarVolume />
           <Divider />
         </Box>
-        <SidebarPlayer />
         <Box p={1} bgcolor="grey.500">
           <SidebarProfile />
         </Box>

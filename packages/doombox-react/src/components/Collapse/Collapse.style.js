@@ -5,11 +5,16 @@ export const useCollapseStyle = makeStyles(theme => ({
     width: '100%',
     boxShadow: 'none',
     backgroundColor: 'initial',
-    margin: '0 !important'
+    margin: '0 !important',
+    '&::before': {
+      display: 'none'
+    }
   },
   expansionPanelSummaryRoot: {
     padding: theme.spacing(1),
-    minHeight: 0
+    minHeight: 0,
+    borderTop: theme.border(theme.palette.divider),
+    borderBottom: theme.border(theme.palette.divider)
   },
   expansionPanelSummaryExpandIcon: {
     padding: 0,

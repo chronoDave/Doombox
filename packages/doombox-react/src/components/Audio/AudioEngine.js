@@ -16,6 +16,7 @@ export class AudioEngine extends EventEmitter {
     this.playlist = [];
     this.index = 0;
     this.state = AUDIO.STOPPED;
+    this.volume = 100;
   }
 
   sanitize(index) {
@@ -63,11 +64,6 @@ export class AudioEngine extends EventEmitter {
   }
 
   play(index = this.index) {
-    const emitPosition = () => {
-      const position = this.song.seek() || 0;
-      this.emit('position', position);
-    };
-
     if (this.state === AUDIO.PAUSED) {
       this.song.play();
       this.state = AUDIO.PLAYING;
@@ -75,37 +71,78 @@ export class AudioEngine extends EventEmitter {
     } else {
       if (this.song) this.song.unload();
       if (this.state !== AUDIO.PLAYING) this.state = AUDIO.PLAYING;
-      this.emit('current', this.playlist[index]);
 
       this.song = new Howl({
         src: this.playlist[index].path,
         html5: true,
+        volume: this.volume / 100,
         autoplay: true,
         onload: () => {
           this.index = index;
+          this.emit('duration', this.song.duration());
         },
         onend: () => {
-          clearInterval(emitPosition);
           this.skip('next');
         },
         onplay: () => {
-          setInterval(emitPosition, 500);
           this.emit('state', this.state);
+          this.emit('current', this.playlist[index]);
+
+          requestAnimationFrame(this.step.bind(this));
+        },
+        onmute: () => {
+          this.emit('mute', this.song.mute());
         }
       });
     }
   }
 
+  requestFrame() {
+    if (this.song && this.song.playing()) requestAnimationFrame(this.step.bind(this));
+  }
+
+  seek(position) {
+    if (this.song) {
+      this.song.seek(position);
+      this.emit('position', position);
+    }
+  }
+
+  step() {
+    if (this.song) {
+      const position = this.song.seek() || 0;
+      this.emit('position', position);
+      if (this.song.playing()) requestAnimationFrame(this.step.bind(this));
+    }
+  }
+
   pause() {
-    this.song.pause();
-    this.state = AUDIO.PAUSED;
-    this.emit('state', this.state);
+    if (this.song) {
+      this.song.pause();
+      this.state = AUDIO.PAUSED;
+      this.emit('state', this.state);
+    }
   }
 
   stop() {
-    if (this.song) this.song.unload();
+    Howler.unload();
+    this.song = null;
     this.playlist = [];
     this.state = AUDIO.STOPPED;
     this.emit('state', this.state);
+  }
+
+  mute() {
+    if (this.song) {
+      this.song.mute(!this.song.mute());
+    }
+  }
+
+  setVolume(volume) {
+    this.volume = volume;
+    if (this.song) {
+      this.song.volume(volume / 100);
+      this.emit('volume', this.volume);
+    }
   }
 }

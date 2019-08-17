@@ -28,7 +28,8 @@
     "online": "متصل",
     "offline": "غير متصل",
     "github": "",
-    "twitter": ""
+    "twitter": "",
+    "playing": ""
   },
   "title": {
     "createProfile": "ملف شخصي جديد",

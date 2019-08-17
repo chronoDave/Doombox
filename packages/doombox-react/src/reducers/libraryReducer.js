@@ -8,14 +8,16 @@ import {
 } from '@doombox/utils/types/asyncTypes';
 import {
   CREATE,
-  READ
+  READ,
+  DELETE
 } from '@doombox/utils/types/crudTypes';
 import {
   create,
-  LIBRARY
+  LIBRARY,
+  USER
 } from '@doombox/utils/types';
 
-const intialState = {
+const initialState = {
   pending: false,
   error: false,
   collection: []
@@ -48,5 +50,6 @@ export const libraryReducer = handleActions({
       ...state,
       pending: false,
       collection: action.payload
-    })
-}, intialState);
+    }),
+  [create([SUCCESS, DELETE, USER])]: () => initialState
+}, initialState);

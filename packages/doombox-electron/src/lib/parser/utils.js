@@ -76,7 +76,16 @@ const createImage = (image, id) => new Promise(resolve => {
       fs.writeFile(file, buffer, async writeErr => {
         if (writeErr) resolve(null);
 
-        await nebdController.create('images', { _id, format, ...rest }, false);
+        await nebdController.create(
+          'images',
+          {
+            _id,
+            format,
+            file,
+            ...rest
+          },
+          false
+        );
 
         resolve(_id);
       });

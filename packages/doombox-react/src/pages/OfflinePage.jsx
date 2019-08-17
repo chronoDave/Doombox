@@ -11,7 +11,7 @@ import { Typography } from '../components/Typography';
 import { Button } from '../components/Button';
 import { DialogUpdateConnection } from '../components/Dialog';
 
-const OfflinePage = ({ error: { name, address } }) => {
+const OfflinePage = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -33,14 +33,14 @@ const OfflinePage = ({ error: { name, address } }) => {
               {t('error:mongodb', { context: 'connection' })}
             </Typography>
             <Typography color="grey.100">
-              {name}
+              -
             </Typography>
           </Box>
           <Typography align="center">
             {t('error:mongodb', { context: 'connectionWhy' })}
           </Typography>
           <Typography align="center">
-            <strong>{address}</strong>
+            -
           </Typography>
           <Box display="flex" justifyContent="center" pt={4}>
             <Button
@@ -62,32 +62,14 @@ const OfflinePage = ({ error: { name, address } }) => {
           </Box>
         </Box>
       </Box>
-      <DialogUpdateConnection
+      {/* <DialogUpdateConnection
         onCancel={() => setOpen(false)}
         onClose={() => setOpen(false)}
         disableBackdropClick
         address={address}
         open={open}
-      />
+      /> */}
     </Fragment>
   );
 };
-
-OfflinePage.propTypes = {
-  error: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.object
-  ])
-};
-
-OfflinePage.defaultProps = {
-  error: null
-};
-
-const mapStateToProps = state => ({
-  error: state.system.error
-});
-
-export default connect(
-  mapStateToProps
-)(OfflinePage);
+export default OfflinePage;

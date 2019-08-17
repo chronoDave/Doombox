@@ -6,6 +6,16 @@ import * as Colors from './colors';
 
 export const theme = createMuiTheme({
   overrides: {
+    MuiDrawer: {
+      paperAnchorDockedLeft: {
+        borderRight: 'initial'
+      }
+    },
+    MuiLinearProgress: {
+      root: {
+        width: '100%'
+      }
+    },
     MuiListItemIcon: {
       root: {
         color: Colors.GREY[50]
@@ -50,6 +60,7 @@ export const theme = createMuiTheme({
       default: Colors.GREY[400],
       paper: Colors.GREY[600]
     },
+    divider: fade(Colors.GREY[200], 0.23),
     error: Colors.ERROR,
     warning: Colors.WARNING,
     success: Colors.SUCCESS,

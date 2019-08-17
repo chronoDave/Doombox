@@ -44,7 +44,7 @@ const SidebarProfile = ({ username }) => {
         </Typography>
       </Box>
       <IconButton
-        classes={{ root: classes.iconSmall }}
+        classes={{ root: classes.icon }}
         onClick={() => setView(VIEWS.PROFILE)}
       >
         <IconSettings />

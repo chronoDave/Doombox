@@ -30,7 +30,8 @@
     "remote_connections": "Externe verbindingen",
     "library": "Bibliotheek",
     "github": "GitHub",
-    "twitter": "Twitter"
+    "twitter": "Twitter",
+    "playing": "Aan het spelen"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",

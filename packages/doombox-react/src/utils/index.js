@@ -18,6 +18,15 @@ export const shuffleArray = array => array
   .map(a => [Math.random(), a])
   .sort((a, b) => a[0] - b[0])
   .map(a => a[1]);
+export const formatTime = time => {
+  const zeroPadding = i => (i < 10 ? `0${i}` : i);
+
+  const seconds = zeroPadding(Math.floor(time % 60));
+  const minutes = zeroPadding(Math.floor((time / 60) % 60));
+  const hours = zeroPadding(Math.floor((time / 3600) % 24));
+
+  return `${hours === '00' ? '' : `${hours}:`}${minutes}:${seconds}`;
+};
 
 // Locale
 export const languages = [

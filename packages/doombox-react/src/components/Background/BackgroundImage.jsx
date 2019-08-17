@@ -21,11 +21,12 @@ const BackgroundImage = ({ children, user }) => {
 
 BackgroundImage.propTypes = {
   children: PropTypes.node,
-  user: propUser.isRequired
+  user: propUser
 };
 
 BackgroundImage.defaultProps = {
-  children: null
+  children: null,
+  user: null
 };
 
 const mapStateToProps = state => ({
