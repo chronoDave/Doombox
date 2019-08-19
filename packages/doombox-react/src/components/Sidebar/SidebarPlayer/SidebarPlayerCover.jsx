@@ -8,9 +8,6 @@ import { Box } from '@material-ui/core';
 
 import { useAudio } from '../../Audio';
 
-// Utils
-import { normalizeUrl } from '../../../utils';
-
 const SidebarPlayerCover = () => {
   const { image } = useAudio();
 
@@ -29,7 +26,7 @@ const SidebarPlayerCover = () => {
         <img
           width={60}
           height={60}
-          src={image.file ? normalizeUrl(image.file) : null}
+          src={image.file ? `file://${image.file}` : null}
           alt="Album cover"
         />
       ) : (

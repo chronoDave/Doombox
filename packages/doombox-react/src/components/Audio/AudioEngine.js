@@ -73,7 +73,7 @@ export class AudioEngine extends EventEmitter {
       if (this.state !== AUDIO.PLAYING) this.state = AUDIO.PLAYING;
 
       this.song = new Howl({
-        src: this.playlist[index].path,
+        src: `file://${this.playlist[index].path}`,
         html5: true,
         volume: this.volume / 100,
         autoplay: true,

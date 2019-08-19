@@ -11,17 +11,14 @@ import { Avatar as MuiAvatar } from '@material-ui/core';
 // Validation
 import { propImage } from '../../validation/propTypes';
 
-// Utils
-import { normalizeUrl } from '../../utils';
-
 // Styles
 import { useAvatarStyle } from './Avatar.style';
 
 const Avatar = ({ src, size, avatar }) => {
   const classes = useAvatarStyle();
   const getSource = () => {
-    if (src) return normalizeUrl(src);
-    if (avatar && avatar.path) return normalizeUrl(avatar.path);
+    if (src) return src;
+    if (avatar && avatar.path) return `file://${avatar.path}`;
     return null;
   };
 

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import path from 'path';
 
 // Core
 import { Box } from '@material-ui/core';
+
+// Util
+import { cleanUrl } from '../../../utils';
 
 // Style
 import { useFieldFileStyle } from './FieldFile.style';
@@ -42,7 +44,7 @@ const FieldFileBase = props => {
             lastModified: event.currentTarget.files[0].lastModified,
             lastModifiedDate: event.currentTarget.files[0].lastModifiedDate,
             name: event.currentTarget.files[0].name,
-            path: path.normalize(event.currentTarget.files[0].path),
+            path: cleanUrl(event.currentTarget.files[0].path),
             size: event.currentTarget.files[0].size,
             type: event.currentTarget.files[0].type,
           }
