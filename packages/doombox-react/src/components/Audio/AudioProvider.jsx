@@ -13,18 +13,30 @@ import {
   SUCCESS
 } from '@doombox/utils/types/asyncTypes';
 
-// Context
+// Audio
 import { AudioContext } from './AudioContext';
-
-// Engine
 import { AudioEngine } from './AudioEngine';
 
 // Api
 import { fetchImage } from '../../api/imageApi';
 
+// Utils
+import { localToRemoteUrl } from '../../utils';
+
 const { ipcRenderer } = window.require('electron');
 
 const Audio = new AudioEngine();
+
+// Media session
+if ('mediaSession' in navigator) {
+  // eslint-disable-next-line no-undef
+  navigator.mediaSession.metadata = new MediaMetadata({});
+
+  navigator.mediaSession.setActionHandler('play', () => Audio.play());
+  navigator.mediaSession.setActionHandler('pause', () => Audio.pause());
+  navigator.mediaSession.setActionHandler('previoustrack', () => Audio.skip('prev'));
+  navigator.mediaSession.setActionHandler('nexttrack', () => Audio.skip('next'));
+}
 
 const AudioProvider = ({ children, connected }) => {
   const [state, setState] = useState(Audio.state);
@@ -32,44 +44,22 @@ const AudioProvider = ({ children, connected }) => {
   const [position, setPosition] = useState(0);
   const [image, setImage] = useState({});
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(100);
-  const [muted, setMuted] = useState(false);
+  const [volume, setVolume] = useState(Audio.volume);
+  const [muted, setMuted] = useState(Audio.muted);
 
   useEffect(() => {
     ipcRenderer.on(
       create([SUCCESS, READ, IMAGE]),
       async (event, payload) => {
         setImage(payload);
-
-        const src = await fetch(payload.file)
-          .then(response => response.blob())
-          .then(blob => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-          }));
+        const src = await localToRemoteUrl(payload.file);
 
         navigator.mediaSession.metadata.artwork = [
           { src, sizes: '128x128' }
         ];
       }
     );
-    ipcRenderer.on(
-      create([ERROR, READ, IMAGE]),
-      () => setImage({})
-    );
-
-    // Media session
-    if ('mediaSession' in navigator) {
-      // eslint-disable-next-line no-undef
-      navigator.mediaSession.metadata = new MediaMetadata({});
-
-      navigator.mediaSession.setActionHandler('play', () => Audio.play());
-      navigator.mediaSession.setActionHandler('pause', () => Audio.pause());
-      navigator.mediaSession.setActionHandler('previoustrack', () => Audio.skip('prev'));
-      navigator.mediaSession.setActionHandler('nexttrack', () => Audio.skip('next'));
-    }
+    ipcRenderer.on(create([ERROR, READ, IMAGE]), () => setImage({}));
 
     // Cleanup
     return () => {
@@ -107,8 +97,9 @@ const AudioProvider = ({ children, connected }) => {
       value={{
         set: playlist => Audio.set(playlist),
         add: playlist => Audio.add(playlist),
-        next: () => Audio.skip('next'),
-        previous: () => Audio.skip('prev'),
+        next: () => Audio.next(),
+        previous: () => Audio.previous(),
+        skipTo: index => Audio.skipTo(index),
         play: index => Audio.play(index),
         pause: () => Audio.pause(),
         stop: () => Audio.stop(),

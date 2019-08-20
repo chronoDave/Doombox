@@ -7,7 +7,9 @@ import { ERROR, SUCCESS } from '@doombox/utils/types/asyncTypes';
 
 // General
 export const isEmptyObj = obj => Object.keys(obj).length === 0;
-export const cleanUrl = url => url.replace(/#/g, '%23').replace(/\\/g, '/');
+export const cleanUrl = url => url
+  .replace(/#/g, '%23')
+  .replace(/\\/g, '/');
 export const getRandomInt = (min, max) => (
   Math.floor(Math.random() * (max - min + 1) + min)
 );
@@ -24,6 +26,16 @@ export const formatTime = time => {
 
   return `${hours === '00' ? '' : `${hours}:`}${minutes}:${seconds}`;
 };
+export const localToRemoteUrl = async url => (
+  new Promise((resolve, reject) => fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    }))
+);
 
 // Locale
 export const languages = [

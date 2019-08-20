@@ -16,16 +16,7 @@ export class AudioEngine extends EventEmitter {
     this.playlist = [];
     this.index = 0;
     this.state = AUDIO.STOPPED;
-    this.volume = 100;
     this.muted = false;
-  }
-
-  sanitize(index) {
-    const { playlist } = this;
-
-    if (index < 0) return playlist.length - 1;
-    if (index > playlist.length - 1) return 0;
-    return index;
   }
 
   set(playlist) {
@@ -41,27 +32,18 @@ export class AudioEngine extends EventEmitter {
     this.play(0);
   }
 
-  /**
-   * Skip to next or previous
-   * @param {String} direction 'next' or 'prev'
-   */
-  skip(direction) {
-    const { index } = this;
+  next() {
+    if (this.index >= this.playlist.length - 1) return this.play(0);
+    return this.play(this.index + 1);
+  }
 
-    switch (direction) {
-      case 'next':
-        if (index >= this.playlist.length - 1) return this.play(0);
-        return this.play(index + 1);
-      case 'prev':
-        if (index <= 0) return this.play(this.playlist.length - 1);
-        return this.play(index - 1);
-      default:
-        throw new Error('Invalid direction');
-    }
+  previous() {
+    if (this.index <= 0) return this.play(this.playlist.length - 1);
+    return this.play(this.index - 1);
   }
 
   skipTo(index) {
-    this.play(this.sanitize(index));
+    this.play(index);
   }
 
   play(index = this.index) {
@@ -83,7 +65,7 @@ export class AudioEngine extends EventEmitter {
           this.emit('duration', this.song.duration());
         },
         onend: () => {
-          this.skip('next');
+          this.next();
         },
         onplay: () => {
           this.emit('state', this.state);
