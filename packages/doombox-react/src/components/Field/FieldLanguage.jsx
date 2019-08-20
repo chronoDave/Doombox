@@ -1,66 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Field } from 'formik';
 
 // Icon
 import IconTranslate from '@material-ui/icons/Translate';
 
 // Core
-import {
-  Box,
-  MenuItem,
-  TextField,
-} from '@material-ui/core';
-
-// Language
-import i18n from '../../locale';
+import FieldSelect from './FieldSelect';
 
 // Utils
 import { languages } from '../../utils';
+import i18n from '../../locale';
 
-// Styles
-import { useFieldStyle } from './Field.style';
-
-const FieldLanguage = ({ id, ...rest }) => {
-  const classes = useFieldStyle();
+const FieldLanguage = ({ id }) => {
   const { t } = useTranslation();
 
+  const options = () => languages.map(language => ({
+    key: language,
+    value: language,
+    t: () => t(language, { lng: language })
+  }));
+
   return (
-    <Field
+    <FieldSelect
+      id={id}
       name="language"
-      render={({
-        field: { name, value },
-        form: { setFieldValue }
-      }) => (
-        <Box width="100%" {...rest}>
-          <TextField
-            select
-            label={t(name)}
-            value={value}
-            inputProps={{ id: `${id}-${name}` }}
-            InputProps={{ startAdornment: <IconTranslate /> }}
-            SelectProps={{ classes: { selectMenu: classes.selectMenu } }}
-            onChange={event => {
-              setFieldValue(name, event.target.value, false);
-              i18n.changeLanguage(event.target.value);
-            }}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          >
-            {languages.map(lang => (
-              <MenuItem
-                key={lang}
-                value={lang}
-                classes={{ root: classes.menuItemRoot }}
-              >
-                {t(lang, { lng: lang })}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-      )}
+      options={options()}
+      InputProps={{ startAdornment: <IconTranslate /> }}
+      effect={event => i18n.changeLanguage(event.target.value)}
     />
   );
 };

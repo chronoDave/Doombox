@@ -14,7 +14,7 @@ import { List } from '../../components/List';
 import { Typography } from '../../components/Typography';
 
 // Const
-import { VIEWS } from '../../const';
+import { VIEWS } from '../../constants';
 
 const SettingsTemplate = ({ children }) => {
   const { view, setView } = useRoute();

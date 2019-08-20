@@ -16,7 +16,7 @@ import { Typography } from '../Typography';
 import { useRoute } from '../Router';
 
 // Const
-import { VIEWS } from '../../const';
+import { VIEWS } from '../../constants';
 
 // Style
 import { useSidebarStyle } from './Sidebar.style';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isWin } from '@doombox/utils';
 
 // Icon
 import IconPerson from '@material-ui/icons/Person';
@@ -14,11 +15,16 @@ import { propImage } from '../../validation/propTypes';
 // Styles
 import { useAvatarStyle } from './Avatar.style';
 
-const Avatar = ({ src, size, avatar }) => {
+const Avatar = ({
+  src,
+  size,
+  avatar,
+  disableFallback
+}) => {
   const classes = useAvatarStyle();
   const getSource = () => {
-    if (src) return src;
-    if (avatar && avatar.path) return `file://${avatar.path}`;
+    if (src) return `${!isWin() ? 'file://' : ''}${src}`;
+    if (!disableFallback && avatar && avatar.path) return `file://${avatar.path}`;
     return null;
   };
 
@@ -34,12 +40,14 @@ const Avatar = ({ src, size, avatar }) => {
 };
 
 Avatar.propTypes = {
+  disableFallback: PropTypes.bool,
   avatar: propImage,
   src: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large'])
 };
 
 Avatar.defaultProps = {
+  disableFallback: false,
   avatar: null,
   src: null,
   size: 'small'

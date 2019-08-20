@@ -48,7 +48,7 @@ const SidebarVolume = () => {
       <Box px={2} width="100%" display="flex" alignItems="center">
         <Slider
           value={muted ? 0 : volume}
-          onChange={(event, newValue) => setVolume(newValue)}
+          onChange={(event, newValue) => !muted && setVolume(newValue)}
           valueLabelDisplay="auto"
         />
       </Box>

@@ -16,7 +16,7 @@ import {
 import * as Pages from '../../pages';
 
 // Const
-import { PATHS } from '../../const';
+import { PATHS } from '../../constants';
 
 // Validation
 import { propUser } from '../../validation/propTypes';

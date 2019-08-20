@@ -2,7 +2,7 @@ import { Howler, Howl } from 'howler';
 import EventEmitter from 'events';
 
 // Const
-import { AUDIO } from '../../const';
+import { AUDIO } from '../../constants';
 
 // Utils
 import { shuffleArray } from '../../utils';
@@ -17,6 +17,7 @@ export class AudioEngine extends EventEmitter {
     this.index = 0;
     this.state = AUDIO.STOPPED;
     this.volume = 100;
+    this.muted = false;
   }
 
   sanitize(index) {
@@ -89,9 +90,6 @@ export class AudioEngine extends EventEmitter {
           this.emit('current', this.playlist[index]);
 
           requestAnimationFrame(this.step.bind(this));
-        },
-        onmute: () => {
-          this.emit('mute', this.song.mute());
         }
       });
     }
@@ -133,16 +131,18 @@ export class AudioEngine extends EventEmitter {
   }
 
   mute() {
+    this.muted = !this.muted;
+    this.emit('mute', this.muted);
     if (this.song) {
-      this.song.mute(!this.song.mute());
+      this.song.mute(this.muted);
     }
   }
 
   setVolume(volume) {
     this.volume = volume;
+    this.emit('volume', this.volume);
     if (this.song) {
       this.song.volume(volume / 100);
-      this.emit('volume', this.volume);
     }
   }
 }

@@ -14,7 +14,7 @@ import { AudioProvider } from './components/Audio';
 import { store } from './store';
 
 // Const
-import { PATHS, VIEWS } from './const';
+import { PATHS, VIEWS } from './constants';
 
 // Style
 import { theme } from './theme';

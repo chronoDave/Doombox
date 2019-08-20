@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'formik';
-
-// Icon
-import IconAddImage from '@material-ui/icons/AddPhotoAlternate';
-import IconCancel from '@material-ui/icons/Close';
+import { useTranslation } from 'react-i18next';
 
 // Core
-import { IconButton } from '@material-ui/core';
+import {
+  Box,
+  IconButton
+} from '@material-ui/core';
 
 import { Avatar } from '../../Avatar';
+import { Button } from '../../Button';
 import FieldFileBase from './FieldFileBase';
 
 // Style
@@ -17,6 +18,7 @@ import { useFieldFileStyle } from './FieldFile.style';
 
 const FieldFileAvatar = ({ id }) => {
   const classes = useFieldFileStyle();
+  const { t } = useTranslation();
 
   return (
     <Field
@@ -32,20 +34,25 @@ const FieldFileAvatar = ({ id }) => {
           type="image"
           validator={['png', 'jpg', 'jpeg', 'gif']}
           render={({ onClick, onClear }) => (
-            <div className={classes.root}>
-              <IconButton
-                classes={{ root: classes.fieldFileIcon }}
-                onClick={value ? onClear : onClick}
-              >
-                {value ? <IconCancel /> : <IconAddImage />}
-              </IconButton>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+            >
               <IconButton
                 classes={{ root: classes.fieldFileAvatar }}
                 onClick={onClick}
               >
-                <Avatar src={value ? value.path : null} size="large" />
+                <Avatar
+                  src={value ? value.path : null}
+                  size="large"
+                  disableFallback
+                />
               </IconButton>
-            </div>
+              <Button onClick={value ? onClear : onClick}>
+                {t(value ? 'remove' : 'add')}
+              </Button>
+            </Box>
           )}
         />
       )}

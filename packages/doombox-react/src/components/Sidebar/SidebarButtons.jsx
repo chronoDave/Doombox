@@ -16,7 +16,7 @@ import {
 import { useAudio } from '../Audio';
 
 // Const
-import { AUDIO } from '../../const';
+import { AUDIO } from '../../constants';
 
 // Style
 import { useSidebarStyle } from './Sidebar.style';
