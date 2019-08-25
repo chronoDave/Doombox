@@ -8,7 +8,12 @@ import {
   Button as MuiButton,
   CircularProgress
 } from '@material-ui/core';
-import { compose, spacing } from '@material-ui/system';
+import {
+  compose,
+  sizing,
+  spacing,
+  flexbox
+} from '@material-ui/system';
 
 // Style
 import { useButtonStyle } from './Button.style';
@@ -42,7 +47,8 @@ const Button = props => {
           lowercase ? classes.lowercase : null,
           classes.variant,
           classes[variant]
-        )
+        ),
+        disabled: classes.disabled
       }}
       {...rest}
     >
@@ -88,4 +94,10 @@ Button.defaultProps = {
   lowercase: false
 };
 
-export default styled(Button)(compose(spacing));
+export default styled(
+  Button
+)(compose(
+  spacing,
+  flexbox,
+  sizing
+));

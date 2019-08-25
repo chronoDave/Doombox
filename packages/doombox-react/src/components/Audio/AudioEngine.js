@@ -64,6 +64,12 @@ export class AudioEngine extends EventEmitter {
           this.index = index;
           this.emit('duration', this.song.duration());
         },
+        onloaderror: () => {
+          this.next();
+        },
+        onplayerror: () => {
+          this.next();
+        },
         onend: () => {
           this.next();
         },

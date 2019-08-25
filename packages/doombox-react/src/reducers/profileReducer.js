@@ -2,20 +2,16 @@ import { handleActions, combineActions } from 'redux-actions';
 
 // Types
 import {
-  PENDING,
-  ERROR,
-  SUCCESS
-} from '@doombox/utils/types/asyncTypes';
-import {
+  create,
+  USER,
+  USER_CACHE,
   CREATE,
   READ,
   UPDATE,
-  DELETE
-} from '@doombox/utils/types/crudTypes';
-import {
-  create,
-  USER,
-  USER_CACHE
+  DELETE,
+  PENDING,
+  ERROR,
+  SUCCESS
 } from '@doombox/utils/types';
 
 const initialState = {

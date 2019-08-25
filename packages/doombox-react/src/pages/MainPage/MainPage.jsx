@@ -3,28 +3,38 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { useRoute } from '../components/Router';
+import {
+  BackgroundFade,
+  BackgroundImage
+} from '../../components/Background';
+import { Sidebar } from '../../components/Sidebar';
+import { useRoute } from '../../components/Router';
 
 // Views
 import * as Views from './views';
 
-// Template
-import { MainTemplate } from './templates';
-
 // Hooks
-import { useSubscribeLibrary } from '../hooks';
+import { useSubscribeLibrary } from '../../hooks';
+
+// Style
+import { useMainPageStyle } from './MainPage.style';
 
 const HomePage = ({ loading }) => {
-  const { view } = useRoute();
   useSubscribeLibrary();
 
+  const { view } = useRoute();
+  const classes = useMainPageStyle();
+
   return (
-    <MainTemplate>
+    <div className={classes.root}>
+      <BackgroundImage />
+      <BackgroundFade />
+      <Sidebar />
       {loading ?
         <Views.LoadingView /> :
         createElement(Views[`${view}View`])
       }
-    </MainTemplate>
+    </div>
   );
 };
 

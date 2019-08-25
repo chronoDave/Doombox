@@ -5,14 +5,14 @@ export const PATHS = {
   CREATE: '/create'
 };
 
-export const VIEWS = {
-  // Main
-  ALBUM: 'Album',
-  // Settings
+export const MAIN_VIEWS = {
+  ALBUM: 'Album'
+};
+
+export const SETTINGS_VIEWS = {
+  PROFILE: 'Profile',
   APPEARANCE: 'Appearance',
-  CONNECTIONS: 'Connections',
-  LANGUAGE: 'Language',
-  PROFILE: 'Profile'
+  DATABASE: 'Database',
 };
 
 export const AUDIO = {

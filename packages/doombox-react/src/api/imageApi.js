@@ -1,10 +1,10 @@
 // Types
 import {
   create,
-  IMAGE
+  IMAGE,
+  PENDING,
+  READ
 } from '@doombox/utils/types';
-import { PENDING } from '@doombox/utils/types/asyncTypes';
-import { READ } from '@doombox/utils/types/crudTypes';
 
 const { ipcRenderer } = window.require('electron');
 

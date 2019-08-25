@@ -14,7 +14,7 @@ import { AudioProvider } from './components/Audio';
 import { store } from './store';
 
 // Const
-import { PATHS, VIEWS } from './constants';
+import { PATHS, MAIN_VIEWS } from './constants';
 
 // Style
 import { theme } from './theme';
@@ -29,7 +29,7 @@ render(
         <CssBaseline>
           <RouteProvider
             path={PATHS.INDEX}
-            view={VIEWS.ALBUM}
+            view={MAIN_VIEWS.ALBUM}
           >
             <App />
           </RouteProvider>

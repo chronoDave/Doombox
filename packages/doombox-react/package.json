@@ -21,7 +21,7 @@
   "scripts": {
     "start": "neutrino start",
     "build": "neutrino build",
-    "build:debug": "cross-env NJS_ENV=debug neutrino build --debug",
+    "build:debug": "cross-env NJS_ENV=debug neutrino build",
     "test": "neutrino test"
   },
   "devDependencies": {

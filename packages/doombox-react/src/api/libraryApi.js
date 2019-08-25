@@ -1,15 +1,11 @@
 // Types
 import {
   create,
-  LIBRARY
-} from '@doombox/utils/types';
-import {
-  PENDING
-} from '@doombox/utils/types/asyncTypes';
-import {
+  LIBRARY,
+  PENDING,
   CREATE,
   READ
-} from '@doombox/utils/types/crudTypes';
+} from '@doombox/utils/types';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -21,5 +17,5 @@ export const scanLibrary = paths => dispatch => {
 };
 
 export const fetchLibrary = () => {
-  ipcRenderer.send(create([PENDING, READ, LIBRARY]));
+  ipcRenderer.send(create([PENDING, READ, LIBRARY]), {});
 };

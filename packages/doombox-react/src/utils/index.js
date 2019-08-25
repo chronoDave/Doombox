@@ -2,8 +2,11 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 // Types
-import { create } from '@doombox/utils/types';
-import { ERROR, SUCCESS } from '@doombox/utils/types/asyncTypes';
+import {
+  create,
+  ERROR,
+  SUCCESS
+} from '@doombox/utils/types';
 
 // General
 export const isEmptyObj = obj => Object.keys(obj).length === 0;

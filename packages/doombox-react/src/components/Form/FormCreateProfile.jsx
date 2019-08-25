@@ -35,7 +35,7 @@ const FormCreateProfile = props => {
         language
       }}
       validationSchema={schemaCreateUser}
-      onSubmit={values => createProfile(values)}
+      onSubmit={createProfile}
     >
       <Form>
         <Box display="flex" flexDirection="column">
@@ -71,7 +71,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createProfile: values => dispatch(createUser(values))
+  createProfile: () => values => dispatch(createUser(values))
 });
 
 export default connect(

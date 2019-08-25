@@ -2,8 +2,10 @@ import { assert } from 'chai';
 
 import {
   isEmptyObj,
-  normalizeUrl,
-  getRandomInt
+  cleanUrl,
+  getRandomInt,
+  shuffleArray,
+  formatTime
 } from '../src/utils';
 
 describe('[utils]', () => {
@@ -16,11 +18,11 @@ describe('[utils]', () => {
     });
   });
 
-  describe('normalizeUrl()', () => {
+  describe('cleanUrl()', () => {
     it('should return a clean url', () => {
-      const dirty = 'D:\\#Dirty\\Path/With/Windows/Strings';
-      const clean = 'D:\\%23Dirty\\Path\\With\\Windows\\Strings';
-      assert.strictEqual(normalizeUrl(dirty), clean);
+      const dirty = 'D:\\#Dirty\\Windows\\Path';
+      const clean = 'D:/%23Dirty/Windows/Path';
+      assert.strictEqual(cleanUrl(dirty), clean);
     });
   });
 
@@ -35,6 +37,25 @@ describe('[utils]', () => {
     it('should return an integer smaller than or equal to `max`', () => {
       const max = 3;
       assert.isAtMost(getRandomInt(1, max), max);
+    });
+  });
+
+  describe('shuffleArray()', () => {
+    it('should shuffle the array', () => {
+      const original = ['a', 'b', 'c', 'd', 'e'];
+      assert.notStrictEqual(shuffleArray(original), original);
+    });
+  });
+
+  describe('formatTime()', () => {
+    it('should convert seconds to minutes', () => {
+      assert.strictEqual(formatTime(3), '00:03');
+      assert.strictEqual(formatTime(30), '00:30');
+      assert.strictEqual(formatTime(60), '01:00');
+      assert.strictEqual(formatTime(600), '10:00');
+    });
+    it('should display hours when time is more than an hour', () => {
+      assert.strictEqual(formatTime(3601), '01:00:01');
     });
   });
 });

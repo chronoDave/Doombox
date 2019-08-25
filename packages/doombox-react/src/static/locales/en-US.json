@@ -31,7 +31,8 @@
     "library": "Library",
     "github": "GitHub",
     "twitter": "Twitter",
-    "playing": "Playing"
+    "playing": "Playing",
+    "database": "Database"
   },
   "title": {
     "createProfile": "Create Profile",

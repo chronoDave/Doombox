@@ -28,6 +28,11 @@ export const useButtonStyle = makeStyles(theme => {
     progressWhite: {
       color: theme.palette.grey[0]
     },
+    disabled: {
+      '&$disabled': {
+        color: getFade(0.26)
+      }
+    },
     variant: {
       color: getColor(),
       '&:hover': {

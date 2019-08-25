@@ -15,10 +15,19 @@ export const useFieldFileStyle = makeStyles(theme => ({
       outline: 'none'
     }
   },
+  fullWidth: {
+    width: '100%'
+  },
   error: {
     color: theme.palette.error.main
   },
   fieldFileAvatar: {
     padding: 0
+  },
+  background: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: theme.shape.borderRadius
   }
 }));

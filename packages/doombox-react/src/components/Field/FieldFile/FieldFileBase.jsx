@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-
-// Core
-import { Box } from '@material-ui/core';
+import { Field } from 'formik';
+import clsx from 'clsx';
 
 // Util
 import { cleanUrl } from '../../../utils';
@@ -12,63 +11,78 @@ import { useFieldFileStyle } from './FieldFile.style';
 
 const FieldFileBase = props => {
   const {
-    id,
+    id: fieldId,
     name,
-    setFieldValue,
     render,
     validator,
-    type,
-    ...rest
+    fullWidth,
+    type
   } = props;
   const classes = useFieldFileStyle();
 
+  const id = `${fieldId}-file-${name}`;
+
   const onClick = () => {
-    const input = document.getElementById(`${id}-select-${name}`);
+    const input = document.getElementById(id);
     input.value = null;
 
     if (input) input.click();
   };
 
-  const onClear = () => setFieldValue(name, null);
-
   return (
-    <Box py={1} {...rest}>
-      <input
-        id={`${id}-select-${name}`}
-        type="file"
-        accept={validator.map(value => `${type ? `${type}/` : ''}${value}`).join(',')}
-        onChange={event => setFieldValue(
-          name,
-          // Cast File object into regular object
-          {
-            lastModified: event.currentTarget.files[0].lastModified,
-            lastModifiedDate: event.currentTarget.files[0].lastModifiedDate,
-            name: event.currentTarget.files[0].name,
-            path: cleanUrl(event.currentTarget.files[0].path),
-            size: event.currentTarget.files[0].size,
-            type: event.currentTarget.files[0].type,
-          }
-        )}
-        className={classes.hidden}
-        tabIndex="-1"
-      />
-      <label
-        className={classes.label}
-        htmlFor={`select-${name}`}
-        tabIndex="-1"
-      >
-        {render({ onClick, onClear })}
-      </label>
-    </Box>
+    <Field
+      name={name}
+      render={({
+        form: {
+          setFieldValue,
+          setFieldTouched
+        }
+      }) => (
+        <Fragment>
+          <input
+            id={id}
+            type="file"
+            accept={validator.map(value => `${type ? `${type}/` : ''}${value}`).join(',')}
+            onChange={event => {
+              setFieldValue(
+                name,
+                // Cast File object into regular object
+                {
+                  lastModified: event.currentTarget.files[0].lastModified,
+                  lastModifiedDate: event.currentTarget.files[0].lastModifiedDate,
+                  name: event.currentTarget.files[0].name,
+                  path: cleanUrl(event.currentTarget.files[0].path),
+                  size: event.currentTarget.files[0].size,
+                  type: event.currentTarget.files[0].type,
+                }
+              );
+              setFieldTouched(name, true);
+            }}
+            className={classes.hidden}
+            tabIndex="-1"
+          />
+          <label
+            className={clsx(
+              classes.label,
+              fullWidth && classes.fullWidth
+            )}
+            htmlFor={`select-${name}`}
+            tabIndex="-1"
+          >
+            {render({ onClick, onClear: () => setFieldValue(name, null) })}
+          </label>
+        </Fragment>
+      )}
+    />
   );
 };
 
 FieldFileBase.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  setFieldValue: PropTypes.func.isRequired,
   validator: PropTypes.arrayOf(PropTypes.string),
   render: PropTypes.func.isRequired,
+  fullWidth: PropTypes.bool,
   type: PropTypes.oneOf([
     'audio',
     'video',
@@ -77,6 +91,7 @@ FieldFileBase.propTypes = {
 };
 
 FieldFileBase.defaultProps = {
+  fullWidth: false,
   validator: [],
   type: null
 };

@@ -11,14 +11,15 @@ export const propImage = PropTypes.shape({
 });
 
 export const propUser = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+  rtl: PropTypes.bool,
   avatar: propImage,
   background: propImage,
-  language: PropTypes.string.isRequired,
   library: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired
   })),
-  username: PropTypes.string.isRequired,
-  _id: PropTypes.string.isRequired
 });
 
 export const propColors = PropTypes.oneOf([

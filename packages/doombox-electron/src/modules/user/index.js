@@ -2,20 +2,16 @@ const { ipcMain } = require('electron');
 
 // Types
 const {
-  ERROR,
-  PENDING,
-  SUCCESS
-} = require('@doombox/utils/types/asyncTypes');
-const {
+  create,
+  USER,
+  USER_CACHE,
   CREATE,
   READ,
   UPDATE,
-  DELETE
-} = require('@doombox/utils/types/crudTypes');
-const {
-  create,
-  USER,
-  USER_CACHE
+  DELETE,
+  ERROR,
+  PENDING,
+  SUCCESS
 } = require('@doombox/utils/types');
 
 // Controller

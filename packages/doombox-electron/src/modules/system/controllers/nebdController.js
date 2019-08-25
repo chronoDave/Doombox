@@ -9,6 +9,7 @@ const readOne = (collection, args) => db.readOne(collection, args);
 const update = (collection, _id, args) => db.update(collection, _id, args);
 const remove = (collection, _id) => db.delete(collection, _id);
 const drop = collection => db.drop(collection);
+const count = (collection, args) => db.count(collection, args);
 
 module.exports = {
   create,
@@ -16,5 +17,6 @@ module.exports = {
   readOne,
   update,
   remove,
-  drop
+  drop,
+  count
 };

@@ -7,18 +7,14 @@ import {
 import {
   create,
   USER_CACHE,
-  USER
-} from '@doombox/utils/types';
-import {
+  USER,
   CREATE,
   READ,
-  DELETE
-} from '@doombox/utils/types/crudTypes';
-import {
+  DELETE,
   PENDING,
   ERROR,
   SUCCESS
-} from '@doombox/utils/types/asyncTypes';
+} from '@doombox/utils/types';
 
 const initialState = {
   connected: false,

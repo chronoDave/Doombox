@@ -1,5 +1,4 @@
 // General
-export { default as FieldConnection } from './FieldConnection';
 export { default as FieldLanguage } from './FieldLanguage';
 export { default as FieldText } from './FieldText';
 export { default as FieldSelect } from './FieldSelect';

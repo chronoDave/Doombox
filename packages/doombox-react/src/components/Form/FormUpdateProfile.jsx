@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -10,11 +10,16 @@ import { Box } from '@material-ui/core';
 import { Button } from '../Button';
 import {
   FieldFileAvatar,
+  FieldLanguage,
   FieldText
 } from '../Field';
+import { DialogConfirmation } from '../Dialog';
 
-// Actions
-import { updateUser } from '../../api/userApi';
+// Api
+import {
+  updateUser,
+  deleteUser
+} from '../../api/userApi';
 
 // Validation
 import { schemaUpdateUser } from '../../validation/schema';
@@ -28,46 +33,78 @@ const FormUpdateProfile = props => {
     },
     onCancel,
     updateProfile,
+    deleteProfile,
     pending
   } = props;
+  const [open, setOpen] = useState(null);
   const { t } = useTranslation();
 
+  const form_id = 'create-profile';
+
   return (
-    <Formik
-      initialValues={{ ...rest }}
-      validationSchema={schemaUpdateUser}
-      onSubmit={values => {
-        updateProfile(_id, values);
-        if (!pending) onCancel();
-      }}
-    >
-      <Form>
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <FieldFileAvatar id="create-profile" />
-          <FieldText id="create-profile" name="username" />
-        </Box>
-        <Box py={1} display="flex" justifyContent="flex-end">
-          <Button
-            m={1}
-            onClick={onCancel}
-            variant="outlined"
-            color="error"
-          >
-            {t('cancel')}
-          </Button>
-          <Button
-            m={1}
-            mr={0}
-            variant="contained"
-            color="success"
-            loading={pending}
-            type="submit"
-          >
-            {t('save')}
-          </Button>
-        </Box>
-      </Form>
-    </Formik>
+    <Fragment>
+      <Formik
+        initialValues={rest}
+        validationSchema={schemaUpdateUser}
+        onSubmit={values => {
+          updateProfile(_id, values);
+          if (!pending) onCancel();
+        }}
+      >
+        <Form>
+          <Box display="flex" alignItems="center">
+            <FieldFileAvatar id={form_id} />
+            <Box
+              display="flex"
+              flexDirection="column"
+              pl={3}
+              flexGrow={1}
+            >
+              <FieldText id={form_id} name="username" />
+              <FieldLanguage id={form_id} />
+              <Box display="flex" justifyContent="space-between" pt={1}>
+                <Button
+                  onClick={() => setOpen('delete')}
+                  alignSelf="flex-start"
+                  color="error"
+                  variant="outlined"
+                >
+                  {t('title:deleteProfile')}
+                </Button>
+                <Box>
+                  <Button mr={2} onClick={onCancel}>
+                    {t('cancel')}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    loading={pending}
+                    type="submit"
+                  >
+                    {t('save')}
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Form>
+      </Formik>
+      <DialogConfirmation
+        open={open === 'delete'}
+        onCancel={() => setOpen(null)}
+        title="title:areYouSure"
+        description="description:deleteProfile"
+      >
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => deleteProfile(_id)}
+          disabled={pending}
+        >
+          {t('delete')}
+        </Button>
+      </DialogConfirmation>
+    </Fragment>
   );
 };
 
@@ -75,6 +112,7 @@ FormUpdateProfile.propTypes = {
   profile: propUser.isRequired,
   onCancel: PropTypes.func.isRequired,
   pending: PropTypes.bool.isRequired,
+  deleteProfile: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired
 };
 
@@ -85,7 +123,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateProfile: (id, values) => dispatch(updateUser(id, values))
+  updateProfile: (id, values) => dispatch(updateUser(id, values)),
+  deleteProfile: id => dispatch(deleteUser(id))
 });
 
 export default connect(

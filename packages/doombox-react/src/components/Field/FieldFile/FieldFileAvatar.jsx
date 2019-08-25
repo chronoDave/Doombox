@@ -23,14 +23,10 @@ const FieldFileAvatar = ({ id }) => {
   return (
     <Field
       name="avatar"
-      render={({
-        field: { name, value },
-        form: { setFieldValue }
-      }) => (
+      render={({ field: { name, value } }) => (
         <FieldFileBase
           id={id}
           name={name}
-          setFieldValue={setFieldValue}
           type="image"
           validator={['png', 'jpg', 'jpeg', 'gif']}
           render={({ onClick, onClear }) => (
@@ -49,7 +45,7 @@ const FieldFileAvatar = ({ id }) => {
                   disableFallback
                 />
               </IconButton>
-              <Button onClick={value ? onClear : onClick}>
+              <Button mt={1} onClick={value ? onClear : onClick}>
                 {t(value ? 'remove' : 'add')}
               </Button>
             </Box>

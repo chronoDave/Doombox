@@ -4,7 +4,9 @@ import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 
 // Icon
-import IconImage from '@material-ui/icons/Image';
+import IconImageAdd from '@material-ui/icons/AddPhotoAlternate';
+import IconHide from '@material-ui/icons/VisibilityOff';
+import IconShow from '@material-ui/icons/RemoveRedEye';
 
 // Core
 import {
@@ -15,67 +17,64 @@ import {
 import FieldFileBase from './FieldFileBase';
 import { Button } from '../../Button';
 
-const FieldFileBackground = props => {
-  const {
-    id,
-    minWidth,
-    minHeight,
-    maxWidth,
-    maxHeight
-  } = props;
+// Style
+import { useFieldFileStyle } from './FieldFile.style';
+
+const FieldFileBackground = ({ id, ...rest }) => {
   const { t } = useTranslation();
+  const classes = useFieldFileStyle();
 
   return (
     <Field
       name="background"
-      render={({
-        field: { name, value },
-        form: { setFieldValue }
-      }) => (
+      render={({ field: { name, value } }) => (
         <FieldFileBase
           id={id}
           name={name}
-          setFieldValue={setFieldValue}
+          fullWidth
           type="image"
           validator={['png', 'jpg', 'jpeg', 'gif']}
           render={({ onClick, onClear }) => (
             <Box
-              bgcolor="grey.500"
-              border={1}
-              borderRadius="borderRadius"
-              borderColor="grey.600"
-              p={2}
-              width="100%"
               display="flex"
               flexDirection="column"
+              alignItems="flex-end"
             >
-              <ButtonBase onClick={onClick}>
+              <ButtonBase
+                classes={{ root: classes.fullWidth }}
+                onClick={onClick}
+              >
                 <Box
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
-                  minWidth={minWidth}
-                  minHeight={minHeight}
-                  maxWidth={maxWidth}
-                  maxHeight={maxHeight}
-                  bgcolor="grey.300"
+                  bgcolor="grey.400"
                   borderRadius="borderRadius"
+                  width="100%"
+                  minHeight={300}
+                  {...rest}
                 >
                   {value ? (
                     <img
                       src={value.path}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       alt="Selected background"
+                      className={classes.background}
                     />
-                  ) : <IconImage fontSize="large" />}
+                  ) : <IconImageAdd />}
                 </Box>
               </ButtonBase>
-              <Box pt={2} display="flex" justifyContent="flex-end">
+              <Box display="flex" justifyContent="flex-end" pt={1}>
                 <Button
-                  color={value ? 'error' : 'default'}
-                  variant={value ? 'contained' : 'text'}
-                  pl={1}
-                  onClick={() => (value ? onClear() : onClick())}
+                  mr={2}
+                  width="fit-content"
+                  onClick={value ? onClear : onClick}
+                  disabled={!value}
+                >
+                  {t(value ? 'remove' : 'add')}
+                </Button>
+                <Button
+                  width="fit-content"
+                  onClick={value ? onClear : onClick}
                 >
                   {t(value ? 'remove' : 'add')}
                 </Button>
@@ -89,18 +88,7 @@ const FieldFileBackground = props => {
 };
 
 FieldFileBackground.propTypes = {
-  id: PropTypes.string.isRequired,
-  minWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  minHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
-
-FieldFileBackground.defaultProps = {
-  minWidth: 480,
-  minHeight: 360,
-  maxWidth: '100%',
-  maxHeight: '100%'
+  id: PropTypes.string.isRequired
 };
 
 export default FieldFileBackground;

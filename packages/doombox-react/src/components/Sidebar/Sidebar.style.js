@@ -20,5 +20,10 @@ export const useSidebarStyle = makeStyles(theme => ({
   button: {
     padding: theme.spacing(),
     color: theme.palette.grey[50]
-  }
+  },
+  sliderThumb: {
+    marginTop: -4,
+    width: 9,
+    height: 9
+  },
 }));

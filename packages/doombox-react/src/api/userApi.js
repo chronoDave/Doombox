@@ -1,14 +1,10 @@
 // Types
 import {
-  PENDING
-} from '@doombox/utils/types/asyncTypes';
-import {
+  PENDING,
   CREATE,
   READ,
   UPDATE,
-  DELETE
-} from '@doombox/utils/types/crudTypes';
-import {
+  DELETE,
   create,
   USER,
   USER_CACHE

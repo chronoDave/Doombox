@@ -6,14 +6,12 @@ import {
   MESSAGE,
   CONNECTION_CACHE,
   USER,
-  USER_CACHE
-} from '@doombox/utils/types';
-import {
+  USER_CACHE,
   CREATE,
   READ,
   UPDATE,
   DELETE
-} from '@doombox/utils/types/crudTypes';
+} from '@doombox/utils/types';
 
 // Utils
 import { createListener } from '../utils';

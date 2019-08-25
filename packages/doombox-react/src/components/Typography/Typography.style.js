@@ -3,8 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useTypographyStyle = makeStyles(theme => {
   const getColor = () => ({ color }) => {
     if (color === 'inherit' || color === 'initial') return null;
-    if (color.includes('grey')) return theme.palette[color];
-    return theme.palette[color].main;
+    if (color.includes('grey')) {
+      const variant = parseInt(color.split('.')[1], 10);
+      return { color: theme.palette.grey[variant] };
+    }
+    return { color: theme.palette[color].main };
   };
 
   const getTransform = () => ({ transform }) => {

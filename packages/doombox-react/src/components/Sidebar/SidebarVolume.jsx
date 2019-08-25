@@ -50,6 +50,7 @@ const SidebarVolume = () => {
           value={muted ? 0 : volume}
           onChange={(event, newValue) => !muted && setVolume(newValue)}
           valueLabelDisplay="auto"
+          classes={{ thumb: classes.sliderThumb }}
         />
       </Box>
     </Box>

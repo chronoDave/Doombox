@@ -76,4 +76,13 @@ module.exports = class NeDB {
       });
     });
   }
+
+  count(collection, args) {
+    return new Promise((resolve, reject) => {
+      this[collection].count(args, (err, count) => {
+        if (err) reject(err);
+        resolve(count);
+      });
+    });
+  }
 };

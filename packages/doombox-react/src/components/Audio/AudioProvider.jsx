@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 // Types
 import {
   create,
-  IMAGE
-} from '@doombox/utils/types';
-import { READ } from '@doombox/utils/types/crudTypes';
-import {
+  IMAGE,
+  READ,
   ERROR,
   SUCCESS
-} from '@doombox/utils/types/asyncTypes';
+} from '@doombox/utils/types';
 
 // Audio
 import { AudioContext } from './AudioContext';

@@ -6,6 +6,18 @@ import * as Colors from './colors';
 
 export const theme = createMuiTheme({
   overrides: {
+    MuiButton: {
+      root: {
+        '&$disabled': {
+          color: fade(Colors.GREY[0], 0.26)
+        }
+      }
+    },
+    MuiBackdrop: {
+      root: {
+        backgroundColor: fade(Colors.GREY[400], 0.9)
+      }
+    },
     MuiDrawer: {
       paperAnchorDockedLeft: {
         borderRight: 'initial'

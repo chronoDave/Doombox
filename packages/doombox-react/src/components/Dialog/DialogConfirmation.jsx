@@ -26,6 +26,7 @@ const DialogConfirmation = props => {
   return (
     <Dialog
       disableBackdropClick
+      onClose={onCancel}
       {...rest}
     >
       <DialogTitle id="dialog-confirmation-title">

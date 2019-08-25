@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -13,43 +13,46 @@ import {
 
 import { Avatar } from '../Avatar';
 import { Typography } from '../Typography';
-import { useRoute } from '../Router';
-
-// Const
-import { VIEWS } from '../../constants';
+import { ModalSettings } from '../Modal';
 
 // Style
 import { useSidebarStyle } from './Sidebar.style';
 
 const SidebarProfile = ({ username }) => {
   const classes = useSidebarStyle();
-  const { setView } = useRoute();
+  const [open, setOpen] = useState(null);
 
   return (
-    <Box
-      width="100%"
-      display="flex"
-      alignItems="center"
-    >
-      <Avatar />
+    <Fragment>
       <Box
+        width="100%"
         display="flex"
-        flexDirection="column"
-        flexGrow={1}
-        minWidth={0}
-        ml={1}
+        alignItems="center"
       >
-        <Typography noWrap variant="body2">
-          {username || ''}
-        </Typography>
+        <Avatar />
+        <Box
+          display="flex"
+          flexDirection="column"
+          flexGrow={1}
+          minWidth={0}
+          ml={1}
+        >
+          <Typography noWrap variant="body2">
+            {username || ''}
+          </Typography>
+        </Box>
+        <IconButton
+          classes={{ root: classes.icon }}
+          onClick={() => setOpen('settings')}
+        >
+          <IconSettings />
+        </IconButton>
       </Box>
-      <IconButton
-        classes={{ root: classes.icon }}
-        onClick={() => setView(VIEWS.PROFILE)}
-      >
-        <IconSettings />
-      </IconButton>
-    </Box>
+      <ModalSettings
+        open={open === 'settings'}
+        onClose={() => setOpen(null)}
+      />
+    </Fragment>
   );
 };
 

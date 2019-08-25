@@ -1,16 +1,13 @@
 const { ipcMain } = require('electron');
-const fs = require('fs');
 
 // Types
 const {
+  create,
+  IMAGE,
+  READ,
   ERROR,
   PENDING,
   SUCCESS
-} = require('@doombox/utils/types/asyncTypes');
-const { READ } = require('@doombox/utils/types/crudTypes');
-const {
-  create,
-  IMAGE,
 } = require('@doombox/utils/types');
 
 // Controller

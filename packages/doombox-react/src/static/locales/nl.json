@@ -31,7 +31,8 @@
     "library": "Bibliotheek",
     "github": "GitHub",
     "twitter": "Twitter",
-    "playing": "Huidig"
+    "playing": "Huidig",
+    "database": "Database"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",
