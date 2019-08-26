@@ -22,6 +22,19 @@ export const propUser = PropTypes.shape({
   })),
 });
 
+export const propOptions = PropTypes.oneOfType([
+  PropTypes.arrayOf(PropTypes.string),
+  PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]).isRequired,
+    t: PropTypes.func
+  }))
+]);
+
 export const propColors = PropTypes.oneOf([
   'initial',
   'inherit',
