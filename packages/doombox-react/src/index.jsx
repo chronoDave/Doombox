@@ -7,14 +7,14 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
 import { App } from './components/App';
-import { RouteProvider } from './components/Router';
-import { AudioProvider } from './components/Audio';
+import {
+  RouteProvider,
+  AudioProvider
+} from './components/Provider';
 
 // Utils
 import { store } from './store';
-
-// Const
-import { PATHS, MAIN_VIEWS } from './constants';
+import { MAIN_VIEWS } from './utils/const';
 
 // Style
 import { theme } from './theme';
@@ -27,10 +27,7 @@ render(
     <AudioProvider>
       <MuiThemeProvider theme={theme}>
         <CssBaseline>
-          <RouteProvider
-            path={PATHS.INDEX}
-            view={MAIN_VIEWS.ALBUM}
-          >
+          <RouteProvider view={MAIN_VIEWS.ALBUM}>
             <App />
           </RouteProvider>
         </CssBaseline>

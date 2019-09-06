@@ -1,55 +1,76 @@
-import { handleActions, combineActions } from 'redux-actions';
+import {
+  handleActions,
+  combineActions
+} from 'redux-actions';
 
 // Types
 import {
-  create,
+  createType,
+  PENDING,
+  ERROR,
   USER,
-  USER_CACHE,
+  REMOTE,
   CREATE,
   READ,
   UPDATE,
   DELETE,
-  PENDING,
-  ERROR,
   SUCCESS
 } from '@doombox/utils/types';
 
 const initialState = {
   pending: false,
-  error: false,
+  error: null,
   user: null
 };
 
 export const profileReducer = handleActions({
   [combineActions(
-    create([PENDING, CREATE, USER]),
-    create([PENDING, UPDATE, USER]),
-    create([PENDING, DELETE, USER])
+    createType([ERROR, READ, REMOTE]),
+    createType([ERROR, READ, USER])
+  )]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      error: payload,
+      user: null
+    }),
+  [combineActions(
+    createType([SUCCESS, READ, REMOTE]),
+    createType([SUCCESS, READ, USER])
+  )]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      error: null,
+      user: payload
+    }),
+  [combineActions(
+    createType([PENDING, UPDATE, USER]),
+    createType([PENDING, DELETE, USER])
   )]:
     state => ({
       ...state,
       pending: true,
-      error: false
+      error: null
     }),
   [combineActions(
-    create([ERROR, CREATE, USER]),
-    create([ERROR, UPDATE, USER]),
-    create([ERROR, DELETE, USER])
+    createType([ERROR, UPDATE, USER]),
+    createType([ERROR, DELETE, USER])
   )]:
-    (state, action) => ({
+    (state, { payload }) => ({
       ...state,
       pending: false,
-      error: action.payload
+      error: payload
     }),
   [combineActions(
-    create([SUCCESS, CREATE, USER]),
-    create([SUCCESS, READ, USER_CACHE]),
-    create([SUCCESS, UPDATE, USER])
+    createType([SUCCESS, UPDATE, USER]),
+    createType([SUCCESS, CREATE, USER])
   )]:
-    (state, action) => ({
+    (state, { payload }) => ({
       ...state,
+      error: null,
       pending: false,
-      user: action.payload
+      user: payload
     }),
-  [create([SUCCESS, DELETE, USER])]: () => initialState
+  [createType([SUCCESS, DELETE, USER])]: () => initialState
 }, initialState);

@@ -1,14 +1,18 @@
 const { app } = require('electron');
+const path = require('path');
 
 // Core
 const { createWindow } = require('./lib/window');
 const Store = require('./lib/store');
 
 // Routes
-// const { systemRouter, systemCleanup } = require('./modules/system');
-const { userRouter, userCleanup } = require('./modules/user');
-const { libraryRouter, libraryCleanup } = require('./modules/library');
-const { imageRouter, imageCleanup } = require('./modules/image');
+const { systemRouter } = require('./router/systemRouter');
+const { userRouter } = require('./router/userRouter');
+const { libraryRouter } = require('./router/libraryRouter');
+const { imageRouter } = require('./router/imageRouter');
+
+// Database
+const NeDB = require('./lib/database/nedb');
 
 const store = new Store({
   configName: 'user-preferences',
@@ -17,22 +21,33 @@ const store = new Store({
       width: 800,
       height: 600
     },
-    connection: {},
-    user: {}
+    config: {
+      imagePath: path.resolve(`${app.getPath('userData')}/images`),
+      batchSize: 50,
+      parseImage: true
+    },
+    user: {
+      remote: null,
+      _id: null,
+      settings: {}
+    }
   }
 });
 
 app.on('ready', () => {
   const { width, height } = store.get('window');
 
+  const db = new NeDB();
+
   // Routes
-  // systemRouter(store);
-  userRouter(store);
-  libraryRouter(store);
-  imageRouter();
+  systemRouter({ db, store });
+  userRouter({ db, store });
+  libraryRouter({ db, store });
+  imageRouter({ db });
 
   // Main
   const mainWindow = createWindow({ width, height });
+
   mainWindow.on('resize', () => {
     store.set('window', { ...mainWindow.getBounds() });
   });
@@ -43,9 +58,5 @@ app.on('ready', () => {
 });
 
 app.on('window-all-closed', () => {
-  // systemCleanup();
-  userCleanup();
-  libraryCleanup();
-  imageCleanup();
   app.quit();
 });

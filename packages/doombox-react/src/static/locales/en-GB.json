@@ -27,12 +27,16 @@
     "slogan": "Your collection, your way",
     "online": "Online",
     "offline": "Offline",
+    "offline_go": "Go offline",
     "remote_connections": "Remote connections",
     "library": "Library",
-    "github": "GitHub",
-    "twitter": "Twitter",
     "playing": "Playing",
-    "database": "Database"
+    "database": "Database",
+    "views": "Views",
+    "playlist": "Playlist",
+    "label": "Label",
+    "album": "Album",
+    "song": "Song"
   },
   "title": {
     "createProfile": "Create Profile",
@@ -52,8 +56,8 @@
     "flavour_2": "Judging taste in music"
   },
   "error": {
-    "mongodb_connection": "Unable to connect to the MongoDB database",
-    "mongodb_connectionWhy": "Doombox couldn't load the application because it failed to connect to the MongoDB database at this adress:"
+    "mongodb_user": "User not found",
+    "mongodb_connection": "Unable to connect to the MongoDB database"
   },
   "validation": {
     "max": "{{input}} is too long",

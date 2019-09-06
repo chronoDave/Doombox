@@ -1,23 +1,26 @@
-const create = args => args.join('_');
+const createType = args => args.join('_');
 
 module.exports = {
-  create,
-  // Types
-  USER: 'USER',
-  USER_CACHE: 'USER_CACHE',
-  IMAGE: 'IMAGE',
-  CONNECTION: 'CONNECTION',
-  CONNECTION_CACHE: 'CONNECTION_CACHE',
-  LIBRARY: 'LIBRARY',
-  MESSAGE: 'MESSAGE',
-  // Actions
+  createType,
+  // Action types
   CREATE: 'CREATE',
   READ: 'READ',
   UPDATE: 'UPDATE',
   DELETE: 'DELETE',
   COUNT: 'COUNT',
-  // Async
+  VALIDATE: 'VALIDATE',
+  // Async types
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
+  ERROR: 'ERROR',
+  // Module types
+  USER: 'USER',
+  IMAGE: 'IMAGE',
+  LIBRARY: 'LIBRARY',
+  SONG: 'SONG',
+  SCAN: 'SCAN',
+  // System types
+  CACHE: 'CACHE',
+  REMOTE: 'REMOTE',
+  CONNECTION: 'CONNECTION'
 };

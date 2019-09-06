@@ -22,6 +22,11 @@ export const propUser = PropTypes.shape({
   })),
 });
 
+export const propError = PropTypes.shape({
+  message: PropTypes.string.isRequired,
+  trace: PropTypes.string
+});
+
 export const propOptions = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.string),
   PropTypes.arrayOf(PropTypes.shape({
@@ -34,6 +39,13 @@ export const propOptions = PropTypes.oneOfType([
     t: PropTypes.func
   }))
 ]);
+
+export const propLibrary = PropTypes.arrayOf(
+  PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired
+  })
+);
 
 export const propColors = PropTypes.oneOf([
   'initial',

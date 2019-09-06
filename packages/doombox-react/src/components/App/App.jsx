@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { useRoute } from '../Router';
+import { useRouter } from '../Provider';
 
 // Hooks
 import {
@@ -15,49 +15,70 @@ import {
 // Pages
 import * as Pages from '../../pages';
 
-// Const
-import { PATHS } from '../../constants';
-
 // Validation
-import { propUser } from '../../validation/propTypes';
+import {
+  propError,
+  propUser
+} from '../../validation/propTypes';
 
-const App = ({ profile, connected }) => {
-  const { path, setPath } = useRoute();
+// Utils
+import { PATHS } from '../../utils/const';
+
+const App = props => {
+  const {
+    pending,
+    cache,
+    error,
+    profile
+  } = props;
+  const { path, setPath } = useRouter();
 
   useScrollbar();
   useSubscribeSystem();
   useSubscribeUser();
 
   useEffect(() => {
-    if (!profile && connected) setPath(PATHS.OFFLINE);
-  }, [profile, connected]);
+    if (pending) setPath(PATHS.PENDING);
+  }, [pending]);
 
   useEffect(() => {
-    if (connected) {
-      setPath(PATHS.HOME);
-    } else {
-      setPath(PATHS.CREATE);
-    }
-  }, [connected]);
+    if (profile) setPath(PATHS.MAIN);
+  });
 
+  useEffect(() => {
+    if (error) {
+      if (cache) {
+        setPath(PATHS.ERROR);
+      } else {
+        setPath(PATHS.CREATE);
+      }
+    }
+  }, [error, cache]);
+
+  if (path === PATHS.PENDING) return <Pages.LoadingPage />;
+  if (path === PATHS.ERROR) return <Pages.ErrorPage />;
   if (path === PATHS.CREATE) return <Pages.CreateProfilePage />;
-  if (path === PATHS.OFFLINE) return <Pages.OfflinePage />;
-  if (path === PATHS.HOME) return <Pages.MainPage />;
+  if (path === PATHS.MAIN) return <Pages.MainPage />;
   return <Pages.LoadingPage />;
 };
 
 App.propTypes = {
+  pending: PropTypes.bool.isRequired,
+  cache: PropTypes.bool.isRequired,
   profile: propUser,
-  connected: PropTypes.bool.isRequired
+  error: propError
 };
 
 App.defaultProps = {
+  error: null,
   profile: null
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile.user,
-  connected: state.system.connected
+  pending: state.system.pending,
+  cache: state.system.remote,
+  error: state.system.error,
+  profile: state.profile.user
 });
 
 export default connect(

@@ -19,7 +19,7 @@ import { DialogConfirmation } from '../Dialog';
 import {
   updateUser,
   deleteUser
-} from '../../api/userApi';
+} from '../../api';
 
 // Validation
 import { schemaUpdateUser } from '../../validation/schema';

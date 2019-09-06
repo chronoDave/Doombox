@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 
 // Types
 import {
-  create,
+  createType,
+  PENDING,
   ERROR,
   SUCCESS
 } from '@doombox/utils/types';
@@ -67,20 +68,25 @@ export const selectFolder = multi => {
 
 /**
  * Create an IPC success / error listener
- *
  * @param {string[]} type - Type array
+ * @param {boolean} init - Dispatch if true
  */
-export const createListener = type => {
+export const createListener = (type, init) => {
   const { ipcRenderer } = window.require('electron');
   const dispatch = useDispatch();
 
-  const errorType = create([ERROR, create(type)]);
-  const successType = create([SUCCESS, create(type)]);
+  const actionType = createType(type);
+  const errorType = createType([ERROR, actionType]);
+  const successType = createType([SUCCESS, actionType]);
 
   useEffect(() => {
+    if (init) {
+      dispatch({ type: createType([PENDING, actionType]) });
+      ipcRenderer.send(createType([PENDING, actionType]));
+    }
     ipcRenderer.on(
       errorType,
-      (event, err) => dispatch({ type: errorType, err })
+      (event, payload) => dispatch({ type: errorType, payload })
     );
     ipcRenderer.on(
       successType,

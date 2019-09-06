@@ -27,10 +27,14 @@
     "slogan": "مجموعتك، طريقتك",
     "online": "متصل",
     "offline": "غير متصل",
-    "github": "",
-    "twitter": "",
+    "offline_go": "",
     "playing": "",
-    "database": ""
+    "database": "",
+    "views": "",
+    "playlist": "",
+    "label": "",
+    "album": "",
+    "song": ""
   },
   "title": {
     "createProfile": "ملف شخصي جديد",
@@ -50,8 +54,8 @@
     "flavour_2": "يتم الآن نقد ذوقك في الموسيقى"
   },
   "error": {
-    "mongodb_connection": "فشل الإتصال بقاعدة بيانات MongoDB",
-    "mongodb_connectionWhy": "دومبوكس لم يستطع أن يفتح البرنامج لأنه فشل في الإتصال بقاعدة بيانات MongoDB في هذا العنوان:"
+    "mongodb_user": "",
+    "mongodb_connection": "فشل الإتصال بقاعدة بيانات MongoDB"
   },
   "validation": {
     "max": "{{input}} أطول من اللازم",

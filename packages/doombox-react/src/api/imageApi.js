@@ -1,6 +1,6 @@
 // Types
 import {
-  create,
+  createType,
   IMAGE,
   PENDING,
   READ
@@ -9,5 +9,5 @@ import {
 const { ipcRenderer } = window.require('electron');
 
 export const fetchImage = id => {
-  ipcRenderer.send(create([PENDING, READ, IMAGE]), id);
+  ipcRenderer.send(createType([PENDING, READ, IMAGE]), id);
 };

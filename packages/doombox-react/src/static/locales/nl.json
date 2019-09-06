@@ -27,12 +27,16 @@
     "slogan": "Jouw collectie, op jouw manier",
     "online": "Online",
     "offline": "Offline",
+    "offline_go": "Ga offline",
     "remote_connections": "Externe verbindingen",
     "library": "Bibliotheek",
-    "github": "GitHub",
-    "twitter": "Twitter",
     "playing": "Huidig",
-    "database": "Database"
+    "database": "Database",
+    "views": "Panelen",
+    "playlist": "Afspeellijst",
+    "label": "Label",
+    "album": "Album",
+    "song": "Nummer"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",
@@ -52,8 +56,8 @@
     "flavour_2": "Betwisten muziek smaak"
   },
   "error": {
-    "mongodb_connection": "Verbinding met MongoDB database mislukt",
-    "mongodb_connectionWhy": "Doombox was niet in staat om de applicatie te laden omdat de verbinding met de MongoDB database op dit adres was mislukt:"
+    "mongodb_user": "Gebruiker niet gevonden",
+    "mongodb_connection": "Verbinding met MongoDB database mislukt"
   },
   "validation": {
     "max": "{{input}} is te lang",

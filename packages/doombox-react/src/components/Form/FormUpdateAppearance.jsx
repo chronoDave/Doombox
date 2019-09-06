@@ -1,6 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React from 'react';
 import { Formik, Form } from 'formik';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -8,7 +7,10 @@ import { connect } from 'react-redux';
 import { FieldFileBackground } from '../Field';
 
 // Api
-import { updateUser } from '../../api/userApi';
+import { updateUser } from '../../api';
+
+// Validation
+import { propUser } from '../../validation/propTypes';
 
 const FormUpdateAppearance = props => {
   const {
@@ -32,10 +34,13 @@ const FormUpdateAppearance = props => {
   );
 };
 
+FormUpdateAppearance.propTypes = {
+  updateProfile: PropTypes.func.isRequired,
+  profile: propUser.isRequired
+};
+
 const mapStateToProps = state => ({
-  profile: state.profile.user,
-  error: state.profile.error,
-  pending: state.profile.pending
+  profile: state.profile.user
 });
 
 const mapDispatchToProps = dispatch => ({

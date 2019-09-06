@@ -18,5 +18,9 @@ export const useTypographyStyle = makeStyles(theme => {
   return ({
     color: getColor(),
     transform: getTransform(),
+    breakWord: {
+      wordBreak: 'break-word',
+      textAlign: 'left'
+    }
   });
 });

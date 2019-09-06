@@ -25,4 +25,7 @@ export const useFieldStyle = makeStyles(theme => ({
       borderColor: `${theme.palette.success.main} !important`
     }
   },
+  icon: {
+    color: theme.palette.grey[50]
+  }
 }));

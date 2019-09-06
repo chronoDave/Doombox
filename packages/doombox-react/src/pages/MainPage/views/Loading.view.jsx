@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+// Types
+import { SCAN } from '@doombox/utils/types';
 
 // Core
 import {
@@ -6,16 +11,28 @@ import {
   LinearProgress
 } from '@material-ui/core';
 
+import { useRouter } from '../../../components/Provider';
 import { Typography } from '../../../components/Typography';
 
-// Hooks
-import { useSubscribeMessage } from '../../../hooks';
+// Utils
+import { MAIN_VIEWS } from '../../../utils/const';
 
-export const LoadingView = () => {
-  const { current, total } = useSubscribeMessage();
+const { ipcRenderer } = window.require('electron');
 
-  const progress = (current && total) ? current / total * 100 : 0;
+export const LoadingView = ({ pending }) => {
+  const [progress, setProgress] = useState({});
+  const { setView } = useRouter();
 
+  useEffect(() => {
+    ipcRenderer.on(SCAN, (event, payload) => setProgress(payload));
+
+    return () => ipcRenderer.removeAllListeners([SCAN]);
+  }, []);
+
+  const current = progress.current || 0;
+  const total = progress.total || 0;
+
+  if (!pending) setView(MAIN_VIEWS.ALBUM);
   return (
     <Box
       display="flex"
@@ -31,11 +48,24 @@ export const LoadingView = () => {
         flexDirection="column"
         alignItems="center"
       >
-        <LinearProgress variant="determinate" value={progress} />
-        <Typography paragraph>{`${current || 0} / ${total || 0}`}</Typography>
+        Loading
+        <LinearProgress variant="determinate" value={(current / total) * 100} />
+        <Typography paragraph>
+          {`${current} / ${total}`}
+        </Typography>
       </Box>
     </Box>
   );
 };
 
-export default LoadingView;
+LoadingView.propTypes = {
+  pending: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+  pending: state.library.pending
+});
+
+export default connect(
+  mapStateToProps
+)(LoadingView);

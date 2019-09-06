@@ -1,10 +1,20 @@
 const fs = require('fs');
 
+// Types
+const {
+  createType,
+  LIBRARY,
+  CREATE,
+  ERROR,
+  SUCCESS,
+  SCAN
+} = require('@doombox/utils/types');
+
 // Utils
 const {
   synchToInt,
   cleanString,
-  createImage
+  createImageFile
 } = require('./utils');
 
 // Decoders
@@ -12,7 +22,7 @@ const {
   decodeFrame
 } = require('./decode');
 
-const parseID3 = (file, options = {}) => new Promise((resolve, reject) => (
+const parseID3 = ({ file, db, config }) => new Promise((resolve, reject) => (
   fs.readFile(file, async (err, data) => {
     if (err) return reject(err);
     if (!data || !data.buffer) return reject(new Error('Unexpeted error'));
@@ -37,24 +47,33 @@ const parseID3 = (file, options = {}) => new Promise((resolve, reject) => (
     let payload = { version };
 
     // Parse frames
+    let image = null;
+
     while (offset < ID3_SIZE) {
-      const frame = decodeFrame(buffer, offset, HEADER_SIZE, options);
+      const frame = decodeFrame(buffer, offset, HEADER_SIZE);
       if (!frame) break;
-      payload = { ...payload, [frame.id]: cleanString(frame.value) };
+
+      if (frame.id === 'APIC' && config.parseImage) {
+        image = frame.value;
+      } else {
+        payload = { ...payload, [frame.id]: cleanString(frame.value) };
+      }
+
       offset += frame.size;
     }
 
-    let image = null;
-    try {
-      if (options.parseImage && payload.APIC) {
-        image = await createImage(payload.APIC, `${payload.TPE2}-${payload.TALB}`);
-      }
-    } catch (errImage) {
-      if (options.verbose) throw errImage;
+    if (image) {
+      const imageId = `${payload.TPE2}-${payload.TALB}`.replace(/:|\||\*|\/|\?|"/g, '_');
+      image = await createImageFile({
+        config,
+        db,
+        image,
+        _id: imageId
+      });
     }
 
     return resolve({
-      _id: `${payload.TPE2}-${payload.TALB}-${payload.TPE1}-${payload.TIT2}`,
+      _id: file,
       path: file,
       ...payload,
       APIC: image
@@ -62,6 +81,54 @@ const parseID3 = (file, options = {}) => new Promise((resolve, reject) => (
   })
 ));
 
+const parseRecursive = (props, iteration = 0) => {
+  const {
+    event,
+    files,
+    db,
+    config
+  } = props;
+
+  if (!Array.isArray(files)) {
+    return event.sender.send(
+      createType([ERROR, CREATE, LIBRARY]),
+      new Error('Files is not an array')
+    );
+  }
+
+  const batches = Math.ceil(files.length / config.batchSize);
+  const offset = config.batchSize * iteration;
+
+  return Promise.all(files
+    .slice(offset, offset + config.batchSize)
+    .map(file => parseID3({
+      file,
+      db,
+      config
+    })))
+    .then(async data => {
+      if (iteration < batches) {
+        event.sender.send(SCAN, { current: iteration + 1, total: batches });
+
+        await db.create('library', data);
+
+        parseRecursive({
+          event,
+          files,
+          db,
+          config
+        }, iteration + 1);
+      } else {
+        const payload = await db.read({ collection: 'library' });
+        event.sender.send(createType([SUCCESS, CREATE, LIBRARY]), payload);
+      }
+    })
+    .catch(err => {
+      event.sender.send(createType([ERROR, CREATE, LIBRARY]), err);
+    });
+};
+
 module.exports = {
-  parseID3
+  parseID3,
+  parseRecursive
 };

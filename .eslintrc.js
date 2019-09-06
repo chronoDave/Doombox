@@ -38,6 +38,7 @@ module.exports = {
     'no-underscore-dangle': 'off', // Mongoose _doc
     'camelcase': 'off', // Mongoose data types
     'no-nested-ternary': 'off',
+    'prefer-promise-reject-errors': 'off',
     // Advanced
     'no-bitwise': ["error", { "allow": ['|', '>>', '<<', '&'] }], // MP3 metadata parser
     'no-control-regex': "off", // MP3 metadata parser

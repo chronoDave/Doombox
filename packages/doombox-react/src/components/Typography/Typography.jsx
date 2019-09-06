@@ -25,6 +25,7 @@ const Typography = forwardRef((props, ref) => {
     children,
     color,
     transform,
+    breakWord,
     ...rest
   } = props;
   const classes = useTypographyStyle({ color, transform });
@@ -35,7 +36,8 @@ const Typography = forwardRef((props, ref) => {
       color={MuiColors.includes(color) ? color : 'initial'}
       className={clsx(
         !MuiColors.includes(color) && classes.color,
-        classes.transform
+        classes.transform,
+        breakWord && classes.breakWord
       )}
       {...rest}
     >
@@ -45,6 +47,7 @@ const Typography = forwardRef((props, ref) => {
 });
 
 Typography.propTypes = {
+  breakWord: PropTypes.bool,
   children: PropTypes.node.isRequired,
   color: propColors,
   transform: PropTypes.oneOf([
@@ -55,6 +58,7 @@ Typography.propTypes = {
 };
 
 Typography.defaultProps = {
+  breakWord: false,
   color: 'initial',
   transform: 'default'
 };

@@ -1,21 +1,22 @@
 // Types
 import {
-  create,
+  createType,
   LIBRARY,
   PENDING,
-  CREATE,
-  READ
+  READ,
+  SONG,
+  CREATE
 } from '@doombox/utils/types';
 
 const { ipcRenderer } = window.require('electron');
 
 export const scanLibrary = paths => dispatch => {
-  const actionType = create([PENDING, CREATE, LIBRARY]);
+  const actionType = createType([PENDING, CREATE, LIBRARY]);
   dispatch({ type: actionType });
 
   ipcRenderer.send(actionType, paths);
 };
 
-export const fetchLibrary = () => {
-  ipcRenderer.send(create([PENDING, READ, LIBRARY]), {});
+export const fetchMetadata = id => {
+  ipcRenderer.send(createType([PENDING, READ, SONG]), id);
 };

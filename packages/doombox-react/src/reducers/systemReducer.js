@@ -1,44 +1,85 @@
 import {
-  combineActions,
-  handleActions
+  handleActions,
+  combineActions
 } from 'redux-actions';
 
 // Types
 import {
-  create,
-  USER_CACHE,
-  USER,
+  createType,
+  PENDING,
+  SUCCESS,
+  CONNECTION,
+  DELETE,
+  ERROR,
   CREATE,
   READ,
-  DELETE,
-  PENDING,
-  ERROR,
-  SUCCESS
+  CACHE,
+  REMOTE,
+  USER
 } from '@doombox/utils/types';
 
 const initialState = {
-  connected: false,
   pending: false,
-  error: null
+  error: null,
+  cache: false,
+  connection: false,
+  remote: false,
 };
 
 export const systemReducer = handleActions({
-  [create([PENDING, READ, USER_CACHE])]:
+  [createType([PENDING, READ, CACHE])]:
     state => ({
       ...state,
-      pending: true
+      pending: true,
+      error: null
     }),
-  [combineActions(
-    create([ERROR, READ, USER_CACHE]),
-    create([PENDING, DELETE, USER])
-  )]: () => initialState,
-  [combineActions(
-    create([SUCCESS, READ, USER_CACHE]),
-    create([SUCCESS, CREATE, USER])
-  )]:
+  [createType([ERROR, READ, CACHE])]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      error: payload
+    }),
+  [createType([ERROR, READ, CONNECTION])]:
+    (state, { payload }) => ({
+      ...state,
+      cache: true,
+      remote: true,
+      pending: false,
+      error: payload
+    }),
+  [createType([ERROR, READ, REMOTE])]:
+    (state, { payload }) => ({
+      ...state,
+      cache: true,
+      remote: true,
+      connection: true,
+      pending: false,
+      error: payload
+    }),
+  [createType([ERROR, READ, USER])]:
+    (state, { payload }) => ({
+      ...state,
+      cache: true,
+      pending: false,
+      error: payload
+    }),
+  [createType([SUCCESS, READ, REMOTE])]:
     state => ({
       ...state,
       pending: false,
-      connected: true
+      cache: true,
+      remote: true,
+      connection: true
     }),
+  [combineActions(
+    createType([SUCCESS, READ, USER]),
+    createType([SUCCESS, CREATE, USER])
+  )]:
+    state => ({
+      ...state,
+      error: null,
+      pending: false,
+      cache: true
+    }),
+  [createType([SUCCESS, DELETE, USER])]: () => initialState,
 }, initialState);

@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 // Icon
 import IconImageAdd from '@material-ui/icons/AddPhotoAlternate';
-import IconHide from '@material-ui/icons/VisibilityOff';
-import IconShow from '@material-ui/icons/RemoveRedEye';
 
 // Core
 import {
@@ -64,14 +62,6 @@ const FieldFileBackground = ({ id, ...rest }) => {
                 </Box>
               </ButtonBase>
               <Box display="flex" justifyContent="flex-end" pt={1}>
-                <Button
-                  mr={2}
-                  width="fit-content"
-                  onClick={value ? onClear : onClick}
-                  disabled={!value}
-                >
-                  {t(value ? 'remove' : 'add')}
-                </Button>
                 <Button
                   width="fit-content"
                   onClick={value ? onClear : onClick}

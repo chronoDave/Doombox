@@ -1,21 +1,14 @@
 const { StringDecoder } = require('string_decoder');
-const { app } = require('electron');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const fs = require('fs');
 
-// Controllers
-const nebdController = require('../../modules/system/controllers/nebdController');
 
 /**
  * Decode synchsafe integer
- *
- * Input: 4 bytes, 32 bits, with 0 left-padding
- *
+ * - Input: 4 bytes, 32 bits, with 0 left-padding
  * `01111111 01111111 01111111 01111111`
- *
- * Output: 4 bytes, 32 bits, with padding removed
- *
+ * - Output: 4 bytes, 32 bits, with padding removed
  * `00001111 11111111 11111111 11111111`
  */
 
@@ -31,18 +24,12 @@ const synchToInt = synch => {
 
 /**
  * Decode string from buffer
- *
- * $00 – ISO-8859-1 (LATIN-1, Identical to ASCII for values smaller than 0x80).
- *
- * $01 – UCS-2 encoded Unicode with BOM, in ID3v2.2 and ID3v2.3.
- *
- * $02 – UTF-16BE encoded Unicode without BOM, in ID3v2.4.
- *
- * $03 – UTF-8 encoded Unicode, in ID3v2.4.
- *
- * $04 - BASE-64
- *
- * $05 - HEX
+ * - $00 – ISO-8859-1 (LATIN-1, Identical to ASCII for values smaller than 0x80).
+ * - $01 – UCS-2 encoded Unicode with BOM, in ID3v2.2 and ID3v2.3.
+ * - $02 – UTF-16BE encoded Unicode without BOM, in ID3v2.4.
+ * - $03 – UTF-8 encoded Unicode, in ID3v2.4.
+ * - $04 - BASE-64
+ * - $05 - HEX
  */
 const decodeString = (format, string) => {
   const ID3_ENCODINGS = ['ascii', 'ucs2', 'utf16le', 'utf8', 'base64', 'hex'];
@@ -57,38 +44,35 @@ const cleanString = string => {
   return string.replace(/\uFEFF/g, '').replace(/\u0000/g, '');
 };
 
-const createImage = (image, id) => new Promise(resolve => {
+const createImageFile = props => new Promise(resolve => {
   const {
-    imageFormat: format,
-    imageData: buffer,
-    ...rest
-  } = image;
-  const dir = path.resolve(`${app.getPath('userData')}/images`);
-  const _id = id.replace(/:/g, '_');
+    db,
+    image: {
+      imageFormat: format,
+      imageData: buffer,
+      ...rest
+    },
+    _id,
+    config: {
+      imagePath
+    }
+  } = props;
 
-  mkdirp(dir, err => {
+  mkdirp(imagePath, async err => {
     if (err) resolve(null);
 
-    const extension = format.match(/(png|jpeg|jpg|gif)/);
+    const extension = format.match(/(png|jpeg|jpg|gif)/i);
     if (extension) {
-      const file = path.resolve(`${dir}/${_id}.${extension[0]}`);
+      const file = path.resolve(`${imagePath}/${_id}.${extension[0]}`);
 
-      fs.writeFile(file, buffer, async writeErr => {
-        if (writeErr) resolve(null);
+      if (!fs.existsSync(file)) {
+        fs.writeFileSync(file, buffer);
 
-        await nebdController.create(
-          'images',
-          {
-            _id,
-            format,
-            file,
-            ...rest
-          },
-          false
-        );
-
-        resolve(_id);
-      });
+        await db.create('images', {
+          _id, format, file, ...rest
+        });
+      }
+      resolve(_id);
     } else {
       resolve(null);
     }
@@ -99,5 +83,5 @@ module.exports = {
   synchToInt,
   decodeString,
   cleanString,
-  createImage
+  createImageFile
 };

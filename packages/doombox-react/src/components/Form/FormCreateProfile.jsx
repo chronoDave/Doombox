@@ -1,5 +1,9 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import {
+  Formik,
+  Form,
+  ErrorMessage
+} from 'formik';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -15,7 +19,7 @@ import {
 } from '../Field';
 
 // Actions
-import { createUser } from '../../api/userApi';
+import { createUser } from '../../api';
 
 // Validation
 import { schemaCreateUser } from '../../validation/schema';
@@ -45,6 +49,7 @@ const FormCreateProfile = props => {
           <FieldText id={id} name="username" />
           <FieldLanguage id={id} />
         </Box>
+        <ErrorMessage name="language" />
         <Box pb={1} pt={2} display="flex" justifyContent="flex-end">
           <Button
             variant="contained"
@@ -71,7 +76,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createProfile: () => values => dispatch(createUser(values))
+  createProfile: values => dispatch(createUser(values))
 });
 
 export default connect(
