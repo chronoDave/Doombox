@@ -15,7 +15,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    debug: isDev(),
+    debug: isDev,
     resources: {
       'en-GB': uk,
       'en-US': us,

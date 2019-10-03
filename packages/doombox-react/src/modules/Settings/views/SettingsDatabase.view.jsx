@@ -3,12 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
+// Icon
+import IconDelete from '@material-ui/icons/Delete';
+import IconRescan from '@material-ui/icons/Refresh';
+
 // Core
 import {
   Box,
   List,
+  IconButton,
+  ListSubheader,
   ListItem,
-  ListItemText
+  ListItemText,
+  ListItemIcon,
+  ListItemSecondaryAction
 } from '@material-ui/core';
 
 import { Button } from '../../../components/Button';
@@ -16,6 +24,7 @@ import { Button } from '../../../components/Button';
 // Api
 import {
   scanLibrary,
+  deleteLibrary,
   updateUser
 } from '../../../api';
 
@@ -27,57 +36,84 @@ import { selectFolder } from '../../../utils';
 
 const DatabaseView = props => {
   const {
-    user,
+    profile: {
+      _id,
+      folders
+    },
+    updateFolders,
     updateLibrary,
-    updateConnections
+    clearLibrary
   } = props;
   const { t } = useTranslation();
 
-  const handleSelect = async () => {
-    const path = await selectFolder();
-    if (!path) return null;
-    if (user.library && user.library.filter(item => path.includes(item.path)).length !== 0) {
-      // Don't allow nested folders (only scan root)
-      return null; // TODO: Throw error
+  const handleDelete = () => {
+    updateFolders(_id, []);
+    clearLibrary();
+  };
+
+  const handleRemove = path => {
+    const newFolders = folders.filter(folder => folder.path !== path);
+    updateFolders(_id, newFolders);
+  };
+
+  const handleAdd = async () => {
+    const folder = await selectFolder();
+    if (folder) {
+      const newFolders = [...folders || [], { path: folder }];
+      updateFolders(_id, newFolders);
+      updateLibrary([{ path: folder }]);
     }
-    updateConnections(user._id, { library: [{ path }] });
-    return updateLibrary([{ path }]);
   };
 
   return (
     <Box p={3}>
-      {t('library')}
-      <List>
-        {user.library && user.library.map(item => (
-          <ListItem key={item.key || item.path}>
+      <List
+        subheader={(
+          <ListSubheader disableSticky>
+            {t('library')}
+          </ListSubheader>
+        )}
+      >
+        {folders && folders.map(item => (
+          <ListItem key={item.path}>
             <ListItemText primary={item.path} />
+            <ListItemSecondaryAction>
+              <IconButton color="inherit" onClick={() => handleRemove(item.path)}>
+                <IconDelete />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
         ))}
+        <Box display="flex" justifyContent="space-between" pt={2}>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => handleDelete()}
+          >
+            {t('delete', { context: 'folder' })}
+          </Button>
+          <Box display="flex">
+            <Button mr={1}>
+              {t('rescan')}
+            </Button>
+            <Button ml={1} onClick={() => handleAdd()}>
+              {t('add', { context: 'folder' })}
+            </Button>
+          </Box>
+        </Box>
       </List>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleSelect()}
-      >
-        {t('add_folder')}
-      </Button>
     </Box>
   );
 };
 
-DatabaseView.propTypes = {
-  user: propUser.isRequired,
-  updateLibrary: PropTypes.func.isRequired,
-  updateConnections: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
-  user: state.profile.user
+  profile: state.profile.user
 });
 
 const mapDispatchToProps = dispatch => ({
+  clearLibrary: () => dispatch(deleteLibrary()),
   updateLibrary: paths => dispatch(scanLibrary(paths)),
-  updateConnections: (id, values) => dispatch(updateUser(id, values))
+  updateFolders: (_id, folders) => dispatch(updateUser(_id, { folders }))
 });
 
 export default connect(

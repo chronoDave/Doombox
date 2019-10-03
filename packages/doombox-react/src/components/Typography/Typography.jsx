@@ -32,8 +32,8 @@ const Typography = forwardRef((props, ref) => {
 
   return (
     <MuiTypography
-      ref={ref}
       color={MuiColors.includes(color) ? color : 'initial'}
+      ref={ref}
       className={clsx(
         !MuiColors.includes(color) && classes.color,
         classes.transform,

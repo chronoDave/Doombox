@@ -13,6 +13,7 @@
     "connecting": "يتم الآن الإتصال",
     "connection": "إتصال",
     "connections": "الإتصالات",
+    "fetching_library": "",
     "appearance": "المظهر",
     "general": "عام",
     "background": "الخلفية",
@@ -20,9 +21,12 @@
     "edit_connection": "التعديل على الاتصال",
     "add": "إضافة",
     "add_folder": "إضافة مجلد جديد",
+    "rescan": "",
     "retry": "إعادة المحاولة",
     "remove": "إزالة",
     "delete": "حذف",
+    "delete_database": "",
+    "delete_folder": "",
     "profile": "الملف الشخصي",
     "slogan": "مجموعتك، طريقتك",
     "online": "متصل",
@@ -34,7 +38,9 @@
     "playlist": "",
     "label": "",
     "album": "",
-    "song": ""
+    "song": "",
+    "title": "",
+    "artist": ""
   },
   "title": {
     "createProfile": "ملف شخصي جديد",
@@ -49,6 +55,9 @@
   "description": {
     "remote": "استخدام إتصال عن بعد",
     "deleteProfile": "الملفات الشخصية المحذوفة لا يمكن إستعادتها",
+    "processing_batch": "{{current}}{{total}}",
+    "processing_size": "",
+    "waiting_long": "",
     "flavour_0": "يتم الآن تجهيز الفرقة الموسيقية",
     "flavour_1": "يتم الآن البحث عن مايسترو مناسب",
     "flavour_2": "يتم الآن نقد ذوقك في الموسيقى"

@@ -13,6 +13,7 @@
     "connecting": "Connecting",
     "connection": "Connection",
     "connections": "Connections",
+    "fetching_library": "Fetching library",
     "appearance": "Appearance",
     "general": "General",
     "background": "Background",
@@ -20,9 +21,12 @@
     "edit_connection": "Edit connection",
     "add": "Add",
     "add_folder": "Add new folder",
+    "rescan": "Rescan",
     "retry": "Retry",
     "remove": "Remove",
     "delete": "Delete",
+    "delete_database": "Delete database",
+    "delete_folder": "Delete folders",
     "profile": "Profile",
     "slogan": "Your collection, your way",
     "online": "Online",
@@ -36,7 +40,9 @@
     "playlist": "Playlist",
     "label": "Label",
     "album": "Album",
-    "song": "Song"
+    "song": "Song",
+    "title": "Title",
+    "artist": "Artist"
   },
   "title": {
     "createProfile": "Create Profile",
@@ -51,6 +57,9 @@
   "description": {
     "remote": "Use remote connection",
     "deleteProfile": "Deleted profiles cannot be restored.",
+    "processing_batch": "Processing batch {{current}} of {{total}}",
+    "processing_size": "Preparing batches",
+    "waiting_long": "This might take a while",
     "flavour_0": "Preparing ensemble",
     "flavour_1": "Searching for conductor",
     "flavour_2": "Judging taste in music"

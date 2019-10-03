@@ -36,15 +36,22 @@ module.exports = class NeDB {
     });
   }
 
-  read({ collection, query, projection }) {
+  read(props) {
+    const {
+      collection,
+      sort,
+      query,
+      projection
+    } = props;
+
     return new Promise(resolve => {
-      this[collection].find(
-        query || {},
-        projection || {},
-        (err, docs) => {
+      this[collection]
+        .find(query || {})
+        .projection(projection || {})
+        .sort(sort || {})
+        .exec((err, docs) => {
           resolve(docs);
-        }
-      );
+        });
     });
   }
 

@@ -13,6 +13,7 @@
     "connecting": "Verbinden",
     "connection": "Verbinding",
     "connections": "Verbindingen",
+    "fetching_library": "Ophalen bibliotheek",
     "appearance": "Weergave",
     "general": "Algemeen",
     "background": "Achtergrond",
@@ -20,9 +21,12 @@
     "edit_connection": "Verbinding bewerken",
     "add": "Toevoegen",
     "add_folder": "Voeg een nieuwe folder toe",
+    "rescan": "Opnieuw scannen",
     "retry": "Probeer opnieuw",
     "remove": "Verwijderen",
     "delete": "Verwijderen",
+    "delete_database": "Verwijder database",
+    "delete_folder": "Verwijder folders",
     "profile": "Profiel",
     "slogan": "Jouw collectie, op jouw manier",
     "online": "Online",
@@ -36,7 +40,9 @@
     "playlist": "Afspeellijst",
     "label": "Label",
     "album": "Album",
-    "song": "Nummer"
+    "song": "Nummer",
+    "title": "Titel",
+    "artist": "Artiest"
   },
   "title": {
     "createProfile": "Profiel Aanmaken",
@@ -51,6 +57,9 @@
   "description": {
     "remote": "Gebruik externe verbinding",
     "deleteProfile": "Verwijderde profielen kunnen niet meer worden hersteld.",
+    "waiting_long": "Dit kan even duren",
+    "processing_batch": "Verwerken groep {{current}} van {{total}}",
+    "processing_size": "Voorbereiden groepen",
     "flavour_0": "Gereed maken ensemble",
     "flavour_1": "Zoekend naar dirigent",
     "flavour_2": "Betwisten muziek smaak"

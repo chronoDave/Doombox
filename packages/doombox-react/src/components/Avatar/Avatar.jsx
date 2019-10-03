@@ -23,7 +23,7 @@ const Avatar = ({
 }) => {
   const classes = useAvatarStyle();
   const getSource = () => {
-    if (src) return `${!isWin() ? 'file://' : ''}${src}`;
+    if (src) return `${!isWin ? 'file://' : ''}${src}`;
     if (!disableFallback && avatar && avatar.path) return `file://${avatar.path}`;
     return null;
   };

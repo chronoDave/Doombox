@@ -16,7 +16,7 @@ module.exports = {
     });
 
     window.loadURL(
-      isDev() ?
+      isDev ?
         'http://localhost:5000' :
         `file://${path.normalize(`${__dirname}../../../../client/index.html`)}`
     );

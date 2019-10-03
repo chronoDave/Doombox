@@ -42,7 +42,7 @@ const AudioProvider = ({ children, cache, collection }) => {
   }, [cache]);
 
   useEffect(() => {
-    if (collection.length !== 0) Audio.set(collection);
+    if (collection) Audio.set(collection);
   }, [collection]);
 
   return (

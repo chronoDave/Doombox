@@ -18,7 +18,8 @@ module.exports = {
   IMAGE: 'IMAGE',
   LIBRARY: 'LIBRARY',
   SONG: 'SONG',
-  SCAN: 'SCAN',
+  MESSAGE: 'MESSAGE',
+  COLLECTION: 'COLLECTION',
   // System types
   CACHE: 'CACHE',
   REMOTE: 'REMOTE',

@@ -17,7 +17,7 @@ import {
 // Middleware
 const middleware = [
   thunkMiddleware,
-  isDev() ? require('redux-logger').createLogger() : null // eslint-disable-line global-require
+  isDev ? require('redux-logger').createLogger() : null // eslint-disable-line global-require
 ].filter(item => item);
 
 export const store = createStore(

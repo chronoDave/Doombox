@@ -40,6 +40,9 @@ const userRouter = ({ db, store }) => {
   ipcMain.on(createType([PENDING, DELETE, USER]), async (event, _id) => {
     try {
       await db.delete('users', _id);
+
+      store.set('user', {});
+
       event.sender.send(createType([SUCCESS, DELETE, USER]));
     } catch (err) {
       event.sender.send(createType([ERROR, DELETE, USER]), err);

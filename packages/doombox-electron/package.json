@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "electron": "^6.0.0",
-    "electron-builder": "^20.44.4"
+    "electron-builder": "^20.44.4",
+    "electron-devtools-installer": "^2.2.4"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
@@ -38,6 +39,7 @@
   "build": {
     "appId": "com.electron.doombox",
     "productName": "Doombox",
+    "includePdb": true,
     "copyright": "Copyright ©2019 ${author}",
     "directories": {
       "output": "../../build"

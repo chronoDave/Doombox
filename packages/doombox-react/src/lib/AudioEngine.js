@@ -172,11 +172,9 @@ export class AudioEngine extends EventEmitter {
   }
 
   pause() {
-    if (this.song) {
-      this.song.pause();
-      this.status = AUDIO.PAUSED;
-      this.emit('status', this.status);
-    }
+    this.status = AUDIO.PAUSED;
+    if (this.song) this.song.pause();
+    this.emit('status', this.status);
   }
 
   stop() {

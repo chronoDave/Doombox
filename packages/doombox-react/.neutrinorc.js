@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   options: {
-    root: isDev() ? './' : __dirname
+    root: isDev ? './' : __dirname
   },
   use: [
     [

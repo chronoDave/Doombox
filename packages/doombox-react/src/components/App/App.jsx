@@ -27,6 +27,7 @@ import { PATHS } from '../../utils/const';
 const App = props => {
   const {
     pending,
+    pendingLibrary,
     cache,
     error,
     profile
@@ -42,8 +43,8 @@ const App = props => {
   }, [pending]);
 
   useEffect(() => {
-    if (profile) setPath(PATHS.MAIN);
-  });
+    if (profile && !pendingLibrary) setPath(PATHS.MAIN);
+  }, [profile, pendingLibrary]);
 
   useEffect(() => {
     if (error) {
@@ -64,6 +65,7 @@ const App = props => {
 
 App.propTypes = {
   pending: PropTypes.bool.isRequired,
+  pendingLibrary: PropTypes.bool.isRequired,
   cache: PropTypes.bool.isRequired,
   profile: propUser,
   error: propError
@@ -76,6 +78,7 @@ App.defaultProps = {
 
 const mapStateToProps = state => ({
   pending: state.system.pending,
+  pendingLibrary: state.library.pending,
   cache: state.system.remote,
   error: state.system.error,
   profile: state.profile.user

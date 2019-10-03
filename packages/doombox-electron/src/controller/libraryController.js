@@ -1,14 +1,14 @@
 const glob = require('glob');
 const rimraf = require('rimraf');
 
-// Parser
-const { parseRecursive } = require('../lib/parser');
-
 const scan = async props => {
   const {
     store,
     event,
     payload,
+    parser: {
+      id3
+    },
     db
   } = props;
   const config = store.get('config');
@@ -20,21 +20,39 @@ const scan = async props => {
 
   const rawFiles = await Promise.all(
     payload.map(({ path }) => new Promise(resolve => glob(
-      '/**/*.?(mp3)',
+      '/**/*.mp3',
       { root: path },
-      (err, matches) => resolve(matches)
+      (err, matches) => {
+        if (err) {
+          event.handleError(err);
+        } else {
+          resolve(matches);
+        }
+      }
     )))
   );
+
   const files = rawFiles.flat();
 
-  parseRecursive({
-    event,
-    files,
-    db,
-    config
-  });
+  id3.parseRecursive(files, event);
+};
+
+const group = async props => {
+  const {
+    handleSuccess,
+    payload: {
+      type,
+      ...rest
+    },
+    db
+  } = props;
+
+  const docs = await db.read({ collection: 'library', ...rest });
+
+  handleSuccess(docs);
 };
 
 module.exports = {
-  scan
+  scan,
+  group
 };

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import memoize from 'memoize-one';
 
 // Types
 import {
@@ -40,6 +41,7 @@ export const localToRemoteUrl = async url => (
       reader.readAsDataURL(blob);
     }))
 );
+export const memoProps = memoize(props => ({ ...props }));
 
 // Locale
 export const languages = [

@@ -25,6 +25,8 @@ module.exports = {
   settings: {
     'import/core-modules': [
       'electron',
+      'electron-devtools-installer',
+      'redux-logger',
       'chai'
     ]
   },

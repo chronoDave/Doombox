@@ -17,14 +17,34 @@ export const propUser = PropTypes.shape({
   rtl: PropTypes.bool,
   avatar: propImage,
   background: propImage,
-  library: PropTypes.arrayOf(PropTypes.shape({
-    path: PropTypes.string.isRequired
-  })),
+  folders: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string.isRequired
+    })
+  ),
 });
 
 export const propError = PropTypes.shape({
   message: PropTypes.string.isRequired,
   trace: PropTypes.string
+});
+
+export const propTableColumns = PropTypes.oneOfType([
+  PropTypes.arrayOf(PropTypes.string),
+  PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string
+    })
+  )
+]);
+
+export const propTableStyle = PropTypes.shape({
+  height: PropTypes.number,
+  left: PropTypes.number,
+  position: PropTypes.string,
+  top: PropTypes.number,
+  width: PropTypes.string
 });
 
 export const propOptions = PropTypes.oneOfType([
@@ -46,6 +66,11 @@ export const propLibrary = PropTypes.arrayOf(
     path: PropTypes.string.isRequired
   })
 );
+
+export const propTableData = PropTypes.shape({
+  handleClick: PropTypes.func.isRequired,
+  collection: propLibrary.isRequired
+});
 
 export const propColors = PropTypes.oneOf([
   'initial',

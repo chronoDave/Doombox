@@ -9,6 +9,7 @@ import {
   READ,
   DELETE,
   PENDING,
+  COLLECTION,
   ERROR,
   SUCCESS
 } from '@doombox/utils/types';
@@ -16,36 +17,59 @@ import {
 const initialState = {
   pending: false,
   error: false,
-  collection: []
+  scanning: false,
+  collection: null,
+  grouped: null
 };
 
 export const libraryReducer = handleActions({
+  [createType([PENDING, CREATE, LIBRARY])]:
+    state => ({
+      ...state,
+      pending: true,
+      scanning: true,
+      error: false
+    }),
   [combineActions(
-    createType([PENDING, CREATE, LIBRARY]),
-    createType([PENDING, READ, LIBRARY])
+    createType([PENDING, READ, LIBRARY]),
+    createType([PENDING, READ, COLLECTION])
   )]:
     state => ({
       ...state,
       pending: true,
       error: false
     }),
-  [combineActions(
-    createType([ERROR, CREATE, LIBRARY]),
-    createType([ERROR, READ, LIBRARY])
-  )]:
-    (state, action) => ({
+  [createType([ERROR, CREATE, LIBRARY])]:
+    (state, { payload }) => ({
       ...state,
       pending: false,
-      error: action.payload
+      scanning: false,
+      error: payload
     }),
-  [combineActions(
-    createType([SUCCESS, CREATE, LIBRARY]),
-    createType([SUCCESS, READ, LIBRARY])
-  )]:
-    (state, action) => ({
+  [createType([ERROR, READ, LIBRARY])]:
+    (state, { payload }) => ({
       ...state,
       pending: false,
-      collection: action.payload
+      error: payload
+    }),
+  [createType([SUCCESS, CREATE, LIBRARY])]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      scanning: false,
+      collection: payload
+    }),
+  [createType([SUCCESS, READ, LIBRARY])]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      collection: payload
+    }),
+  [createType([SUCCESS, READ, COLLECTION])]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      grouped: payload
     }),
   [createType([SUCCESS, DELETE, USER])]: () => initialState
 }, initialState);
