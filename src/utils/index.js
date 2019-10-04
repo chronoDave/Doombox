@@ -15,10 +15,17 @@ export const getDurationFormat = raw => {
   return `${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`;
 };
 
-export const shuffleArray = array => array
-  .map(a => [Math.random(), a])
-  .sort((a, b) => a[0] - b[0])
-  .map(a => a[1]);
+export const shuffleArray = array => {
+  while (true) {
+    let shuffled = array.map(a => [Math.random(), a])
+      .sort((a, b) => a[0] - b[0])
+      .map(a => a[1]);
+      
+    if (array.length <= 1 || shuffled.some((v,i) => v != array[i])) {
+      return shuffled;
+    }
+  }
+}
 
 export const cleanUrl = url => {
   const cleanedUrl = url.replace(/#/gi, '%23').replace(/\\/gi, '/');
