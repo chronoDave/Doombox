@@ -17,11 +17,16 @@ export const getDurationFormat = raw => {
 
 export const shuffleArray = array => {
   while (true) {
-    let shuffled = array.map(a => [Math.random(), a])
-      .sort((a, b) => a[0] - b[0])
-      .map(a => a[1]);
+    let shuffled = array.slice();
+
+    for (let i = shuffled.length - 1; i >= 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let swap = shuffled[j];
+      shuffled[j] = shuffled[i];
+      shuffled[i] = swap;
+    }
       
-    if (array.length <= 1 || shuffled.some((v,i) => v != array[i])) {
+    if (shuffled.length <= 1 || shuffled.some((v,i) => v != array[i])) {
       return shuffled;
     }
   }
