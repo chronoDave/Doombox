@@ -1,5 +1,6 @@
 const glob = require('glob');
 const rimraf = require('rimraf');
+const groupBy = require('lodash.groupby');
 
 const scan = async props => {
   const {
@@ -37,22 +38,23 @@ const scan = async props => {
   id3.parseRecursive(files, event);
 };
 
-const group = async props => {
+const readGrouped = async props => {
   const {
     handleSuccess,
     payload: {
-      type,
+      group,
       ...rest
     },
     db
   } = props;
 
   const docs = await db.read({ collection: 'library', ...rest });
+  const groupedDocs = groupBy(docs, group);
 
-  handleSuccess(docs);
+  handleSuccess(groupedDocs);
 };
 
 module.exports = {
   scan,
-  group
+  readGrouped
 };

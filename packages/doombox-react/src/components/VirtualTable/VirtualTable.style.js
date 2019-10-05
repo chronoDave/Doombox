@@ -1,15 +1,22 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 export const useVirtualTableStyle = makeStyles(theme => ({
-  head: {
-    height: theme.component.virtualCell
+  root: {
+    backgroundColor: fade(theme.palette.background.default, 0.75)
+  },
+  active: {
+    backgroundColor: fade(theme.palette.primary.main, 0.66)
   },
   row: {
     display: 'flex',
-    width: ({ width }) => width
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    textAlign: 'left',
+    padding: theme.spacing(0, 3)
   },
-  cell: {
-    width: ({ count }) => `${100 / count}%`,
-    overflow: 'hidden'
+  head: {
+    pr: 14,
+    backgroundColor: fade(theme.palette.background.default, 0.75)
   }
 }));

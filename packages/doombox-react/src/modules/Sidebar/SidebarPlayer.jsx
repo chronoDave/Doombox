@@ -21,7 +21,7 @@ import { useSidebarStyle } from './Sidebar.style';
 
 const SidebarPlayer = () => {
   const {
-    image: { file },
+    image: { path },
     current: { TPE1, TIT2, TALB },
     position,
     duration,
@@ -39,9 +39,9 @@ const SidebarPlayer = () => {
       flexGrow={1}
     >
       <Box display="flex">
-        {useMemo(() => (file ? (
+        {useMemo(() => (path ? (
           <img
-            src={cleanUrl(file)}
+            src={cleanUrl(path)}
             alt={`${TALB} album cover`}
             className={classes.img}
           />
@@ -57,7 +57,7 @@ const SidebarPlayer = () => {
           >
             <IconImage />
           </Box>
-        )), [file, TALB])}
+        )), [path, TALB])}
         {useMemo(() => (
           <Box
             maxWidth={96}

@@ -29,16 +29,6 @@ export const propError = PropTypes.shape({
   trace: PropTypes.string
 });
 
-export const propTableColumns = PropTypes.oneOfType([
-  PropTypes.arrayOf(PropTypes.string),
-  PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string
-    })
-  )
-]);
-
 export const propTableStyle = PropTypes.shape({
   height: PropTypes.number,
   left: PropTypes.number,

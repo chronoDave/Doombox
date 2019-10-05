@@ -1,45 +1,53 @@
-import React, { cloneElement } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+
+// Core
+import {
+  Box,
+  ButtonBase
+} from '@material-ui/core';
+
+import { Typography } from '../Typography';
+import { useAudio } from '../Provider';
 
 // Style
 import { useVirtualTableStyle } from './VirtualTable.style';
 
-// Validation
-import { propTableColumns } from '../../validation/propTypes';
+const VirtualTableRow = ({ columns, row }) => {
+  const classes = useVirtualTableStyle();
+  const { current, set, play } = useAudio();
 
-const VirtualTableRow = props => {
-  const {
-    columns,
-    width,
-    children,
-    ...rest
-  } = props;
-  const classes = useVirtualTableStyle({ width, count: columns.length - 1 });
-
-  return (
-    <div
-      className={classes.row}
-      {...rest}
+  return useMemo(() => (
+    <ButtonBase
+      onClick={() => {
+        set([{ _id: row._id, path: row.path, images: row.images }]);
+        play(0);
+      }}
+      classes={{ root: classes.row }}
+      className={current._id === row._id ? classes.active : null}
     >
-      {columns.map((column, index) => cloneElement(
-        children({ column, index }),
-        { className: classes.cell }
+      {columns.map(key => (
+        <Box key={key} width={`calc(100% / ${columns.length})`}>
+          <Typography noWrap>
+            {row[key]}
+          </Typography>
+        </Box>
       ))}
-    </div>
-  );
+    </ButtonBase>
+  ), [current]);
 };
 
 VirtualTableRow.propTypes = {
-  children: PropTypes.func.isRequired,
-  width: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]),
-  columns: propTableColumns.isRequired
-};
-
-VirtualTableRow.defaultProps = {
-  width: '100%'
+  columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+  row: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    images: PropTypes.array,
+    TIT2: PropTypes.string,
+    TPE1: PropTypes.string,
+    TALB: PropTypes.string,
+    TPE2: PropTypes.string
+  }).isRequired
 };
 
 export default VirtualTableRow;

@@ -47,7 +47,7 @@ const libraryRouter = ({ db, store, parser }) => {
     try {
       const docs = await db.read({
         collection: 'library',
-        projection: { path: 1, APIC: 1 }
+        projection: { path: 1, images: 1 }
       });
       event.sender.send(createType([SUCCESS, READ, LIBRARY]), docs);
     } catch (err) {
@@ -68,7 +68,7 @@ const libraryRouter = ({ db, store, parser }) => {
       const docs = await db.readOne({
         collection: 'library',
         query: { _id },
-        projection: { path: 0, _id: 0 }
+        projection: { path: 0 }
       });
       event.sender.send(createType([SUCCESS, READ, SONG]), docs);
     } catch (err) {
@@ -80,7 +80,7 @@ const libraryRouter = ({ db, store, parser }) => {
     const handleSuccess = docs => {
       event.sender.send(createType([SUCCESS, READ, COLLECTION]), docs);
     };
-    libraryController.group({ db, handleSuccess, payload });
+    libraryController.readGrouped({ db, handleSuccess, payload });
   });
 };
 

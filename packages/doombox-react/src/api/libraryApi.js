@@ -30,9 +30,9 @@ export const fetchMetadata = id => {
   ipcRenderer.send(createType([PENDING, READ, SONG]), id);
 };
 
-export const fetchCollection = ({ type, ...rest }) => dispatch => {
+export const fetchCollection = ({ group, ...rest }) => dispatch => {
   const actionType = createType([PENDING, READ, COLLECTION]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType, { type, ...rest });
+  ipcRenderer.send(actionType, { group, ...rest });
 };

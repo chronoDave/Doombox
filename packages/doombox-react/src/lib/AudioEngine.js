@@ -54,7 +54,7 @@ export class AudioEngine extends EventEmitter {
       this.emit('image', payload || {});
 
       if (payload) {
-        const src = await localToRemoteUrl(cleanUrl(payload.file));
+        const src = await localToRemoteUrl(cleanUrl(payload.path));
         navigator.mediaSession.metadata.artwork = [{ src, sizes: '128x128' }];
       }
     });
@@ -128,8 +128,9 @@ export class AudioEngine extends EventEmitter {
         autoplay: true,
         onload: () => {
           fetchMetadata(current._id);
-          if (current.APIC) {
-            fetchImage(current.APIC);
+
+          if (current.images) {
+            fetchImage(current.images[0]);
           } else {
             this.emit('image', {});
           }
