@@ -6,17 +6,16 @@ import {
   READ,
   DELETE,
   SONG,
-  CREATE,
-  COLLECTION
+  CREATE
 } from '@doombox/utils/types';
 
 const { ipcRenderer } = window.require('electron');
 
-export const scanLibrary = paths => dispatch => {
+export const scanLibrary = path => dispatch => {
   const actionType = createType([PENDING, CREATE, LIBRARY]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType, paths);
+  ipcRenderer.send(actionType, path);
 };
 
 export const deleteLibrary = () => dispatch => {
@@ -26,13 +25,13 @@ export const deleteLibrary = () => dispatch => {
   ipcRenderer.send(actionType);
 };
 
-export const fetchMetadata = id => {
-  ipcRenderer.send(createType([PENDING, READ, SONG]), id);
+export const fetchMetadata = _id => {
+  ipcRenderer.send(createType([PENDING, READ, SONG]), { query: { _id } });
 };
 
-export const fetchCollection = ({ group, ...rest }) => dispatch => {
-  const actionType = createType([PENDING, READ, COLLECTION]);
+export const fetchCollection = query => dispatch => {
+  const actionType = createType([PENDING, READ, LIBRARY]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType, { group, ...rest });
+  ipcRenderer.send(actionType, query);
 };

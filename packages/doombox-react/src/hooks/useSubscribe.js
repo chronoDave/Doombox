@@ -11,7 +11,6 @@ import {
   CACHE,
   CONNECTION,
   LIBRARY,
-  COLLECTION,
   MESSAGE
 } from '@doombox/utils/types';
 
@@ -37,8 +36,7 @@ export const useSubscribeSystem = () => {
 
 export const useSubscribeLibrary = () => {
   createListener([CREATE, LIBRARY]);
-  createListener([READ, LIBRARY], true);
-  createListener([READ, COLLECTION]);
+  createListener([READ, LIBRARY]);
 };
 
 export const useSubscribeMessage = () => {

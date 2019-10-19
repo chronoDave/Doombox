@@ -13,10 +13,7 @@ const {
 const imageRouter = ({ db }) => {
   ipcMain.on(createType([PENDING, READ, IMAGE]), async (event, _id) => {
     try {
-      const doc = await db.readOne({
-        collection: 'images',
-        query: { _id }
-      });
+      const doc = await db.readOne('images', { query: { _id } });
       event.sender.send(createType([SUCCESS, READ, IMAGE]), doc);
     } catch (err) {
       event.sender.send(createType([ERROR, READ, IMAGE]), err);

@@ -10,6 +10,9 @@ import {
 import { Typography } from '../Typography';
 import { useAudio } from '../Provider';
 
+// Utils
+import { formatTime } from '../../utils';
+
 // Style
 import { useVirtualTableStyle } from './VirtualTable.style';
 
@@ -20,7 +23,7 @@ const VirtualTableRow = ({ columns, row }) => {
   return useMemo(() => (
     <ButtonBase
       onClick={() => {
-        set([{ _id: row._id, path: row.path, images: row.images }]);
+        set([{ _id: row._id, file: row.file, images: row.images }]);
         play(0);
       }}
       classes={{ root: classes.row }}
@@ -29,7 +32,7 @@ const VirtualTableRow = ({ columns, row }) => {
       {columns.map(key => (
         <Box key={key} width={`calc(100% / ${columns.length})`}>
           <Typography noWrap>
-            {row[key]}
+            {key === 'duration' ? formatTime(row[key]) : row[key]}
           </Typography>
         </Box>
       ))}
@@ -41,12 +44,8 @@ VirtualTableRow.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.string).isRequired,
   row: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    images: PropTypes.array,
-    TIT2: PropTypes.string,
-    TPE1: PropTypes.string,
-    TALB: PropTypes.string,
-    TPE2: PropTypes.string
+    file: PropTypes.string.isRequired,
+    images: PropTypes.array.isRequired
   }).isRequired
 };
 

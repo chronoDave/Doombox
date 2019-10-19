@@ -13,9 +13,9 @@ import { VirtualTable } from '../../../components/VirtualTable';
 // Api
 import { fetchCollection } from '../../../api';
 
-const SongView = ({ collection, library, fetchSongs }) => {
+const SongView = ({ library, fetchSongs }) => {
   useEffect(() => {
-    fetchSongs('TALB');
+    fetchSongs();
   }, []);
 
   return (
@@ -25,16 +25,17 @@ const SongView = ({ collection, library, fetchSongs }) => {
           Song collection
         </Typography>
         <Typography>
-          {`${collection.length} songs`}
+          {`${library ? library.length : 0} songs`}
         </Typography>
       </Box>
       {library ? (
         <VirtualTable
           columns={[
-            { key: 'title', value: 'TIT2' },
-            { key: 'artist', value: 'TPE1' },
-            { key: 'album', value: 'TALB' },
-            { key: 'label', value: 'TPE2' }
+            { key: 'title' },
+            { key: 'artist' },
+            { key: 'album' },
+            { key: 'label', value: 'albumartist' },
+            { key: 'duration' }
           ]}
           rows={library}
         />
@@ -44,25 +45,11 @@ const SongView = ({ collection, library, fetchSongs }) => {
 };
 
 const mapStateToProps = state => ({
-  collection: state.library.collection,
-  library: state.library.grouped
+  library: state.library.collection
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchSongs: group => dispatch(fetchCollection({
-    group,
-    projection: {
-      path: 1,
-      TIT2: 1,
-      TPE1: 1,
-      TPE2: 1,
-      TALB: 1,
-      images: 1
-    },
-    sort: {
-      TALB: 1,
-    }
-  }))
+  fetchSongs: () => dispatch(fetchCollection())
 });
 
 export default connect(

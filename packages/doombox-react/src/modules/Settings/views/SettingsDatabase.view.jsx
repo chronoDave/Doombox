@@ -112,7 +112,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   clearLibrary: () => dispatch(deleteLibrary()),
-  updateLibrary: paths => dispatch(scanLibrary(paths)),
+  updateLibrary: path => dispatch(scanLibrary(path)),
   updateFolders: (_id, folders) => dispatch(updateUser(_id, { folders }))
 });
 

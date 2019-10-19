@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 
 // Core
 import { Box } from '@material-ui/core';
@@ -20,9 +19,6 @@ import { ModalScanning } from '../../components/Modal';
 
 // Modules
 import { Sidebar } from '../../modules';
-
-// Hooks
-import { useSubscribeMessage } from '../../hooks';
 
 // Views
 import * as Views from './views';
@@ -40,8 +36,6 @@ const MainPage = ({ profile, scanning }) => {
   const [open, setOpen] = useState(false);
   const { view, setPath } = useRouter();
   const classes = useMainPageStyle();
-  const { t } = useTranslation();
-  const { current, total } = useSubscribeMessage();
 
   useEffect(() => {
     if (!profile) setPath(PATHS.CREATE);
@@ -62,13 +56,7 @@ const MainPage = ({ profile, scanning }) => {
           {createElement(Views[`${view}View`])}
         </Box>
       </div>
-      <ModalScanning
-        open={open}
-        onClose={() => setOpen(false)}
-        title={t('description:processing', { context: total ? 'batch' : 'size', current, total })}
-        subtitle={t('description:waiting', { context: 'long' })}
-        progress={(current / total) * 100}
-      />
+      <ModalScanning open={open} onClose={() => setOpen(false)} />
     </Fragment>
   );
 };
@@ -84,7 +72,7 @@ MainPage.defaultProps = {
 
 const mapStateToProps = state => ({
   profile: state.profile.user,
-  scanning: state.library.scanning
+  scanning: state.system.scanning
 });
 
 export default connect(

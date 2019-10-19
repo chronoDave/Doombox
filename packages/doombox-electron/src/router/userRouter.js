@@ -29,7 +29,7 @@ const userRouter = ({ db, store }) => {
     async (event, { _id, ...rest }) => {
       try {
         await db.update('users', _id, { $set: { ...rest } });
-        const doc = await db.readOne({ collection: 'users', query: { _id } });
+        const doc = await db.readOne('users', { query: { _id } });
 
         event.sender.send(createType([SUCCESS, UPDATE, USER]), doc);
       } catch (err) {

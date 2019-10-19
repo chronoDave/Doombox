@@ -31,10 +31,7 @@ const findById = async props => {
     }
   } else {
     try {
-      const doc = await db.readOne({
-        collection: 'users',
-        query: { _id }
-      });
+      const doc = await db.readOne('users', { query: { _id } });
       event.sender.send(createType([SUCCESS, READ, USER]), doc);
     } catch (err) {
       event.sender.send(createType([ERROR, READ, USER]), err);

@@ -1,60 +1,50 @@
 const glob = require('glob');
 const rimraf = require('rimraf');
-const groupBy = require('lodash.groupby');
+const mkdirp = require('mkdirp');
+const util = require('util');
 
-const scan = async props => {
-  const {
-    store,
-    event,
-    payload,
-    parser: {
-      id3
-    },
-    db
-  } = props;
-  const config = store.get('config');
+const MetadataParser = require('../lib/parser');
 
-  await db.drop('library');
-  await db.drop('images');
+class LibraryController {
+  constructor(config, db) {
+    this.config = config;
+    this.db = db;
+    this.parser = new MetadataParser(config, db);
+  }
 
-  rimraf.sync(config.imagePath, { disableGlob: true });
+  async create(event, payload) {
+    await this.db.drop('library');
+    await this.db.drop('images');
 
-  const rawFiles = await Promise.all(
-    payload.map(({ path }) => new Promise(resolve => glob(
-      '/**/*.mp3',
-      { root: path },
+    const asyncRimraf = util.promisify(rimraf);
+    await asyncRimraf(this.config.imagePath, { disableGlob: true });
+
+    const asyncMkdirp = util.promisify(mkdirp);
+    await asyncMkdirp(this.config.imagePath);
+
+    const globFolder = folder => new Promise((resolve, reject) => glob(
+      '/**/*.?(mp3|flac)',
+      { root: folder.path },
       (err, matches) => {
-        if (err) {
-          event.handleError(err);
-        } else {
-          resolve(matches);
-        }
+        if (err) reject(err);
+        resolve(matches);
       }
-    )))
-  );
+    ));
 
-  const files = rawFiles.flat();
+    Promise.all(payload.map(folder => globFolder(folder)))
+      .then(paths => this.parser.parseAll(paths.flat(), event))
+      .catch(err => { throw err; });
+  }
 
-  id3.parseRecursive(files, event);
-};
+  async read({ handleSuccess }, payload) {
+    const docs = await this.db.read('library', payload || {});
+    return handleSuccess(docs);
+  }
 
-const readGrouped = async props => {
-  const {
-    handleSuccess,
-    payload: {
-      group,
-      ...rest
-    },
-    db
-  } = props;
+  async readOne({ handleSuccess }, payload) {
+    const docs = await this.db.readOne('library', payload || {});
+    return handleSuccess(docs);
+  }
+}
 
-  const docs = await db.read({ collection: 'library', ...rest });
-  const groupedDocs = groupBy(docs, group);
-
-  handleSuccess(groupedDocs);
-};
-
-module.exports = {
-  scan,
-  readGrouped
-};
+module.exports = LibraryController;

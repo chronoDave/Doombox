@@ -42,7 +42,8 @@
     "album": "Album",
     "song": "Song",
     "title": "Title",
-    "artist": "Artist"
+    "artist": "Artist",
+    "duration": "Duration"
   },
   "title": {
     "createProfile": "Create Profile",
@@ -57,8 +58,8 @@
   "description": {
     "remote": "Use remote connection",
     "deleteProfile": "Deleted profiles cannot be restored.",
-    "processing_batch": "Processing batch {{current}} of {{total}}",
-    "processing_size": "Preparing batches",
+    "processing_scans": "Processing metadata",
+    "processing_files": "Preparing folders",
     "waiting_long": "This might take a while",
     "flavour_0": "Preparing ensemble",
     "flavour_1": "Searching for conductor",

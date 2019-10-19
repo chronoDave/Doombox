@@ -40,6 +40,7 @@
     "howler": "^2.1.2",
     "i18next": "^17.0.6",
     "i18next-browser-languagedetector": "^3.0.1",
+    "lodash.groupby": "^4.6.0",
     "memoize-one": "^5.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

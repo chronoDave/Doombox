@@ -26,83 +26,54 @@ module.exports = class NeDB {
     });
   }
 
-  create(collection, args) {
-    return new Promise((resolve, reject) => {
-      this[collection].insert(args, (err, docs) => {
-        if (err) throw err;
-        if (!docs) reject('error:mongodb_create');
-        resolve(docs);
+  create(collection, docs) {
+    return this[collection]
+      .insert(docs, (err, newDocs) => {
+        if (err || !newDocs) throw err;
+        Promise.resolve(newDocs);
       });
-    });
   }
 
-  read(props) {
-    const {
-      collection,
-      sort,
-      query,
-      projection
-    } = props;
-
-    return new Promise(resolve => {
-      this[collection]
-        .find(query || {})
-        .projection(projection || {})
-        .sort(sort || {})
-        .exec((err, docs) => {
-          resolve(docs);
-        });
-    });
+  read(collection, { query, projection, sort }) {
+    return new Promise(resolve => this[collection]
+      .find(query || {})
+      .projection(projection || {})
+      .sort(sort || {})
+      .exec((err, docs) => {
+        if (err) throw err;
+        resolve(docs);
+      }));
   }
 
-  readOne({ collection, query, projection }) {
-    return new Promise(resolve => {
-      this[collection].findOne(
-        query || {},
-        projection || {},
-        (err, doc) => {
-          if (err) throw err;
-          resolve(doc);
-        }
-      );
-    });
+  readOne(collection, { query, projection }) {
+    return new Promise(resolve => this[collection]
+      .findOne(query || {}, projection || {}, (err, doc) => {
+        if (err) throw err;
+        resolve(doc);
+      }));
   }
 
-  update(collection, _id, args) {
-    return new Promise(resolve => {
-      this[collection].update({ _id }, args, err => {
+  update(collection, _id, docs) {
+    return new Promise(resolve => this[collection]
+      .update({ _id }, docs, err => {
         if (err) throw err;
         resolve();
-      });
-    });
+      }));
   }
 
   delete(collection, _id) {
-    return new Promise((resolve, reject) => {
-      this[collection].remove({ _id }, (err, count) => {
+    return new Promise(resolve => this[collection]
+      .remove({ _id }, (err, count) => {
         if (err) throw err;
-        if (count === 0) reject('error:mongodb_delete');
         resolve(count);
-      });
-    });
+      }));
   }
 
   drop(collection) {
-    return new Promise(resolve => {
-      this[collection].remove({}, { multi: true }, async (err, count) => {
+    return new Promise(resolve => this[collection]
+      .remove({}, { multi: true }, async (err, count) => {
         if (err) throw err;
         resolve(count);
-      });
-    });
-  }
-
-  count(collection, args) {
-    return new Promise((resolve, reject) => {
-      this[collection].count(args, (err, count) => {
-        if (err) throw err;
-        if (count === 0) reject('error:mongodb_count');
-        resolve(count);
-      });
-    });
+      }));
   }
 };

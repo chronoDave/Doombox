@@ -61,13 +61,12 @@ export class AudioEngine extends EventEmitter {
     ipcRenderer.on(createType([ERROR, READ, IMAGE]), () => {
       this.emit('image', {});
 
-      navigator.mediaSession.metadata.artwork = [{}];
+      navigator.mediaSession.metadata.artwork = [{ src: null }];
     });
     ipcRenderer.on(createType([SUCCESS, READ, SONG]), (event, payload) => {
-      // Metadata
-      navigator.mediaSession.metadata.title = payload.TIT2;
-      navigator.mediaSession.metadata.artist = payload.TPE1;
-      navigator.mediaSession.metadata.album = payload.TALB;
+      navigator.mediaSession.metadata.title = payload.title;
+      navigator.mediaSession.metadata.artist = payload.artist;
+      navigator.mediaSession.metadata.album = payload.album;
 
       this.emit('current', payload);
     });
@@ -122,7 +121,7 @@ export class AudioEngine extends EventEmitter {
       this.emit('status', this.status);
 
       this.song = new Howl({
-        src: `file://${cleanUrl(current.path)}`,
+        src: `file://${cleanUrl(current.file)}`,
         html5: true,
         volume: this.volume / 100,
         autoplay: true,

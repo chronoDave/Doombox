@@ -9,6 +9,7 @@ import {
   PENDING,
   SUCCESS,
   CONNECTION,
+  LIBRARY,
   DELETE,
   ERROR,
   CREATE,
@@ -20,6 +21,7 @@ import {
 
 const initialState = {
   pending: false,
+  scanning: false,
   error: null,
   cache: false,
   connection: false,
@@ -27,6 +29,23 @@ const initialState = {
 };
 
 export const systemReducer = handleActions({
+  [createType([PENDING, CREATE, LIBRARY])]:
+    state => ({
+      ...state,
+      error: false,
+      scanning: true
+    }),
+  [createType([ERROR, CREATE, LIBRARY])]:
+    (state, { payload }) => ({
+      ...state,
+      scanning: false,
+      error: payload
+    }),
+  [createType([SUCCESS, CREATE, LIBRARY])]:
+    state => ({
+      ...state,
+      scanning: false
+    }),
   [createType([PENDING, READ, CACHE])]:
     state => ({
       ...state,

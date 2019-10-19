@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 
 // Icon
 import IconImage from '@material-ui/icons/Image';
@@ -22,7 +22,7 @@ import { useSidebarStyle } from './Sidebar.style';
 const SidebarPlayer = () => {
   const {
     image: { path },
-    current: { TPE1, TIT2, TALB },
+    current: { title, artist, album },
     position,
     duration,
     seek,
@@ -39,53 +39,55 @@ const SidebarPlayer = () => {
       flexGrow={1}
     >
       <Box display="flex">
-        {useMemo(() => (path ? (
-          <img
-            src={cleanUrl(path)}
-            alt={`${TALB} album cover`}
-            className={classes.img}
-          />
-        ) : (
-          <Box
-            width={60}
-            height={60}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            bgcolor="grey.500"
-            borderRadius="borderRadius"
-          >
-            <IconImage />
-          </Box>
-        )), [path, TALB])}
         {useMemo(() => (
-          <Box
-            maxWidth={96}
-            pl={1}
-            pt={0.5}
-            display="flex"
-            flexDirection="column"
-          >
-            <Tooltip
-              interactive
-              placement="right"
-              title={TIT2 || '???'}
+          <Fragment>
+            {path ? (
+              <img
+                src={cleanUrl(path)}
+                alt={`${album || '???'} album cover`}
+                className={classes.img}
+              />
+            ) : (
+              <Box
+                width={60}
+                height={60}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                bgcolor="grey.500"
+                borderRadius="borderRadius"
+              >
+                <IconImage />
+              </Box>
+            )}
+            <Box
+              maxWidth={96}
+              pl={1}
+              pt={0.5}
+              display="flex"
+              flexDirection="column"
             >
-              <Typography variant="subtitle2" noWrap>
-                {TIT2 || '???'}
-              </Typography>
-            </Tooltip>
-            <Tooltip
-              interactive
-              placement="right"
-              title={TPE1 || '???'}
-            >
-              <Typography variant="caption" noWrap>
-                {TPE1 || '???'}
-              </Typography>
-            </Tooltip>
-          </Box>
-        ), [TIT2, TPE1])}
+              <Tooltip
+                interactive
+                placement="right"
+                title={title || '???'}
+              >
+                <Typography variant="subtitle2" noWrap>
+                  {title || '???'}
+                </Typography>
+              </Tooltip>
+              <Tooltip
+                interactive
+                placement="right"
+                title={artist || '???'}
+              >
+                <Typography variant="caption" noWrap>
+                  {artist || '???'}
+                </Typography>
+              </Tooltip>
+            </Box>
+          </Fragment>
+        ), [path, title, album, artist])}
       </Box>
       {useMemo(() => (
         <Box display="flex" flexDirection="column">

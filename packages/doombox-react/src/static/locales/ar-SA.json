@@ -40,7 +40,8 @@
     "album": "",
     "song": "",
     "title": "",
-    "artist": ""
+    "artist": "",
+    "duration": ""
   },
   "title": {
     "createProfile": "ملف شخصي جديد",
@@ -55,8 +56,8 @@
   "description": {
     "remote": "استخدام إتصال عن بعد",
     "deleteProfile": "الملفات الشخصية المحذوفة لا يمكن إستعادتها",
-    "processing_batch": "{{current}}{{total}}",
-    "processing_size": "",
+    "processing_scans": "",
+    "processing_files": "",
     "waiting_long": "",
     "flavour_0": "يتم الآن تجهيز الفرقة الموسيقية",
     "flavour_1": "يتم الآن البحث عن مايسترو مناسب",

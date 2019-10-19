@@ -5,6 +5,7 @@ import {
 } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import PropTypes from 'prop-types';
+import groupby from 'lodash.groupby';
 
 // Core
 import { Box } from '@material-ui/core';
@@ -16,19 +17,19 @@ import VirtualTableDivider from './VirtualTableDivider';
 // Style
 import { useVirtualTableStyle } from './VirtualTable.style';
 
-const normalizeRows = rows => {
-  if (Array.isArray(rows)) return rows;
-
-  return Object.keys(rows).map(key => {
-    const values = rows[key];
-
-    return [`${values[0].TPE2} / ${values[0].TALB}`, ...values];
-  }).flat();
-};
-
 const getItemSize = (item, cellHeight) => {
   if (typeof item === 'string') return cellHeight + 8;
   return cellHeight;
+};
+
+const groupRows = (rows, group) => {
+  const groupedRows = groupby(rows, group);
+  return Object.keys(groupedRows)
+    .map(key => {
+      const value = groupedRows[key];
+      return [key, ...value];
+    })
+    .flat();
 };
 
 const VirtualTable = props => {
@@ -38,7 +39,7 @@ const VirtualTable = props => {
     rows
   } = props;
   const classes = useVirtualTableStyle();
-  const normalizedRows = normalizeRows(rows);
+  const groupedRows = groupRows(rows, 'album');
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1}>
@@ -52,12 +53,12 @@ const VirtualTable = props => {
               height={height}
               className={classes.root}
               // Item properties
-              itemCount={normalizedRows.length - 1}
-              itemSize={index => getItemSize(normalizedRows[index], cellHeight)}
+              itemCount={rows.length - 1}
+              itemSize={index => getItemSize(rows[index], cellHeight)}
             >
               {memo(itemProps => {
                 const { style, index } = itemProps;
-                const item = normalizedRows[index];
+                const item = groupedRows[index];
 
                 return (
                   <div style={style}>
@@ -65,7 +66,7 @@ const VirtualTable = props => {
                       <VirtualTableDivider value={item} />
                     ) : (
                       <VirtualTableRow
-                        columns={columns.map(({ value }) => value)}
+                        columns={columns.map(column => column.value || column.key)}
                         row={item}
                       />
                     )}

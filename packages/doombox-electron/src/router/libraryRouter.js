@@ -7,7 +7,6 @@ const {
   PENDING,
   ERROR,
   SUCCESS,
-  COLLECTION,
   MESSAGE,
   SONG,
   DELETE,
@@ -15,75 +14,32 @@ const {
   READ,
 } = require('@doombox/utils/types');
 
-// Controllers
-const libraryController = require('../controller/libraryController');
-
-const libraryRouter = ({ db, store, parser }) => {
-  // Library
+const libraryRouter = Controller => {
   ipcMain.on(createType([PENDING, CREATE, LIBRARY]), (event, payload) => {
-    const handleError = err => {
-      event.sender.send(createType([ERROR, CREATE, LIBRARY]), err);
-    };
-    const handleSuccess = docs => {
-      event.sender.send(createType([SUCCESS, CREATE, LIBRARY]), docs);
-    };
-    const handleMessage = message => {
-      event.sender.send(createType([MESSAGE]), message);
-    };
+    Controller.create({
+      handleError: err => event.sender.send(createType([ERROR, CREATE, LIBRARY]), err),
+      handleSuccess: docs => event.sender.send(createType([SUCCESS, CREATE, LIBRARY]), docs),
+      handleMessage: message => event.sender.send(MESSAGE, message)
+    }, payload);
+  });
 
-    libraryController.scan({
-      store,
-      event: {
-        handleError,
-        handleSuccess,
-        handleMessage,
-      },
-      payload,
-      parser,
-      db
+  ipcMain.on(createType([PENDING, READ, LIBRARY]), (event, payload) => {
+    Controller.read({
+      handleSuccess: docs => event.sender.send(createType([SUCCESS, READ, LIBRARY]), docs)
+    }, payload);
+  });
+
+  ipcMain.on(createType([PENDING, DELETE, LIBRARY]), event => {
+    Controller.delete({
+      handleSuccess: () => event.sender.send(createType([SUCCESS, DELETE, LIBRARY]))
     });
   });
-  ipcMain.on(createType([PENDING, READ, LIBRARY]), async event => {
-    try {
-      const docs = await db.read({
-        collection: 'library',
-        projection: { path: 1, images: 1 }
-      });
-      event.sender.send(createType([SUCCESS, READ, LIBRARY]), docs);
-    } catch (err) {
-      event.sender.send(createType([ERROR, READ, LIBRARY]), err);
-    }
-  });
-  ipcMain.on(createType([PENDING, DELETE, LIBRARY]), async event => {
-    try {
-      await db.drop('library');
-      event.sender.send(createType([SUCCESS, DELETE, LIBRARY]));
-    } catch (err) {
-      event.sender.send(createType([ERROR, DELETE, LIBRARY]), err);
-    }
-  });
-  // Song
-  ipcMain.on(createType([PENDING, READ, SONG]), async (event, _id) => {
-    try {
-      const docs = await db.readOne({
-        collection: 'library',
-        query: { _id },
-        projection: { path: 0 }
-      });
-      event.sender.send(createType([SUCCESS, READ, SONG]), docs);
-    } catch (err) {
-      event.sender.send(createType([ERROR, READ, SONG]));
-    }
-  });
-  // Collection
-  ipcMain.on(createType([PENDING, READ, COLLECTION]), (event, payload) => {
-    const handleSuccess = docs => {
-      event.sender.send(createType([SUCCESS, READ, COLLECTION]), docs);
-    };
-    libraryController.readGrouped({ db, handleSuccess, payload });
+
+  ipcMain.on(createType([PENDING, READ, SONG]), (event, _id) => {
+    Controller.readOne({
+      handleSuccess: doc => event.sender.send(createType([SUCCESS, READ, SONG]), doc)
+    }, _id);
   });
 };
 
-module.exports = {
-  libraryRouter
-};
+module.exports = libraryRouter;

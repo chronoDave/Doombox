@@ -1,4 +1,4 @@
-import { handleActions, combineActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 
 // Types
 import {
@@ -9,7 +9,6 @@ import {
   READ,
   DELETE,
   PENDING,
-  COLLECTION,
   ERROR,
   SUCCESS
 } from '@doombox/utils/types';
@@ -17,9 +16,7 @@ import {
 const initialState = {
   pending: false,
   error: false,
-  scanning: false,
   collection: null,
-  grouped: null
 };
 
 export const libraryReducer = handleActions({
@@ -27,13 +24,9 @@ export const libraryReducer = handleActions({
     state => ({
       ...state,
       pending: true,
-      scanning: true,
       error: false
     }),
-  [combineActions(
-    createType([PENDING, READ, LIBRARY]),
-    createType([PENDING, READ, COLLECTION])
-  )]:
+  [createType([PENDING, READ, LIBRARY])]:
     state => ({
       ...state,
       pending: true,
@@ -43,7 +36,6 @@ export const libraryReducer = handleActions({
     (state, { payload }) => ({
       ...state,
       pending: false,
-      scanning: false,
       error: payload
     }),
   [createType([ERROR, READ, LIBRARY])]:
@@ -56,7 +48,6 @@ export const libraryReducer = handleActions({
     (state, { payload }) => ({
       ...state,
       pending: false,
-      scanning: false,
       collection: payload
     }),
   [createType([SUCCESS, READ, LIBRARY])]:
@@ -64,12 +55,6 @@ export const libraryReducer = handleActions({
       ...state,
       pending: false,
       collection: payload
-    }),
-  [createType([SUCCESS, READ, COLLECTION])]:
-    (state, { payload }) => ({
-      ...state,
-      pending: false,
-      grouped: payload
     }),
   [createType([SUCCESS, DELETE, USER])]: () => initialState
 }, initialState);
