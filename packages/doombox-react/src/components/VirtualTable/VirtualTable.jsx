@@ -14,6 +14,9 @@ import VirtualTableHead from './VirtualTableHead';
 import VirtualTableRow from './VirtualTableRow';
 import VirtualTableDivider from './VirtualTableDivider';
 
+// Validation
+import { propSong } from '../../validation/propTypes';
+
 // Style
 import { useVirtualTableStyle } from './VirtualTable.style';
 
@@ -23,7 +26,10 @@ const getItemSize = (item, cellHeight) => {
 };
 
 const groupRows = (rows, group) => {
+  if (!group) return Object.values(rows);
+
   const groupedRows = groupby(rows, group);
+
   return Object.keys(groupedRows)
     .map(key => {
       const value = groupedRows[key];
@@ -36,10 +42,11 @@ const VirtualTable = props => {
   const {
     cellHeight,
     columns,
+    group,
     rows
   } = props;
   const classes = useVirtualTableStyle();
-  const groupedRows = groupRows(rows, 'album');
+  const groupedRows = groupRows(rows, group);
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1}>
@@ -53,7 +60,7 @@ const VirtualTable = props => {
               height={height}
               className={classes.root}
               // Item properties
-              itemCount={rows.length - 1}
+              itemCount={rows.length}
               itemSize={index => getItemSize(rows[index], cellHeight)}
             >
               {memo(itemProps => {
@@ -86,22 +93,16 @@ VirtualTable.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
+      value: PropTypes.string
     })
   ).isRequired,
-  rows: PropTypes.oneOfType([
-    PropTypes.shape({}),
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        path: PropTypes.string.isRequired
-      })
-    )
-  ]).isRequired
+  group: PropTypes.string,
+  rows: PropTypes.arrayOf(propSong).isRequired
 };
 
 VirtualTable.defaultProps = {
-  cellHeight: 40
+  cellHeight: 40,
+  group: null
 };
 
 export default VirtualTable;

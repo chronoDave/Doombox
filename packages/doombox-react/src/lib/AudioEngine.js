@@ -74,14 +74,17 @@ export class AudioEngine extends EventEmitter {
 
   set(playlist) {
     this.playlist = playlist;
+    this.emit('playlist', this.playlist);
   }
 
   add(playlist) {
     this.playlist.push(playlist);
+    this.emit('playlist', this.playlist);
   }
 
   shuffle() {
     this.playlist = shuffleArray(this.playlist);
+    this.emit('playlist', this.playlist);
     this.play(0);
   }
 

@@ -53,7 +53,11 @@
     "updateProfile": "Update Profile",
     "areYouSure": "Are you sure?",
     "updateConnection": "Update Connection",
-    "contact": "Contact"
+    "contact": "Contact",
+    "collection_song": "Song collection",
+    "collection_album": "Album collection",
+    "collection_label": "Label collection",
+    "playlist": "Playlist"
   },
   "description": {
     "remote": "Use remote connection",

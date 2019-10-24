@@ -53,7 +53,11 @@
     "updateProfile": "Profiel Bewerken",
     "areYouSure": "Weet je het zeker?",
     "updateConnection": "Verbinding Bewerken",
-    "contact": "Contact"
+    "contact": "Contact",
+    "collection_song": "Nummer collectie",
+    "collection_album": "Album collectie",
+    "collection_label": "Label collectie",
+    "playlist": "Afspeellijst"
   },
   "description": {
     "remote": "Gebruik externe verbinding",

@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Core
-import {
-  Box,
-  CircularProgress
-} from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 
-import { Typography } from '../../../components/Typography';
 import { VirtualTable } from '../../../components/VirtualTable';
+
+// Validation
+import { propSong } from '../../../validation/propTypes';
+
+// Template
+import { MainViewTemplate } from '../../../templates';
 
 // Api
 import { fetchCollection } from '../../../api';
@@ -19,29 +22,33 @@ const SongView = ({ library, fetchSongs }) => {
   }, []);
 
   return (
-    <Box p={3} display="flex" flexDirection="column" height="100%">
-      <Box display="flex" flexDirection="column" py={2}>
-        <Typography variant="h4">
-          Song collection
-        </Typography>
-        <Typography>
-          {`${library ? library.length : 0} songs`}
-        </Typography>
-      </Box>
+    <MainViewTemplate
+      title={{ key: 'title:collection', context: 'song' }}
+      subtitle={`${library ? library.length : 0} songs`}
+    >
       {library ? (
         <VirtualTable
           columns={[
             { key: 'title' },
             { key: 'artist' },
             { key: 'album' },
-            { key: 'label', value: 'albumartist' },
-            { key: 'duration' }
+            { key: 'label', value: 'albumartist' }
           ]}
           rows={library}
+          group="album"
         />
       ) : <CircularProgress />}
-    </Box>
+    </MainViewTemplate>
   );
+};
+
+SongView.propTypes = {
+  library: PropTypes.arrayOf(propSong),
+  fetchSongs: PropTypes.func.isRequired
+};
+
+SongView.defaultProps = {
+  library: null
 };
 
 const mapStateToProps = state => ({

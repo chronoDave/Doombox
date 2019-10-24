@@ -51,7 +51,11 @@
     "updateProfile": "تحديث الملف الشخصي",
     "areYouSure": "هل أنت متأكد؟",
     "updateConnection": "تحديث الإتصال",
-    "contact": ""
+    "contact": "",
+    "collection_song": "",
+    "collection_album": "",
+    "collection_label": "",
+    "playlist": ""
   },
   "description": {
     "remote": "استخدام إتصال عن بعد",

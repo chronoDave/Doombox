@@ -50,16 +50,12 @@ export const propOptions = PropTypes.oneOfType([
   }))
 ]);
 
-export const propLibrary = PropTypes.arrayOf(
-  PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired
-  })
-);
-
-export const propTableData = PropTypes.shape({
-  handleClick: PropTypes.func.isRequired,
-  collection: propLibrary.isRequired
+export const propSong = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  file: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(
+    PropTypes.string.isRequired
+  )
 });
 
 export const propColors = PropTypes.oneOf([

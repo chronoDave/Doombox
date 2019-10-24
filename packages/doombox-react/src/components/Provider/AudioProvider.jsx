@@ -26,6 +26,7 @@ const AudioProvider = ({ children, cache, collection }) => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(Audio.volume);
   const [muted, setMuted] = useState(Audio.muted);
+  const [playlist, setPlaylist] = useState([]);
 
   useEffect(() => {
     Audio.on('status', payload => setStatus(payload));
@@ -35,6 +36,7 @@ const AudioProvider = ({ children, cache, collection }) => {
     Audio.on('duration', payload => setDuration(payload));
     Audio.on('volume', payload => setVolume(payload));
     Audio.on('mute', payload => setMuted(payload));
+    Audio.on('playlist', payload => setPlaylist(payload));
   }, []);
 
   useEffect(() => {
@@ -48,8 +50,8 @@ const AudioProvider = ({ children, cache, collection }) => {
   return (
     <AudioContext.Provider
       value={{
-        set: playlist => Audio.set(playlist),
-        add: playlist => Audio.add(playlist),
+        set: payload => Audio.set(payload),
+        add: payload => Audio.add(payload),
         next: () => Audio.next(),
         previous: () => Audio.previous(),
         skip: index => Audio.skipTo(index),
@@ -61,6 +63,7 @@ const AudioProvider = ({ children, cache, collection }) => {
         mute: () => Audio.mute(),
         setVolume: int => Audio.setVolume(int),
         requestFrame: () => Audio.requestFrame(),
+        playlist,
         status,
         current,
         image,
