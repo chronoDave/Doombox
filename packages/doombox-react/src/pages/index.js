@@ -1,4 +1,4 @@
-export { default as CreateProfilePage } from './CreateProfilePage';
+export { default as LandingPage } from './LandingPage';
 export { default as LoadingPage } from './LoadingPage';
-export { default as MainPage } from './MainPage/MainPage';
-export { default as ErrorPage } from './ErrorPage/ErrorPage';
+export { default as ErrorPage } from './ErrorPage';
+export { default as MainPage } from './MainPage';

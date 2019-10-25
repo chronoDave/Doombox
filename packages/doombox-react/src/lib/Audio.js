@@ -27,7 +27,7 @@ import { AUDIO } from '../utils/const';
 
 const { ipcRenderer } = window.require('electron');
 
-export class AudioEngine extends EventEmitter {
+class Audio extends EventEmitter {
   constructor() {
     super();
 
@@ -204,3 +204,5 @@ export class AudioEngine extends EventEmitter {
     }
   }
 }
+
+export default Audio;

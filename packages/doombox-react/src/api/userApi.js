@@ -1,10 +1,11 @@
 // Types
 import {
+  createType,
   PENDING,
   CREATE,
+  READ,
   UPDATE,
   DELETE,
-  createType,
   USER,
 } from '@doombox/utils/types';
 
@@ -16,6 +17,13 @@ export const createUser = user => dispatch => {
   dispatch({ type: actionType });
 
   ipcRenderer.send(actionType, user);
+};
+
+export const readUser = _id => dispatch => {
+  const actionType = createType([PENDING, READ, USER]);
+  dispatch({ type: actionType });
+
+  ipcRenderer.send(actionType, { query: { _id } });
 };
 
 export const updateUser = (_id, values) => dispatch => {

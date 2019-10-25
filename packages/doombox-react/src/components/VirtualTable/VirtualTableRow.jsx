@@ -8,7 +8,9 @@ import {
 } from '@material-ui/core';
 
 import { Typography } from '../Typography';
-import { useAudio } from '../Provider';
+
+// Hooks
+import { useAudio } from '../../hooks';
 
 // Utils
 import { formatTime } from '../../utils';

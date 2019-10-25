@@ -9,8 +9,7 @@ const {
   READ,
   UPDATE,
   DELETE,
-  USER,
-  CACHE
+  USER
 } = require('@doombox/utils/types');
 
 const userRouter = Controller => {
@@ -19,11 +18,11 @@ const userRouter = Controller => {
       handleSuccess: doc => event.sender.send(createType([SUCCESS, CREATE, USER]), doc)
     }, payload, true);
   });
-  ipcMain.on(createType([PENDING, READ, CACHE]), event => {
-    Controller.readCached({
+  ipcMain.on(createType([PENDING, READ, USER]), (event, payload) => {
+    Controller.readOne({
       handleSuccess: doc => event.sender.send(createType([SUCCESS, READ, USER]), doc),
-      handleError: () => event.sender.send(createType([ERROR, READ, CACHE]))
-    });
+      handleError: err => event.sender.send(createType([ERROR, READ, USER]), err)
+    }, payload);
   });
   ipcMain.on(createType([PENDING, UPDATE, USER]), (event, payload) => {
     Controller.update({

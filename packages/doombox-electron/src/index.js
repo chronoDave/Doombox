@@ -8,11 +8,14 @@ const Store = require('./lib/store');
 // Routes
 const userRouter = require('./router/userRouter');
 const libraryRouter = require('./router/libraryRouter');
-const { imageRouter } = require('./router/imageRouter');
+const imageRouter = require('./router/imageRouter');
+const systemRouter = require('./router/systemRouter');
 
 // Controllers
 const LibraryController = require('./controller/libraryController');
 const UserController = require('./controller/userController');
+const SystemController = require('./controller/systemController');
+const ImageController = require('./controller/imageController');
 
 // Database
 const NeDB = require('./lib/database/nedb');
@@ -46,7 +49,8 @@ app.on('ready', () => {
   // Routes
   userRouter(new UserController(store, db));
   libraryRouter(new LibraryController(config, db));
-  imageRouter({ db });
+  imageRouter(new ImageController(db));
+  systemRouter(new SystemController(store));
 
   // Main
   const mainWindow = createWindow({ width, height });

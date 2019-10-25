@@ -1,12 +1,15 @@
-import React, { Fragment } from 'react';
+import React, {
+  Fragment,
+  createElement,
+  useEffect
+} from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Core
 import { useTheme } from '@material-ui/core/styles';
 import {
-  Box,
-  Card,
   useMediaQuery,
+  Box,
   Hidden
 } from '@material-ui/core';
 
@@ -14,22 +17,33 @@ import {
   BackgroundImage,
   BackgroundFade
 } from '../components/Background';
-import { FormCreateProfile } from '../components/Form';
 import { Typography } from '../components/Typography';
 
+// Hooks
+import { useRoute } from '../hooks';
+
+// Views
+import * as Views from '../views/Landing';
+
 // Utils
+import { isValidView } from '../utils';
+import { LANDING_VIEWS } from '../utils/const';
 import { version } from '../../package.json';
 
-const CreateProfilePage = () => {
+const LandingPage = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
-  const isDownSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const { breakpoints } = useTheme();
+  const isDownSm = useMediaQuery(breakpoints.down('sm'));
+  const { view, setView } = useRoute();
+
+  useEffect(() => {
+    if (!isValidView(LANDING_VIEWS, view)) setView(LANDING_VIEWS.CREATE);
+  }, [view]);
 
   return (
     <Fragment>
-      <BackgroundImage>
-        <BackgroundFade />
-      </BackgroundImage>
+      <BackgroundImage />
+      <BackgroundFade />
       <Box
         display="flex"
         justifyContent="center"
@@ -52,34 +66,26 @@ const CreateProfilePage = () => {
               </Typography>
               <Hidden smDown>
                 <Box pl={1}>
-                  <Typography color="grey.100">
+                  <Typography>
                     {version}
                   </Typography>
                 </Box>
               </Hidden>
             </Box>
             <Typography
-              variant={isDownSm ? 'body1' : 'h4'}
-              color="grey.100"
+              variant={isDownSm ? 'subtitle1' : 'h5'}
               align={isDownSm ? 'center' : 'left'}
             >
               {isDownSm ? version : t('slogan')}
             </Typography>
           </Box>
         </Box>
-        <Card>
-          <Box pt={3}>
-            <Typography variant="h6" align="center">
-              {t('title:createProfile')}
-            </Typography>
-          </Box>
-          <Box p={3} pb={2} minWidth={300}>
-            <FormCreateProfile />
-          </Box>
-        </Card>
+        {isValidView(LANDING_VIEWS, view) ? (
+          createElement(Views[`Landing${view}View`], { view })
+        ) : null}
       </Box>
     </Fragment>
   );
 };
 
-export default CreateProfilePage;
+export default LandingPage;

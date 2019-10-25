@@ -1,16 +1,18 @@
-export const PATHS = {
-  INDEX: 'INDEX',
+export const ROUTES = {
   MAIN: 'MAIN',
-  CREATE: 'CREATE',
+  LANDING: 'LANDING',
   ERROR: 'ERROR'
+};
+
+export const LANDING_VIEWS = {
+  CREATE: 'Create'
 };
 
 export const MAIN_VIEWS = {
   PLAYLIST: 'Playlist',
   LABEL: 'Label',
   ALBUM: 'Album',
-  SONG: 'Song',
-  LOADING: 'Loading'
+  SONG: 'Song'
 };
 
 export const SETTINGS_VIEWS = {

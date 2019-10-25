@@ -10,17 +10,13 @@ const {
   SUCCESS
 } = require('@doombox/utils/types');
 
-const imageRouter = ({ db }) => {
-  ipcMain.on(createType([PENDING, READ, IMAGE]), async (event, _id) => {
-    try {
-      const doc = await db.readOne('images', { query: { _id } });
-      event.sender.send(createType([SUCCESS, READ, IMAGE]), doc);
-    } catch (err) {
-      event.sender.send(createType([ERROR, READ, IMAGE]), err);
-    }
+const imageRouter = Controller => {
+  ipcMain.on(createType([PENDING, READ, IMAGE]), (event, _id) => {
+    Controller.readOne({
+      handleSuccess: doc => event.sender.send(createType([SUCCESS, READ, IMAGE]), doc),
+      handleError: err => event.sender.send(createType([ERROR, READ, IMAGE]), err)
+    }, { query: { _id } });
   });
 };
 
-module.exports = {
-  imageRouter
-};
+module.exports = imageRouter;

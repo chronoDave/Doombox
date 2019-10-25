@@ -46,7 +46,7 @@
     "duration": "Duration"
   },
   "title": {
-    "createProfile": "Create Profile",
+    "create_profile": "Create Profile",
     "userSettings": "User Settings",
     "appSettings": "App Settings",
     "deleteProfile": "Delete Profile",

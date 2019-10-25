@@ -13,8 +13,10 @@ import {
   Slider
 } from '@material-ui/core';
 
-import { useAudio } from '../../components/Provider';
 import { Typography } from '../../components/Typography';
+
+// Hooks
+import { useAudio } from '../../hooks';
 
 // Style
 import { useSidebarStyle } from './Sidebar.style';

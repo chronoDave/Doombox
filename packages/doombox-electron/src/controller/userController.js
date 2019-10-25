@@ -25,14 +25,6 @@ class UserController {
     handleSuccess(doc);
   }
 
-  async readCached({ handleSuccess, handleError }) {
-    const cache = this.store.get('user');
-    if (!cache || !cache._id) handleError();
-
-    const doc = await this.db.readOne('users', { query: { _id: cache._id } });
-    handleSuccess(doc);
-  }
-
   async update({ handleSuccess }, { _id, ...rest }) {
     const doc = await this.db.update('users', _id, { $set: { ...rest } });
     handleSuccess(doc);

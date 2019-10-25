@@ -15,13 +15,14 @@ import {
   ListItemIcon
 } from '@material-ui/core';
 
-import { useRouter } from '../../components/Provider';
+// Hooks
+import { useRoute } from '../../hooks';
 
-// Const
+// Utils
 import { MAIN_VIEWS } from '../../utils/const';
 
 const SidebarViews = () => {
-  const { view, setView } = useRouter();
+  const { view, setView } = useRoute();
   const { t } = useTranslation();
 
   return (

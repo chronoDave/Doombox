@@ -1,5 +1,6 @@
 export {
   createUser,
+  readUser,
   updateUser,
   deleteUser
 } from './userApi';

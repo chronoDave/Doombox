@@ -31,6 +31,7 @@ const Sidebar = () => {
       anchor="left"
       classes={{ paper: classes.paper }}
     >
+      {console.log('Sidebar rerender!')}
       <Box
         display="flex"
         flexDirection="column"

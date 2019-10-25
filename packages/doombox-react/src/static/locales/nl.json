@@ -46,7 +46,7 @@
     "duration": "Duratie"
   },
   "title": {
-    "createProfile": "Profiel Aanmaken",
+    "create_profile": "Profiel Aanmaken",
     "userSettings": "Gebruikers Instellingen",
     "appSettings": "Applicatie Instellingen",
     "deleteProfile": "Profiel Verwijderen",

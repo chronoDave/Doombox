@@ -9,9 +9,11 @@ import {
   Slider
 } from '@material-ui/core';
 
-import { useAudio } from '../../components/Provider';
 import { Tooltip } from '../../components/Tooltip';
 import { Typography } from '../../components/Typography';
+
+// Hooks
+import { useAudio } from '../../hooks';
 
 // Utils
 import { formatTime, cleanUrl } from '../../utils';

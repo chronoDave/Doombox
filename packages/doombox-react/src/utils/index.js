@@ -42,6 +42,7 @@ export const localToRemoteUrl = async url => (
     }))
 );
 export const memoProps = memoize(props => ({ ...props }));
+export const isValidView = (views, view) => Object.values(views).includes(view);
 
 // Locale
 export const languages = [
@@ -69,11 +70,11 @@ export const selectFolder = multi => {
 };
 
 /**
- * Create an IPC success / error listener
+ * IPC listener factory
  * @param {string[]} type - Type array
- * @param {boolean} init - Dispatch if true
+ * @param {Boolean} dispatchPending - Dispatches pending event when true
  */
-export const createListener = (type, init) => {
+export const createListener = (type, dispatchPending) => {
   const { ipcRenderer } = window.require('electron');
   const dispatch = useDispatch();
 
@@ -82,10 +83,6 @@ export const createListener = (type, init) => {
   const successType = createType([SUCCESS, actionType]);
 
   useEffect(() => {
-    if (init) {
-      dispatch({ type: createType([PENDING, actionType]) });
-      ipcRenderer.send(createType([PENDING, actionType]));
-    }
     ipcRenderer.on(
       errorType,
       (event, payload) => dispatch({ type: errorType, payload })
@@ -94,6 +91,13 @@ export const createListener = (type, init) => {
       successType,
       (event, payload) => dispatch({ type: successType, payload })
     );
+
+    if (dispatchPending) {
+      const pendingType = createType([PENDING, actionType]);
+
+      dispatch({ type: pendingType });
+      ipcRenderer.send(pendingType);
+    }
 
     // Cleanup
     return () => {

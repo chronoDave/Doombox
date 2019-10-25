@@ -7,14 +7,10 @@ import {
 import {
   createType,
   PENDING,
+  SUCCESS,
   ERROR,
-  USER,
-  REMOTE,
-  CREATE,
   READ,
-  UPDATE,
-  DELETE,
-  SUCCESS
+  USER
 } from '@doombox/utils/types';
 
 const initialState = {
@@ -24,53 +20,21 @@ const initialState = {
 };
 
 export const profileReducer = handleActions({
-  [combineActions(
-    createType([ERROR, READ, REMOTE]),
-    createType([ERROR, READ, USER])
-  )]:
-    (state, { payload }) => ({
-      ...state,
-      pending: false,
-      error: payload,
-      user: null
-    }),
-  [combineActions(
-    createType([SUCCESS, READ, REMOTE]),
-    createType([SUCCESS, READ, USER])
-  )]:
-    (state, { payload }) => ({
-      ...state,
-      pending: false,
-      error: null,
-      user: payload
-    }),
-  [combineActions(
-    createType([PENDING, UPDATE, USER]),
-    createType([PENDING, DELETE, USER])
-  )]:
-    state => ({
-      ...state,
-      pending: true,
-      error: null
-    }),
-  [combineActions(
-    createType([ERROR, UPDATE, USER]),
-    createType([ERROR, DELETE, USER])
-  )]:
-    (state, { payload }) => ({
-      ...state,
-      pending: false,
-      error: payload
-    }),
-  [combineActions(
-    createType([SUCCESS, UPDATE, USER]),
-    createType([SUCCESS, CREATE, USER])
-  )]:
-    (state, { payload }) => ({
-      ...state,
-      error: null,
-      pending: false,
-      user: payload
-    }),
-  [createType([SUCCESS, DELETE, USER])]: () => initialState
+  [createType([PENDING, READ, USER])]: state => ({
+    ...state,
+    pending: true,
+    error: false
+  }),
+  [createType([SUCCESS, READ, USER])]: (state, { payload }) => ({
+    ...state,
+    pending: false,
+    error: false,
+    user: payload
+  }),
+  [createType([ERROR, READ, USER])]: (state, { payload }) => ({
+    ...state,
+    pending: false,
+    error: payload,
+    user: null
+  })
 }, initialState);

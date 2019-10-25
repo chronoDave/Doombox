@@ -58,6 +58,10 @@ export const propSong = PropTypes.shape({
   )
 });
 
+export const propCache = PropTypes.shape({
+  _id: PropTypes.string.isRequired
+});
+
 export const propColors = PropTypes.oneOf([
   'initial',
   'inherit',

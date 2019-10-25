@@ -1,45 +1,9 @@
 import { useState, useEffect } from 'react';
 
 // Types
-import {
-  USER,
-  CREATE,
-  REMOTE,
-  UPDATE,
-  READ,
-  DELETE,
-  CACHE,
-  CONNECTION,
-  LIBRARY,
-  MESSAGE
-} from '@doombox/utils/types';
+import { MESSAGE } from '@doombox/utils/types';
 
-// Utils
-import { createListener } from '../utils';
-
-export const useSubscribeUser = () => {
-  createListener([CREATE, USER]);
-  createListener([READ, USER]);
-  createListener([READ, REMOTE]);
-  createListener([UPDATE, USER]);
-  createListener([DELETE, USER]);
-};
-
-export const useSubscribeSystem = () => {
-  createListener([READ, CACHE], true);
-  createListener([DELETE, CACHE]);
-  createListener([READ, CONNECTION]);
-  createListener([READ, REMOTE]);
-  createListener([DELETE, USER]);
-  createListener([READ, USER]);
-};
-
-export const useSubscribeLibrary = () => {
-  createListener([CREATE, LIBRARY]);
-  createListener([READ, LIBRARY]);
-};
-
-export const useSubscribeMessage = () => {
+export const useMessage = () => {
   const { ipcRenderer } = window.require('electron');
   const [message, setMessage] = useState({});
 

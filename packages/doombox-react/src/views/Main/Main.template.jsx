@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 // Core
 import { Box } from '@material-ui/core';
 
-import { Typography } from '../components/Typography';
+import { Typography } from '../../components/Typography';
 
 const MainViewTemplate = ({ title, subtitle, children }) => {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ const MainViewTemplate = ({ title, subtitle, children }) => {
       p={3}
       display="flex"
       flexDirection="column"
-      height="100%"
+      height="100vh"
     >
       <Box display="flex" flexDirection="column" py={2}>
         <Typography variant="h4">

@@ -7,14 +7,16 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
 import { App } from './components/App';
+
+// Modules
 import {
   RouteProvider,
-  AudioProvider
-} from './components/Provider';
+  AudioProvider,
+  IpcListener
+} from './modules';
 
 // Utils
 import { store } from './store';
-import { MAIN_VIEWS } from './utils/const';
 
 // Style
 import { theme } from './theme';
@@ -24,15 +26,17 @@ import './locale';
 
 render(
   <ReduxProvider store={store}>
-    <AudioProvider>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline>
-          <RouteProvider view={MAIN_VIEWS.ALBUM}>
-            <App />
+    <IpcListener>
+      <AudioProvider>
+        <MuiThemeProvider theme={theme}>
+          <RouteProvider>
+            <CssBaseline>
+              <App />
+            </CssBaseline>
           </RouteProvider>
-        </CssBaseline>
-      </MuiThemeProvider>
-    </AudioProvider>
+        </MuiThemeProvider>
+      </AudioProvider>
+    </IpcListener>
   </ReduxProvider>,
   document.getElementById('root')
 );

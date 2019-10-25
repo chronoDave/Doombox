@@ -44,7 +44,7 @@
     "duration": ""
   },
   "title": {
-    "createProfile": "ملف شخصي جديد",
+    "create_profile": "ملف شخصي جديد",
     "userSettings": "إعدادات المستخدم",
     "appSettings": "إعدادات التطبيق",
     "deleteProfile": "حذف الملف الشخصي",

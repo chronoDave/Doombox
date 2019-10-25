@@ -9,13 +9,15 @@ import {
 } from '@material-ui/core';
 
 import { Typography } from '../Typography';
-import { useSubscribeMessage } from '../../hooks';
 
 import ModalBase from './ModalBase';
 
+// Hooks
+import { useMessage } from '../../hooks';
+
 const ModalData = () => {
   const { t } = useTranslation();
-  const { current, total, file } = useSubscribeMessage();
+  const { current, total, file } = useMessage();
   const ratio = current / total * 100;
 
   return (

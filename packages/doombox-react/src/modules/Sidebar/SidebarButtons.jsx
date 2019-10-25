@@ -7,15 +7,16 @@ import IconNext from '@material-ui/icons/SkipNext';
 import IconPrevious from '@material-ui/icons/SkipPrevious';
 import IconShuffle from '@material-ui/icons/Shuffle';
 
-// // Core
+// Core
 import {
   Box,
   IconButton
 } from '@material-ui/core';
 
-import { useAudio } from '../../components/Provider';
+// Hooks
+import { useAudio } from '../../hooks';
 
-// Const
+// Utils
 import { AUDIO } from '../../utils/const';
 
 // Style
