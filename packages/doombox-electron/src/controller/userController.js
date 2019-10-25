@@ -1,44 +1,47 @@
-// Types
-const {
-  createType,
-  USER,
-  SUCCESS,
-  REMOTE,
-  ERROR,
-  READ
-} = require('@doombox/utils/types');
-
-// Models
-const User = require('../models/userModel');
-
-const findById = async props => {
-  const {
-    _id,
-    remote,
-    db,
-    event
-  } = props;
-
-  if (remote) {
-    try {
-      const doc = await User.findById(_id, { lean: true });
-      event.sender.send(createType([SUCCESS, READ, REMOTE]), doc);
-    } catch (err) {
-      event.sender.send(
-        createType([ERROR, READ, REMOTE]),
-        { trace: remote, locale: 'mongodb_user', ...err }
-      );
-    }
-  } else {
-    try {
-      const doc = await db.readOne('users', { query: { _id } });
-      event.sender.send(createType([SUCCESS, READ, USER]), doc);
-    } catch (err) {
-      event.sender.send(createType([ERROR, READ, USER]), err);
-    }
+class UserController {
+  constructor(store, db) {
+    this.store = store;
+    this.db = db;
   }
-};
 
-module.exports = {
-  findById
-};
+  async updateCache(_id) {
+    this.store.set('user', { _id });
+  }
+
+  async deleteCache() {
+    this.store.set('user', {});
+  }
+
+  async create({ handleSuccess }, payload, updateCache) {
+    const doc = await this.db.create('users', payload);
+
+    if (updateCache) this.updateCache(doc._id);
+
+    handleSuccess(doc);
+  }
+
+  async readOne({ handleSuccess }, payload) {
+    const doc = await this.db.readOne('users', payload);
+    handleSuccess(doc);
+  }
+
+  async readCached({ handleSuccess, handleError }) {
+    const cache = this.store.get('user');
+    if (!cache || !cache._id) handleError();
+
+    const doc = await this.db.readOne('users', { query: { _id: cache._id } });
+    handleSuccess(doc);
+  }
+
+  async update({ handleSuccess }, { _id, ...rest }) {
+    const doc = await this.db.update('users', _id, { $set: { ...rest } });
+    handleSuccess(doc);
+  }
+
+  async delete({ handleSuccess }, _id) {
+    await this.db.delete('users', _id);
+    handleSuccess();
+  }
+}
+
+module.exports = UserController;

@@ -54,11 +54,14 @@ module.exports = class NeDB {
   }
 
   update(collection, _id, docs) {
-    return new Promise(resolve => this[collection]
-      .update({ _id }, docs, err => {
+    return new Promise(resolve => {
+      this[collection].update({ _id }, docs, err => {
         if (err) throw err;
-        resolve();
-      }));
+      });
+      this.db.readOne(collection, { _id })
+        .then(doc => resolve(doc))
+        .catch(err => { throw err; });
+    });
   }
 
   delete(collection, _id) {
