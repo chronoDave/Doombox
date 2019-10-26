@@ -13,8 +13,14 @@ const {
 const systemRouter = Controller => {
   ipcMain.on(createType([PENDING, READ, CACHE]), event => {
     Controller.readCache({
-      handleSuccess: doc => event.sender.send(createType([SUCCESS, READ, CACHE]), doc),
-      handleError: err => event.sender.send(createType([ERROR, READ, CACHE]), err)
+      handleSuccess: doc => event.sender.send(
+        createType([SUCCESS, READ, CACHE]),
+        doc
+      ),
+      handleError: err => event.sender.send(
+        createType([ERROR, READ, CACHE]),
+        { message: err.name || 'An unknown error has occurred' }
+      )
     }, 'user');
   });
 };

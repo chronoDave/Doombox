@@ -1,7 +1,8 @@
 class UserController {
-  constructor(store, db) {
+  constructor(store, db, logger) {
     this.store = store;
     this.db = db;
+    this.logger = logger;
   }
 
   async updateCache(_id) {
@@ -12,26 +13,68 @@ class UserController {
     this.store.set('user', {});
   }
 
-  async createOne({ handleSuccess }, user) {
-    const doc = await this.db.create('users', user);
+  async createOne({ handleSuccess, handleError }, user) {
+    this.db.create('users', user)
+      .then(doc => {
+        if (!doc) {
+          const err = new Error(`Failed to create user: ${user}`);
 
-    this.updateCache(doc._id);
-    handleSuccess(doc);
+          this.logger.createLog(err);
+          handleError(err);
+        } else {
+          this.updateCache(doc._id);
+          handleSuccess(doc);
+        }
+      })
+      .catch(err => {
+        this.logger.createLog(err);
+        handleError(err);
+      });
   }
 
-  async readOneWithId({ handleSuccess }, _id) {
-    const doc = await this.db.readOneWithId('users', _id);
-    handleSuccess(doc);
+  async readOneWithId({ handleSuccess, handleError }, _id) {
+    this.db.readOneWithId('users', _id)
+      .then(doc => {
+        if (!doc) {
+          const err = new Error(`No song found with id: ${_id}`);
+
+          this.logger.createLog(err);
+          handleError(err);
+        } else {
+          handleSuccess(doc);
+        }
+      })
+      .catch(err => {
+        this.logger.createLog(err);
+        handleError(err);
+      });
   }
 
-  async updateOneWithId({ handleSuccess }, _id, modifiers) {
-    const doc = await this.db.updateOneWithId('users', _id, modifiers);
-    handleSuccess(doc);
+  async updateOneWithId({ handleSuccess, handleError }, _id, modifiers) {
+    this.db.updateOneWithId('users', _id, modifiers)
+      .then(doc => {
+        if (!doc) {
+          const err = new Error(`Failed to update user with id: ${_id} and modifiers: ${modifiers.toString()}`);
+
+          this.logger.createLog(err);
+          handleError(err);
+        } else {
+          handleSuccess(doc);
+        }
+      })
+      .catch(err => {
+        this.logger.createLog(err);
+        handleError(err);
+      });
   }
 
-  async deleteOneWithId({ handleSuccess }, _id) {
-    await this.db.deleteOneWithId('users', _id);
-    handleSuccess();
+  async deleteOneWithId({ handleSuccess, handleError }, _id) {
+    this.db.deleteOneWithId('users', _id)
+      .then(() => handleSuccess())
+      .catch(err => {
+        this.logger.createLog(err);
+        handleError(err);
+      });
   }
 }
 

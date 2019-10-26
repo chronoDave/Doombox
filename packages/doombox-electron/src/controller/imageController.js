@@ -1,18 +1,25 @@
 class ImageController {
-  constructor(db) {
+  constructor(db, logger) {
     this.db = db;
+    this.logger = logger;
   }
 
   async readOneWithId({ handleSuccess, handleError }, _id) {
     this.db.readOneWithId('images', _id)
       .then(doc => {
         if (!doc) {
-          handleError({ message: 'No image found' });
+          const err = new Error(`No image found with id: ${_id}`);
+
+          this.logger.createLog(err);
+          handleError(err);
         } else {
           handleSuccess(doc);
         }
       })
-      .catch(err => { throw err; });
+      .catch(err => {
+        this.logger.createLog(err);
+        handleError(err);
+      });
   }
 }
 

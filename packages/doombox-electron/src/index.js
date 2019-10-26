@@ -1,9 +1,10 @@
 const { app } = require('electron');
 const path = require('path');
 
-// Core
+// Lib
 const { createWindow } = require('./lib/window');
 const Store = require('./lib/store');
+const Logger = require('./lib/logger');
 
 // Routes
 const userRouter = require('./router/userRouter');
@@ -20,15 +21,17 @@ const ImageController = require('./controller/imageController');
 // Database
 const NeDB = require('./lib/database/nedb');
 
+const logger = new Logger();
+const db = new NeDB();
 const store = new Store({
-  configName: 'user-preferences',
+  fileName: 'user-preferences',
   defaults: {
     window: {
       width: 800,
       height: 600
     },
     config: {
-      imagePath: path.resolve(`${app.getPath('userData')}/images`),
+      imagePath: path.resolve(app.getPath('userData'), 'images'),
       batchSize: 50,
       parseImage: true, // Create album images
     },
@@ -44,13 +47,11 @@ app.on('ready', () => {
   const { width, height } = store.get('window');
   const config = store.get('config');
 
-  const db = new NeDB();
-
   // Routes
-  userRouter(new UserController(store, db));
-  libraryRouter(new LibraryController(config, db));
-  imageRouter(new ImageController(db));
-  systemRouter(new SystemController(store));
+  userRouter(new UserController(store, db, logger));
+  libraryRouter(new LibraryController(config, db, logger));
+  imageRouter(new ImageController(db, logger));
+  systemRouter(new SystemController(store, logger));
 
   // Main
   const mainWindow = createWindow({ width, height });

@@ -14,11 +14,11 @@ function parseDataFile(filePath, defaults) {
 }
 
 module.exports = class Store {
-  constructor(props) {
+  constructor(options) {
     const userDataPath = app.getPath('userData');
 
-    this.path = path.join(userDataPath, `${props.configName}.json`);
-    this.data = parseDataFile(this.path, props.defaults);
+    this.path = path.join(userDataPath, `${options.fileName}.json`);
+    this.data = parseDataFile(this.path, options.defaults);
   }
 
   get(key) {
