@@ -41,6 +41,7 @@ module.exports = {
     'camelcase': 'off', // Mongoose data types
     'no-nested-ternary': 'off',
     'prefer-promise-reject-errors': 'off',
+    "no-constant-condition": ["error", { "checkLoops": false }],
     // Advanced
     'no-bitwise': ["error", { "allow": ['|', '>>', '<<', '&'] }], // MP3 metadata parser
     'no-control-regex': "off", // MP3 metadata parser

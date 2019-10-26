@@ -18,10 +18,23 @@ export const cleanUrl = url => url
 export const getRandomInt = (min, max) => (
   Math.floor(Math.random() * (max - min + 1) + min)
 );
-export const shuffleArray = array => array
-  .map(a => [Math.random(), a])
-  .sort((a, b) => a[0] - b[0])
-  .map(a => a[1]);
+export const shuffleArray = array => {
+  while (true) {
+    const shuffled = array.slice();
+
+    for (let i = shuffled.length - 1; i >= 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const swap = shuffled[j];
+
+      shuffled[j] = shuffled[i];
+      shuffled[i] = swap;
+    }
+
+    if (shuffled.length <= 1 || shuffled.some((v, i) => v !== array[i])) {
+      return shuffled;
+    }
+  }
+};
 export const formatTime = time => {
   const zeroPadding = i => (i < 10 ? `0${i}` : i);
 
