@@ -8,7 +8,7 @@ const {
   ERROR,
   READ,
   CACHE
-} = require('@doombox/utils/types');
+} = require('@doombox/utils/types/ipc');
 
 const systemRouter = Controller => {
   ipcMain.on(createType([PENDING, READ, CACHE]), event => {
@@ -17,11 +17,11 @@ const systemRouter = Controller => {
         createType([SUCCESS, READ, CACHE]),
         doc
       ),
-      handleError: err => event.sender.send(
+      handleError: () => event.sender.send(
         createType([ERROR, READ, CACHE]),
-        { message: err.name || 'An unknown error has occurred' }
+        { message: 'No cached user found' }
       )
-    }, 'user');
+    });
   });
 };
 

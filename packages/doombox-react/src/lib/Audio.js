@@ -9,7 +9,7 @@ import {
   SONG,
   ERROR,
   SUCCESS
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 // Api
 import {

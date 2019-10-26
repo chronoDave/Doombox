@@ -11,7 +11,7 @@ import {
   PENDING,
   ERROR,
   SUCCESS
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 const initialState = {
   pending: false,

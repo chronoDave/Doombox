@@ -1,6 +1,5 @@
 import {
-  handleActions,
-  combineActions
+  handleActions
 } from 'redux-actions';
 
 // Types
@@ -8,16 +7,10 @@ import {
   createType,
   PENDING,
   SUCCESS,
-  CONNECTION,
-  LIBRARY,
-  DELETE,
   ERROR,
-  CREATE,
   READ,
   CACHE,
-  REMOTE,
-  USER
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 const initialState = {
   pending: false,

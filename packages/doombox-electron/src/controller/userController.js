@@ -1,3 +1,8 @@
+const shortid = require('shortid');
+
+// Validation
+const { schemaUser } = require('@doombox/utils/validation/schema');
+
 class UserController {
   constructor(store, db, logger) {
     this.store = store;
@@ -13,8 +18,20 @@ class UserController {
     this.store.set('user', {});
   }
 
-  async createOne({ handleSuccess, handleError }, user) {
-    this.db.create('users', user)
+  async createOne({ handleSuccess, handleError }, userData) {
+    const user = {
+      _id: shortid.generate(),
+      ...userData
+    };
+
+    try {
+      await schemaUser.validate(user);
+    } catch (err) {
+      this.logger.createLog(err);
+      return handleError(err);
+    }
+
+    return this.db.create('users', user)
       .then(doc => {
         if (!doc) {
           const err = new Error(`Failed to create user: ${user}`);

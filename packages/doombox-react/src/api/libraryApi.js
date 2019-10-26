@@ -7,7 +7,7 @@ import {
   DELETE,
   SONG,
   CREATE
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 const { ipcRenderer } = window.require('electron');
 

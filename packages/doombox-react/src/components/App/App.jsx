@@ -34,7 +34,6 @@ const App = props => {
   const {
     cache,
     error,
-    pending,
     profile,
     fetchUser
   } = props;
@@ -57,15 +56,9 @@ const App = props => {
     }
   }, [profile]);
 
-  useEffect(() => {
-    if (error && !pending) {
-      setRoute(ROUTES.ERROR);
-    }
-  });
-
   return useMemo(() => {
     if (route === ROUTES.ERROR) return <Pages.ErrorPage />;
-    if (route === ROUTES.CREATE) return <Pages.LandingPage />;
+    if (route === ROUTES.LANDING) return <Pages.LandingPage />;
     if (route === ROUTES.MAIN) return <Pages.MainPage />;
     return <Pages.LoadingPage />;
   }, [route]);
@@ -74,7 +67,6 @@ const App = props => {
 const mapStateToProps = state => ({
   cache: state.system.cache,
   error: state.system.error,
-  pending: state.system.pending,
   profile: state.profile.user
 });
 
@@ -85,7 +77,6 @@ const mapDispatchToProps = dispatch => ({
 App.propTypes = {
   cache: propCache,
   error: propError,
-  pending: PropTypes.bool.isRequired,
   profile: propUser,
   fetchUser: PropTypes.func.isRequired
 };

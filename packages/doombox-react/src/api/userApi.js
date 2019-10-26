@@ -7,7 +7,7 @@ import {
   UPDATE,
   DELETE,
   USER,
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 // Actions
 const { ipcRenderer } = window.require('electron');

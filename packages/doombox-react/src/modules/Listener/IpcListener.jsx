@@ -6,7 +6,7 @@ import {
   CACHE,
   USER,
   LIBRARY
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 // Utils
 import { createListener } from '../../utils';

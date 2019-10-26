@@ -4,7 +4,7 @@ import {
   IMAGE,
   PENDING,
   READ
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 const { ipcRenderer } = window.require('electron');
 

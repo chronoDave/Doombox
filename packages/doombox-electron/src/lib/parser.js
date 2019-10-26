@@ -3,12 +3,19 @@ const path = require('path');
 const fs = require('fs');
 const shortid = require('shortid');
 
+// Validation
+const {
+  schemaImage,
+  schemaLibrary
+} = require('@doombox/utils/validation/shapes');
+
 class MetadataParser {
-  constructor(config = {}, db) {
+  constructor(config = {}, db, logger) {
     this.config = config;
     this.db = db;
     this.size = 0;
     this.payload = [];
+    this.logger = logger;
   }
 
   async writeImage(file, _id) {
@@ -17,12 +24,20 @@ class MetadataParser {
 
     if (!fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, file.data);
-      this.db.create('images', {
+
+      const image = {
         _id,
         path: filePath,
         picture: file.type,
         decription: file.description
-      });
+      };
+
+      try {
+        await schemaImage.validate(image);
+        await this.db.create('images', image);
+      } catch (err) {
+        this.logger.createLog(err);
+      }
     }
   }
 
@@ -30,14 +45,30 @@ class MetadataParser {
     this.event = event;
     this.size = files.length;
 
-    await this.parseRecursive(files);
+    try {
+      await this.parseRecursive(files);
+      await schemaLibrary.validate(this.payload);
+      await this.db.create('library', this.payload);
+    } catch (err) {
+      this.logger.createLog(err);
+    }
 
-    await this.db.create('library', this.payload);
-    const docs = await this.db.read('library', {});
+    this.db.read('library')
+      .then(docs => {
+        if (!docs || docs.length === 0) {
+          const err = new Error('No library created');
 
-    event.handleSuccess(docs);
-
-    this.payload = [];
+          this.logger.createLog(err);
+          event.handleError(err);
+        } else {
+          event.handleSuccess(docs);
+          this.payload = [];
+        }
+      })
+      .catch(err => {
+        this.logger.createLog(err);
+        event.handleError(err);
+      });
   }
 
   async parseRecursive(files, iteration = 0) {
@@ -75,10 +106,7 @@ class MetadataParser {
           return this.parseRecursive(files, iteration + 1);
         })
         .catch(err => {
-          console.log(err);
-
-          this.payload.push({ _id: shortid.generate(), file });
-
+          this.logger.createLog(err);
           return this.parseRecursive(files, iteration + 1);
         });
     }

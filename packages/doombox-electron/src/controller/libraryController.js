@@ -9,7 +9,7 @@ class LibraryController {
   constructor(config, db, logger) {
     this.config = config;
     this.db = db;
-    this.parser = new MetadataParser(config, db);
+    this.parser = new MetadataParser(config, db, logger);
     this.logger = logger;
   }
 

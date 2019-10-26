@@ -10,7 +10,7 @@ const {
   UPDATE,
   DELETE,
   USER
-} = require('@doombox/utils/types');
+} = require('@doombox/utils/types/ipc');
 
 const userRouter = Controller => {
   ipcMain.on(createType([PENDING, CREATE, USER]), (event, user) => {
@@ -21,7 +21,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, CREATE, USER]),
-        { message: err.name || 'An unknown error has occurred' }
+        err.toString()
       )
     }, user);
   });
@@ -33,7 +33,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, READ, USER]),
-        { message: err.name || 'An unknown error has occurred' }
+        err.toString()
       )
     }, _id);
   });
@@ -45,7 +45,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, UPDATE, USER]),
-        { message: err.name || 'An unknown error has occurred' }
+        err.toString()
       )
     }, _id, modifiers);
   });
@@ -56,7 +56,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, DELETE, USER]),
-        { message: err.name | 'An unknown error has occurred' }
+        err.toString()
       )
     }, _id);
   });

@@ -8,7 +8,7 @@ import {
   PENDING,
   ERROR,
   SUCCESS
-} from '@doombox/utils/types';
+} from '@doombox/utils/types/ipc';
 
 // General
 export const isEmptyObj = obj => Object.keys(obj).length === 0;

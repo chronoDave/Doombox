@@ -4,14 +4,11 @@ class SystemController {
     this.logger = logger;
   }
 
-  readCache({ handleSuccess, handleError }, id) {
-    const doc = this.store.get(id);
+  readCache({ handleSuccess, handleError }) {
+    const doc = this.store.get('user');
 
     if (!doc || !doc._id) {
-      const err = new Error(`No user found with id: ${id}`);
-
-      this.logger.createLog(err);
-      handleError(err);
+      handleError();
     } else {
       handleSuccess(doc);
     }

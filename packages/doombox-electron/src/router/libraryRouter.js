@@ -12,7 +12,7 @@ const {
   DELETE,
   CREATE,
   READ,
-} = require('@doombox/utils/types');
+} = require('@doombox/utils/types/ipc');
 
 const libraryRouter = Controller => {
   ipcMain.on(createType([PENDING, CREATE, LIBRARY]), (event, paths) => {

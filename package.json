@@ -29,7 +29,9 @@
     "nodemon": "^1.19.1",
     "source-map-explorer": "^2.0.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "yup": "^0.27.0"
+  },
   "workspaces": [
     "packages/*"
   ]

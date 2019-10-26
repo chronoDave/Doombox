@@ -19,11 +19,6 @@ module.exports = class NeDB {
       filename: `${userDataPath}/nedb/library.db`,
       autoload: true
     });
-
-    this.backlog = new Datastore({
-      filename: `${userDataPath}/nedb/backlog.db`,
-      autoload: true
-    });
   }
 
   create(collection, docs) {
@@ -45,7 +40,7 @@ module.exports = class NeDB {
 
     return new Promise((resolve, reject) => {
       this[collection]
-        .find(query)
+        .find(query || {})
         .projection(projection || {})
         .sort(sort || {})
         .exec((err, docs) => {

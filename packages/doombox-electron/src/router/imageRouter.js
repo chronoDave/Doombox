@@ -8,7 +8,7 @@ const {
   ERROR,
   PENDING,
   SUCCESS
-} = require('@doombox/utils/types');
+} = require('@doombox/utils/types/ipc');
 
 const imageRouter = Controller => {
   ipcMain.on(createType([PENDING, READ, IMAGE]), (event, _id) => {

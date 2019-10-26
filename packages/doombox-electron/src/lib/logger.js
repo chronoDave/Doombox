@@ -19,7 +19,7 @@ module.exports = class Logger {
   createLog(err) {
     fs.writeFileSync(
       path.join(this.folder, `error_${new Date().getTime()}.txt`),
-      `${err.name || 'Unknown error'}: ${err.message}\n${err.stack || 'No stack found'}`
+      JSON.stringify(err, null, '\t')
     );
   }
 };

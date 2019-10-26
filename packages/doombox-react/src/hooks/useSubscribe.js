@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // Types
-import { MESSAGE } from '@doombox/utils/types';
+import { MESSAGE } from '@doombox/utils/types/ipc';
 
 export const useMessage = () => {
   const { ipcRenderer } = window.require('electron');
