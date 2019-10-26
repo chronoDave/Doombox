@@ -15,18 +15,18 @@ const {
 } = require('@doombox/utils/types');
 
 const libraryRouter = Controller => {
-  ipcMain.on(createType([PENDING, CREATE, LIBRARY]), (event, payload) => {
+  ipcMain.on(createType([PENDING, CREATE, LIBRARY]), (event, paths) => {
     Controller.create({
       handleError: err => event.sender.send(createType([ERROR, CREATE, LIBRARY]), err),
       handleSuccess: docs => event.sender.send(createType([SUCCESS, CREATE, LIBRARY]), docs),
       handleMessage: message => event.sender.send(MESSAGE, message)
-    }, payload);
+    }, paths);
   });
 
-  ipcMain.on(createType([PENDING, READ, LIBRARY]), (event, payload) => {
+  ipcMain.on(createType([PENDING, READ, LIBRARY]), (event, query) => {
     Controller.read({
       handleSuccess: docs => event.sender.send(createType([SUCCESS, READ, LIBRARY]), docs)
-    }, payload);
+    }, query);
   });
 
   ipcMain.on(createType([PENDING, DELETE, LIBRARY]), event => {
@@ -36,7 +36,7 @@ const libraryRouter = Controller => {
   });
 
   ipcMain.on(createType([PENDING, READ, SONG]), (event, _id) => {
-    Controller.readOne({
+    Controller.readOneWithId({
       handleSuccess: doc => event.sender.send(createType([SUCCESS, READ, SONG]), doc)
     }, _id);
   });

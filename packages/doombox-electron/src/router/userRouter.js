@@ -13,24 +13,24 @@ const {
 } = require('@doombox/utils/types');
 
 const userRouter = Controller => {
-  ipcMain.on(createType([PENDING, CREATE, USER]), (event, payload) => {
-    Controller.create({
+  ipcMain.on(createType([PENDING, CREATE, USER]), (event, user) => {
+    Controller.createOne({
       handleSuccess: doc => event.sender.send(createType([SUCCESS, CREATE, USER]), doc)
-    }, payload, true);
+    }, user);
   });
-  ipcMain.on(createType([PENDING, READ, USER]), (event, payload) => {
-    Controller.readOne({
+  ipcMain.on(createType([PENDING, READ, USER]), (event, _id) => {
+    Controller.readOneWithId({
       handleSuccess: doc => event.sender.send(createType([SUCCESS, READ, USER]), doc),
       handleError: err => event.sender.send(createType([ERROR, READ, USER]), err)
-    }, payload);
+    }, _id);
   });
-  ipcMain.on(createType([PENDING, UPDATE, USER]), (event, payload) => {
-    Controller.update({
+  ipcMain.on(createType([PENDING, UPDATE, USER]), (event, _id, modifiers) => {
+    Controller.updateOneWithId({
       handleSuccess: doc => event.sender.send(createType([SUCCESS, UPDATE, USER]), doc)
-    }, payload);
+    }, _id, modifiers);
   });
   ipcMain.on(createType([PENDING, DELETE, USER]), (event, _id) => {
-    Controller.delete({
+    Controller.deleteOneWithId({
       handleSuccess: () => event.sender.send(createType([SUCCESS, DELETE, USER]))
     }, _id);
   });

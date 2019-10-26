@@ -25,7 +25,7 @@ import { Sidebar } from '../modules';
 import { useRoute } from '../hooks';
 
 // Api
-import { fetchCollection } from '../api';
+import { fetchLibrary } from '../api';
 
 // Views
 import * as Views from '../views/Main';
@@ -34,7 +34,7 @@ import * as Views from '../views/Main';
 import { isValidView } from '../utils';
 import { MAIN_VIEWS } from '../utils/const';
 
-const MainPage = ({ isScanning, fetchLibrary }) => {
+const MainPage = ({ isScanning, fetchAll }) => {
   const [open, setOpen] = useState(isScanning);
   const { component } = useTheme();
   const { view, setView } = useRoute();
@@ -44,7 +44,7 @@ const MainPage = ({ isScanning, fetchLibrary }) => {
   }, [isScanning]);
 
   useEffect(() => {
-    fetchLibrary();
+    fetchAll();
   }, []);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const MainPage = ({ isScanning, fetchLibrary }) => {
 
 MainPage.propTypes = {
   isScanning: PropTypes.bool.isRequired,
-  fetchLibrary: PropTypes.func.isRequired
+  fetchAll: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -80,7 +80,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchLibrary: () => dispatch(fetchCollection())
+  fetchAll: () => dispatch(fetchLibrary())
 });
 
 export default connect(

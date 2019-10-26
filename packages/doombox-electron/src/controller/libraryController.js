@@ -12,7 +12,7 @@ class LibraryController {
     this.parser = new MetadataParser(config, db);
   }
 
-  async create(event, payload) {
+  async create(event, paths) {
     await this.db.drop('library');
     await this.db.drop('images');
 
@@ -31,19 +31,29 @@ class LibraryController {
       }
     ));
 
-    Promise.all(payload.map(folder => globFolder(folder)))
-      .then(paths => this.parser.parseAll(paths.flat(), event))
+    Promise.all(paths.map(folder => globFolder(folder)))
+      .then(filePaths => this.parser.parseAll(filePaths.flat(), event))
       .catch(err => { throw err; });
   }
 
-  async read({ handleSuccess }, payload) {
-    const docs = await this.db.read('library', payload || {});
-    return handleSuccess(docs);
+  async read({ handleSuccess }, query) {
+    const docs = await this.db.read('library', query);
+    handleSuccess(docs);
   }
 
-  async readOne({ handleSuccess }, payload) {
-    const docs = await this.db.readOne('library', payload || {});
-    return handleSuccess(docs);
+  async readOne({ handleSuccess }, query) {
+    const docs = await this.db.readOne('library', query);
+    handleSuccess(docs);
+  }
+
+  async readOneWithId({ handleSuccess }, _id) {
+    const doc = await this.db.readOneWithId('library', _id);
+    handleSuccess(doc);
+  }
+
+  async delete({ handleSuccess }) {
+    await this.db.delete('library');
+    handleSuccess();
   }
 }
 

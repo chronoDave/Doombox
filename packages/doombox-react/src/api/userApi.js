@@ -23,14 +23,14 @@ export const readUser = _id => dispatch => {
   const actionType = createType([PENDING, READ, USER]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType, { query: { _id } });
+  ipcRenderer.send(actionType, _id);
 };
 
-export const updateUser = (_id, values) => dispatch => {
+export const updateUser = (_id, modifiers) => dispatch => {
   const actionType = createType([PENDING, UPDATE, USER]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType, { _id, ...values });
+  ipcRenderer.send(actionType, _id, modifiers);
 };
 
 export const deleteUser = _id => dispatch => {

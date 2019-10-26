@@ -23,7 +23,7 @@ import { Button } from '../../../components/Button';
 
 // Api
 import {
-  scanLibrary,
+  parsePaths,
   deleteLibrary,
   updateUser
 } from '../../../api';
@@ -112,7 +112,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   clearLibrary: () => dispatch(deleteLibrary()),
-  updateLibrary: path => dispatch(scanLibrary(path)),
+  updateLibrary: path => dispatch(parsePaths(path)),
   updateFolders: (_id, folders) => dispatch(updateUser(_id, { folders }))
 });
 

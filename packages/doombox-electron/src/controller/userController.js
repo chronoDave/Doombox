@@ -12,26 +12,25 @@ class UserController {
     this.store.set('user', {});
   }
 
-  async create({ handleSuccess }, payload, updateCache) {
-    const doc = await this.db.create('users', payload);
+  async createOne({ handleSuccess }, user) {
+    const doc = await this.db.create('users', user);
 
-    if (updateCache) this.updateCache(doc._id);
-
+    this.updateCache(doc._id);
     handleSuccess(doc);
   }
 
-  async readOne({ handleSuccess }, payload) {
-    const doc = await this.db.readOne('users', payload);
+  async readOneWithId({ handleSuccess }, _id) {
+    const doc = await this.db.readOneWithId('users', _id);
     handleSuccess(doc);
   }
 
-  async update({ handleSuccess }, { _id, ...rest }) {
-    const doc = await this.db.update('users', _id, { $set: { ...rest } });
+  async updateOneWithId({ handleSuccess }, _id, modifiers) {
+    const doc = await this.db.updateOneWithId('users', _id, modifiers);
     handleSuccess(doc);
   }
 
-  async delete({ handleSuccess }, _id) {
-    await this.db.delete('users', _id);
+  async deleteOneWithId({ handleSuccess }, _id) {
+    await this.db.deleteOneWithId('users', _id);
     handleSuccess();
   }
 }

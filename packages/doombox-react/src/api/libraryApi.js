@@ -11,11 +11,21 @@ import {
 
 const { ipcRenderer } = window.require('electron');
 
-export const scanLibrary = path => dispatch => {
+/**
+ * @param {string[]} paths
+ */
+export const parsePaths = paths => dispatch => {
   const actionType = createType([PENDING, CREATE, LIBRARY]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType, path);
+  ipcRenderer.send(actionType, paths);
+};
+
+export const fetchLibrary = query => dispatch => {
+  const actionType = createType([PENDING, READ, LIBRARY]);
+  dispatch({ type: actionType });
+
+  ipcRenderer.send(actionType, query);
 };
 
 export const deleteLibrary = () => dispatch => {
@@ -26,12 +36,5 @@ export const deleteLibrary = () => dispatch => {
 };
 
 export const fetchMetadata = _id => {
-  ipcRenderer.send(createType([PENDING, READ, SONG]), { query: { _id } });
-};
-
-export const fetchCollection = query => dispatch => {
-  const actionType = createType([PENDING, READ, LIBRARY]);
-  dispatch({ type: actionType });
-
-  ipcRenderer.send(actionType, query);
+  ipcRenderer.send(createType([PENDING, READ, SONG]), _id);
 };

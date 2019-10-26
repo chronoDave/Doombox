@@ -3,11 +3,16 @@ class ImageController {
     this.db = db;
   }
 
-  async readOne({ handleSuccess, handleError }, payload) {
-    const doc = await this.db.readOne('images', payload);
-
-    if (!doc) return handleError({ message: 'No image found' });
-    return handleSuccess(doc);
+  async readOneWithId({ handleSuccess, handleError }, _id) {
+    this.db.readOneWithId('images', _id)
+      .then(doc => {
+        if (!doc) {
+          handleError({ message: 'No image found' });
+        } else {
+          handleSuccess(doc);
+        }
+      })
+      .catch(err => { throw err; });
   }
 }
 

@@ -8,10 +8,8 @@ export {
 export { fetchImage } from './imageApi';
 
 export {
-  scanLibrary,
+  parsePaths,
   fetchMetadata,
-  fetchCollection,
+  fetchLibrary,
   deleteLibrary
 } from './libraryApi';
-
-export { getOfflineCache } from './systemApi';
