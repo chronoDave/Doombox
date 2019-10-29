@@ -19,13 +19,19 @@ import {
 import { ModalScanning } from '../components/Modal';
 
 // Modules
-import { Sidebar } from '../modules';
+import {
+  Sidebar,
+  Sidepanel
+} from '../modules';
 
 // Hooks
 import { useRoute } from '../hooks';
 
 // Api
-import { fetchLibrary } from '../api';
+import {
+  fetchLibrary,
+  fetchPlaylist
+} from '../api';
 
 // Views
 import * as Views from '../views/Main';
@@ -34,17 +40,23 @@ import * as Views from '../views/Main';
 import { isValidView } from '../utils';
 import { MAIN_VIEWS } from '../utils/const';
 
-const MainPage = ({ isScanning, fetchAll }) => {
+const MainPage = ({ isScanning, fetchAllLibrary, fetchAllPlaylist }) => {
   const [open, setOpen] = useState(isScanning);
-  const { component } = useTheme();
   const { view, setView } = useRoute();
+  const {
+    component: {
+      sidebar,
+      sidepanel
+    }
+  } = useTheme();
 
   useEffect(() => {
     setOpen(isScanning);
   }, [isScanning]);
 
   useEffect(() => {
-    fetchAll();
+    fetchAllLibrary();
+    fetchAllPlaylist();
   }, []);
 
   useEffect(() => {
@@ -53,9 +65,10 @@ const MainPage = ({ isScanning, fetchAll }) => {
 
   return (
     <Fragment>
-      {useMemo(() => <Sidebar />, [])}
+      <Sidebar />
+      <Sidepanel />
       {useMemo(() => (
-        <Box marginLeft={`${component.sidebar}px`}>
+        <Box marginLeft={`${sidebar + sidepanel}px`}>
           <BackgroundImage />
           <BackgroundFade />
           <Box>
@@ -80,7 +93,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchAll: () => dispatch(fetchLibrary())
+  fetchAllLibrary: () => dispatch(fetchLibrary()),
+  fetchAllPlaylist: ids => dispatch(fetchPlaylist(ids))
 });
 
 export default connect(

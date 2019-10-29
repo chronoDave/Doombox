@@ -5,7 +5,8 @@ import {
   DELETE,
   CACHE,
   USER,
-  LIBRARY
+  LIBRARY,
+  PLAYLIST
 } from '@doombox/utils/types/ipc';
 
 // Utils
@@ -27,10 +28,16 @@ const subscribeLibrary = () => {
   createListener([READ, LIBRARY]);
 };
 
+const subscribePlaylist = () => {
+  createListener([CREATE, PLAYLIST]);
+  createListener([READ, PLAYLIST]);
+};
+
 const IpcListener = ({ children }) => {
   subscribeSystem();
   subscribeUser();
   subscribeLibrary();
+  subscribePlaylist();
 
   return children;
 };

@@ -18,7 +18,7 @@ const MainSongView = ({ library }) => (
     title={{ key: 'title:collection', context: 'song' }}
     subtitle={`${library ? library.length : 0} songs`}
   >
-    {library ? (
+    {library && library.length !== 0 ? (
       <VirtualTable
         columns={[
           { key: 'title' },
@@ -27,7 +27,6 @@ const MainSongView = ({ library }) => (
           { key: 'label', value: 'albumartist' }
         ]}
         rows={library}
-        group="album"
       />
     ) : <CircularProgress />}
   </MainViewTemplate>
@@ -38,11 +37,7 @@ const mapStateToProps = state => ({
 });
 
 MainSongView.propTypes = {
-  library: PropTypes.arrayOf(propSong)
-};
-
-MainSongView.defaultProps = {
-  library: null
+  library: PropTypes.arrayOf(propSong).isRequired
 };
 
 export default connect(

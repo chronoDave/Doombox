@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Core
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,15 +8,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import LogoImage from '../../static/images/doombox.png';
 
 // Style
-const useLogoStyle = makeStyles({
-  root: {
-    width: 96,
-    height: 96
-  }
-});
+const useLogoStyle = makeStyles(theme => ({
+  root: ({ size }) => ({
+    width: theme.spacing(size),
+    height: theme.spacing(size)
+  })
+}));
 
-const Logo = () => {
-  const classes = useLogoStyle();
+const Logo = ({ size }) => {
+  const classes = useLogoStyle({ size });
 
   return (
     <img
@@ -24,6 +25,14 @@ const Logo = () => {
       src={LogoImage}
     />
   );
+};
+
+Logo.propTypes = {
+  size: PropTypes.number
+};
+
+Logo.defaultProps = {
+  size: 8
 };
 
 export default Logo;

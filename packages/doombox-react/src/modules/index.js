@@ -1,4 +1,5 @@
 export { default as Sidebar } from './Sidebar/Sidebar';
+export { default as Sidepanel } from './Sidepanel/Sidepanel';
 export { default as Settings } from './Settings/Settings';
 export { RouteProvider, AudioProvider } from './Provider';
 export { IpcListener } from './Listener';

@@ -5,7 +5,9 @@ export {
   deleteUser
 } from './userApi';
 
-export { fetchImage } from './imageApi';
+export {
+  fetchImage
+} from './imageApi';
 
 export {
   parsePaths,
@@ -13,3 +15,8 @@ export {
   fetchLibrary,
   deleteLibrary
 } from './libraryApi';
+
+export {
+  createPlaylist,
+  fetchPlaylist
+} from './playlistApi';

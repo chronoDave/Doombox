@@ -7,8 +7,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  DialogContentText
+  DialogContentText,
+  DialogActions
 } from '@material-ui/core';
 
 import { Button } from '../Button';

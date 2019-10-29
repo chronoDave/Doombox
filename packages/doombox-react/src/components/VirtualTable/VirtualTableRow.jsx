@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
@@ -14,22 +14,24 @@ import { useAudio } from '../../hooks';
 
 // Utils
 import { formatTime } from '../../utils';
+import { AUDIO_HOOKS } from '../../utils/const';
 
 // Style
 import { useVirtualTableStyle } from './VirtualTable.style';
 
 const VirtualTableRow = ({ columns, row }) => {
   const classes = useVirtualTableStyle();
-  const { current, set, play } = useAudio();
+  const { current } = useAudio(AUDIO_HOOKS.CURRENT);
+  const { set, play } = useAudio(AUDIO_HOOKS.STATIC);
 
-  return useMemo(() => (
+  return (
     <ButtonBase
       onClick={() => {
         set([{ _id: row._id, file: row.file, images: row.images }]);
         play(0);
       }}
       classes={{ root: classes.row }}
-      className={current._id === row._id ? classes.active : null}
+      className={current && current._id === row._id ? classes.active : null}
     >
       {columns.map(key => (
         <Box key={key} width={`calc(100% / ${columns.length})`}>
@@ -39,7 +41,7 @@ const VirtualTableRow = ({ columns, row }) => {
         </Box>
       ))}
     </ButtonBase>
-  ), [current]);
+  );
 };
 
 VirtualTableRow.propTypes = {

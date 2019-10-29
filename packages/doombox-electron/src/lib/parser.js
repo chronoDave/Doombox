@@ -7,7 +7,7 @@ const shortid = require('shortid');
 const {
   schemaImage,
   schemaLibrary
-} = require('@doombox/utils/validation/shapes');
+} = require('@doombox/utils/validation/schema');
 
 class MetadataParser {
   constructor(config = {}, db, logger) {
@@ -51,6 +51,7 @@ class MetadataParser {
       await this.db.create('library', this.payload);
     } catch (err) {
       this.logger.createLog(err);
+      event.handleError(err);
     }
 
     this.db.read('library')

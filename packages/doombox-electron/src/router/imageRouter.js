@@ -19,7 +19,7 @@ const imageRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, READ, IMAGE]),
-        { message: err.name || 'An unknown error has occurred' }
+        err.toString()
       )
     }, _id);
   });

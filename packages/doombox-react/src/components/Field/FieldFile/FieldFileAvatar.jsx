@@ -16,14 +16,14 @@ import FieldFileBase from './FieldFileBase';
 // Style
 import { useFieldFileStyle } from './FieldFile.style';
 
-const FieldFileAvatar = ({ id }) => {
+const FieldFileAvatar = ({ id, name }) => {
   const classes = useFieldFileStyle();
   const { t } = useTranslation();
 
   return (
     <Field
-      name="avatar"
-      render={({ field: { name, value } }) => (
+      name={name}
+      render={({ field: { value } }) => (
         <FieldFileBase
           id={id}
           name={name}
@@ -57,7 +57,12 @@ const FieldFileAvatar = ({ id }) => {
 };
 
 FieldFileAvatar.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string
+};
+
+FieldFileAvatar.defaultProps = {
+  name: 'avatar'
 };
 
 export default FieldFileAvatar;

@@ -1,3 +1,4 @@
 export const COMPONENT = {
-  sidebar: 210
+  sidebar: 64,
+  sidepanel: 256
 };

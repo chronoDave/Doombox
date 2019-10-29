@@ -62,6 +62,13 @@ export const propCache = PropTypes.shape({
   _id: PropTypes.string.isRequired
 });
 
+export const propPlaylist = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  image: propImage,
+  songs: PropTypes.arrayOf(PropTypes.string.isRequired)
+});
+
 export const propColors = PropTypes.oneOf([
   'initial',
   'inherit',

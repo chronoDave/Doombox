@@ -13,7 +13,7 @@ import { Button } from '../../../components/Button';
 // Validation
 import { propUser } from '../../../validation/propTypes';
 
-const ProfileView = ({ user: { username, language } }) => {
+const ProfileView = ({ user }) => {
   const [edit, setEdit] = useState(false);
   const { t } = useTranslation();
 
@@ -21,7 +21,7 @@ const ProfileView = ({ user: { username, language } }) => {
     <Box p={3}>
       {edit ? <FormUpdateProfile onCancel={() => setEdit(false)} /> : (
         <Box display="flex" alignItems="center">
-          <Avatar size="large" />
+          <Avatar size="large" id={user.avatar} />
           <Box
             display="flex"
             flexDirection="column"
@@ -38,7 +38,7 @@ const ProfileView = ({ user: { username, language } }) => {
               </strong>
             </Typography>
             <Typography paragraph>
-              {username}
+              {user.username}
             </Typography>
             <Typography
               variant="caption"
@@ -50,7 +50,7 @@ const ProfileView = ({ user: { username, language } }) => {
               </strong>
             </Typography>
             <Typography>
-              {t(language, { lng: language })}
+              {t(user.language, { lng: user.language })}
             </Typography>
           </Box>
           <Button

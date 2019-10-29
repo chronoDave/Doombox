@@ -1,5 +1,3 @@
-const shortid = require('shortid');
-
 // Validation
 const { schemaUser } = require('@doombox/utils/validation/schema');
 
@@ -18,12 +16,7 @@ class UserController {
     this.store.set('user', {});
   }
 
-  async createOne({ handleSuccess, handleError }, userData) {
-    const user = {
-      _id: shortid.generate(),
-      ...userData
-    };
-
+  async createOne({ handleSuccess, handleError }, user) {
     try {
       await schemaUser.validate(user);
     } catch (err) {
@@ -53,7 +46,7 @@ class UserController {
     this.db.readOneWithId('users', _id)
       .then(doc => {
         if (!doc) {
-          const err = new Error(`No song found with id: ${_id}`);
+          const err = new Error(`No user found with id: ${_id}`);
 
           this.logger.createLog(err);
           handleError(err);

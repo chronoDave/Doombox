@@ -9,10 +9,10 @@ export const LANDING_VIEWS = {
 };
 
 export const MAIN_VIEWS = {
-  PLAYLIST: 'Playlist',
-  LABEL: 'Label',
+  MASTER: 'Master',
   ALBUM: 'Album',
-  SONG: 'Song'
+  SONG: 'Song',
+  PLAYLIST: 'Playlist'
 };
 
 export const SETTINGS_VIEWS = {
@@ -21,7 +21,15 @@ export const SETTINGS_VIEWS = {
   DATABASE: 'Database',
 };
 
-export const AUDIO = {
+export const AUDIO_HOOKS = {
+  POSITION: 'Position',
+  CURRENT: 'Current',
+  VOLUME: 'Volume',
+  PLAYLIST: 'Playlist',
+  STATIC: 'Static'
+};
+
+export const AUDIO_STATUS = {
   PLAYING: 'playing',
   PAUSED: 'paused',
   STOPPED: 'stopped'

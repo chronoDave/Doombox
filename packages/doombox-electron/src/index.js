@@ -11,12 +11,14 @@ const userRouter = require('./router/userRouter');
 const libraryRouter = require('./router/libraryRouter');
 const imageRouter = require('./router/imageRouter');
 const systemRouter = require('./router/systemRouter');
+const playlistRouter = require('./router/playlistRouter');
 
 // Controllers
 const LibraryController = require('./controller/libraryController');
 const UserController = require('./controller/userController');
 const SystemController = require('./controller/systemController');
 const ImageController = require('./controller/imageController');
+const PlaylistController = require('./controller/playlistController');
 
 // Database
 const NeDB = require('./lib/database/nedb');
@@ -52,6 +54,7 @@ app.on('ready', () => {
   libraryRouter(new LibraryController(config, db, logger));
   imageRouter(new ImageController(db, logger));
   systemRouter(new SystemController(store, logger));
+  playlistRouter(new PlaylistController(db, logger));
 
   // Main
   const mainWindow = createWindow({ width, height });

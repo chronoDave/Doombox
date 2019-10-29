@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // Icon
-import IconPlay from '@material-ui/icons/PlayArrow';
-import IconPause from '@material-ui/icons/Pause';
-import IconNext from '@material-ui/icons/SkipNext';
-import IconPrevious from '@material-ui/icons/SkipPrevious';
-import IconShuffle from '@material-ui/icons/Shuffle';
+import IconPlaylist from '@material-ui/icons/ArtTrack';
+import IconAlbums from '@material-ui/icons/LibraryMusic';
+import IconSongs from '@material-ui/icons/QueueMusic';
+import IconSettings from '@material-ui/icons/Settings';
 
 // Core
 import {
@@ -13,60 +13,37 @@ import {
   IconButton
 } from '@material-ui/core';
 
-// Hooks
-import { useAudio } from '../../hooks';
-
-// Utils
-import { AUDIO } from '../../utils/const';
-
 // Style
 import { useSidebarStyle } from './Sidebar.style';
 
-const SidebarButtons = () => {
-  const {
-    play,
-    pause,
-    previous,
-    next,
-    shuffle,
-    status
-  } = useAudio();
+const SidebarButtons = ({ onClickSettings, ...rest }) => {
   const classes = useSidebarStyle();
 
-  return useMemo(() => (
+  return (
     <Box
       display="flex"
-      justifyContent="space-around"
-      wrap="nowrap"
-      flexGrow={1}
-      py={1}
+      flexDirection="column"
+      alignItems="center"
+      {...rest}
     >
-      <IconButton
-        onClick={() => previous()}
-        classes={{ root: classes.button }}
-      >
-        <IconPrevious />
+      <IconButton>
+        <IconPlaylist classes={{ root: classes.iconRoot }} />
       </IconButton>
-      <IconButton
-        onClick={() => (status === AUDIO.PLAYING ? pause() : play())}
-        classes={{ root: classes.button }}
-      >
-        {status === AUDIO.PLAYING ? <IconPause /> : <IconPlay />}
+      <IconButton>
+        <IconAlbums classes={{ root: classes.iconRoot }} />
       </IconButton>
-      <IconButton
-        onClick={() => next()}
-        classes={{ root: classes.button }}
-      >
-        <IconNext />
+      <IconButton>
+        <IconSongs classes={{ root: classes.iconRoot }} />
       </IconButton>
-      <IconButton
-        onClick={() => shuffle()}
-        classes={{ root: classes.button }}
-      >
-        <IconShuffle />
+      <IconButton onClick={onClickSettings}>
+        <IconSettings classes={{ root: classes.iconRoot }} />
       </IconButton>
     </Box>
-  ), [status]);
+  );
+};
+
+SidebarButtons.propTypes = {
+  onClickSettings: PropTypes.func.isRequired
 };
 
 export default SidebarButtons;

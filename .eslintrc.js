@@ -27,7 +27,8 @@ module.exports = {
       'electron',
       'redux-logger',
       'chai',
-      'yup'
+      'yup',
+      'shortid'
     ]
   },
   rules: {

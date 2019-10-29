@@ -23,20 +23,27 @@ import {
   localToRemoteUrl,
   cleanUrl
 } from '../utils';
-import { AUDIO } from '../utils/const';
+import { AUDIO_STATUS } from '../utils/const';
 
 const { ipcRenderer } = window.require('electron');
 
 class Audio extends EventEmitter {
-  constructor() {
-    super();
+  constructor(options) {
+    super(options);
 
-    this.volume = 100;
+    const {
+      volume,
+      status,
+      muted,
+      playlist
+    } = options;
+
+    this.volume = volume;
     this.song = null;
-    this.playlist = [];
+    this.playlist = playlist;
     this.index = 0;
-    this.status = AUDIO.STOPPED;
-    this.muted = false;
+    this.status = status;
+    this.muted = muted;
 
     // Media session
     if ('mediaSession' in navigator) {
@@ -111,15 +118,15 @@ class Audio extends EventEmitter {
   play(index = this.index) {
     this.index = index;
 
-    if (this.status === AUDIO.PAUSED) {
-      this.status = AUDIO.PLAYING;
+    if (this.status === AUDIO_STATUS.PAUSED) {
+      this.status = AUDIO_STATUS.PLAYING;
       this.emit('status', this.status);
       this.song.play();
     } else {
       const current = this.playlist[index];
 
       if (this.song) this.song.unload();
-      if (this.status !== AUDIO.PLAYING) this.status = AUDIO.PLAYING;
+      if (this.status !== AUDIO_STATUS.PLAYING) this.status = AUDIO_STATUS.PLAYING;
 
       this.emit('status', this.status);
 
@@ -175,7 +182,7 @@ class Audio extends EventEmitter {
   }
 
   pause() {
-    this.status = AUDIO.PAUSED;
+    this.status = AUDIO_STATUS.PAUSED;
     if (this.song) this.song.pause();
     this.emit('status', this.status);
   }
@@ -184,7 +191,7 @@ class Audio extends EventEmitter {
     Howler.unload();
     this.song = null;
     this.playlist = [];
-    this.status = AUDIO.STOPPED;
+    this.status = AUDIO_STATUS.STOPPED;
     this.emit('status', this.status);
   }
 

@@ -30,7 +30,7 @@ const schemaFormat = yup.object().shape({
   container: yup.string(),
   codec: yup.string(),
   codecProfile: yup.string(),
-  tagTypes: yup.array().of(yup.string()),
+  tagTypes: yup.array(yup.string()),
   duration: yup.number()
     .positive(validationNumber('positive')),
   bitrate: yup.number()
@@ -46,29 +46,13 @@ const schemaFormat = yup.object().shape({
     .positive(validationNumber('positive'))
 });
 
-const schemaNumberOf = yup.object().shape({
-  no: yup.number()
-    .nullable()
-    .required(validationRequired),
-  of: yup.number()
-    .nullable()
-    .required(validationRequired)
-});
-
 const schemaSong = yup.object().shape({
   _id: yup.string()
     .required(validationRequired),
-  images: yup.array()
-    .of(yup.string()),
+  images: yup.array(yup.string()),
   file: shapeFileAudio
     .required(validationRequired),
   format: schemaFormat
-    .default(null)
-    .nullable(),
-  track: schemaNumberOf
-    .default(null)
-    .nullable(),
-  disk: schemaNumberOf
     .default(null)
     .nullable(),
   album: yup.string()
@@ -84,7 +68,18 @@ const schemaSong = yup.object().shape({
     .required(validationRequired)
 });
 
-const schemaLibrary = yup.array().of(schemaSong);
+const schemaLibrary = yup.array(schemaSong);
+
+const schemaPlaylist = yup.object().shape({
+  _id: yup.string()
+    .required(validationRequired),
+  title: shapeUsername
+    .required(validationRequired),
+  image: schemaImage
+    .default(null)
+    .nullable(),
+  songs: yup.array(schemaSong)
+});
 
 const schemaUser = yup.object().shape({
   avatar: schemaImage
@@ -93,12 +88,11 @@ const schemaUser = yup.object().shape({
   background: schemaImage
     .default(null)
     .nullable(),
-  folders: yup.array()
-    .of(yup.object().shape({
-      path: yup.string()
-        .required(validationRequired)
-    }))
-    .ensure(),
+  folders: yup.array(yup.object().shape({
+    path: yup.string()
+      .required(validationRequired)
+  })),
+  playlist: yup.array(schemaPlaylist),
   language: yup.string()
     .required(validationRequired),
   username: shapeUsername
@@ -111,5 +105,6 @@ module.exports = {
   schemaImage,
   schemaSong,
   schemaLibrary,
-  schemaUser
+  schemaUser,
+  schemaPlaylist
 };

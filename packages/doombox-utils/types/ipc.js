@@ -20,6 +20,7 @@ module.exports = {
   SONG: 'SONG',
   MESSAGE: 'MESSAGE',
   COLLECTION: 'COLLECTION',
+  PLAYLIST: 'PLAYLIST',
   // System types
   CACHE: 'CACHE',
   REMOTE: 'REMOTE',

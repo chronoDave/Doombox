@@ -8,11 +8,7 @@ import thunkMiddleware from 'redux-thunk';
 import { isDev } from '@doombox/utils';
 
 // Reducers
-import {
-  profileReducer,
-  systemReducer,
-  libraryReducer
-} from './reducers';
+import * as reducers from './reducers';
 
 // Middleware
 const middleware = [
@@ -22,9 +18,10 @@ const middleware = [
 
 export const store = createStore(
   combineReducers({
-    system: systemReducer,
-    profile: profileReducer,
-    library: libraryReducer
+    system: reducers.systemReducer,
+    profile: reducers.profileReducer,
+    library: reducers.libraryReducer,
+    playlist: reducers.playlistReducer
   }),
   compose(applyMiddleware(...middleware))
 );

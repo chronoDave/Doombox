@@ -9,7 +9,6 @@ import {
   USER,
 } from '@doombox/utils/types/ipc';
 
-// Actions
 const { ipcRenderer } = window.require('electron');
 
 export const createUser = user => dispatch => {

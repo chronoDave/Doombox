@@ -34,8 +34,7 @@
     "mongoose": "^5.6.3",
     "music-metadata": "^4.8.0",
     "nedb": "^1.8.0",
-    "rimraf": "^3.0.0",
-    "shortid": "^2.2.15"
+    "rimraf": "^3.0.0"
   },
   "build": {
     "appId": "com.electron.doombox",

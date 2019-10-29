@@ -11,6 +11,8 @@ import {
   ERROR,
   CREATE,
   READ,
+  UPDATE,
+  DELETE,
   USER
 } from '@doombox/utils/types/ipc';
 
@@ -23,7 +25,9 @@ const initialState = {
 export const profileReducer = handleActions({
   [combineActions(
     createType([PENDING, CREATE, USER]),
-    createType([PENDING, READ, USER])
+    createType([PENDING, READ, USER]),
+    createType([PENDING, UPDATE, USER]),
+    createType([PENDING, DELETE, USER])
   )]: state => ({
     ...state,
     pending: true,
@@ -31,7 +35,8 @@ export const profileReducer = handleActions({
   }),
   [combineActions(
     createType([SUCCESS, CREATE, USER]),
-    createType([SUCCESS, READ, USER])
+    createType([SUCCESS, READ, USER]),
+    createType([SUCCESS, UPDATE, USER])
   )]: (state, { payload }) => ({
     ...state,
     pending: false,
@@ -40,11 +45,14 @@ export const profileReducer = handleActions({
   }),
   [combineActions(
     createType([ERROR, CREATE, USER]),
-    createType([ERROR, READ, USER])
+    createType([ERROR, READ, USER]),
+    createType([ERROR, UPDATE, USER]),
+    createType([ERROR, DELETE, USER])
   )]: (state, { payload }) => ({
     ...state,
     pending: false,
     error: payload,
     user: null
-  })
+  }),
+  [createType([SUCCESS, DELETE, USER])]: () => initialState
 }, initialState);

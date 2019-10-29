@@ -1,4 +1,5 @@
 import React from 'react';
+import shortid from 'shortid';
 import {
   Formik,
   Form,
@@ -35,6 +36,9 @@ const FormCreateProfile = props => {
   return (
     <Formik
       initialValues={{
+        _id: shortid.generate(),
+        playlist: [],
+        folders: [],
         username: '',
         language
       }}

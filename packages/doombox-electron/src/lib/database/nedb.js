@@ -19,6 +19,11 @@ module.exports = class NeDB {
       filename: `${userDataPath}/nedb/library.db`,
       autoload: true
     });
+
+    this.playlist = new Datastore({
+      filename: `${userDataPath}/nedb/playlist.db`,
+      autoload: true
+    });
   }
 
   create(collection, docs) {

@@ -51,9 +51,7 @@ const App = props => {
   }, [cache, error]);
 
   useEffect(() => {
-    if (profile) {
-      setRoute(ROUTES.MAIN);
-    }
+    if (profile) setRoute(ROUTES.MAIN);
   }, [profile]);
 
   return useMemo(() => {
@@ -63,16 +61,6 @@ const App = props => {
     return <Pages.LoadingPage />;
   }, [route]);
 };
-
-const mapStateToProps = state => ({
-  cache: state.system.cache,
-  error: state.system.error,
-  profile: state.profile.user
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchUser: _id => dispatch(readUser(_id))
-});
 
 App.propTypes = {
   cache: propCache,
@@ -86,6 +74,16 @@ App.defaultProps = {
   error: null,
   user: null
 };
+
+const mapStateToProps = state => ({
+  cache: state.system.cache,
+  error: state.system.error,
+  profile: state.profile.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchUser: _id => dispatch(readUser(_id))
+});
 
 export default connect(
   mapStateToProps,

@@ -3,6 +3,7 @@ import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import shortid from 'shortid';
 
 // Core
 import { Box } from '@material-ui/core';
@@ -15,11 +16,17 @@ import {
 } from '../Field';
 import { DialogConfirmation } from '../Dialog';
 
+// Modules
+import { useRoute } from '../../hooks';
+
 // Api
 import {
   updateUser,
   deleteUser
 } from '../../api';
+
+// Utils
+import { ROUTES } from '../../utils/const';
 
 // Validation
 import { schemaUpdateUser } from '../../validation/schema';
@@ -27,10 +34,7 @@ import { propUser } from '../../validation/propTypes';
 
 const FormUpdateProfile = props => {
   const {
-    profile: {
-      _id,
-      ...rest
-    },
+    profile,
     onCancel,
     updateProfile,
     deleteProfile,
@@ -38,16 +42,17 @@ const FormUpdateProfile = props => {
   } = props;
   const [open, setOpen] = useState(null);
   const { t } = useTranslation();
+  const { setRoute } = useRoute();
 
   const form_id = 'create-profile';
 
   return (
     <Fragment>
       <Formik
-        initialValues={rest}
+        initialValues={profile}
         validationSchema={schemaUpdateUser}
-        onSubmit={values => {
-          updateProfile(_id, values);
+        onSubmit={({ _id, ...values }) => {
+          updateProfile(_id, { ...values });
           if (!pending) onCancel();
         }}
       >
@@ -98,7 +103,10 @@ const FormUpdateProfile = props => {
         <Button
           variant="contained"
           color="error"
-          onClick={() => deleteProfile(_id)}
+          onClick={() => {
+            deleteProfile(profile._id);
+            setRoute(ROUTES.LANDING);
+          }}
           disabled={pending}
         >
           {t('delete')}
