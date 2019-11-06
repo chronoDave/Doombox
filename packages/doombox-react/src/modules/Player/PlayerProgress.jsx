@@ -13,7 +13,7 @@ import { useAudio } from '../../hooks';
 import { formatTime } from '../../utils';
 import { AUDIO_HOOKS } from '../../utils/const';
 
-const SidepanelProgress = () => {
+const PlayerProgress = () => {
   const { duration, position } = useAudio(AUDIO_HOOKS.POSITION);
   const { seek, requestFrame } = useAudio(AUDIO_HOOKS.STATIC);
 
@@ -39,4 +39,4 @@ const SidepanelProgress = () => {
   );
 };
 
-export default SidepanelProgress;
+export default PlayerProgress;

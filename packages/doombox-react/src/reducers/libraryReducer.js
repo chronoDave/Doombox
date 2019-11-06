@@ -1,7 +1,4 @@
-import {
-  handleActions,
-  combineActions
-} from 'redux-actions';
+import { handleActions } from 'redux-actions';
 
 // Types
 import {
@@ -20,31 +17,44 @@ const initialState = {
   pending: false,
   error: null,
   collection: null,
+  scanning: false
 };
 
 export const libraryReducer = handleActions({
-  [combineActions(
-    createType([PENDING, CREATE, LIBRARY]),
-    createType([PENDING, READ, LIBRARY])
-  )]:
+  [createType([PENDING, CREATE, LIBRARY])]:
+    state => ({
+      ...state,
+      pending: true,
+      error: null,
+      scanning: true
+    }),
+  [createType([PENDING, READ, LIBRARY])]:
     state => ({
       ...state,
       pending: true,
       error: null
     }),
-  [combineActions(
-    createType([ERROR, CREATE, LIBRARY]),
-    createType([ERROR, READ, LIBRARY])
-  )]:
+  [createType([ERROR, CREATE, LIBRARY])]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      error: payload,
+      scanning: false
+    }),
+  [createType([ERROR, READ, LIBRARY])]:
     (state, { payload }) => ({
       ...state,
       pending: false,
       error: payload
     }),
-  [combineActions(
-    createType([SUCCESS, CREATE, LIBRARY]),
-    createType([SUCCESS, READ, LIBRARY])
-  )]:
+  [createType([SUCCESS, CREATE, LIBRARY])]:
+    (state, { payload }) => ({
+      ...state,
+      pending: false,
+      collection: payload,
+      scanning: false
+    }),
+  [createType([SUCCESS, READ, LIBRARY])]:
     (state, { payload }) => ({
       ...state,
       pending: false,

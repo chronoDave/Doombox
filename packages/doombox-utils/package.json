@@ -1,6 +1,6 @@
 {
   "name": "@doombox/utils",
-  "version": "1.5.18-ce",
+  "version": "1.5.20-ce",
   "private": true,
   "author": "Chronocide",
   "description": "Doombox utility functions",

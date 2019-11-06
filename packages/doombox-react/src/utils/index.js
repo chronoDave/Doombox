@@ -35,9 +35,8 @@ export const shuffleArray = array => {
     }
   }
 };
+export const zeroPadding = i => (i < 10 ? `0${i}` : i);
 export const formatTime = time => {
-  const zeroPadding = i => (i < 10 ? `0${i}` : i);
-
   const seconds = zeroPadding(Math.floor(time % 60));
   const minutes = zeroPadding(Math.floor((time / 60) % 60));
   const hours = zeroPadding(Math.floor((time / 3600) % 24));

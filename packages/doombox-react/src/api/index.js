@@ -18,5 +18,7 @@ export {
 
 export {
   createPlaylist,
-  fetchPlaylist
+  fetchPlaylist,
+  updatePlaylist,
+  deletePlaylist
 } from './playlistApi';

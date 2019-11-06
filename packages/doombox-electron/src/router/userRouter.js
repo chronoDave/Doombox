@@ -21,7 +21,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, CREATE, USER]),
-        err.toString()
+        JSON.stringify(err)
       )
     }, user);
   });
@@ -33,7 +33,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, READ, USER]),
-        err.toString()
+        JSON.stringify(err)
       )
     }, _id);
   });
@@ -45,7 +45,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, UPDATE, USER]),
-        err.toString()
+        JSON.stringify(err)
       )
     }, _id, modifiers);
   });
@@ -56,7 +56,7 @@ const userRouter = Controller => {
       ),
       handleError: err => event.sender.send(
         createType([ERROR, DELETE, USER]),
-        err.toString()
+        JSON.stringify(err)
       )
     }, _id);
   });

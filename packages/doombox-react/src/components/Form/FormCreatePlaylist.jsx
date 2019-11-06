@@ -61,7 +61,6 @@ const FormCreatePlaylist = props => {
           <FieldFileAvatar id={id} name="image" />
           <FieldText id={id} name="title" />
         </Box>
-        <ErrorMessage name="image" />
         <ErrorMessage name="title" />
         <Box pb={1} pt={2} display="flex" justifyContent="flex-end">
           <Box mr={0.5}>

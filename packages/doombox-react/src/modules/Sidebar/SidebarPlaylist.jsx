@@ -18,15 +18,24 @@ import {
 import { Tooltip } from '../../components/Tooltip';
 import { DialogCreatePlaylist } from '../../components/Dialog';
 import { Avatar } from '../../components/Avatar';
+import { ContextPlaylist } from '../../components/Context';
+
+// Hooks
+import { useRoute } from '../../hooks';
 
 // Validation
 import { propPlaylist } from '../../validation/propTypes';
+
+// Utils
+import { MAIN_VIEWS } from '../../utils/const';
 
 // Style
 import { useSidebarStyle } from './Sidebar.style';
 
 const SidebarPlaylist = ({ playlist, ...rest }) => {
   const [open, setOpen] = useState(false);
+  const [{ anchorEl, current }, setContext] = useState({});
+  const { setView } = useRoute();
   const classes = useSidebarStyle();
 
   return (
@@ -43,7 +52,13 @@ const SidebarPlaylist = ({ playlist, ...rest }) => {
             key={collection._id}
             placement="right"
           >
-            <IconButton>
+            <IconButton
+              onClick={() => setView(MAIN_VIEWS.PLAYLIST)}
+              onContextMenu={({ currentTarget }) => setContext({
+                anchorEl: currentTarget,
+                current: collection
+              })}
+            >
               <Avatar
                 src={collection.image ? collection.image.path : null}
                 disableFallback
@@ -59,6 +74,11 @@ const SidebarPlaylist = ({ playlist, ...rest }) => {
           </IconButton>
         </Tooltip>
       </Box>
+      <ContextPlaylist
+        anchorEl={anchorEl}
+        current={current}
+        onClose={() => setContext({})}
+      />
       <DialogCreatePlaylist
         open={open}
         onClose={() => setOpen(false)}

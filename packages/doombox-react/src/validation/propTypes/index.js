@@ -69,6 +69,21 @@ export const propPlaylist = PropTypes.shape({
   songs: PropTypes.arrayOf(PropTypes.string.isRequired)
 });
 
+export const propPlacement = PropTypes.oneOf([
+  'bottom-end',
+  'bottom-start',
+  'bottom',
+  'left-end',
+  'left-start',
+  'left',
+  'right-end',
+  'right-start',
+  'right',
+  'top-end',
+  'top-start',
+  'top'
+]);
+
 export const propColors = PropTypes.oneOf([
   'initial',
   'inherit',

@@ -33,6 +33,7 @@ import { propUser } from '../../../validation/propTypes';
 
 // Utils
 import { selectFolder } from '../../../utils';
+import { REDUCER } from '../../../utils/const';
 
 const DatabaseView = props => {
   const {
@@ -61,7 +62,7 @@ const DatabaseView = props => {
     if (folder) {
       const newFolders = [...folders || [], { path: folder }];
       updateFolders(_id, newFolders);
-      updateLibrary([{ path: folder }]);
+      updateLibrary(newFolders);
     }
   };
 
@@ -113,7 +114,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   clearLibrary: () => dispatch(deleteLibrary()),
   updateLibrary: path => dispatch(parsePaths(path)),
-  updateFolders: (_id, folders) => dispatch(updateUser(_id, { folders }))
+  updateFolders: (_id, folders) => dispatch(updateUser(_id, { $set: { folders } }))
 });
 
 export default connect(

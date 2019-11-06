@@ -6,16 +6,12 @@ import {
   createType,
   IMAGE,
   READ,
-  SONG,
   ERROR,
   SUCCESS
 } from '@doombox/utils/types/ipc';
 
 // Api
-import {
-  fetchImage,
-  fetchMetadata
-} from '../api';
+import { fetchImage } from '../api';
 
 // Utils
 import {
@@ -70,13 +66,6 @@ class Audio extends EventEmitter {
 
       navigator.mediaSession.metadata.artwork = [{ src: null }];
     });
-    ipcRenderer.on(createType([SUCCESS, READ, SONG]), (event, payload) => {
-      navigator.mediaSession.metadata.title = payload.title;
-      navigator.mediaSession.metadata.artist = payload.artist;
-      navigator.mediaSession.metadata.album = payload.album;
-
-      this.emit('current', payload);
-    });
   }
 
   set(playlist) {
@@ -116,50 +105,56 @@ class Audio extends EventEmitter {
   }
 
   play(index = this.index) {
-    this.index = index;
-
-    if (this.status === AUDIO_STATUS.PAUSED) {
-      this.status = AUDIO_STATUS.PLAYING;
-      this.emit('status', this.status);
-      this.song.play();
+    // Unpause if paused and same song
+    if (this.status === AUDIO_STATUS.PAUSED && this.index === index) {
+      this.unpause();
     } else {
-      const current = this.playlist[index];
+      // Update index
+      this.index = index;
 
       if (this.song) this.song.unload();
       if (this.status !== AUDIO_STATUS.PLAYING) this.status = AUDIO_STATUS.PLAYING;
-
       this.emit('status', this.status);
 
-      this.song = new Howl({
-        src: `file://${cleanUrl(current.file)}`,
-        html5: true,
-        volume: this.volume / 100,
-        autoplay: true,
-        onload: () => {
-          fetchMetadata(current._id);
-
-          if (current.images) {
-            fetchImage(current.images[0]);
-          } else {
-            this.emit('image', {});
-          }
-
-          this.emit('duration', this.song.duration());
-        },
-        onloaderror: () => {
-          this.next();
-        },
-        onplayerror: () => {
-          this.next();
-        },
-        onend: () => {
-          this.next();
-        },
-        onplay: () => {
-          requestAnimationFrame(this.step.bind(this));
-        }
-      });
+      this.createHowl(this.playlist[index]);
     }
+  }
+
+  playOne(metadata) {
+    if (metadata) {
+      if (this.song) this.song.unload();
+      if (this.status !== AUDIO_STATUS.PLAYING) this.status = AUDIO_STATUS.PLAYING;
+      this.emit('status', this.status);
+
+      this.createHowl(metadata);
+    }
+  }
+
+  createHowl(metadata) {
+    this.song = new Howl({
+      src: `file://${cleanUrl(metadata.file)}`,
+      html5: true,
+      volume: this.volume / 100,
+      autoplay: true,
+      onload: () => {
+        navigator.mediaSession.metadata.title = metadata.title;
+        navigator.mediaSession.metadata.artist = metadata.artist;
+        navigator.mediaSession.metadata.album = metadata.album;
+
+        if (metadata.images) {
+          fetchImage(metadata.images[0]);
+        } else {
+          this.emit('image', {});
+        }
+
+        this.emit('current', metadata);
+        this.emit('duration', this.song.duration());
+      },
+      onloaderror: () => this.next(),
+      onplayerror: () => this.next(),
+      onend: () => this.next(),
+      onplay: () => requestAnimationFrame(this.step.bind(this))
+    });
   }
 
   requestFrame() {
@@ -183,8 +178,14 @@ class Audio extends EventEmitter {
 
   pause() {
     this.status = AUDIO_STATUS.PAUSED;
-    if (this.song) this.song.pause();
     this.emit('status', this.status);
+    if (this.song) this.song.pause();
+  }
+
+  unpause() {
+    this.status = AUDIO_STATUS.PLAYING;
+    this.emit('status', this.status);
+    if (this.song) this.song.play();
   }
 
   stop() {

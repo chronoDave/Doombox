@@ -49,4 +49,31 @@ module.exports = class PlaylistController {
         handleError(err);
       });
   }
+
+  async updateOneWithId({ handleSuccess, handleError }, _id, modifiers) {
+    this.db.updateOneWithId('playlist', _id, modifiers)
+      .then(doc => {
+        if (!doc) {
+          const err = new Error(`Failed to update playlist with id: ${_id} and modifiers: ${JSON.stringify(modifiers)}`);
+
+          this.logger.createLog(err);
+          handleError(err);
+        } else {
+          handleSuccess(doc);
+        }
+      })
+      .catch(err => {
+        this.logger.createLog(err);
+        handleError(err);
+      });
+  }
+
+  async deleteOneWithId({ handleSuccess, handleError }, _id) {
+    this.db.deleteOneWithId('playlist', _id)
+      .then(() => handleSuccess())
+      .catch(err => {
+        this.logger.createLog(err);
+        handleError(err);
+      });
+  }
 };

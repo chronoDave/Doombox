@@ -25,26 +25,28 @@ const getItemSize = (item, cellHeight) => {
   return cellHeight;
 };
 
-// const groupRows = (rows, group) => {
-//   if (!group) return Object.values(rows);
+const groupRows = (rows, group) => {
+  if (!group) return Object.values(rows);
 
-//   const groupedRows = groupby(rows, group);
+  const groupedRows = groupby(rows, group);
 
-//   return Object.keys(groupedRows)
-//     .map(key => {
-//       const value = groupedRows[key];
-//       return [key, ...value];
-//     })
-//     .flat();
-// };
+  return Object.keys(groupedRows)
+    .map(key => {
+      const value = groupedRows[key];
+      return [key, ...value];
+    })
+    .flat();
+};
 
 const VirtualTable = props => {
   const {
     cellHeight,
     columns,
-    rows
+    rows,
+    group
   } = props;
   const classes = useVirtualTableStyle();
+  const grouped = groupRows(rows, group);
 
   return (
     <Box display="flex" flexDirection="column" flexGrow={1}>
@@ -58,12 +60,12 @@ const VirtualTable = props => {
               height={height}
               className={classes.root}
               // Item properties
-              itemCount={rows.length}
-              itemSize={index => getItemSize(rows[index], cellHeight)}
+              itemCount={grouped.length}
+              itemSize={index => getItemSize(grouped[index], cellHeight)}
             >
               {memo(itemProps => {
                 const { style, index } = itemProps;
-                const item = rows[index];
+                const item = grouped[index];
 
                 return (
                   <div style={style}>

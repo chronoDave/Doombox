@@ -1,7 +1,7 @@
 // Validation
 const { schemaUser } = require('@doombox/utils/validation/schema');
 
-class UserController {
+module.exports = class UserController {
   constructor(store, db, logger) {
     this.store = store;
     this.db = db;
@@ -64,7 +64,7 @@ class UserController {
     this.db.updateOneWithId('users', _id, modifiers)
       .then(doc => {
         if (!doc) {
-          const err = new Error(`Failed to update user with id: ${_id} and modifiers: ${modifiers.toString()}`);
+          const err = new Error(`Failed to update user with id: ${_id} and modifiers: ${JSON.stringify(modifiers)}`);
 
           this.logger.createLog(err);
           handleError(err);
@@ -86,6 +86,4 @@ class UserController {
         handleError(err);
       });
   }
-}
-
-module.exports = UserController;
+};

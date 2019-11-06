@@ -21,12 +21,14 @@
     "edit_connection": "Edit connection",
     "add": "Add",
     "add_folder": "Add new folder",
+    "add_playlist": "Add to playlist",
     "rescan": "Rescan",
     "retry": "Retry",
     "remove": "Remove",
     "delete": "Delete",
     "delete_database": "Delete database",
     "delete_folder": "Delete folders",
+    "delete_playlist": "Delete playlist",
     "profile": "Profile",
     "slogan": "Your collection, your way",
     "online": "Online",
@@ -43,7 +45,8 @@
     "song": "Song",
     "title": "Title",
     "artist": "Artist",
-    "duration": "Duration"
+    "duration": "Duration",
+    "play_all": "Play all"
   },
   "title": {
     "create_profile": "Create Profile",
@@ -62,6 +65,7 @@
   "description": {
     "remote": "Use remote connection",
     "deleteProfile": "Deleted profiles cannot be restored.",
+    "noSongSelected": "No song selected",
     "processing_scans": "Processing metadata",
     "processing_files": "Preparing folders",
     "waiting_long": "This might take a while",

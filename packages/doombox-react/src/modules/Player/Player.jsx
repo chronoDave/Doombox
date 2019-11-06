@@ -1,16 +1,15 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Core
-import {
-  Box,
-  Paper
-} from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 import { Typography } from '../../components/Typography';
+import { PaperImage } from '../../components/Paper';
 
-import SidepanelCurrent from './SidepanelCurrent';
-import SidepanelProgress from './SidepanelProgress';
-import SidepanelButtons from './SidepanelButtons';
+import PlayerCurrent from './PlayerCurrent';
+import PlayerProgress from './PlayerProgress';
+import PlayerButtons from './PlayerButtons';
 
 // Hooks
 import { useAudio } from '../../hooks';
@@ -19,32 +18,35 @@ import { useAudio } from '../../hooks';
 import { AUDIO_HOOKS } from '../../utils/const';
 
 // Style
-import { useSidepanelStyle } from './Sidepanel.style';
+import { usePlayerStyle } from './Player.style';
 
-const SidepanelPlayer = () => {
-  const padding = 2;
-
+const Player = () => {
   const { current, image } = useAudio(AUDIO_HOOKS.CURRENT);
-  const classes = useSidepanelStyle({ image, padding, opacity: 0.7 });
+  const { t } = useTranslation();
+  const classes = usePlayerStyle();
 
   return (
-    <Paper classes={{ root: classes.paperRoot }}>
+    <PaperImage
+      classes={{ root: classes.paperRoot }}
+      path={image ? image.path : null}
+      elevation={2}
+    >
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="space-between"
         height="100%"
-        py={padding}
-        px={padding + 1}
+        py={2}
+        px={3}
       >
         <Box flexGrow={1} display="flex" alignItems="center">
           {!current ? (
             <Typography>
-              No song selected
+              {t('description:noSongSelected')}
             </Typography>
           ) : (
-            <SidepanelCurrent
+            <PlayerCurrent
               artist={current.artist}
               title={current.title}
             />
@@ -56,12 +58,12 @@ const SidepanelPlayer = () => {
           alignItems="center"
           width="100%"
         >
-          <SidepanelProgress />
-          <SidepanelButtons />
+          <PlayerProgress />
+          <PlayerButtons />
         </Box>
       </Box>
-    </Paper>
+    </PaperImage>
   );
 };
 
-export default SidepanelPlayer;
+export default Player;

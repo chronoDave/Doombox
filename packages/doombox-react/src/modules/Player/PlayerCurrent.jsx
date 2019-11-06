@@ -8,10 +8,10 @@ import { Typography } from '../../components/Typography';
 import { Tooltip } from '../../components/Tooltip';
 
 // Style
-import { useSidepanelStyle } from './Sidepanel.style';
+import { usePlayerStyle } from './Player.style';
 
-const SidepanelCurrent = ({ title, artist }) => {
-  const classes = useSidepanelStyle();
+const PlayerCurrent = ({ title, artist }) => {
+  const classes = usePlayerStyle();
 
   return (
     <Box
@@ -28,7 +28,6 @@ const SidepanelCurrent = ({ title, artist }) => {
         <Typography
           variant="h6"
           align="center"
-          gutterBottom
           className={classes.noWrap}
         >
           {title}
@@ -50,14 +49,14 @@ const SidepanelCurrent = ({ title, artist }) => {
   );
 };
 
-SidepanelCurrent.propTypes = {
+PlayerCurrent.propTypes = {
   artist: PropTypes.string,
   title: PropTypes.string
 };
 
-SidepanelCurrent.defaultProps = {
+PlayerCurrent.defaultProps = {
   artist: '???',
   title: '???'
 };
 
-export default SidepanelCurrent;
+export default PlayerCurrent;

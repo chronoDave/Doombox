@@ -6,7 +6,8 @@ import {
   Drawer
 } from '@material-ui/core';
 
-import SidepanelPlayer from './SidepanelPlayer';
+import { Player } from '../Player';
+import { Playlist } from '../Playlist';
 
 // Style
 import { useSidepanelStyle } from './Sidepanel.style';
@@ -29,7 +30,8 @@ const Sidepanel = () => {
         alignItems="center"
         p={2}
       >
-        <SidepanelPlayer />
+        <Player />
+        <Playlist pt={2} />
       </Box>
     </Drawer>
   );

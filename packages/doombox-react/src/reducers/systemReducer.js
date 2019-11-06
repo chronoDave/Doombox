@@ -14,8 +14,7 @@ const initialState = {
   pending: false,
   error: null,
   cache: null,
-  remote: null,
-  isScanning: false
+  remote: null
 };
 
 export const systemReducer = handleActions({

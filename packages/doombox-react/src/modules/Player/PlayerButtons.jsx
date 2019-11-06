@@ -23,9 +23,9 @@ import {
 } from '../../utils/const';
 
 // Style
-import { useSidepanelStyle } from './Sidepanel.style';
+import { usePlayerStyle } from './Player.style';
 
-const SidepanelButtons = () => {
+const PlayerButtons = () => {
   const {
     play,
     pause,
@@ -34,10 +34,15 @@ const SidepanelButtons = () => {
     shuffle,
   } = useAudio(AUDIO_HOOKS.STATIC);
   const { status } = useAudio(AUDIO_HOOKS.CURRENT);
-  const classes = useSidepanelStyle();
+  const classes = usePlayerStyle();
 
   return useMemo(() => (
-    <Box display="flex" wrap="nowrap">
+    <Box
+      display="flex"
+      wrap="nowrap"
+      marginTop={-1}
+      marginBottom={-1.5}
+    >
       <IconButton
         onClick={() => previous()}
         classes={{ root: classes.iconButtonRoot }}
@@ -66,4 +71,4 @@ const SidepanelButtons = () => {
   ), [play, pause, previous, next, shuffle, status]);
 };
 
-export default SidepanelButtons;
+export default PlayerButtons;

@@ -34,3 +34,7 @@ export const AUDIO_STATUS = {
   PAUSED: 'paused',
   STOPPED: 'stopped'
 };
+
+export const REDUCER = {
+  SET_PLAYLIST_CURRENT: 'SET_PLAYLIST_CURRENT'
+};

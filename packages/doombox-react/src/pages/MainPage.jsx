@@ -36,11 +36,20 @@ import {
 // Views
 import * as Views from '../views/Main';
 
+// Validation
+import { propSong } from '../validation/propTypes';
+
 // Utils
 import { isValidView } from '../utils';
 import { MAIN_VIEWS } from '../utils/const';
 
-const MainPage = ({ isScanning, fetchAllLibrary, fetchAllPlaylist }) => {
+const MainPage = props => {
+  const {
+    isScanning,
+    fetchAllLibrary,
+    fetchAllPlaylist,
+    playlist
+  } = props;
   const [open, setOpen] = useState(isScanning);
   const { view, setView } = useRoute();
   const {
@@ -56,8 +65,11 @@ const MainPage = ({ isScanning, fetchAllLibrary, fetchAllPlaylist }) => {
 
   useEffect(() => {
     fetchAllLibrary();
-    fetchAllPlaylist();
   }, []);
+
+  useEffect(() => {
+    fetchAllPlaylist(playlist);
+  }, [playlist]);
 
   useEffect(() => {
     if (!isValidView(MAIN_VIEWS, view)) setView(MAIN_VIEWS.SONG);
@@ -78,18 +90,25 @@ const MainPage = ({ isScanning, fetchAllLibrary, fetchAllPlaylist }) => {
           </Box>
         </Box>
       ), [view])}
-      {useMemo(() => <ModalScanning open={open} onClose={() => setOpen(false)} />, [open])}
+      <ModalScanning open={open} onClose={() => setOpen(false)} />
     </Fragment>
   );
 };
 
 MainPage.propTypes = {
   isScanning: PropTypes.bool.isRequired,
-  fetchAll: PropTypes.func.isRequired
+  fetchAllLibrary: PropTypes.func.isRequired,
+  fetchAllPlaylist: PropTypes.func.isRequired,
+  playlist: PropTypes.arrayOf(propSong)
+};
+
+MainPage.defaultProps = {
+  playlist: []
 };
 
 const mapStateToProps = state => ({
-  isScanning: state.system.isScanning
+  playlist: state.profile.user.playlist,
+  isScanning: state.library.scanning
 });
 
 const mapDispatchToProps = dispatch => ({

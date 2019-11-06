@@ -11,9 +11,6 @@ import {
 
 const { ipcRenderer } = window.require('electron');
 
-/**
- * @param {string[]} paths
- */
 export const parsePaths = paths => dispatch => {
   const actionType = createType([PENDING, CREATE, LIBRARY]);
   dispatch({ type: actionType });

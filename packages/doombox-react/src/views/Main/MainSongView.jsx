@@ -27,6 +27,7 @@ const MainSongView = ({ library }) => (
           { key: 'label', value: 'albumartist' }
         ]}
         rows={library}
+        group="album"
       />
     ) : <CircularProgress />}
   </MainViewTemplate>

@@ -4,6 +4,8 @@ import {
   PENDING,
   CREATE,
   READ,
+  UPDATE,
+  DELETE,
   PLAYLIST
 } from '@doombox/utils/types/ipc';
 
@@ -20,5 +22,19 @@ export const fetchPlaylist = ids => dispatch => {
   const actionType = createType([PENDING, READ, PLAYLIST]);
   dispatch({ type: actionType });
 
-  ipcRenderer.send(actionType, { $where: () => ids.include(this._id) });
+  ipcRenderer.send(actionType, { _id: { $in: ids } });
+};
+
+export const updatePlaylist = (_id, modifiers) => dispatch => {
+  const actionType = createType([PENDING, UPDATE, PLAYLIST]);
+  dispatch({ type: actionType });
+
+  ipcRenderer.send(actionType, _id, modifiers);
+};
+
+export const deletePlaylist = _id => dispatch => {
+  const actionType = createType([PENDING, DELETE, PLAYLIST]);
+  dispatch({ type: actionType });
+
+  ipcRenderer.send(actionType, _id);
 };

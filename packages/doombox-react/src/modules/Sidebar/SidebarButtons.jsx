@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  Fragment,
+  useState
+} from 'react';
 import PropTypes from 'prop-types';
 
 // Icon
@@ -13,32 +16,45 @@ import {
   IconButton
 } from '@material-ui/core';
 
+import Settings from '../Settings/Settings';
+
+// Hooks
+import { useRoute } from '../../hooks';
+
+// Utils
+import { MAIN_VIEWS } from '../../utils/const';
+
 // Style
 import { useSidebarStyle } from './Sidebar.style';
 
-const SidebarButtons = ({ onClickSettings, ...rest }) => {
+const SidebarButtons = ({ ...rest }) => {
+  const [open, setOpen] = useState(false);
+  const { setView } = useRoute();
   const classes = useSidebarStyle();
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      {...rest}
-    >
-      <IconButton>
-        <IconPlaylist classes={{ root: classes.iconRoot }} />
-      </IconButton>
-      <IconButton>
-        <IconAlbums classes={{ root: classes.iconRoot }} />
-      </IconButton>
-      <IconButton>
-        <IconSongs classes={{ root: classes.iconRoot }} />
-      </IconButton>
-      <IconButton onClick={onClickSettings}>
-        <IconSettings classes={{ root: classes.iconRoot }} />
-      </IconButton>
-    </Box>
+    <Fragment>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        {...rest}
+      >
+        <IconButton onClick={() => setView(MAIN_VIEWS.MASTER)}>
+          <IconPlaylist classes={{ root: classes.iconRoot }} />
+        </IconButton>
+        <IconButton onClick={() => setView(MAIN_VIEWS.ALBUM)}>
+          <IconAlbums classes={{ root: classes.iconRoot }} />
+        </IconButton>
+        <IconButton onClick={() => setView(MAIN_VIEWS.SONG)}>
+          <IconSongs classes={{ root: classes.iconRoot }} />
+        </IconButton>
+        <IconButton onClick={() => setOpen(true)}>
+          <IconSettings classes={{ root: classes.iconRoot }} />
+        </IconButton>
+      </Box>
+      <Settings open={open} onClose={() => setOpen(false)} />
+    </Fragment>
   );
 };
 

@@ -21,12 +21,14 @@
     "edit_connection": "التعديل على الاتصال",
     "add": "إضافة",
     "add_folder": "إضافة مجلد جديد",
+    "add_playlist": "",
     "rescan": "",
     "retry": "إعادة المحاولة",
     "remove": "إزالة",
     "delete": "حذف",
     "delete_database": "",
     "delete_folder": "",
+    "delete_playlist": "",
     "profile": "الملف الشخصي",
     "slogan": "مجموعتك، طريقتك",
     "online": "متصل",
@@ -41,7 +43,8 @@
     "song": "",
     "title": "",
     "artist": "",
-    "duration": ""
+    "duration": "",
+    "play_all": ""
   },
   "title": {
     "create_profile": "ملف شخصي جديد",
@@ -60,6 +63,7 @@
   "description": {
     "remote": "استخدام إتصال عن بعد",
     "deleteProfile": "الملفات الشخصية المحذوفة لا يمكن إستعادتها",
+    "noSongSelected": "",
     "processing_scans": "",
     "processing_files": "",
     "waiting_long": "",

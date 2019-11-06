@@ -31,6 +31,8 @@ const subscribeLibrary = () => {
 const subscribePlaylist = () => {
   createListener([CREATE, PLAYLIST]);
   createListener([READ, PLAYLIST]);
+  createListener([UPDATE, PLAYLIST]);
+  createListener([DELETE, PLAYLIST]);
 };
 
 const IpcListener = ({ children }) => {

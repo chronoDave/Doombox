@@ -11,8 +11,7 @@ const {
 } = require('./shapes');
 
 const schemaImage = yup.object().shape({
-  _id: yup.string()
-    .required(validationRequired),
+  _id: yup.string(),
   path: shapeFileImage
     .required(validationRequired),
   picture: yup.string(),
@@ -65,7 +64,6 @@ const schemaSong = yup.object().shape({
     .required(validationRequired),
   year: yup.number()
     .positive(validationNumber('positive'))
-    .required(validationRequired)
 });
 
 const schemaLibrary = yup.array(schemaSong);
