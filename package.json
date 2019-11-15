@@ -1,70 +1,39 @@
 {
-  "name": "doombox",
-  "description": "A music player",
-  "author": "Chronocide",
-  "version": "0.7.0",
+  "version": "1.0.0-ce",
   "private": true,
-  "dependencies": {
-    "@material-ui/core": "^3.9.2",
-    "@material-ui/icons": "^3.0.2",
-    "@material-ui/lab": "^3.0.0-alpha.30",
-    "classnames": "^2.2.6",
-    "cross-env": "^5.2.0",
-    "electron-is-dev": "^0.3.0",
-    "lodash": "^4.17.13",
-    "music-metadata": "^3.5.3",
-    "nedb": "^1.8.0",
-    "notistack": "^0.6.1",
-    "prop-types": "^15.7.2",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-lazyload": "^2.5.0",
-    "react-redux": "^6.0.1",
-    "react-router-dom": "^4.3.1",
-    "react-sound": "^1.2.0",
-    "react-virtualized-auto-sizer": "^1.0.2",
-    "react-window": "^1.6.2",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
-    "walk": "^2.3.14"
+  "scripts": {
+    "lint": "eslint --ext .js --ext .jsx .",
+    "size": "yarn build:react-debug && source-map-explorer ./packages/doombox-react/build/*.js",
+    "start:react": "cd ./packages/doombox-react && yarn start",
+    "start:electron": "cd ./packages/doombox-electron && yarn start",
+    "build": "yarn build:react && yarn build:electron",
+    "build:react": "cd ./packages/doombox-react && yarn build",
+    "build:react-debug": "cd ./packages/doombox-react && yarn build:debug",
+    "build:electron": "cd ./packages/doombox-electron && yarn build",
+    "build:electron-debug": "cd ./packages/doombox-electron && yarn build:test",
+    "test": "yarn test:react",
+    "test:react": "cd ./packages/doombox-react && yarn test"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0",
-    "electron": "^2.0.2",
-    "electron-builder": "^20.15.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-flowtype": "^3.4.2",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "react-scripts": "^2.1.8",
-    "redux-logger": "^3.0.6",
-    "wait-on": "2.1.0"
+    "babel-eslint": "^10.0.2",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-mocha": "^6.0.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-react-i18next": "^1.1.0",
+    "nodemon": "^1.19.1",
+    "source-map-explorer": "^2.0.1"
   },
-  "build": {
-    "appId": "com.electron.doombox",
-    "productName": "Doombox",
-    "copyright": "Copyright © 2019 Chronocide"
+  "dependencies": {
+    "shortid": "^2.2.15",
+    "yup": "^0.27.0"
   },
-  "main": "public/electron.js",
-  "homepage": "./",
-  "scripts": {
-    "postinstall": "install-app-deps",
-    "react-start": "react-scripts start",
-    "react-build": "react-scripts build",
-    "react-test": "react-scripts test --env=jsdom",
-    "changelog:generate": "auto-changelog --commit-limit false",
-    "react-eject": "react-scripts eject",
-    "electron-build": "electron-builder",
-    "build-all": "yarn react-build && yarn electron-build -mw",
-    "release": "yarn react-build && electron-builder --publish=always",
-    "build": "yarn react-build && yarn electron-build",
-    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && nodemon --watch ./public/* --exec electron .\""
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+  "workspaces": [
+    "packages/*"
   ]
 }

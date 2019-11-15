@@ -1,0 +1,14 @@
+{
+  "name": "@doombox/utils",
+  "version": "1.5.20-ce",
+  "private": true,
+  "author": "Chronocide",
+  "description": "Doombox utility functions",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chronoDave/Doombox.git",
+    "directory": "packages/doombox-utils"
+  },
+  "license": "GNU General Public License",
+  "homepage": "https://www.chronostudios.net"
+}

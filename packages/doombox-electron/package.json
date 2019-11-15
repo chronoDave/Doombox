@@ -1,0 +1,65 @@
+{
+  "name": "@doombox/electron",
+  "version": "1.0.0-ce",
+  "private": true,
+  "author": "Chronocide",
+  "description": "An open-source web-based audio player built for large music libraries",
+  "keywords": [
+    "electron",
+    "doombox",
+    "audio player",
+    "music"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chronoDave/Doombox.git",
+    "directory": "packages/doombox-electron"
+  },
+  "license": "GNU General Public License",
+  "homepage": "https://www.chronostudios.net",
+  "main": "./src",
+  "scripts": {
+    "start": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
+    "build": "electron-builder",
+    "build:test": "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^6.0.0",
+    "electron-builder": "^20.44.4"
+  },
+  "dependencies": {
+    "@doombox/utils": "./packages/doombox-utils",
+    "glob": "^7.1.4",
+    "mkdirp": "^0.5.1",
+    "mongoose": "^5.6.3",
+    "music-metadata": "^4.8.0",
+    "nedb": "^1.8.0",
+    "rimraf": "^3.0.0"
+  },
+  "build": {
+    "appId": "com.electron.doombox",
+    "productName": "Doombox",
+    "includePdb": true,
+    "copyright": "Copyright ©2019 ${author}",
+    "directories": {
+      "output": "../../build"
+    },
+    "files": [
+      "**/*",
+      {
+        "from": "../doombox-react/build",
+        "to": "client"
+      }
+    ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true,
+      "uninstallDisplayName": "Uninstall Doombox"
+    },
+    "win": {
+      "target": "nsis",
+      "publisherName": "Chronocide"
+    }
+  }
+}
