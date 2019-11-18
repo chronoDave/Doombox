@@ -12,7 +12,8 @@ const createWindow = (options = {}) => {
     // Web
     webPreferences: {
       // Security
-      nodeIntegration: true // Doesn't pose a thread in production, as local file is read
+      nodeIntegration: true, // Doesn't pose a thread in production, as local file is read
+      webSecurity: false
     }
   });
 

@@ -9,11 +9,13 @@
     "build": "yarn build:react yarn build:electron",
     "build:react": "yarn workspace @doombox/react build",
     "build:electron": "yarn workspace @doombox/electron build",
+    "test:react": "yarn workspace @doombox/react test",
     "test:electron": "yarn workspace @doombox/electron test:dev"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
     "chai": "^4.2.0",
+    "cross-env": "^6.0.3",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.0",
@@ -26,8 +28,5 @@
   },
   "workspaces": [
     "packages/*"
-  ],
-  "dependencies": {
-    "cross-env": "^6.0.3"
-  }
+  ]
 }

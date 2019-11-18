@@ -7,6 +7,9 @@ A music player designed with large music collections in mind.
 
 This is the cutting-edge build. Stuff might not work, or worse, break. If you're looking for a more stable build, please check either master or the pre-built version.
 
+## Known bugs
+ - `<SliderPlayer />` gets disconnected from `Audio` occasionally when using .flac files, causing the slider value to go out of sync and pause / play not playing from the correct time.
+
 ## Scripts
  - `lint`: Lint packages.
  - `start:react`: Start React server on `localhost:5000`.
