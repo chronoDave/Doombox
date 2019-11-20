@@ -34,13 +34,13 @@ describe('Application launch', function () {
   });
 
   it('renders client', async () => {
-    validateElementById(app.client, '#root');
+    await validateElementById(app.client, '#root');
   });
 
   it('is minimizable', async () => {
     const id = '#window-minimize';
 
-    validateElementById(app.client, id);
+    await validateElementById(app.client, id);
 
     await app.client.click(id);
     const isMinimized = await app.browserWindow.isMinimized();
@@ -53,7 +53,7 @@ describe('Application launch', function () {
   it('is maximizable', async () => {
     const id = '#window-maximize';
 
-    validateElementById(app.client, id);
+    await validateElementById(app.client, id);
 
     await app.client.click(id);
     const isMaximized = await app.browserWindow.isMaximized();
@@ -69,7 +69,7 @@ describe('Application launch', function () {
   it('is closable', async () => {
     const id = '#window-close';
 
-    validateElementById(app.client, id);
+    await validateElementById(app.client, id);
 
     await app.client.click(id);
 
