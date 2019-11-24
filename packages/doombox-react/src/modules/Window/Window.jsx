@@ -8,6 +8,9 @@ import {
   Box
 } from '@material-ui/core';
 
+// Utils
+import { ELEMENT_IDS } from '../../../../doombox-utils/const';
+
 // Style
 import { windowStyle } from './Window.style';
 
@@ -28,19 +31,19 @@ const Window = ({ classes, children }) => {
         <div className={classes.draggable} />
         <Box display="flex">
           <Button
-            id="window-minimize"
+            id={ELEMENT_IDS.WINDOW_MINIMIZE}
             onClick={() => browserWindow.minimize()}
           >
             Minimize
           </Button>
           <Button
-            id="window-maximize"
+            id={ELEMENT_IDS.WINDOW_MAXIMIZE}
             onClick={() => handleMaximize()}
           >
             Maximize
           </Button>
           <Button
-            id="window-close"
+            id={ELEMENT_IDS.WINDOW_CLOSE}
             onClick={() => browserWindow.close()}
           >
             Close

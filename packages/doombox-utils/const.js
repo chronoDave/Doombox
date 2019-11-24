@@ -12,7 +12,14 @@ const COMMANDS_AUDIO = {
   MUTE: 'MUTE'
 };
 
+const ELEMENT_IDS = {
+  WINDOW_MINIMIZE: 'window-minimize',
+  WINDOW_MAXIMIZE: 'window-maximize',
+  WINDOW_CLOSE: 'window-close'
+};
+
 module.exports = {
   TYPES_IPC,
-  COMMANDS_AUDIO
+  COMMANDS_AUDIO,
+  ELEMENT_IDS
 };
