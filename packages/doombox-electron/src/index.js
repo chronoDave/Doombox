@@ -1,11 +1,15 @@
 const { app } = require('electron');
+const mkdirp = require('mkdirp');
 
 // Lib
 const { createWindow } = require('./lib/window');
 const { createKeyboardListener } = require('./lib/listener');
 
 // Utils
+const { PATH } = require('./utils/const');
 const { COMMANDS_AUDIO } = require('../../doombox-utils/const');
+
+mkdirp.sync(PATH.LOG);
 
 app.on('ready', () => {
   const mainWindow = createWindow();

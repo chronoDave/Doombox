@@ -11,6 +11,10 @@
     "test": "mocha",
     "test:dev": "cross-env NODE_ENV=development mocha"
   },
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "music-metadata": "^5.0.1"
+  },
   "devDependencies": {
     "electron": "^7.1.1",
     "electron-builder": "^22.1.0",
