@@ -13,7 +13,7 @@ Doombox uses a programming style inspired by [Brad Frost's Atomic Design](http:/
 The smallest building block of the application
  - Never imports other components, with exception of framework specific components (such as Material-UI)
  - Should be small in size
- - Grouped by it's type
+ - Grouped by its type
  - Shares a single stylesheet within its type group
 
 <b>Hooks</b>
@@ -30,7 +30,7 @@ Non-react code, doesn't render anything.
 
 Collection of components
  - Never imports other modules, with exception of private (not exported, denoted by `<module>.private`) modules within it's type group
- - Grouped by it's type
+ - Grouped by its type
  - Shares a single stylesheet within it's type group
  - Often small in size; can be split into private parts
 
