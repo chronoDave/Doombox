@@ -14,7 +14,7 @@ The smallest building block of the application
  - Never imports other components, with exception of framework specific components (such as Material-UI)
  - Should be small in size
  - Grouped by it's type
- - Shares a single stylesheet within it's type group
+ - Shares a single stylesheet within its type group
 
 <b>Hooks</b>
 
