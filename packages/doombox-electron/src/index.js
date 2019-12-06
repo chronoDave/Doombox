@@ -3,13 +3,18 @@ const mkdirp = require('mkdirp');
 
 // Lib
 const { createWindow } = require('./lib/window');
-const { createKeyboardListener } = require('./lib/listener');
 
 // Utils
+const { createKeyboardListener } = require('./utils');
 const { PATH } = require('./utils/const');
 const { COMMANDS_AUDIO } = require('../../doombox-utils/const');
 
+// DB
+const NeDB = require('./lib/database/nedb');
+
 mkdirp.sync(PATH.LOG);
+
+const db = new NeDB();
 
 app.on('ready', () => {
   const mainWindow = createWindow();

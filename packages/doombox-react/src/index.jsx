@@ -5,11 +5,9 @@ import { render } from 'react-dom';
 import { CssBaseline } from '@material-ui/core';
 
 // Modules
-import {
-  AudioProvider,
-  KeybindListener,
-  Window
-} from './modules';
+import { WindowBar } from './modules';
+import { AudioProvider } from './providers';
+import { KeybindListener } from './listeners';
 
 // Components
 import {
@@ -27,7 +25,7 @@ render(
   <AudioProvider>
     <KeybindListener>
       <CssBaseline>
-        <Window>
+        <WindowBar>
           <div>
             <IconButtonNext />
             <IconButtonPlay />
@@ -38,7 +36,7 @@ render(
             <SliderVolume />
             <IconButtonShuffle />
           </div>
-        </Window>
+        </WindowBar>
       </CssBaseline>
     </KeybindListener>
   </AudioProvider>,

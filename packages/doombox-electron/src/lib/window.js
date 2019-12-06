@@ -6,8 +6,10 @@ const createWindow = (options = {}) => {
     // Metadata
     title: 'Doombox',
     // General
-    width: options.width || 800,
-    height: options.height || 600,
+    width: options.width || 600,
+    height: options.height || 480,
+    minWidth: 600,
+    minHeight: 480,
     frame: false,
     // Web
     webPreferences: {

@@ -27,7 +27,8 @@ module.exports = {
       'electron',
       'spectron',
       'chai',
-      'chai-as-promised'
+      'chai-as-promised',
+      'shortid'
     ]
   },
   rules: {
