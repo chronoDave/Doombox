@@ -13,12 +13,12 @@ import { IconButton } from '@material-ui/core';
 import { useAudio } from '../../hooks/useContext';
 
 // Utils
-import { AUDIO_HOOKS } from '../../utils/const';
+import { HOOK } from '../../utils/const';
 
 const IconButtonMute = () => {
-  const { mute } = useAudio(AUDIO_HOOKS.METHOD);
-  const { muted } = useAudio(AUDIO_HOOKS.CURRENT);
-  const volume = useAudio(AUDIO_HOOKS.VOLUME);
+  const { mute } = useAudio(HOOK.AUDIO.METHOD);
+  const { muted } = useAudio(HOOK.AUDIO.CURRENT);
+  const volume = useAudio(HOOK.AUDIO.VOLUME);
 
   const getIcon = () => {
     if (volume <= 0 || muted) return <MuteIcon />;

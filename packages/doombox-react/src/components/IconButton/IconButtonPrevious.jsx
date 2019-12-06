@@ -10,10 +10,10 @@ import { IconButton } from '@material-ui/core';
 import { useAudio } from '../../hooks/useContext';
 
 // Utils
-import { AUDIO_HOOKS } from '../../utils/const';
+import { HOOK } from '../../utils/const';
 
 const IconButtonPrevious = () => {
-  const { previous } = useAudio(AUDIO_HOOKS.METHOD);
+  const { previous } = useAudio(HOOK.AUDIO.METHOD);
 
   return (
     <IconButton onClick={() => previous()}>

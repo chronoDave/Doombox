@@ -1,20 +1,24 @@
 const { BrowserWindow } = require('electron');
 const path = require('path');
 
-const createWindow = (options = {}) => {
-  let window = new BrowserWindow({
+const minWidth = 600;
+const minHeight = 480;
+
+const createWindow = ({ width, height }) => {
+  const window = new BrowserWindow({
     // Metadata
     title: 'Doombox',
     // General
-    width: options.width || 600,
-    height: options.height || 480,
-    minWidth: 600,
-    minHeight: 480,
+    width: width < minWidth ? minWidth : width,
+    height: height < minHeight ? minHeight : height,
+    minWidth,
+    minHeight,
     frame: false,
     // Web
     webPreferences: {
       // Security
-      nodeIntegration: true, // Doesn't pose a thread in production, as local file is read
+      // These don't pose a thread in production, as local file is read
+      nodeIntegration: true,
       webSecurity: false
     }
   });
@@ -24,10 +28,6 @@ const createWindow = (options = {}) => {
   } else {
     window.loadFile(path.resolve(__dirname, '../../client/index.html'));
   }
-
-  window.on('closed', () => {
-    window = null;
-  });
 
   return window;
 };

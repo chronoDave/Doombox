@@ -12,6 +12,8 @@ This is the cutting-edge build. Stuff might not work, or worse, break. If you're
 
 ## Scripts
  - `lint`: Lint packages.
+ - `lint:react`: Lint React package.
+ - `lint:electron`: Lint Electron package.
  - `start:react`: Start React server on `localhost:5000`.
  - `start:electron`: Start Electron application in `development`.
  - `start:electron-prod`: Start Electron application in `production`.

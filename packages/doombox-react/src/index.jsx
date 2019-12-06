@@ -5,40 +5,26 @@ import { render } from 'react-dom';
 import { CssBaseline } from '@material-ui/core';
 
 // Modules
-import { WindowBar } from './modules';
-import { AudioProvider } from './providers';
-import { KeybindListener } from './listeners';
+import { App } from './modules';
 
-// Components
+// Providers
 import {
-  IconButtonNext,
-  IconButtonPlay,
-  IconButtonPrevious,
-  IconButtonStop,
-  IconButtonMute,
-  IconButtonShuffle,
-  SliderPlayer,
-  SliderVolume
-} from './components';
+  IpcProvider,
+  AudioProvider
+} from './providers';
+
+// Listeners
+import { MediaSessionListener } from './listener';
 
 render(
-  <AudioProvider>
-    <KeybindListener>
-      <CssBaseline>
-        <WindowBar>
-          <div>
-            <IconButtonNext />
-            <IconButtonPlay />
-            <IconButtonPrevious />
-            <IconButtonStop />
-            <IconButtonMute />
-            <SliderPlayer />
-            <SliderVolume />
-            <IconButtonShuffle />
-          </div>
-        </WindowBar>
-      </CssBaseline>
-    </KeybindListener>
-  </AudioProvider>,
+  <IpcProvider>
+    <AudioProvider>
+      <MediaSessionListener>
+        <CssBaseline>
+          <App />
+        </CssBaseline>
+      </MediaSessionListener>
+    </AudioProvider>
+  </IpcProvider>,
   document.getElementById('root')
 );

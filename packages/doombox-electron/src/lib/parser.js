@@ -4,7 +4,7 @@ const shortid = require('shortid');
 const fs = require('fs');
 
 // Lib
-const { createLogError } = require('../lib/logger');
+const { createLogError } = require('../utils');
 
 // Utils
 const {

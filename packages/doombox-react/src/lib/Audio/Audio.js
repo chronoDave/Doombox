@@ -5,8 +5,8 @@ import path from 'path';
 // Utils
 import { shuffleArray } from '../../utils';
 import {
-  AUDIO_STATUS,
-  AUDIO_EVENTS
+  STATUS,
+  EVENT
 } from '../../utils/const';
 
 class Audio extends EventEmitter {
@@ -22,7 +22,7 @@ class Audio extends EventEmitter {
 
     // Player
     this.volume = volume;
-    this.status = AUDIO_STATUS.STOPPED;
+    this.status = STATUS.AUDIO.STOPPED;
     this.autoplay = autoplay;
     this.muted = muted;
 
@@ -39,14 +39,14 @@ class Audio extends EventEmitter {
 
     if (this.song) this.song.volume(this.volume);
 
-    this.emit(AUDIO_EVENTS.VOLUME, this.volume);
+    this.emit(EVENT.AUDIO.VOLUME, this.volume);
   }
 
   increaseVolume() {
     if (this.volume < 1) {
       this.volume = this.volume + 0.01;
       if (this.song) this.song.volume(this.volume);
-      this.emit(AUDIO_EVENTS.VOLUME, this.volume);
+      this.emit(EVENT.AUDIO.VOLUME, this.volume);
     }
   }
 
@@ -54,7 +54,7 @@ class Audio extends EventEmitter {
     if (this.volume > 0) {
       this.volume = this.volume - 0.01;
       if (this.song) this.song.volume(this.volume);
-      this.emit(AUDIO_EVENTS.VOLUME, this.volume);
+      this.emit(EVENT.AUDIO.VOLUME, this.volume);
     }
   }
 
@@ -63,12 +63,12 @@ class Audio extends EventEmitter {
 
     if (this.song) this.song.mute(this.muted);
 
-    this.emit(AUDIO_EVENTS.MUTED, this.muted);
+    this.emit(EVENT.AUDIO.MUTED, this.muted);
   }
 
   createPlaylist(playlist) {
     this.playlist = playlist;
-    this.emit(AUDIO_EVENTS.PLAYLIST, this.playlist);
+    this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
   }
 
   createSong() {
@@ -82,7 +82,8 @@ class Audio extends EventEmitter {
       volume: this.volume,
       autoplay: true,
       onload: () => {
-        this.emit(AUDIO_EVENTS.DURATION, this.song.duration());
+        this.emit(EVENT.AUDIO.DURATION, this.song.duration());
+        this.emit(EVENT.AUDIO.METADATA, metadata);
       },
       onloaderror: () => this.next(),
       onplayerror: () => this.next(),
@@ -90,15 +91,15 @@ class Audio extends EventEmitter {
       onplay: () => requestAnimationFrame(this.step.bind(this))
     });
 
-    this.status = AUDIO_STATUS.PLAYING;
-    this.emit(AUDIO_EVENTS.STATUS, this.status);
+    this.status = STATUS.AUDIO.PLAYING;
+    this.emit(EVENT.AUDIO.STATUS, this.status);
   }
 
   step() {
     if (this.song && this.song.state !== 'unloaded') {
       const position = this.song.seek();
 
-      if (typeof position === 'number') this.emit(AUDIO_EVENTS.POSITION, position);
+      if (typeof position === 'number') this.emit(EVENT.AUDIO.POSITION, position);
       if (this.song.playing()) requestAnimationFrame(this.step.bind(this));
     }
   }
@@ -107,7 +108,7 @@ class Audio extends EventEmitter {
     if (!this.song) return;
 
     this.song.seek(position);
-    this.emit(AUDIO_EVENTS.POSITION, position);
+    this.emit(EVENT.AUDIO.POSITION, position);
   }
 
   requestFrame() {
@@ -117,10 +118,11 @@ class Audio extends EventEmitter {
   play() {
     if (this.playlist.length === 0) return;
 
-    if (this.song && this.status === AUDIO_STATUS.PAUSED) {
+    if (this.song && this.status === STATUS.AUDIO.PAUSED) {
       this.song.play();
-      this.status = AUDIO_STATUS.PLAYING;
-      this.emit(AUDIO_EVENTS.STATUS, this.status);
+      this.status = STATUS.AUDIO.PLAYING;
+      this.emit(EVENT.AUDIO.STATUS, this.status);
+      this.emit(EVENT.AUDIO.METADATA, this.playlist[this.playlistIndex]);
     } else {
       this.createSong();
     }
@@ -130,19 +132,19 @@ class Audio extends EventEmitter {
     if (!this.song) return;
 
     this.song.pause();
-    this.status = AUDIO_STATUS.PAUSED;
-    this.emit(AUDIO_EVENTS.STATUS, this.status);
+    this.status = STATUS.AUDIO.PAUSED;
+    this.emit(EVENT.AUDIO.STATUS, this.status);
   }
 
   stop() {
     Howler.unload();
 
     this.song = null;
-    this.status = AUDIO_STATUS.STOPPED;
+    this.status = STATUS.AUDIO.STOPPED;
 
-    this.emit(AUDIO_EVENTS.DURATION, 0);
-    this.emit(AUDIO_EVENTS.POSITION, 0);
-    this.emit(AUDIO_EVENTS.STATUS, this.status);
+    this.emit(EVENT.AUDIO.DURATION, 0);
+    this.emit(EVENT.AUDIO.POSITION, 0);
+    this.emit(EVENT.AUDIO.STATUS, this.status);
   }
 
   next() {
@@ -167,7 +169,7 @@ class Audio extends EventEmitter {
 
   shuffle() {
     this.playlist = shuffleArray(this.playlist);
-    this.emit(AUDIO_EVENTS.PLAYLIST, this.playlist);
+    this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
   }
 }
 

@@ -13,12 +13,12 @@ import { useAudio } from '../../hooks/useContext';
 
 // Utils
 import { formatTime } from '../../utils';
-import { AUDIO_HOOKS } from '../../utils/const';
+import { HOOK } from '../../utils/const';
 
 const SliderPlayer = ({ width }) => {
-  const position = useAudio(AUDIO_HOOKS.POSITION);
-  const { duration } = useAudio(AUDIO_HOOKS.CURRENT);
-  const { seek, requestFrame } = useAudio(AUDIO_HOOKS.METHOD);
+  const position = useAudio(HOOK.AUDIO.POSITION);
+  const { duration } = useAudio(HOOK.AUDIO.CURRENT);
+  const { seek, requestFrame } = useAudio(HOOK.AUDIO.METHOD);
 
   return (
     <Box display="flex" flexDirection="column" width={width}>

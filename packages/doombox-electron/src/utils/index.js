@@ -1,13 +1,29 @@
 const { globalShortcut } = require('electron');
-const { TYPES_IPC } = require('@doombox/utils/const');
+const fs = require('fs');
+const path = require('path');
 
-const createKeyboardListener = (window, keybinds = {}) => (
-  Object.entries(keybinds).forEach(([command, keybind]) => {
+// Utils
+const { PATH } = require('./const');
+
+const createKeyboardListener = (keybinds = {}, callback) => (
+  Object.entries(keybinds).forEach(([action, keybind]) => {
     if (!keybind) return;
-    globalShortcut.register(keybind, () => window.send(TYPES_IPC.KEYBOARD, command));
+    globalShortcut.register(keybind, () => callback({ action, keybind }));
   })
 );
 
+const createLog = (name, text) => fs.writeFileSync(
+  path.join(PATH.LOG, `${name}_${new Date().getTime()}.txt`),
+  text
+);
+
+const createLogError = err => createLog(
+  'error',
+  JSON.stringify(err, Object.getOwnPropertyNames(err))
+);
+
 module.exports = {
-  createKeyboardListener
+  createKeyboardListener,
+  createLog,
+  createLogError
 };

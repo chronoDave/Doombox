@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ELEMENT_IDS } from '@doombox/utils/const';
+import { ID } from '@doombox/utils';
 
 // Core
 import { withStyles } from '@material-ui/core/styles';
@@ -10,14 +10,14 @@ import {
 } from '@material-ui/core';
 
 // Style
-import { windowStyle } from './Window.style';
+import { appStyle } from './App.style';
 
 // Electron
 const { remote } = window.require('electron');
 
 const browserWindow = remote.getCurrentWindow();
 
-const Window = ({ classes, children }) => {
+const AppBar = ({ classes, children }) => {
   const handleMaximize = () => (browserWindow.isMaximized() ?
     browserWindow.unmaximize() :
     browserWindow.maximize()
@@ -29,19 +29,19 @@ const Window = ({ classes, children }) => {
         <div className={classes.draggable} />
         <Box display="flex">
           <Button
-            id={ELEMENT_IDS.WINDOW_MINIMIZE}
+            id={ID.WINDOW_MINIMIZE}
             onClick={() => browserWindow.minimize()}
           >
             Minimize
           </Button>
           <Button
-            id={ELEMENT_IDS.WINDOW_MAXIMIZE}
+            id={ID.WINDOW_MAXIMIZE}
             onClick={() => handleMaximize()}
           >
             Maximize
           </Button>
           <Button
-            id={ELEMENT_IDS.WINDOW_CLOSE}
+            id={ID.WINDOW_CLOSE}
             onClick={() => browserWindow.close()}
           >
             Close
@@ -53,11 +53,11 @@ const Window = ({ classes, children }) => {
   );
 };
 
-Window.propTypes = {
+AppBar.propTypes = {
   children: PropTypes.element.isRequired,
   classes: PropTypes.shape({
     draggable: PropTypes.string
   }).isRequired
 };
 
-export default withStyles(windowStyle)(Window);
+export default withStyles(appStyle)(AppBar);

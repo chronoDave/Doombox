@@ -10,10 +10,10 @@ import { IconButton } from '@material-ui/core';
 import { useAudio } from '../../hooks/useContext';
 
 // Utils
-import { AUDIO_HOOKS } from '../../utils/const';
+import { HOOK } from '../../utils/const';
 
 const IconButtonStop = () => {
-  const { stop } = useAudio(AUDIO_HOOKS.METHOD);
+  const { stop } = useAudio(HOOK.AUDIO.METHOD);
 
   return (
     <IconButton onClick={() => stop()}>

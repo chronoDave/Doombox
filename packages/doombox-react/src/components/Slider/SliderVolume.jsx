@@ -12,11 +12,11 @@ import {
 import { useAudio } from '../../hooks/useContext';
 
 // Utils
-import { AUDIO_HOOKS } from '../../utils/const';
+import { HOOK } from '../../utils/const';
 
 const SliderVolume = ({ width }) => {
-  const volume = useAudio(AUDIO_HOOKS.VOLUME);
-  const { setVolume } = useAudio(AUDIO_HOOKS.METHOD);
+  const volume = useAudio(HOOK.AUDIO.VOLUME);
+  const { setVolume } = useAudio(HOOK.AUDIO.METHOD);
 
   return (
     <Box display="flex" width={width}>

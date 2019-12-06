@@ -1,1 +1,1 @@
-export { WindowBar } from './Window';
+export { App } from './App';

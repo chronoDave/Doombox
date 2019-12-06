@@ -1,6 +1,6 @@
 const { Application } = require('spectron');
 const electronPath = require('electron');
-const { ELEMENT_IDS } = require('@doombox/utils/const');
+const { ID } = require('@doombox/utils');
 const path = require('path');
 const { assert } = require('chai');
 
@@ -28,9 +28,9 @@ describe('Starts application', function () {
   it('is minimizable', async () => {
     await app.client.waitUntilWindowLoaded();
 
-    validateElementById(app.client, ELEMENT_IDS.WINDOW_MINIMIZE);
+    validateElementById(app.client, ID.WINDOW_MINIMIZE);
 
-    await app.client.click(`#${ELEMENT_IDS.WINDOW_MINIMIZE}`);
+    await app.client.click(`#${ID.WINDOW_MINIMIZE}`);
 
     const isMinimized = await app.browserWindow.isMinimized();
 
@@ -40,15 +40,15 @@ describe('Starts application', function () {
   it('is maximizable', async () => {
     await app.client.waitUntilWindowLoaded();
 
-    validateElementById(app.client, ELEMENT_IDS.WINDOW_MAXIMIZE);
+    validateElementById(app.client, ID.WINDOW_MAXIMIZE);
 
-    await app.client.click(`#${ELEMENT_IDS.WINDOW_MAXIMIZE}`);
+    await app.client.click(`#${ID.WINDOW_MAXIMIZE}`);
 
     const isMaximized = await app.browserWindow.isMaximized();
 
     assert.isTrue(isMaximized, 'Window not maximized');
 
-    await app.client.click(`#${ELEMENT_IDS.WINDOW_MAXIMIZE}`);
+    await app.client.click(`#${ID.WINDOW_MAXIMIZE}`);
 
     const isNormal = await app.browserWindow.isNormal();
 
@@ -58,9 +58,9 @@ describe('Starts application', function () {
   it('is closeable', async () => {
     await app.client.waitUntilWindowLoaded();
 
-    validateElementById(app.client, ELEMENT_IDS.WINDOW_CLOSE);
+    validateElementById(app.client, ID.WINDOW_CLOSE);
 
-    await app.client.click(`#${ELEMENT_IDS.WINDOW_CLOSE}`);
+    await app.client.click(`#${ID.WINDOW_CLOSE}`);
 
     const windowCount = await app.client.getWindowCount();
 

@@ -11,18 +11,15 @@ import { IconButton } from '@material-ui/core';
 import { useAudio } from '../../hooks/useContext';
 
 // Utils
-import {
-  AUDIO_HOOKS,
-  AUDIO_STATUS
-} from '../../utils/const';
+import { HOOK, STATUS } from '../../utils/const';
 
 const IconButtonPlay = () => {
-  const { play, pause } = useAudio(AUDIO_HOOKS.METHOD);
-  const { status } = useAudio(AUDIO_HOOKS.CURRENT);
+  const { play, pause } = useAudio(HOOK.AUDIO.METHOD);
+  const { status } = useAudio(HOOK.AUDIO.CURRENT);
 
   return (
-    <IconButton onClick={() => (status === AUDIO_STATUS.PLAYING ? pause() : play())}>
-      {status === AUDIO_STATUS.PLAYING ? <IconPause /> : <IconPlay />}
+    <IconButton onClick={() => (status === STATUS.AUDIO.PLAYING ? pause() : play())}>
+      {status === STATUS.AUDIO.PLAYING ? <IconPause /> : <IconPlay />}
     </IconButton>
   );
 };

@@ -1,48 +1,50 @@
 const { app } = require('electron');
-const { COMMANDS_AUDIO } = require('@doombox/utils/const');
+const mkdirp = require('mkdirp');
+const { TYPES } = require('@doombox/utils');
 
 // Lib
 const { createWindow } = require('./lib/window');
-const { createKeyboardListener } = require('./lib/listener');
-const Store = require('./lib/store');
-
-const userConfig = new Store({
-  fileName: 'user-config',
-  defaults: {
-    keybinds: {
-      [COMMANDS_AUDIO.NEXT]: 'CommandOrControl+Alt+Right',
-      [COMMANDS_AUDIO.PREVIOUS]: 'CommandOrControl+Alt+Left',
-      [COMMANDS_AUDIO.PLAY]: 'CommandOrControl+Alt+\\',
-      [COMMANDS_AUDIO.PAUSE]: null,
-      [COMMANDS_AUDIO.VOLUME_UP]: 'CommandOrControl+Alt+Up',
-      [COMMANDS_AUDIO.VOLUME_DOWN]: 'CommandOrControl+Alt+Down',
-      [COMMANDS_AUDIO.MUTE]: null
-    }
-  }
-});
-
-const appConfig = new Store({
-  fileName: 'app-config',
-  defaults: {
-    window: {
-      width: 800,
-      height: 600
-    }
-  }
-});
-
-// DB
+const { createKeyboardListener } = require('./utils');
 const NeDB = require('./lib/database/nedb');
+
+// Utils
+const { PATH } = require('./utils/const');
+const {
+  userConfig,
+  appConfig
+} = require('./utils/config');
 
 mkdirp.sync(PATH.LOG);
 
 const db = new NeDB();
 
 app.on('ready', () => {
-  const mainWindow = createWindow();
+  const { width, height } = appConfig.get('dimension');
 
-  createKeyboardListener(mainWindow.webContents, userConfig.get('keybinds'));
+  let mainWindow = createWindow({ width, height });
+
+  createKeyboardListener(
+    userConfig.get('keybinds'),
+    ({ action }) => mainWindow.webContents.send(TYPES.IPC.KEYBIND, action)
+  );
+
+  mainWindow.on('resize', () => {
+    appConfig.set('dimension', { ...mainWindow.getBounds() });
+  });
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
 });
+
+// Prevent multi-instance
+if (!app.requestSingleInstanceLock()) {
+  const { forceQuit } = userConfig.get('general');
+
+  if (!process.platform === 'darwin' || forceQuit) {
+    app.quit();
+  }
+}
 
 app.on('window-all-closed', () => {
   app.quit();
