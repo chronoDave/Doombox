@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ELEMENT_IDS } from '@doombox/utils/const';
 
 // Core
 import { withStyles } from '@material-ui/core/styles';
@@ -7,9 +8,6 @@ import {
   Button,
   Box
 } from '@material-ui/core';
-
-// Utils
-import { ELEMENT_IDS } from '../../../../doombox-utils/const';
 
 // Style
 import { windowStyle } from './Window.style';

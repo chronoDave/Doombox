@@ -2,11 +2,11 @@
   "name": "doombox",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js --ext .jsx src/",
+    "lint": "eslint --ext .js --ext .jsx .",
     "start:react": "yarn workspace @doombox/react start",
     "start:electron": "yarn workspace @doombox/electron start:dev",
     "start:electron-prod": "yarn workspace @doombox/electron start",
-    "build": "yarn build:react yarn build:electron",
+    "build": "yarn build:react && yarn build:electron",
     "build:react": "yarn workspace @doombox/react build",
     "build:electron": "yarn workspace @doombox/electron build",
     "test:react": "yarn workspace @doombox/react test",

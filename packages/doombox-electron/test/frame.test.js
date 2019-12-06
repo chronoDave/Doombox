@@ -1,5 +1,6 @@
 const { Application } = require('spectron');
 const electronPath = require('electron');
+const { ELEMENT_IDS } = require('@doombox/utils/const');
 const path = require('path');
 const { assert } = require('chai');
 
@@ -8,8 +9,6 @@ const {
   validateClient,
   validateElementById
 } = require('./utils');
-
-const { ELEMENT_IDS } = require('../../doombox-utils/const');
 
 const appPath = path.resolve(__dirname, '../src');
 

@@ -109,6 +109,9 @@
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
 
+"@doombox/utils@./packages/doombox-utils":
+  version "1.0.0-ce"
+
 "@electron/get@^1.0.1":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.6.0.tgz#3e1437fa0f436ce9d4e0c27a4c330835ae6d74ed"

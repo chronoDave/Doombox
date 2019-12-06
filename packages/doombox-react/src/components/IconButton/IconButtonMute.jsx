@@ -15,7 +15,7 @@ import { useAudio } from '../../hooks/useContext';
 // Utils
 import { AUDIO_HOOKS } from '../../utils/const';
 
-const IconButtonStop = () => {
+const IconButtonMute = () => {
   const { mute } = useAudio(AUDIO_HOOKS.METHOD);
   const { muted } = useAudio(AUDIO_HOOKS.CURRENT);
   const volume = useAudio(AUDIO_HOOKS.VOLUME);
@@ -34,4 +34,4 @@ const IconButtonStop = () => {
   );
 };
 
-export default IconButtonStop;
+export default IconButtonMute;

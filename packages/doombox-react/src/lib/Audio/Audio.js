@@ -16,14 +16,15 @@ class Audio extends EventEmitter {
     const {
       volume,
       playlist,
-      autoplay
+      autoplay,
+      muted
     } = options;
 
     // Player
     this.volume = volume;
     this.status = AUDIO_STATUS.STOPPED;
     this.autoplay = autoplay;
-    this.muted = false;
+    this.muted = muted;
 
     // Song
     this.song = null;
@@ -83,6 +84,8 @@ class Audio extends EventEmitter {
       onload: () => {
         this.emit(AUDIO_EVENTS.DURATION, this.song.duration());
       },
+      onloaderror: () => this.next(),
+      onplayerror: () => this.next(),
       onend: () => this.autoplay && this.next(),
       onplay: () => requestAnimationFrame(this.step.bind(this))
     });

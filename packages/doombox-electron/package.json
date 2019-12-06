@@ -14,7 +14,8 @@
   "dependencies": {
     "mkdirp": "^0.5.1",
     "music-metadata": "^5.0.1",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "@doombox/utils": "./packages/doombox-utils"
   },
   "devDependencies": {
     "electron": "^7.1.1",
