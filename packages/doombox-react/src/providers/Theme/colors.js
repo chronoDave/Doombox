@@ -1,0 +1,53 @@
+export const PRIMARY = {
+  main: '#664d82',
+  dark: '#443555',
+  light: '#9073ae',
+  contrastText: '#ffffff'
+};
+
+export const SECONDARY = {
+  main: '#f06292',
+  dark: '#ba2d65',
+  light: '#ff94c2',
+  contrastText: '#ffffff'
+};
+
+export const ERROR = {
+  main: '#f04747',
+  dark: '#b6001f',
+  light: '#ff7c73',
+  contrastText: '#ffffff'
+};
+
+export const WARNING = {
+  main: '#faa61a',
+  dark: '#c27700',
+  light: '#ffd753',
+  contrastText: '#ffffff'
+};
+
+export const SUCCESS = {
+  main: '#43b581',
+  dark: '#008454',
+  light: '#78e8b1',
+  contrastText: '#ffffff'
+};
+
+export const INFO = {
+  main: '#3498db',
+  dark: '#006aa9',
+  light: '#73c9ff',
+  contrastText: '#ffffff'
+};
+
+export const GREY = {
+  0: '#ffffff',
+  50: '#dadbdb',
+  100: '#b9bbbe',
+  200: '#818488',
+  300: '#484c52',
+  400: '#36393f',
+  500: '#2f3136',
+  600: '#292a2f',
+  700: '#202225'
+};

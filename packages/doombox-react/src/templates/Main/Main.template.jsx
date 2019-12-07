@@ -4,25 +4,26 @@ import PropTypes from 'prop-types';
 // Core
 import { withStyles } from '@material-ui/core/styles';
 
-import AppBar from './AppBar.private';
+// Modules
+import { Sidebar } from '../../modules';
 
 // Style
-import { AppStyles } from './App.style';
+import { MainStyles } from './Main.style';
 
-const App = ({ classes, children }) => (
+const MainTemplate = ({ classes, children }) => (
   <Fragment>
-    <AppBar />
+    <Sidebar />
     <div className={classes.root}>
       {children}
     </div>
   </Fragment>
 );
 
-App.propTypes = {
+MainTemplate.propTypes = {
   classes: PropTypes.shape({
     root: PropTypes.string.isRequired
   }).isRequired,
   children: PropTypes.element.isRequired
 };
 
-export default withStyles(AppStyles)(App);
+export default withStyles(MainStyles)(MainTemplate);

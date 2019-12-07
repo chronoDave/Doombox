@@ -1,7 +1,8 @@
 const TYPE = {
   IPC: {
     KEYBIND: 'KEYBIND',
-    LIBRARY: 'LIBRARY'
+    LIBRARY: 'LIBRARY',
+    CONFIG: 'CONFIG'
   }
 };
 

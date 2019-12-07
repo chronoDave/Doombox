@@ -7,6 +7,12 @@ const { createWindow } = require('./lib/window');
 const { createKeyboardListener } = require('./utils');
 const NeDB = require('./lib/database/nedb');
 
+// Routers
+const { useConfigRouter } = require('./router/configRouter');
+
+// Controllers
+const ConfigController = require('./controller/configController');
+
 // Utils
 const { PATH } = require('./utils/const');
 const {
@@ -16,9 +22,11 @@ const {
 
 mkdirp.sync(PATH.LOG);
 
-const db = new NeDB();
+// const db = new NeDB();
 
 app.on('ready', () => {
+  useConfigRouter(new ConfigController({ config: userConfig }));
+
   const { width, height } = appConfig.get('dimension');
 
   let mainWindow = createWindow({ width, height });

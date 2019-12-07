@@ -9,13 +9,13 @@ export const AudioContext = {
   Position: createContext()
 };
 
-export const IpcContext = {
-  Keybind: createContext(),
-  Library: createContext()
-};
-
 export const MediaSessionContext = {
   State: createContext(),
   Method: createContext(),
   Metadata: createContext()
+};
+
+export const ThemeContext = {
+  DarkMode: createContext(),
+  Colors: createContext()
 };

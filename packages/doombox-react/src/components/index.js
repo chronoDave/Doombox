@@ -10,3 +10,4 @@ export {
   SliderPlayer,
   SliderVolume
 } from './Slider';
+export { Icon } from './Icon';

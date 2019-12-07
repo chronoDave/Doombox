@@ -7,7 +7,7 @@ import {
 import { useAudio } from '../../hooks/useContext';
 import { HOOK } from '../../utils/const';
 
-const Listener = ({ children }) => {
+const MediaSesssionListener = ({ children }) => {
   const {
     play,
     pause,
@@ -41,4 +41,4 @@ const Listener = ({ children }) => {
   return useMemo(() => children, []);
 };
 
-export default Listener;
+export default MediaSesssionListener;

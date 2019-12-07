@@ -1,25 +1,24 @@
 import { useContext } from 'react';
-import { TYPE } from '@doombox/utils';
 
 // Utils
 import { HOOK } from '../utils/const';
 import {
-  IpcContext,
-  AudioContext
+  AudioContext,
+  ThemeContext
 } from '../utils/context';
 
-export const useAudio = type => {
-  if (!type || !Object.values(HOOK.AUDIO).includes(type)) {
-    throw new Error('Invalid hook type called');
+const createContextHook = (type, array, context) => {
+  if (!type || !array.includes(type)) {
+    throw new Error(`Invalid hook type called: ${type}`);
   }
 
-  return useContext(AudioContext[type]);
+  return useContext(context[type]);
 };
 
-export const useIpc = type => {
-  if (!type || !Object.values(TYPE.IPC).includes(type)) {
-    throw new Error('Invalid hook type called');
-  }
+export const useAudio = type => createContextHook(
+  type, Object.values(HOOK.AUDIO), AudioContext
+);
 
-  return useContext(IpcContext[type]);
-};
+export const useTheme = type => createContextHook(
+  type, Object.values(HOOK.THEME), ThemeContext
+);

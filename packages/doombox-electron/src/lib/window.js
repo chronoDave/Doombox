@@ -1,7 +1,7 @@
 const { BrowserWindow } = require('electron');
 const path = require('path');
 
-const minWidth = 600;
+const minWidth = 640;
 const minHeight = 480;
 
 const createWindow = ({ width, height }) => {

@@ -1,3 +1,3 @@
 export { AudioProvider } from './Audio';
-export { IpcProvider } from './Ipc';
-export { RouteProvider } from './Route';
+export { Router } from './Router';
+export { ThemeProvider } from './Theme';

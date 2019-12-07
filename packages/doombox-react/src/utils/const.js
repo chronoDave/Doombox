@@ -26,5 +26,9 @@ export const HOOK = {
     CURRENT: 'Current',
     POSITION: 'Position',
     METADATA: 'Metadata'
+  },
+  THEME: {
+    DARKMODE: 'DarkMode',
+    COLORS: 'Colors'
   }
 };

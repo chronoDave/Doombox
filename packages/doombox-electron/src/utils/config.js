@@ -17,6 +17,16 @@ const userConfig = new Store({
       [ACTION.AUDIO.VOLUME_UP]: 'CommandOrControl+Alt+Up',
       [ACTION.AUDIO.VOLUME_DOWN]: 'CommandOrControl+Alt+Down',
       [ACTION.AUDIO.MUTE]: null
+    },
+    color: {
+      darkMode: true,
+      primary: null,
+      secondary: null,
+      error: null,
+      warning: null,
+      success: null,
+      info: null,
+      grey: null
     }
   }
 });
@@ -25,7 +35,7 @@ const appConfig = new Store({
   fileName: 'app-config',
   defaults: {
     dimension: {
-      width: 600,
+      width: 640,
       height: 480
     }
   }

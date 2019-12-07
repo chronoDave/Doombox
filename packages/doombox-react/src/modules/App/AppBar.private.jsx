@@ -2,62 +2,70 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ID } from '@doombox/utils';
 
+// Icons
+import IconMaximize from '@material-ui/icons/Fullscreen';
+import IconClose from '@material-ui/icons/Close';
+
 // Core
 import { withStyles } from '@material-ui/core/styles';
 import {
-  Button,
+  ButtonBase,
   Box
 } from '@material-ui/core';
 
+import { Icon } from '../../components';
+
 // Style
-import { appStyle } from './App.style';
+import { AppStyles } from './App.style';
 
 // Electron
 const { remote } = window.require('electron');
 
 const browserWindow = remote.getCurrentWindow();
 
-const AppBar = ({ classes, children }) => {
+const AppBar = ({ classes }) => {
   const handleMaximize = () => (browserWindow.isMaximized() ?
     browserWindow.unmaximize() :
     browserWindow.maximize()
   );
 
   return (
-    <Box>
+    <div className={classes.barRoot}>
+      <div className={classes.draggable} />
       <Box display="flex">
-        <div className={classes.draggable} />
-        <Box display="flex">
-          <Button
-            id={ID.WINDOW_MINIMIZE}
-            onClick={() => browserWindow.minimize()}
-          >
-            Minimize
-          </Button>
-          <Button
-            id={ID.WINDOW_MAXIMIZE}
-            onClick={() => handleMaximize()}
-          >
-            Maximize
-          </Button>
-          <Button
-            id={ID.WINDOW_CLOSE}
-            onClick={() => browserWindow.close()}
-          >
-            Close
-          </Button>
-        </Box>
+        <ButtonBase
+          id={ID.WINDOW_MINIMIZE}
+          onClick={() => browserWindow.minimize()}
+          classes={{ root: classes.button }}
+        >
+          <Icon type="minimize" fontSize="small" />
+        </ButtonBase>
+        <ButtonBase
+          id={ID.WINDOW_MAXIMIZE}
+          onClick={() => handleMaximize()}
+          classes={{ root: classes.button }}
+        >
+          <IconMaximize fontSize="small" />
+        </ButtonBase>
+        <ButtonBase
+          id={ID.WINDOW_CLOSE}
+          onClick={() => browserWindow.close()}
+          classes={{ root: classes.buttonClose }}
+        >
+          <IconClose fontSize="small" />
+        </ButtonBase>
       </Box>
-      {children}
-    </Box>
+    </div>
   );
 };
 
 AppBar.propTypes = {
-  children: PropTypes.element.isRequired,
   classes: PropTypes.shape({
+    barRoot: PropTypes.string,
+    button: PropTypes.string,
+    buttonClose: PropTypes.string,
     draggable: PropTypes.string
   }).isRequired
 };
 
-export default withStyles(appStyle)(AppBar);
+export default withStyles(AppStyles)(AppBar);
