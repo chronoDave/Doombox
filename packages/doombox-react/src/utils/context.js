@@ -16,6 +16,12 @@ export const MediaSessionContext = {
 };
 
 export const ThemeContext = {
+  Method: createContext(),
   DarkMode: createContext(),
   Colors: createContext()
+};
+
+export const LibraryContext = {
+  Method: createContext(),
+  Songs: createContext()
 };

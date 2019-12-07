@@ -2,31 +2,36 @@ const mm = require('music-metadata');
 const path = require('path');
 const shortid = require('shortid');
 const fs = require('fs');
+const { TYPE } = require('@doombox/utils');
 
 // Lib
 const { createLogError } = require('../utils');
 
 // Utils
+const { cleanFileName } = require('../utils');
 const {
   PATH,
   COLLECTION
 } = require('../utils/const');
 
 module.exports = class MetadataParser {
-  constructor(options = {}, db) {
-    this.options = options;
+  constructor(database, options) {
     this.payload = [];
-    this.db = db;
+    this.db = database;
+    this.options = options;
+    this.event = null;
+    this.max = 0;
+    this.log = null;
   }
 
-  async writeFile(image, _id) {
+  async writeImage(image, _id) {
     const format = image.format.match(/(png|jpg|gif)/i);
     const imagePath = path.resolve(
       PATH.IMAGE,
       `${_id}.${format ? format[0] : 'jpg'}`
     );
 
-    if (!fs.existSync(imagePath)) {
+    if (!fs.existsSync(imagePath)) {
       fs.writeFileSync(imagePath, image.data);
 
       const payload = {
@@ -44,13 +49,36 @@ module.exports = class MetadataParser {
     }
   }
 
-  async parseAll(files) {
+  async parseAll(event, files) {
+    this.event = event;
+    this.max = files.length;
+
+    if (this.options.logging) {
+      this.log = path.join(PATH.LOG, `parser_${new Date().getTime()}.txt`);
+    }
+
     try {
       await this.parseRecursive(files);
-      await this.db.create(COLLECTION.SONG, this.payload);
+      const songs = await this.db.create(COLLECTION.SONG, this.payload);
+
+      return Promise.resolve(songs);
     } catch (err) {
-      createLogError(err);
+      return Promise.reject(err);
     }
+  }
+
+  handleParseRecursiveReturn(file, files, i) {
+    if (this.options.logging) {
+      fs.appendFileSync(this.log, JSON.stringify(file));
+    }
+
+    this.event.sender.send(TYPE.IPC.MESSAGE, {
+      current: file,
+      value: this.max - files.length,
+      max: this.max
+    });
+
+    return this.parseRecursive(files, i + 1);
   }
 
   async parseRecursive(files, i = 0) {
@@ -68,14 +96,12 @@ module.exports = class MetadataParser {
           _id: shortid.generate(),
           file,
           format,
-          ...tags
+          metadata: { ...tags }
         };
 
         if (pictures) {
           pictures.forEach(async image => {
-            const _id = `${tags.albumartist}-${tags.album}-${image.type}`
-              .replace(/\/|\\|\*|\?|"|:|<|>|\.|\|/g, '_');
-
+            const _id = cleanFileName(`${tags.albumartist}-${tags.album}-${image.type}`);
             payload.images.push(_id);
             this.writeImage(image, _id);
           });
@@ -83,9 +109,12 @@ module.exports = class MetadataParser {
 
         this.payload.push(payload);
 
-        return this.parseRecursive(files, i + 1);
+        return this.handleParseRecursiveReturn(file, files, i);
       } catch (err) {
+        if (this.options.parseStrict) return Promise.reject(err);
         createLogError(err);
+
+        return this.handleParseRecursiveReturn(file, files, i);
       }
     }
 

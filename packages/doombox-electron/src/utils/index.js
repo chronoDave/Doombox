@@ -22,14 +22,19 @@ const createLog = (name, text) => fs.writeFileSync(
 const createLogError = err => createLog('error', errorToJson(err));
 
 const handleErrorIpc = ({ event, type, err }) => {
-  createLogError(err);
-  event.sender.send(type, errorToJson(err));
+  const errJson = errorToJson(err);
+
+  createLog(`error_${type}`, errJson);
+  event.sender.send(type, { err: errJson });
 };
+
+const cleanFileName = string => string.replace(/\/|\\|\*|\?|"|:|<|>|\.|\|/g, '_');
 
 module.exports = {
   errorToJson,
   handleErrorIpc,
   createKeyboardListener,
   createLog,
-  createLogError
+  createLogError,
+  cleanFileName
 };

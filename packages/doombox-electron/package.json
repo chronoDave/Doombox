@@ -12,13 +12,15 @@
     "test:dev": "cross-env NODE_ENV=development mocha"
   },
   "dependencies": {
-    "mkdirp": "^0.5.1",
+    "@doombox/utils": "./packages/doombox-utils",
+    "glob": "^7.1.6",
+    "make-dir": "^3.0.0",
     "music-metadata": "^5.0.1",
     "nedb": "^1.8.0",
-    "@doombox/utils": "./packages/doombox-utils"
+    "rimraf": "^3.0.0"
   },
   "devDependencies": {
-    "electron": "^7.1.1",
+    "electron": "7.1.1",
     "electron-builder": "^22.1.0",
     "spectron": "^9.0.0"
   },

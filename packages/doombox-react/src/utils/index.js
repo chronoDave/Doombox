@@ -24,3 +24,15 @@ export const formatTime = time => {
 
   return `${hours === '00' ? '' : `${hours}:`}${minutes}:${seconds}`;
 };
+
+// Electron
+const { remote: { dialog: { showOpenDialog } } } = window.require('electron');
+
+export const selectFolder = multi => {
+  const properties = ['openDirectory'];
+  if (multi) properties.push('multiSelections');
+
+  return showOpenDialog({ properties })
+    .then(({ canceled, filePaths }) => Promise.resolve(canceled ? null : filePaths))
+    .catch(err => Promise.reject(err));
+};

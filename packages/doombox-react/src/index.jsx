@@ -9,6 +9,7 @@ import { App } from './modules';
 
 // Providers
 import {
+  LibraryProvider,
   AudioProvider,
   ThemeProvider,
   Router
@@ -17,22 +18,27 @@ import {
 // Listeners
 import {
   ThemeListener,
-  MediaSessionListener
+  MediaSessionListener,
+  LibraryListener
 } from './listener';
 
 render(
-  <AudioProvider>
-    <ThemeProvider>
-      <MediaSessionListener>
-        <ThemeListener>
-          <CssBaseline>
-            <App>
-              <Router />
-            </App>
-          </CssBaseline>
-        </ThemeListener>
-      </MediaSessionListener>
-    </ThemeProvider>
-  </AudioProvider>,
+  <LibraryProvider>
+    <AudioProvider>
+      <ThemeProvider>
+        <LibraryListener>
+          <MediaSessionListener>
+            <ThemeListener>
+              <CssBaseline>
+                <App>
+                  <Router />
+                </App>
+              </CssBaseline>
+            </ThemeListener>
+          </MediaSessionListener>
+        </LibraryListener>
+      </ThemeProvider>
+    </AudioProvider>
+  </LibraryProvider>,
   document.getElementById('root')
 );

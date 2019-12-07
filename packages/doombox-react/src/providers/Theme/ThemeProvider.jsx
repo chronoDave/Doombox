@@ -18,14 +18,21 @@ const ThemeProvider = ({ children }) => {
 
   const theme = createTheme({ colors: { darkMode, ...colors } });
 
+  const methodValue = useMemo(() => ({
+    setDarkMode,
+    setColors
+  }), [setDarkMode, setColors]);
+
   return (
-    <ThemeContext.DarkMode.Provider value={{ darkMode, setDarkMode }}>
-      <ThemeContext.Colors.Provider value={{ colors, setColors }}>
-        <MuiThemeProvider theme={theme}>
-          {children}
-        </MuiThemeProvider>
-      </ThemeContext.Colors.Provider>
-    </ThemeContext.DarkMode.Provider>
+    <ThemeContext.Method.Provider value={methodValue}>
+      <ThemeContext.DarkMode.Provider value={darkMode}>
+        <ThemeContext.Colors.Provider value={colors}>
+          <MuiThemeProvider theme={theme}>
+            {children}
+          </MuiThemeProvider>
+        </ThemeContext.Colors.Provider>
+      </ThemeContext.DarkMode.Provider>
+    </ThemeContext.Method.Provider>
   );
 };
 

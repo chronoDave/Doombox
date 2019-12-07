@@ -29,6 +29,11 @@ export const HOOK = {
   },
   THEME: {
     DARKMODE: 'DarkMode',
-    COLORS: 'Colors'
+    COLORS: 'Colors',
+    METHOD: 'Method'
+  },
+  LIBRARY: {
+    METHOD: 'Method',
+    SONG: 'Songs'
   }
 };

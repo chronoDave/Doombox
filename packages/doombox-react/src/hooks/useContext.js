@@ -4,7 +4,8 @@ import { useContext } from 'react';
 import { HOOK } from '../utils/const';
 import {
   AudioContext,
-  ThemeContext
+  ThemeContext,
+  LibraryContext
 } from '../utils/context';
 
 const createContextHook = (type, array, context) => {
@@ -21,4 +22,8 @@ export const useAudio = type => createContextHook(
 
 export const useTheme = type => createContextHook(
   type, Object.values(HOOK.THEME), ThemeContext
+);
+
+export const useLibrary = type => createContextHook(
+  type, Object.values(HOOK.LIBRARY), LibraryContext
 );

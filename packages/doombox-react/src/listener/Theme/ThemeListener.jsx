@@ -18,8 +18,7 @@ import { useTheme } from '../../hooks/useContext';
 import { HOOK } from '../../utils/const';
 
 const ThemeListener = ({ children }) => {
-  const { setDarkMode } = useTheme(HOOK.THEME.DARKMODE);
-  const { setColors } = useTheme(HOOK.THEME.COLORS);
+  const { setDarkMode, setColors } = useTheme(HOOK.THEME.METHOD);
   const { darkMode, colors } = useIpc(TYPE.IPC.CONFIG);
 
   useEffect(() => {

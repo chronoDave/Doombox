@@ -2,8 +2,16 @@ const TYPE = {
   IPC: {
     KEYBIND: 'KEYBIND',
     LIBRARY: 'LIBRARY',
-    CONFIG: 'CONFIG'
+    CONFIG: 'CONFIG',
+    MESSAGE: 'MESSAGE',
+    INTERRUPT: 'INTERRUPT'
   }
+};
+
+const INTERRUPT = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR'
 };
 
 const ACTION = {
@@ -12,6 +20,7 @@ const ACTION = {
     PREVIOUS: 'PREVIOUS',
     PLAY: 'PLAY',
     PAUSE: 'PAUSE',
+    STOP: 'STOP',
     VOLUME_UP: 'VOLUME_UP',
     VOLUME_DOWN: 'VOLUME_DOWN',
     MUTE: 'MUTE'
@@ -32,6 +41,7 @@ const ID = {
 
 module.exports = {
   TYPE,
+  INTERRUPT,
   ACTION,
   ID
 };

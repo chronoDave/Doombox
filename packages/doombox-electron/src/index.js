@@ -1,5 +1,5 @@
 const { app } = require('electron');
-const mkdirp = require('mkdirp');
+const makeDir = require('make-dir');
 const { TYPES } = require('@doombox/utils');
 
 // Lib
@@ -9,9 +9,11 @@ const NeDB = require('./lib/database/nedb');
 
 // Routers
 const { useConfigRouter } = require('./router/configRouter');
+const { useLibraryRouter } = require('./router/libraryRouter');
 
 // Controllers
 const ConfigController = require('./controller/configController');
+const LibraryController = require('./controller/libraryController');
 
 // Utils
 const { PATH } = require('./utils/const');
@@ -20,12 +22,16 @@ const {
   appConfig
 } = require('./utils/config');
 
-mkdirp.sync(PATH.LOG);
+makeDir.sync(PATH.LOG);
+makeDir.sync(PATH.IMAGE);
 
-// const db = new NeDB();
+const db = new NeDB();
 
 app.on('ready', () => {
+  const parserOptions = appConfig.get('parser');
+
   useConfigRouter(new ConfigController({ config: userConfig }));
+  useLibraryRouter(new LibraryController(db, parserOptions));
 
   const { width, height } = appConfig.get('dimension');
 
