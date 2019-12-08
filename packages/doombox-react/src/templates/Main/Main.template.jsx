@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 // Modules
-import { Sidebar } from '../../modules';
+import { Sidebar } from '../../entities';
 
 // Style
 import { MainStyles } from './Main.style';

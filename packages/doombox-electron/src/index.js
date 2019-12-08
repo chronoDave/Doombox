@@ -5,16 +5,13 @@ const { TYPE } = require('@doombox/utils');
 // Lib
 const { createWindow } = require('./lib/window');
 const { createKeyboardListener } = require('./utils');
+const { createRouter } = require('./lib/router');
 const NeDB = require('./lib/database/nedb');
-
-// Routers
-const { useConfigRouter } = require('./router/configRouter');
-const { useLibraryRouter } = require('./router/libraryRouter');
-const { useSystemRouter } = require('./router/systemRouter');
 
 // Controllers
 const ConfigController = require('./controller/configController');
 const LibraryController = require('./controller/libraryController');
+const PlaylistController = require('./controller/playlistController');
 
 // Utils
 const { PATH } = require('./utils/const');
@@ -31,9 +28,10 @@ const db = new NeDB();
 app.on('ready', () => {
   const parserOptions = appConfig.get('parser');
 
-  useConfigRouter(new ConfigController(userConfig, TYPE.IPC.CONFIG));
-  useSystemRouter(new ConfigController(appConfig, TYPE.IPC.SYSTEM));
-  useLibraryRouter(new LibraryController(db, parserOptions));
+  createRouter(TYPE.IPC.CONFIG, new ConfigController(userConfig, TYPE.IPC.CONFIG));
+  createRouter(TYPE.IPC.SYSTEM, new ConfigController(appConfig, TYPE.IPC.SYSTEM));
+  createRouter(TYPE.IPC.LIBRARY, new LibraryController(db, parserOptions));
+  createRouter(TYPE.IPC.PLAYLIST, new PlaylistController(db));
 
   const { width, height } = appConfig.get('dimension');
 

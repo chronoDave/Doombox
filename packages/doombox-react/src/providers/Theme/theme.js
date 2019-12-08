@@ -30,7 +30,10 @@ export const createTheme = ({
     },
     dimensions: {
       appBar: 32,
-      sidebar: 240
+      sidebar: {
+        tab: 60,
+        panel: 168
+      }
     }
   });
 };

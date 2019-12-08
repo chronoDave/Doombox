@@ -1,16 +1,17 @@
 const { ipcMain } = require('electron');
-const {
-  ACTION,
-  TYPE
-} = require('@doombox/utils');
+const { ACTION } = require('@doombox/utils');
 
-const useConfigRouter = Controller => {
-  ipcMain.on(TYPE.IPC.CONFIG, (event, payload) => {
+const createRouter = (type, Controller) => {
+  ipcMain.on(type, (event, payload) => {
     switch (payload.action) {
+      case ACTION.CRUD.CREATE:
+        return Controller.create(event, payload);
       case ACTION.CRUD.READ:
         return Controller.read(event, payload);
       case ACTION.CRUD.UPDATE:
         return Controller.update(event, payload);
+      case ACTION.CRUD.DELETE:
+        return Controller.delete(event, payload);
       default:
         throw new Error(`Invalid action: ${payload.action}`);
     }
@@ -18,5 +19,5 @@ const useConfigRouter = Controller => {
 };
 
 module.exports = {
-  useConfigRouter
+  createRouter
 };

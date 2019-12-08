@@ -9,14 +9,21 @@ import AppBar from './AppBar.private';
 // Style
 import { AppStyles } from './App.style';
 
-const App = ({ classes, children }) => (
-  <Fragment>
-    <AppBar />
-    <div className={classes.root}>
-      {children}
-    </div>
-  </Fragment>
-);
+// Hooks
+import { useGlobalStyles } from '../../hooks';
+
+const App = ({ classes, children }) => {
+  useGlobalStyles();
+
+  return (
+    <Fragment>
+      <AppBar />
+      <div className={classes.root}>
+        {children}
+      </div>
+    </Fragment>
+  );
+};
 
 App.propTypes = {
   classes: PropTypes.shape({

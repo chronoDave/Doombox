@@ -2,6 +2,7 @@ const TYPE = {
   IPC: {
     KEYBIND: 'Keybind',
     LIBRARY: 'Library',
+    PLAYLIST: 'Playlist',
     CONFIG: 'Config',
     MESSAGE: 'Message',
     INTERRUPT: 'Interrupt',

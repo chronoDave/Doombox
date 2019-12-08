@@ -11,3 +11,9 @@ export {
   SliderVolume
 } from './Slider';
 export { Icon } from './Icon';
+export { ButtonAvatar } from './Button';
+export {
+  FieldFileBase,
+  FieldFileAvatar,
+  FieldText
+} from './Field';

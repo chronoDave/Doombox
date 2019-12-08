@@ -18,6 +18,9 @@ import {
 // Listeners
 import { MediaSessionListener } from './listener';
 
+// Locale
+import './utils/locale';
+
 render(
   <IpcProvider>
     <AudioProvider>

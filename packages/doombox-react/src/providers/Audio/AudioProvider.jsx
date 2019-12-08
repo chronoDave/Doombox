@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TYPE, ACTION } from '@doombox/utils';
+import shortid from 'shortid';
 
 // Lib
 import { Audio } from '../../lib';
@@ -23,6 +24,17 @@ class AudioProvider extends Component {
       }
     );
 
+    const createPlaylist = payload => ipcRenderer.send(
+      TYPE.IPC.PLAYLIST, {
+        action: ACTION.CRUD.CREATE,
+        data: {
+          _id: shortid.generate(),
+          collection: [],
+          ...payload
+        }
+      }
+    );
+
     this.audio = new Audio();
 
     this.state = {
@@ -40,11 +52,15 @@ class AudioProvider extends Component {
         increaseVolume: () => this.audio.increaseVolume(),
         decreaseVolume: () => this.audio.decreaseVolume(),
         mute: () => this.audio.mute(),
-        shuffle: () => this.audio.shuffle()
+        shuffle: () => this.audio.shuffle(),
+        createPlaylist
       },
       libraryValue: [],
       metadataValue: {},
-      playlistValue: this.audio.playlist,
+      playlistValue: {
+        collection: [],
+        current: this.audio.playlist
+      },
       volumeValue: this.audio.volume,
       currentValue: {
         status: this.audio.status,
@@ -68,8 +84,11 @@ class AudioProvider extends Component {
       }));
       sendIpcUpdate({ autoplay });
     });
-    this.audio.on(EVENT.AUDIO.PLAYLIST, playlistValue => (
-      this.setState(state => ({ ...state, playlistValue }))
+    this.audio.on(EVENT.AUDIO.PLAYLIST, playlist => (
+      this.setState(state => ({
+        ...state,
+        playlistValue: { ...state.playlistValue, current: playlist }
+      }))
     ));
     this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
       this.setState(state => ({ ...state, volumeValue }));
@@ -110,16 +129,24 @@ class AudioProvider extends Component {
       this.setState(state => ({ ...state, library: payload }));
     });
 
+    ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
+      this.setState(state => ({
+        ...state,
+        playlistValue: { ...state.playlistValue, collection: payload }
+      }));
+    });
+
     ipcRenderer.send(TYPE.IPC.SYSTEM, {
       action: ACTION.CRUD.READ,
       data: { key: 'player' }
     });
 
     ipcRenderer.send(TYPE.IPC.LIBRARY, { action: ACTION.CRUD.READ, data: {} });
+    ipcRenderer.send(TYPE.IPC.PLAYLIST, { action: ACTION.CRUD.READ, data: {} });
   }
 
   componentWillUnmount() {
-    ipcRenderer.removeListener(TYPE.IPC.SYSTEM);
+    ipcRenderer.removeAllListeners();
   }
 
   render() {

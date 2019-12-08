@@ -18,9 +18,13 @@
     "@material-ui/icons": "^4.5.1",
     "@reach/router": "^1.2.1",
     "clsx": "^1.0.4",
+    "formik": "^2.0.6",
     "howler": "^2.1.2",
+    "i18next": "^19.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-i18next": "^11.2.5",
+    "yup": "^0.27.0"
   }
 }

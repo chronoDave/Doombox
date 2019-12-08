@@ -1,2 +1,2 @@
 export { App } from './App';
-export { Sidebar } from './Sidebar';
+export { FormCreatePlaylist } from './Form';

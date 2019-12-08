@@ -33,9 +33,7 @@ Icon.propTypes = {
   classes: PropTypes.shape({
     root: PropTypes.string.isRequired
   }).isRequired,
-  type: PropTypes.oneOf([
-    'minimize'
-  ]).isRequired,
+  type: PropTypes.oneOf(Object.keys(icons)).isRequired,
   color: PropTypes.oneOf([
     'action',
     'disabled',
