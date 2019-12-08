@@ -1,31 +1,42 @@
-const { TYPE } = require('@doombox/utils');
 const { handleErrorIpc } = require('../utils');
 
+const validateData = data => new Promise((resolve, reject) => {
+  if (!data) reject(new Error('No data found'));
+  if (!data.key) reject(new Error(`No key found in data: ${JSON.stringify(data)}`));
+  resolve();
+});
+
 module.exports = class ConfigController {
-  constructor({ config }) {
+  constructor(config, type) {
     this.config = config;
-    this.type = TYPE.IPC.CONFIG;
+    this.type = type;
   }
 
-  read(event, { data }) {
-    if (!data.configKey) {
-      return handleErrorIpc({
-        event,
-        type: this.type,
-        err: new Error(`No configKey found in data: ${JSON.stringify(data)}`)
-      });
+  async read(event, { data }) {
+    try {
+      await validateData(data);
+    } catch (err) {
+      return handleErrorIpc(event, this.type, err);
     }
 
-    const { darkMode, ...rest } = this.config.get(data.configKey);
+    const config = this.config.get(data.key);
+    const payload = Object.keys(config)
+      .filter(key => !!config[key])
+      .reduce((acc, cur) => ({ ...acc, [cur]: config[cur] }), {});
 
-    if (!data) {
-      return handleErrorIpc({
-        event,
-        type: this.type,
-        err: new Error(`${data.configKey} is not a valid configKey`)
-      });
+    return event.sender.send(this.type, payload);
+  }
+
+  async update(event, { data }) {
+    try {
+      await validateData(data);
+    } catch (err) {
+      return handleErrorIpc(event, this.type, err);
     }
 
-    return event.sender.send(this.type, { darkMode, colors: { ...rest } });
+    const config = this.config.get(data.key);
+    this.config.set(data.key, { ...config, ...data.payload });
+
+    return this.read(event, { data });
   }
 };

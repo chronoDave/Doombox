@@ -67,7 +67,7 @@ module.exports = class MetadataParser {
     }
   }
 
-  handleParseRecursiveReturn(file, files, i) {
+  handleParseRecursiveReturn(file, files) {
     if (this.options.logging) {
       fs.appendFileSync(this.log, JSON.stringify(file));
     }
@@ -78,10 +78,10 @@ module.exports = class MetadataParser {
       max: this.max
     });
 
-    return this.parseRecursive(files, i + 1);
+    return this.parseRecursive(files);
   }
 
-  async parseRecursive(files, i = 0) {
+  async parseRecursive(files) {
     const file = files.shift();
 
     if (file) {
@@ -109,12 +109,12 @@ module.exports = class MetadataParser {
 
         this.payload.push(payload);
 
-        return this.handleParseRecursiveReturn(file, files, i);
+        return this.handleParseRecursiveReturn(file, files);
       } catch (err) {
         if (this.options.parseStrict) return Promise.reject(err);
         createLogError(err);
 
-        return this.handleParseRecursiveReturn(file, files, i);
+        return this.handleParseRecursiveReturn(file, files);
       }
     }
 

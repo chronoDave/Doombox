@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 export const AudioContext = {
+  Library: createContext(),
   Volume: createContext(),
   Method: createContext(),
   Playlist: createContext(),
@@ -9,19 +10,11 @@ export const AudioContext = {
   Position: createContext()
 };
 
-export const MediaSessionContext = {
-  State: createContext(),
+export const IpcContext = {
   Method: createContext(),
-  Metadata: createContext()
+  Keybind: createContext(),
+  Message: createContext(),
+  Interrupt: createContext()
 };
 
-export const ThemeContext = {
-  Method: createContext(),
-  DarkMode: createContext(),
-  Colors: createContext()
-};
-
-export const LibraryContext = {
-  Method: createContext(),
-  Songs: createContext()
-};
+export const ThemeContext = createContext();

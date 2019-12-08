@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { TYPE, ACTION } from '@doombox/utils';
 
 // Lib
 import { Audio } from '../../lib';
@@ -8,22 +9,21 @@ import { Audio } from '../../lib';
 import { AudioContext } from '../../utils/context';
 import { EVENT } from '../../utils/const';
 
-const defaultProps = {
-  volume: 1,
-  playlist: [
-    {
-      file: 'D:\\Users\\David\\Music\\Finished Music\\Alex Metric\\[2012] Alex Metric - Ammunition EP\\Alex Metric - Anybody Else.mp3'
-    }
-  ],
-  autoplay: true,
-  muted: false
-};
+// Electron
+const { ipcRenderer } = window.require('electron');
 
 class AudioProvider extends Component {
   constructor() {
     super();
 
-    this.audio = new Audio(defaultProps);
+    const sendIpcUpdate = payload => ipcRenderer.send(
+      TYPE.IPC.SYSTEM, {
+        action: ACTION.CRUD.UPDATE,
+        data: { key: 'player', payload }
+      }
+    );
+
+    this.audio = new Audio();
 
     this.state = {
       methodValue: {
@@ -33,20 +33,24 @@ class AudioProvider extends Component {
         next: () => this.audio.next(),
         previous: () => this.audio.previous(),
         seek: newPosition => this.audio.seek(newPosition),
+        setPlaylist: newPlaylist => this.audio.setPlaylist(newPlaylist),
         requestFrame: () => this.audio.requestFrame(),
         setVolume: newVolume => this.audio.setVolume(newVolume),
+        setAutoplay: newAutoplay => this.audio.setAutoplay(newAutoplay),
         increaseVolume: () => this.audio.increaseVolume(),
         decreaseVolume: () => this.audio.decreaseVolume(),
         mute: () => this.audio.mute(),
         shuffle: () => this.audio.shuffle()
       },
+      libraryValue: [],
       metadataValue: {},
-      playlistValue: defaultProps.playlist,
-      volumeValue: defaultProps.volume,
+      playlistValue: this.audio.playlist,
+      volumeValue: this.audio.volume,
       currentValue: {
-        status: null,
+        status: this.audio.status,
+        autoplay: this.audio.autoplay,
         duration: 0,
-        muted: defaultProps.muted
+        muted: this.audio.muted
       },
       positionValue: 0
     };
@@ -57,12 +61,20 @@ class AudioProvider extends Component {
         currentValue: { ...state.currentValue, status }
       }))
     ));
+    this.audio.on(EVENT.AUDIO.AUTOPLAY, autoplay => {
+      this.setState(state => ({
+        ...state,
+        currentValue: { ...state.currentValue, autoplay }
+      }));
+      sendIpcUpdate({ autoplay });
+    });
     this.audio.on(EVENT.AUDIO.PLAYLIST, playlistValue => (
       this.setState(state => ({ ...state, playlistValue }))
     ));
-    this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => (
-      this.setState(state => ({ ...state, volumeValue }))
-    ));
+    this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
+      this.setState(state => ({ ...state, volumeValue }));
+      sendIpcUpdate({ volume: volumeValue });
+    });
     this.audio.on(EVENT.AUDIO.POSITION, positionValue => (
       this.setState(state => ({ ...state, positionValue }))
     ));
@@ -72,15 +84,42 @@ class AudioProvider extends Component {
         currentValue: { ...state.currentValue, duration }
       }))
     ));
-    this.audio.on(EVENT.AUDIO.MUTED, muted => (
+    this.audio.on(EVENT.AUDIO.MUTED, muted => {
       this.setState(state => ({
         ...state,
         currentValue: { ...state.currentValue, muted }
-      }))
-    ));
+      }));
+      sendIpcUpdate({ muted });
+    });
     this.audio.on(EVENT.AUDIO.METADATA, metadataValue => (
       this.setState(state => ({ ...state, metadataValue }))
     ));
+  }
+
+  componentDidMount() {
+    ipcRenderer.once(TYPE.IPC.SYSTEM, (event, payload) => {
+      this.setState(state => ({
+        ...state,
+        currentValue: { ...state.currentValue, ...payload }
+      }));
+      this.setState(state => ({ ...state, volume: payload.volume }));
+    });
+
+    ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
+      this.audio.setPlaylist(payload);
+      this.setState(state => ({ ...state, library: payload }));
+    });
+
+    ipcRenderer.send(TYPE.IPC.SYSTEM, {
+      action: ACTION.CRUD.READ,
+      data: { key: 'player' }
+    });
+
+    ipcRenderer.send(TYPE.IPC.LIBRARY, { action: ACTION.CRUD.READ, data: {} });
+  }
+
+  componentWillUnmount() {
+    ipcRenderer.removeListener(TYPE.IPC.SYSTEM);
   }
 
   render() {
@@ -88,6 +127,7 @@ class AudioProvider extends Component {
     const {
       methodValue,
       playlistValue,
+      libraryValue,
       volumeValue,
       currentValue,
       positionValue,
@@ -96,17 +136,19 @@ class AudioProvider extends Component {
 
     return (
       <AudioContext.Method.Provider value={methodValue}>
-        <AudioContext.Playlist.Provider value={playlistValue}>
-          <AudioContext.Volume.Provider value={volumeValue}>
-            <AudioContext.Metadata.Provider value={metadataValue}>
-              <AudioContext.Current.Provider value={currentValue}>
-                <AudioContext.Position.Provider value={positionValue}>
-                  {children}
-                </AudioContext.Position.Provider>
-              </AudioContext.Current.Provider>
-            </AudioContext.Metadata.Provider>
-          </AudioContext.Volume.Provider>
-        </AudioContext.Playlist.Provider>
+        <AudioContext.Library.Provider value={libraryValue}>
+          <AudioContext.Playlist.Provider value={playlistValue}>
+            <AudioContext.Volume.Provider value={volumeValue}>
+              <AudioContext.Metadata.Provider value={metadataValue}>
+                <AudioContext.Current.Provider value={currentValue}>
+                  <AudioContext.Position.Provider value={positionValue}>
+                    {children}
+                  </AudioContext.Position.Provider>
+                </AudioContext.Current.Provider>
+              </AudioContext.Metadata.Provider>
+            </AudioContext.Volume.Provider>
+          </AudioContext.Playlist.Provider>
+        </AudioContext.Library.Provider>
       </AudioContext.Method.Provider>
     );
   }

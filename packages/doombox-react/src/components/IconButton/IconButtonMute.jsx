@@ -10,7 +10,7 @@ import VolumeHighIcon from '@material-ui/icons/VolumeUp';
 import { IconButton } from '@material-ui/core';
 
 // Hooks
-import { useAudio } from '../../hooks/useContext';
+import { useAudio } from '../../hooks';
 
 // Utils
 import { HOOK } from '../../utils/const';

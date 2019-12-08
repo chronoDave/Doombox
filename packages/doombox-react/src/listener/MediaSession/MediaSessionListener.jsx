@@ -4,7 +4,7 @@ import {
 } from 'react';
 
 // Hooks
-import { useAudio } from '../../hooks/useContext';
+import { useAudio } from '../../hooks';
 import { HOOK } from '../../utils/const';
 
 const MediaSesssionListener = ({ children }) => {
@@ -38,7 +38,7 @@ const MediaSesssionListener = ({ children }) => {
     }
   }, [artist, album, title]);
 
-  return useMemo(() => children, []);
+  return children;
 };
 
 export default MediaSesssionListener;

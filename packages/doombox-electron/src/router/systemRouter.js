@@ -4,8 +4,8 @@ const {
   TYPE
 } = require('@doombox/utils');
 
-const useConfigRouter = Controller => {
-  ipcMain.on(TYPE.IPC.CONFIG, (event, payload) => {
+const useSystemRouter = Controller => {
+  ipcMain.on(TYPE.IPC.SYSTEM, (event, payload) => {
     switch (payload.action) {
       case ACTION.CRUD.READ:
         return Controller.read(event, payload);
@@ -18,5 +18,5 @@ const useConfigRouter = Controller => {
 };
 
 module.exports = {
-  useConfigRouter
+  useSystemRouter
 };

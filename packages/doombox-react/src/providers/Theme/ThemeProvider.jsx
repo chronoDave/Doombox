@@ -1,7 +1,8 @@
-import React, {
-  useState,
-  useMemo
-} from 'react';
+import React, { Component } from 'react';
+import {
+  TYPE,
+  ACTION
+} from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -11,30 +12,61 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { ThemeContext } from '../../utils/context';
 
 import { createTheme } from './theme';
+import { DEFAULT_PALETTE } from './palette';
 
-const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(true);
-  const [colors, setColors] = useState({});
+// Electron
+const { ipcRenderer } = window.require('electron');
 
-  const theme = createTheme({ colors: { darkMode, ...colors } });
+class ThemeProvider extends Component {
+  constructor() {
+    super();
 
-  const methodValue = useMemo(() => ({
-    setDarkMode,
-    setColors
-  }), [setDarkMode, setColors]);
+    const setDarkTheme = darkTheme => {
+      this.setState(state => ({
+        ...state,
+        theme: createTheme({ palette: { ...DEFAULT_PALETTE, darkTheme } })
+      }));
+      ipcRenderer.send(TYPE.IPC.CONFIG, {
+        action: ACTION.CRUD.UPDATE,
+        data: { key: 'palette', payload: { darkTheme } }
+      });
+    };
 
-  return (
-    <ThemeContext.Method.Provider value={methodValue}>
-      <ThemeContext.DarkMode.Provider value={darkMode}>
-        <ThemeContext.Colors.Provider value={colors}>
-          <MuiThemeProvider theme={theme}>
-            {children}
-          </MuiThemeProvider>
-        </ThemeContext.Colors.Provider>
-      </ThemeContext.DarkMode.Provider>
-    </ThemeContext.Method.Provider>
-  );
-};
+    this.state = {
+      theme: createTheme({ palette: { ...DEFAULT_PALETTE } }),
+      methods: {
+        setDarkTheme
+      }
+    };
+  }
+
+  componentDidMount() {
+    ipcRenderer.once(TYPE.IPC.CONFIG, (event, payload) => {
+      this.setState(state => ({
+        ...state,
+        theme: createTheme({ palette: { ...DEFAULT_PALETTE, ...payload } })
+      }));
+    });
+
+    ipcRenderer.send(TYPE.IPC.CONFIG, {
+      action: ACTION.CRUD.READ,
+      data: { key: 'palette' }
+    });
+  }
+
+  render() {
+    const { children } = this.props;
+    const { theme, methods } = this.state;
+
+    return (
+      <ThemeContext.Provider value={methods}>
+        <MuiThemeProvider theme={theme}>
+          {children}
+        </MuiThemeProvider>
+      </ThemeContext.Provider>
+    );
+  }
+}
 
 ThemeProvider.propTypes = {
   children: PropTypes.element.isRequired

@@ -14,7 +14,8 @@ export const EVENT = {
     DURATION: 'duration',
     VOLUME: 'volume',
     MUTED: 'muted',
-    METADATA: 'metadata'
+    METADATA: 'metadata',
+    AUTOPLAY: 'autoplay'
   }
 };
 
@@ -26,14 +27,5 @@ export const HOOK = {
     CURRENT: 'Current',
     POSITION: 'Position',
     METADATA: 'Metadata'
-  },
-  THEME: {
-    DARKMODE: 'DarkMode',
-    COLORS: 'Colors',
-    METHOD: 'Method'
-  },
-  LIBRARY: {
-    METHOD: 'Method',
-    SONG: 'Songs'
   }
 };

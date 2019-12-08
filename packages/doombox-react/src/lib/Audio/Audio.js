@@ -10,27 +10,20 @@ import {
 } from '../../utils/const';
 
 class Audio extends EventEmitter {
-  constructor(options = {}) {
-    super(options);
-
-    const {
-      volume,
-      playlist,
-      autoplay,
-      muted
-    } = options;
+  constructor() {
+    super();
 
     // Player
-    this.volume = volume;
+    this.volume = 1;
     this.status = STATUS.AUDIO.STOPPED;
-    this.autoplay = autoplay;
-    this.muted = muted;
+    this.autoplay = true;
+    this.muted = false;
 
     // Song
     this.song = null;
 
     // Playlist
-    this.playlist = playlist;
+    this.playlist = [];
     this.playlistIndex = 0;
   }
 
@@ -40,6 +33,18 @@ class Audio extends EventEmitter {
     if (this.song) this.song.volume(this.volume);
 
     this.emit(EVENT.AUDIO.VOLUME, this.volume);
+  }
+
+  setAutoplay(autoplay) {
+    this.autoplay = autoplay;
+
+    this.emit(EVENT.AUDIO.AUTOPLAY, this.autoplay);
+  }
+
+  setPlaylist(playlist) {
+    this.playlist = playlist;
+
+    this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
   }
 
   increaseVolume() {
@@ -168,7 +173,9 @@ class Audio extends EventEmitter {
   }
 
   shuffle() {
+    if (this.playlist.length <= 0) return;
     this.playlist = shuffleArray(this.playlist);
+    this.createSong();
     this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
   }
 }

@@ -1,3 +1,4 @@
+// General
 export const shuffleArray = array => {
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -36,3 +37,4 @@ export const selectFolder = multi => {
     .then(({ canceled, filePaths }) => Promise.resolve(canceled ? null : filePaths))
     .catch(err => Promise.reject(err));
 };
+

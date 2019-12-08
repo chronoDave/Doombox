@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 
 // Hooks
-import { useAudio } from '../../hooks/useContext';
+import { useAudio } from '../../hooks';
 
 // Utils
 import { formatTime } from '../../utils';

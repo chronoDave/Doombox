@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ID } from '@doombox/utils';
+import clsx from 'clsx';
 
 // Icons
 import IconMaximize from '@material-ui/icons/Fullscreen';
@@ -9,11 +10,18 @@ import IconClose from '@material-ui/icons/Close';
 // Core
 import { withStyles } from '@material-ui/core/styles';
 import {
+  Typography,
   ButtonBase,
   Box
 } from '@material-ui/core';
 
 import { Icon } from '../../components';
+
+// Hooks
+import { useAudio } from '../../hooks';
+
+// Utils
+import { HOOK } from '../../utils/const';
 
 // Style
 import { AppStyles } from './App.style';
@@ -29,9 +37,15 @@ const AppBar = ({ classes }) => {
     browserWindow.maximize()
   );
 
+  const { metadata } = useAudio(HOOK.AUDIO.METADATA);
+
   return (
     <div className={classes.barRoot}>
-      <div className={classes.draggable} />
+      <div className={clsx(classes.barTitle, classes.draggable)}>
+        <Typography>
+          {metadata ? `${metadata.artist} - ${metadata.title}` : 'Doombox'}
+        </Typography>
+      </div>
       <Box display="flex">
         <ButtonBase
           id={ID.WINDOW_MINIMIZE}
@@ -61,6 +75,7 @@ const AppBar = ({ classes }) => {
 
 AppBar.propTypes = {
   classes: PropTypes.shape({
+    barTitle: PropTypes.string,
     barRoot: PropTypes.string,
     button: PropTypes.string,
     buttonClose: PropTypes.string,

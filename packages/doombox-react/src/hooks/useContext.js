@@ -1,11 +1,12 @@
 import { useContext } from 'react';
+import { TYPE } from '@doombox/utils';
 
 // Utils
 import { HOOK } from '../utils/const';
 import {
   AudioContext,
-  ThemeContext,
-  LibraryContext
+  IpcContext,
+  ThemeContext
 } from '../utils/context';
 
 const createContextHook = (type, array, context) => {
@@ -20,10 +21,8 @@ export const useAudio = type => createContextHook(
   type, Object.values(HOOK.AUDIO), AudioContext
 );
 
-export const useTheme = type => createContextHook(
-  type, Object.values(HOOK.THEME), ThemeContext
+export const useIpc = type => createContextHook(
+  type, Object.values(TYPE.IPC), IpcContext
 );
 
-export const useLibrary = type => createContextHook(
-  type, Object.values(HOOK.LIBRARY), LibraryContext
-);
+export const useTheme = () => useContext(ThemeContext);

@@ -19,8 +19,8 @@ const userConfig = new Store({
       [ACTION.AUDIO.VOLUME_DOWN]: 'CommandOrControl+Alt+Down',
       [ACTION.AUDIO.MUTE]: null
     },
-    color: {
-      darkMode: true,
+    palette: {
+      darkTheme: true,
       primary: null,
       secondary: null,
       error: null,
@@ -35,6 +35,11 @@ const userConfig = new Store({
 const appConfig = new Store({
   fileName: 'app-config',
   defaults: {
+    player: {
+      volume: 1,
+      autoplay: true,
+      muted: false
+    },
     parser: {
       logging: true,
       fileFormats: ['mp3'],

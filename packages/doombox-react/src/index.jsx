@@ -9,36 +9,28 @@ import { App } from './modules';
 
 // Providers
 import {
-  LibraryProvider,
+  IpcProvider,
   AudioProvider,
   ThemeProvider,
   Router
 } from './providers';
 
 // Listeners
-import {
-  ThemeListener,
-  MediaSessionListener,
-  LibraryListener
-} from './listener';
+import { MediaSessionListener } from './listener';
 
 render(
-  <LibraryProvider>
+  <IpcProvider>
     <AudioProvider>
       <ThemeProvider>
-        <LibraryListener>
-          <MediaSessionListener>
-            <ThemeListener>
-              <CssBaseline>
-                <App>
-                  <Router />
-                </App>
-              </CssBaseline>
-            </ThemeListener>
-          </MediaSessionListener>
-        </LibraryListener>
+        <MediaSessionListener>
+          <CssBaseline>
+            <App>
+              <Router />
+            </App>
+          </CssBaseline>
+        </MediaSessionListener>
       </ThemeProvider>
     </AudioProvider>
-  </LibraryProvider>,
+  </IpcProvider>,
   document.getElementById('root')
 );

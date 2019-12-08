@@ -21,7 +21,7 @@ const createLog = (name, text) => fs.writeFileSync(
 
 const createLogError = err => createLog('error', errorToJson(err));
 
-const handleErrorIpc = ({ event, type, err }) => {
+const handleErrorIpc = (event, type, err) => {
   const errJson = errorToJson(err);
 
   createLog(`error_${type}`, errJson);

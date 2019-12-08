@@ -1,6 +1,6 @@
 const { app } = require('electron');
 const makeDir = require('make-dir');
-const { TYPES } = require('@doombox/utils');
+const { TYPE } = require('@doombox/utils');
 
 // Lib
 const { createWindow } = require('./lib/window');
@@ -10,6 +10,7 @@ const NeDB = require('./lib/database/nedb');
 // Routers
 const { useConfigRouter } = require('./router/configRouter');
 const { useLibraryRouter } = require('./router/libraryRouter');
+const { useSystemRouter } = require('./router/systemRouter');
 
 // Controllers
 const ConfigController = require('./controller/configController');
@@ -30,7 +31,8 @@ const db = new NeDB();
 app.on('ready', () => {
   const parserOptions = appConfig.get('parser');
 
-  useConfigRouter(new ConfigController({ config: userConfig }));
+  useConfigRouter(new ConfigController(userConfig, TYPE.IPC.CONFIG));
+  useSystemRouter(new ConfigController(appConfig, TYPE.IPC.SYSTEM));
   useLibraryRouter(new LibraryController(db, parserOptions));
 
   const { width, height } = appConfig.get('dimension');
@@ -39,7 +41,7 @@ app.on('ready', () => {
 
   createKeyboardListener(
     userConfig.get('keybinds'),
-    ({ action }) => mainWindow.webContents.send(TYPES.IPC.KEYBIND, action)
+    ({ action }) => mainWindow.webContents.send(TYPE.IPC.KEYBIND, action)
   );
 
   mainWindow.on('resize', () => {

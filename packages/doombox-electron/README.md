@@ -36,9 +36,9 @@ Keybinds use Electron's accelerator format, more information can be found at [El
 - `VOLUME_DOWN`: Decrease volume, default `'CommandOrControl+Alt+Down'`
 - `MUTE`: Mute, default `null`
 
-#### color
+#### palette
 
-- `darkMode`: Enable dark theme, default `true`
+- `darkTheme`: Enable dark theme, default `true`
 
 The following properties all follow the same scheme:
 
@@ -75,6 +75,12 @@ primary: {
 ```
 
 ### app-config
+
+#### player
+
+- `volume`: Application volume cache, default `<last cache value>`
+- `autoplay`: Application autoplay cache, default `<last cache value>`
+- `muted`: Application muted cache, default `<last cache value>`
 
 #### parser
 

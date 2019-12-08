@@ -8,7 +8,7 @@ import IconPause from '@material-ui/icons/Pause';
 import { IconButton } from '@material-ui/core';
 
 // Hooks
-import { useAudio } from '../../hooks/useContext';
+import { useAudio } from '../../hooks';
 
 // Utils
 import { HOOK, STATUS } from '../../utils/const';

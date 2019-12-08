@@ -12,7 +12,15 @@ export const AppStyles = theme => ({
     position: 'fixed',
     display: 'flex',
     width: '100%',
-    height: theme.dimensions.appBar
+    height: theme.dimensions.appBar,
+    transition: theme.transitions.create(['background-color', 'color'], {
+      duration: theme.transitions.duration.shortest,
+    })
+  },
+  barTitle: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1)
   },
   draggable: {
     flexGrow: 1,
@@ -21,9 +29,6 @@ export const AppStyles = theme => ({
   button: {
     height: theme.dimensions.appBar,
     width: theme.dimensions.appBar * 1.25,
-    transition: theme.transitions.create('background-color', {
-      duration: theme.transitions.duration.shortest,
-    }),
     '&:hover': {
       backgroundColor: fade(
         theme.palette.action.active,
@@ -34,9 +39,6 @@ export const AppStyles = theme => ({
   buttonClose: {
     height: theme.dimensions.appBar,
     width: theme.dimensions.appBar * 1.25,
-    transition: theme.transitions.create(['background-color', 'color'], {
-      duration: theme.transitions.duration.shortest,
-    }),
     '&:hover': {
       color: theme.palette.error.contrastText,
       backgroundColor: theme.palette.error.main

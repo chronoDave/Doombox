@@ -1,32 +1,36 @@
 // Core
 import { createMuiTheme } from '@material-ui/core/styles';
 
-import * as Colors from './colors';
-
 export const createTheme = ({
-  colors: {
-    darkMode,
-    primary,
-    secondary,
-    grey,
-    error,
-    warning,
-    success,
-    info
-  }
-}) => createMuiTheme({
   palette: {
-    type: darkMode ? 'dark' : 'light',
-    primary: primary || Colors.PRIMARY,
-    secondary: secondary || Colors.SECONDARY,
-    grey: grey || Colors.GREY,
-    error: error || Colors.ERROR,
-    warning: warning || Colors.WARNING,
-    success: success || Colors.SUCCESS,
-    info: info || Colors.INFO
-  },
-  dimensions: {
-    appBar: 32,
-    sidebar: 256
+    darkTheme,
+    grey,
+    ...restColors
   }
-});
+}) => {
+  const themedGrey = () => {
+    if (!darkTheme) return grey;
+    return Object.keys(grey)
+      .reverse()
+      .reduce((acc, cur, index) => ({
+        ...acc,
+        [cur]: Object.values(grey)[index]
+      }), {});
+  };
+
+  return createMuiTheme({
+    palette: {
+      type: darkTheme ? 'dark' : 'light',
+      grey: themedGrey(),
+      background: {
+        paper: themedGrey()[0],
+        default: themedGrey()[50]
+      },
+      ...restColors
+    },
+    dimensions: {
+      appBar: 32,
+      sidebar: 240
+    }
+  });
+};

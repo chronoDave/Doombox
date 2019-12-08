@@ -1,42 +1,48 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   ACTION,
   TYPE
 } from '@doombox/utils';
 
-// Actions
-import { sendIpc } from '../../actions';
+// Core
+import { useTheme as useMaterialTheme } from '@material-ui/core/styles';
 
 // Hooks
-import { useLibrary } from '../../hooks/useContext';
+import { useTheme } from '../../hooks';
 
 // Utils
 import { selectFolder } from '../../utils';
-import { HOOK } from '../../utils/const';
 
 const createLibrary = async () => {
   selectFolder()
     .then(filePaths => {
       if (filePaths) {
-        sendIpc(
-          TYPE.IPC.LIBRARY,
-          { action: ACTION.CRUD.CREATE, data: { folders: filePaths } }
-        );
+        // sendIpc(TYPE.IPC.LIBRARY, {
+        //   action: ACTION.CRUD.CREATE,
+        //   data: { folders: filePaths }
+        // });
       }
     })
     .catch(err => console.log(err));
 };
 
 const MainSongsPage = () => {
-  const songs = useLibrary(HOOK.LIBRARY.SONG);
+  const { palette: { type } } = useMaterialTheme();
+  const { setDarkTheme } = useTheme();
 
-  console.log(songs);
+  // sendIpc(TYPE.IPC.LIBRARY, {
+  //   action: ACTION.CRUD.READ,
+  //   data: {}
+  // });
 
   return (
     <div>
       Main page
       <button onClick={createLibrary}>
         Start scan
+      </button>
+      <button onClick={() => setDarkTheme(type === 'light' ? true : false)}>
+        Toggle darkmode
       </button>
     </div>
   );

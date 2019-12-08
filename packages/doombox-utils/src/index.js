@@ -1,10 +1,11 @@
 const TYPE = {
   IPC: {
-    KEYBIND: 'KEYBIND',
-    LIBRARY: 'LIBRARY',
-    CONFIG: 'CONFIG',
-    MESSAGE: 'MESSAGE',
-    INTERRUPT: 'INTERRUPT'
+    KEYBIND: 'Keybind',
+    LIBRARY: 'Library',
+    CONFIG: 'Config',
+    MESSAGE: 'Message',
+    INTERRUPT: 'Interrupt',
+    SYSTEM: 'System'
   }
 };
 

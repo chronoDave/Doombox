@@ -42,11 +42,11 @@ module.exports = class LibraryController {
 
   async create(event, { data }) {
     if (!data.folders || !Array.isArray(data.folders)) {
-      return handleErrorIpc({
+      return handleErrorIpc(
         event,
-        type: this.type,
-        err: new Error(`No valid property folders found in data: ${JSON.stringify(data)}`)
-      });
+        this.type,
+        new Error(`No valid property folders found in data: ${JSON.stringify(data)}`)
+      );
     }
 
     event.sender.send(TYPE.IPC.INTERRUPT, {
@@ -74,13 +74,13 @@ module.exports = class LibraryController {
         type: TYPE.IPC.LIBRARY,
         status: INTERRUPT.ERROR
       });
-      return handleErrorIpc({ event, type: this.type, err });
+      return handleErrorIpc(event, this.type, err);
     }
   }
 
   read(event, { data }) {
     this.db.read(COLLECTION.SONG, data.query, data.modifiers)
-      .then(payload => event.sender.send(this.type, { songs: payload }))
-      .catch(err => handleErrorIpc({ event, type: this.type, err }));
+      .then(payload => event.sender.send(this.type, payload))
+      .catch(err => handleErrorIpc(event, this.type, err));
   }
 };

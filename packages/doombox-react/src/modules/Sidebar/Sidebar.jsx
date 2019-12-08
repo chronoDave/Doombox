@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 // Core
 import { withStyles } from '@material-ui/core/styles';
 
+import SidebarButton from './SidebarButtons.private';
+
 // Style
 import { SidebarStyles } from './Sidebar.style';
 
 const Sidebar = ({ classes }) => (
-  <div className={classes.root}>Sidebar</div>
+  <div className={classes.root}>
+    <SidebarButton />
+  </div>
 );
 
 Sidebar.propTypes = {
