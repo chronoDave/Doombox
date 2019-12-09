@@ -2,21 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import { SvgIcon } from '@material-ui/core';
 
 // Style
-import { IconStyles } from './Icon.style';
+import { useIconStyles } from './Icon.style';
 
 import icons from './icons.json';
 
-const Icon = props => {
-  const {
-    type,
-    color,
-    classes,
-    fontSize
-  } = props;
+const Icon = ({ type, color, fontSize }) => {
+  const classes = useIconStyles();
 
   return (
     <SvgIcon
@@ -30,9 +24,6 @@ const Icon = props => {
 };
 
 Icon.propTypes = {
-  classes: PropTypes.shape({
-    root: PropTypes.string.isRequired
-  }).isRequired,
   type: PropTypes.oneOf(Object.keys(icons)).isRequired,
   color: PropTypes.oneOf([
     'action',
@@ -55,4 +46,4 @@ Icon.defaultProps = {
   fontSize: 'default'
 };
 
-export default withStyles(IconStyles)(Icon);
+export default Icon;

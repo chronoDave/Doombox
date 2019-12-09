@@ -3,11 +3,8 @@ import { Field } from 'formik';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-// Core
-import { withStyles } from '@material-ui/core/styles';
-
 // Style
-import { FieldFileStyles } from './FieldFile.style';
+import { useFieldFileStyles } from './FieldFile.style';
 
 const FieldFileBase = props => {
   const {
@@ -17,9 +14,9 @@ const FieldFileBase = props => {
     type,
     multiple,
     fullWidth,
-    children,
-    classes
+    children
   } = props;
+  const classes = useFieldFileStyles();
 
   const id = `${fieldId}-file-${name}`;
 
@@ -88,12 +85,7 @@ FieldFileBase.propTypes = {
   ]),
   multiple: PropTypes.bool,
   fullWidth: PropTypes.bool,
-  children: PropTypes.func.isRequired,
-  classes: PropTypes.shape({
-    hidden: PropTypes.string,
-    label: PropTypes.string,
-    fullWidth: PropTypes.string
-  }).isRequired
+  children: PropTypes.func.isRequired
 };
 
 FieldFileBase.defaultProps = {
@@ -103,4 +95,4 @@ FieldFileBase.defaultProps = {
   fullWidth: false
 };
 
-export default withStyles(FieldFileStyles)(FieldFileBase);
+export default FieldFileBase;

@@ -3,22 +3,16 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   ButtonBase,
   Avatar
 } from '@material-ui/core';
 
 // Styles
-import { ButtonStyles } from './Button.style';
+import { useButtonStyles } from './Button.style';
 
-const ButtonAvatar = props => {
-  const {
-    classes,
-    className,
-    title,
-    src
-  } = props;
+const ButtonAvatar = ({ className, title, src }) => {
+  const classes = useButtonStyles();
 
   return (
     <ButtonBase
@@ -34,15 +28,11 @@ const ButtonAvatar = props => {
       </Avatar>
     </ButtonBase>
   );
-}
+};
 
 ButtonAvatar.propTypes = {
   title: PropTypes.string.isRequired,
   className: PropTypes.string,
-  classes: PropTypes.shape({
-    avatarRoot: PropTypes.string,
-    hover: PropTypes.string
-  }).isRequired,
   src: PropTypes.string
 };
 
@@ -51,4 +41,4 @@ ButtonAvatar.defaultProps = {
   className: null
 };
 
-export default withStyles(ButtonStyles)(ButtonAvatar);
+export default ButtonAvatar;

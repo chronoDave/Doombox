@@ -1,6 +1,9 @@
-import { fade } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  fade
+} from '@material-ui/core/styles';
 
-export const AppStyles = theme => ({
+export const useAppStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
     top: theme.dimensions.appBar,
@@ -44,4 +47,4 @@ export const AppStyles = theme => ({
       backgroundColor: theme.palette.error.main
     }
   }
-});
+}));

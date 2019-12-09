@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { ID } from '@doombox/utils';
 import clsx from 'clsx';
 
@@ -8,7 +7,6 @@ import IconMaximize from '@material-ui/icons/Fullscreen';
 import IconClose from '@material-ui/icons/Close';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Typography,
   ButtonBase,
@@ -24,14 +22,16 @@ import { useAudio } from '../../hooks';
 import { HOOK } from '../../utils/const';
 
 // Style
-import { AppStyles } from './App.style';
+import { useAppStyles } from './App.style';
 
 // Electron
 const { remote } = window.require('electron');
 
 const browserWindow = remote.getCurrentWindow();
 
-const AppBar = ({ classes }) => {
+const AppBar = () => {
+  const classes = useAppStyles();
+
   const handleMaximize = () => (browserWindow.isMaximized() ?
     browserWindow.unmaximize() :
     browserWindow.maximize()
@@ -73,14 +73,4 @@ const AppBar = ({ classes }) => {
   );
 };
 
-AppBar.propTypes = {
-  classes: PropTypes.shape({
-    barTitle: PropTypes.string,
-    barRoot: PropTypes.string,
-    button: PropTypes.string,
-    buttonClose: PropTypes.string,
-    draggable: PropTypes.string
-  }).isRequired
-};
-
-export default withStyles(AppStyles)(AppBar);
+export default AppBar;

@@ -1,4 +1,6 @@
-export const FieldFileStyles = () => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useFieldFileStyles = makeStyles(() => ({
   hidden: {
     width: 0.1,
     height: 0.1,
@@ -19,4 +21,4 @@ export const FieldFileStyles = () => ({
   avatarIconButton: {
     padding: 0
   }
-});
+}));

@@ -1,4 +1,6 @@
-export const SidebarTabStyles = theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useSidebarTabStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(0, 1),
     width: theme.dimensions.sidebar.tab,
@@ -31,4 +33,4 @@ export const SidebarTabStyles = theme => ({
       width: 0
     },
   }
-});
+}));

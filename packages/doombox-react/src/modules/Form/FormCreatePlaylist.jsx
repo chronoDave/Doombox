@@ -38,7 +38,7 @@ const FormCreatePlaylist = ({ children }) => {
         src: null
       }}
       validationSchema={schemaCreatePlaylist}
-      onSubmit={values => createPlaylist({ ...values, collection: [] })}
+      onSubmit={values => createPlaylist(values)}
     >
       <Form>
         <Box display="flex" flexDirection="column" alignItems="center">

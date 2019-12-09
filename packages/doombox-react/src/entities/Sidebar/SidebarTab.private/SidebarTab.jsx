@@ -10,7 +10,6 @@ import IconSong from '@material-ui/icons/QueueMusic';
 import IconSettings from '@material-ui/icons/Settings';
 
 // Core
-import { withStyles } from '@material-ui/core/styles';
 import {
   Box,
   Button,
@@ -36,11 +35,12 @@ import { useAudio } from '../../../hooks';
 import { HOOK } from '../../../utils/const';
 
 // Style
-import { SidebarTabStyles } from './SidebarTab.style';
+import { useSidebarTabStyles } from './SidebarTab.style';
 
-const SidebarTab = ({ classes }) => {
+const SidebarTab = () => {
   const [open, setOpen] = useState(false);
   const { collection } = useAudio(HOOK.AUDIO.PLAYLIST);
+  const classes = useSidebarTabStyles();
 
   console.log(collection);
 
@@ -96,4 +96,4 @@ const SidebarTab = ({ classes }) => {
   );
 };
 
-export default withStyles(SidebarTabStyles)(SidebarTab);
+export default SidebarTab;

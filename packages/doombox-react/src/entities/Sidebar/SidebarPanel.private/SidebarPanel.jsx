@@ -1,10 +1,5 @@
 import React from 'react';
 
-// Core
-import { withStyles } from '@material-ui/core/styles';
-
-import { SidebarPanelStyles } from './SidebarPanel.style';
-
 const SidebarPanel = () => {
   return (
     <div>
@@ -13,4 +8,4 @@ const SidebarPanel = () => {
   );
 };
 
-export default withStyles(SidebarPanelStyles)(SidebarPanel);
+export default SidebarPanel;

@@ -1,4 +1,6 @@
-export const ButtonStyles = theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export const useButtonStyles = makeStyles(theme => ({
   avatarRoot: {
     borderRadius: '50%'
   },
@@ -10,4 +12,4 @@ export const ButtonStyles = theme => ({
       borderRadius: '25%'
     }
   }
-});
+}));
