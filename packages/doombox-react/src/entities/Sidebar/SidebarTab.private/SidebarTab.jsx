@@ -2,6 +2,7 @@ import React, {
   Fragment,
   useState
 } from 'react';
+import { navigate } from '@reach/router';
 
 // Icons
 import IconAdd from '@material-ui/icons/Add';
@@ -23,16 +24,19 @@ import {
 } from '../../../components';
 
 // Modules
-import { FormCreatePlaylist } from '../../../modules';
-
-// Template
-import { DialogFormTemplate } from '../../../templates';
+import {
+  Dialog,
+  FormCreatePlaylist
+} from '../../../modules';
 
 // Hooks
 import { useAudio } from '../../../hooks';
 
 // Utils
-import { HOOK } from '../../../utils/const';
+import {
+  HOOK,
+  PATH
+} from '../../../utils/const';
 
 // Style
 import { useSidebarTabStyles } from './SidebarTab.style';
@@ -42,19 +46,26 @@ const SidebarTab = () => {
   const { collection } = useAudio(HOOK.AUDIO.PLAYLIST);
   const classes = useSidebarTabStyles();
 
-  console.log(collection);
-
   return (
     <Fragment>
       <div className={classes.root}>
         <div className={classes.sticky}>
-          <IconButton classes={{ root: classes.button }}>
-            <Icon type="playlist" fontSize="inherit" />
+          <IconButton
+            classes={{ root: classes.button }}
+            onClick={() => navigate(PATH.VISUALIZER)}
+          >
+            <Icon type="visualizer" fontSize="inherit" />
           </IconButton>
-          <IconButton classes={{ root: classes.button }}>
+          <IconButton
+            classes={{ root: classes.button }}
+            onClick={() => navigate(PATH.ALBUM)}
+          >
             <IconAlbum fontSize="inherit" />
           </IconButton>
-          <IconButton classes={{ root: classes.button }}>
+          <IconButton
+            classes={{ root: classes.button }}
+            onClick={() => navigate(PATH.SONG)}
+          >
             <IconSong fontSize="inherit" />
           </IconButton>
           <IconButton classes={{ root: classes.button }}>
@@ -81,7 +92,7 @@ const SidebarTab = () => {
           </IconButton>
         </div>
       </div>
-      <DialogFormTemplate
+      <Dialog
         open={open}
         onClose={() => setOpen(false)}
         title="Create playlist"
@@ -91,7 +102,7 @@ const SidebarTab = () => {
             Cancel
           </Button>
         </FormCreatePlaylist>
-      </DialogFormTemplate>
+      </Dialog>
     </Fragment>
   );
 };

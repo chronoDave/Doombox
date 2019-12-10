@@ -6,7 +6,8 @@ const TYPE = {
     CONFIG: 'Config',
     MESSAGE: 'Message',
     INTERRUPT: 'Interrupt',
-    SYSTEM: 'System'
+    SYSTEM: 'System',
+    IMAGE: 'Image'
   }
 };
 

@@ -24,7 +24,7 @@ module.exports = class MetadataParser {
     this.log = null;
   }
 
-  async writeImage(image, _id) {
+  writeImage(image, _id) {
     const format = image.format.match(/(png|jpg|gif)/i);
     const imagePath = path.resolve(
       PATH.IMAGE,

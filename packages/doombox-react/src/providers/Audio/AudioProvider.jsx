@@ -17,7 +17,7 @@ class AudioProvider extends Component {
   constructor() {
     super();
 
-    const sendIpcUpdate = payload => ipcRenderer.send(
+    const updateConfig = payload => ipcRenderer.send(
       TYPE.IPC.SYSTEM, {
         action: ACTION.CRUD.UPDATE,
         data: { key: 'player', payload }
@@ -32,6 +32,13 @@ class AudioProvider extends Component {
           collection: [],
           ...payload
         }
+      }
+    );
+
+    const scanFolders = folders => ipcRenderer.send(
+      TYPE.IPC.LIBRARY, {
+        action: ACTION.CRUD.CREATE,
+        data: { folders }
       }
     );
 
@@ -53,8 +60,12 @@ class AudioProvider extends Component {
         decreaseVolume: () => this.audio.decreaseVolume(),
         mute: () => this.audio.mute(),
         shuffle: () => this.audio.shuffle(),
-        createPlaylist
+        createPlaylist,
+        scanFolders,
+        // eslint-disable-next-line react/destructuring-assignment
+        getImage: id => this.state.imageValue[id]
       },
+      imageValue: {},
       libraryValue: [],
       metadataValue: {},
       playlistValue: {
@@ -82,7 +93,7 @@ class AudioProvider extends Component {
         ...state,
         currentValue: { ...state.currentValue, autoplay }
       }));
-      sendIpcUpdate({ autoplay });
+      updateConfig({ autoplay });
     });
     this.audio.on(EVENT.AUDIO.PLAYLIST, playlist => (
       this.setState(state => ({
@@ -92,7 +103,7 @@ class AudioProvider extends Component {
     ));
     this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
       this.setState(state => ({ ...state, volumeValue }));
-      sendIpcUpdate({ volume: volumeValue });
+      updateConfig({ volume: volumeValue });
     });
     this.audio.on(EVENT.AUDIO.POSITION, positionValue => (
       this.setState(state => ({ ...state, positionValue }))
@@ -108,7 +119,7 @@ class AudioProvider extends Component {
         ...state,
         currentValue: { ...state.currentValue, muted }
       }));
-      sendIpcUpdate({ muted });
+      updateConfig({ muted });
     });
     this.audio.on(EVENT.AUDIO.METADATA, metadataValue => (
       this.setState(state => ({ ...state, metadataValue }))
@@ -122,6 +133,10 @@ class AudioProvider extends Component {
         currentValue: { ...state.currentValue, ...payload }
       }));
       this.setState(state => ({ ...state, volume: payload.volume }));
+    });
+
+    ipcRenderer.once(TYPE.IPC.IMAGE, (event, payload) => {
+      this.setState(state => ({ ...state, imageValue: payload }));
     });
 
     ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
@@ -143,6 +158,7 @@ class AudioProvider extends Component {
 
     ipcRenderer.send(TYPE.IPC.LIBRARY, { action: ACTION.CRUD.READ, data: {} });
     ipcRenderer.send(TYPE.IPC.PLAYLIST, { action: ACTION.CRUD.READ, data: {} });
+    ipcRenderer.send(TYPE.IPC.IMAGE, { action: ACTION.CRUD.READ, data: { toObject: true } });
   }
 
   componentWillUnmount() {
@@ -158,24 +174,27 @@ class AudioProvider extends Component {
       volumeValue,
       currentValue,
       positionValue,
-      metadataValue
+      metadataValue,
+      imageValue
     } = this.state;
 
     return (
       <AudioContext.Method.Provider value={methodValue}>
-        <AudioContext.Library.Provider value={libraryValue}>
-          <AudioContext.Playlist.Provider value={playlistValue}>
-            <AudioContext.Volume.Provider value={volumeValue}>
-              <AudioContext.Metadata.Provider value={metadataValue}>
-                <AudioContext.Current.Provider value={currentValue}>
-                  <AudioContext.Position.Provider value={positionValue}>
-                    {children}
-                  </AudioContext.Position.Provider>
-                </AudioContext.Current.Provider>
-              </AudioContext.Metadata.Provider>
-            </AudioContext.Volume.Provider>
-          </AudioContext.Playlist.Provider>
-        </AudioContext.Library.Provider>
+        <AudioContext.Image.Provider value={imageValue}>
+          <AudioContext.Library.Provider value={libraryValue}>
+            <AudioContext.Playlist.Provider value={playlistValue}>
+              <AudioContext.Volume.Provider value={volumeValue}>
+                <AudioContext.Metadata.Provider value={metadataValue}>
+                  <AudioContext.Current.Provider value={currentValue}>
+                    <AudioContext.Position.Provider value={positionValue}>
+                      {children}
+                    </AudioContext.Position.Provider>
+                  </AudioContext.Current.Provider>
+                </AudioContext.Metadata.Provider>
+              </AudioContext.Volume.Provider>
+            </AudioContext.Playlist.Provider>
+          </AudioContext.Library.Provider>
+        </AudioContext.Image.Provider>
       </AudioContext.Method.Provider>
     );
   }

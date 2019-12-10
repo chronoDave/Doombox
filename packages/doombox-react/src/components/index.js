@@ -17,3 +17,4 @@ export {
   FieldFileAvatar,
   FieldText
 } from './Field';
+export { Image } from './Image';

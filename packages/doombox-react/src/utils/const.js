@@ -26,6 +26,13 @@ export const HOOK = {
     METHOD: 'Method',
     CURRENT: 'Current',
     POSITION: 'Position',
-    METADATA: 'Metadata'
+    METADATA: 'Metadata',
+    IMAGE: 'Image'
   }
+};
+
+export const PATH = {
+  SONG: 'song',
+  ALBUM: 'album',
+  VISUALIZER: 'visualizer'
 };

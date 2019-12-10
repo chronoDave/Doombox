@@ -7,7 +7,8 @@ export const AudioContext = {
   Playlist: createContext(),
   Current: createContext(),
   Metadata: createContext(),
-  Position: createContext()
+  Position: createContext(),
+  Image: createContext()
 };
 
 export const IpcContext = {

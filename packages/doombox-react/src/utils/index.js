@@ -25,6 +25,17 @@ export const formatTime = time => {
 
   return `${hours === '00' ? '' : `${hours}:`}${minutes}:${seconds}`;
 };
+export const pathToUrl = path => path
+  .replace(/#/g, '%23')
+  .replace(/\\/g, '/');
+export const pathToRemoteUrl = async path => new Promise((resolve, reject) => fetch(path)
+  .then(response => response.blob())
+  .then(blob => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  }));
 
 // Electron
 const { remote: { dialog: { showOpenDialog } } } = window.require('electron');
@@ -37,4 +48,3 @@ export const selectFolder = multi => {
     .then(({ canceled, filePaths }) => Promise.resolve(canceled ? null : filePaths))
     .catch(err => Promise.reject(err));
 };
-

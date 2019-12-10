@@ -8,32 +8,22 @@ import {
 import { useTheme as useMaterialTheme } from '@material-ui/core/styles';
 
 // Hooks
-import { useTheme } from '../../hooks';
+import { useTheme, useAudio } from '../../hooks';
 
 // Utils
 import { selectFolder } from '../../utils';
-
-const createLibrary = async () => {
-  selectFolder()
-    .then(filePaths => {
-      if (filePaths) {
-        // sendIpc(TYPE.IPC.LIBRARY, {
-        //   action: ACTION.CRUD.CREATE,
-        //   data: { folders: filePaths }
-        // });
-      }
-    })
-    .catch(err => console.log(err));
-};
+import { HOOK } from '../../utils/const';
 
 const MainSongsPage = () => {
   const { palette: { type } } = useMaterialTheme();
   const { setDarkTheme } = useTheme();
+  const { scanFolders } = useAudio(HOOK.AUDIO.METHOD);
 
-  // sendIpc(TYPE.IPC.LIBRARY, {
-  //   action: ACTION.CRUD.READ,
-  //   data: {}
-  // });
+  const createLibrary = async () => {
+    selectFolder()
+      .then(scanFolders)
+      .catch(err => console.log(err));
+  };
 
   return (
     <div>

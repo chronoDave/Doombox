@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 // Core
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent
+  Dialog as MuiDialog,
+  DialogTitle as MuiDialogTitle,
+  DialogContent as MuiDialogContent
 } from '@material-ui/core';
 
-const DialogForm = props => {
+const Dialog = props => {
   const {
     title,
     open,
@@ -19,26 +19,26 @@ const DialogForm = props => {
   const { t } = useTranslation();
 
   return (
-    <Dialog
+    <MuiDialog
       disableBackdropClick
       open={open}
       onClose={onClose}
     >
-      <DialogTitle>
+      <MuiDialogTitle>
         {t(title)}
-      </DialogTitle>
-      <DialogContent>
+      </MuiDialogTitle>
+      <MuiDialogContent>
         {children}
-      </DialogContent>
-    </Dialog>
+      </MuiDialogContent>
+    </MuiDialog>
   );
 };
 
-DialogForm.propTypes = {
+Dialog.propTypes = {
   title: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default DialogForm;
+export default Dialog;

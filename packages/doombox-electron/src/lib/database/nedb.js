@@ -11,7 +11,7 @@ module.exports = class NeDB {
   constructor() {
     Object.values(COLLECTION).forEach(collection => {
       this[collection] = new Datastore({
-        filename: path.resolve(PATH.DATABASE, `${collection}.db`),
+        filename: path.resolve(PATH.DATABASE, `${collection}.txt`),
         autoload: true
       });
     });

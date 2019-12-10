@@ -1,4 +1,7 @@
-import React, { Fragment } from 'react';
+import React, {
+  Fragment,
+  useMemo
+} from 'react';
 import PropTypes from 'prop-types';
 
 // Modules
@@ -12,7 +15,7 @@ const MainTemplate = ({ children }) => {
 
   return (
     <Fragment>
-      <Sidebar />
+      {useMemo(() => <Sidebar />, [])}
       <div className={classes.root}>
         {children}
       </div>
@@ -21,7 +24,7 @@ const MainTemplate = ({ children }) => {
 };
 
 MainTemplate.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.node.isRequired
 };
 
 export default MainTemplate;

@@ -1,6 +1,8 @@
 {
   "common": {},
-  "action": {},
+  "action": {
+    "create": "Create"
+  },
   "validation": {
     "max": "{{input}} is too long",
     "required": "{{input}} is required"

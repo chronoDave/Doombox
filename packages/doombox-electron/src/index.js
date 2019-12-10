@@ -12,6 +12,7 @@ const NeDB = require('./lib/database/nedb');
 const ConfigController = require('./controller/configController');
 const LibraryController = require('./controller/libraryController');
 const PlaylistController = require('./controller/playlistController');
+const ImageController = require('./controller/imageController');
 
 // Utils
 const { PATH } = require('./utils/const');
@@ -32,6 +33,7 @@ app.on('ready', () => {
   createRouter(TYPE.IPC.SYSTEM, new ConfigController(appConfig, TYPE.IPC.SYSTEM));
   createRouter(TYPE.IPC.LIBRARY, new LibraryController(db, parserOptions));
   createRouter(TYPE.IPC.PLAYLIST, new PlaylistController(db));
+  createRouter(TYPE.IPC.IMAGE, new ImageController(db));
 
   const { width, height } = appConfig.get('dimension');
 

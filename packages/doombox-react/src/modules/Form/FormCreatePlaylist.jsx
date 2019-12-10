@@ -5,6 +5,7 @@ import {
   ErrorMessage
 } from 'formik';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // Core
 import {
@@ -30,6 +31,7 @@ const id = 'create-playlist';
 
 const FormCreatePlaylist = ({ children }) => {
   const { createPlaylist } = useAudio(HOOK.AUDIO.METHOD);
+  const { t } = useTranslation('action');
 
   return (
     <Formik
@@ -49,7 +51,7 @@ const FormCreatePlaylist = ({ children }) => {
         <Box pb={1} pt={2} display="flex" justifyContent="flex-end">
           {children}
           <Button type="submit">
-            Create
+            {t('create')}
           </Button>
         </Box>
       </Form>
