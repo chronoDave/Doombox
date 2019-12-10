@@ -16,7 +16,7 @@ import {
 } from './providers';
 
 // Listeners
-import { MediaSessionListener } from './listener';
+import { MediaSessionListener } from './listeners';
 
 // Locale
 import './utils/locale';
