@@ -46,7 +46,7 @@ Collection of components
 
 #### Pages
 
-Composition of components, modules and entities, which is displayed as a singular screen
+Composition of components, modules and entities, which are displayed as a singular screen
 
 #### Providers
 
