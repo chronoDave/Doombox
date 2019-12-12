@@ -2,6 +2,7 @@ const Datastore = require('nedb');
 const path = require('path');
 
 // Utils
+const { arrayToObject } = require('../../utils');
 const {
   PATH,
   COLLECTION
@@ -30,9 +31,14 @@ module.exports = class NeDB {
    * @param {Object} modifiers
    * @param {Object} modifiers.projection
    * @param {Object} modifiers.sort
+   * @param {Boolean} modifiers.castObject
    */
   read(collection, query, modifiers = {}) {
-    const { projection, sort } = modifiers;
+    const {
+      projection,
+      sort,
+      castObject
+    } = modifiers;
 
     return new Promise((resolve, reject) => {
       this[collection]
@@ -41,7 +47,7 @@ module.exports = class NeDB {
         .sort(sort || {})
         .exec((err, docs) => {
           if (err) reject(err);
-          resolve(docs);
+          resolve(castObject ? arrayToObject('_id', docs) : docs);
         });
     });
   }
@@ -75,11 +81,38 @@ module.exports = class NeDB {
     });
   }
 
+  updateOne(collection, id, modifiers) {
+    return new Promise((resolve, reject) => {
+      this[collection].update(
+        { id },
+        modifiers,
+        { returnUpdatedDocs: true },
+        (err, count, newDocs) => {
+          if (err) reject(err);
+          resolve(newDocs, count);
+        }
+      );
+    });
+  }
+
   delete(collection, query) {
     return new Promise((resolve, reject) => {
       this[collection].remove(
         query,
         { multi: true },
+        (err, count) => {
+          if (err) reject(err);
+          resolve(count);
+        }
+      );
+    });
+  }
+
+  deleteOne(collection, id) {
+    return new Promise((resolve, reject) => {
+      this[collection].remove(
+        { id },
+        { multi: false },
         (err, count) => {
           if (err) reject(err);
           resolve(count);

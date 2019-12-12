@@ -2,6 +2,9 @@ const { app } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
+// Utils
+const { stripKeys } = require('../utils');
+
 function parseFile(file, defaults) {
   try {
     return {
@@ -13,7 +16,7 @@ function parseFile(file, defaults) {
   }
 }
 
-module.exports = class Store {
+module.exports = class Storage {
   constructor(options) {
     const rootPath = app.getPath('userData');
 
@@ -22,11 +25,11 @@ module.exports = class Store {
   }
 
   get(key) {
-    return this.data[key];
+    return stripKeys(this.data[key]);
   }
 
   set(key, value) {
-    this.data[key] = value;
+    this.data[key] = { ...this.data[key], ...value };
 
     try {
       fs.writeFileSync(this.file, JSON.stringify(this.data));

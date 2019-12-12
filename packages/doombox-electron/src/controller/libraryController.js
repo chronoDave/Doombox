@@ -68,7 +68,11 @@ module.exports = class LibraryController {
         type: TYPE.IPC.LIBRARY,
         status: INTERRUPT.SUCCESS
       });
-      return event.sender.send(this.type, { songs });
+
+      const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
+      event.sender.send(TYPE.IPC.IMAGE, images);
+
+      return event.sender.send(this.type, songs);
     } catch (err) {
       event.sender.send(TYPE.IPC.INTERRUPT, {
         type: TYPE.IPC.LIBRARY,

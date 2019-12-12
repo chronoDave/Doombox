@@ -13,6 +13,16 @@
 - `test`: Run tests in `production`.
 - `test:dev`: Run tests in `development`.
 
+## Code Style
+
+### IPC
+
+The backend expects the following properties on the IPC payload object:
+
+  - `action`: An `ACTION` property defined in `@doombox/utils`
+  - `async`: Optional. If true, sends `TYPE.IPC.INTERRUPT` on pending, success and error
+  - `data`: The payload data
+
 ## Persistent Data
 
 Data, such as config files and database files can be found in `AppData\Roaming\@doombox`

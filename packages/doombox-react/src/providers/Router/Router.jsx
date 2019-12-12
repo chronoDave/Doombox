@@ -1,5 +1,8 @@
 import React from 'react';
-import { Router as ReachRouter } from '@reach/router';
+import {
+  Router as ReachRouter,
+  Redirect
+} from '@reach/router';
 
 // Templates
 import { MainTemplate } from '../../templates';
@@ -21,6 +24,7 @@ const Router = () => (
       <AlbumPage path={PATH.ALBUM} />
       <SongPage path={PATH.SONG} />
     </MainTemplate>
+    <Redirect from="/" to={PATH.SONG} noThrow />
   </ReachRouter>
 );
 

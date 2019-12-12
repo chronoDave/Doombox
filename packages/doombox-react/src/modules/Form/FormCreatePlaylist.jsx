@@ -18,11 +18,8 @@ import {
   FieldText
 } from '../../components';
 
-// Hooks
-import { useAudio } from '../../hooks';
-
-// Utils
-import { HOOK } from '../../utils/const';
+// Actions
+import { createPlaylist } from '../../actions';
 
 // Validation
 import { schemaCreatePlaylist } from '../../validation/schema';
@@ -30,7 +27,6 @@ import { schemaCreatePlaylist } from '../../validation/schema';
 const id = 'create-playlist';
 
 const FormCreatePlaylist = ({ children }) => {
-  const { createPlaylist } = useAudio(HOOK.AUDIO.METHOD);
   const { t } = useTranslation('action');
 
   return (
@@ -40,7 +36,7 @@ const FormCreatePlaylist = ({ children }) => {
         src: null
       }}
       validationSchema={schemaCreatePlaylist}
-      onSubmit={values => createPlaylist(values)}
+      onSubmit={({ name, src }) => createPlaylist(name, src)}
     >
       <Form>
         <Box display="flex" flexDirection="column" alignItems="center">

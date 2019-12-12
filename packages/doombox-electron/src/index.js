@@ -1,6 +1,6 @@
-const { app } = require('electron');
+const { app, ipcMain } = require('electron');
 const makeDir = require('make-dir');
-const { TYPE } = require('@doombox/utils');
+const { TYPE, STORAGE } = require('@doombox/utils');
 
 // Lib
 const { createWindow } = require('./lib/window');
@@ -9,7 +9,7 @@ const { createRouter } = require('./lib/router');
 const NeDB = require('./lib/database/nedb');
 
 // Controllers
-const ConfigController = require('./controller/configController');
+const StorageController = require('./controller/storageController');
 const LibraryController = require('./controller/libraryController');
 const PlaylistController = require('./controller/playlistController');
 const ImageController = require('./controller/imageController');
@@ -18,7 +18,8 @@ const ImageController = require('./controller/imageController');
 const { PATH } = require('./utils/const');
 const {
   userConfig,
-  appConfig
+  systemConfig,
+  systemCache
 } = require('./utils/config');
 
 makeDir.sync(PATH.LOG);
@@ -27,25 +28,32 @@ makeDir.sync(PATH.IMAGE);
 const db = new NeDB();
 
 app.on('ready', () => {
-  const parserOptions = appConfig.get('parser');
+  createRouter(
+    TYPE.IPC.CONFIG.USER,
+    new StorageController(userConfig, TYPE.IPC.CONFIG.USER)
+  );
+  createRouter(
+    TYPE.IPC.CONFIG.SYSTEM,
+    new StorageController(systemConfig, TYPE.IPC.CONFIG.SYSTEM)
+  );
+  createRouter(
+    TYPE.IPC.CACHE,
+    new StorageController(systemCache, TYPE.IPC.CACHE)
+  );
 
-  createRouter(TYPE.IPC.CONFIG, new ConfigController(userConfig, TYPE.IPC.CONFIG));
-  createRouter(TYPE.IPC.SYSTEM, new ConfigController(appConfig, TYPE.IPC.SYSTEM));
-  createRouter(TYPE.IPC.LIBRARY, new LibraryController(db, parserOptions));
+  createRouter(TYPE.IPC.LIBRARY, new LibraryController(db, systemConfig.get(STORAGE.PARSER)));
   createRouter(TYPE.IPC.PLAYLIST, new PlaylistController(db));
   createRouter(TYPE.IPC.IMAGE, new ImageController(db));
 
-  const { width, height } = appConfig.get('dimension');
-
-  let mainWindow = createWindow({ width, height });
+  let mainWindow = createWindow(systemCache.get(STORAGE.DIMENSION));
 
   createKeyboardListener(
-    userConfig.get('keybinds'),
+    userConfig.get(STORAGE.KEYBIND),
     ({ action }) => mainWindow.webContents.send(TYPE.IPC.KEYBIND, action)
   );
 
   mainWindow.on('resize', () => {
-    appConfig.set('dimension', { ...mainWindow.getBounds() });
+    systemCache.set(STORAGE.DIMENSION, { ...mainWindow.getBounds() });
   });
 
   mainWindow.on('closed', () => {
@@ -55,7 +63,7 @@ app.on('ready', () => {
 
 // Prevent multi-instance
 if (!app.requestSingleInstanceLock()) {
-  const { forceQuit } = userConfig.get('general');
+  const { forceQuit } = userConfig.get(STORAGE.GENERAL);
 
   if (!process.platform === 'darwin' || forceQuit) {
     app.quit();
@@ -63,5 +71,6 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 app.on('window-all-closed', () => {
+  ipcMain.removeAllListeners();
   app.quit();
 });

@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import {
   TYPE,
-  ACTION
+  STORAGE
 } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Core
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+
+// Actions
+import {
+  readStorage,
+  updateStorage
+} from '../../actions';
 
 // Utils
 import { ThemeContext } from '../../utils/context';
@@ -21,16 +27,11 @@ class ThemeProvider extends Component {
   constructor() {
     super();
 
-    const setDarkTheme = darkTheme => {
-      this.setState(state => ({
-        ...state,
-        theme: createTheme({ palette: { ...DEFAULT_PALETTE, darkTheme } })
-      }));
-      ipcRenderer.send(TYPE.IPC.CONFIG, {
-        action: ACTION.CRUD.UPDATE,
-        data: { key: 'palette', payload: { darkTheme } }
-      });
-    };
+    const setDarkTheme = darkTheme => updateStorage(
+      TYPE.IPC.CONFIG.USER,
+      STORAGE.PALETTE,
+      { darkTheme }
+    );
 
     this.state = {
       theme: createTheme({ palette: { ...DEFAULT_PALETTE } }),
@@ -41,17 +42,18 @@ class ThemeProvider extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.once(TYPE.IPC.CONFIG, (event, payload) => {
+    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, payload) => {
       this.setState(state => ({
         ...state,
         theme: createTheme({ palette: { ...DEFAULT_PALETTE, ...payload } })
       }));
     });
 
-    ipcRenderer.send(TYPE.IPC.CONFIG, {
-      action: ACTION.CRUD.READ,
-      data: { key: 'palette' }
-    });
+    readStorage(TYPE.IPC.CONFIG.USER, STORAGE.PALETTE);
+  }
+
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners();
   }
 
   render() {

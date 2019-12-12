@@ -1,15 +1,15 @@
-const { ACTION } = require('@doombox/utils');
+const { ACTION, STORAGE } = require('@doombox/utils');
 
 // Lib
-const Store = require('../lib/store');
+const Storage = require('../lib/storage');
 
-const userConfig = new Store({
+const userConfig = new Storage({
   fileName: 'user-config',
   defaults: {
-    general: {
+    [STORAGE.GENERAL]: {
       forceQuit: false
     },
-    keybinds: {
+    [STORAGE.KEYBIND]: {
       [ACTION.AUDIO.NEXT]: 'CommandOrControl+Alt+Right',
       [ACTION.AUDIO.PREVIOUS]: 'CommandOrControl+Alt+Left',
       [ACTION.AUDIO.PLAY]: 'CommandOrControl+Alt+\\',
@@ -19,7 +19,7 @@ const userConfig = new Store({
       [ACTION.AUDIO.VOLUME_DOWN]: 'CommandOrControl+Alt+Down',
       [ACTION.AUDIO.MUTE]: null
     },
-    palette: {
+    [STORAGE.PALETTE]: {
       darkTheme: true,
       primary: null,
       secondary: null,
@@ -32,21 +32,27 @@ const userConfig = new Store({
   }
 });
 
-const appConfig = new Store({
-  fileName: 'app-config',
+const systemConfig = new Storage({
+  fileName: 'system-config',
   defaults: {
-    player: {
-      volume: 1,
-      autoplay: true,
-      muted: false
-    },
-    parser: {
+    [STORAGE.PARSER]: {
       logging: true,
       fileFormats: ['mp3'],
       glob: null,
       parseStrict: false
     },
-    dimension: {
+  }
+});
+
+const systemCache = new Storage({
+  fileName: 'system-cache',
+  defaults: {
+    [STORAGE.PLAYER]: {
+      volume: 1,
+      autoplay: true,
+      muted: false
+    },
+    [STORAGE.DIMENSION]: {
       width: 640,
       height: 480
     }
@@ -55,5 +61,6 @@ const appConfig = new Store({
 
 module.exports = {
   userConfig,
-  appConfig
+  systemConfig,
+  systemCache
 };

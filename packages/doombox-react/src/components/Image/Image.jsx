@@ -14,8 +14,6 @@ const Image = props => {
   } = props;
   const classes = useImageStyles({ src });
 
-  console.log('Rerender');
-
   return (
     <div
       className={clsx(classes.root, className)}

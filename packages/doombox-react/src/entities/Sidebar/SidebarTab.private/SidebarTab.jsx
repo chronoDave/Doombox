@@ -1,6 +1,7 @@
 import React, {
   Fragment,
-  useState
+  useState,
+  useEffect
 } from 'react';
 import { navigate } from '@reach/router';
 
@@ -43,6 +44,7 @@ import { useSidebarTabStyles } from './SidebarTab.style';
 
 const SidebarTab = () => {
   const [open, setOpen] = useState(false);
+
   const { collection } = useAudio(HOOK.AUDIO.PLAYLIST);
   const classes = useSidebarTabStyles();
 

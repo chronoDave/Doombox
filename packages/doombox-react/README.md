@@ -1,11 +1,14 @@
 # @doombox/react
 
 ## Scripts
+
 - `start`: Start React on `localhost:5000`
 - `build`: Build client to `doombox-electron/client`
 
 ## Code Style
+
 ### General
+
 Doombox uses a programming style inspired by [Brad Frost's Atomic Design](http://atomicdesign.bradfrost.com/chapter-2/). The folder structure (within `src`) can be described as followed:
 
 #### Components

@@ -30,7 +30,15 @@ const MediaSesssionListener = ({ children }) => {
   }, [play, pause, stop, next, previous]);
 
   useEffect(() => {
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = status;
+    if ('mediaSession' in navigator) {
+      const playbackStates = ['none', 'paused', 'playing'];
+
+      if (playbackStates.includes(status.toLowerCase())) {
+        navigator.mediaSession.playbackState = status;
+      } else {
+        navigator.mediaSession.playbackState = 'none';
+      }
+    }
   }, [status]);
 
   useEffect(() => {
@@ -52,7 +60,6 @@ const MediaSesssionListener = ({ children }) => {
         pathToRemoteUrl(getImage(images[0]).path)
           .then(src => {
             navigator.mediaSession.metadata.artwork = [{ src, sizes: '128x128' }];
-            console.log(navigator.mediaSession);
           });
       }
     }

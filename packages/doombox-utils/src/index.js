@@ -3,12 +3,24 @@ const TYPE = {
     KEYBIND: 'Keybind',
     LIBRARY: 'Library',
     PLAYLIST: 'Playlist',
-    CONFIG: 'Config',
+    CONFIG: {
+      USER: 'ConfigUser',
+      SYSTEM: 'ConfigSystem'
+    },
+    CACHE: 'Cache',
     MESSAGE: 'Message',
     INTERRUPT: 'Interrupt',
-    SYSTEM: 'System',
     IMAGE: 'Image'
   }
+};
+
+const STORAGE = {
+  GENERAL: 'general',
+  KEYBIND: 'keybind',
+  PALETTE: 'palette',
+  PARSER: 'parser',
+  PLAYER: 'player',
+  DIMENSION: 'dimension'
 };
 
 const INTERRUPT = {
@@ -31,8 +43,13 @@ const ACTION = {
   CRUD: {
     CREATE: 'CREATE',
     READ: 'READ',
+    READ_ONE: 'READ_ONE',
     UPDATE: 'UPDATE',
-    DELETE: 'DELETE'
+    UPDATE_ONE: 'UPDATE_ONE',
+    DELETE: 'DELETE',
+    DELETE_ONE: 'DELETE_ONE',
+    DROP: 'DROP',
+    COUNT: 'COUNT'
   }
 };
 
@@ -43,6 +60,7 @@ const ID = {
 };
 
 module.exports = {
+  STORAGE,
   TYPE,
   INTERRUPT,
   ACTION,
