@@ -15,7 +15,8 @@ export const EVENT = {
     VOLUME: 'volume',
     MUTED: 'muted',
     METADATA: 'metadata',
-    AUTOPLAY: 'autoplay'
+    AUTOPLAY: 'autoplay',
+    RPC: 'rpc'
   }
 };
 
@@ -28,6 +29,9 @@ export const HOOK = {
     POSITION: 'Position',
     METADATA: 'Metadata',
     IMAGE: 'Image'
+  },
+  IPC: {
+    CONFIG: 'Config'
   }
 };
 

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { TYPE } from '@doombox/utils';
+import { TYPE, STORAGE } from '@doombox/utils';
 import PropTypes from 'prop-types';
+
+// Actions
+import { readStorage } from '../../actions';
 
 // Utils
 import { IpcContext } from '../../utils/context';
@@ -12,30 +15,37 @@ class IpcProvider extends Component {
     super();
 
     this.state = {
-      methodValue: {
-        sendKeybind: (action, payload) => this.ipc.send(
-          TYPE.IPC.KEYBIND,
-          { action, data: payload }
-        ),
-        sendMessage: (action, payload) => this.ipc.send(
-          TYPE.IPC.MESSAGE,
-          { action, data: payload }
-        ),
-        sendInterrupt: (action, payload) => this.ipc.send(
-          TYPE.IPC.INTERRUPT,
-          { action, data: payload }
-        )
-      },
       keybindValue: {},
       messageValue: {},
-      interruptValue: {}
+      interruptValue: {},
+      configValue: {}
     };
 
-    // Create listeners
-    Object.values(TYPE.IPC)
-      .map(type => ipcRenderer.on(type, (event, payload) => {
-        this.setState(state => ({ ...state, [type]: { ...payload } }));
+    ipcRenderer.on(TYPE.IPC.KEYBIND, (event, payload) => {
+      this.setState(state => ({ ...state, keybindValue: payload }));
+    });
+
+    ipcRenderer.on(TYPE.IPC.MESSAGE, (event, payload) => {
+      this.setState(state => ({ ...state, messageValue: payload }));
+    });
+
+    ipcRenderer.on(TYPE.IPC.INTERRUPT, (event, payload) => {
+      this.setState(state => ({ ...state, interruptValue: payload }));
+    });
+
+    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { payload }) => {
+      this.setState(state => ({
+        ...state,
+        configValue: {
+          ...state.configValue,
+          ...payload
+        }
       }));
+    });
+  }
+
+  componentDidMount() {
+    readStorage(TYPE.IPC.CONFIG.USER, STORAGE.PALETTE);
   }
 
   componentWillUnmount() {
@@ -45,14 +55,14 @@ class IpcProvider extends Component {
   render() {
     const { children } = this.props;
     const {
-      methodValue,
       keybindValue,
       messageValue,
-      interruptValue
+      interruptValue,
+      configValue
     } = this.state;
 
     return (
-      <IpcContext.Method.Provider value={methodValue}>
+      <IpcContext.Config.Provider value={configValue}>
         <IpcContext.Keybind.Provider value={keybindValue}>
           <IpcContext.Message.Provider value={messageValue}>
             <IpcContext.Interrupt.Provider value={interruptValue}>
@@ -60,7 +70,7 @@ class IpcProvider extends Component {
             </IpcContext.Interrupt.Provider>
           </IpcContext.Message.Provider>
         </IpcContext.Keybind.Provider>
-      </IpcContext.Method.Provider>
+      </IpcContext.Config.Provider>
     );
   }
 }

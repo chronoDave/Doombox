@@ -58,3 +58,10 @@ export const updateStorage = (type, key, payload) => ipcRenderer.send(
     data: { key, payload }
   }
 );
+
+export const updateRpc = status => ipcRenderer.send(
+  TYPE.IPC.RPC, {
+    action: ACTION.CRUD.UPDATE,
+    data: status
+  }
+);

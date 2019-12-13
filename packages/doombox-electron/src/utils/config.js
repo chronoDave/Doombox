@@ -9,6 +9,10 @@ const userConfig = new Storage({
     [STORAGE.GENERAL]: {
       forceQuit: false
     },
+    [STORAGE.DISCORD]: {
+      discordToken: null,
+      imageKey: null
+    },
     [STORAGE.KEYBIND]: {
       [ACTION.AUDIO.NEXT]: 'CommandOrControl+Alt+Right',
       [ACTION.AUDIO.PREVIOUS]: 'CommandOrControl+Alt+Left',

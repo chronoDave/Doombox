@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { TYPE } from '@doombox/utils';
 
 // Utils
 import { HOOK } from '../utils/const';
@@ -22,7 +21,7 @@ export const useAudio = type => createContextHook(
 );
 
 export const useIpc = type => createContextHook(
-  type, Object.values(TYPE.IPC), IpcContext
+  type, Object.values(HOOK.IPC), IpcContext
 );
 
 export const useTheme = () => useContext(ThemeContext);

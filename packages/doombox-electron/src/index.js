@@ -13,14 +13,21 @@ const StorageController = require('./controller/storageController');
 const LibraryController = require('./controller/libraryController');
 const PlaylistController = require('./controller/playlistController');
 const ImageController = require('./controller/imageController');
+const RpcController = require('./controller/rpcController');
 
 // Utils
 const { PATH } = require('./utils/const');
+
 const {
   userConfig,
   systemConfig,
   systemCache
-} = require('./utils/config');
+// eslint-disable-next-line import/no-dynamic-require
+} = require(
+  process.env.NODE_ENV === 'development' ?
+    './utils/config.dev' :
+    './utils/config'
+);
 
 makeDir.sync(PATH.LOG);
 makeDir.sync(PATH.IMAGE);
@@ -44,6 +51,7 @@ app.on('ready', () => {
   createRouter(TYPE.IPC.LIBRARY, new LibraryController(db, systemConfig.get(STORAGE.PARSER)));
   createRouter(TYPE.IPC.PLAYLIST, new PlaylistController(db));
   createRouter(TYPE.IPC.IMAGE, new ImageController(db));
+  createRouter(TYPE.IPC.RPC, new RpcController(userConfig.get(STORAGE.DISCORD)));
 
   let mainWindow = createWindow(systemCache.get(STORAGE.DIMENSION));
 

@@ -14,7 +14,7 @@ const arrayToObject = (key, array) => array
     [cur[key]]: { ...cur }
   }), {});
 const stripKeys = object => Object.keys(object)
-  .filter(key => !!object[key])
+  .filter(key => object[key] !== undefined || object[key] !== null)
   .reduce((acc, cur) => ({
     ...acc,
     [cur]: object[cur]

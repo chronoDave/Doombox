@@ -9,7 +9,8 @@ import {
 import {
   readStorage,
   readCollection,
-  updateStorage
+  updateStorage,
+  updateRpc
 } from '../../actions';
 
 // Lib
@@ -106,15 +107,22 @@ class AudioProvider extends Component {
     this.audio.on(EVENT.AUDIO.METADATA, metadataValue => (
       this.setState(state => ({ ...state, metadataValue }))
     ));
+    this.audio.on(EVENT.AUDIO.RPC, status => updateRpc(status));
   }
 
   componentDidMount() {
-    ipcRenderer.once(TYPE.IPC.SYSTEM, (event, payload) => {
+    ipcRenderer.once(TYPE.IPC.CACHE, (event, { payload }) => {
       this.setState(state => ({
         ...state,
         currentValue: { ...state.currentValue, ...payload }
       }));
       this.setState(state => ({ ...state, volume: payload.volume }));
+    });
+
+    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { key, payload }) => {
+      if (key === STORAGE.DISCORD) {
+        this.audio.rpc.imageKey = payload.imageKey;
+      }
     });
 
     ipcRenderer.on(TYPE.IPC.IMAGE, (event, payload) => {
@@ -134,6 +142,7 @@ class AudioProvider extends Component {
     });
 
     readStorage(TYPE.IPC.CACHE, STORAGE.PLAYER);
+    readStorage(TYPE.IPC.CONFIG.USER, STORAGE.DISCORD);
 
     readCollection(TYPE.IPC.IMAGE, { castObject: true });
     readCollection(TYPE.IPC.LIBRARY);

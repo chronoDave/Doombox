@@ -26,7 +26,7 @@ module.exports = class StorageController {
     validateData(data)
       .then(() => {
         const payload = this.config.get(data.key);
-        event.sender.send(this.type, payload);
+        event.sender.send(this.type, { key: data.key, payload });
       })
       .catch(err => {
         handleErrorIpc(event, this.type, err);

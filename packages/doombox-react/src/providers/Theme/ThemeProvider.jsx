@@ -1,4 +1,8 @@
-import React, { Component } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo
+} from 'react';
 import {
   TYPE,
   STORAGE
@@ -9,66 +13,50 @@ import PropTypes from 'prop-types';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
 // Actions
-import {
-  readStorage,
-  updateStorage
-} from '../../actions';
+import { updateStorage } from '../../actions';
+
+// Hooks
+import { useIpc } from '../../hooks';
 
 // Utils
 import { ThemeContext } from '../../utils/context';
+import { HOOK } from '../../utils/const';
 
 import { createTheme } from './theme';
 import { DEFAULT_PALETTE } from './palette';
 
-// Electron
-const { ipcRenderer } = window.require('electron');
+const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState(createTheme({
+    palette: { ...DEFAULT_PALETTE }
+  }));
 
-class ThemeProvider extends Component {
-  constructor() {
-    super();
+  const { darkTheme } = useIpc(HOOK.IPC.CONFIG);
 
-    const setDarkTheme = darkTheme => updateStorage(
+  useEffect(() => {
+    setTheme(createTheme({
+      palette: {
+        ...DEFAULT_PALETTE,
+        darkTheme: !!darkTheme
+      }
+    }));
+  }, [darkTheme]);
+
+  const methods = useMemo(() => ({
+    setDarkTheme: newDarkTheme => updateStorage(
       TYPE.IPC.CONFIG.USER,
       STORAGE.PALETTE,
-      { darkTheme }
-    );
+      { darkTheme: newDarkTheme }
+    )
+  }), []);
 
-    this.state = {
-      theme: createTheme({ palette: { ...DEFAULT_PALETTE } }),
-      methods: {
-        setDarkTheme
-      }
-    };
-  }
-
-  componentDidMount() {
-    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, payload) => {
-      this.setState(state => ({
-        ...state,
-        theme: createTheme({ palette: { ...DEFAULT_PALETTE, ...payload } })
-      }));
-    });
-
-    readStorage(TYPE.IPC.CONFIG.USER, STORAGE.PALETTE);
-  }
-
-  componentWillUnmount() {
-    ipcRenderer.removeAllListeners();
-  }
-
-  render() {
-    const { children } = this.props;
-    const { theme, methods } = this.state;
-
-    return (
-      <ThemeContext.Provider value={methods}>
-        <MuiThemeProvider theme={theme}>
-          {children}
-        </MuiThemeProvider>
-      </ThemeContext.Provider>
-    );
-  }
-}
+  return (
+    <ThemeContext.Provider value={methods}>
+      <MuiThemeProvider theme={theme}>
+        {children}
+      </MuiThemeProvider>
+    </ThemeContext.Provider>
+  );
+};
 
 ThemeProvider.propTypes = {
   children: PropTypes.element.isRequired

@@ -23,6 +23,26 @@ The backend expects the following properties on the IPC payload object:
   - `async`: Optional. If true, sends `TYPE.IPC.INTERRUPT` on pending, success and error
   - `data`: The payload data
 
+## Discord Integration
+
+Doombox supports Discord RPC out of the box. To enable RPC, provide a valid `Client Id` to `discordToken` in `user-config`. You can create an `Client Id` on Discord's [Developer Portal - Application](https://discordapp.com/developers/applications) page.
+
+Simply create an application and copy the `Client Id` on the `General Information` tab.
+
+Doombox currently supports the following assets by default:
+
+- `icon`: Doombox' default icon (large image key)
+- `pause`: Icon when Doombox is paused (small image key)
+- `play`: Icon when Doombox is playing (small image key)
+
+Custom assets can be defined in `imageKey`. This key must be equal to a valid MP3 metadata tag (such as `genre` or `title`). Doombox will expose the value of the tag to RPC.
+
+Example:
+
+`imageKey: 'genre'`
+
+Metadata genre equals to `Electro`, the key sent to RPC will be equal to `Electro`.
+
 ## Persistent Data
 
 Data, such as config files and database files can be found in `AppData\Roaming\@doombox`
@@ -32,6 +52,11 @@ Data, such as config files and database files can be found in `AppData\Roaming\@
 #### general
 
 - `forceQuit`: Force close on Mac when `true`, default `false`
+
+#### discord
+
+- `discordToken`: Enables Discord RPC feature when valid token is provided. See `Discord Integration` for more information, default `null`
+- `imageKey`: If Discord RPC is enabled, enables custom icons for the metadata key provided, default `null`
 
 #### keybinds
 
@@ -84,13 +109,7 @@ primary: {
 }
 ```
 
-### app-config
-
-#### player
-
-- `volume`: Application volume cache, default `<last cache value>`
-- `autoplay`: Application autoplay cache, default `<last cache value>`
-- `muted`: Application muted cache, default `<last cache value>`
+### system-config
 
 #### parser
 
@@ -98,6 +117,14 @@ primary: {
 - `fileFormats`: Array of supported file formats, default `['mp3']`
 - `glob`: Custom glob pattern. Doombox internally uses `/**/*.?(<fileFormats>))`. For more information on glab patterns, see [Glob - Glob Primer](https://www.npmjs.com/package/glob#glob-primer). When using `glob`, `fileFormats` will be overwritten, default `null`
 - `parseStrict`: Throw error when invalid metadata is found on file, default `false`
+
+### system-cache
+
+#### player
+
+- `volume`: Application volume cache, default `<last cache value>`
+- `autoplay`: Application autoplay cache, default `<last cache value>`
+- `muted`: Application muted cache, default `<last cache value>`
 
 #### dimension
 

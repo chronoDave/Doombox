@@ -23,8 +23,8 @@ const Router = () => (
       <VisualizerPage path={PATH.VISUALIZER} />
       <AlbumPage path={PATH.ALBUM} />
       <SongPage path={PATH.SONG} />
+      <Redirect from="/" to={PATH.SONG} noThrow />
     </MainTemplate>
-    <Redirect from="/" to={PATH.SONG} noThrow />
   </ReachRouter>
 );
 

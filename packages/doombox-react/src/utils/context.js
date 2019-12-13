@@ -12,10 +12,10 @@ export const AudioContext = {
 };
 
 export const IpcContext = {
-  Method: createContext(),
   Keybind: createContext(),
   Message: createContext(),
-  Interrupt: createContext()
+  Interrupt: createContext(),
+  Config: createContext()
 };
 
 export const ThemeContext = createContext();

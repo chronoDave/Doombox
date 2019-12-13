@@ -7,6 +7,7 @@ const TYPE = {
       USER: 'ConfigUser',
       SYSTEM: 'ConfigSystem'
     },
+    RPC: 'Rpc',
     CACHE: 'Cache',
     MESSAGE: 'Message',
     INTERRUPT: 'Interrupt',
@@ -20,7 +21,8 @@ const STORAGE = {
   PALETTE: 'palette',
   PARSER: 'parser',
   PLAYER: 'player',
-  DIMENSION: 'dimension'
+  DIMENSION: 'dimension',
+  DISCORD: 'discord'
 };
 
 const INTERRUPT = {

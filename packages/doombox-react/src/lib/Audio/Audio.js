@@ -25,6 +25,11 @@ class Audio extends EventEmitter {
     // Playlist
     this.playlist = [];
     this.playlistIndex = 0;
+
+    // Discord
+    this.rpc = {
+      imageKey: null
+    };
   }
 
   setVolume(volume) {
@@ -49,7 +54,7 @@ class Audio extends EventEmitter {
 
   increaseVolume() {
     if (this.volume < 1) {
-      this.volume = this.volume + 0.01;
+      this.volume += 0.01;
       if (this.song) this.song.volume(this.volume);
       this.emit(EVENT.AUDIO.VOLUME, this.volume);
     }
@@ -57,7 +62,7 @@ class Audio extends EventEmitter {
 
   decreaseVolume() {
     if (this.volume > 0) {
-      this.volume = this.volume - 0.01;
+      this.volume -= 0.01;
       if (this.song) this.song.volume(this.volume);
       this.emit(EVENT.AUDIO.VOLUME, this.volume);
     }
@@ -81,6 +86,28 @@ class Audio extends EventEmitter {
 
     const metadata = this.playlist[this.playlistIndex];
 
+    const getImageKey = () => {
+      if (!this.rpc.imageKey) return 'icon';
+      if (metadata.metadata[this.rpc.imageKey]) {
+        if (Array.isArray(metadata.metadata[this.rpc.imageKey])) {
+          return metadata.metadata[this.rpc.imageKey][0];
+        }
+        if (typeof metadata.metadata[this.rpc.imageKey] === 'object') {
+          return 'icon';
+        }
+        return metadata.metadata[this.rpc.imageKey];
+      }
+      return 'icon';
+    };
+
+    const defaultRpcPayload = {
+      partySize: this.playlistIndex + 1,
+      partyMax: this.playlist.length,
+      largeImageKey: getImageKey(),
+      state: `by ${metadata.metadata.artist}`,
+      details: metadata.metadata.title
+    };
+
     this.song = new Howl({
       src: path.join('file://', path.resolve(metadata.file)),
       html5: true,
@@ -89,11 +116,34 @@ class Audio extends EventEmitter {
       onload: () => {
         this.emit(EVENT.AUDIO.DURATION, this.song.duration());
         this.emit(EVENT.AUDIO.METADATA, metadata);
+        this.emit(EVENT.AUDIO.RPC, {
+          ...defaultRpcPayload,
+          smallImageKey: 'play',
+          largeImageKey: getImageKey(),
+          startTimestamp: Date.now(),
+          endTimestamp: Date.now() + Math.round(this.song.duration() * 1000)
+        });
       },
       onloaderror: () => this.next(),
       onplayerror: () => this.next(),
       onend: () => this.autoplay && this.next(),
-      onplay: () => requestAnimationFrame(this.step.bind(this))
+      onplay: () => {
+        requestAnimationFrame(this.step.bind(this));
+        this.emit(EVENT.AUDIO.RPC, {
+          ...defaultRpcPayload,
+          smallImageKey: 'play',
+          largeImageKey: getImageKey(),
+          startTimestamp: Date.now(),
+          endTimestamp: Date.now() + Math.round((this.song.duration() - this.song.seek()) * 1000)
+        });
+      },
+      onpause: () => {
+        this.emit(EVENT.AUDIO.RPC, {
+          ...defaultRpcPayload,
+          smallImageKey: 'pause',
+          largeImageKey: getImageKey(),
+        });
+      }
     });
 
     this.status = STATUS.AUDIO.PLAYING;
@@ -156,7 +206,7 @@ class Audio extends EventEmitter {
     if (this.playlistIndex >= this.playlist.length - 1) {
       this.playlistIndex = 0;
     } else {
-      this.playlistIndex = this.playlistIndex + 1;
+      this.playlistIndex += 1;
     }
 
     this.createSong();
@@ -166,7 +216,7 @@ class Audio extends EventEmitter {
     if (this.playlistIndex <= 0) {
       this.playlistIndex = this.playlist.length - 1;
     } else {
-      this.playlistIndex = this.playlistIndex - 1;
+      this.playlistIndex -= 1;
     }
 
     this.createSong();
@@ -175,6 +225,7 @@ class Audio extends EventEmitter {
   shuffle() {
     if (this.playlist.length <= 0) return;
     this.playlist = shuffleArray(this.playlist);
+    this.playlistIndex = 0;
     this.createSong();
     this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
   }
