@@ -17,14 +17,14 @@ import { HOOK } from '../../utils/const';
 
 const SliderPlayer = ({ width }) => {
   const position = useAudio(HOOK.AUDIO.POSITION);
-  const { duration } = useAudio(HOOK.AUDIO.CURRENT);
+  const { duration } = useAudio(HOOK.AUDIO.PLAYER);
   const { seek, requestFrame } = useAudio(HOOK.AUDIO.METHOD);
 
   return (
     <Box display="flex" flexDirection="column" width={width}>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="caption">
-          {formatTime(Math.round(position))}
+          {formatTime(Math.round(position) || 0)}
         </Typography>
         <Typography variant="caption">
           {`-${formatTime(Math.round(duration) - Math.round(position))}`}

@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 
 // Hooks
-import { useAudio } from '../../hooks';
+import {
+  useAudio,
+  useIpc
+} from '../../hooks';
 
 // Utils
 import { pathToRemoteUrl } from '../../utils';
@@ -13,11 +16,11 @@ const MediaSesssionListener = ({ children }) => {
     pause,
     stop,
     next,
-    previous,
-    getImage
+    previous
   } = useAudio(HOOK.AUDIO.METHOD);
-  const { images, metadata } = useAudio(HOOK.AUDIO.METADATA);
-  const { status } = useAudio(HOOK.AUDIO.CURRENT);
+  const { images, metadata } = useAudio(HOOK.AUDIO.CURRENT);
+  const { status } = useAudio(HOOK.AUDIO.PLAYER);
+  const { getImageById } = useIpc(HOOK.IPC.METHOD);
 
   useEffect(() => {
     if ('mediaSession' in navigator) {
@@ -57,7 +60,7 @@ const MediaSesssionListener = ({ children }) => {
       });
 
       if (images) {
-        pathToRemoteUrl(getImage(images[0]).path)
+        pathToRemoteUrl(getImageById(images[0]).path)
           .then(src => {
             navigator.mediaSession.metadata.artwork = [{ src, sizes: '128x128' }];
           });

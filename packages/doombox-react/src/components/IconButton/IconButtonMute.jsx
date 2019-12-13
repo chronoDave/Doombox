@@ -18,7 +18,7 @@ import { HOOK } from '../../utils/const';
 
 const IconButtonMute = ({ className }) => {
   const { mute } = useAudio(HOOK.AUDIO.METHOD);
-  const { muted } = useAudio(HOOK.AUDIO.CURRENT);
+  const { muted } = useAudio(HOOK.AUDIO.PLAYER);
   const volume = useAudio(HOOK.AUDIO.VOLUME);
 
   const getIcon = () => {

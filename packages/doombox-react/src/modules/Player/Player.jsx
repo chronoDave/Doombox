@@ -21,7 +21,10 @@ import {
 } from '../../components';
 
 // Hooks
-import { useAudio } from '../../hooks';
+import {
+  useAudio,
+  useIpc
+} from '../../hooks';
 
 // Utils
 import { HOOK } from '../../utils/const';
@@ -34,11 +37,11 @@ const Player = () => {
 
   const classes = usePlayerStyles();
 
-  const { metadata, images } = useAudio(HOOK.AUDIO.METADATA);
-  const { getImage } = useAudio(HOOK.AUDIO.METHOD);
+  const { metadata, images } = useAudio(HOOK.AUDIO.CURRENT);
+  const { getImageById } = useIpc(HOOK.IPC.METHOD);
 
   useEffect(() => {
-    if (images) setImage(getImage(images[0]));
+    if (images) setImage(getImageById(images[0]));
   }, [images]);
 
   return (

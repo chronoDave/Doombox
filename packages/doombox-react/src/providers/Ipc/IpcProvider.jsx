@@ -3,7 +3,10 @@ import { TYPE, STORAGE } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Actions
-import { readStorage } from '../../actions';
+import {
+  readStorage,
+  readCollection
+} from '../../actions';
 
 // Utils
 import { IpcContext } from '../../utils/context';
@@ -15,10 +18,17 @@ class IpcProvider extends Component {
     super();
 
     this.state = {
+      methodValue: {
+        getImageById: id => {
+          const { imageValue } = this.state;
+          return imageValue[id];
+        }
+      },
       keybindValue: {},
       messageValue: {},
       interruptValue: {},
-      configValue: {}
+      configValue: {},
+      imageValue: {}
     };
 
     ipcRenderer.on(TYPE.IPC.KEYBIND, (event, payload) => {
@@ -31,6 +41,10 @@ class IpcProvider extends Component {
 
     ipcRenderer.on(TYPE.IPC.INTERRUPT, (event, payload) => {
       this.setState(state => ({ ...state, interruptValue: payload }));
+    });
+
+    ipcRenderer.on(TYPE.IPC.IMAGE, (event, payload) => {
+      this.setState(state => ({ ...state, imageValue: payload }));
     });
 
     ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { payload }) => {
@@ -46,6 +60,7 @@ class IpcProvider extends Component {
 
   componentDidMount() {
     readStorage(TYPE.IPC.CONFIG.USER, STORAGE.PALETTE);
+    readCollection(TYPE.IPC.IMAGE, { castObject: true });
   }
 
   componentWillUnmount() {
@@ -55,22 +70,28 @@ class IpcProvider extends Component {
   render() {
     const { children } = this.props;
     const {
+      methodValue,
       keybindValue,
       messageValue,
       interruptValue,
-      configValue
+      configValue,
+      imageValue
     } = this.state;
 
     return (
-      <IpcContext.Config.Provider value={configValue}>
-        <IpcContext.Keybind.Provider value={keybindValue}>
-          <IpcContext.Message.Provider value={messageValue}>
-            <IpcContext.Interrupt.Provider value={interruptValue}>
-              {children}
-            </IpcContext.Interrupt.Provider>
-          </IpcContext.Message.Provider>
-        </IpcContext.Keybind.Provider>
-      </IpcContext.Config.Provider>
+      <IpcContext.Method.Provider value={methodValue}>
+        <IpcContext.Image.Provider value={imageValue}>
+          <IpcContext.Config.Provider value={configValue}>
+            <IpcContext.Keybind.Provider value={keybindValue}>
+              <IpcContext.Message.Provider value={messageValue}>
+                <IpcContext.Interrupt.Provider value={interruptValue}>
+                  {children}
+                </IpcContext.Interrupt.Provider>
+              </IpcContext.Message.Provider>
+            </IpcContext.Keybind.Provider>
+          </IpcContext.Config.Provider>
+        </IpcContext.Image.Provider>
+      </IpcContext.Method.Provider>
     );
   }
 }

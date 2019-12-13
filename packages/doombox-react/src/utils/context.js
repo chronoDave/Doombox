@@ -6,16 +6,17 @@ export const AudioContext = {
   Method: createContext(),
   Playlist: createContext(),
   Current: createContext(),
-  Metadata: createContext(),
-  Position: createContext(),
-  Image: createContext()
+  Player: createContext(),
+  Position: createContext()
 };
 
 export const IpcContext = {
+  Method: createContext(),
   Keybind: createContext(),
   Message: createContext(),
   Interrupt: createContext(),
-  Config: createContext()
+  Config: createContext(),
+  Image: createContext()
 };
 
 export const ThemeContext = createContext();

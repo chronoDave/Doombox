@@ -37,7 +37,7 @@ const AppBar = () => {
     browserWindow.maximize()
   );
 
-  const { metadata } = useAudio(HOOK.AUDIO.METADATA);
+  const { metadata } = useAudio(HOOK.AUDIO.CURRENT);
 
   return (
     <div className={classes.barRoot}>

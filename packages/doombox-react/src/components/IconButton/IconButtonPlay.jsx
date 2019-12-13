@@ -16,7 +16,7 @@ import { HOOK, STATUS } from '../../utils/const';
 
 const IconButtonPlay = ({ className }) => {
   const { play, pause } = useAudio(HOOK.AUDIO.METHOD);
-  const { status } = useAudio(HOOK.AUDIO.CURRENT);
+  const { status } = useAudio(HOOK.AUDIO.PLAYER);
 
   return (
     <IconButton

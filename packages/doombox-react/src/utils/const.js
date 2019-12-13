@@ -14,7 +14,7 @@ export const EVENT = {
     DURATION: 'duration',
     VOLUME: 'volume',
     MUTED: 'muted',
-    METADATA: 'metadata',
+    CURRENT: 'current',
     AUTOPLAY: 'autoplay',
     RPC: 'rpc'
   }
@@ -27,10 +27,11 @@ export const HOOK = {
     METHOD: 'Method',
     CURRENT: 'Current',
     POSITION: 'Position',
-    METADATA: 'Metadata',
+    PLAYER: 'Player',
     IMAGE: 'Image'
   },
   IPC: {
+    METHOD: 'Method',
     CONFIG: 'Config'
   }
 };
