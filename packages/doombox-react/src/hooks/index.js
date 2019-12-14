@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 export {
   useAudio,
   useIpc,
-  useTheme
+  useTheme,
+  useRoute
 } from './useContext';
 
 export const useGlobalStyles = makeStyles(theme => ({

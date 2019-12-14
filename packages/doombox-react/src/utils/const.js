@@ -33,11 +33,20 @@ export const HOOK = {
   IPC: {
     METHOD: 'Method',
     CONFIG: 'Config'
+  },
+  ROUTE: {
+    METHOD: 'Method',
+    LOCATION: 'Location'
   }
 };
 
 export const PATH = {
-  SONG: 'song',
-  ALBUM: 'album',
-  VISUALIZER: 'visualizer'
+  DOMAIN: {
+    ROOT: 'root'
+  },
+  PAGE: {
+    SONG: 'song',
+    ALBUM: 'album',
+    VISUALIZER: 'visualizer'
+  }
 };

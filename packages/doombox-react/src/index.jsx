@@ -12,11 +12,14 @@ import {
   IpcProvider,
   AudioProvider,
   ThemeProvider,
-  Router
+  RouteProvider
 } from './providers';
 
 // Listeners
-import { MediaSessionListener } from './listeners';
+import {
+  MediaSessionListener,
+  Router
+} from './listeners';
 
 // Locale
 import './utils/locale';
@@ -25,13 +28,15 @@ render(
   <IpcProvider>
     <AudioProvider>
       <ThemeProvider>
-        <MediaSessionListener>
-          <CssBaseline>
-            <App>
-              <Router />
-            </App>
-          </CssBaseline>
-        </MediaSessionListener>
+        <RouteProvider>
+          <MediaSessionListener>
+            <CssBaseline>
+              <App>
+                <Router />
+              </App>
+            </CssBaseline>
+          </MediaSessionListener>
+        </RouteProvider>
       </ThemeProvider>
     </AudioProvider>
   </IpcProvider>,

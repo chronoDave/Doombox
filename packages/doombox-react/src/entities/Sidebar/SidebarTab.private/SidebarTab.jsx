@@ -1,9 +1,7 @@
 import React, {
   Fragment,
-  useState,
-  useEffect
+  useState
 } from 'react';
-import { navigate } from '@reach/router';
 
 // Icons
 import IconAdd from '@material-ui/icons/Add';
@@ -31,7 +29,10 @@ import {
 } from '../../../modules';
 
 // Hooks
-import { useAudio } from '../../../hooks';
+import {
+  useAudio,
+  useRoute
+} from '../../../hooks';
 
 // Utils
 import {
@@ -46,6 +47,8 @@ const SidebarTab = () => {
   const [open, setOpen] = useState(false);
 
   const { collection } = useAudio(HOOK.AUDIO.PLAYLIST);
+  const { setPage } = useRoute(HOOK.ROUTE.METHOD);
+
   const classes = useSidebarTabStyles();
 
   return (
@@ -54,19 +57,19 @@ const SidebarTab = () => {
         <div className={classes.sticky}>
           <IconButton
             classes={{ root: classes.button }}
-            onClick={() => navigate(PATH.VISUALIZER)}
+            onClick={() => setPage(PATH.PAGE.VISUALIZER)}
           >
             <Icon type="visualizer" fontSize="inherit" />
           </IconButton>
           <IconButton
             classes={{ root: classes.button }}
-            onClick={() => navigate(PATH.ALBUM)}
+            onClick={() => setPage(PATH.PAGE.ALBUM)}
           >
             <IconAlbum fontSize="inherit" />
           </IconButton>
           <IconButton
             classes={{ root: classes.button }}
-            onClick={() => navigate(PATH.SONG)}
+            onClick={() => setPage(PATH.PAGE.SONG)}
           >
             <IconSong fontSize="inherit" />
           </IconButton>

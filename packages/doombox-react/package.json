@@ -16,7 +16,6 @@
     "@doombox/utils": "./packages/doombox-utils",
     "@material-ui/core": "^4.6.1",
     "@material-ui/icons": "^4.5.1",
-    "@reach/router": "^1.2.1",
     "clsx": "^1.0.4",
     "formik": "^2.0.6",
     "howler": "^2.1.2",

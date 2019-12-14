@@ -19,4 +19,9 @@ export const IpcContext = {
   Image: createContext()
 };
 
+export const RouteContext = {
+  Method: createContext(),
+  Location: createContext()
+};
+
 export const ThemeContext = createContext();
