@@ -29,6 +29,8 @@ const {
     './utils/config'
 );
 
+if (!userConfig.get(STORAGE.GENERAL).hardwareAcceleration) app.disableHardwareAcceleration();
+
 makeDir.sync(PATH.LOG);
 makeDir.sync(PATH.IMAGE);
 

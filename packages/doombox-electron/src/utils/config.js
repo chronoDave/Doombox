@@ -7,7 +7,8 @@ const userConfig = new Storage({
   fileName: 'user-config',
   defaults: {
     [STORAGE.GENERAL]: {
-      forceQuit: false
+      forceQuit: false,
+      hardwareAcceleration: true,
     },
     [STORAGE.DISCORD]: {
       discordToken: null,

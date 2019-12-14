@@ -5,6 +5,7 @@ export const AudioContext = {
   Volume: createContext(),
   Method: createContext(),
   Playlist: createContext(),
+  Collection: createContext(),
   Current: createContext(),
   Player: createContext(),
   Position: createContext()

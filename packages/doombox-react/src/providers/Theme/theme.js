@@ -31,7 +31,7 @@ export const createTheme = ({
     dimensions: {
       appBar: 32,
       sidebar: {
-        tab: 56,
+        tab: 64,
         panel: 192
       }
     }

@@ -32,8 +32,8 @@ Simply create an application and copy the `Client Id` on the `General Informatio
 Doombox currently supports the following assets by default:
 
 - `icon`: Doombox' default icon (large image key)
-- `pause`: Icon when Doombox is paused (small image key)
-- `play`: Icon when Doombox is playing (small image key)
+- `paused`: Icon when Doombox is paused (small image key)
+- `playing`: Icon when Doombox is playing (small image key)
 
 Custom assets can be defined in `imageKey`. This key must be equal to a valid MP3 metadata tag (such as `genre` or `title`). Doombox will expose the value of the tag to RPC.
 
@@ -52,6 +52,7 @@ Data, such as config files and database files can be found in `AppData\Roaming\@
 #### general
 
 - `forceQuit`: Force close on Mac when `true`, default `false`
+- `hardwareAcceleration`: Enables hardware acceleration, default `true`
 
 #### discord
 

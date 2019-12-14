@@ -27,6 +27,7 @@ export const HOOK = {
     METHOD: 'Method',
     CURRENT: 'Current',
     POSITION: 'Position',
+    COLLECTION: 'Collection',
     PLAYER: 'Player',
     IMAGE: 'Image'
   },

@@ -38,6 +38,7 @@ class AudioProvider extends Component {
         previous: () => this.audio.previous(),
         seek: newPosition => this.audio.seek(newPosition),
         playlist: newPlaylist => this.audio.setPlaylist(newPlaylist),
+        goTo: newIndex => this.audio.goTo(newIndex),
         requestFrame: () => this.audio.requestFrame(),
         volume: newVolume => this.audio.setVolume(newVolume),
         autoplay: newAutoplay => this.audio.setAutoplay(newAutoplay),
@@ -49,9 +50,11 @@ class AudioProvider extends Component {
       libraryValue: [],
       currentValue: {},
       playlistValue: {
-        collection: [],
-        current: this.audio.playlist
+        name: 'Default Playlist',
+        src: null,
+        collection: []
       },
+      collectionValue: [],
       volumeValue: this.audio.volume,
       playerValue: {
         status: this.audio.status,
@@ -76,10 +79,7 @@ class AudioProvider extends Component {
       updateStorage(TYPE.IPC.CACHE, STORAGE.PLAYER, { autoplay });
     });
     this.audio.on(EVENT.AUDIO.PLAYLIST, playlist => (
-      this.setState(state => ({
-        ...state,
-        playlistValue: { ...state.playlistValue, current: playlist }
-      }))
+      this.setState(state => ({ ...state, playlistValue: playlist }))
     ));
     this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
       this.setState(state => ({ ...state, volumeValue }));
@@ -123,14 +123,18 @@ class AudioProvider extends Component {
     });
 
     ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
-      this.audio.setPlaylist(payload);
-      this.setState(state => ({ ...state, library: payload }));
+      this.setState(state => ({ ...state, libraryValue: payload }));
+      this.audio.setPlaylist({
+        name: 'Default Playlist',
+        src: null,
+        collection: payload
+      });
     });
 
     ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
       this.setState(state => ({
         ...state,
-        playlistValue: { ...state.playlistValue, collection: payload }
+        collectionValue: payload
       }));
     });
 
@@ -150,6 +154,7 @@ class AudioProvider extends Component {
     const {
       methodValue,
       playlistValue,
+      collectionValue,
       libraryValue,
       volumeValue,
       currentValue,
@@ -159,19 +164,21 @@ class AudioProvider extends Component {
 
     return (
       <AudioContext.Method.Provider value={methodValue}>
-        <AudioContext.Library.Provider value={libraryValue}>
-          <AudioContext.Playlist.Provider value={playlistValue}>
-            <AudioContext.Volume.Provider value={volumeValue}>
-              <AudioContext.Player.Provider value={playerValue}>
-                <AudioContext.Current.Provider value={currentValue}>
-                  <AudioContext.Position.Provider value={positionValue}>
-                    {children}
-                  </AudioContext.Position.Provider>
-                </AudioContext.Current.Provider>
-              </AudioContext.Player.Provider>
-            </AudioContext.Volume.Provider>
-          </AudioContext.Playlist.Provider>
-        </AudioContext.Library.Provider>
+        <AudioContext.Collection.Provider value={collectionValue}>
+          <AudioContext.Library.Provider value={libraryValue}>
+            <AudioContext.Playlist.Provider value={playlistValue}>
+              <AudioContext.Volume.Provider value={volumeValue}>
+                <AudioContext.Player.Provider value={playerValue}>
+                  <AudioContext.Current.Provider value={currentValue}>
+                    <AudioContext.Position.Provider value={positionValue}>
+                      {children}
+                    </AudioContext.Position.Provider>
+                  </AudioContext.Current.Provider>
+                </AudioContext.Player.Provider>
+              </AudioContext.Volume.Provider>
+            </AudioContext.Playlist.Provider>
+          </AudioContext.Library.Provider>
+        </AudioContext.Collection.Provider>
       </AudioContext.Method.Provider>
     );
   }
