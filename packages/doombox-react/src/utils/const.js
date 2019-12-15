@@ -49,5 +49,11 @@ export const PATH = {
     SONG: 'song',
     ALBUM: 'album',
     VISUALIZER: 'visualizer'
+  },
+  DIALOG: {
+    PLAYLIST: {
+      CREATE: 'create_playlist'
+    },
+    SETTINGS: 'settings'
   }
 };

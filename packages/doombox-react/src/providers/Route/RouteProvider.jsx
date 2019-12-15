@@ -11,15 +11,18 @@ import { RouteContext } from '../../utils/context';
 const Router = ({ children }) => {
   const [domain, setDomain] = useState(PATH.DOMAIN.ROOT);
   const [page, setPage] = useState(PATH.PAGE.ALBUM);
+  const [dialog, setDialog] = useState(null);
 
   const methodValue = useMemo(() => ({
     setDomain: newDomain => setDomain(newDomain),
-    setPage: newPage => setPage(newPage)
+    setPage: newPage => setPage(newPage),
+    openDialog: newDialog => setDialog(newDialog),
+    closeDialog: () => setDialog(null)
   }), []);
 
   const locationValue = useMemo(() => ({
-    domain, page
-  }), [domain, page]);
+    domain, page, dialog
+  }), [domain, page, dialog]);
 
   return (
     <RouteContext.Method.Provider value={methodValue}>

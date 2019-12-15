@@ -1,7 +1,11 @@
 {
   "common": {},
   "action": {
+    "cancel": "Cancel",
     "create": "Create"
+  },
+  "title": {
+    "createPlaylist": "Create Playlist"
   },
   "validation": {
     "max": "{{input}} is too long",

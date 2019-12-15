@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
 
+// Modules
+import {
+  Settings,
+  DialogCreatePlaylist
+} from '../../entities';
+
 // Templates
 import { MainTemplate } from '../../templates';
 
@@ -15,8 +21,8 @@ import {
 import RouterRoot from './RouterRoot.private';
 
 const Router = () => {
-  const { domain } = useRoute(HOOK.ROUTE.LOCATION);
-  const { setDomain } = useRoute(HOOK.ROUTE.METHOD);
+  const { domain, dialog } = useRoute(HOOK.ROUTE.LOCATION);
+  const { setDomain, closeDialog } = useRoute(HOOK.ROUTE.METHOD);
 
   useEffect(() => {
     if (!Object.values(PATH.DOMAIN).includes(domain)) {
@@ -29,6 +35,14 @@ const Router = () => {
       return (
         <MainTemplate>
           <RouterRoot />
+          <Settings
+            open={dialog === PATH.DIALOG.SETTINGS}
+            onClose={closeDialog}
+          />
+          <DialogCreatePlaylist
+            open={dialog === PATH.DIALOG.PLAYLIST.CREATE}
+            onClose={closeDialog}
+          />
         </MainTemplate>
       );
     default:
