@@ -75,6 +75,7 @@ Keybinds use Electron's accelerator format, more information can be found at [El
 #### palette
 
 - `darkTheme`: Enable dark theme, default `true`
+- `backgroundOpacity`: Enable background opacity on Settings page, default `true`
 
 The following properties all follow the same scheme:
 

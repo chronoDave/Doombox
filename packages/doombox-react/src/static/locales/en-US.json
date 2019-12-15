@@ -11,6 +11,7 @@
   },
   "validation": {
     "max": "{{input}} is too long",
-    "required": "{{input}} is required"
+    "required": "{{input}} is required",
+    "hex": "{{input}} is not valid hex code"
   }
 }

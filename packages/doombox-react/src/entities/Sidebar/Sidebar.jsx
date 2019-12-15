@@ -9,14 +9,13 @@ import {
 // Modules
 import {
   Player,
-  Playlist
+  Playlist,
+  Navigation,
+  Collection
 } from '../../modules';
 
 // Style
 import { useSidebarStyles } from './Sidebar.style';
-
-import SidebarNavigation from './SidebarNavigation.private';
-import SidebarCollection from './SidebarCollection.private';
 
 const Sidebar = () => {
   const classes = useSidebarStyles();
@@ -24,11 +23,11 @@ const Sidebar = () => {
   return (
     <div className={classes.root}>
       <div className={classes.tab}>
-        <SidebarNavigation />
+        <Navigation />
         <Box my={0.5} mx={1}>
           <Divider />
         </Box>
-        <SidebarCollection />
+        <Collection />
       </div>
       <div className={classes.panel}>
         <Player />

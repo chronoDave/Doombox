@@ -26,6 +26,7 @@ const userConfig = new Storage({
     },
     [STORAGE.PALETTE]: {
       darkTheme: true,
+      backgroundOpacity: true,
       primary: null,
       secondary: null,
       error: null,

@@ -18,15 +18,15 @@ import {
 import { HOOK, PATH } from '../../utils/const';
 
 // Style
-import { useSidebarStyles } from './Sidebar.style';
+import { useCollectionStyles } from './Collection.style';
 
-const SidebarCollection = () => {
+const Collection = () => {
   const { openDialog } = useRoute(HOOK.ROUTE.METHOD);
   const collection = useAudio(HOOK.AUDIO.COLLECTION);
-  const classes = useSidebarStyles();
+  const classes = useCollectionStyles();
 
   return (
-    <div className={classes.collection}>
+    <div className={classes.root}>
       {collection.map(playlist => (
         <ButtonAvatar
           key={playlist._id}
@@ -45,4 +45,4 @@ const SidebarCollection = () => {
   );
 };
 
-export default SidebarCollection;
+export default Collection;

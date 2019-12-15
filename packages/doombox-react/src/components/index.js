@@ -15,7 +15,11 @@ export { ButtonAvatar } from './Button';
 export {
   FieldFileBase,
   FieldFileAvatar,
-  FieldText
+  FieldText,
+  FieldColorBase,
+  FieldPalette
 } from './Field';
 export { Image } from './Image';
 export { Search } from './Search';
+export { ModalFade } from './Modal';
+export { Switch } from './Switch';

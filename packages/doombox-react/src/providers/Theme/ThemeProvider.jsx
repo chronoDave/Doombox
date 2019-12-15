@@ -30,16 +30,40 @@ const ThemeProvider = ({ children }) => {
     palette: { ...DEFAULT_PALETTE }
   }));
 
-  const { darkTheme } = useIpc(HOOK.IPC.CONFIG);
+  const {
+    darkTheme,
+    primary,
+    secondary,
+    error,
+    warning,
+    success,
+    info,
+    grey
+  } = useIpc(HOOK.IPC.CONFIG);
 
   useEffect(() => {
     setTheme(createTheme({
       palette: {
-        ...DEFAULT_PALETTE,
-        darkTheme: !!darkTheme
+        darkTheme: !!darkTheme,
+        primary: primary || DEFAULT_PALETTE.primary,
+        secondary: secondary || DEFAULT_PALETTE.secondary,
+        error: error || DEFAULT_PALETTE.error,
+        warning: warning || DEFAULT_PALETTE.warning,
+        success: success || DEFAULT_PALETTE.success,
+        info: info || DEFAULT_PALETTE.info,
+        grey: grey || DEFAULT_PALETTE.grey,
       }
     }));
-  }, [darkTheme]);
+  }, [
+    darkTheme,
+    primary,
+    secondary,
+    error,
+    warning,
+    success,
+    info,
+    grey
+  ]);
 
   const methods = useMemo(() => ({
     setDarkTheme: newDarkTheme => updateStorage(

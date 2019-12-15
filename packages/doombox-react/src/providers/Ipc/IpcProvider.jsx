@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 // Actions
 import {
   readStorage,
-  readCollection
+  readCollection,
+  updateStorage
 } from '../../actions';
 
 // Utils
@@ -22,7 +23,17 @@ class IpcProvider extends Component {
         getImageById: id => {
           const { imageValue } = this.state;
           return imageValue[id];
-        }
+        },
+        updatePalette: palette => updateStorage(
+          TYPE.IPC.CONFIG.USER,
+          STORAGE.PALETTE,
+          palette
+        ),
+        setBackgroundOpacity: backgroundOpacity => updateStorage(
+          TYPE.IPC.CONFIG.USER,
+          STORAGE.PALETTE,
+          { backgroundOpacity }
+        )
       },
       keybindValue: {},
       messageValue: {},

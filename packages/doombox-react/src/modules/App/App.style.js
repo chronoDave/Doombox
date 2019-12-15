@@ -12,6 +12,7 @@ export const useAppStyles = makeStyles(theme => ({
     overflow: 'auto'
   },
   barRoot: {
+    zIndex: 2000,
     position: 'fixed',
     display: 'flex',
     width: '100%',

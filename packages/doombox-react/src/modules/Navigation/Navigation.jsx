@@ -23,11 +23,11 @@ import {
 } from '../../utils/const';
 
 // Style
-import { useSidebarStyles } from './Sidebar.style';
+import { useNavigationStyles } from './Navigation.style';
 
-const SidebarNavigation = () => {
-  const classes = useSidebarStyles();
-  const { setPage } = useRoute(HOOK.ROUTE.METHOD);
+const Navigation = () => {
+  const classes = useNavigationStyles();
+  const { setPage, openDialog } = useRoute(HOOK.ROUTE.METHOD);
 
   return (
     <Box
@@ -54,11 +54,14 @@ const SidebarNavigation = () => {
       >
         <IconSong fontSize="inherit" />
       </IconButton>
-      <IconButton classes={{ root: classes.iconButton }}>
+      <IconButton
+        classes={{ root: classes.iconButton }}
+        onClick={() => openDialog(PATH.DIALOG.SETTINGS)}
+      >
         <IconSettings fontSize="inherit" />
       </IconButton>
     </Box>
   );
 };
 
-export default SidebarNavigation;
+export default Navigation;
