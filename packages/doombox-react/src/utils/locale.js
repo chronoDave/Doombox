@@ -14,7 +14,8 @@ i18n
     react: {
       useSuspense: false
     },
-    fallbackLng: 'en-GB',
+    lng: 'en-US',
+    fallbackLng: 'en-US',
     defaultNS: 'common',
     interpolation: {
       escapeValue: false // React escapes by default

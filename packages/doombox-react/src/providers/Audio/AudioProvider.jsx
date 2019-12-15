@@ -42,6 +42,7 @@ class AudioProvider extends Component {
         requestFrame: () => this.audio.requestFrame(),
         volume: newVolume => this.audio.setVolume(newVolume),
         autoplay: newAutoplay => this.audio.setAutoplay(newAutoplay),
+        createSong: newSong => this.audio.newSong(newSong),
         mute: () => this.audio.mute(),
         shuffle: () => this.audio.shuffle(),
         increaseVolume: () => this.audio.setVolume(this.audio.volume + 0.01),
@@ -124,11 +125,6 @@ class AudioProvider extends Component {
 
     ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
       this.setState(state => ({ ...state, libraryValue: payload }));
-      this.audio.setPlaylist({
-        name: 'Default Playlist',
-        src: null,
-        collection: payload
-      });
     });
 
     ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {

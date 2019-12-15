@@ -1,5 +1,7 @@
 {
-  "common": {},
+  "common": {
+    "search": "Search"
+  },
   "action": {
     "cancel": "Cancel",
     "create": "Create"

@@ -57,7 +57,7 @@ const Player = () => {
       >
         {!metadata ? (
           <Typography>
-            No song selected
+            No playlist selected
           </Typography>
         ) : (
           <Fragment>

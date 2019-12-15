@@ -163,25 +163,33 @@ class Audio extends EventEmitter {
       return 'icon';
     };
 
+    let party = {};
+    if (this.playlist.index + 1 < this.playlist.collection.length) {
+      party = {
+        partySize: this.playlist.index + 1,
+        partyMax: this.playlist.collection.length,
+      };
+    }
+
     return ({
-      partySize: this.playlist.index + 1,
-      partyMax: this.playlist.collection.length,
       largeImageKey: validateKey(),
+      largeImageText: metadata.album,
       state: `by ${metadata.artist}`,
       details: metadata.title,
+      ...party,
       ...properties
     });
   }
 
   // Song
-  newSong() {
+  newSong(song) {
     // Makes sure that there's never multiple Howler instances
     if (this.current) this.current.unload();
 
     const {
       file,
       metadata
-    } = this.playlist.collection[this.playlist.index];
+    } = song || this.playlist.collection[this.playlist.index];
 
     this.current = new Howl({
       src: path.join('file://', path.resolve(file)),
@@ -190,7 +198,7 @@ class Audio extends EventEmitter {
       autoplay: this.autoplay,
       onload: () => {
         this.emit(EVENT.AUDIO.DURATION, this.current.duration());
-        this.emit(EVENT.AUDIO.CURRENT, this.playlist.collection[this.playlist.index]);
+        this.emit(EVENT.AUDIO.CURRENT, song || this.playlist.collection[this.playlist.index]);
         this.emit(EVENT.AUDIO.RPC, this.newRpcMessage(metadata, {
           smallImageKey: this.autoplay ? STATUS.AUDIO.PLAYING : STATUS.AUDIO.PAUSED,
           startTimestamp: Date.now(),

@@ -20,10 +20,13 @@
     "formik": "^2.0.6",
     "howler": "^2.1.2",
     "i18next": "^19.0.1",
+    "lodash.groupby": "^4.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-i18next": "^11.2.5",
+    "react-virtualized-auto-sizer": "^1.0.2",
+    "react-window": "^1.8.5",
     "shortid": "^2.2.15",
     "yup": "^0.27.0"
   }

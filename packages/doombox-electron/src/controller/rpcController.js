@@ -14,6 +14,7 @@ module.exports = class RpcController {
           this.connected = true;
         })
         .catch(createLogError);
+      this.rpc.on('error', createLogError);
     }
   }
 

@@ -31,7 +31,7 @@ export const readStorage = (type, key) => ipcRenderer.send(
 );
 
 export const readCollection = (
-  collection,
+  type,
   {
     query = {},
     projection = {},
@@ -39,7 +39,7 @@ export const readCollection = (
     castObject = false
   } = {}
 ) => (
-  ipcRenderer.send(collection, {
+  ipcRenderer.send(type, {
     action: ACTION.CRUD.READ,
     data: {
       query,
@@ -50,6 +50,22 @@ export const readCollection = (
       }
     }
   })
+);
+
+export const queryLibrary = query => ipcRenderer.send(
+  TYPE.IPC.LIBRARY,
+  {
+    action: ACTION.CRUD.READ,
+    data: {
+      regex: [
+        { property: 'metadata.artist', expression: query },
+        { property: 'metadata.title', expression: query },
+        { property: 'metadata.album', expression: query },
+        { property: 'metadata.label', expression: query },
+        { property: 'metadata.albumartist', expression: query }
+      ]
+    }
+  }
 );
 
 export const updateStorage = (type, key, payload) => ipcRenderer.send(

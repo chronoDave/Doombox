@@ -18,3 +18,4 @@ export {
   FieldText
 } from './Field';
 export { Image } from './Image';
+export { Search } from './Search';

@@ -40,6 +40,18 @@ module.exports = class LibraryController {
     ));
   }
 
+  createQueryFromRegex = regex => {
+    return new Promise((resolve, reject) => {
+      if (!Array.isArray(regex)) reject(new Error(`${JSON.stringify(regex)} is not an array`));
+      const query = {
+        $or: regex.map(({ property, expression }) => ({
+          [property]: { $regex: new RegExp(expression, 'i') }
+        }))
+      };
+      resolve(query);
+    });
+  };
+
   async create(event, { data }) {
     if (!data.folders || !Array.isArray(data.folders)) {
       return handleErrorIpc(
@@ -82,9 +94,15 @@ module.exports = class LibraryController {
     }
   }
 
-  read(event, { data }) {
-    this.db.read(COLLECTION.SONG, data.query, data.modifiers)
-      .then(payload => event.sender.send(this.type, payload))
-      .catch(err => handleErrorIpc(event, this.type, err));
+  async read(event, { data }) {
+    try {
+      const query = data.regex ?
+        await this.createQueryFromRegex(data.regex) :
+        data.query;
+      const payload = await this.db.read(COLLECTION.SONG, query, data.modifiers);
+      event.sender.send(TYPE.IPC.LIBRARY, payload);
+    } catch (err) {
+      handleErrorIpc(event, this.type, err);
+    }
   }
 };

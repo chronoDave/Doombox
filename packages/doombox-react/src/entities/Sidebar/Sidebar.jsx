@@ -7,14 +7,16 @@ import {
 } from '@material-ui/core';
 
 // Modules
-import { Player } from '../../modules';
+import {
+  Player,
+  Playlist
+} from '../../modules';
 
 // Style
 import { useSidebarStyles } from './Sidebar.style';
 
 import SidebarNavigation from './SidebarNavigation.private';
 import SidebarCollection from './SidebarCollection.private';
-import SidebarPlaylist from './SidebarPlaylist.private';
 
 const Sidebar = () => {
   const classes = useSidebarStyles();
@@ -30,7 +32,7 @@ const Sidebar = () => {
       </div>
       <div className={classes.panel}>
         <Player />
-        <SidebarPlaylist />
+        <Playlist />
       </div>
     </div>
   );

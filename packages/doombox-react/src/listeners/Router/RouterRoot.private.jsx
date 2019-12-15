@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import {
   VisualizerPage,
   AlbumPage,
-  SongPage
+  LibraryPage
 } from '../../pages';
 
 // Hooks
@@ -30,7 +30,7 @@ const RouterRoot = () => {
     case PATH.PAGE.ALBUM:
       return <AlbumPage />;
     case PATH.PAGE.SONG:
-      return <SongPage />;
+      return <LibraryPage />;
     case PATH.PAGE.VISUALIZER:
       return <VisualizerPage />;
     default:

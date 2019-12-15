@@ -1,3 +1,3 @@
 export { AlbumPage } from './Album';
-export { SongPage } from './Song';
+export { LibraryPage } from './Library';
 export { VisualizerPage } from './Visualizer';
