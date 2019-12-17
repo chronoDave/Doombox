@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { PATH } from '../../utils/const';
 import { RouteContext } from '../../utils/context';
 
-const Router = ({ children }) => {
+const RouteProvider = ({ children }) => {
   const [domain, setDomain] = useState(PATH.DOMAIN.ROOT);
   const [page, setPage] = useState(PATH.PAGE.ALBUM);
   const [dialog, setDialog] = useState(null);
@@ -33,8 +33,8 @@ const Router = ({ children }) => {
   );
 };
 
-Router.propTypes = {
+RouteProvider.propTypes = {
   children: PropTypes.element.isRequired
 };
 
-export default Router;
+export default RouteProvider;

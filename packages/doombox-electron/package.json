@@ -9,7 +9,8 @@
     "start:dev": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
     "build": "electron-builder",
     "test": "mocha",
-    "test:dev": "cross-env NODE_ENV=development mocha"
+    "test:dev": "cross-env NODE_ENV=development mocha",
+    "arkit": "arkit -c ../../arkit/arkit-electron.js"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",

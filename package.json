@@ -11,10 +11,16 @@
     "build": "yarn build:react && yarn build:electron",
     "build:react": "yarn workspace @doombox/react build",
     "build:electron": "yarn workspace @doombox/electron build",
-    "test:react": "yarn workspace @doombox/react test",
-    "test:electron": "yarn workspace @doombox/electron test:dev"
+    "test:electron": "yarn workspace @doombox/electron test:dev",
+    "arkit": "yarn arkit:react && yarn arkit:electron",
+    "arkit:react": "yarn workspace @doombox/react arkit",
+    "arkit:react-render": "yarn workspace @doombox/react arkit:render",
+    "arkit:react-flow": "yarn workspace @doombox/react arkit:flow",
+    "arkit:react-inheritance": "yarn workspace @doombox/react arkit:inheritance",
+    "arkit:electron": "yarn workspace @doombox/electron arkit"
   },
   "devDependencies": {
+    "arkit": "^1.6.2",
     "babel-eslint": "^10.0.2",
     "chai": "^4.2.0",
     "cross-env": "^6.0.3",

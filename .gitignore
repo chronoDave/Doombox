@@ -6,3 +6,4 @@ node_modules
 client
 .vs
 config.dev.js
+*.arkit.svg

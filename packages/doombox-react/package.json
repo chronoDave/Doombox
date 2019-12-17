@@ -6,7 +6,11 @@
   "scripts": {
     "start": "neutrino start",
     "build": "neutrino build",
-    "test": "mocha --recursive './src/**/*.test.js'"
+    "test": "mocha --recursive './src/**/*.test.js'",
+    "arkit": "yarn arkit:render && yarn arkit:flow && yarn arkit:inheritance",
+    "arkit:render": "arkit -c ../../arkit/arkit-react-render.js",
+    "arkit:flow": "arkit -c ../../arkit/arkit-react-flow.js",
+    "arkit:inheritance": "arkit -c ../../arkit/arkit-react-inheritance.js"
   },
   "devDependencies": {
     "@neutrinojs/react": "^8.3.0",
