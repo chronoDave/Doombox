@@ -9,7 +9,7 @@ module.exports = {
   },
   use: [
     react({
-      publicPath: './',
+      publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
       html: {
         title: 'Doombox'
       },
