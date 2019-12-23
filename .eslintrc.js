@@ -13,10 +13,6 @@ module.exports = {
     "plugin:mocha/recommended"
   ],
   parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 7,
-    sourceType: 'module'
-  },
   plugins: [
     'react-hooks',
     'react-i18next',
