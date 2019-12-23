@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useSettingStyles = makeStyles(theme => ({
+export const useSettingsRouterStyles = makeStyles(theme => ({
   body: {
     flexGrow: 1,
     padding: theme.spacing(0, 2),

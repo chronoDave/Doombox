@@ -36,6 +36,15 @@ class Audio extends EventEmitter {
     this.rpc = {
       imageKey: null
     };
+
+    // MediaSession
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', () => this.play());
+      navigator.mediaSession.setActionHandler('pause', () => this.pause());
+      navigator.mediaSession.setActionHandler('stop', () => this.stop());
+      navigator.mediaSession.setActionHandler('previoustrack', () => this.previous());
+      navigator.mediaSession.setActionHandler('nexttrack', () => this.next());
+    }
   }
 
   // General
@@ -92,10 +101,16 @@ class Audio extends EventEmitter {
       this.current.play();
       this.status = STATUS.AUDIO.PLAYING;
       this.emit(EVENT.AUDIO.STATUS, this.status);
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = 'playing';
+      }
     } else {
       this.current.pause();
       this.status = STATUS.AUDIO.PAUSED;
       this.emit(EVENT.AUDIO.STATUS, this.status);
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = 'paused';
+      }
     }
   }
 
@@ -106,6 +121,9 @@ class Audio extends EventEmitter {
     this.emit(EVENT.AUDIO.DURATION, 0);
     this.emit(EVENT.AUDIO.POSITION, 0);
     this.emit(EVENT.AUDIO.STATUS, this.status);
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = 'none';
+    }
   }
 
   // Playlist
@@ -206,6 +224,15 @@ class Audio extends EventEmitter {
         }));
         this.status = this.autoplay ? STATUS.AUDIO.PLAYING : STATUS.AUDIO.PAUSED;
         this.emit(EVENT.AUDIO.STATUS, this.status);
+        if ('mediaSession' in navigator) {
+          // eslint-disable-next-line no-undef
+          navigator.mediaSession.metadata = new MediaMetadata({
+            artist: metadata.artist,
+            album: metadata.album,
+            title: metadata.title
+          });
+          navigator.mediaSession.playbackState = 'playing';
+        }
       },
       onplay: () => {
         requestAnimationFrame(this.step.bind(this));

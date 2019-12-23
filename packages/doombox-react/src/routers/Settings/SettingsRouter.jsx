@@ -18,25 +18,28 @@ import {
 
 import { ModalFade } from '../../components';
 
+// Pages
+import {
+  SettingsDiscordPage,
+  SettingsGeneralPage,
+  SettingsKeybindPage,
+  SettingsLibraryPage,
+  SettingsPalettePage
+} from '../../pages';
+
 // Style
-import { useSettingStyles } from './Settings.style';
+import { useSettingsRouterStyles } from './SettingsRouter.style';
 
-import SettingsDiscord from './SettingsDiscord.private';
-import SettingsGeneral from './SettingsGeneral.private';
-import SettingsKeybind from './SettingsKeybind.private';
-import SettingsPalette from './SettingsPalette.private';
-import SettingsLibrary from './SettingsLibrary.private';
-
-const Settings = ({ open, onClose }) => {
+const SettingsRouter = ({ open, onClose }) => {
   const tabs = [
-    { id: 'General', component: SettingsGeneral },
-    { id: 'Library', component: SettingsLibrary },
-    { id: 'Discord', component: SettingsDiscord },
-    { id: 'Keybind', component: SettingsKeybind },
-    { id: 'Palette', component: SettingsPalette }
+    { id: 'General', component: SettingsGeneralPage },
+    { id: 'Library', component: SettingsLibraryPage },
+    { id: 'Discord', component: SettingsDiscordPage },
+    { id: 'Keybind', component: SettingsKeybindPage },
+    { id: 'Palette', component: SettingsPalettePage }
   ];
   const [visible, setVisible] = useState(4);
-  const classes = useSettingStyles();
+  const classes = useSettingsRouterStyles();
 
   return (
     <ModalFade open={open} onClose={onClose}>
@@ -93,9 +96,9 @@ const Settings = ({ open, onClose }) => {
   );
 };
 
-Settings.propTypes = {
+SettingsRouter.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default Settings;
+export default SettingsRouter;

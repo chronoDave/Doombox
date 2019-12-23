@@ -4,7 +4,7 @@
   "license": "GNU General Public License",
   "author": "Chronocide",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
     "test": "mocha --recursive './src/**/*.test.js'",
     "arkit": "yarn arkit:render && yarn arkit:flow && yarn arkit:inheritance",

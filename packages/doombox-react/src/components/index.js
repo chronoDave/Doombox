@@ -1,4 +1,13 @@
 export {
+  App,
+  AppBar
+} from './App';
+export { Sidebar } from './Sidebar';
+export {
+  DialogBase,
+  DialogForm
+} from './Dialog';
+export {
   IconButtonNext,
   IconButtonPlay,
   IconButtonPrevious,

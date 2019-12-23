@@ -52,9 +52,6 @@ export const PATH = {
     VISUALIZER: 'visualizer'
   },
   DIALOG: {
-    PLAYLIST: {
-      CREATE: 'create_playlist'
-    },
     SETTINGS: 'settings'
   }
 };

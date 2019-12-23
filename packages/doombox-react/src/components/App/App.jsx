@@ -1,8 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-// Core
-import AppBar from './AppBar.private';
 
 // Style
 import { useAppStyles } from './App.style';
@@ -15,12 +12,9 @@ const App = ({ children }) => {
   const classes = useAppStyles();
 
   return (
-    <Fragment>
-      <AppBar />
-      <div className={classes.root}>
-        {children}
-      </div>
-    </Fragment>
+    <div className={classes.root}>
+      {children}
+    </div>
   );
 };
 

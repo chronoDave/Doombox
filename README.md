@@ -17,9 +17,10 @@ This is the cutting-edge build. Stuff might not work, or worse, break. If you're
  - `lint`: Lint packages.
  - `lint:react`: Lint React package.
  - `lint:electron`: Lint Electron package.
+ - `start`: Start React server and Electron applocation in `development`
  - `start:react`: Start React server on `localhost:5000`.
  - `start:electron`: Start Electron application in `development`.
- - `start:electron-prod`: Start Electron application in `production`.
+ - `start:production`: Start Electron application in `production`.
  - `build`: Build Doombox to `/build`.
  - `build:react`: Build React to `packages/doombox-electron/client`.
  - `build:electron`: Build Electron to `/build`.

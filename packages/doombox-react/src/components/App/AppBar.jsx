@@ -13,7 +13,7 @@ import {
   Box
 } from '@material-ui/core';
 
-import { Icon } from '../../components';
+import { Icon } from '../Icon';
 
 // Hooks
 import { useAudio } from '../../hooks';
