@@ -152,7 +152,7 @@ module.exports = class NeDB {
 
   drop(collection) {
     return new Promise((resolve, reject) => this.validate(collection)
-      .then(() => this[collection].remove({}, { multi: false }, (err, count) => {
+      .then(() => this[collection].remove({}, { multi: true }, (err, count) => {
         if (err) reject(err);
         resolve(count);
       }))
