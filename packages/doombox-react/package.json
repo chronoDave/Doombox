@@ -1,56 +1,41 @@
 {
   "name": "@doombox/react",
   "version": "1.0.0-ce",
-  "private": true,
-  "author": "Chronocide",
-  "description": "An open-source web-based audio player built for large music libraries",
-  "keywords": [
-    "react",
-    "material-ui",
-    "doombox",
-    "audio player",
-    "music"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chronoDave/Doombox.git",
-    "directory": "packages/doombox-react"
-  },
   "license": "GNU General Public License",
-  "homepage": "https://www.chronostudios.net",
+  "author": "Chronocide",
   "scripts": {
-    "start": "neutrino start",
-    "build": "neutrino build",
-    "build:debug": "cross-env NJS_ENV=debug neutrino build",
-    "test": "neutrino test"
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production",
+    "test": "mocha --recursive './src/**/*.test.js'",
+    "arkit": "yarn arkit:render && yarn arkit:flow && yarn arkit:inheritance",
+    "arkit:render": "arkit -c ../../arkit/arkit-react-render.js",
+    "arkit:flow": "arkit -c ../../arkit/arkit-react-flow.js",
+    "arkit:inheritance": "arkit -c ../../arkit/arkit-react-inheritance.js"
   },
   "devDependencies": {
-    "@neutrinojs/mocha": "^8.3.0",
-    "@neutrinojs/react": "^8.3.0",
-    "neutrino": "^8.3.0",
-    "redux-logger": "^3.0.6"
+    "@neutrinojs/react": "^9.0.0",
+    "neutrino": "^9.0.0",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
-    "@material-ui/core": "^4.1.3",
-    "@material-ui/icons": "^4.2.1",
-    "@material-ui/system": "^4.3.3",
+    "@material-ui/core": "^4.6.1",
+    "@material-ui/icons": "^4.5.1",
     "clsx": "^1.0.4",
-    "formik": "^1.5.7",
+    "formik": "^2.0.6",
     "howler": "^2.1.2",
-    "i18next": "^17.0.6",
-    "i18next-browser-languagedetector": "^3.0.1",
+    "i18next": "^19.0.1",
+    "invert-color": "^2.0.0",
     "lodash.groupby": "^4.6.0",
-    "memoize-one": "^5.1.1",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-i18next": "^10.11.4",
-    "react-redux": "^7.1.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-i18next": "^11.2.5",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
-    "redux": "^4.0.1",
-    "redux-actions": "^2.6.5",
-    "redux-thunk": "^2.3.0"
+    "shortid": "^2.2.15",
+    "yup": "^0.27.0"
   }
 }

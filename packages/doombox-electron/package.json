@@ -1,56 +1,38 @@
 {
   "name": "@doombox/electron",
   "version": "1.0.0-ce",
-  "private": true,
-  "author": "Chronocide",
-  "description": "An open-source web-based audio player built for large music libraries",
-  "keywords": [
-    "electron",
-    "doombox",
-    "audio player",
-    "music"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chronoDave/Doombox.git",
-    "directory": "packages/doombox-electron"
-  },
   "license": "GNU General Public License",
-  "homepage": "https://www.chronostudios.net",
+  "author": "Chronocide",
   "main": "./src",
   "scripts": {
-    "start": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
+    "start": "nodemon --watch src --exec electron .",
+    "start:dev": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
     "build": "electron-builder",
-    "build:test": "electron-builder --dir"
-  },
-  "devDependencies": {
-    "electron": "^6.0.0",
-    "electron-builder": "^20.44.4"
+    "test:unit": "electron-mocha --recursive 'src/**/*.spec.js'",
+    "arkit": "arkit -c ../../arkit/arkit-electron.js"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
-    "glob": "^7.1.4",
-    "mkdirp": "^0.5.1",
-    "mongoose": "^5.6.3",
-    "music-metadata": "^4.8.0",
+    "discord-rpc": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.6",
+    "music-metadata": "^5.0.1",
     "nedb": "^1.8.0",
-    "rimraf": "^3.0.0"
+    "shortid": "^2.2.15"
+  },
+  "devDependencies": {
+    "electron": "7.1.1",
+    "electron-builder": "^22.1.0",
+    "electron-mocha": "^8.1.2"
   },
   "build": {
     "appId": "com.electron.doombox",
     "productName": "Doombox",
-    "includePdb": true,
-    "copyright": "Copyright ©2019 ${author}",
+    "copyright": "©2019 ${author}",
+    "electronVersion": "7.1.1",
     "directories": {
       "output": "../../build"
     },
-    "files": [
-      "**/*",
-      {
-        "from": "../doombox-react/build",
-        "to": "client"
-      }
-    ],
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,

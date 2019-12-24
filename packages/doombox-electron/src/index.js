@@ -1,73 +1,86 @@
-const { app } = require('electron');
-const path = require('path');
+const { app, ipcMain } = require('electron');
+const fse = require('fs-extra');
+const { TYPE, STORAGE } = require('@doombox/utils');
 
 // Lib
 const { createWindow } = require('./lib/window');
-const Store = require('./lib/store');
-const Logger = require('./lib/logger');
-
-// Routes
-const userRouter = require('./router/userRouter');
-const libraryRouter = require('./router/libraryRouter');
-const imageRouter = require('./router/imageRouter');
-const systemRouter = require('./router/systemRouter');
-const playlistRouter = require('./router/playlistRouter');
-
-// Controllers
-const LibraryController = require('./controller/libraryController');
-const UserController = require('./controller/userController');
-const SystemController = require('./controller/systemController');
-const ImageController = require('./controller/imageController');
-const PlaylistController = require('./controller/playlistController');
-
-// Database
+const { createKeyboardListener } = require('./utils');
+const { createRouter } = require('./lib/router');
 const NeDB = require('./lib/database/nedb');
 
-const logger = new Logger();
-const db = new NeDB();
-const store = new Store({
-  fileName: 'user-preferences',
-  defaults: {
-    window: {
-      width: 800,
-      height: 600
-    },
-    config: {
-      imagePath: path.resolve(app.getPath('userData'), 'images'),
-      batchSize: 50,
-      parseImage: true, // Create album images
-    },
-    user: {
-      remote: null,
-      _id: null,
-      settings: {}
-    }
-  }
-});
+// Controllers
+const StorageController = require('./controller/storageController');
+const LibraryController = require('./controller/libraryController');
+const PlaylistController = require('./controller/playlistController');
+const ImageController = require('./controller/imageController');
+const RpcController = require('./controller/rpcController');
+
+// Utils
+const { PATH } = require('./utils/const');
+
+const {
+  userConfig,
+  systemConfig,
+  systemCache
+// eslint-disable-next-line import/no-dynamic-require
+} = require(
+  process.env.NODE_ENV === 'development' ?
+    './utils/config.dev' :
+    './utils/config'
+);
+
+if (!userConfig.get(STORAGE.GENERAL).hardwareAcceleration) app.disableHardwareAcceleration();
+
+fse.mkdirpSync(PATH.LOG);
+fse.mkdirpSync(PATH.IMAGE);
+
+const db = new NeDB(PATH.DATABASE);
 
 app.on('ready', () => {
-  const { width, height } = store.get('window');
-  const config = store.get('config');
+  createRouter(
+    TYPE.IPC.CONFIG.USER,
+    new StorageController(userConfig, TYPE.IPC.CONFIG.USER)
+  );
+  createRouter(
+    TYPE.IPC.CONFIG.SYSTEM,
+    new StorageController(systemConfig, TYPE.IPC.CONFIG.SYSTEM)
+  );
+  createRouter(
+    TYPE.IPC.CACHE,
+    new StorageController(systemCache, TYPE.IPC.CACHE)
+  );
 
-  // Routes
-  userRouter(new UserController(store, db, logger));
-  libraryRouter(new LibraryController(config, db, logger));
-  imageRouter(new ImageController(db, logger));
-  systemRouter(new SystemController(store, logger));
-  playlistRouter(new PlaylistController(db, logger));
+  createRouter(TYPE.IPC.LIBRARY, new LibraryController(db, systemConfig.get(STORAGE.PARSER)));
+  createRouter(TYPE.IPC.PLAYLIST, new PlaylistController(db));
+  createRouter(TYPE.IPC.IMAGE, new ImageController(db));
+  createRouter(TYPE.IPC.RPC, new RpcController(userConfig.get(STORAGE.DISCORD)));
 
-  // Main
-  const mainWindow = createWindow({ width, height });
+  let mainWindow = createWindow(systemCache.get(STORAGE.DIMENSION));
+
+  createKeyboardListener(
+    userConfig.get(STORAGE.KEYBIND),
+    ({ action }) => mainWindow.webContents.send(TYPE.IPC.KEYBIND, action)
+  );
 
   mainWindow.on('resize', () => {
-    store.set('window', { ...mainWindow.getBounds() });
+    systemCache.set(STORAGE.DIMENSION, { ...mainWindow.getBounds() });
   });
 
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show();
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
 });
 
+// Prevent multi-instance
+if (!app.requestSingleInstanceLock()) {
+  const { forceQuit } = userConfig.get(STORAGE.GENERAL);
+
+  if (!process.platform === 'darwin' || forceQuit) {
+    app.quit();
+  }
+}
+
 app.on('window-all-closed', () => {
+  ipcMain.removeAllListeners();
   app.quit();
 });

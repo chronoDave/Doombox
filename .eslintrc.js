@@ -13,21 +13,17 @@ module.exports = {
     "plugin:mocha/recommended"
   ],
   parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 7,
-    sourceType: 'module'
-  },
   plugins: [
     'react-hooks',
     'react-i18next',
-    "mocha"
+    'mocha'
   ],
   settings: {
     'import/core-modules': [
       'electron',
-      'redux-logger',
+      'spectron',
       'chai',
-      'yup',
+      'chai-as-promised',
       'shortid'
     ]
   },
@@ -38,23 +34,14 @@ module.exports = {
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
     'arrow-parens': ['error', 'as-needed'],
-    'no-underscore-dangle': 'off', // Mongoose _doc
-    'camelcase': 'off', // Mongoose data types
     'no-nested-ternary': 'off',
-    'prefer-promise-reject-errors': 'off',
-    "no-constant-condition": ["error", { "checkLoops": false }],
-    // Advanced
-    'no-bitwise': ["error", { "allow": ['|', '>>', '<<', '&'] }], // MP3 metadata parser
-    'no-control-regex': "off", // MP3 metadata parser
-    // React
-    'react/jsx-no-duplicate-props': ['warn', { 'ignoreCase': false }], // MUI inputProps / InputProps
-    'react/display-name': 'off', // Gives false-positive on Routes
+    "no-underscore-dangle": ['error', { 'allow': ['_id']}], // Database _id property
     // Import
     'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',
     // JSX
     'jsx-a11y/label-has-for': 'off', // This rule was deprecated in v6.1.0.
     // Mocha
-    'mocha/no-mocha-arrows': 'off' // We don't need Mocha context
+    'mocha/no-mocha-arrows': 'off' // Mocha context isn't used
   }
 }

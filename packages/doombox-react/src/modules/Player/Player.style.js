@@ -1,12 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const usePlayerStyle = makeStyles(theme => ({
-  paperRoot: {
-    width: `${theme.component.sidepanel - theme.spacing(4)}px`,
-    height: `${theme.component.sidepanel - theme.spacing(4)}px`,
+export const usePlayerStyles = makeStyles(theme => ({
+  image: {
+    flexShrink: 0,
+    width: theme.dimensions.sidebar.panel,
+    height: theme.dimensions.sidebar.panel,
+    padding: theme.spacing(),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  iconButtonRoot: {
-    color: theme.palette.grey[50]
+  iconButton: {
+    padding: theme.spacing()
   },
   noWrap: {
     width: '100%',

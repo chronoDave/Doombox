@@ -1,1 +1,2 @@
-export { default as Slider } from './Slider';
+export { default as SliderPlayer } from './SliderPlayer';
+export { default as SliderVolume } from './SliderVolume';

@@ -1,42 +1,29 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider as ReduxProvider } from 'react-redux';
 
 // Core
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
-import { App } from './components/App';
-
-// Modules
+// Providers
 import {
-  RouteProvider,
+  IpcProvider,
   AudioProvider,
-  IpcListener
-} from './modules';
-
-// Utils
-import { store } from './store';
-
-// Style
-import { theme } from './theme';
+  ThemeProvider,
+  RouteProvider
+} from './providers';
 
 // Locale
-import './locale';
+import './utils/locale';
 
 render(
-  <ReduxProvider store={store}>
-    <IpcListener>
-      <AudioProvider>
-        <MuiThemeProvider theme={theme}>
-          <RouteProvider>
-            <CssBaseline>
-              <App />
-            </CssBaseline>
-          </RouteProvider>
-        </MuiThemeProvider>
-      </AudioProvider>
-    </IpcListener>
-  </ReduxProvider>,
+  <IpcProvider>
+    <AudioProvider>
+      <ThemeProvider>
+        <CssBaseline>
+          <RouteProvider />
+        </CssBaseline>
+      </ThemeProvider>
+    </AudioProvider>
+  </IpcProvider>,
   document.getElementById('root')
 );

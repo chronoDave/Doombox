@@ -1,24 +1,22 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Field } from 'formik';
 import clsx from 'clsx';
-
-// Util
-import { cleanUrl } from '../../../utils';
+import PropTypes from 'prop-types';
 
 // Style
-import { useFieldFileStyle } from './FieldFile.style';
+import { useFieldFileStyles } from './FieldFile.style';
 
 const FieldFileBase = props => {
   const {
-    id: fieldId,
     name,
-    render,
+    id: fieldId,
     validator,
+    type,
+    multiple,
     fullWidth,
-    type
+    children
   } = props;
-  const classes = useFieldFileStyle();
+  const classes = useFieldFileStyles();
 
   const id = `${fieldId}-file-${name}`;
 
@@ -29,71 +27,72 @@ const FieldFileBase = props => {
     if (input) input.click();
   };
 
+  const transformFileToObject = file => ({
+    lastModified: file.lastModified,
+    lastModifiedDate: file.lastModifiedDate.toString(),
+    name: file.name,
+    path: file.path,
+    size: file.size,
+    type: file.type,
+  });
+
   return (
-    <Field
-      name={name}
-      render={({
-        form: {
-          setFieldValue,
-          setFieldTouched
-        }
+    <Field name={name}>
+      {({
+        field: { value: fieldValue },
+        form: { setFieldValue, setFieldTouched }
       }) => (
         <Fragment>
           <input
             id={id}
             type="file"
             accept={validator.map(value => `${type ? `${type}/` : ''}${value}`).join(',')}
+            multiple={multiple}
             onChange={event => {
-              setFieldValue(
-                name,
-                // Cast File object into regular object
-                {
-                  lastModified: event.currentTarget.files[0].lastModified,
-                  lastModifiedDate: event.currentTarget.files[0].lastModifiedDate,
-                  name: event.currentTarget.files[0].name,
-                  path: cleanUrl(event.currentTarget.files[0].path),
-                  size: event.currentTarget.files[0].size,
-                  type: event.currentTarget.files[0].type,
-                }
-              );
+              const files = Array.from(event.currentTarget.files)
+                .map(file => transformFileToObject(file));
+              setFieldValue(name, multiple ? files : files[0]);
               setFieldTouched(name, true);
             }}
             className={classes.hidden}
             tabIndex="-1"
           />
           <label
-            className={clsx(
-              classes.label,
-              fullWidth && classes.fullWidth
-            )}
+            className={clsx(classes.label, { [classes.fullWidth]: fullWidth })}
             htmlFor={`select-${name}`}
             tabIndex="-1"
           >
-            {render({ onClick, onClear: () => setFieldValue(name, null) })}
+            {children({
+              value: fieldValue,
+              onClick,
+              onClear: () => setFieldValue(name, null)
+            })}
           </label>
         </Fragment>
       )}
-    />
+    </Field>
   );
 };
 
 FieldFileBase.propTypes = {
-  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   validator: PropTypes.arrayOf(PropTypes.string),
-  render: PropTypes.func.isRequired,
-  fullWidth: PropTypes.bool,
   type: PropTypes.oneOf([
     'audio',
     'video',
     'image'
-  ])
+  ]),
+  multiple: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  children: PropTypes.func.isRequired
 };
 
 FieldFileBase.defaultProps = {
-  fullWidth: false,
+  type: null,
   validator: [],
-  type: null
+  multiple: false,
+  fullWidth: false
 };
 
 export default FieldFileBase;

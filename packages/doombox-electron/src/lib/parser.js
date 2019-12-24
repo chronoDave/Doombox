@@ -1,118 +1,124 @@
 const mm = require('music-metadata');
 const path = require('path');
-const fs = require('fs');
 const shortid = require('shortid');
+const fs = require('fs');
+const { TYPE } = require('@doombox/utils');
 
-// Validation
+// Lib
+const { createLogError } = require('../utils');
+
+// Utils
+const { cleanFileName } = require('../utils');
 const {
-  schemaImage,
-  schemaLibrary
-} = require('@doombox/utils/validation/schema');
+  PATH,
+  COLLECTION
+} = require('../utils/const');
 
-class MetadataParser {
-  constructor(config = {}, db, logger) {
-    this.config = config;
-    this.db = db;
-    this.size = 0;
+module.exports = class MetadataParser {
+  constructor(database, options) {
     this.payload = [];
-    this.logger = logger;
+    this.db = database;
+    this.options = options;
+    this.event = null;
+    this.max = 0;
+    this.log = null;
   }
 
-  async writeImage(file, _id) {
-    const format = file.format.match(/(png|jpeg|jpg|gif)/i);
-    const filePath = path.resolve(`${this.config.imagePath}/${_id}.${format ? format[0] : 'jpg'}`);
+  async writeImage(image, _id) {
+    const format = image.format.match(/(png|jpg|gif)/i);
+    const imagePath = path.resolve(
+      PATH.IMAGE,
+      `${_id}.${format ? format[0] : 'jpg'}`
+    );
 
-    if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, file.data);
+    fs.writeFileSync(imagePath, image.data);
 
-      const image = {
+    try {
+      const doc = await this.db.readOne(COLLECTION.IMAGE, _id);
+      if (doc) return Promise.resolve();
+      await this.db.create(COLLECTION.IMAGE, {
         _id,
-        path: filePath,
-        picture: file.type,
-        decription: file.description
-      };
-
-      try {
-        await schemaImage.validate(image);
-        await this.db.create('images', image);
-      } catch (err) {
-        this.logger.createLog(err);
-      }
+        path: imagePath,
+        picture: image.type,
+        description: image.description
+      });
+      return Promise.resolve();
+    } catch (err) {
+      createLogError(err);
+      return Promise.resolve();
     }
   }
 
-  async parseAll(files, event) {
+  async parseAll(event, files) {
     this.event = event;
-    this.size = files.length;
+    this.max = files.length;
+    this.payload = [];
+
+    if (this.options.logging) {
+      this.log = path.join(PATH.LOG, `parser_${new Date().getTime()}.txt`);
+    }
 
     try {
       await this.parseRecursive(files);
-      await schemaLibrary.validate(this.payload);
-      await this.db.create('library', this.payload);
+      const songs = await this.db.create(COLLECTION.SONG, this.payload);
+
+      return Promise.resolve(songs);
     } catch (err) {
-      this.logger.createLog(err);
-      event.handleError(err);
+      return Promise.reject(err);
     }
-
-    this.db.read('library')
-      .then(docs => {
-        if (!docs || docs.length === 0) {
-          const err = new Error('No library created');
-
-          this.logger.createLog(err);
-          event.handleError(err);
-        } else {
-          event.handleSuccess(docs);
-          this.payload = [];
-        }
-      })
-      .catch(err => {
-        this.logger.createLog(err);
-        event.handleError(err);
-      });
   }
 
-  async parseRecursive(files, iteration = 0) {
-    const file = files.shift();
-    if (file) {
-      return mm.parseFile(file)
-        .then(async metadata => {
-          this.event.handleMessage({
-            current: iteration,
-            total: this.size,
-            file
-          });
-
-          const { format, common: { picture, ...tags } } = metadata;
-          const payload = {
-            images: [],
-            _id: shortid.generate(),
-            file,
-            format,
-            ...tags
-          };
-
-          // Image
-          if (picture && this.config.parseImage) {
-            picture.forEach(async image => {
-              const _id = `${tags.albumartist}-${tags.album}-${image.type}`
-                .replace(/\/|\\|\*|\?|"|:|<|>|\.|\|/g, '_');
-              payload.images.push(_id);
-              await this.writeImage(image, _id);
-            });
-          }
-
-          this.payload.push(payload);
-
-          return this.parseRecursive(files, iteration + 1);
-        })
-        .catch(err => {
-          this.logger.createLog(err);
-          return this.parseRecursive(files, iteration + 1);
-        });
+  handleParseRecursiveReturn(file, files) {
+    if (this.options.logging) {
+      fs.appendFileSync(this.log, JSON.stringify(file));
     }
+
+    this.event.sender.send(TYPE.IPC.MESSAGE, {
+      current: file,
+      value: this.max - files.length,
+      max: this.max
+    });
+
+    return this.parseRecursive(files);
+  }
+
+  async parseRecursive(files) {
+    const file = files.shift();
+
+    if (file) {
+      try {
+        const {
+          format,
+          common: { picture: pictures, ...tags }
+        } = await mm.parseFile(file);
+
+        const payload = {
+          images: [],
+          _id: shortid.generate(),
+          file,
+          format,
+          metadata: { ...tags }
+        };
+
+        if (pictures) {
+          pictures.forEach(async image => {
+            const _id = cleanFileName(`${tags.albumartist}-${tags.album}-${image.type}`);
+            payload.images.push(_id);
+            await this.writeImage(image, _id);
+          });
+        }
+
+        this.payload.push(payload);
+
+        return this.handleParseRecursiveReturn(file, files);
+      } catch (err) {
+        if (this.options.parseStrict) return Promise.reject(err);
+        createLogError(err);
+
+        return this.handleParseRecursiveReturn(file, files);
+      }
+    }
+
     return Promise.resolve();
   }
-}
-
-module.exports = MetadataParser;
+};

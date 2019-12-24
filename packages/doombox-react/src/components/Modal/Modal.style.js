@@ -1,16 +1,17 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 
 export const useModalStyle = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4),
-    paddingBottom: 0,
-    display: 'flex',
-    justifyContent: 'center',
+    position: 'fixed',
+    top: theme.dimensions.appBar,
     outline: 0,
-    height: '100%'
+    height: `calc(100% - ${theme.dimensions.appBar}px)`,
+    width: '100%'
   },
-  iconButton: {
-    color: theme.palette.grey[50],
-    height: 'fit-content'
-  }
+  backdrop: ({ backgroundOpacity }) => ({
+    backgroundColor: fade(
+      theme.palette.grey[50],
+      backgroundOpacity ? 0.9 : 1
+    )
+  })
 }));

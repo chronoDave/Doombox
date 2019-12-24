@@ -1,85 +1,105 @@
+const {
+  TYPE,
+  INTERRUPT
+} = require('@doombox/utils');
+const fse = require('fs-extra');
 const glob = require('glob');
-const rimraf = require('rimraf');
-const mkdirp = require('mkdirp');
-const util = require('util');
 
+// Lib
 const MetadataParser = require('../lib/parser');
 
-class LibraryController {
-  constructor(config, db, logger) {
-    this.config = config;
-    this.db = db;
-    this.parser = new MetadataParser(config, db, logger);
-    this.logger = logger;
+// Utils
+const { handleErrorIpc } = require('../utils');
+const {
+  PATH,
+  COLLECTION
+} = require('../utils/const');
+
+module.exports = class LibraryController {
+  constructor(database, options) {
+    this.type = TYPE.IPC.LIBRARY;
+    this.db = database;
+    this.options = options;
+    this.parser = new MetadataParser(database, { parseStrict: options.parseStrict });
   }
 
-  async create(event, paths) {
-    try {
-      await this.db.drop('library');
-      await this.db.drop('images');
+  getGlobPattern() {
+    if (this.options.glob) return glob;
+    return `/**/*.?(${this.options.fileFormats.join('|')})`;
+  }
 
-      const asyncRimraf = util.promisify(rimraf);
-      await asyncRimraf(this.config.imagePath, { disableGlob: true });
-
-      const asyncMkdirp = util.promisify(mkdirp);
-      await asyncMkdirp(this.config.imagePath);
-    } catch (err) {
-      this.logger.createLog(err);
-      return event.handleError(err);
-    }
-
-    const globFolder = folder => new Promise((resolve, reject) => glob(
-      '/**/*.?(mp3|flac)',
-      { root: folder.path },
+  globFolder(folder) {
+    return new Promise((resolve, reject) => glob(
+      this.getGlobPattern(),
+      { root: folder },
       (err, matches) => {
         if (err) reject(err);
         resolve(matches);
       }
     ));
-
-    return Promise.all(paths.map(folder => globFolder(folder)))
-      .then(filePaths => this.parser.parseAll(filePaths.flat(), event))
-      .catch(err => {
-        this.logger.createLog(err);
-        event.handleError(err);
-      });
   }
 
-  read({ handleSuccess, handleError }, query) {
-    this.db.read('library', query)
-      .then(docs => handleSuccess(docs))
-      .catch(err => {
-        this.logger.createLog(err);
-        handleError(err);
+  createQueryFromRegex = regex => new Promise((resolve, reject) => {
+    if (!Array.isArray(regex)) reject(new Error(`${JSON.stringify(regex)} is not an array`));
+    const query = {
+      $or: regex.map(({ property, expression }) => ({
+        [property]: { $regex: new RegExp(expression, 'i') }
+      }))
+    };
+    resolve(query);
+  });
+
+  async create(event, { data }) {
+    if (!data.payload || !Array.isArray(data.payload)) {
+      handleErrorIpc(
+        event,
+        this.type,
+        new Error(`No valid property payload found in data: ${JSON.stringify(data)}`)
+      );
+    } else {
+      event.sender.send(TYPE.IPC.INTERRUPT, {
+        type: TYPE.IPC.LIBRARY,
+        status: INTERRUPT.PENDING
       });
+
+      try {
+        await this.db.drop(COLLECTION.SONG);
+        await this.db.drop(COLLECTION.IMAGE);
+
+        fse.removeSync(PATH.IMAGE);
+        fse.mkdirpSync(PATH.IMAGE);
+
+        const files = await Promise.all(data.payload.map(folder => this.globFolder(folder)));
+        const songs = await this.parser.parseAll(event, files.flat());
+
+        event.sender.send(TYPE.IPC.INTERRUPT, {
+          type: TYPE.IPC.LIBRARY,
+          status: INTERRUPT.SUCCESS
+        });
+
+        const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
+        event.sender.send(TYPE.IPC.IMAGE, images);
+
+        event.sender.send(this.type, songs);
+      } catch (err) {
+        event.sender.send(TYPE.IPC.INTERRUPT, {
+          type: TYPE.IPC.LIBRARY,
+          status: INTERRUPT.ERROR
+        });
+        handleErrorIpc(event, this.type, err);
+      }
+    }
   }
 
-  readOneWithId({ handleSuccess, handleError }, _id) {
-    this.db.readOneWithId('library', _id)
-      .then(doc => {
-        if (!doc) {
-          const err = new Error(`No song found with id: ${_id}`);
-
-          this.logger.createLog(err);
-          handleError(err);
-        } else {
-          handleSuccess(doc);
-        }
-      })
-      .catch(err => {
-        this.logger.createLog(err);
-        handleError(err);
-      });
+  async read(event, { data }) {
+    try {
+      const query = data.regex ?
+        await this.createQueryFromRegex(data.regex) :
+        data.query;
+      const payload = await this.db.read(COLLECTION.SONG, query, data.modifiers);
+      event.sender.send(TYPE.IPC.LIBRARY, payload);
+    } catch (err) {
+      handleErrorIpc(event, this.type, err);
+    }
   }
-
-  async delete({ handleSuccess, handleError }) {
-    this.db.delete('library')
-      .then(() => handleSuccess())
-      .catch(err => {
-        this.logger.createLog(err);
-        handleError(err);
-      });
-  }
-}
-
-module.exports = LibraryController;
+};

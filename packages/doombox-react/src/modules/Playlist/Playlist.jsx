@@ -1,62 +1,83 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { VariableSizeList } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 // Core
+import { useTheme } from '@material-ui/core/styles';
 import {
   Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText
+  Typography
 } from '@material-ui/core';
-
-import PlaylistBanner from './PlaylistBanner';
 
 // Hooks
 import { useAudio } from '../../hooks';
 
 // Utils
-import { zeroPadding } from '../../utils';
-import { AUDIO_HOOKS } from '../../utils/const';
+import { HOOK } from '../../utils/const';
 
 // Style
-import { usePlaylistStyle } from './Playlist.style';
+import { usePlaylistStyles } from './Playlist.style';
 
-const Playlist = ({ ...rest }) => {
-  const { playlist } = useAudio(AUDIO_HOOKS.PLAYLIST);
-  const { current } = useAudio(AUDIO_HOOKS.CURRENT);
-  const { play } = useAudio(AUDIO_HOOKS.STATIC);
-  const classes = usePlaylistStyle();
+import PlaylistItem from './PlaylistItem.private';
+
+const Playlist = () => {
+  const { name, collection } = useAudio(HOOK.AUDIO.PLAYLIST);
+  const { _id: current } = useAudio(HOOK.AUDIO.CURRENT);
+  const { goTo } = useAudio(HOOK.AUDIO.METHOD);
+
+  const classes = usePlaylistStyles();
+  const theme = useTheme();
+
+  const itemData = useMemo(() => ({
+    current,
+    collection,
+    classes,
+    goTo
+  }), [classes, collection, current, goTo]);
+
+  const calculateItemSize = index => {
+    const { metadata } = collection[index];
+    let height = 7.5;
+
+    if (metadata.title.length > 12) height += 2;
+    if (metadata.artist.length > 12) height += 2;
+
+    return theme.spacing(height);
+  };
 
   return (
-    <Box width="100%" {...rest}>
-      <PlaylistBanner />
-      <List dense>
-        {playlist.map((song, index) => (
-          <ListItem
-            key={song._id}
-            className={current && current._id === song._id ? classes.active : null}
-            button
-            onClick={() => play(index)}
-            divider
-          >
-            <ListItemIcon classes={{ root: classes.listItemIconRoot }}>
-              {`.${zeroPadding(index + 1)}`}
-            </ListItemIcon>
-            <ListItemText
-              primary={song.title}
-              secondary={song.artist}
-              primaryTypographyProps={{
-                className: classes.noWrap,
-                classes: { root: classes.primaryRoot }
-              }}
-              secondaryTypographyProps={{
-                className: classes.noWrap,
-                color: 'inherit'
-              }}
-            />
-          </ListItem>
-        ))}
-      </List>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      flexGrow={1}
+      minHeight={0}
+      width="100%"
+    >
+      <Box p={1}>
+        <Typography
+          variant="subtitle2"
+          align="center"
+          classes={{ root: classes.noWrap }}
+        >
+          {name}
+        </Typography>
+      </Box>
+      <Box flexGrow={1} width="100%">
+        <AutoSizer>
+          {({ width, height }) => (
+            <VariableSizeList
+              width={width}
+              height={height}
+              itemCount={collection.length}
+              itemData={itemData}
+              itemSize={calculateItemSize}
+            >
+              {PlaylistItem}
+            </VariableSizeList>
+          )}
+        </AutoSizer>
+      </Box>
     </Box>
   );
 };

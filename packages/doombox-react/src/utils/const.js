@@ -1,40 +1,60 @@
-export const ROUTES = {
-  MAIN: 'MAIN',
-  LANDING: 'LANDING',
-  ERROR: 'ERROR'
+export const STATUS = {
+  AUDIO: {
+    PLAYING: 'playing',
+    PAUSED: 'paused',
+    STOPPED: 'stopped'
+  }
 };
 
-export const LANDING_VIEWS = {
-  CREATE: 'Create'
+export const EVENT = {
+  AUDIO: {
+    STATUS: 'status',
+    PLAYLIST: 'playlist',
+    POSITION: 'position',
+    DURATION: 'duration',
+    VOLUME: 'volume',
+    MUTED: 'muted',
+    CURRENT: 'current',
+    AUTOPLAY: 'autoplay',
+    RPC: 'rpc'
+  }
 };
 
-export const MAIN_VIEWS = {
-  MASTER: 'Master',
-  ALBUM: 'Album',
-  SONG: 'Song',
-  PLAYLIST: 'Playlist'
+export const HOOK = {
+  AUDIO: {
+    PLAYLIST: 'Playlist',
+    VOLUME: 'Volume',
+    METHOD: 'Method',
+    CURRENT: 'Current',
+    POSITION: 'Position',
+    COLLECTION: 'Collection',
+    LIBRARY: 'Library',
+    PLAYER: 'Player',
+    IMAGE: 'Image'
+  },
+  IPC: {
+    METHOD: 'Method',
+    CONFIG: 'Config',
+    INTERRUPT: 'Interrupt',
+    MESSAGE: 'Message'
+  },
+  ROUTE: {
+    METHOD: 'Method',
+    LOCATION: 'Location'
+  }
 };
 
-export const SETTINGS_VIEWS = {
-  PROFILE: 'Profile',
-  APPEARANCE: 'Appearance',
-  DATABASE: 'Database',
-};
-
-export const AUDIO_HOOKS = {
-  POSITION: 'Position',
-  CURRENT: 'Current',
-  VOLUME: 'Volume',
-  PLAYLIST: 'Playlist',
-  STATIC: 'Static'
-};
-
-export const AUDIO_STATUS = {
-  PLAYING: 'playing',
-  PAUSED: 'paused',
-  STOPPED: 'stopped'
-};
-
-export const REDUCER = {
-  SET_PLAYLIST_CURRENT: 'SET_PLAYLIST_CURRENT'
+export const PATH = {
+  DOMAIN: {
+    ROOT: 'root'
+  },
+  PAGE: {
+    SONG: 'song',
+    ALBUM: 'album',
+    VISUALIZER: 'visualizer'
+  },
+  DIALOG: {
+    SETTINGS: 'settings',
+    INTERRUPT: 'interrupt'
+  }
 };

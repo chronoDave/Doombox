@@ -1,2 +1,2 @@
-export { default as DialogConfirmation } from './DialogConfirmation';
-export { default as DialogCreatePlaylist } from './DialogCreatePlaylist';
+export { default as DialogForm } from './DialogForm';
+export { default as DialogBase } from './DialogBase';

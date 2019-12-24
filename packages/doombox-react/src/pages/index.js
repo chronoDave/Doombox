@@ -1,4 +1,14 @@
-export { default as LandingPage } from './LandingPage';
-export { default as LoadingPage } from './LoadingPage';
-export { default as ErrorPage } from './ErrorPage';
-export { default as MainPage } from './MainPage';
+export { AlbumPage } from './Album';
+export { LibraryPage } from './Library';
+export { VisualizerPage } from './Visualizer';
+export {
+  SettingsDiscordPage,
+  SettingsGeneralPage,
+  SettingsKeybindPage,
+  SettingsLibraryPage,
+  SettingsPalettePage
+} from './Settings';
+export {
+  InterruptErrorPage,
+  InterruptScanningPage
+} from './Interrupt';

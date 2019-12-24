@@ -1,9 +1,8 @@
-// General
-export { default as FieldLanguage } from './FieldLanguage';
+export {
+  FieldFileBase,
+  FieldFileAvatar
+} from './FieldFile';
 export { default as FieldText } from './FieldText';
-export { default as FieldSelect } from './FieldSelect';
-
-// File
-export { default as FieldFileAvatar } from './FieldFile/FieldFileAvatar';
-export { default as FieldFileBackground } from './FieldFile/FieldFileBackground';
-export { default as FieldFileBase } from './FieldFile/FieldFileBase';
+export { FieldColorBase } from './FieldColor';
+export { FieldPalette } from './FieldPalette';
+export { default as FieldFolder } from './FieldFolder';

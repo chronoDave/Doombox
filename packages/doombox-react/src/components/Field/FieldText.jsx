@@ -1,18 +1,17 @@
 import React from 'react';
 import { Field } from 'formik';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // Core
 import { TextField } from '@material-ui/core';
 
-const FieldText = ({ name, id, ...rest }) => {
+const FieldText = ({ name, id }) => {
   const { t } = useTranslation();
 
   return (
-    <Field
-      name={name}
-      render={({
+    <Field name={name}>
+      {({
         field: { value },
         form: {
           setFieldValue,
@@ -29,7 +28,6 @@ const FieldText = ({ name, id, ...rest }) => {
           margin="normal"
           error={!!errors[name] && touched[name]}
           helperText={t(errors[name], { input: t(name) })}
-          {...rest}
           value={value}
           onChange={event => {
             setFieldValue(name, event.target.value);
@@ -37,7 +35,7 @@ const FieldText = ({ name, id, ...rest }) => {
           }}
         />
       )}
-    />
+    </Field>
   );
 };
 

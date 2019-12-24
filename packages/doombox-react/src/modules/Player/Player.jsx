@@ -1,68 +1,103 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React, {
+  Fragment,
+  useState,
+  useEffect
+} from 'react';
 
 // Core
-import { Box } from '@material-ui/core';
+import {
+  Typography,
+  Tooltip,
+  Box
+} from '@material-ui/core';
 
-import { Typography } from '../../components/Typography';
-import { PaperImage } from '../../components/Paper';
-
-import PlayerCurrent from './PlayerCurrent';
-import PlayerProgress from './PlayerProgress';
-import PlayerButtons from './PlayerButtons';
+import {
+  IconButtonNext,
+  IconButtonPrevious,
+  IconButtonPlay,
+  IconButtonShuffle,
+  SliderPlayer,
+  Image
+} from '../../components';
 
 // Hooks
-import { useAudio } from '../../hooks';
+import {
+  useAudio,
+  useIpc
+} from '../../hooks';
 
 // Utils
-import { AUDIO_HOOKS } from '../../utils/const';
+import { HOOK } from '../../utils/const';
 
-// Style
-import { usePlayerStyle } from './Player.style';
+// Styles
+import { usePlayerStyles } from './Player.style';
 
 const Player = () => {
-  const { current, image } = useAudio(AUDIO_HOOKS.CURRENT);
-  const { t } = useTranslation();
-  const classes = usePlayerStyle();
+  const [image, setImage] = useState({});
+
+  const classes = usePlayerStyles();
+
+  const { metadata, images } = useAudio(HOOK.AUDIO.CURRENT);
+  const { getImageById } = useIpc(HOOK.IPC.METHOD);
+
+  useEffect(() => {
+    if (images) setImage(getImageById(images[0]));
+  }, [images]);
 
   return (
-    <PaperImage
-      classes={{ root: classes.paperRoot }}
-      path={image ? image.path : null}
-      elevation={2}
+    <Image
+      className={classes.image}
+      src={image.path}
+      alt={image.picture}
     >
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        justifyContent="space-between"
-        height="100%"
-        py={2}
-        px={3}
       >
-        <Box flexGrow={1} display="flex" alignItems="center">
-          {!current ? (
-            <Typography>
-              {t('description:noSongSelected')}
-            </Typography>
-          ) : (
-            <PlayerCurrent
-              artist={current.artist}
-              title={current.title}
-            />
-          )}
-        </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          width="100%"
-        >
-          <PlayerProgress />
-          <PlayerButtons />
+        {!metadata ? (
+          <Typography>
+            No playlist selected
+          </Typography>
+        ) : (
+          <Fragment>
+            <Tooltip
+              placement="right"
+              title={metadata.title}
+              interactive
+            >
+              <Typography
+                align="center"
+                className={classes.noWrap}
+              >
+                {metadata.title}
+              </Typography>
+            </Tooltip>
+            <Tooltip
+              placement="right"
+              title={metadata.artist}
+              interactive
+            >
+              <Typography
+                align="center"
+                className={classes.noWrap}
+              >
+                {metadata.artist}
+              </Typography>
+            </Tooltip>
+          </Fragment>
+        )}
+      </Box>
+      <Box>
+        <SliderPlayer />
+        <Box display="flex" justifyContent="space-around">
+          <IconButtonPrevious className={classes.iconButton} />
+          <IconButtonPlay className={classes.iconButton} />
+          <IconButtonNext className={classes.iconButton} />
+          <IconButtonShuffle className={classes.iconButton} />
         </Box>
       </Box>
-    </PaperImage>
+    </Image>
   );
 };
 

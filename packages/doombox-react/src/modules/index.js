@@ -1,5 +1,10 @@
-export { default as Sidebar } from './Sidebar/Sidebar';
-export { Sidepanel } from './Sidepanel';
-export { default as Settings } from './Settings/Settings';
-export { RouteProvider, AudioProvider } from './Provider';
-export { IpcListener } from './Listener';
+export {
+  FormCreatePlaylist,
+  FormCreatePalette,
+  FormCreateLibrary
+} from './Form';
+export { Player } from './Player';
+export { Playlist } from './Playlist';
+export { Library } from './Library';
+export { Collection } from './Collection';
+export { Navigation } from './Navigation';

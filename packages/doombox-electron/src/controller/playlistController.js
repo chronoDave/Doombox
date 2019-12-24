@@ -1,79 +1,30 @@
-// Validation
-const { schemaPlaylist } = require('@doombox/utils/validation/schema');
+const { TYPE } = require('@doombox/utils');
+
+// Utils
+const { handleErrorIpc } = require('../utils');
+const { COLLECTION } = require('../utils/const');
 
 module.exports = class PlaylistController {
-  constructor(db, logger) {
-    this.db = db;
-    this.logger = logger;
+  constructor(database) {
+    this.type = TYPE.IPC.PLAYLIST;
+    this.db = database;
   }
 
-  async createOne({ handleSuccess, handleError }, playlist) {
-    try {
-      await schemaPlaylist.validate(playlist);
-    } catch (err) {
-      this.logger.createLog(err);
-      return handleError(err);
-    }
-
-    return this.db.create('playlist', playlist)
-      .then(doc => {
-        if (!doc) {
-          const err = new Error(`Failed to create playlist: ${JSON.stringify(playlist)}`);
-
-          this.logger.createLog(err);
-          handleError(err);
-        } else {
-          handleSuccess(doc);
-        }
-      })
-      .catch(err => {
-        this.logger.createLog(err);
-        handleError(err);
-      });
+  create(event, { data }) {
+    this.db.create(COLLECTION.PLAYLIST, data.payload)
+      .then(() => this.read(event, { data: {} }))
+      .catch(err => handleErrorIpc(event, this.type, err));
   }
 
-  async read({ handleSuccess, handleError }, query) {
-    this.db.read('playlist', query)
-      .then(doc => {
-        if (!doc) {
-          const err = new Error(`No playlist found with ids: ${JSON.parse(query)}`);
-
-          this.logger.createLog(err);
-          handleError(err);
-        } else {
-          handleSuccess(doc);
-        }
-      })
-      .catch(err => {
-        this.logger.createLog(err);
-        handleError(err);
-      });
+  read(event, { data }) {
+    this.db.read(COLLECTION.PLAYLIST, data.query, data.modifiers)
+      .then(payload => event.sender.send(this.type, payload))
+      .catch(err => handleErrorIpc(event, this.type, err));
   }
 
-  async updateOneWithId({ handleSuccess, handleError }, _id, modifiers) {
-    this.db.updateOneWithId('playlist', _id, modifiers)
-      .then(doc => {
-        if (!doc) {
-          const err = new Error(`Failed to update playlist with id: ${_id} and modifiers: ${JSON.stringify(modifiers)}`);
-
-          this.logger.createLog(err);
-          handleError(err);
-        } else {
-          handleSuccess(doc);
-        }
-      })
-      .catch(err => {
-        this.logger.createLog(err);
-        handleError(err);
-      });
-  }
-
-  async deleteOneWithId({ handleSuccess, handleError }, _id) {
-    this.db.deleteOneWithId('playlist', _id)
-      .then(() => handleSuccess())
-      .catch(err => {
-        this.logger.createLog(err);
-        handleError(err);
-      });
+  update(event, { data }) {
+    this.db.update(COLLECTION.PLAYLIST, data.query, data.modifiers)
+      .then(payload => event.sender.send(this.type, payload))
+      .catch(err => handleErrorIpc(event, this.type, err));
   }
 };
