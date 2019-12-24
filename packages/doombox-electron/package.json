@@ -8,24 +8,22 @@
     "start": "nodemon --watch src --exec electron .",
     "start:dev": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
     "build": "electron-builder",
-    "test": "mocha",
-    "test:dev": "cross-env NODE_ENV=development mocha",
+    "test:unit": "electron-mocha --recursive 'src/**/*.spec.js'",
     "arkit": "arkit -c ../../arkit/arkit-electron.js"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
     "discord-rpc": "^3.1.0",
+    "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
-    "make-dir": "^3.0.0",
     "music-metadata": "^5.0.1",
     "nedb": "^1.8.0",
-    "rimraf": "^3.0.0",
     "shortid": "^2.2.15"
   },
   "devDependencies": {
     "electron": "7.1.1",
     "electron-builder": "^22.1.0",
-    "spectron": "^9.0.0"
+    "electron-mocha": "^8.1.2"
   },
   "build": {
     "appId": "com.electron.doombox",

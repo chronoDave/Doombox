@@ -1,5 +1,5 @@
 const { app, ipcMain } = require('electron');
-const makeDir = require('make-dir');
+const fse = require('fs-extra');
 const { TYPE, STORAGE } = require('@doombox/utils');
 
 // Lib
@@ -31,10 +31,10 @@ const {
 
 if (!userConfig.get(STORAGE.GENERAL).hardwareAcceleration) app.disableHardwareAcceleration();
 
-makeDir.sync(PATH.LOG);
-makeDir.sync(PATH.IMAGE);
+fse.mkdirpSync(PATH.LOG);
+fse.mkdirpSync(PATH.IMAGE);
 
-const db = new NeDB();
+const db = new NeDB(PATH.DATABASE);
 
 app.on('ready', () => {
   createRouter(

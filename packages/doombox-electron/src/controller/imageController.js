@@ -11,7 +11,7 @@ module.exports = class PlaylistController {
   }
 
   create(event, { data }) {
-    this.db.create(COLLECTION.IMAGE, data)
+    this.db.create(COLLECTION.IMAGE, data.payload)
       .then(payload => event.sender.send(this.type, payload))
       .catch(err => handleErrorIpc(event, this.type, err));
   }

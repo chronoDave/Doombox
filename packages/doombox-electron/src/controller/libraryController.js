@@ -2,8 +2,7 @@ const {
   TYPE,
   INTERRUPT
 } = require('@doombox/utils');
-const makeDir = require('make-dir');
-const rimraf = require('rimraf');
+const fse = require('fs-extra');
 const glob = require('glob');
 
 // Lib
@@ -40,20 +39,18 @@ module.exports = class LibraryController {
     ));
   }
 
-  createQueryFromRegex = regex => {
-    return new Promise((resolve, reject) => {
-      if (!Array.isArray(regex)) reject(new Error(`${JSON.stringify(regex)} is not an array`));
-      const query = {
-        $or: regex.map(({ property, expression }) => ({
-          [property]: { $regex: new RegExp(expression, 'i') }
-        }))
-      };
-      resolve(query);
-    });
-  };
+  createQueryFromRegex = regex => new Promise((resolve, reject) => {
+    if (!Array.isArray(regex)) reject(new Error(`${JSON.stringify(regex)} is not an array`));
+    const query = {
+      $or: regex.map(({ property, expression }) => ({
+        [property]: { $regex: new RegExp(expression, 'i') }
+      }))
+    };
+    resolve(query);
+  });
 
   async create(event, { data }) {
-    if (!data.folders || !Array.isArray(data.folders)) {
+    if (!data.payload || !Array.isArray(data.payload)) {
       return handleErrorIpc(
         event,
         this.type,
@@ -70,10 +67,10 @@ module.exports = class LibraryController {
       await this.db.drop(COLLECTION.SONG);
       await this.db.drop(COLLECTION.IMAGE);
 
-      rimraf.sync(PATH.IMAGE);
-      makeDir.sync(PATH.IMAGE);
+      fse.removeSync(PATH.IMAGE);
+      fse.mkdirpSync(PATH.IMAGE);
 
-      const files = await Promise.all(data.folders.map(folder => this.globFolder(folder)));
+      const files = await Promise.all(data.payload.map(folder => this.globFolder(folder)));
       const songs = await this.parser.parseAll(event, files.flat());
 
       event.sender.send(TYPE.IPC.INTERRUPT, {

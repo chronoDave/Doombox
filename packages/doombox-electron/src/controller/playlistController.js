@@ -11,7 +11,7 @@ module.exports = class PlaylistController {
   }
 
   create(event, { data }) {
-    this.db.create(COLLECTION.PLAYLIST, data)
+    this.db.create(COLLECTION.PLAYLIST, data.payload)
       .then(() => this.read(event, { data: {} }))
       .catch(err => handleErrorIpc(event, this.type, err));
   }
