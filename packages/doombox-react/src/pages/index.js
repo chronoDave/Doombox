@@ -8,3 +8,7 @@ export {
   SettingsLibraryPage,
   SettingsPalettePage
 } from './Settings';
+export {
+  InterruptErrorPage,
+  InterruptScanningPage
+} from './Interrupt';

@@ -26,9 +26,11 @@ export {
   FieldFileAvatar,
   FieldText,
   FieldColorBase,
-  FieldPalette
+  FieldPalette,
+  FieldFolder
 } from './Field';
 export { Image } from './Image';
 export { Search } from './Search';
 export { ModalFade } from './Modal';
 export { Switch } from './Switch';
+export { ProgressScanning } from './Progress';

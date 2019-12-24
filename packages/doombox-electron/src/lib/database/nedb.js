@@ -133,6 +133,7 @@ module.exports = class NeDB {
     })
       .then(() => this[collection].remove(query, { multi: true }, (err, count) => {
         if (err) reject(err);
+        this[collection].persistence.compactDatafile();
         resolve(count);
       }))
       .catch(reject));
@@ -150,7 +151,12 @@ module.exports = class NeDB {
   }
 
   drop(collection) {
-    return this.delete(collection, {});
+    return new Promise((resolve, reject) => this.validate(collection)
+      .then(() => this[collection].remove({}, { multi: false }, (err, count) => {
+        if (err) reject(err);
+        resolve(count);
+      }))
+      .catch(reject));
   }
 
   count(collection, query) {

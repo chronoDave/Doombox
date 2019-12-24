@@ -42,11 +42,11 @@ const AppBar = () => {
   return (
     <div className={classes.barRoot}>
       <div className={clsx(classes.barTitle, classes.draggable)}>
-        <Typography>
+        <Typography noWrap>
           {metadata ? `${metadata.artist} - ${metadata.title}` : 'Doombox'}
         </Typography>
       </div>
-      <Box display="flex">
+      <Box display="flex" flexShrink={0}>
         <ButtonBase
           id={ID.WINDOW_MINIMIZE}
           onClick={() => browserWindow.minimize()}

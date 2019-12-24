@@ -34,7 +34,9 @@ export const HOOK = {
   },
   IPC: {
     METHOD: 'Method',
-    CONFIG: 'Config'
+    CONFIG: 'Config',
+    INTERRUPT: 'Interrupt',
+    MESSAGE: 'Message'
   },
   ROUTE: {
     METHOD: 'Method',
@@ -52,6 +54,7 @@ export const PATH = {
     VISUALIZER: 'visualizer'
   },
   DIALOG: {
-    SETTINGS: 'settings'
+    SETTINGS: 'settings',
+    INTERRUPT: 'interrupt'
   }
 };

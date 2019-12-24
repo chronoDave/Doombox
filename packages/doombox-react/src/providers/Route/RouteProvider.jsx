@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
+import { INTERRUPT } from '@doombox/utils';
 
 // Modules
 import {
@@ -14,17 +15,22 @@ import {
 // Routers
 import {
   MainRouter,
-  SettingsRouter
+  SettingsRouter,
+  InterruptRouter
 } from '../../routers';
 
+// Hooks
+import { useIpc } from '../../hooks';
+
 // Utils
-import { PATH } from '../../utils/const';
+import { PATH, HOOK } from '../../utils/const';
 import { RouteContext } from '../../utils/context';
 
 const RouteProvider = () => {
   const [domain, setDomain] = useState(PATH.DOMAIN.ROOT);
   const [page, setPage] = useState(PATH.PAGE.ALBUM);
   const [dialog, setDialog] = useState(null);
+  const { status } = useIpc(HOOK.IPC.INTERRUPT);
 
   const methodValue = useMemo(() => ({
     setDomain: newDomain => setDomain(newDomain),
@@ -43,6 +49,15 @@ const RouteProvider = () => {
     }
   }, [domain]);
 
+  useEffect(() => {
+    if (status === INTERRUPT.PENDING || status === INTERRUPT.ERROR) {
+      setDialog(PATH.DIALOG.INTERRUPT);
+    }
+    if (!status || status === INTERRUPT.SUCCESS) {
+      setDialog(null);
+    }
+  }, [status]);
+
   const renderRouter = useCallback(() => {
     switch (domain) {
       case PATH.DOMAIN.ROOT:
@@ -60,6 +75,10 @@ const RouteProvider = () => {
           {renderRouter()}
           <SettingsRouter
             open={dialog === PATH.DIALOG.SETTINGS}
+            onClose={methodValue.closeDialog}
+          />
+          <InterruptRouter
+            open={dialog === PATH.DIALOG.INTERRUPT}
             onClose={methodValue.closeDialog}
           />
         </App>

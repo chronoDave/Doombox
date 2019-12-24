@@ -23,6 +23,7 @@ export const useAppStyles = makeStyles(theme => ({
   },
   barTitle: {
     display: 'flex',
+    minWidth: 0,
     alignItems: 'center',
     padding: theme.spacing(0, 1)
   },

@@ -16,10 +16,10 @@ export const createPlaylist = (name, src) => ipcRenderer.send(
   }
 );
 
-export const scanFolders = folders => ipcRenderer.send(
+export const scanFolders = payload => ipcRenderer.send(
   TYPE.IPC.LIBRARY, {
     action: ACTION.CRUD.CREATE,
-    data: { folders }
+    data: { payload: payload.folders }
   }
 );
 

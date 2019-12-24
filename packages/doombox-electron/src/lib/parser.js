@@ -24,34 +24,35 @@ module.exports = class MetadataParser {
     this.log = null;
   }
 
-  writeImage(image, _id) {
+  async writeImage(image, _id) {
     const format = image.format.match(/(png|jpg|gif)/i);
     const imagePath = path.resolve(
       PATH.IMAGE,
       `${_id}.${format ? format[0] : 'jpg'}`
     );
 
-    if (!fs.existsSync(imagePath)) {
-      fs.writeFileSync(imagePath, image.data);
+    fs.writeFileSync(imagePath, image.data);
 
-      const payload = {
+    try {
+      const doc = await this.db.readOne(COLLECTION.IMAGE, _id);
+      if (doc) return Promise.resolve();
+      await this.db.create(COLLECTION.IMAGE, {
         _id,
         path: imagePath,
         picture: image.type,
         description: image.description
-      };
-
-      try {
-        this.db.create(COLLECTION.IMAGE, payload);
-      } catch (err) {
-        createLogError(err);
-      }
+      });
+      return Promise.resolve();
+    } catch (err) {
+      createLogError(err);
+      return Promise.resolve();
     }
   }
 
   async parseAll(event, files) {
     this.event = event;
     this.max = files.length;
+    this.payload = [];
 
     if (this.options.logging) {
       this.log = path.join(PATH.LOG, `parser_${new Date().getTime()}.txt`);
@@ -103,7 +104,7 @@ module.exports = class MetadataParser {
           pictures.forEach(async image => {
             const _id = cleanFileName(`${tags.albumartist}-${tags.album}-${image.type}`);
             payload.images.push(_id);
-            this.writeImage(image, _id);
+            await this.writeImage(image, _id);
           });
         }
 

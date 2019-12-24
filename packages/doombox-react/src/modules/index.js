@@ -1,6 +1,7 @@
 export {
   FormCreatePlaylist,
-  FormCreatePalette
+  FormCreatePalette,
+  FormCreateLibrary
 } from './Form';
 export { Player } from './Player';
 export { Playlist } from './Playlist';

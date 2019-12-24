@@ -1,9 +1,12 @@
 import React from 'react';
 
+// Core
+import { FormCreateLibrary } from '../../modules';
+
 const SettingsLibrary = () => {
   return (
     <div>
-      Keybind
+      <FormCreateLibrary />
     </div>
   );
 };

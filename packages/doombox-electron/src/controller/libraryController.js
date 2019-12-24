@@ -51,43 +51,43 @@ module.exports = class LibraryController {
 
   async create(event, { data }) {
     if (!data.payload || !Array.isArray(data.payload)) {
-      return handleErrorIpc(
+      handleErrorIpc(
         event,
         this.type,
-        new Error(`No valid property folders found in data: ${JSON.stringify(data)}`)
+        new Error(`No valid property payload found in data: ${JSON.stringify(data)}`)
       );
-    }
-
-    event.sender.send(TYPE.IPC.INTERRUPT, {
-      type: TYPE.IPC.LIBRARY,
-      status: INTERRUPT.PENDING
-    });
-
-    try {
-      await this.db.drop(COLLECTION.SONG);
-      await this.db.drop(COLLECTION.IMAGE);
-
-      fse.removeSync(PATH.IMAGE);
-      fse.mkdirpSync(PATH.IMAGE);
-
-      const files = await Promise.all(data.payload.map(folder => this.globFolder(folder)));
-      const songs = await this.parser.parseAll(event, files.flat());
-
+    } else {
       event.sender.send(TYPE.IPC.INTERRUPT, {
         type: TYPE.IPC.LIBRARY,
-        status: INTERRUPT.SUCCESS
+        status: INTERRUPT.PENDING
       });
 
-      const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
-      event.sender.send(TYPE.IPC.IMAGE, images);
+      try {
+        await this.db.drop(COLLECTION.SONG);
+        await this.db.drop(COLLECTION.IMAGE);
 
-      return event.sender.send(this.type, songs);
-    } catch (err) {
-      event.sender.send(TYPE.IPC.INTERRUPT, {
-        type: TYPE.IPC.LIBRARY,
-        status: INTERRUPT.ERROR
-      });
-      return handleErrorIpc(event, this.type, err);
+        fse.removeSync(PATH.IMAGE);
+        fse.mkdirpSync(PATH.IMAGE);
+
+        const files = await Promise.all(data.payload.map(folder => this.globFolder(folder)));
+        const songs = await this.parser.parseAll(event, files.flat());
+
+        event.sender.send(TYPE.IPC.INTERRUPT, {
+          type: TYPE.IPC.LIBRARY,
+          status: INTERRUPT.SUCCESS
+        });
+
+        const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
+        event.sender.send(TYPE.IPC.IMAGE, images);
+
+        event.sender.send(this.type, songs);
+      } catch (err) {
+        event.sender.send(TYPE.IPC.INTERRUPT, {
+          type: TYPE.IPC.LIBRARY,
+          status: INTERRUPT.ERROR
+        });
+        handleErrorIpc(event, this.type, err);
+      }
     }
   }
 

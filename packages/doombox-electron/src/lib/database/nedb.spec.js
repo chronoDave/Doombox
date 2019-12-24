@@ -266,6 +266,11 @@ describe('NeDB', () => {
   });
 
   describe('drop()', () => {
+    it('Throws an error if an invalid collection is provided', () => {
+      this.db.count()
+        .then(assert.fail).catch(assert.exists);
+    });
+
     it('Drops collection', async () => {
       const payload = [{ planet: 'Earth' }, { planet: 'Mars' }];
 

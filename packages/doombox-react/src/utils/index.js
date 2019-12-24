@@ -36,6 +36,9 @@ export const pathToRemoteUrl = async path => new Promise((resolve, reject) => fe
     reader.onerror = reject;
     reader.readAsDataURL(blob);
   }));
+export const cleanErr = errString => errString
+  .replace(/\\/g, '/')
+  .replace(/\n/g, ' ');
 
 // Electron
 const { remote: { dialog: { showOpenDialog } } } = window.require('electron');

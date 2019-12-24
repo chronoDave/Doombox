@@ -1,6 +1,7 @@
 const { globalShortcut } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const { TYPE } = require('@doombox/utils');
 
 // Utils
 const { PATH } = require('./const');
@@ -37,7 +38,7 @@ const createKeyboardListener = (keybinds = {}, callback) => (
 const handleErrorIpc = (event, type, err) => {
   const errJson = errorToJson(err);
   createLog(`error_${type}`, errJson);
-  event.sender.send(type, { err: errJson });
+  event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
 };
 
 module.exports = {
