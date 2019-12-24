@@ -1,3 +1,5 @@
 language: node_js
+services:
+  - xvfb
 node_js:
   - lts/*
