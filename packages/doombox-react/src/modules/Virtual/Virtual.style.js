@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useLibraryStyles = makeStyles(theme => ({
+export const useVirtualStyles = makeStyles(theme => ({
   inset: {
     paddingLeft: theme.spacing(2)
   },

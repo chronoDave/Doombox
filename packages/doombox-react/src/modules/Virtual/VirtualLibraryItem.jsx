@@ -12,7 +12,7 @@ import {
 // Utils
 import { formatTime } from '../../utils';
 
-const LibraryItem = memo(({ data, index, style }) => {
+const VirtualLibraryItem = memo(({ data, index, style }) => {
   const {
     current,
     classes,
@@ -34,12 +34,10 @@ const LibraryItem = memo(({ data, index, style }) => {
       button={!title}
     >
       {title ? (
-        <i>
-          <ListItemText
-            primary={title}
-            primaryTypographyProps={{ noWrap: true }}
-          />
-        </i>
+        <ListItemText
+          primary={title}
+          primaryTypographyProps={{ noWrap: true }}
+        />
       ) : (
         <ListItemText
           inset
@@ -54,8 +52,8 @@ const LibraryItem = memo(({ data, index, style }) => {
   );
 }, areEqual);
 
-LibraryItem.displayName = 'LibraryItem';
-LibraryItem.propTypes = {
+VirtualLibraryItem.displayName = 'LibraryItem';
+VirtualLibraryItem.propTypes = {
   style: PropTypes.shape({}).isRequired,
   index: PropTypes.number.isRequired,
   data: PropTypes.shape({
@@ -79,4 +77,4 @@ LibraryItem.propTypes = {
   }).isRequired
 };
 
-export default LibraryItem;
+export default VirtualLibraryItem;

@@ -5,6 +5,7 @@ export {
 } from './Form';
 export { Player } from './Player';
 export { Playlist } from './Playlist';
-export { Library } from './Library';
+export { VirtualLibrary } from './Virtual';
 export { Collection } from './Collection';
 export { Navigation } from './Navigation';
+export { SearchBarLibrary } from './SearchBar';
