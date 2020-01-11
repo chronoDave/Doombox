@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-import { INTERRUPT } from '@doombox/utils';
+import { ACTION } from '@doombox/utils';
 
 // Modules
 import {
@@ -50,10 +50,13 @@ const RouteProvider = () => {
   }, [domain]);
 
   useEffect(() => {
-    if (status === INTERRUPT.PENDING || status === INTERRUPT.ERROR) {
+    if (
+      status === ACTION.INTERRUPT.PENDING ||
+      status === ACTION.INTERRUPT.ERROR
+    ) {
       setDialog(PATH.DIALOG.INTERRUPT);
     }
-    if (!status || status === INTERRUPT.SUCCESS) {
+    if (!status || status === ACTION.INTERRUPT.SUCCESS) {
       setDialog(null);
     }
   }, [status]);

@@ -1,33 +1,62 @@
 const { ipcMain } = require('electron');
-const { ACTION } = require('@doombox/utils');
+const {
+  TYPE,
+  ACTION,
+  INTERRUPT
+} = require('@doombox/utils');
 
-const createRouter = (type, Controller) => {
-  ipcMain.on(type, (event, payload) => {
-    switch (payload.action) {
-      case ACTION.CRUD.CREATE:
-        return Controller.create(event, payload);
-      case ACTION.CRUD.READ:
-        return Controller.read(event, payload);
-      case ACTION.CRUD.READ_ONE:
-        return Controller.readOne(event, payload);
-      case ACTION.CRUD.UPDATE:
-        return Controller.update(event, payload);
-      case ACTION.CRUD.UPDATE_ONE:
-        return Controller.updateOne(event, payload);
-      case ACTION.CRUD.DELETE:
-        return Controller.delete(event, payload);
-      case ACTION.CRUD.DELETE_ONE:
-        return Controller.deleteOne(event, payload);
-      case ACTION.CRUD.DROP:
-        return Controller.drop(event, payload);
-      case ACTION.CRUD.COUNT:
-        return Controller.count(event, payload);
-      default:
-        throw new Error(`Invalid action: ${payload.action}`);
-    }
-  });
-};
+module.exports = class Router {
+  /**
+   * @param {Logger} logger
+   */
+  constructor(logger) {
+    this.log = logger;
+  }
 
-module.exports = {
-  createRouter
+  /**
+   * @param {String} type - Ipc type
+   * @param {Controller} Controller
+   */
+  createRouter(type, Controller) {
+    ipcMain.on(type, (event, payload) => {
+      try {
+        switch (payload.action) {
+          case ACTION.CRUD.CREATE:
+            Controller.create(event, payload);
+            break;
+          case ACTION.CRUD.READ:
+            Controller.read(event, payload);
+            break;
+          case ACTION.CRUD.READ_ONE:
+            Controller.readOne(event, payload);
+            break;
+          case ACTION.CRUD.UPDATE:
+            Controller.update(event, payload);
+            break;
+          case ACTION.CRUD.UPDATE_ONE:
+            Controller.updateOne(event, payload);
+            break;
+          case ACTION.CRUD.DELETE:
+            Controller.delete(event, payload);
+            break;
+          case ACTION.CRUD.DELETE_ONE:
+            Controller.deleteOne(event, payload);
+            break;
+          case ACTION.CRUD.DROP:
+            Controller.drop(event, payload);
+            break;
+          case ACTION.CRUD.COUNT:
+            Controller.count(event, payload);
+            break;
+          default:
+            throw new Error(`Invalid action: ${payload.action}`);
+        }
+      } catch (err) {
+        const errJson = this.log.errToJson(err);
+        this.log.createLogError(err);
+        event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
+        event.sender.send(TYPE.IPC.INTERRUPT, { type, status: INTERRUPT.ERROR });
+      }
+    });
+  }
 };

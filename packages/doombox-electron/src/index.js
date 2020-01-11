@@ -1,69 +1,94 @@
 const { app, ipcMain } = require('electron');
-const fse = require('fs-extra');
-const { TYPE, STORAGE } = require('@doombox/utils');
+const { TYPE } = require('@doombox/utils');
 
 // Lib
-const { createWindow } = require('./lib/window');
-const { createKeyboardListener } = require('./utils');
-const { createRouter } = require('./lib/router');
-const NeDB = require('./lib/database/nedb');
-
-// Controllers
-const StorageController = require('./controller/storageController');
-const LibraryController = require('./controller/libraryController');
-const PlaylistController = require('./controller/playlistController');
-const ImageController = require('./controller/imageController');
-const RpcController = require('./controller/rpcController');
+const { NeDB } = require('./lib/database');
+const MetadataParser = require('./lib/parser');
+const {
+  StorageController,
+  LibraryController,
+  PlaylistController,
+  ImageController,
+  RpcController
+} = require('./lib/controller');
+const Logger = require('./lib/log');
+const Router = require('./lib/router');
+const Storage = require('./lib/storage');
 
 // Utils
-const { PATH } = require('./utils/const');
-
+const { PATH } = require('./utils/path');
 const {
-  userConfig,
-  systemConfig,
-  systemCache
+  COLLECTION,
+  CACHE
+} = require('./utils/const');
+const {
+  createKeyboardListener,
+  createWindow
+} = require('./utils/electron');
+
 // eslint-disable-next-line import/no-dynamic-require
-} = require(
+const { CONFIG } = require(
   process.env.NODE_ENV === 'development' ?
-    './utils/config.dev' :
-    './utils/config'
+    './config.dev' :
+    './config'
 );
 
-if (!userConfig.get(STORAGE.GENERAL).hardwareAcceleration) app.disableHardwareAcceleration();
+const configUser = new Storage(PATH.CONFIG, 'user-config', CONFIG.USER);
+const configSystem = new Storage(PATH.CONFIG, 'system-config', CONFIG.SYSTEM);
+const cache = new Storage(PATH.CONFIG, 'cache', CONFIG.CACHE);
 
-fse.mkdirpSync(PATH.LOG);
-fse.mkdirpSync(PATH.IMAGE);
+if (!configUser.get(TYPE.CONFIG.GENERAL).hardwareAcceleration) {
+  app.disableHardwareAcceleration();
+}
 
-const db = new NeDB(PATH.DATABASE);
+const db = new NeDB(Object.values(COLLECTION), PATH.DATABASE);
+const logger = new Logger(PATH.LOG);
+const router = new Router(logger);
+
+const parserOptions = configSystem.get(TYPE.CONFIG.PARSER);
+const parser = new MetadataParser(db, {
+  ...parserOptions,
+  pathImage: parserOptions.pathImage || PATH.IMAGE
+});
 
 app.on('ready', () => {
-  createRouter(
-    TYPE.IPC.CONFIG.USER,
-    new StorageController(userConfig, TYPE.IPC.CONFIG.USER)
+  // General
+  router.createRouter(
+    TYPE.IPC.LIBRARY,
+    new LibraryController(db, parser)
   );
-  createRouter(
-    TYPE.IPC.CONFIG.SYSTEM,
-    new StorageController(systemConfig, TYPE.IPC.CONFIG.SYSTEM)
+  router.createRouter(
+    TYPE.IPC.PLAYLIST,
+    new PlaylistController(db)
   );
-  createRouter(
-    TYPE.IPC.CACHE,
-    new StorageController(systemCache, TYPE.IPC.CACHE)
+  router.createRouter(
+    TYPE.IPC.IMAGE,
+    new ImageController(db)
   );
+  router.createRouter(
+    TYPE.IPC.RPC,
+    new RpcController(logger, configUser.get(TYPE.CONFIG.DISCORD))
+  );
+  // Storage
+  router.createRouter(TYPE.IPC.CONFIG.USER, new StorageController(
+    configUser, TYPE.IPC.CONFIG.USER
+  ));
+  router.createRouter(TYPE.IPC.CONFIG.SYSTEM, new StorageController(
+    configSystem, TYPE.IPC.CONFIG.SYSTEM
+  ));
+  router.createRouter(TYPE.IPC.CACHE, new StorageController(
+    cache, TYPE.IPC.CACHE
+  ));
 
-  createRouter(TYPE.IPC.LIBRARY, new LibraryController(db, systemConfig.get(STORAGE.PARSER)));
-  createRouter(TYPE.IPC.PLAYLIST, new PlaylistController(db));
-  createRouter(TYPE.IPC.IMAGE, new ImageController(db));
-  createRouter(TYPE.IPC.RPC, new RpcController(userConfig.get(STORAGE.DISCORD)));
-
-  let mainWindow = createWindow(systemCache.get(STORAGE.DIMENSION));
+  let mainWindow = createWindow(cache.get(CACHE.DIMENSIONS));
 
   createKeyboardListener(
-    userConfig.get(STORAGE.KEYBIND),
+    configUser.get(TYPE.CONFIG.KEYBIND),
     ({ action }) => mainWindow.webContents.send(TYPE.IPC.KEYBIND, action)
   );
 
   mainWindow.on('resize', () => {
-    systemCache.set(STORAGE.DIMENSION, { ...mainWindow.getBounds() });
+    cache.set(CACHE.DIMENSIONS, { ...mainWindow.getBounds() });
   });
 
   mainWindow.on('closed', () => {
@@ -73,7 +98,7 @@ app.on('ready', () => {
 
 // Prevent multi-instance
 if (!app.requestSingleInstanceLock()) {
-  const { forceQuit } = userConfig.get(STORAGE.GENERAL);
+  const { forceQuit } = configUser.get(TYPE.CONFIG.GENERAL);
 
   if (!process.platform === 'darwin' || forceQuit) {
     app.quit();

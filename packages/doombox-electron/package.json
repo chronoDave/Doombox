@@ -8,7 +8,7 @@
     "start": "nodemon --watch src --exec electron .",
     "start:dev": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
     "build": "electron-builder",
-    "test:unit": "electron-mocha --recursive 'src/**/*.spec.js'",
+    "test:unit": "tap --files=src/**/*.spec.js --no-coverage",
     "arkit": "arkit -c ../../arkit/arkit-electron.js"
   },
   "dependencies": {

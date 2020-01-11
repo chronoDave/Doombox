@@ -24,7 +24,9 @@ module.exports = {
       'spectron',
       'chai',
       'chai-as-promised',
-      'shortid'
+      'shortid',
+      'tap',
+      'yup'
     ]
   },
   rules: {
@@ -35,7 +37,8 @@ module.exports = {
     'arrow-body-style': 'warn',
     'arrow-parens': ['error', 'as-needed'],
     'no-nested-ternary': 'off',
-    "no-underscore-dangle": ['error', { 'allow': ['_id']}], // Database _id property
+    'class-methods-use-this': 'off', // No support for private methods yet
+    'no-underscore-dangle': ['error', { 'allow': ['_id']}], // Database _id property
     // Import
     'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',

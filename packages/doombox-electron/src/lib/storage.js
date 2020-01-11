@@ -1,27 +1,33 @@
-const { app } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 // Utils
 const { stripKeys } = require('../utils');
 
-function parseFile(file, defaults) {
-  try {
-    return {
-      ...defaults,
-      ...JSON.parse(fs.readFileSync(file))
-    };
-  } catch (err) {
-    return defaults;
-  }
-}
-
 module.exports = class Storage {
-  constructor(options) {
-    const rootPath = app.getPath('userData');
+  /**
+   * @param {String} root - Path to storage file
+   * @param {String} name - Name of storage file
+   * @param {Object} defaults - Default storage values
+   */
+  constructor(root, name, defaults) {
+    this.file = path.join(root, `${name}.json`);
+    this.data = this.parseFile(this.file, defaults);
+  }
 
-    this.file = path.join(rootPath, `${options.fileName}.json`);
-    this.data = parseFile(this.file, options.defaults);
+  /**
+   * @param {String} file - Path to storage file
+   * @param {Object} defaults - Default storage values
+   */
+  parseFile(file, defaults) {
+    try {
+      return {
+        ...defaults,
+        ...JSON.parse(fs.readFileSync(file))
+      };
+    } catch (err) {
+      return defaults;
+    }
   }
 
   get(key) {

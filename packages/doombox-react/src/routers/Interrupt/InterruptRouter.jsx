@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  INTERRUPT,
+  ACTION,
   TYPE
 } from '@doombox/utils';
 
@@ -30,13 +30,13 @@ const InterruptRouter = ({ open, onClose }) => {
   const { status, type } = useIpc(HOOK.IPC.INTERRUPT);
 
   const renderPage = () => {
-    if (status === INTERRUPT.PENDING) {
+    if (status === ACTION.INTERRUPT.PENDING) {
       switch (type) {
         case TYPE.IPC.LIBRARY: return <InterruptScanningPage />;
         default: return null;
       }
     }
-    if (status === INTERRUPT.ERROR) return <InterruptErrorPage />;
+    if (status === ACTION.INTERRUPT.ERROR) return <InterruptErrorPage />;
     return null;
   };
 

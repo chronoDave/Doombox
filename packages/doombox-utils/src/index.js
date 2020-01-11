@@ -12,23 +12,24 @@ const TYPE = {
     MESSAGE: 'Message',
     INTERRUPT: 'Interrupt',
     IMAGE: 'Image'
+  },
+  CONFIG: {
+    GENERAL: 'general',
+    KEYBIND: 'keybind',
+    PALETTE: 'palette',
+    PLAYER: 'player',
+    PARSER: 'parser',
+    DISCORD: 'discord'
+  },
+  ID: {
+    WINDOW_MINIMIZE: 'window-minimize',
+    WINDOW_MAXIMIZE: 'window-maximize',
+    WINDOW_CLOSE: 'window-close'
   }
 };
 
-const STORAGE = {
-  GENERAL: 'general',
-  KEYBIND: 'keybind',
-  PALETTE: 'palette',
-  PARSER: 'parser',
-  PLAYER: 'player',
-  DIMENSION: 'dimension',
-  DISCORD: 'discord'
-};
-
-const INTERRUPT = {
-  PENDING: 'PENDING',
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
+const VALIDATION = {
+  REQUIRED: 'validation:required'
 };
 
 const ACTION = {
@@ -52,19 +53,16 @@ const ACTION = {
     DELETE_ONE: 'DELETE_ONE',
     DROP: 'DROP',
     COUNT: 'COUNT'
+  },
+  INTERRUPT: {
+    PENDING: 'PENDING',
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR'
   }
 };
 
-const ID = {
-  WINDOW_MINIMIZE: 'window-minimize',
-  WINDOW_MAXIMIZE: 'window-maximize',
-  WINDOW_CLOSE: 'window-close'
-};
-
 module.exports = {
-  STORAGE,
   TYPE,
-  INTERRUPT,
-  ACTION,
-  ID
+  VALIDATION,
+  ACTION
 };

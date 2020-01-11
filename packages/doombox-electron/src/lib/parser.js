@@ -1,124 +1,166 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
+const fse = require('fs-extra');
 const mm = require('music-metadata');
-const path = require('path');
 const shortid = require('shortid');
-const fs = require('fs');
-const { TYPE } = require('@doombox/utils');
-
-// Lib
-const { createLogError } = require('../utils');
+const glob = require('glob');
+const path = require('path');
 
 // Utils
 const { cleanFileName } = require('../utils');
 const {
-  PATH,
-  COLLECTION
+  COLLECTION,
+  OPTIONS
 } = require('../utils/const');
 
 module.exports = class MetadataParser {
-  constructor(database, options) {
-    this.payload = [];
+  /**
+   * @param {Object} options - Parser options
+   * @param {String=} options.glob - Custom glob
+   * @param {string[]=} options.fileFormats - Custom file formats
+   * @param {Boolean=} options.skipCovers - Skip covers when enabled
+   * Always `true` if `pathImage` is falsy
+   * @param {String=} options.pathImage - Path to images
+   * @param {Boolean=} options.parseStrict
+   * - If true, throws error if invalid metadata is found, otherwise silently continues
+   */
+  constructor(database, options = {}) {
     this.db = database;
-    this.options = options;
-    this.event = null;
-    this.max = 0;
-    this.log = null;
+
+    // Options
+    this.skipCovers = options[OPTIONS.PATH_IMAGE] ?
+      !!options[OPTIONS.SKIP_COVERS] :
+      true;
+    this.pathImage = options[OPTIONS.PATH_IMAGE];
+    this.fileFormats = options[OPTIONS.FILE_FORMATS];
+    this.parseStrict = options[OPTIONS.PARSE_STRICT];
+    this.glob = options[OPTIONS.GLOB];
   }
 
-  async writeImage(image, _id) {
-    const format = image.format.match(/(png|jpg|gif)/i);
-    const imagePath = path.resolve(
-      PATH.IMAGE,
-      `${_id}.${format ? format[0] : 'jpg'}`
-    );
-
-    fs.writeFileSync(imagePath, image.data);
-
-    try {
-      const doc = await this.db.readOne(COLLECTION.IMAGE, _id);
-      if (doc) return Promise.resolve();
-      await this.db.create(COLLECTION.IMAGE, {
-        _id,
-        path: imagePath,
-        picture: image.type,
-        description: image.description
-      });
-      return Promise.resolve();
-    } catch (err) {
-      createLogError(err);
-      return Promise.resolve();
-    }
+  // Utility
+  createGlobPattern() {
+    if (this.glob) return this.glob;
+    const fileTypes = (this.fileFormats || ['mp3']).join('|');
+    return `/**/*.?(${fileTypes})`;
   }
 
-  async parseAll(event, files) {
-    this.event = event;
-    this.max = files.length;
-    this.payload = [];
+  /**
+   * @param {string[]} folders - Array of folder paths
+   */
+  globFolders(folders) {
+    if (!folders) throw new Error(`No folders found: ${JSON.stringify(folders)}`);
+    const folderArray = Array.isArray(folders) ? folders : [folders];
+    return folderArray
+      .map(folder => glob.sync(this.createGlobPattern(), { root: folder }))
+      .reduce((acc, cur) => acc.concat(cur), []);
+  }
 
-    if (this.options.logging) {
-      this.log = path.join(PATH.LOG, `parser_${new Date().getTime()}.txt`);
-    }
+  // Parse
+  /**
+   * @callback parseCallback
+   * @param {Object} current - Current payload
+   * @param {Number} count - Amount of files
+   */
+
+  /**
+   * @param {(string[]|String)} folders - Array of folder paths or single folder path
+    @param {parseCallback=} cb - Callback function, fired on each file scanned
+   */
+  async parse(folders, cb) {
+    this.cb = cb;
 
     try {
-      await this.parseRecursive(files);
-      const songs = await this.db.create(COLLECTION.SONG, this.payload);
+      if (this.pathImage && !this.skipCovers) {
+        fse.removeSync(this.pathImage);
+        fse.mkdirpSync(this.pathImage);
+      }
+      const files = this.globFolders(folders);
+      await this.parseFiles(files);
+      const payload = await this.db.read(COLLECTION.SONG);
 
-      return Promise.resolve(songs);
+      return Promise.resolve(payload);
     } catch (err) {
       return Promise.reject(err);
     }
   }
 
-  handleParseRecursiveReturn(file, files) {
-    if (this.options.logging) {
-      fs.appendFileSync(this.log, JSON.stringify(file));
-    }
+  /**
+   * @param {string[]} files - Array of file paths
+   */
+  async parseFiles(files) {
+    for (const file of files) {
+      const {
+        format,
+        common: { picture: images, ...tags }
+      } = await mm.parseFile(file, { skipCovers: this.skipCovers });
 
-    this.event.sender.send(TYPE.IPC.MESSAGE, {
-      current: file,
-      value: this.max - files.length,
-      max: this.max
-    });
+      const payload = {
+        _id: shortid.generate(),
+        images: [],
+        file,
+        format,
+        metadata: tags
+      };
 
-    return this.parseRecursive(files);
-  }
-
-  async parseRecursive(files) {
-    const file = files.shift();
-
-    if (file) {
-      try {
-        const {
-          format,
-          common: { picture: pictures, ...tags }
-        } = await mm.parseFile(file);
-
-        const payload = {
-          images: [],
-          _id: shortid.generate(),
-          file,
-          format,
-          metadata: { ...tags }
-        };
-
-        if (pictures) {
-          pictures.forEach(async image => {
-            const _id = cleanFileName(`${tags.albumartist}-${tags.album}-${image.type}`);
+      const { artist, album, albumartist } = tags;
+      if (!artist || !album || !albumartist) {
+        if (this.parseStrict) {
+          throw new Error(`Missing metadata: ${JSON.stringify({ artist, album, albumartist })}`);
+        }
+      } else {
+        if (!this.skipCovers && images) {
+          for (const image of images) {
+            const _id = cleanFileName(`${albumartist}-${album}-${image.type}`);
             payload.images.push(_id);
-            await this.writeImage(image, _id);
-          });
+            await this.handleImage(_id, image);
+          }
+        } else {
+          payload.images = null;
         }
 
-        this.payload.push(payload);
+        if (this.cb) this.cb({ current: payload, size: files.length });
 
-        return this.handleParseRecursiveReturn(file, files);
-      } catch (err) {
-        if (this.options.parseStrict) return Promise.reject(err);
-        createLogError(err);
-
-        return this.handleParseRecursiveReturn(file, files);
+        await this.db.create(COLLECTION.SONG, payload);
       }
     }
-
     return Promise.resolve();
+  }
+
+  // Image
+  /**
+   * @param {String} _id - Image id
+   * @param {Object} image - Image object
+   * @param {Buffer} image.data
+   * @param {String} image.format
+   * @param {String=} image.description
+   * @param {String=} image.type
+   */
+  async handleImage(_id, image) {
+    const format = image.format.match(/(png|jpg|gif)/i);
+    const file = path.resolve(
+      this.pathImage,
+      `${_id}.${format ? format[0] : 'jpg'}`
+    );
+
+    return new Promise((resolve, reject) => {
+      fse.access(file, fse.constants.F_OK, async notExists => {
+        if (notExists) {
+          try {
+            await fse.writeFile(file, image.data);
+            const payload = {
+              _id,
+              path: file,
+              picture: image.type,
+              description: image.description
+            };
+            await this.db.create(COLLECTION.IMAGE, payload);
+            return resolve();
+          } catch (err) {
+            return reject(err);
+          }
+        }
+        return resolve();
+      });
+    });
   }
 };

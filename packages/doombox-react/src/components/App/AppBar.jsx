@@ -1,5 +1,5 @@
 import React from 'react';
-import { ID } from '@doombox/utils';
+import { TYPE } from '@doombox/utils';
 import clsx from 'clsx';
 
 // Icons
@@ -48,21 +48,21 @@ const AppBar = () => {
       </div>
       <Box display="flex" flexShrink={0}>
         <ButtonBase
-          id={ID.WINDOW_MINIMIZE}
+          id={TYPE.ID.WINDOW_MINIMIZE}
           onClick={() => browserWindow.minimize()}
           classes={{ root: classes.button }}
         >
           <Icon type="minimize" fontSize="small" />
         </ButtonBase>
         <ButtonBase
-          id={ID.WINDOW_MAXIMIZE}
+          id={TYPE.ID.WINDOW_MAXIMIZE}
           onClick={() => handleMaximize()}
           classes={{ root: classes.button }}
         >
           <IconMaximize fontSize="small" />
         </ButtonBase>
         <ButtonBase
-          id={ID.WINDOW_CLOSE}
+          id={TYPE.ID.WINDOW_CLOSE}
           onClick={() => browserWindow.close()}
           classes={{ root: classes.buttonClose }}
         >

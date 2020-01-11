@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  TYPE,
-  STORAGE
-} from '@doombox/utils';
+import { TYPE } from '@doombox/utils';
 
 // Actions
 import {
@@ -77,14 +74,14 @@ class AudioProvider extends Component {
         ...state,
         playerValue: { ...state.playerValue, autoplay }
       }));
-      updateStorage(TYPE.IPC.CACHE, STORAGE.PLAYER, { autoplay });
+      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { autoplay });
     });
     this.audio.on(EVENT.AUDIO.PLAYLIST, playlist => (
       this.setState(state => ({ ...state, playlistValue: playlist }))
     ));
     this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
       this.setState(state => ({ ...state, volumeValue }));
-      updateStorage(TYPE.IPC.CACHE, STORAGE.PLAYER, { volume: volumeValue });
+      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { volume: volumeValue });
     });
     this.audio.on(EVENT.AUDIO.POSITION, positionValue => (
       this.setState(state => ({ ...state, positionValue: positionValue || 0 }))
@@ -100,7 +97,7 @@ class AudioProvider extends Component {
         ...state,
         playerValue: { ...state.playerValue, muted }
       }));
-      updateStorage(TYPE.IPC.CACHE, STORAGE.PLAYER, { muted });
+      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { muted });
     });
     this.audio.on(EVENT.AUDIO.CURRENT, currentValue => (
       this.setState(state => ({ ...state, currentValue }))
@@ -118,7 +115,7 @@ class AudioProvider extends Component {
     });
 
     ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { key, payload }) => {
-      if (key === STORAGE.DISCORD) {
+      if (key === TYPE.CONFIG.DISCORD) {
         this.audio.rpc.imageKey = payload.imageKey;
       }
     });
@@ -134,8 +131,8 @@ class AudioProvider extends Component {
       }));
     });
 
-    readStorage(TYPE.IPC.CACHE, STORAGE.PLAYER);
-    readStorage(TYPE.IPC.CONFIG.USER, STORAGE.DISCORD);
+    readStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER);
+    readStorage(TYPE.IPC.CONFIG.USER, TYPE.CONFIG.DISCORD);
 
     readCollection(TYPE.IPC.LIBRARY);
     readCollection(TYPE.IPC.PLAYLIST);

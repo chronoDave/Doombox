@@ -1,26 +1,28 @@
-const { assert } = require('chai');
+require('tap').mochaGlobals();
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 
+// Core
 const NeDB = require('./nedb');
-
-// Utils
 const { COLLECTION } = require('../../utils/const');
 
-describe('NeDB', () => {
+chai.use(chaiAsPromised);
+const { assert, expect } = chai;
+
+context('NeDB', () => {
   beforeEach(() => {
     this.collection = COLLECTION.IMAGE;
-    this.db = new NeDB();
+    this.db = new NeDB(this.collection);
   });
 
   describe('create()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.create()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.create()).to.be.rejected
+    ));
 
-    it('Throws an error if no docs are provided', () => {
-      this.db.create(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if no docs are provided', () => (
+      expect(this.db.create(this.collection)).to.be.rejected
+    ));
 
     it('Inserts single object', async () => {
       const payload = { data: 'test' };
@@ -40,12 +42,11 @@ describe('NeDB', () => {
   });
 
   describe('read()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.read()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if invalid collection is provided', () => (
+      expect(this.db.read()).to.be.rejected
+    ));
 
-    it('Reads all entries without a query', async () => {
+    it('Reads database without query', async () => {
       const payload = [{ data: 'test_1' }, { data: 'test_2' }];
 
       await this.db.create(this.collection, payload);
@@ -55,7 +56,7 @@ describe('NeDB', () => {
       assert.containsAllKeys(docs[0], Object.keys(payload[0]));
     });
 
-    it('Accepts queries', async () => {
+    it('Accepts query', async () => {
       const payload = [{ planet: 'Earth' }, { planet: 'Mars' }];
 
       await this.db.create(this.collection, payload);
@@ -86,20 +87,13 @@ describe('NeDB', () => {
   });
 
   describe('readOne()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.readOne()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.readOne()).to.be.rejected
+    ));
 
-    it('Throws an error if no _id is provided', () => {
-      this.db.readOne(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
-
-    it('Throws an error if an invalid _id is provided', () => {
-      this.db.readOne(this.collection, { _id: 'yeet' })
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if no _id is provided', () => (
+      expect(this.db.readOne(this.collection)).to.be.rejected
+    ));
 
     it('Accepts queries', async () => {
       const payload = [
@@ -130,15 +124,13 @@ describe('NeDB', () => {
   });
 
   describe('update()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.update()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.update()).to.be.rejected
+    ));
 
-    it('Throws an error if no update is provided', () => {
-      this.db.update(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if no update is provided', () => (
+      expect(this.db.update(this.collection)).to.be.rejected
+    ));
 
     it('Replaces objects without a query', async () => {
       const payload = [
@@ -174,25 +166,13 @@ describe('NeDB', () => {
   });
 
   describe('updateOne()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.updateOne()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.updateOne()).to.be.rejected
+    ));
 
-    it('Throws an error if no _id is provided', () => {
-      this.db.updateOne(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
-
-    it('Throws an error if an invalid _id is provided', () => {
-      this.db.updateOne(this.collection, { _id: 'yeet' })
-        .then(assert.fail).catch(assert.exists);
-    });
-
-    it('Throws an error if no update is provided', () => {
-      this.db.updateOne(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if no _id is provided', () => (
+      expect(this.db.updateOne(this.collection)).to.be.rejected
+    ));
 
     it('Updates single object', async () => {
       const payload = [
@@ -215,15 +195,13 @@ describe('NeDB', () => {
   });
 
   describe('delete()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.delete()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.delete()).to.be.rejected
+    ));
 
-    it('Throws an error if no query is provided', () => {
-      this.db.delete(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if no query is provided', () => (
+      expect(this.db.delete(this.collection)).to.be.rejected
+    ));
 
     it('Deletes objects', async () => {
       const payload = [{ planet: 'Earth' }, { planet: 'Mars' }];
@@ -236,20 +214,13 @@ describe('NeDB', () => {
   });
 
   describe('deleteOne()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.deleteOne()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.deleteOne()).to.be.rejected
+    ));
 
-    it('Throws an error if no _id is provided', () => {
-      this.db.deleteOne(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
-
-    it('Throws an error if an invalid _id is provided', () => {
-      this.db.deleteOne(this.collection, { _id: 'yeet' })
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if no _id is provided', () => (
+      expect(this.db.deleteOne(this.collection)).to.be.rejected
+    ));
 
     it('Deletes single object', async () => {
       const payload = [
@@ -266,10 +237,9 @@ describe('NeDB', () => {
   });
 
   describe('drop()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.count()
-        .then(assert.fail).catch(assert.exists);
-    });
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.drop()).to.be.rejected
+    ));
 
     it('Drops collection', async () => {
       const payload = [{ planet: 'Earth' }, { planet: 'Mars' }];
@@ -282,17 +252,24 @@ describe('NeDB', () => {
   });
 
   describe('count()', () => {
-    it('Throws an error if an invalid collection is provided', () => {
-      this.db.count()
-        .then(assert.fail).catch(assert.exists);
+    it('Throws an error if an invalid collection is provided', () => (
+      expect(this.db.count()).to.be.rejected
+    ));
+
+    it('Counts objects without a query', async () => {
+      const payload = [
+        { _id: '1', planet: 'Earth', inhabited: true },
+        { _id: '2', planet: 'Mars', inhabited: false },
+        { _id: '3', planet: 'Omicron Persei 8', inhabited: true }
+      ];
+
+      await this.db.create(this.collection, payload);
+      const count = await this.db.count(this.collection);
+
+      assert.strictEqual(count, 3);
     });
 
-    it('Throws an error if no query is provided', () => {
-      this.db.count(this.collection)
-        .then(assert.fail).catch(assert.exists);
-    });
-
-    it('Counts objects', async () => {
+    it('Counts objects with a query', async () => {
       const payload = [
         { _id: '1', planet: 'Earth', inhabited: true },
         { _id: '2', planet: 'Mars', inhabited: false },

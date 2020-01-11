@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TYPE, STORAGE } from '@doombox/utils';
+import { TYPE } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Actions
@@ -26,12 +26,12 @@ class IpcProvider extends Component {
         },
         updatePalette: palette => updateStorage(
           TYPE.IPC.CONFIG.USER,
-          STORAGE.PALETTE,
+          TYPE.CONFIG.PALETTE,
           palette
         ),
         setBackgroundOpacity: backgroundOpacity => updateStorage(
           TYPE.IPC.CONFIG.USER,
-          STORAGE.PALETTE,
+          TYPE.CONFIG.PALETTE,
           { backgroundOpacity }
         )
       },
@@ -70,7 +70,7 @@ class IpcProvider extends Component {
   }
 
   componentDidMount() {
-    readStorage(TYPE.IPC.CONFIG.USER, STORAGE.PALETTE);
+    readStorage(TYPE.IPC.CONFIG.USER, TYPE.CONFIG.PALETTE);
     readCollection(TYPE.IPC.IMAGE, { castObject: true });
   }
 

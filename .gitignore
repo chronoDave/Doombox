@@ -7,3 +7,4 @@ client
 .vs
 config.dev.js
 *.arkit.svg
+.nyc_output
