@@ -26,8 +26,8 @@ module.exports = class NeDB {
   async create(collection, docs) {
     return new Promise((resolve, reject) => this[collection]
       .insert(docs, (err, newDocs) => {
-        if (err) reject(err);
-        resolve(newDocs);
+        if (err) return reject(err);
+        return resolve(newDocs);
       }));
   }
 
@@ -51,8 +51,8 @@ module.exports = class NeDB {
       .projection(projection)
       .sort(sort)
       .exec((err, docs) => {
-        if (err) reject(err);
-        resolve(castObject ? arrayToObject('_id', docs) : docs);
+        if (err) return reject(err);
+        return resolve(castObject ? arrayToObject('_id', docs) : docs);
       }));
   }
 
@@ -68,8 +68,8 @@ module.exports = class NeDB {
         .findOne({ _id })
         .projection(projection)
         .exec((err, docs) => {
-          if (err) reject(err);
-          resolve(docs);
+          if (err) return reject(err);
+          return resolve(docs);
         });
     });
   }
@@ -88,8 +88,8 @@ module.exports = class NeDB {
           update,
           { multi: true, returnUpdatedDocs: true },
           (err, count, newDocs) => {
-            if (err) reject(err);
-            resolve(newDocs);
+            if (err) return reject(err);
+            return resolve(newDocs);
           }
         );
     });
@@ -109,8 +109,8 @@ module.exports = class NeDB {
           update,
           { returnUpdatedDocs: true },
           (err, count, newDocs) => {
-            if (err) reject(err);
-            resolve(newDocs);
+            if (err) return reject(err);
+            return resolve(newDocs);
           }
         );
     });
@@ -125,8 +125,8 @@ module.exports = class NeDB {
       if (!query) return reject(new Error(`No 'query' provided: ${query}`));
       return this[collection]
         .remove(query, { multi: true }, (err, count) => {
-          if (err) reject(err);
-          resolve(count);
+          if (err) return reject(err);
+          return resolve(count);
         });
     });
   }
@@ -140,8 +140,8 @@ module.exports = class NeDB {
       if (!_id) return reject(new Error(`No '_id' provided: ${_id}`));
       return this[collection]
         .remove({ _id }, { multi: false }, (err, count) => {
-          if (err) reject(err);
-          resolve(count);
+          if (err) return reject(err);
+          return resolve(count);
         });
     });
   }
@@ -152,8 +152,8 @@ module.exports = class NeDB {
   async drop(collection) {
     return new Promise((resolve, reject) => this[collection]
       .remove({}, { multi: true }, (err, count) => {
-        if (err) reject(err);
-        resolve(count);
+        if (err) return reject(err);
+        return resolve(count);
       }));
   }
 
@@ -164,8 +164,8 @@ module.exports = class NeDB {
   async count(collection, query = {}) {
     return new Promise((resolve, reject) => this[collection]
       .count(query, (err, count) => {
-        if (err) reject(err);
-        resolve(count);
+        if (err) return reject(err);
+        return resolve(count);
       }));
   }
 };

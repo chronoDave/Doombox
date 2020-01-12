@@ -1,3 +1,6 @@
+// Utils
+const { stripKeys } = require('../../utils');
+
 module.exports = class StorageController {
   constructor(config, type) {
     this.config = config;
@@ -16,7 +19,13 @@ module.exports = class StorageController {
     });
   }
 
-  async read(event, { data }) {
+  async read(event) {
+    const payload = this.config.all();
+    console.log(payload);
+    event.sender.send(this.type, { payload });
+  }
+
+  async readOne(event, { data }) {
     await this.validateData(data);
     const payload = this.config.get(data.key);
     event.sender.send(this.type, { key: data.key, payload });

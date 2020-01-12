@@ -3,10 +3,7 @@ import React, {
   useEffect,
   useMemo
 } from 'react';
-import {
-  TYPE,
-  STORAGE
-} from '@doombox/utils';
+import { TYPE } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -31,14 +28,16 @@ const ThemeProvider = ({ children }) => {
   }));
 
   const {
-    darkTheme,
-    primary,
-    secondary,
-    error,
-    warning,
-    success,
-    info,
-    grey
+    palette: {
+      darkTheme,
+      primary,
+      secondary,
+      error,
+      warning,
+      success,
+      info,
+      grey
+    }
   } = useIpc(HOOK.IPC.CONFIG);
 
   useEffect(() => {
@@ -68,7 +67,7 @@ const ThemeProvider = ({ children }) => {
   const methods = useMemo(() => ({
     setDarkTheme: newDarkTheme => updateStorage(
       TYPE.IPC.CONFIG.USER,
-      STORAGE.PALETTE,
+      TYPE.CONFIG.PALETTE,
       { darkTheme: newDarkTheme }
     )
   }), []);

@@ -25,7 +25,7 @@ const InterruptScanningPage = () => (
       </Typography>
     </Box>
     <Box mb={8} width="100%">
-      <ProgressScanning disableAnimation />
+      <ProgressScanning />
     </Box>
   </Box>
 );

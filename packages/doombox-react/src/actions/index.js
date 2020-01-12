@@ -23,12 +23,7 @@ export const scanFolders = payload => ipcRenderer.send(
   }
 );
 
-export const readStorage = (type, key) => ipcRenderer.send(
-  type, {
-    action: ACTION.CRUD.READ,
-    data: { key }
-  }
-);
+export const readStorage = type => ipcRenderer.send(type, { action: ACTION.CRUD.READ });
 
 export const readCollection = (
   type,
@@ -52,21 +47,25 @@ export const readCollection = (
   })
 );
 
-export const queryLibrary = query => ipcRenderer.send(
-  TYPE.IPC.LIBRARY,
-  {
-    action: ACTION.CRUD.READ,
-    data: {
-      regex: [
-        { property: 'metadata.artist', expression: query },
-        { property: 'metadata.title', expression: query },
-        { property: 'metadata.album', expression: query },
-        { property: 'metadata.label', expression: query },
-        { property: 'metadata.albumartist', expression: query }
+export const queryLibrary = query => {
+  const payload = query === '' ? ({ query: '' }) : ({
+    logic: {
+      operator: 'or',
+      expressions: [
+        { key: 'metadata.artist', expression: query },
+        { key: 'metadata.title', expression: query },
+        { key: 'metadata.album', expression: query },
+        { key: 'metadata.label', expression: query },
+        { key: 'metadata.albumartist', expression: query }
       ]
     }
-  }
-);
+  });
+
+  ipcRenderer.send(TYPE.IPC.LIBRARY, {
+    action: ACTION.CRUD.READ,
+    data: payload
+  });
+};
 
 export const updateStorage = (type, key, payload) => ipcRenderer.send(
   type, {

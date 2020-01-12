@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 // Locales
-import * as us from '../static/locales/en-US.json';
+import us from '../static/locales/en-US.json';
 
 i18n
   .use(initReactI18next)

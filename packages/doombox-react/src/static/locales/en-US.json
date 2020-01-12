@@ -1,10 +1,19 @@
 {
   "common": {
-    "search": "Search"
+    "search": "Search",
+    "resultCount": "{{count}} results"
   },
   "action": {
     "cancel": "Cancel",
     "create": "Create"
+  },
+  "field": {
+    "dense": "Dense layout",
+    "slowSearch": "Slow search"
+  },
+  "description": {
+    "field_dense": "Enable compact view. Removes most of the metadata, allowing for more songs on screen.",
+    "field_slowSearch": "Turn this on if you are experiencing lag when typing in the searchbar"
   },
   "title": {
     "createPlaylist": "Create Playlist"

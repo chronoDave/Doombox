@@ -15,8 +15,8 @@ module.exports = {
         hardwareAcceleration: true,
       },
       [TYPE.CONFIG.DISCORD]: {
-        discordToken: null,
-        imageKey: null
+        [TYPE.OPTIONS.TOKEN]: null,
+        [TYPE.OPTIONS.KEY_IMAGE]: null
       },
       [TYPE.CONFIG.KEYBIND]: {
         [ACTION.AUDIO.NEXT]: 'CommandOrControl+Alt+Right',
@@ -38,6 +38,10 @@ module.exports = {
         success: null,
         info: null,
         grey: null
+      },
+      [TYPE.CONFIG.SEARCH]: {
+        [TYPE.OPTIONS.DENSE]: false,
+        [TYPE.OPTIONS.SLOW_SEARCH]: false
       }
     },
     SYSTEM: {

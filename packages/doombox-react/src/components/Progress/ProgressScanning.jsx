@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef } from 'react';
+import throttle from 'lodash.throttle';
 
 // Core
 import {
   Box,
-  Typography,
   LinearProgress
 } from '@material-ui/core';
+
+import { Typography } from '../Typography';
 
 // Hooks
 import { useIpc } from '../../hooks';
@@ -17,14 +18,16 @@ import { HOOK } from '../../utils/const';
 // Styles
 import { useProgressStyles } from './Progress.style';
 
-const ProgressScanning = ({ disableAnimation }) => {
-  const { current, value, max } = useIpc(HOOK.IPC.MESSAGE);
+const ProgressScanning = () => {
+  const { file, current, size } = useIpc(HOOK.IPC.MESSAGE);
   const classes = useProgressStyles();
 
-  const getValue = () => {
-    if (!value || !max) return 0;
-    return (Math.round(value / max * 100));
-  };
+  const throttledValue = useRef(throttle(
+    (cur, max) => {
+      if (!cur || !max) return 0;
+      return (Math.round(cur / max * 100));
+    }, 100
+  )).current;
 
   return (
     <Box
@@ -39,29 +42,24 @@ const ProgressScanning = ({ disableAnimation }) => {
         mb={1}
       >
         <LinearProgress
-          value={getValue()}
+          value={throttledValue(current, size)}
           variant="determinate"
           classes={{ root: classes.root }}
-          className={{ [classes.disableAnimation]: disableAnimation }}
           color="secondary"
         />
         <Typography>
-          {`${getValue()}%`}
+          {`${throttledValue(current, size)}%`}
         </Typography>
       </Box>
-      <Typography variant="caption" align="center">
-        {current || 'Loading...'}
+      <Typography
+        variant="caption"
+        align="center"
+        clamp={2}
+      >
+        {file || 'Loading...'}
       </Typography>
     </Box>
   );
-};
-
-ProgressScanning.propTypes = {
-  disableAnimation: PropTypes.bool
-};
-
-ProgressScanning.defaultProps = {
-  disableAnimation: false
 };
 
 export default ProgressScanning;

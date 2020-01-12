@@ -14,7 +14,6 @@ module.exports = class LibraryController {
     this.type = TYPE.IPC.LIBRARY;
 
     this.event = null;
-    this.index = 0;
   }
 
   async create(event, { data }) {
@@ -26,7 +25,7 @@ module.exports = class LibraryController {
     sendInterrupt(ACTION.INTERRUPT.PENDING);
 
     this.event = event;
-    this.index = 0;
+    let index = 0;
 
     // Clean database
     await this.db.drop(COLLECTION.SONG);
@@ -34,10 +33,10 @@ module.exports = class LibraryController {
 
     // Parse
     const handleMessage = ({ current, size }) => {
-      this.index += 1;
+      index += 1;
       this.event.sender.send(TYPE.IPC.MESSAGE, {
         file: current.file,
-        current: this.indexCur,
+        current: index,
         size
       });
     };

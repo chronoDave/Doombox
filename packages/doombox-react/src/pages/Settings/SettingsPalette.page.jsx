@@ -24,7 +24,7 @@ import { HOOK } from '../../utils/const';
 const SettingsPalette = () => {
   const theme = useMuiTheme();
   const { setDarkTheme } = useTheme();
-  const { backgroundOpacity } = useIpc(HOOK.IPC.CONFIG);
+  const { palette: { backgroundOpacity } } = useIpc(HOOK.IPC.CONFIG);
   const { setBackgroundOpacity } = useIpc(HOOK.IPC.METHOD);
 
   return (

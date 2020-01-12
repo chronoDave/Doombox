@@ -18,7 +18,7 @@ import { HOOK } from '../../utils/const';
 import { useModalStyle } from './Modal.style';
 
 const ModalFade = ({ open, onClose, children }) => {
-  const { backgroundOpacity } = useIpc(HOOK.IPC.CONFIG);
+  const { palette: { backgroundOpacity } } = useIpc(HOOK.IPC.CONFIG);
   const classes = useModalStyle({ backgroundOpacity });
 
   return (

@@ -34,6 +34,7 @@ export const createTheme = ({
         tab: 64,
         panel: 192
       }
-    }
+    },
+    createBorder: (color, width = '1px', style = 'solid') => `${width} ${style} ${color}`
   });
 };

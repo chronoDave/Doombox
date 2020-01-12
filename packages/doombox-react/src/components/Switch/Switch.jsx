@@ -14,18 +14,13 @@ const Switch = props => {
     secondary,
     checked,
     onChange,
-    maxWidth
+    id
   } = props;
 
   return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      maxWidth={maxWidth}
-    >
-      <Box display="flex" flexDirection="column">
-        <Typography>
+    <Box display="flex" p={1} justifyContent="space-between">
+      <Box display="flex" flexDirection="column" justifyContent="center">
+        <Typography gutterBottom={!!secondary}>
           {primary}
         </Typography>
         {secondary && (
@@ -35,6 +30,7 @@ const Switch = props => {
         )}
       </Box>
       <MuiSwitch
+        inputProps={{ id: id || primary }}
         checked={checked}
         onChange={onChange}
         color="primary"
@@ -48,12 +44,12 @@ Switch.propTypes = {
   secondary: PropTypes.string,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  maxWidth: PropTypes.number
+  id: PropTypes.string
 };
 
 Switch.defaultProps = {
   secondary: null,
-  maxWidth: null
+  id: null
 };
 
 export default Switch;

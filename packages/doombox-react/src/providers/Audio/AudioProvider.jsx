@@ -109,15 +109,13 @@ class AudioProvider extends Component {
     ipcRenderer.once(TYPE.IPC.CACHE, (event, { payload }) => {
       this.setState(state => ({
         ...state,
-        playerValue: { ...state.playerValue, ...payload }
+        playerValue: payload[TYPE.CONFIG.PLAYER]
       }));
       this.setState(state => ({ ...state, volume: payload.volume }));
     });
 
-    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { key, payload }) => {
-      if (key === TYPE.CONFIG.DISCORD) {
-        this.audio.rpc.imageKey = payload.imageKey;
-      }
+    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { payload }) => {
+      this.audio.rpc.imageKey = payload[TYPE.CONFIG.DISCORD][TYPE.OPTIONS.KEY_IMAGE] || null;
     });
 
     ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
@@ -131,8 +129,7 @@ class AudioProvider extends Component {
       }));
     });
 
-    readStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER);
-    readStorage(TYPE.IPC.CONFIG.USER, TYPE.CONFIG.DISCORD);
+    readStorage(TYPE.IPC.CACHE);
 
     readCollection(TYPE.IPC.LIBRARY);
     readCollection(TYPE.IPC.PLAYLIST);

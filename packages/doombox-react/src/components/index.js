@@ -34,3 +34,4 @@ export { InputSearch } from './Input';
 export { ModalFade } from './Modal';
 export { Switch } from './Switch';
 export { ProgressScanning } from './Progress';
+export { Typography } from './Typography';

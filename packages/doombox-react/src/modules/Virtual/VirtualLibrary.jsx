@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useMemo
 } from 'react';
+import { TYPE } from '@doombox/utils';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import groupby from 'lodash.groupby';
@@ -11,7 +12,10 @@ import groupby from 'lodash.groupby';
 import { useTheme } from '@material-ui/core/styles';
 
 // Hooks
-import { useAudio } from '../../hooks';
+import {
+  useAudio,
+  useIpc
+} from '../../hooks';
 
 // Utils
 import { HOOK } from '../../utils/const';
@@ -21,13 +25,28 @@ import { useVirtualStyles } from './Virtual.style';
 
 import LibraryItem from './VirtualLibraryItem';
 
+// Utils
+import { formatTime } from '../../utils';
+
 const groupByAlbum = library => Object
   .entries(groupby(library, 'metadata.album'))
-  .map(([key, values]) => [
+  .map(([album, values]) => [
     {
-      title: `${values[0].metadata.albumartist} - ${key}`
+      divider: {
+        primary: album,
+        secondary: [
+          values[0].metadata.albumartist,
+          values[0].metadata.year,
+          `${values.length} tracks`,
+          formatTime(
+            values.reduce((acc, cur) => acc + cur.format.duration, 0),
+            'text'
+          )
+        ].join(' \u2022 ')
+      },
     },
     ...values
+      .sort((a, b) => a.metadata.track.no - b.metadata.track.no)
   ])
   .flat();
 
@@ -37,6 +56,7 @@ const VirtualLibrary = () => {
   const library = useAudio(HOOK.AUDIO.LIBRARY);
   const { _id: current } = useAudio(HOOK.AUDIO.CURRENT);
   const { createSong } = useAudio(HOOK.AUDIO.METHOD);
+  const { search } = useIpc(HOOK.IPC.CONFIG);
   const theme = useTheme();
   const classes = useVirtualStyles();
 
@@ -48,8 +68,9 @@ const VirtualLibrary = () => {
     current,
     classes,
     createSong,
+    dense: search[TYPE.OPTIONS.DENSE],
     collection
-  }), [collection, current, classes]);
+  }), [collection, current, classes, search]);
 
   return (
     <AutoSizer>
@@ -59,7 +80,7 @@ const VirtualLibrary = () => {
           height={height}
           itemCount={collection.length}
           itemData={itemData}
-          itemSize={theme.spacing(7)}
+          itemSize={theme.spacing(search[TYPE.OPTIONS.DENSE] ? 5 : 7)}
         >
           {LibraryItem}
         </FixedSizeList>

@@ -19,7 +19,14 @@ const TYPE = {
     PALETTE: 'palette',
     PLAYER: 'player',
     PARSER: 'parser',
-    DISCORD: 'discord'
+    DISCORD: 'discord',
+    SEARCH: 'search'
+  },
+  OPTIONS: {
+    DENSE: 'dense',
+    SLOW_SEARCH: 'slowSearch',
+    TOKEN: 'token',
+    KEY_IMAGE: 'imageKey'
   },
   ID: {
     WINDOW_MINIMIZE: 'window-minimize',

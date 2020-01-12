@@ -33,12 +33,18 @@ class IpcProvider extends Component {
           TYPE.IPC.CONFIG.USER,
           TYPE.CONFIG.PALETTE,
           { backgroundOpacity }
+        ),
+        updateSearch: search => updateStorage(
+          TYPE.IPC.CONFIG.USER,
+          TYPE.CONFIG.SEARCH,
+          search
         )
       },
       keybindValue: {},
       messageValue: {},
       interruptValue: {},
-      configValue: {},
+      configValue: Object.values(TYPE.CONFIG)
+        .reduce((acc, cur) => ({ ...acc, [cur]: {} }), {}),
       imageValue: {}
     };
 
@@ -70,7 +76,7 @@ class IpcProvider extends Component {
   }
 
   componentDidMount() {
-    readStorage(TYPE.IPC.CONFIG.USER, TYPE.CONFIG.PALETTE);
+    readStorage(TYPE.IPC.CONFIG.USER);
     readCollection(TYPE.IPC.IMAGE, { castObject: true });
   }
 

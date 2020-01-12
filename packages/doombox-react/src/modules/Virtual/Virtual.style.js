@@ -6,5 +6,11 @@ export const useVirtualStyles = makeStyles(theme => ({
   },
   active: {
     backgroundColor: theme.palette.primary.main
+  },
+  block: {
+    display: 'block'
+  },
+  itemTrack: {
+    minWidth: theme.spacing(4)
   }
 }));

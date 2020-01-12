@@ -12,7 +12,7 @@ export const useGlobalStyles = makeStyles(theme => ({
   '@global': {
     '*::-webkit-scrollbar': {
       backgroundColor: theme.palette.grey[0],
-      width: theme.spacing(0.5)
+      width: theme.spacing()
     },
     '*::-webkit-scrollbar-thumb': {
       backgroundColor: theme.palette.grey[300]

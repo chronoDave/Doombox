@@ -89,38 +89,44 @@ module.exports = class MetadataParser {
    */
   async parseFiles(files) {
     for (const file of files) {
-      const {
-        format,
-        common: { picture: images, ...tags }
-      } = await mm.parseFile(file, { skipCovers: this.skipCovers });
+      try {
+        const {
+          format,
+          common: { picture: images, ...tags }
+        } = await mm.parseFile(file, { skipCovers: this.skipCovers });
 
-      const payload = {
-        _id: shortid.generate(),
-        images: [],
-        file,
-        format,
-        metadata: tags
-      };
+        const payload = {
+          _id: shortid.generate(),
+          images: [],
+          file,
+          format,
+          metadata: tags
+        };
 
-      const { artist, album, albumartist } = tags;
-      if (!artist || !album || !albumartist) {
-        if (this.parseStrict) {
-          throw new Error(`Missing metadata: ${JSON.stringify({ artist, album, albumartist })}`);
-        }
-      } else {
-        if (!this.skipCovers && images) {
-          for (const image of images) {
-            const _id = cleanFileName(`${albumartist}-${album}-${image.type}`);
-            payload.images.push(_id);
-            await this.handleImage(_id, image);
+        const { artist, album, albumartist } = tags;
+        if (!artist || !album || !albumartist) {
+          if (this.parseStrict) {
+            throw new Error(`Missing metadata: ${JSON.stringify({ artist, album, albumartist })}`);
           }
         } else {
-          payload.images = null;
+          if (!this.skipCovers && images) {
+            for (const image of images) {
+              const formatMatch = image.format.match(/(png|jpg|gif)/i);
+              const formatImage = formatMatch ? formatMatch[0] : 'jpg'
+              const _id = cleanFileName(`${albumartist}-${album}-${image.type}-${formatImage}`);
+              payload.images.push(_id);
+              await this.handleImage(_id, image, formatImage);
+            }
+          } else {
+            payload.images = null;
+          }
+
+          if (this.cb) this.cb({ current: payload, size: files.length });
+
+          await this.db.create(COLLECTION.SONG, payload);
         }
-
-        if (this.cb) this.cb({ current: payload, size: files.length });
-
-        await this.db.create(COLLECTION.SONG, payload);
+      } catch (err) {
+        return Promise.reject(err);
       }
     }
     return Promise.resolve();
@@ -129,23 +135,21 @@ module.exports = class MetadataParser {
   // Image
   /**
    * @param {String} _id - Image id
+   * @param {String} format - Image format
    * @param {Object} image - Image object
    * @param {Buffer} image.data
    * @param {String} image.format
    * @param {String=} image.description
    * @param {String=} image.type
    */
-  async handleImage(_id, image) {
-    const format = image.format.match(/(png|jpg|gif)/i);
-    const file = path.resolve(
-      this.pathImage,
-      `${_id}.${format ? format[0] : 'jpg'}`
-    );
-
-    return new Promise((resolve, reject) => {
-      fse.access(file, fse.constants.F_OK, async notExists => {
-        if (notExists) {
-          try {
+  async handleImage(_id, image, format) {
+    const file = path.resolve(this.pathImage, `${_id}.${format}`);
+    return new Promise((resolve, reject) => fse.access(
+      file,
+      fse.constants.F_OK,
+      async notExists => {
+        try {
+          if (notExists) {
             await fse.writeFile(file, image.data);
             const payload = {
               _id,
@@ -154,13 +158,12 @@ module.exports = class MetadataParser {
               description: image.description
             };
             await this.db.create(COLLECTION.IMAGE, payload);
-            return resolve();
-          } catch (err) {
-            return reject(err);
           }
+          return resolve();
+        } catch (err) {
+          return reject(err);
         }
-        return resolve();
-      });
-    });
+      }
+    ));
   }
 };
