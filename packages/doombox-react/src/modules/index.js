@@ -8,4 +8,4 @@ export { Playlist } from './Playlist';
 export { VirtualLibrary } from './Virtual';
 export { Collection } from './Collection';
 export { Navigation } from './Navigation';
-export { SearchBarLibrary } from './SearchBar';
+export { SearchLibrary } from './Search';

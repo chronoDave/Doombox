@@ -30,7 +30,7 @@ export {
   FieldFolder
 } from './Field';
 export { Image } from './Image';
-export { Search } from './Search';
+export { InputSearch } from './Input';
 export { ModalFade } from './Modal';
 export { Switch } from './Switch';
 export { ProgressScanning } from './Progress';

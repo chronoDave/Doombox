@@ -28,7 +28,7 @@ import { RouteContext } from '../../utils/context';
 
 const RouteProvider = () => {
   const [domain, setDomain] = useState(PATH.DOMAIN.ROOT);
-  const [page, setPage] = useState(PATH.PAGE.ALBUM);
+  const [page, setPage] = useState(PATH.PAGE.SONG);
   const [dialog, setDialog] = useState(null);
   const { status } = useIpc(HOOK.IPC.INTERRUPT);
 

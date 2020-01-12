@@ -10,7 +10,7 @@ import {
   IconButton
 } from '@material-ui/core';
 
-import { Search } from '../../components';
+import { InputSearch } from '../../components';
 
 // Actions
 import { queryLibrary } from '../../actions';
@@ -35,26 +35,15 @@ const SearchBarLibrary = () => {
   };
 
   return (
-    <Box display="flex">
-      <Search
-        id="search"
-        name="search"
-        value={query}
-        onChange={event => setQuery(event.target.value)}
-        onEnter={handleSubmit}
-        onClick={handleSubmit}
-      />
-      {queryCache && (
-        <Box display="flex" alignItems="center">
-          <Typography>
-            {queryCache}
-          </Typography>
-          <IconButton onClick={handleClear}>
-            <IconClear />
-          </IconButton>
-        </Box>
-      )}
-    </Box>
+    <InputSearch
+      id="search"
+      name="search"
+      value={query}
+      onChange={event => setQuery(event.target.value)}
+      onEnter={handleSubmit}
+      onSearch={handleSubmit}
+      onClear={handleClear}
+    />
   );
 };
 
