@@ -1,4 +1,8 @@
-const { app, ipcMain } = require('electron');
+const {
+  app,
+  ipcMain,
+  globalShortcut
+} = require('electron');
 const { TYPE } = require('@doombox/utils');
 
 // Lib
@@ -17,10 +21,7 @@ const Storage = require('./lib/storage');
 
 // Utils
 const { PATH } = require('./utils/path');
-const {
-  COLLECTION,
-  CACHE
-} = require('./utils/const');
+const { COLLECTION } = require('./utils/const');
 const {
   createKeyboardListener,
   createWindow
@@ -80,15 +81,15 @@ app.on('ready', () => {
     cache, TYPE.IPC.CACHE
   ));
 
-  let mainWindow = createWindow(cache.get(CACHE.DIMENSIONS));
+  let mainWindow = createWindow(cache.get(TYPE.CONFIG.DIMENSIONS));
 
   createKeyboardListener(
     configUser.get(TYPE.CONFIG.KEYBIND),
-    ({ action }) => mainWindow.webContents.send(TYPE.IPC.KEYBIND, action)
+    payload => mainWindow.webContents.send(TYPE.IPC.KEYBIND, payload)
   );
 
   mainWindow.on('resize', () => {
-    cache.set(CACHE.DIMENSIONS, { ...mainWindow.getBounds() });
+    cache.set(TYPE.CONFIG.DIMENSIONS, { ...mainWindow.getBounds() });
   });
 
   mainWindow.on('closed', () => {
@@ -105,7 +106,11 @@ if (!app.requestSingleInstanceLock()) {
   }
 }
 
-app.on('window-all-closed', () => {
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
   ipcMain.removeAllListeners();
+});
+
+app.on('window-all-closed', () => {
   app.quit();
 });

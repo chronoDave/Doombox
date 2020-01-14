@@ -1,7 +1,13 @@
 {
   "common": {
     "search": "Search",
-    "resultCount": "{{count}} results"
+    "resultCount": "{{count}} results",
+    "general": "General",
+    "library": "Library",
+    "discord": "Discord",
+    "keybind": "Keybind",
+    "palette": "Palette",
+    "advanced": "Advanced"
   },
   "action": {
     "cancel": "Cancel",
@@ -11,12 +17,20 @@
   "field": {
     "dense": "Dense layout",
     "slowSearch": "Slow search",
-    "background": "Background"
+    "background": "Background",
+    "forceQuit": "Force quit",
+    "hardwareAcceleration": "Hardware acceleration",
+    "skipCovers": "Skip covers",
+    "parseStrict": "Parse strict"
   },
   "description": {
     "field_dense": "Removes most of the metadata, allowing for more songs on screen.",
     "field_slowSearch": "Turn this on if you are experiencing lag when typing in the searchbar",
-    "field_background": "Set the playlist background to the current album art",
+    "field_background": "Set the library background to the current album art",
+    "field_hardwareAcceleration": "Render using GPU instead of CPU",
+    "field_forceQuit": "Disables macOS-style app quit",
+    "field_skipCovers": "Disables image parsing",
+    "field_parseStrict": "Turn this on if you want to get errors when parsing invalid metadata",
     "delete": "Are you sure you want to permanently delete"
   },
   "title": {

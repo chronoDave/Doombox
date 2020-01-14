@@ -4,6 +4,12 @@ import { render } from 'react-dom';
 // Core
 import { CssBaseline } from '@material-ui/core';
 
+// Lib
+import {
+  Audio,
+  Keybind
+} from './lib';
+
 // Providers
 import {
   IpcProvider,
@@ -15,9 +21,12 @@ import {
 // Locale
 import './utils/locale';
 
+const audio = new Audio();
+const keybind = new Keybind();
+
 render(
   <IpcProvider>
-    <AudioProvider>
+    <AudioProvider audio={audio} keybind={keybind}>
       <ThemeProvider>
         <CssBaseline>
           <RouteProvider />

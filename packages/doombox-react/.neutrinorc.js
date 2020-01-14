@@ -4,16 +4,13 @@ const { app } = require('electron');
 
 module.exports = {
   options: {
-    root: path.resolve(
-      __dirname,
-      process.env.NODE_ENV === 'production' ? '../../' : './'
-    ),
+    root: path.resolve(__dirname, '../../'),
     source: path.resolve(__dirname, 'src'),
     output: path.resolve(__dirname, '../doombox-electron/client')
   },
   use: [
     react({
-      publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
+      publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
       html: {
         title: 'Doombox'
       },

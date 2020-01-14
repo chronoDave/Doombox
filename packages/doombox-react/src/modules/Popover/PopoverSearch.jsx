@@ -19,8 +19,8 @@ import { HOOK } from '../../utils/const';
 
 const PopoverSearch = ({ anchorEl, onClose }) => {
   const { t } = useTranslation();
-  const { search, general } = useIpc(HOOK.IPC.CONFIG);
-  const { updateSearch, updateGeneral } = useIpc(HOOK.IPC.METHOD);
+  const config = useIpc(HOOK.IPC.CONFIG);
+  const { updateConfig } = useIpc(HOOK.IPC.METHOD);
 
   return (
     <Popover
@@ -43,26 +43,27 @@ const PopoverSearch = ({ anchorEl, onClose }) => {
         flexDirection="column"
       >
         <Switch
-          checked={search[TYPE.OPTIONS.DENSE]}
-          primary={t('field:dense')}
-          onChange={() => updateSearch({
-            [TYPE.OPTIONS.DENSE]: !search[TYPE.OPTIONS.DENSE]
+          translate={[TYPE.OPTIONS.DENSE]}
+          checked={config[TYPE.CONFIG.SEARCH][TYPE.OPTIONS.DENSE]}
+          onChange={event => updateConfig(TYPE.CONFIG.SEARCH, {
+            ...config[TYPE.CONFIG.SEARCH],
+            [TYPE.OPTIONS.DENSE]: event.target.checked
           })}
         />
         <Switch
-          checked={search[TYPE.OPTIONS.SLOW_SEARCH]}
-          primary={t('field:slowSearch')}
-          secondary={t('description:field_slowSearch')}
-          onChange={() => updateSearch({
-            [TYPE.OPTIONS.SLOW_SEARCH]: !search[TYPE.OPTIONS.SLOW_SEARCH]
+          translate={[TYPE.OPTIONS.SLOW_SEARCH]}
+          checked={config[TYPE.CONFIG.SEARCH][TYPE.OPTIONS.SLOW_SEARCH]}
+          onChange={event => updateConfig(TYPE.CONFIG.SEARCH, {
+            ...config[TYPE.CONFIG.SEARCH],
+            [TYPE.OPTIONS.SLOW_SEARCH]: event.target.checked
           })}
         />
         <Switch
-          checked={general[TYPE.OPTIONS.BACKGROUND]}
-          primary={t('field:background')}
-          secondary={t('description:field_background')}
-          onChange={() => updateGeneral({
-            [TYPE.OPTIONS.BACKGROUND]: !general[TYPE.OPTIONS.BACKGROUND]
+          translate={[TYPE.OPTIONS.BACKGROUND]}
+          checked={config[TYPE.CONFIG.GENERAL][TYPE.OPTIONS.BACKGROUND]}
+          onChange={event => updateConfig(TYPE.CONFIG.GENERAL, {
+            ...config[TYPE.CONFIG.GENERAL],
+            [TYPE.OPTIONS.BACKGROUND]: event.target.checked
           })}
         />
       </Box>

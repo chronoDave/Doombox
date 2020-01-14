@@ -4,8 +4,8 @@
   "license": "GNU General Public License",
   "author": "Chronocide",
   "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
+    "start": "cross-env NODE_ENV=development webpack-dev-server",
+    "build": "cross-env NODE_ENV=production webpack",
     "test": "mocha --recursive './src/**/*.test.js'",
     "arkit": "yarn arkit:render && yarn arkit:flow && yarn arkit:inheritance",
     "arkit:render": "arkit -c ../../arkit/arkit-react-render.js",

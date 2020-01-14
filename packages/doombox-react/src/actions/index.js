@@ -25,10 +25,10 @@ export const deletePlaylist = _id => ipcRenderer.send(
   }
 );
 
-export const scanFolders = payload => ipcRenderer.send(
+export const scanFolders = folders => ipcRenderer.send(
   TYPE.IPC.LIBRARY, {
     action: ACTION.CRUD.CREATE,
-    data: { payload: payload.folders }
+    data: { payload: folders }
   }
 );
 

@@ -20,14 +20,24 @@ const TYPE = {
     PLAYER: 'player',
     PARSER: 'parser',
     DISCORD: 'discord',
-    SEARCH: 'search'
+    SEARCH: 'search',
+    LIBRARY: 'library',
+    DIMENSIONS: 'dimensions'
   },
   OPTIONS: {
     DENSE: 'dense',
     SLOW_SEARCH: 'slowSearch',
     TOKEN: 'token',
     KEY_IMAGE: 'imageKey',
-    BACKGROUND: 'background'
+    BACKGROUND: 'background',
+    FOLDERS: 'folders',
+    HARDWARE_ACCELERATION: 'hardwareAcceleration',
+    FORCE_QUIT: 'forceQuit',
+    SKIP_COVERS: 'skipCovers',
+    PATH_IMAGE: 'pathImage',
+    FILE_FORMATS: 'fileFormats',
+    GLOB: 'glob',
+    PARSE_STRICT: 'parseStrict',
   },
   ID: {
     WINDOW_MINIMIZE: 'window-minimize',

@@ -24,38 +24,21 @@ class IpcProvider extends Component {
           const { imageValue } = this.state;
           return imageValue[id];
         },
-        updatePalette: palette => updateStorage(
-          TYPE.IPC.CONFIG.USER,
-          TYPE.CONFIG.PALETTE,
-          palette
+        updateConfig: (type, config) => updateStorage(
+          TYPE.IPC.CONFIG.USER, type, config
         ),
-        setBackgroundOpacity: backgroundOpacity => updateStorage(
-          TYPE.IPC.CONFIG.USER,
-          TYPE.CONFIG.PALETTE,
-          { backgroundOpacity }
-        ),
-        updateSearch: search => updateStorage(
-          TYPE.IPC.CONFIG.USER,
-          TYPE.CONFIG.SEARCH,
-          search
-        ),
-        updateGeneral: general => updateStorage(
-          TYPE.IPC.CONFIG.USER,
-          TYPE.CONFIG.GENERAL,
-          general
+        updateSystem: (type, config) => updateStorage(
+          TYPE.IPC.CONFIG.SYSTEM, type, config
         )
       },
-      keybindValue: {},
       messageValue: {},
       interruptValue: {},
       configValue: Object.values(TYPE.CONFIG)
         .reduce((acc, cur) => ({ ...acc, [cur]: {} }), {}),
+      systemValue: Object.values(TYPE.CONFIG)
+        .reduce((acc, cur) => ({ ...acc, [cur]: {} }), {}),
       imageValue: {}
     };
-
-    ipcRenderer.on(TYPE.IPC.KEYBIND, (event, payload) => {
-      this.setState(state => ({ ...state, keybindValue: payload }));
-    });
 
     ipcRenderer.on(TYPE.IPC.MESSAGE, (event, payload) => {
       this.setState(state => ({ ...state, messageValue: payload }));
@@ -78,10 +61,21 @@ class IpcProvider extends Component {
         }
       }));
     });
+
+    ipcRenderer.on(TYPE.IPC.CONFIG.SYSTEM, (event, { payload }) => {
+      this.setState(state => ({
+        ...state,
+        systemValue: {
+          ...state.systemValue,
+          ...payload
+        }
+      }));
+    });
   }
 
   componentDidMount() {
     readStorage(TYPE.IPC.CONFIG.USER);
+    readStorage(TYPE.IPC.CONFIG.SYSTEM);
     readCollection(TYPE.IPC.IMAGE, { castObject: true });
   }
 
@@ -96,6 +90,7 @@ class IpcProvider extends Component {
       keybindValue,
       messageValue,
       interruptValue,
+      systemValue,
       configValue,
       imageValue
     } = this.state;
@@ -107,7 +102,9 @@ class IpcProvider extends Component {
             <IpcContext.Keybind.Provider value={keybindValue}>
               <IpcContext.Message.Provider value={messageValue}>
                 <IpcContext.Interrupt.Provider value={interruptValue}>
-                  {children}
+                  <IpcContext.System.Provider value={systemValue}>
+                    {children}
+                  </IpcContext.System.Provider>
                 </IpcContext.Interrupt.Provider>
               </IpcContext.Message.Provider>
             </IpcContext.Keybind.Provider>

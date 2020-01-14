@@ -35,12 +35,12 @@ const createWindow = ({ width, height }) => {
   return window;
 };
 
-const createKeyboardListener = (keybinds = {}, callback) => (
+const createKeyboardListener = (keybinds = {}, callback) => {
   Object.entries(keybinds).forEach(([action, keybind]) => {
     if (!keybind) return;
     globalShortcut.register(keybind, () => callback({ action, keybind }));
-  })
-);
+  });
+};
 
 module.exports = {
   createWindow,

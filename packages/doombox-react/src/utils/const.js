@@ -36,7 +36,8 @@ export const HOOK = {
     METHOD: 'Method',
     CONFIG: 'Config',
     INTERRUPT: 'Interrupt',
-    MESSAGE: 'Message'
+    MESSAGE: 'Message',
+    SYSTEM: 'System'
   },
   ROUTE: {
     METHOD: 'Method',

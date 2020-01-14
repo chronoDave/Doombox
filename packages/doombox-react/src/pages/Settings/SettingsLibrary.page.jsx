@@ -1,14 +1,8 @@
 import React from 'react';
 
-// Core
-import { FormCreateLibrary } from '../../modules';
+// Modules
+import { FormLibrary } from '../../modules';
 
-const SettingsLibrary = () => {
-  return (
-    <div>
-      <FormCreateLibrary />
-    </div>
-  );
-};
+const SettingsLibrary = () => <FormLibrary />;
 
 export default SettingsLibrary;

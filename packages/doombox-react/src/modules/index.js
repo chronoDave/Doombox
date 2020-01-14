@@ -1,7 +1,10 @@
 export {
   FormCreatePlaylist,
   FormCreatePalette,
-  FormCreateLibrary
+  FormLibrary,
+  FormKeybind,
+  FormDiscord,
+  FormParser
 } from './Form';
 export { Player } from './Player';
 export { Playlist } from './Playlist';

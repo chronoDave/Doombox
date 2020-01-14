@@ -2,17 +2,13 @@ const {
   ACTION,
   TYPE
 } = require('@doombox/utils');
-const {
-  CACHE,
-  OPTIONS
-} = require('./utils/const');
 
 module.exports = {
   CONFIG: {
     USER: {
       [TYPE.CONFIG.GENERAL]: {
-        forceQuit: false,
-        hardwareAcceleration: true,
+        [TYPE.OPTIONS.FORCE_QUIT]: false,
+        [TYPE.OPTIONS.HARDWARE_ACCELERATION]: true,
         [TYPE.OPTIONS.BACKGROUND]: false
       },
       [TYPE.CONFIG.DISCORD]: {
@@ -40,6 +36,9 @@ module.exports = {
         info: null,
         grey: null
       },
+      [TYPE.CONFIG.LIBRARY]: {
+        [TYPE.OPTIONS.FOLDERS]: []
+      },
       [TYPE.CONFIG.SEARCH]: {
         [TYPE.OPTIONS.DENSE]: false,
         [TYPE.OPTIONS.SLOW_SEARCH]: false
@@ -47,11 +46,11 @@ module.exports = {
     },
     SYSTEM: {
       [TYPE.CONFIG.PARSER]: {
-        [OPTIONS.SKIP_COVERS]: false,
-        [OPTIONS.PATH_IMAGE]: null,
-        [OPTIONS.FILE_FORMATS]: ['mp3'],
-        [OPTIONS.GLOB]: null,
-        [OPTIONS.PARSE_STRICT]: false
+        [TYPE.OPTIONS.SKIP_COVERS]: false,
+        [TYPE.OPTIONS.PATH_IMAGE]: null,
+        [TYPE.OPTIONS.FILE_FORMATS]: ['mp3'],
+        [TYPE.OPTIONS.GLOB]: null,
+        [TYPE.OPTIONS.PARSE_STRICT]: false
       }
     },
     CACHE: {
@@ -60,7 +59,7 @@ module.exports = {
         autoplay: true,
         muted: false
       },
-      [CACHE.DIMENSIONS]: {
+      [TYPE.CONFIG.DIMENSIONS]: {
         width: 640,
         height: 480
       }

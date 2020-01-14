@@ -1,4 +1,5 @@
 import React from 'react';
+import { TYPE } from '@doombox/utils';
 
 // Core
 import { useTheme as useMuiTheme } from '@material-ui/core/styles';
@@ -24,21 +25,24 @@ import { HOOK } from '../../utils/const';
 const SettingsPalette = () => {
   const theme = useMuiTheme();
   const { setDarkTheme } = useTheme();
-  const { palette: { backgroundOpacity } } = useIpc(HOOK.IPC.CONFIG);
-  const { setBackgroundOpacity } = useIpc(HOOK.IPC.METHOD);
+  const { palette } = useIpc(HOOK.IPC.CONFIG);
+  const { updateConfig } = useIpc(HOOK.IPC.METHOD);
 
   return (
     <Box display="flex" flexDirection="column">
       <Switch
-        primary="Enable dark theme"
+        primary="Dark theme"
         checked={theme.palette.type === 'dark'}
         onChange={event => setDarkTheme(event.target.checked)}
         maxWidth={480}
       />
       <Switch
-        primary="Disable background opacity"
-        checked={!backgroundOpacity}
-        onChange={() => setBackgroundOpacity(!backgroundOpacity)}
+        primary="Background opacity"
+        checked={palette.backgroundOpacity}
+        onChange={event => updateConfig(TYPE.CONFIG.PALETTE, {
+          ...palette,
+          backgroundOpacity: event.target.checked
+        })}
         maxWidth={480}
       />
       <Box py={1} color="grey.500">

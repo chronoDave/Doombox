@@ -1,7 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TYPE } from '@doombox/utils';
+import {
+  TYPE,
+  ACTION
+} from '@doombox/utils';
 
 // Actions
 import {
@@ -12,7 +15,10 @@ import {
 } from '../../actions';
 
 // Lib
-import { Audio } from '../../lib';
+import {
+  Audio,
+  Keybind
+} from '../../lib';
 
 // Utils
 import { AudioContext } from '../../utils/context';
@@ -22,10 +28,17 @@ import { EVENT } from '../../utils/const';
 const { ipcRenderer } = window.require('electron');
 
 class AudioProvider extends Component {
-  constructor() {
-    super();
+  /**
+   * @param {Object} props
+   * @param {Audio} props.audio
+   * @param {Keybind} props.keybind
+   */
+  constructor(props) {
+    super(props);
 
-    this.audio = new Audio();
+    const { audio, keybind } = props;
+    this.audio = audio;
+    this.keybind = keybind;
 
     this.state = {
       methodValue: {
@@ -67,6 +80,7 @@ class AudioProvider extends Component {
       positionValue: 0
     };
 
+    // Audio listeners
     this.audio.on(EVENT.AUDIO.STATUS, status => (
       this.setState(state => ({
         ...state,
@@ -107,6 +121,16 @@ class AudioProvider extends Component {
       this.setState(state => ({ ...state, currentValue }))
     ));
     this.audio.on(EVENT.AUDIO.RPC, status => updateRpc(status));
+
+    // Keybind listeners
+    this.keybind.on(ACTION.AUDIO.MUTE, () => this.audio.mute());
+    this.keybind.on(ACTION.AUDIO.NEXT, () => this.audio.next());
+    this.keybind.on(ACTION.AUDIO.PAUSE, () => this.audio.pause());
+    this.keybind.on(ACTION.AUDIO.PLAY, () => this.audio.play());
+    this.keybind.on(ACTION.AUDIO.PREVIOUS, () => this.audio.previous());
+    this.keybind.on(ACTION.AUDIO.STOP, () => this.audio.stop());
+    this.keybind.on(ACTION.AUDIO.VOLUME_DOWN, () => this.audio.setVolume(this.audio.volume - 1));
+    this.keybind.on(ACTION.AUDIO.VOLUME_UP, () => this.audio.setVolume(this.audio.volume + 1));
   }
 
   componentDidMount() {
@@ -179,7 +203,9 @@ class AudioProvider extends Component {
 }
 
 AudioProvider.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  audio: PropTypes.instanceOf(Audio).isRequired,
+  keybind: PropTypes.instanceOf(Keybind).isRequired
 };
 
 export default AudioProvider;
