@@ -51,16 +51,14 @@ const VirtualLibraryItem = memo(({ data, index, style }) => {
         />
       ) : (
         <Fragment>
-          {!dense && (
-            <ListItemIcon
-              classes={{ root: classes.itemTrack }}
-              className={classes.inset}
-            >
-              <Typography variant="caption">
-                {metadata.track.no}
-              </Typography>
-            </ListItemIcon>
-          )}
+          <ListItemIcon
+            classes={{ root: classes.itemTrack }}
+            className={classes.inset}
+          >
+            <Typography variant="caption">
+              {metadata.track.no}
+            </Typography>
+          </ListItemIcon>
           <ListItemText
             inset
             dense={dense}

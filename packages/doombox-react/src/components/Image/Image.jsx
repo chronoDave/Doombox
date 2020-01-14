@@ -29,11 +29,12 @@ Image.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string,
   className: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 };
 
 Image.defaultProps = {
   src: null,
+  children: null,
   alt: 'Default image'
 };
 

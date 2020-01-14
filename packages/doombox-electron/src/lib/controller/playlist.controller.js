@@ -10,8 +10,8 @@ module.exports = class PlaylistController {
   }
 
   async create(event, { data }) {
-    const docs = await this.db.create(COLLECTION.PLAYLIST, data.payload);
-    event.sender.send(this.type, docs);
+    await this.db.create(COLLECTION.PLAYLIST, data.payload);
+    this.read(event, { data: {} });
   }
 
   async read(event, { data }) {
@@ -22,5 +22,10 @@ module.exports = class PlaylistController {
   async update(event, { data }) {
     const docs = await this.db.update(COLLECTION.PLAYLIST, data.query, data.modifiers);
     event.sender.send(this.type, docs);
+  }
+
+  async delete(event, { data }) {
+    await this.db.deleteOne(COLLECTION.PLAYLIST, data.payload._id);
+    this.read(event, { data: {} });
   }
 };

@@ -22,14 +22,14 @@ import { schemaCreatePlaylist } from '../../validation/schema';
 
 const id = 'create-playlist';
 
-const FormCreatePlaylist = ({ children }) => (
+const FormCreatePlaylist = ({ children, collection }) => (
   <Formik
     initialValues={{
       name: '',
       src: null
     }}
     validationSchema={schemaCreatePlaylist}
-    onSubmit={({ name, src }) => createPlaylist(name, src)}
+    onSubmit={({ name, src }) => createPlaylist(name, src, collection)}
   >
     <Form>
       <Box display="flex" flexDirection="column" alignItems="center">
@@ -43,7 +43,12 @@ const FormCreatePlaylist = ({ children }) => (
 );
 
 FormCreatePlaylist.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  collection: PropTypes.arrayOf(PropTypes.shape({}))
+};
+
+FormCreatePlaylist.defaultProps = {
+  collection: []
 };
 
 export default FormCreatePlaylist;

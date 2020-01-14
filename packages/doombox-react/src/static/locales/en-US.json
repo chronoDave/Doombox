@@ -5,15 +5,19 @@
   },
   "action": {
     "cancel": "Cancel",
-    "create": "Create"
+    "create": "Create",
+    "delete": "Delete"
   },
   "field": {
     "dense": "Dense layout",
-    "slowSearch": "Slow search"
+    "slowSearch": "Slow search",
+    "background": "Background"
   },
   "description": {
-    "field_dense": "Enable compact view. Removes most of the metadata, allowing for more songs on screen.",
-    "field_slowSearch": "Turn this on if you are experiencing lag when typing in the searchbar"
+    "field_dense": "Removes most of the metadata, allowing for more songs on screen.",
+    "field_slowSearch": "Turn this on if you are experiencing lag when typing in the searchbar",
+    "field_background": "Set the playlist background to the current album art",
+    "delete": "Are you sure you want to permanently delete"
   },
   "title": {
     "createPlaylist": "Create Playlist"

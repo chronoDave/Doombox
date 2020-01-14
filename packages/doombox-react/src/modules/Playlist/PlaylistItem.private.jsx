@@ -35,9 +35,15 @@ const PlaylistItem = memo(({ data, index, style }) => {
       </ListItemIcon>
       <ListItemText
         primary={metadata.title}
-        primaryTypographyProps={{ className: classes.noWrap }}
+        primaryTypographyProps={{
+          noWrap: true,
+          classes: { root: classes.block }
+        }}
         secondary={metadata.artist}
-        secondaryTypographyProps={{ className: classes.noWrap }}
+        secondaryTypographyProps={{
+          noWrap: true,
+          classes: { root: classes.block }
+        }}
       />
     </ListItem>
   );
@@ -57,7 +63,7 @@ PlaylistItem.propTypes = {
     classes: PropTypes.shape({
       listItemIcon: PropTypes.string,
       active: PropTypes.string,
-      noWrap: PropTypes.string
+      block: PropTypes.string
     }).isRequired,
     current: PropTypes.string
   }).isRequired,

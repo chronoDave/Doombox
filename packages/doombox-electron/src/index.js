@@ -55,7 +55,7 @@ app.on('ready', () => {
   // General
   router.createRouter(
     TYPE.IPC.LIBRARY,
-    new LibraryController(db, parser)
+    new LibraryController(db, parser, logger)
   );
   router.createRouter(
     TYPE.IPC.PLAYLIST,

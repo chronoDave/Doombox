@@ -38,6 +38,11 @@ class IpcProvider extends Component {
           TYPE.IPC.CONFIG.USER,
           TYPE.CONFIG.SEARCH,
           search
+        ),
+        updateGeneral: general => updateStorage(
+          TYPE.IPC.CONFIG.USER,
+          TYPE.CONFIG.GENERAL,
+          general
         )
       },
       keybindValue: {},

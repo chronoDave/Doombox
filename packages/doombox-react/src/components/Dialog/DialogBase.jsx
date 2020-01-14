@@ -25,7 +25,7 @@ const Dialog = props => {
       onClose={onClose}
     >
       <MuiDialogTitle>
-        {t(title)}
+        {typeof title === 'function' ? title() : t(title)}
       </MuiDialogTitle>
       <MuiDialogContent>
         {children}
@@ -35,7 +35,10 @@ const Dialog = props => {
 };
 
 Dialog.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
+  ]).isRequired,
   open: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired

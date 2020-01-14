@@ -112,8 +112,8 @@ module.exports = class MetadataParser {
           if (!this.skipCovers && images) {
             for (const image of images) {
               const formatMatch = image.format.match(/(png|jpg|gif)/i);
-              const formatImage = formatMatch ? formatMatch[0] : 'jpg'
-              const _id = cleanFileName(`${albumartist}-${album}-${image.type}-${formatImage}`);
+              const formatImage = formatMatch ? formatMatch[0] : 'jpg';
+              const _id = cleanFileName(`${albumartist}-${album}-${formatImage}`);
               payload.images.push(_id);
               await this.handleImage(_id, image, formatImage);
             }
@@ -126,7 +126,9 @@ module.exports = class MetadataParser {
           await this.db.create(COLLECTION.SONG, payload);
         }
       } catch (err) {
-        return Promise.reject(err);
+        if (this.parseStrict) {
+          return Promise.reject(err);
+        }
       }
     }
     return Promise.resolve();

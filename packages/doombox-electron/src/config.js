@@ -13,6 +13,7 @@ module.exports = {
       [TYPE.CONFIG.GENERAL]: {
         forceQuit: false,
         hardwareAcceleration: true,
+        [TYPE.OPTIONS.BACKGROUND]: false
       },
       [TYPE.CONFIG.DISCORD]: {
         [TYPE.OPTIONS.TOKEN]: null,

@@ -26,7 +26,8 @@ const TYPE = {
     DENSE: 'dense',
     SLOW_SEARCH: 'slowSearch',
     TOKEN: 'token',
-    KEY_IMAGE: 'imageKey'
+    KEY_IMAGE: 'imageKey',
+    BACKGROUND: 'background'
   },
   ID: {
     WINDOW_MINIMIZE: 'window-minimize',

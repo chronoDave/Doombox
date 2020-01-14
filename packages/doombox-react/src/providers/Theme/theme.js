@@ -35,6 +35,6 @@ export const createTheme = ({
         panel: 192
       }
     },
-    createBorder: (color, width = '1px', style = 'solid') => `${width} ${style} ${color}`
+    border: (color, width = '1px', style = 'solid') => `${width} ${style} ${color}`
   });
 };

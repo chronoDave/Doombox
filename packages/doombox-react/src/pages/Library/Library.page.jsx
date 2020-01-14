@@ -3,27 +3,28 @@ import React from 'react';
 // Core
 import { Box } from '@material-ui/core';
 
+import { BackgroundAlbum } from '../../components';
+
 // Modules
 import {
   VirtualLibrary,
-  SearchLibrary
+  MenuLibrary
 } from '../../modules';
 
-const LibraryPage = () => {
-  return (
-    <Box
-      pl={1}
-      width="100%"
-      height="100%"
-      display="flex"
-      flexDirection="column"
-    >
-      <SearchLibrary />
-      <Box flexGrow={1}>
-        <VirtualLibrary />
-      </Box>
+const LibraryPage = () => (
+  <Box
+    pl="1px"
+    width="100%"
+    height="100%"
+    display="flex"
+    flexDirection="column"
+  >
+    <BackgroundAlbum />
+    <MenuLibrary />
+    <Box flexGrow={1}>
+      <VirtualLibrary />
     </Box>
-  );
-};
+  </Box>
+);
 
 export default LibraryPage;

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TYPE } from '@doombox/utils';
@@ -34,7 +35,10 @@ class AudioProvider extends Component {
         next: () => this.audio.next(),
         previous: () => this.audio.previous(),
         seek: newPosition => this.audio.seek(newPosition),
-        playlist: newPlaylist => this.audio.setPlaylist(newPlaylist),
+        setPlaylist: (name, collection, src) => this.audio.setPlaylist(
+          name, collection || this.state.libraryValue, src
+        ),
+        addPlaylist: collection => this.audio.addPlaylist(collection),
         goTo: newIndex => this.audio.goTo(newIndex),
         requestFrame: () => this.audio.requestFrame(),
         volume: newVolume => this.audio.setVolume(newVolume),

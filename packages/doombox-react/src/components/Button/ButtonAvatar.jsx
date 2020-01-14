@@ -11,13 +11,22 @@ import {
 // Styles
 import { useButtonStyles } from './Button.style';
 
-const ButtonAvatar = ({ className, title, src }) => {
+const ButtonAvatar = props => {
+  const {
+    className,
+    title,
+    src,
+    onClick,
+    onContextMenu
+  } = props;
   const classes = useButtonStyles();
 
   return (
     <ButtonBase
       classes={{ root: classes.avatarRoot }}
       className={clsx(classes.hover, className)}
+      onClick={onClick}
+      onContextMenu={onContextMenu}
     >
       <Avatar
         alt={title}
@@ -33,12 +42,15 @@ const ButtonAvatar = ({ className, title, src }) => {
 ButtonAvatar.propTypes = {
   title: PropTypes.string.isRequired,
   className: PropTypes.string,
-  src: PropTypes.string
+  src: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  onContextMenu: PropTypes.func
 };
 
 ButtonAvatar.defaultProps = {
   src: null,
-  className: null
+  className: null,
+  onContextMenu: () => null
 };
 
 export default ButtonAvatar;

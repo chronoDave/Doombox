@@ -5,7 +5,8 @@ export {
 export { Sidebar } from './Sidebar';
 export {
   DialogBase,
-  DialogForm
+  DialogForm,
+  DialogConfirm
 } from './Dialog';
 export {
   IconButtonNext,
@@ -20,7 +21,10 @@ export {
   SliderVolume
 } from './Slider';
 export { Icon } from './Icon';
-export { ButtonAvatar } from './Button';
+export {
+  Button,
+  ButtonAvatar
+} from './Button';
 export {
   FieldFileBase,
   FieldFileAvatar,
@@ -35,3 +39,4 @@ export { ModalFade } from './Modal';
 export { Switch } from './Switch';
 export { ProgressScanning } from './Progress';
 export { Typography } from './Typography';
+export { BackgroundAlbum } from './Background';

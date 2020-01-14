@@ -58,3 +58,12 @@ export const PATH = {
     INTERRUPT: 'interrupt'
   }
 };
+
+export const MUI = {
+  COLORS: [
+    'default',
+    'inherit',
+    'primary',
+    'secondary'
+  ]
+};

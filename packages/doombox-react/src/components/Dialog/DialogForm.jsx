@@ -30,7 +30,10 @@ const DialogForm = props => {
           <Button onClick={onClose}>
             {t('action:cancel')}
           </Button>
-          <Button type="submit">
+          <Button
+            type="submit"
+            onClick={onClose}
+          >
             {t('create')}
           </Button>
         </Box>

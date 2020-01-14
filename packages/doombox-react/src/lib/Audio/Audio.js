@@ -127,8 +127,29 @@ class Audio extends EventEmitter {
   }
 
   // Playlist
-  setPlaylist(playlist) {
-    this.playlist = { ...this.playlist, ...playlist };
+  /**
+   * @param {Object[]} collection - Array of song objects
+   * @param {String} name - Playlist name
+   * @param {String=} src - Playlist image source
+   */
+  setPlaylist(name, collection, src) {
+    this.playlist = {
+      name,
+      collection,
+      src,
+      index: 0
+    };
+    this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
+  }
+
+  addPlaylist(collection) {
+    this.playlist = {
+      ...this.playlist,
+      collection: {
+        ...this.playlist.collection,
+        ...collection
+      }
+    };
     this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
   }
 

@@ -30,6 +30,14 @@ import { formatTime } from '../../utils';
 
 const groupByAlbum = library => Object
   .entries(groupby(library, 'metadata.album'))
+  .sort((a, b) => {
+    const aMetadata = a[1][0].metadata.albumartist;
+    const bMetadata = b[1][0].metadata.albumartist;
+
+    if (aMetadata < bMetadata) return -1;
+    if (aMetadata > bMetadata) return 1;
+    return 0;
+  })
   .map(([album, values]) => [
     {
       divider: {

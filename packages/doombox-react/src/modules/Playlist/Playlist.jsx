@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
-import { VariableSizeList } from 'react-window';
+import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 // Core
 import { useTheme } from '@material-ui/core/styles';
-import {
-  Box,
-  Typography
-} from '@material-ui/core';
+import { Box } from '@material-ui/core';
+
+import { Typography } from '../../components';
 
 // Hooks
 import { useAudio } from '../../hooks';
@@ -35,16 +34,6 @@ const Playlist = () => {
     goTo
   }), [classes, collection, current, goTo]);
 
-  const calculateItemSize = index => {
-    const { metadata } = collection[index];
-    let height = 7.5;
-
-    if (metadata.title.length > 12) height += 2;
-    if (metadata.artist.length > 12) height += 2;
-
-    return theme.spacing(height);
-  };
-
   return (
     <Box
       display="flex"
@@ -58,7 +47,7 @@ const Playlist = () => {
         <Typography
           variant="subtitle2"
           align="center"
-          classes={{ root: classes.noWrap }}
+          clamp={2}
         >
           {name}
         </Typography>
@@ -66,15 +55,15 @@ const Playlist = () => {
       <Box flexGrow={1} width="100%">
         <AutoSizer>
           {({ width, height }) => (
-            <VariableSizeList
+            <FixedSizeList
               width={width}
               height={height}
               itemCount={collection.length}
               itemData={itemData}
-              itemSize={calculateItemSize}
+              itemSize={theme.spacing(6)}
             >
               {PlaylistItem}
-            </VariableSizeList>
+            </FixedSizeList>
           )}
         </AutoSizer>
       </Box>
