@@ -27,8 +27,8 @@
   },
   "build": {
     "appId": "com.electron.doombox",
-    "productName": "Doombox",
-    "copyright": "©2019 ${author}",
+    "productName": "Doombox ${version}",
+    "copyright": "©2020 ${author}",
     "electronVersion": "7.1.1",
     "directories": {
       "output": "../../build"

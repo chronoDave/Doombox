@@ -26,7 +26,8 @@ module.exports = {
       'chai-as-promised',
       'shortid',
       'tap',
-      'yup'
+      'yup',
+      'lodash.debounce'
     ]
   },
   rules: {

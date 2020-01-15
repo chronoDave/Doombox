@@ -22,7 +22,8 @@ const TYPE = {
     DISCORD: 'discord',
     SEARCH: 'search',
     LIBRARY: 'library',
-    DIMENSIONS: 'dimensions'
+    DIMENSIONS: 'dimensions',
+    POSITION: 'position'
   },
   OPTIONS: {
     DENSE: 'dense',
@@ -44,10 +45,6 @@ const TYPE = {
     WINDOW_MAXIMIZE: 'window-maximize',
     WINDOW_CLOSE: 'window-close'
   }
-};
-
-const VALIDATION = {
-  REQUIRED: 'validation:required'
 };
 
 const ACTION = {
@@ -81,6 +78,5 @@ const ACTION = {
 
 module.exports = {
   TYPE,
-  VALIDATION,
   ACTION
 };

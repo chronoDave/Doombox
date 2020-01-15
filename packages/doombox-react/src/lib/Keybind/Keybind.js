@@ -8,7 +8,6 @@ class Keybind extends EventEmitter {
     super();
 
     ipcRenderer.on(TYPE.IPC.KEYBIND, (event, payload) => {
-      console.log(payload);
       this.emit(payload.action);
     });
   }

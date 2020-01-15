@@ -62,6 +62,10 @@ module.exports = {
       [TYPE.CONFIG.DIMENSIONS]: {
         width: 640,
         height: 480
+      },
+      [TYPE.CONFIG.POSITION]: {
+        x: 0,
+        y: 0
       }
     }
   }

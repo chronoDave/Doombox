@@ -4,7 +4,14 @@ const {
 } = require('electron');
 const path = require('path');
 
-const createWindow = ({ width, height }) => {
+const createWindow = options => {
+  const {
+    width,
+    height,
+    x,
+    y
+  } = options;
+
   const minWidth = 640;
   const minHeight = 480;
 
@@ -16,6 +23,8 @@ const createWindow = ({ width, height }) => {
     height: height < minHeight ? minHeight : height,
     minWidth,
     minHeight,
+    x,
+    y,
     frame: false,
     // Web
     webPreferences: {

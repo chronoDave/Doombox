@@ -4,6 +4,7 @@ const {
   globalShortcut
 } = require('electron');
 const { TYPE } = require('@doombox/utils');
+const debounce = require('lodash.debounce');
 
 // Lib
 const { NeDB } = require('./lib/database');
@@ -81,16 +82,24 @@ app.on('ready', () => {
     cache, TYPE.IPC.CACHE
   ));
 
-  let mainWindow = createWindow(cache.get(TYPE.CONFIG.DIMENSIONS));
-
+  let mainWindow = createWindow({
+    ...cache.get(TYPE.CONFIG.DIMENSIONS),
+    ...cache.get(TYPE.CONFIG.POSITION)
+  });
   createKeyboardListener(
     configUser.get(TYPE.CONFIG.KEYBIND),
     payload => mainWindow.webContents.send(TYPE.IPC.KEYBIND, payload)
   );
 
-  mainWindow.on('resize', () => {
-    cache.set(TYPE.CONFIG.DIMENSIONS, { ...mainWindow.getBounds() });
-  });
+  mainWindow.on('resize', () => cache.set(TYPE.CONFIG.DIMENSIONS, { ...mainWindow.getBounds() }));
+  const handleMove = debounce(() => {
+    const position = mainWindow.getPosition();
+    cache.set(TYPE.CONFIG.POSITION, {
+      x: position[0],
+      y: position[1]
+    });
+  }, 100);
+  mainWindow.on('move', handleMove);
 
   mainWindow.on('closed', () => {
     mainWindow = null;
