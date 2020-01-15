@@ -28,6 +28,7 @@
     "howler": "^2.1.2",
     "i18next": "^19.0.1",
     "invert-color": "^2.0.0",
+    "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
     "lodash.throttle": "^4.1.1",
     "prop-types": "^15.7.2",
@@ -36,6 +37,7 @@
     "react-i18next": "^11.2.5",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "yup": "^0.28.0"
   }
 }
