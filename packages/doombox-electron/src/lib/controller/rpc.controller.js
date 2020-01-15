@@ -1,9 +1,10 @@
 const { Client } = require('discord-rpc');
+const { TYPE } = require('@doombox/utils');
 
 module.exports = class RpcController {
   constructor(logger, options) {
     this.log = logger;
-    this.token = options.discordToken;
+    this.token = options[TYPE.OPTIONS.TOKEN];
 
     this.connected = false;
     this.client = null;
