@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 // Core
 import { TextField } from '@material-ui/core';
 
-const FieldText = ({ name, id }) => {
+const FieldText = ({ name, id, label }) => {
   const { t } = useTranslation();
 
   return (
@@ -22,7 +22,7 @@ const FieldText = ({ name, id }) => {
       }) => (
         <TextField
           inputProps={{ id: `${id}-${name}` }}
-          label={t(name)}
+          label={label || t(`field:${name}`)}
           variant="outlined"
           fullWidth
           margin="normal"
@@ -41,7 +41,12 @@ const FieldText = ({ name, id }) => {
 
 FieldText.propTypes = {
   name: PropTypes.string.isRequired,
+  label: PropTypes.string,
   id: PropTypes.string.isRequired
+};
+
+FieldText.defaultProps = {
+  label: null
 };
 
 export default FieldText;

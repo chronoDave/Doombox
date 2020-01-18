@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { Popover } from '@material-ui/core';
+import { Popover as MuiPopover } from '@material-ui/core';
 
-const PopoverContext = props => {
+const Popover = props => {
   const {
     anchorEl,
-    onClose,
     position,
-    children
+    children,
+    ...rest
   } = props;
 
   const anchorOrigins = {
@@ -27,27 +27,28 @@ const PopoverContext = props => {
   };
 
   return (
-    <Popover
+    <MuiPopover
       open={!!anchorEl}
-      onClose={onClose}
       anchorEl={anchorEl}
       anchorOrigin={anchorOrigins[position]}
       transformOrigin={transformOrigins[position]}
+      {...rest}
     >
       {children}
-    </Popover>
+    </MuiPopover>
   );
 };
 
-PopoverContext.propTypes = {
-  anchorEl: PropTypes.shape({}).isRequired,
+Popover.propTypes = {
+  anchorEl: PropTypes.shape({}),
   onClose: PropTypes.func.isRequired,
   position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   children: PropTypes.node.isRequired
 };
 
-PopoverContext.defaultProps = {
+Popover.defaultProps = {
+  anchorEl: null,
   position: 'right'
 };
 
-export default PopoverContext;
+export default Popover;

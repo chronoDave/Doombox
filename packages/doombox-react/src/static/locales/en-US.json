@@ -2,6 +2,8 @@
   "common": {
     "search": "Search",
     "resultCount": "{{count}} results",
+    "songs": "Songs",
+    "songsCount": "{{count}} songs",
     "general": "General",
     "library": "Library",
     "discord": "Discord",
@@ -12,9 +14,15 @@
   "action": {
     "cancel": "Cancel",
     "create": "Create",
-    "delete": "Delete"
+    "create_playlist": "Create playlist",
+    "delete": "Delete",
+    "delete_playlist": "Delete playlist",
+    "edit_playlist": "Edit playlist",
+    "add": "Add",
+    "remove": "Remove"
   },
   "field": {
+    "name": "{{item}} name",
     "dense": "Dense layout",
     "slowSearch": "Slow search",
     "background": "Background",

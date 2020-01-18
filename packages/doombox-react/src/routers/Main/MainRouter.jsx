@@ -4,20 +4,12 @@ import React, {
   useEffect
 } from 'react';
 
-// Core
-import {
-  Box,
-  Divider
-} from '@material-ui/core';
-
-import { Sidebar } from '../../components';
-
 // Modules
 import {
   Player,
-  Playlist,
+  VirtualPlaylist,
   Navigation,
-  Collection
+  Sidebar
 } from '../../modules';
 
 // Pages
@@ -67,19 +59,11 @@ const MainRouter = () => {
     <Fragment>
       {useMemo(() => (
         <Sidebar
-          tab={(
-            <Fragment>
-              <Navigation />
-              <Box my={0.5} mx={1}>
-                <Divider />
-              </Box>
-              <Collection />
-            </Fragment>
-          )}
+          tab={<Navigation />}
           panel={(
             <Fragment>
               <Player />
-              <Playlist />
+              <VirtualPlaylist />
             </Fragment>
           )}
         />

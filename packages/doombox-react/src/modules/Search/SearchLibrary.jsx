@@ -18,11 +18,13 @@ import {
 
 import {
   InputSearch,
-  Typography
+  Typography,
+  Popover,
+  Button
 } from '../../components';
 
 // Modules
-import { PopoverCreatePlaylist } from '../Popover';
+import { FormPlaylist } from '../Form';
 
 // Hooks
 import {
@@ -31,7 +33,10 @@ import {
 } from '../../hooks';
 
 // Actions
-import { queryLibrary } from '../../actions';
+import {
+  queryLibrary,
+  createPlaylist
+} from '../../actions';
 
 // Utils
 import { HOOK } from '../../utils/const';
@@ -92,11 +97,22 @@ const SearchBarLibrary = () => {
           </Box>
         )}
       </Box>
-      <PopoverCreatePlaylist
+      <Popover
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
-        collection={collection}
-      />
+        position="top"
+      >
+        <Box p={2}>
+          <FormPlaylist
+            onSubmit={payload => createPlaylist({ ...payload, collection })}
+            actions={(
+              <Button onClick={() => setAnchorEl(null)}>
+                {t('action:cancel')}
+              </Button>
+            )}
+          />
+        </Box>
+      </Popover>
     </Fragment>
   );
 };

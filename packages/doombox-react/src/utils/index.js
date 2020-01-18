@@ -19,12 +19,12 @@ export const shuffleArray = array => {
 };
 export const zeroPadding = i => (i < 10 ? `0${i}` : i);
 export const formatTime = (time, format) => {
-  const seconds = zeroPadding(Math.floor(time % 60));
-  const minutes = zeroPadding(Math.floor((time / 60) % 60));
-  const hours = Math.floor((time / 3600) % 24);
+  const seconds = Math.floor(time % 60);
+  const minutes = Math.floor((time / 60) % 60);
+  const hours = Math.floor(time / 3600);
 
   if (format === 'text') return `${hours > 0 ? `${hours} h ` : ''}${minutes} min`;
-  return `${hours > 0 ? `${hours}:` : ''}${minutes}:${seconds}`;
+  return `${hours > 0 ? `${zeroPadding(hours)}:` : ''}${zeroPadding(minutes)}:${zeroPadding(seconds)}`;
 };
 export const pathToUrl = path => path
   .replace(/#/g, '%23')

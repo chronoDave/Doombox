@@ -17,17 +17,17 @@ import { HOOK } from '../../utils/const';
 // Styles
 import { useModalStyle } from './Modal.style';
 
-const ModalFade = ({ open, onClose, children }) => {
+const ModalFade = ({ open, children, ...rest }) => {
   const { palette: { backgroundOpacity } } = useIpc(HOOK.IPC.CONFIG);
   const classes = useModalStyle({ backgroundOpacity });
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{ classes: { root: classes.backdrop } }}
+      {...rest}
     >
       <Fade in={open}>
         <div className={classes.root}>
@@ -40,7 +40,6 @@ const ModalFade = ({ open, onClose, children }) => {
 
 ModalFade.propTypes = {
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired
 };
 

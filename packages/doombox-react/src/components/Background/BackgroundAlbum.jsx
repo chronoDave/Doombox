@@ -3,7 +3,6 @@ import React, {
   useEffect
 } from 'react';
 import { TYPE } from '@doombox/utils';
-import PropTypes from 'prop-types';
 
 // Core
 import { Image } from '../Image';
@@ -20,10 +19,12 @@ import { HOOK } from '../../utils/const';
 // Styles
 import { useBackgroundStyles } from './Background.style';
 
-const BackgroundAlbum = ({ override }) => {
+const BackgroundAlbum = () => {
   const [image, setImage] = useState({});
 
-  const { general } = useIpc(HOOK.IPC.CONFIG);
+  const config = useIpc(HOOK.IPC.CONFIG);
+  const configGeneral = config[TYPE.CONFIG.GENERAL];
+
   const { getImageById } = useIpc(HOOK.IPC.METHOD);
   const { images } = useAudio(HOOK.AUDIO.CURRENT);
 
@@ -33,20 +34,12 @@ const BackgroundAlbum = ({ override }) => {
     if (images) setImage(getImageById(images[0]));
   }, [images]);
 
-  return (override || general[TYPE.OPTIONS.BACKGROUND]) ? (
+  return configGeneral[TYPE.OPTIONS.BACKGROUND] ? (
     <Image
       className={classes.background}
       src={image ? image.path : null}
     />
   ) : null;
-};
-
-BackgroundAlbum.propTypes = {
-  override: PropTypes.bool
-};
-
-BackgroundAlbum.defaultProps = {
-  override: false
 };
 
 export default BackgroundAlbum;

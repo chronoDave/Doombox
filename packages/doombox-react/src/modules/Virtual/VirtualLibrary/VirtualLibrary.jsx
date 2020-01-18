@@ -15,18 +15,18 @@ import { useTheme } from '@material-ui/core/styles';
 import {
   useAudio,
   useIpc
-} from '../../hooks';
+} from '../../../hooks';
 
 // Utils
-import { HOOK } from '../../utils/const';
+import { HOOK } from '../../../utils/const';
 
 // Styles
-import { useVirtualStyles } from './Virtual.style';
+import { useVirtualStyles } from '../Virtual.style';
 
-import LibraryItem from './VirtualLibraryItem';
+import VirtualLibraryItem from './VirtualLibraryItem.private';
 
 // Utils
-import { formatTime } from '../../utils';
+import { formatTime } from '../../../utils';
 
 const groupByAlbum = library => Object
   .entries(groupby(library, 'metadata.album'))
@@ -90,7 +90,7 @@ const VirtualLibrary = () => {
           itemData={itemData}
           itemSize={theme.spacing(search[TYPE.OPTIONS.DENSE] ? 5 : 7)}
         >
-          {LibraryItem}
+          {VirtualLibraryItem}
         </FixedSizeList>
       )}
     </AutoSizer>

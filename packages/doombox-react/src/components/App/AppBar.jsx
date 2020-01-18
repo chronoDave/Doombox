@@ -8,12 +8,12 @@ import IconClose from '@material-ui/icons/Close';
 
 // Core
 import {
-  Typography,
   ButtonBase,
   Box
 } from '@material-ui/core';
 
 import { Icon } from '../Icon';
+import { Typography } from '../Typography';
 
 // Hooks
 import { useAudio } from '../../hooks';

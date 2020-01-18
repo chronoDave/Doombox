@@ -3,10 +3,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  Box,
-  Button
-} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 import DialogBase from './DialogBase';
 
@@ -15,7 +12,8 @@ const DialogForm = props => {
     form,
     open,
     onClose,
-    title
+    title,
+    ...rest
   } = props;
   const { t } = useTranslation();
 
@@ -24,20 +22,11 @@ const DialogForm = props => {
       open={open}
       onClose={onClose}
       title={title}
+      {...rest}
     >
-      {cloneElement(form, {}, (
-        <Box pb={1} pt={2} display="flex" justifyContent="flex-end">
-          <Button onClick={onClose}>
-            {t('action:cancel')}
-          </Button>
-          <Button
-            type="submit"
-            onClick={onClose}
-          >
-            {t('create')}
-          </Button>
-        </Box>
-      ))}
+      {cloneElement(form, {
+        actions: <Button onClick={onClose}>{t('action:cancel')}</Button>
+      })}
     </DialogBase>
   );
 };

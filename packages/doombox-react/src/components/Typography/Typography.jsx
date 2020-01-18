@@ -19,13 +19,11 @@ const Typography = props => {
 
   return (
     <MuiTypography
-      {...rest}
       className={clsx(
-        {
-          [classes.clamp]: clamp
-        },
+        { [classes.clamp]: clamp },
         className
       )}
+      {...rest}
     >
       {children}
     </MuiTypography>

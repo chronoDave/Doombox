@@ -26,17 +26,6 @@ export const useButtonStyles = makeStyles(theme => {
   };
 
   return ({
-    avatarRoot: {
-      borderRadius: '50%'
-    },
-    hover: {
-      transition: theme.transitions.create(['border-radius'], {
-        duration: theme.transitions.duration.shortest,
-      }),
-      '&:hover': {
-        borderRadius: '25%'
-      }
-    },
     lowercase: {
       textTransform: 'none',
     },

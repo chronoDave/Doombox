@@ -13,10 +13,10 @@ import {
   ListItemText
 } from '@material-ui/core';
 
-import { Typography } from '../../components';
+import { Typography } from '../../../components';
 
 // Utils
-import { formatTime } from '../../utils';
+import { formatTime } from '../../../utils';
 
 const VirtualLibraryItem = memo(({ data, index, style }) => {
   const {
@@ -61,7 +61,6 @@ const VirtualLibraryItem = memo(({ data, index, style }) => {
           </ListItemIcon>
           <ListItemText
             inset
-            dense={dense}
             primary={metadata.title}
             primaryTypographyProps={{
               noWrap: true,
@@ -99,7 +98,7 @@ VirtualLibraryItem.propTypes = {
       _id: PropTypes.string,
       title: PropTypes.string,
       format: PropTypes.shape({
-        duration: PropTypes.number.isRequired
+        duration: PropTypes.number
       }),
       divider: PropTypes.shape({
         primary: PropTypes.string,

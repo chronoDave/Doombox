@@ -2,29 +2,22 @@ export {
   App,
   AppBar
 } from './App';
-export { Sidebar } from './Sidebar';
-export {
-  DialogBase,
-  DialogForm,
-  DialogConfirm
-} from './Dialog';
 export {
   IconButtonNext,
   IconButtonPlay,
   IconButtonPrevious,
   IconButtonStop,
   IconButtonMute,
-  IconButtonShuffle
+  IconButtonShuffle,
+  IconButtonNavigation
 } from './IconButton';
 export {
   SliderPlayer,
   SliderVolume
 } from './Slider';
 export { Icon } from './Icon';
-export {
-  Button,
-  ButtonAvatar
-} from './Button';
+export { Button } from './Button';
+export { AvatarButton } from './Avatar';
 export {
   FieldFileBase,
   FieldFileAvatar,
@@ -33,6 +26,7 @@ export {
   FieldPalette,
   FieldFolder
 } from './Field';
+export { Popover } from './Popover';
 export { Image } from './Image';
 export { InputSearch } from './Input';
 export { ModalFade } from './Modal';

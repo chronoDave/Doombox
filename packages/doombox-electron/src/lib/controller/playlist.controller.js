@@ -24,6 +24,11 @@ module.exports = class PlaylistController {
     event.sender.send(this.type, docs);
   }
 
+  async updateOne(event, { data }) {
+    await this.db.updateOne(COLLECTION.PLAYLIST, data._id, data.update);
+    this.read(event, { data });
+  }
+
   async delete(event, { data }) {
     await this.db.deleteOne(COLLECTION.PLAYLIST, data.payload._id);
     this.read(event, { data: {} });

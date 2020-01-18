@@ -8,10 +8,10 @@ import {
 } from '@material-ui/core';
 
 // Styles
-import { useNavigationStyles } from './Navigation.style';
+import { useIconButtonStyles } from './IconButton.style';
 
-const NavigationButton = ({ active, icon, onClick }) => {
-  const classes = useNavigationStyles();
+const IconButtonNavigation = ({ active, icon, ...rest }) => {
+  const classes = useIconButtonStyles();
 
   return (
     <Box
@@ -21,8 +21,8 @@ const NavigationButton = ({ active, icon, onClick }) => {
     >
       {active && <div className={classes.active} />}
       <IconButton
-        classes={{ root: classes.iconButton }}
-        onClick={onClick}
+        classes={{ root: classes.root }}
+        {...rest}
       >
         {icon}
       </IconButton>
@@ -30,14 +30,14 @@ const NavigationButton = ({ active, icon, onClick }) => {
   );
 };
 
-NavigationButton.propTypes = {
+IconButtonNavigation.propTypes = {
   active: PropTypes.bool,
   icon: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired
 };
 
-NavigationButton.defaultProps = {
+IconButtonNavigation.defaultProps = {
   active: false
 };
 
-export default NavigationButton;
+export default IconButtonNavigation;

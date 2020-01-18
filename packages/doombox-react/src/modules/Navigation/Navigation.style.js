@@ -1,17 +1,27 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useNavigationStyles = makeStyles(theme => ({
-  iconButton: {
-    fontSize: '1.75rem',
-    padding: theme.spacing(),
+  playlist: {
+    padding: theme.spacing(0.5, 0),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flexGrow: 1,
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    'will-change': 'transform',
+    '&::-webkit-scrollbar': {
+      width: 0
+    }
+  },
+  avatar: {
     margin: theme.spacing(0.5)
   },
-  active: {
-    position: 'absolute',
-    width: theme.spacing(0.5),
-    left: 0,
-    borderRadius: '0px 4px 4px 0px',
-    height: '52px',
-    backgroundColor: theme.palette.primary.main
+  delete: {
+    color: theme.palette.error.main
+  },
+  listItem: {
+    padding: theme.spacing(0.5, 1),
+    borderRadius: theme.shape.borderRadius
   }
 }));

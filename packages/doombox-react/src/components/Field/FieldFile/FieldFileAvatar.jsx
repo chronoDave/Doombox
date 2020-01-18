@@ -1,24 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // Icon
 import IconPerson from '@material-ui/icons/Person';
 
 // Core
-import {
-  Avatar,
-  Button,
-  Box,
-  IconButton
-} from '@material-ui/core';
+import { Box } from '@material-ui/core';
+
+import { AvatarButton } from '../../Avatar';
+import { Button } from '../../Button';
 
 import FieldFileBase from './FieldFileBase';
 
-// Style
-import { useFieldFileStyles } from './FieldFile.style';
-
 const FieldFileAvatar = ({ id, name }) => {
-  const classes = useFieldFileStyles();
+  const { t } = useTranslation();
 
   return (
     <FieldFileBase
@@ -33,19 +29,17 @@ const FieldFileAvatar = ({ id, name }) => {
           flexDirection="column"
           justifyContent="center"
         >
-          <IconButton
-            classes={{ root: classes.avatarIconButton }}
+          <AvatarButton
+            src={value ? value.path : null}
             onClick={onClick}
-          >
-            {value ? (
-              <Avatar src={value.path} />
-            ) : (
-              <IconPerson />
-            )}
-          </IconButton>
-          <Button onClick={value ? onClear : onClick}>
-            {value ? 'remove' : 'add'}
-          </Button>
+            size={10}
+            icon={<IconPerson />}
+          />
+          <Box pt={1} justifyContent="center" display="flex">
+            <Button onClick={value ? onClear : onClick}>
+              {t(`action:${value ? 'remove' : 'add'}`)}
+            </Button>
+          </Box>
         </Box>
       )}
     </FieldFileBase>

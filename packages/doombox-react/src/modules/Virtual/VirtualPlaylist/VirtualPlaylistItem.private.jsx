@@ -15,14 +15,14 @@ const PlaylistItem = memo(({ data, index, style }) => {
   const {
     collection,
     classes,
-    current,
+    currentId,
     goTo
   } = data;
   const { _id, metadata } = collection[index];
 
   return (
     <ListItem
-      className={clsx({ [classes.active]: current === _id })}
+      className={clsx({ [classes.active]: currentId === _id })}
       onClick={() => goTo(index)}
       style={style}
       button
@@ -65,7 +65,7 @@ PlaylistItem.propTypes = {
       active: PropTypes.string,
       block: PropTypes.string
     }).isRequired,
-    current: PropTypes.string
+    currentId: PropTypes.string
   }).isRequired,
   index: PropTypes.number.isRequired,
   style: PropTypes.shape({}).isRequired

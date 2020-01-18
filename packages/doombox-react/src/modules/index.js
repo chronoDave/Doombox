@@ -1,20 +1,23 @@
 export {
-  FormCreatePlaylist,
+  FormBase,
+  FormPlaylist,
   FormCreatePalette,
   FormLibrary,
   FormKeybind,
   FormDiscord,
   FormParser
 } from './Form';
+export { Sidebar } from './Sidebar';
+export {
+  DialogBase,
+  DialogForm,
+  DialogConfirmation
+} from './Dialog';
 export { Player } from './Player';
-export { Playlist } from './Playlist';
-export { VirtualLibrary } from './Virtual';
-export { Collection } from './Collection';
+export {
+  VirtualLibrary,
+  VirtualPlaylist
+} from './Virtual';
 export { Navigation } from './Navigation';
 export { SearchLibrary } from './Search';
-export {
-  PopoverSearch,
-  PopoverCreatePlaylist,
-  PopoverContext
-} from './Popover';
 export { MenuLibrary } from './Menu';

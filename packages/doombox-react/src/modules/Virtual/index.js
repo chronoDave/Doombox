@@ -1,1 +1,2 @@
-export { default as VirtualLibrary } from './VirtualLibrary';
+export { VirtualLibrary } from './VirtualLibrary';
+export { VirtualPlaylist } from './VirtualPlaylist';

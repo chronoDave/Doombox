@@ -48,7 +48,7 @@ Switch.propTypes = {
   disabled: PropTypes.bool,
   primary: PropTypes.string,
   secondary: PropTypes.string,
-  checked: PropTypes.bool.isRequired,
+  checked: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   translate: PropTypes.string,
   id: PropTypes.string
@@ -56,6 +56,7 @@ Switch.propTypes = {
 
 Switch.defaultProps = {
   disabled: false,
+  checked: false,
   primary: null,
   secondary: null,
   id: null,

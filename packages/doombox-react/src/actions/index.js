@@ -4,15 +4,31 @@ import shortid from 'shortid';
 // Electron
 const { ipcRenderer } = window.require('electron');
 
-export const createPlaylist = (name, src, collection = []) => ipcRenderer.send(
+/**
+ * @param {Object} playlist
+ * @param {Object[]} playlist.collection
+ * @param {String} playlist.name
+ * @param {String} playlist.src
+ */
+export const createPlaylist = playlist => ipcRenderer.send(
   TYPE.IPC.PLAYLIST, {
     action: ACTION.CRUD.CREATE,
     data: {
       payload: {
         _id: shortid.generate(),
-        collection,
-        name,
-        src
+        ...playlist
+      }
+    }
+  }
+);
+
+export const updatePlaylist = (_id, payload) => ipcRenderer.send(
+  TYPE.IPC.PLAYLIST, {
+    action: ACTION.CRUD.UPDATE_ONE,
+    data: {
+      _id,
+      update: {
+        $set: payload
       }
     }
   }

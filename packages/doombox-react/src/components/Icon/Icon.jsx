@@ -9,14 +9,13 @@ import { useIconStyles } from './Icon.style';
 
 import icons from './icons.json';
 
-const Icon = ({ type, color, fontSize }) => {
+const Icon = ({ type, ...rest }) => {
   const classes = useIconStyles();
 
   return (
     <SvgIcon
-      color={color}
       classes={{ root: classes.root }}
-      fontSize={fontSize}
+      {...rest}
     >
       <path d={icons[type]} />
     </SvgIcon>
@@ -24,26 +23,7 @@ const Icon = ({ type, color, fontSize }) => {
 };
 
 Icon.propTypes = {
-  type: PropTypes.oneOf(Object.keys(icons)).isRequired,
-  color: PropTypes.oneOf([
-    'action',
-    'disabled',
-    'error',
-    'inherit',
-    'primary',
-    'secondary'
-  ]),
-  fontSize: PropTypes.oneOf([
-    'default',
-    'inherit',
-    'large',
-    'small'
-  ])
-};
-
-Icon.defaultProps = {
-  color: 'inherit',
-  fontSize: 'default'
+  type: PropTypes.oneOf(Object.keys(icons)).isRequired
 };
 
 export default Icon;

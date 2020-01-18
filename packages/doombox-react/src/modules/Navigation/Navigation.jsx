@@ -6,11 +6,15 @@ import IconSong from '@material-ui/icons/QueueMusic';
 import IconSettings from '@material-ui/icons/Settings';
 
 // Core
-import { Box } from '@material-ui/core';
+import {
+  Box,
+  Divider
+} from '@material-ui/core';
 
-import { Icon } from '../../components';
-
-import NavigationButton from './NavigationIcon.private';
+import {
+  Icon,
+  IconButtonNavigation
+} from '../../components';
 
 // Hooks
 import { useRoute } from '../../hooks';
@@ -20,6 +24,8 @@ import {
   HOOK,
   PATH
 } from '../../utils/const';
+
+import NavigationPlaylist from './NavigationPlaylist';
 
 const Navigation = () => {
   const { setPage, openDialog } = useRoute(HOOK.ROUTE.METHOD);
@@ -31,26 +37,37 @@ const Navigation = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
+      height="100%"
     >
-      <NavigationButton
-        active={page === PATH.PAGE.VISUALIZER}
-        icon={<Icon type="visualizer" fontSize="inherit" />}
-        onClick={() => setPage(PATH.PAGE.VISUALIZER)}
-      />
-      <NavigationButton
-        active={page === PATH.PAGE.ALBUM}
-        icon={<IconAlbum fontSize="inherit" />}
-        onClick={() => setPage(PATH.PAGE.ALBUM)}
-      />
-      <NavigationButton
-        active={page === PATH.PAGE.SONG}
-        icon={<IconSong fontSize="inherit" />}
-        onClick={() => setPage(PATH.PAGE.SONG)}
-      />
-      <NavigationButton
-        icon={<IconSettings fontSize="inherit" />}
-        onClick={() => openDialog(PATH.DIALOG.SETTINGS)}
-      />
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <IconButtonNavigation
+          active={page === PATH.PAGE.VISUALIZER}
+          icon={<Icon type="visualizer" fontSize="inherit" />}
+          onClick={() => setPage(PATH.PAGE.VISUALIZER)}
+        />
+        <IconButtonNavigation
+          active={page === PATH.PAGE.ALBUM}
+          icon={<IconAlbum fontSize="inherit" />}
+          onClick={() => setPage(PATH.PAGE.ALBUM)}
+        />
+        <IconButtonNavigation
+          active={page === PATH.PAGE.SONG}
+          icon={<IconSong fontSize="inherit" />}
+          onClick={() => setPage(PATH.PAGE.SONG)}
+        />
+        <IconButtonNavigation
+          icon={<IconSettings fontSize="inherit" />}
+          onClick={() => openDialog(PATH.DIALOG.SETTINGS)}
+        />
+      </Box>
+      <Box p={1} width="100%">
+        <Divider />
+      </Box>
+      <NavigationPlaylist />
     </Box>
   );
 };

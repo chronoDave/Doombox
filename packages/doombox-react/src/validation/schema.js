@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 
 import { shapeUsername } from './shapes';
 
-export const schemaCreatePlaylist = Yup.object().shape({
-  name: shapeUsername
+export const schemaPlaylist = Yup.object().shape({
+  name: shapeUsername,
+  src: Yup.string()
 });

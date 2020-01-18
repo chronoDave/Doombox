@@ -1,38 +1,41 @@
 import React, { useMemo } from 'react';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { useTranslation } from 'react-i18next';
 
 // Core
 import { useTheme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
-import { Typography } from '../../components';
+import { Typography } from '../../../components';
 
 // Hooks
-import { useAudio } from '../../hooks';
+import { useAudio } from '../../../hooks';
 
 // Utils
-import { HOOK } from '../../utils/const';
+import { formatTime } from '../../../utils';
+import { HOOK } from '../../../utils/const';
 
 // Style
-import { usePlaylistStyles } from './Playlist.style';
+import { useVirtualStyles } from '../Virtual.style';
 
-import PlaylistItem from './PlaylistItem.private';
+import VirtualPlaylistItem from './VirtualPlaylistItem.private';
 
 const Playlist = () => {
   const { name, collection } = useAudio(HOOK.AUDIO.PLAYLIST);
-  const { _id: current } = useAudio(HOOK.AUDIO.CURRENT);
+  const { _id: currentId } = useAudio(HOOK.AUDIO.CURRENT);
   const { goTo } = useAudio(HOOK.AUDIO.METHOD);
 
-  const classes = usePlaylistStyles();
+  const classes = useVirtualStyles();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const itemData = useMemo(() => ({
-    current,
+    currentId,
     collection,
     classes,
     goTo
-  }), [classes, collection, current, goTo]);
+  }), [classes, collection, currentId, goTo]);
 
   return (
     <Box
@@ -43,13 +46,26 @@ const Playlist = () => {
       minHeight={0}
       width="100%"
     >
-      <Box p={1}>
+      <Box
+        p={1}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        width="100%"
+      >
         <Typography
           variant="subtitle2"
           align="center"
-          clamp={2}
+          noWrap
         >
           {name}
+        </Typography>
+        <Typography
+          variant="caption"
+          align="center"
+          noWrap
+        >
+          {`${t('songsCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
         </Typography>
       </Box>
       <Box flexGrow={1} width="100%">
@@ -62,7 +78,7 @@ const Playlist = () => {
               itemData={itemData}
               itemSize={theme.spacing(6)}
             >
-              {PlaylistItem}
+              {VirtualPlaylistItem}
             </FixedSizeList>
           )}
         </AutoSizer>
