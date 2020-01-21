@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Icons
 import IconPrevious from '@material-ui/icons/SkipPrevious';
@@ -13,25 +12,18 @@ import { useAudio } from '../../hooks';
 // Utils
 import { HOOK } from '../../utils/const';
 
-const IconButtonPrevious = ({ className }) => {
+const IconButtonPrevious = ({ ...rest }) => {
   const { previous } = useAudio(HOOK.AUDIO.METHOD);
 
   return (
     <IconButton
-      className={className}
       onClick={() => previous()}
+      color="inherit"
+      {...rest}
     >
       <IconPrevious />
     </IconButton>
   );
-};
-
-IconButtonPrevious.propTypes = {
-  className: PropTypes.string
-};
-
-IconButtonPrevious.defaultProps = {
-  className: null
 };
 
 export default IconButtonPrevious;

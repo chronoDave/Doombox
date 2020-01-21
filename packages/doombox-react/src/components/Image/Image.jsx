@@ -29,15 +29,16 @@ const Image = props => {
 Image.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string,
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   disableDefault: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 Image.defaultProps = {
   src: null,
   children: null,
   disableDefault: false,
+  className: null,
   alt: 'Default image'
 };
 

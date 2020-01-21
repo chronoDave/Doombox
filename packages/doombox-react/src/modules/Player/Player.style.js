@@ -13,12 +13,5 @@ export const usePlayerStyles = makeStyles(theme => ({
   },
   iconButton: {
     padding: theme.spacing()
-  },
-  noWrap: {
-    width: '100%',
-    display: '-webkit-box',
-    '-webkit-line-clamp': 2,
-    '-webkit-box-orient': 'vertical',
-    overflow: 'hidden'
   }
 }));

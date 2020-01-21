@@ -3,20 +3,20 @@ import React, {
   useState,
   useEffect
 } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Core
-import {
-  Typography,
-  Tooltip,
-  Box
-} from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 
 import {
   IconButtonNext,
   IconButtonPrevious,
   IconButtonPlay,
   IconButtonShuffle,
+  Typography,
   SliderPlayer,
+  Tooltip,
   Image
 } from '../../components';
 
@@ -27,6 +27,7 @@ import {
 } from '../../hooks';
 
 // Utils
+import { pathToRemoteUrl } from '../../utils';
 import { HOOK } from '../../utils/const';
 
 // Styles
@@ -39,9 +40,21 @@ const Player = () => {
 
   const { metadata, images } = useAudio(HOOK.AUDIO.CURRENT);
   const { getImageById } = useIpc(HOOK.IPC.METHOD);
+  const { t } = useTranslation();
+  const { isDarkTheme } = useTheme();
 
   useEffect(() => {
-    if (images) setImage(getImageById(images[0]));
+    if (images) {
+      const imageData = getImageById(images[0]);
+
+      setImage(imageData);
+      if ('mediaSession' in navigator) {
+        pathToRemoteUrl(imageData.path)
+          .then(src => {
+            navigator.mediaSession.artwork = [{ src }];
+          });
+      }
+    }
   }, [images]);
 
   return (
@@ -54,10 +67,12 @@ const Player = () => {
         display="flex"
         flexDirection="column"
         alignItems="center"
+        color={isDarkTheme ? 'text.primary' : 'grey.50'}
+        pt={1}
       >
         {!metadata ? (
           <Typography>
-            No playlist selected
+            {t('description:song', { context: 'none' })}
           </Typography>
         ) : (
           <Fragment>
@@ -66,10 +81,7 @@ const Player = () => {
               title={metadata.title}
               interactive
             >
-              <Typography
-                align="center"
-                className={classes.noWrap}
-              >
+              <Typography align="center" clamp={2}>
                 {metadata.title}
               </Typography>
             </Tooltip>
@@ -80,7 +92,8 @@ const Player = () => {
             >
               <Typography
                 align="center"
-                className={classes.noWrap}
+                clamp={1}
+                variant="body2"
               >
                 {metadata.artist}
               </Typography>
@@ -90,7 +103,11 @@ const Player = () => {
       </Box>
       <Box>
         <SliderPlayer />
-        <Box display="flex" justifyContent="space-around">
+        <Box
+          display="flex"
+          justifyContent="space-around"
+          color={isDarkTheme ? 'text.primary' : 'grey.50'}
+        >
           <IconButtonPrevious className={classes.iconButton} />
           <IconButtonPlay className={classes.iconButton} />
           <IconButtonNext className={classes.iconButton} />

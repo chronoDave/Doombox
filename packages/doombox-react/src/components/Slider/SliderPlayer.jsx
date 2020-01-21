@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
+import { useTheme } from '@material-ui/core/styles';
 import {
   Box,
-  Slider,
-  Typography
+  Slider
 } from '@material-ui/core';
+
+import { Typography } from '../Typography';
 
 // Hooks
 import { useAudio } from '../../hooks';
@@ -19,15 +21,20 @@ const SliderPlayer = ({ width }) => {
   const position = useAudio(HOOK.AUDIO.POSITION);
   const { duration } = useAudio(HOOK.AUDIO.PLAYER);
   const { seek, requestFrame } = useAudio(HOOK.AUDIO.METHOD);
+  const { isDarkTheme } = useTheme();
 
   return (
     <Box display="flex" flexDirection="column" width={width}>
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="caption">
-          {formatTime(Math.round(position) || 0)}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        color={isDarkTheme ? 'text.primary' : 'grey.50'}
+      >
+        <Typography variant="caption" color="inherit">
+          {formatTime(Math.round(position || 0))}
         </Typography>
-        <Typography variant="caption">
-          {`-${formatTime(Math.round(duration) - Math.round(position))}`}
+        <Typography variant="caption" color="inherit">
+          {`-${formatTime(Math.round(duration || 0) - Math.round(position || 0))}`}
         </Typography>
       </Box>
       <Slider

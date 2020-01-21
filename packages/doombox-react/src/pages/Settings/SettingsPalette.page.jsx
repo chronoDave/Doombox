@@ -32,7 +32,7 @@ const SettingsPalette = () => {
     <Box display="flex" flexDirection="column">
       <Switch
         primary="Dark theme"
-        checked={theme.palette.type === 'dark'}
+        checked={theme.isDarkTheme}
         onChange={event => setDarkTheme(event.target.checked)}
         maxWidth={480}
       />

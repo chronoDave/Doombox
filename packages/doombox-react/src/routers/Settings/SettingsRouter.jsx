@@ -48,7 +48,7 @@ const SettingsRouter = ({ open, onClose }) => {
       <Box
         display="flex"
         justifyContent="center"
-        px={{ sm: 2, md: 8, lg: 12 }}
+        px={{ xs: 4, md: 8 }}
         py={2}
         width="100%"
         height="100%"

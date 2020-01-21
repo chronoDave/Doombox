@@ -7,7 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
-import { Typography } from '../../../components';
+import {
+  Tooltip,
+  Typography
+} from '../../../components';
 
 // Hooks
 import { useAudio } from '../../../hooks';
@@ -26,8 +29,10 @@ const Playlist = () => {
   const { _id: currentId } = useAudio(HOOK.AUDIO.CURRENT);
   const { goTo } = useAudio(HOOK.AUDIO.METHOD);
 
-  const classes = useVirtualStyles();
   const theme = useTheme();
+  const size = 6;
+
+  const classes = useVirtualStyles({ size });
   const { t } = useTranslation();
 
   const itemData = useMemo(() => ({
@@ -53,20 +58,28 @@ const Playlist = () => {
         justifyContent="center"
         width="100%"
       >
-        <Typography
-          variant="subtitle2"
-          align="center"
-          noWrap
+        <Tooltip
+          title={name}
+          disableTranslation
+          placement="right"
         >
-          {name}
-        </Typography>
-        <Typography
-          variant="caption"
-          align="center"
-          noWrap
-        >
-          {`${t('songsCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
-        </Typography>
+          <Typography
+            variant="subtitle2"
+            align="center"
+            noWrap
+          >
+            {name}
+          </Typography>
+        </Tooltip>
+        {useMemo(() => (
+          <Typography
+            variant="caption"
+            align="center"
+            noWrap
+          >
+            {`${t('songsCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
+          </Typography>
+        ), [collection.length])}
       </Box>
       <Box flexGrow={1} width="100%">
         <AutoSizer>
@@ -76,7 +89,7 @@ const Playlist = () => {
               height={height}
               itemCount={collection.length}
               itemData={itemData}
-              itemSize={theme.spacing(6)}
+              itemSize={theme.spacing(size)}
             >
               {VirtualPlaylistItem}
             </FixedSizeList>

@@ -1,17 +1,20 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 
 export const useIconButtonStyles = makeStyles(theme => ({
   root: {
     fontSize: '1.75rem',
-    padding: theme.spacing(),
-    margin: theme.spacing(0.5)
+    borderRadius: 0,
+    width: '100%',
+    color: theme.palette.text[theme.isDarkTheme ? 'primary' : 'secondary']
   },
   active: {
+    backgroundColor: fade(theme.palette.primary.main, 0.4)
+  },
+  activeBar: {
     position: 'absolute',
     width: theme.spacing(0.5),
     left: 0,
-    borderRadius: '0px 4px 4px 0px',
     height: '52px',
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary[theme.isDarkTheme ? 'main' : 'light']
   }
 }));

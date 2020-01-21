@@ -1,7 +1,4 @@
-import React, {
-  Fragment,
-  memo
-} from 'react';
+import React, { memo } from 'react';
 import { areEqual } from 'react-window';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -10,7 +7,7 @@ import PropTypes from 'prop-types';
 import {
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from '@material-ui/core';
 
 import { Typography } from '../../../components';
@@ -18,101 +15,127 @@ import { Typography } from '../../../components';
 // Utils
 import { formatTime } from '../../../utils';
 
-const VirtualLibraryItem = memo(({ data, index, style }) => {
+import VirtualLibraryDivider from './VirtualLibraryDivider.private';
+
+const VirtualLibraryItem = memo(({ index, style, data }) => {
   const {
-    current,
+    // Style
     classes,
-    collection,
+    current,
+    dense,
+    library,
+    // Func
     createSong,
-    dense
+    setAnchorEl,
+    setAlbum,
+    setPlaylist,
+    addPlaylist,
+    setDialog,
+    t
   } = data;
   const {
     _id,
     divider,
     format,
     metadata
-  } = collection[index];
+  } = library[index];
+  const active = (current === _id && !divider);
 
   return (
-    <ListItem
-      className={clsx({ [classes.active]: current === _id && !divider })}
+    <div
+      className={clsx({ [classes.active]: active })}
       style={style}
-      onClick={() => !divider && createSong(collection[index])}
-      button={!divider}
     >
       {divider ? (
-        <ListItemText
+        <VirtualLibraryDivider
+          classes={classes}
+          t={t}
+          setDialog={setDialog}
           primary={divider.primary}
-          secondary={!dense ? divider.secondary : null}
-          primaryTypographyProps={{
-            noWrap: true,
-            classes: { root: classes.block }
+          secondary={divider.secondary}
+          onMenu={event => {
+            setAlbum({ name: divider.primary, collection: divider.album });
+            setAnchorEl(event.currentTarget);
+          }}
+          onPlaylistAdd={() => addPlaylist(divider.album)}
+          onPlaylistPlay={() => {
+            setPlaylist(divider.primary, divider.album);
+            createSong();
+          }}
+          onDialog={() => {
+            setAlbum({
+              name: divider.primary,
+              collection: divider.album
+            });
+            setDialog(true);
           }}
         />
       ) : (
-        <Fragment>
-          <ListItemIcon
-            classes={{ root: classes.itemTrack }}
-            className={classes.inset}
-          >
+        <ListItem
+          button
+          onClick={() => createSong(library[index])}
+          classes={{ root: classes.listItem }}
+        >
+          {active && <div className={classes.activeBar} />}
+          <ListItemIcon classes={{ root: classes.dividerIcon }}>
             <Typography variant="caption">
-              {metadata.track.no}
+              {`${metadata.track.no}.`}
             </Typography>
           </ListItemIcon>
           <ListItemText
-            inset
             primary={metadata.title}
             primaryTypographyProps={{
               noWrap: true,
-              variant: dense ? 'caption' : 'body2',
+              variant: dense ? 'body2' : 'body1',
               classes: { root: classes.block }
             }}
             secondary={`${metadata.artist} (${formatTime(format.duration)})`}
             secondaryTypographyProps={{
               noWrap: true,
-              variant: dense ? 'caption' : 'body2',
               classes: { root: classes.block }
             }}
-            classes={{ inset: classes.inset }}
           />
-        </Fragment>
+        </ListItem>
       )}
-    </ListItem>
+    </div>
   );
 }, areEqual);
 
 VirtualLibraryItem.displayName = 'LibraryItem';
 VirtualLibraryItem.propTypes = {
-  style: PropTypes.shape({}).isRequired,
   index: PropTypes.number.isRequired,
+  style: PropTypes.shape({}).isRequired,
   data: PropTypes.shape({
-    dense: PropTypes.bool.isRequired,
-    current: PropTypes.string,
     classes: PropTypes.shape({
-      active: PropTypes.string.isRequired,
-      inset: PropTypes.string.isRequired,
-      block: PropTypes.string.isRequired,
-      itemTrack: PropTypes.string.isRequired
+      active: PropTypes.string,
+      dividerIcon: PropTypes.string,
+      block: PropTypes.string,
+      listItem: PropTypes.string,
+      activeBar: PropTypes.string
     }).isRequired,
-    collection: PropTypes.arrayOf(PropTypes.shape({
+    current: PropTypes.string,
+    dense: PropTypes.bool,
+    library: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string,
-      title: PropTypes.string,
-      format: PropTypes.shape({
-        duration: PropTypes.number
-      }),
       divider: PropTypes.shape({
-        primary: PropTypes.string,
-        secondary: PropTypes.string
+        primary: PropTypes.string.isRequired,
+        secondary: PropTypes.string.isRequired,
+        album: PropTypes.arrayOf(PropTypes.shape({}))
       }),
-      metadata: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        artist: PropTypes.string.isRequired,
-        track: PropTypes.shape({
-          no: PropTypes.number
-        })
-      })
-    })),
-    createSong: PropTypes.func.isRequired
+      format: PropTypes.shape({
+        duration: PropTypes.string
+      }),
+      metadata: {
+        artist: PropTypes.string
+      }
+    })).isRequired,
+    createSong: PropTypes.func.isRequired,
+    setAnchorEl: PropTypes.func.isRequired,
+    setAlbum: PropTypes.func.isRequired,
+    setPlaylist: PropTypes.func.isRequired,
+    addPlaylist: PropTypes.func.isRequired,
+    setDialog: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired
   }).isRequired
 };
 

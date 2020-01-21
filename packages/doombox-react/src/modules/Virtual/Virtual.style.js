@@ -1,22 +1,41 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
+
+// Utils
+import { pathToUrl } from '../../utils';
 
 export const useVirtualStyles = makeStyles(theme => ({
   image: {
-    width: '100%'
+    height: '100%',
+    backgroundImage: ({ src }) => `url("${pathToUrl(src || '')}"`,
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center'
   },
-  inset: {
-    paddingLeft: theme.spacing(2)
+  activeBar: {
+    position: 'absolute',
+    width: theme.spacing(0.5),
+    left: 0,
+    height: ({ size }) => theme.spacing(size),
+    backgroundColor: theme.palette.primary[theme.isDarkTheme ? 'main' : 'light']
   },
   active: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: fade(theme.palette.primary.main, 0.4)
   },
   block: {
     display: 'block'
   },
-  itemTrack: {
-    minWidth: theme.spacing(4)
+  listItem: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    height: ({ size }) => theme.spacing(size)
   },
-  listItemIcon: {
-    minWidth: theme.spacing(5)
+  // LibraryItem
+  dividerRoot: {
+    flexGrow: 0,
+    marginRight: theme.spacing(2)
+  },
+  dividerIcon: {
+    minWidth: theme.spacing(5),
+    paddingLeft: theme.spacing(1.5)
   }
 }));

@@ -34,7 +34,11 @@ module.exports = {
         warning: null,
         success: null,
         info: null,
-        grey: null
+        grey: {
+          dark: null,
+          light: null
+        },
+        ramp: null
       },
       [TYPE.CONFIG.LIBRARY]: {
         [TYPE.OPTIONS.FOLDERS]: []

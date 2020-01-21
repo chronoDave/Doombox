@@ -1,42 +1,53 @@
-import React from 'react';
+import React, {
+  cloneElement,
+  forwardRef
+} from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
 // Core
 import {
-  Box,
   IconButton
 } from '@material-ui/core';
 
 // Styles
 import { useIconButtonStyles } from './IconButton.style';
 
-const IconButtonNavigation = ({ active, icon, ...rest }) => {
+const IconButtonNavigation = forwardRef((props, ref) => {
+  const {
+    active,
+    className,
+    icon,
+    ...rest
+  } = props;
   const classes = useIconButtonStyles();
 
   return (
-    <Box
-      display="flex"
-      flexDirection="space-between"
-      height="100%"
+    <IconButton
+      classes={{ root: classes.root }}
+      className={clsx(
+        { [classes.active]: active },
+        className
+      )}
+      {...rest}
+      ref={ref}
     >
-      {active && <div className={classes.active} />}
-      <IconButton
-        classes={{ root: classes.root }}
-        {...rest}
-      >
-        {icon}
-      </IconButton>
-    </Box>
+      {active && <div className={classes.activeBar} />}
+      {cloneElement(icon, { fontSize: 'inherit' })}
+    </IconButton>
   );
-};
+});
 
+IconButtonNavigation.displayName = 'IconButtonNavigation';
 IconButtonNavigation.propTypes = {
+  className: PropTypes.string,
   active: PropTypes.bool,
   icon: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired
 };
 
 IconButtonNavigation.defaultProps = {
+  className: null,
   active: false
 };
 

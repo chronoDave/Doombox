@@ -11,11 +11,17 @@ export {
   IconButtonShuffle,
   IconButtonNavigation
 } from './IconButton';
+export { Loader } from './Loader';
+export {
+  Context,
+  ContextItem
+} from './Context';
 export {
   SliderPlayer,
   SliderVolume
 } from './Slider';
 export { Icon } from './Icon';
+export { Tooltip } from './Tooltip';
 export { Button } from './Button';
 export { AvatarButton } from './Avatar';
 export {

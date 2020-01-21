@@ -1,6 +1,9 @@
 import { makeStyles, fade } from '@material-ui/core/styles';
 
 export const useModalStyle = makeStyles(theme => ({
+  presentation: {
+    top: `${theme.dimensions.appBar}px !important`,
+  },
   root: {
     position: 'fixed',
     top: theme.dimensions.appBar,
@@ -9,6 +12,8 @@ export const useModalStyle = makeStyles(theme => ({
     width: '100%'
   },
   backdrop: ({ backgroundOpacity }) => ({
+    top: theme.dimensions.appBar,
+    height: `calc(100% - ${theme.dimensions.appBar}px)`,
     backgroundColor: fade(
       theme.palette.grey[50],
       backgroundOpacity ? 0.9 : 1

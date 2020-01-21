@@ -9,7 +9,7 @@ export const useSidebarStyles = makeStyles(theme => ({
   },
   tab: {
     width: theme.dimensions.sidebar.tab,
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.grey[100],
     display: 'flex',
     flexDirection: 'column'
   },
@@ -18,6 +18,6 @@ export const useSidebarStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: theme.dimensions.sidebar.panel,
-    backgroundColor: theme.palette.grey[100]
+    backgroundColor: theme.palette.grey[200]
   }
 }));

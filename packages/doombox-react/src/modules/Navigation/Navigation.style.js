@@ -2,7 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useNavigationStyles = makeStyles(theme => ({
   playlist: {
-    padding: theme.spacing(0.5, 0),
+    width: '100%',
+    paddingBottom: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -13,6 +14,16 @@ export const useNavigationStyles = makeStyles(theme => ({
     '&::-webkit-scrollbar': {
       width: 0
     }
+  },
+  activeBar: {
+    position: 'absolute',
+    left: 0,
+    width: theme.spacing(0.5),
+    height: theme.spacing(3),
+    backgroundColor: theme.isDarkTheme ?
+      theme.palette.text.primary :
+      theme.palette.text.secondary,
+    borderRadius: '0px 4px 4px 0px'
   },
   avatar: {
     margin: theme.spacing(0.5)

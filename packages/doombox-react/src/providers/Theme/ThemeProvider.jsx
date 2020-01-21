@@ -23,46 +23,25 @@ import { createTheme } from './theme';
 import { DEFAULT_PALETTE } from './palette';
 
 const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(createTheme({
-    palette: { ...DEFAULT_PALETTE }
-  }));
+  const [theme, setTheme] = useState(createTheme(DEFAULT_PALETTE));
 
-  const {
-    palette: {
-      darkTheme,
-      primary,
-      secondary,
-      error,
-      warning,
-      success,
-      info,
-      grey
-    }
-  } = useIpc(HOOK.IPC.CONFIG);
+  const config = useIpc(HOOK.IPC.CONFIG);
+  const configPalette = config[TYPE.CONFIG.PALETTE];
 
   useEffect(() => {
     setTheme(createTheme({
-      palette: {
-        darkTheme: !!darkTheme,
-        primary: primary || DEFAULT_PALETTE.primary,
-        secondary: secondary || DEFAULT_PALETTE.secondary,
-        error: error || DEFAULT_PALETTE.error,
-        warning: warning || DEFAULT_PALETTE.warning,
-        success: success || DEFAULT_PALETTE.success,
-        info: info || DEFAULT_PALETTE.info,
-        grey: grey || DEFAULT_PALETTE.grey,
+      ...DEFAULT_PALETTE,
+      ...configPalette,
+      grey: {
+        dark: (configPalette.grey && configPalette.grey.dark) ?
+          configPalette.grey.dark :
+          DEFAULT_PALETTE.grey.dark,
+        light: (configPalette.grey && configPalette.grey.light) ?
+          configPalette.grey.light :
+          DEFAULT_PALETTE.grey.light
       }
     }));
-  }, [
-    darkTheme,
-    primary,
-    secondary,
-    error,
-    warning,
-    success,
-    info,
-    grey
-  ]);
+  }, [configPalette]);
 
   const methods = useMemo(() => ({
     setDarkTheme: newDarkTheme => updateStorage(

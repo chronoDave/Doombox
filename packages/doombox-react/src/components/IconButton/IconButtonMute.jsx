@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Icons
 import MuteIcon from '@material-ui/icons/VolumeOff';
@@ -16,7 +15,7 @@ import { useAudio } from '../../hooks';
 // Utils
 import { HOOK } from '../../utils/const';
 
-const IconButtonMute = ({ className }) => {
+const IconButtonMute = ({ ...rest }) => {
   const { mute } = useAudio(HOOK.AUDIO.METHOD);
   const { muted } = useAudio(HOOK.AUDIO.PLAYER);
   const volume = useAudio(HOOK.AUDIO.VOLUME);
@@ -30,20 +29,13 @@ const IconButtonMute = ({ className }) => {
 
   return (
     <IconButton
-      className={className}
       onClick={() => mute()}
+      color="inherit"
+      {...rest}
     >
       {getIcon()}
     </IconButton>
   );
-};
-
-IconButtonMute.propTypes = {
-  className: PropTypes.string
-};
-
-IconButtonMute.defaultProps = {
-  className: null
 };
 
 export default IconButtonMute;

@@ -19,15 +19,17 @@ const PlaylistItem = memo(({ data, index, style }) => {
     goTo
   } = data;
   const { _id, metadata } = collection[index];
+  const active = currentId === _id;
 
   return (
     <ListItem
-      className={clsx({ [classes.active]: currentId === _id })}
+      className={clsx({ [classes.active]: active })}
       onClick={() => goTo(index)}
       style={style}
       button
       dense
     >
+      {active && <div className={classes.activeBar} />}
       <ListItemIcon classes={{ root: classes.listItemIcon }}>
         <Typography variant="caption">
           {`${index}.`}
@@ -62,6 +64,7 @@ PlaylistItem.propTypes = {
     })).isRequired,
     classes: PropTypes.shape({
       listItemIcon: PropTypes.string,
+      activeBar: PropTypes.string,
       active: PropTypes.string,
       block: PropTypes.string
     }).isRequired,

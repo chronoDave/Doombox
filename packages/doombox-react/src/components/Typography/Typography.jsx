@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,7 @@ import { Typography as MuiTypography } from '@material-ui/core';
 // Styles
 import { useTypographyStyles } from './Typography.style';
 
-const Typography = props => {
+const Typography = forwardRef((props, ref) => {
   const {
     children,
     className,
@@ -24,11 +24,12 @@ const Typography = props => {
         className
       )}
       {...rest}
+      ref={ref}
     >
       {children}
     </MuiTypography>
   );
-};
+});
 
 Typography.propTypes = {
   children: PropTypes.oneOfType([

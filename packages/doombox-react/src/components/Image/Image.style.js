@@ -12,8 +12,8 @@ export const useImageStyles = makeStyles(theme => {
   const filterImage = () => ({ src, disableDefault }) => [
     `linear-gradient(
       180deg,
-      ${fade(theme.palette.grey[200], 0.5)},
-      ${fade(theme.palette.grey[200], 0.5)}
+      ${fade(theme.palette.grey[theme.isDarkTheme ? 200 : 800], 0.5)},
+      ${fade(theme.palette.grey[theme.isDarkTheme ? 200 : 800], 0.5)}
     )`,
     `url("${pathToUrl(src || (disableDefault ? '' : backgroundDefault))}")`
   ];

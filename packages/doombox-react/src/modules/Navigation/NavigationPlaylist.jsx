@@ -10,7 +10,6 @@ import IconAdd from '@material-ui/icons/Add';
 // Core
 import {
   Box,
-  Tooltip,
   IconButton,
   List,
   ListItem,
@@ -20,8 +19,9 @@ import {
 
 import {
   AvatarButton,
-  Typography,
-  Popover
+  Context,
+  ContextItem,
+  Tooltip
 } from '../../components';
 
 // Modules
@@ -54,6 +54,7 @@ const NavigationPlaylist = () => {
 
   const collection = useAudio(HOOK.AUDIO.COLLECTION);
   const { setPlaylist } = useAudio(HOOK.AUDIO.METHOD);
+  const { name } = useAudio(HOOK.AUDIO.PLAYLIST);
 
   const classes = useNavigationStyles();
   const { t } = useTranslation();
@@ -64,32 +65,38 @@ const NavigationPlaylist = () => {
         {collection.map(playlist => (
           <Tooltip
             key={playlist._id}
-            title={(
-              <Typography variant="caption">
-                {`${playlist.name} - ${playlist.collection.length} songs`}
-              </Typography>
-            )}
-            arrow
+            disableTranslation
+            title={`${playlist.name} (${t('songsCount', { count: playlist.collection.length })})`}
             placement="right"
           >
-            <AvatarButton
-              alt={playlist.name}
-              src={playlist.src ? playlist.src.path : null}
-              className={classes.avatar}
-              onClick={() => setPlaylist(playlist.name, playlist.collection, playlist.src)}
-              onContextMenu={event => {
-                setAnchorEl(event.currentTarget);
-                setMenu(playlist);
-              }}
-            />
+            <Box display="flex" alignItems="center">
+              <AvatarButton
+                alt={playlist.name}
+                src={playlist.src ? playlist.src.path : null}
+                className={classes.avatar}
+                size={6}
+                onClick={() => setPlaylist(playlist.name, playlist.collection, playlist.src)}
+                onContextMenu={event => {
+                  setAnchorEl(event.currentTarget);
+                  setMenu(playlist);
+                }}
+              />
+              {playlist.name === name && <div className={classes.activeBar} />}
+            </Box>
           </Tooltip>
         ))}
-        <IconButton
-          classes={{ root: classes.iconButton }}
-          onClick={() => setDialog('create')}
+        <Tooltip
+          disableTranslation
+          title={t('action:create', { context: 'playlist' })}
+          placement="right"
         >
-          <IconAdd />
-        </IconButton>
+          <IconButton
+            classes={{ root: classes.iconButton }}
+            onClick={() => setDialog('create')}
+          >
+            <IconAdd />
+          </IconButton>
+        </Tooltip>
       </div>
       <DialogConfirmation
         title={t('action:delete', { context: 'playlist' })}
@@ -125,7 +132,7 @@ const NavigationPlaylist = () => {
         disableTranslation
         form={(
           <FormPlaylist
-            initialValues={{ name: menu.name, src: menu.src }}
+            initialValues={{ name: menu.name || '', src: menu.src || {} }}
             onSubmit={payload => {
               updatePlaylist(menu._id, payload);
               setDialog(null);
@@ -134,35 +141,22 @@ const NavigationPlaylist = () => {
           />
         )}
       />
-      <Popover
+      <Context
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
       >
-        <Box p={1}>
-          <List dense disablePadding>
-            <ListItem
-              button
-              onClick={() => setDialog('edit')}
-              classes={{ root: classes.listItem }}
-            >
-              <ListItemText primary={t('action:edit', { context: 'playlist' })} />
-            </ListItem>
-            <Box p={0.75}>
-              <Divider />
-            </Box>
-            <ListItem
-              button
-              onClick={() => setDialog('delete')}
-              classes={{ root: classes.listItem }}
-            >
-              <ListItemText
-                primary={t('action:delete', { context: 'playlist' })}
-                primaryTypographyProps={{ classes: { root: classes.delete } }}
-              />
-            </ListItem>
-          </List>
-        </Box>
-      </Popover>
+        <ContextItem
+          disableTranslation
+          primary={t('action:edit', { context: 'playlist' })}
+          onClick={() => setDialog('edit')}
+        />
+        <ContextItem
+          disableTranslation
+          primary={t('action:delete', { context: 'playlist' })}
+          primaryTypographyProps={{ color: 'error' }}
+          onClick={() => setDialog('delete')}
+        />
+      </Context>
     </Fragment>
   );
 };

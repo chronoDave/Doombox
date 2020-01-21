@@ -48,7 +48,7 @@ const FormPlaylist = props => {
 FormPlaylist.propTypes = {
   initialValues: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    src: PropTypes.string.isRequired,
+    src: PropTypes.shape({}).isRequired,
     collection: PropTypes.arrayOf(PropTypes.shape({}))
   }),
   onSubmit: PropTypes.func.isRequired,
@@ -58,7 +58,7 @@ FormPlaylist.propTypes = {
 FormPlaylist.defaultProps = {
   initialValues: {
     name: '',
-    src: '',
+    src: {},
     collection: []
   },
   children: null

@@ -21,6 +21,7 @@ class IpcProvider extends Component {
     this.state = {
       methodValue: {
         getImageById: id => {
+          if (!id) return {};
           const { imageValue } = this.state;
           return imageValue[id];
         },

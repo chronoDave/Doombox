@@ -2,8 +2,13 @@
   "common": {
     "search": "Search",
     "resultCount": "{{count}} results",
+    "trackCount": "{{count}} tracks",
     "songs": "Songs",
     "songsCount": "{{count}} songs",
+    "visualizer": "Visualizer",
+    "settings": "Settings",
+    "albums": "Albums",
+    "info_album": "Album info",
     "general": "General",
     "library": "Library",
     "discord": "Discord",
@@ -19,7 +24,10 @@
     "delete_playlist": "Delete playlist",
     "edit_playlist": "Edit playlist",
     "add": "Add",
-    "remove": "Remove"
+    "add_playlist": "Add to playlist",
+    "play_album": "Play album",
+    "remove": "Remove",
+    "show_art": "Show album art"
   },
   "field": {
     "name": "{{item}} name",
@@ -39,7 +47,9 @@
     "field_forceQuit": "Disables macOS-style app quit",
     "field_skipCovers": "Disables image parsing",
     "field_parseStrict": "Turn this on if you want to get errors when parsing invalid metadata",
-    "delete": "Are you sure you want to permanently delete"
+    "delete": "Are you sure you want to permanently delete",
+    "song_none": "No song selected",
+    "loading_library": "Loading library..."
   },
   "title": {
     "createPlaylist": "Create Playlist"

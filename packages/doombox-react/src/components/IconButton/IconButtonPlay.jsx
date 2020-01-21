@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Icon
 import IconPlay from '@material-ui/icons/PlayArrow';
@@ -14,26 +13,19 @@ import { useAudio } from '../../hooks';
 // Utils
 import { HOOK, STATUS } from '../../utils/const';
 
-const IconButtonPlay = ({ className }) => {
-  const { play, pause } = useAudio(HOOK.AUDIO.METHOD);
+const IconButtonPlay = ({ ...rest }) => {
+  const { pause } = useAudio(HOOK.AUDIO.METHOD);
   const { status } = useAudio(HOOK.AUDIO.PLAYER);
 
   return (
     <IconButton
-      onClick={() => (status === STATUS.AUDIO.PLAYING ? pause() : play())}
-      className={className}
+      onClick={() => pause()}
+      color="inherit"
+      {...rest}
     >
       {status === STATUS.AUDIO.PLAYING ? <IconPause /> : <IconPlay />}
     </IconButton>
   );
-};
-
-IconButtonPlay.propTypes = {
-  className: PropTypes.string
-};
-
-IconButtonPlay.defaultProps = {
-  className: null
 };
 
 export default IconButtonPlay;

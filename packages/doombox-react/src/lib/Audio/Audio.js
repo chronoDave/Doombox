@@ -145,16 +145,20 @@ class Audio extends EventEmitter {
   addPlaylist(collection) {
     this.playlist = {
       ...this.playlist,
-      collection: {
+      collection: [
         ...this.playlist.collection,
         ...collection
-      }
+      ]
     };
     this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
   }
 
   next() {
-    if (this.playlist.collection.length === 0) return;
+    if (this.playlist.collection.length === 0) {
+      this.status = STATUS.AUDIO.STOPPED;
+      this.emit(EVENT.AUDIO.STATUS, this.status);
+      return;
+    }
     if (this.playlist.index >= this.playlist.collection.length - 1) {
       this.playlist.index = 0;
     } else {

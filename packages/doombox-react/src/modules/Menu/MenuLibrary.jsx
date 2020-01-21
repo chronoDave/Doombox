@@ -1,8 +1,12 @@
 import React, {
   Fragment,
-  useState
+  useState,
+  useEffect
 } from 'react';
 import { TYPE } from '@doombox/utils';
+import groupby from 'lodash.groupby';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 // Icons
 import IconSettings from '@material-ui/icons/Settings';
@@ -29,17 +33,51 @@ import {
 } from '../../hooks';
 
 // Utils
+import { formatTime } from '../../utils';
 import { HOOK } from '../../utils/const';
 
-const MenuLibrary = () => {
+const MenuLibrary = ({ library, setCollection }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { setPlaylist } = useAudio(HOOK.AUDIO.METHOD);
   const { updateConfig } = useIpc(HOOK.IPC.METHOD);
+  const { t } = useTranslation();
 
   const config = useIpc(HOOK.IPC.CONFIG);
   const configSearch = config[TYPE.CONFIG.SEARCH];
   const configGeneral = config[TYPE.CONFIG.GENERAL];
+
+  useEffect(() => {
+    setCollection(Object
+      .entries(groupby(library, 'metadata.album'))
+      .sort((a, b) => {
+        const aMetadata = a[1][0].metadata.albumartist;
+        const bMetadata = b[1][0].metadata.albumartist;
+
+        if (aMetadata < bMetadata) return -1;
+        if (aMetadata > bMetadata) return 1;
+        return 0;
+      })
+      .map(([album, values]) => [
+        {
+          divider: {
+            primary: album,
+            secondary: [
+              values[0].metadata.albumartist,
+              values[0].metadata.year,
+              t('trackCount', { count: values.length }),
+              formatTime(
+                values.reduce((acc, cur) => acc + cur.format.duration, 0),
+                'text'
+              )
+            ].join(' \u2022 '),
+            album: values
+          },
+        },
+        ...values.sort((a, b) => a.metadata.track.no - b.metadata.track.no)
+      ])
+      .flat());
+  }, [library]);
 
   return (
     <Fragment>
@@ -62,7 +100,7 @@ const MenuLibrary = () => {
       <Popover
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
-        position="top"
+        position="center"
       >
         <Box
           p={1}
@@ -98,6 +136,11 @@ const MenuLibrary = () => {
       </Popover>
     </Fragment>
   );
+};
+
+MenuLibrary.propTypes = {
+  setCollection: PropTypes.func.isRequired,
+  library: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
 
 export default MenuLibrary;

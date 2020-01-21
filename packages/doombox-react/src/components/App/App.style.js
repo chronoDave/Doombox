@@ -9,27 +9,26 @@ export const useAppStyles = makeStyles(theme => ({
     top: theme.dimensions.appBar,
     width: '100%',
     height: `calc(100% - ${theme.dimensions.appBar}px)`,
-    overflow: 'auto'
+    overflow: 'auto',
   },
   barRoot: {
     zIndex: 2000,
-    position: 'fixed',
     display: 'flex',
     width: '100%',
     height: theme.dimensions.appBar,
+    backgroundColor: theme.palette.grey[100],
     transition: theme.transitions.create(['background-color', 'color'], {
       duration: theme.transitions.duration.shortest,
     })
   },
   barTitle: {
-    display: 'flex',
+    padding: theme.spacing(0, 1),
     minWidth: 0,
-    alignItems: 'center',
-    padding: theme.spacing(0, 1)
+    margin: 4,
+    flexGrow: 1,
   },
   draggable: {
-    flexGrow: 1,
-    '-webkit-app-region': 'drag'
+    '-webkit-app-region': 'drag',
   },
   button: {
     height: theme.dimensions.appBar,

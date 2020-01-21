@@ -10,12 +10,15 @@ export {
 
 export const useGlobalStyles = makeStyles(theme => ({
   '@global': {
+    body: {
+      overflow: 'hidden'
+    },
     '*::-webkit-scrollbar': {
-      backgroundColor: theme.palette.grey[0],
+      backgroundColor: theme.palette.grey[300],
       width: theme.spacing()
     },
     '*::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.palette.grey[300]
+      backgroundColor: theme.palette.grey[400]
     }
   }
 }));

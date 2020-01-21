@@ -27,6 +27,7 @@ const ModalFade = ({ open, children, ...rest }) => {
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{ classes: { root: classes.backdrop } }}
+      className={classes.presentation}
       {...rest}
     >
       <Fade in={open}>
