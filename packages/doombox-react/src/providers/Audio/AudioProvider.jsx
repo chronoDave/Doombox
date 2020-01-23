@@ -48,9 +48,7 @@ class AudioProvider extends Component {
         next: () => this.audio.next(),
         previous: () => this.audio.previous(),
         seek: newPosition => this.audio.seek(newPosition),
-        setPlaylist: (name, collection, src) => this.audio.setPlaylist(
-          name, collection || this.state.libraryValue, src
-        ),
+        setPlaylist: (name, collection, src) => this.audio.setPlaylist(name, collection, src),
         addPlaylist: collection => this.audio.addPlaylist(collection),
         goTo: newIndex => this.audio.goTo(newIndex),
         requestFrame: () => this.audio.requestFrame(),

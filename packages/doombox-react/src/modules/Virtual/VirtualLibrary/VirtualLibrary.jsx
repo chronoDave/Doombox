@@ -14,8 +14,7 @@ import { useTheme } from '@material-ui/core/styles';
 
 import {
   Context,
-  ContextItem,
-  ContextMenu,
+  ContextItem
 } from '../../../components';
 
 // Hooks

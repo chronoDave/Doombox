@@ -37,7 +37,9 @@ export const HOOK = {
     CONFIG: 'Config',
     INTERRUPT: 'Interrupt',
     MESSAGE: 'Message',
-    SYSTEM: 'System'
+    SYSTEM: 'System',
+    IMAGE: 'Image',
+    CACHE: 'Cache'
   },
   ROUTE: {
     METHOD: 'Method',
@@ -51,7 +53,7 @@ export const PATH = {
   },
   PAGE: {
     SONG: 'song',
-    ALBUM: 'album',
+    LABEL: 'label',
     VISUALIZER: 'visualizer'
   },
   DIALOG: {

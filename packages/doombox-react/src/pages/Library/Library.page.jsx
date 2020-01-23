@@ -21,8 +21,8 @@ import { useAudio } from '../../hooks';
 import { HOOK } from '../../utils/const';
 
 const LibraryPage = () => {
-  const [collection, setCollection] = useState(null);
-  const library = useAudio(HOOK.AUDIO.LIBRARY);
+  const [library, setLibrary] = useState(null);
+  const collection = useAudio(HOOK.AUDIO.LIBRARY);
 
   return (
     <Box
@@ -34,14 +34,14 @@ const LibraryPage = () => {
     >
       <BackgroundAlbum />
       <MenuLibrary
-        library={library}
-        setCollection={setCollection}
+        collection={collection}
+        setLibrary={setLibrary}
       />
       <Box flexGrow={1}>
-        {!collection ? (
+        {!library ? (
           <Loader context="library" />
         ) : (
-          <VirtualLibrary library={collection} />
+          <VirtualLibrary library={library} />
         )}
       </Box>
     </Box>

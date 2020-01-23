@@ -12,6 +12,7 @@ export {
   IconButtonNavigation
 } from './IconButton';
 export { Loader } from './Loader';
+export { TableRow } from './Table';
 export {
   Context,
   ContextItem

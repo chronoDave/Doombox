@@ -1,4 +1,4 @@
-export { AlbumPage } from './Album';
+export { LabelPage } from './Label';
 export { LibraryPage } from './Library';
 export { VisualizerPage } from './Visualizer';
 export {

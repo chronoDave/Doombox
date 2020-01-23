@@ -10,11 +10,7 @@ import IconAdd from '@material-ui/icons/Add';
 // Core
 import {
   Box,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Divider
+  IconButton
 } from '@material-ui/core';
 
 import {
@@ -66,7 +62,7 @@ const NavigationPlaylist = () => {
           <Tooltip
             key={playlist._id}
             disableTranslation
-            title={`${playlist.name} (${t('songsCount', { count: playlist.collection.length })})`}
+            title={`${playlist.name} (${t('trackCount', { count: playlist.collection.length })})`}
             placement="right"
           >
             <Box display="flex" alignItems="center">

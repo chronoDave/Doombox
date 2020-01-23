@@ -58,6 +58,9 @@ module.exports = {
       }
     },
     CACHE: {
+      [TYPE.CONFIG.GENERAL]: {
+        [TYPE.OPTIONS.PAGE]: null
+      },
       [TYPE.CONFIG.PLAYER]: {
         volume: 1,
         autoplay: true,
@@ -70,7 +73,7 @@ module.exports = {
       [TYPE.CONFIG.POSITION]: {
         x: 0,
         y: 0
-      }
+      },
     }
   }
 };

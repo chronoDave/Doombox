@@ -37,5 +37,36 @@ export const useVirtualStyles = makeStyles(theme => ({
   dividerIcon: {
     minWidth: theme.spacing(5),
     paddingLeft: theme.spacing(1.5)
+  },
+  // LabelItem
+  dividerLabel: {
+    height: 1,
+    marginLeft: theme.spacing(1),
+    backgroundColor: fade(theme.palette.text.primary, 0.25),
+    flexGrow: 1
+  },
+  labelButton: {
+    transition: theme.transitions.create(['background-color'], {
+      duration: theme.transitions.duration.shortest,
+    }),
+    '&:hover': {
+      backgroundColor: fade(
+        theme.palette.action.active,
+        theme.palette.action.hoverOpacity
+      )
+    }
+  },
+  labelImage: {
+    flexShrink: 0,
+    zIndex: -1,
+    width: theme.dimensions.label.item,
+    height: theme.dimensions.label.item
+  },
+  labelTypography: {
+    paddingRight: theme.spacing()
+  },
+  labelTable: {
+    borderSpacing: 0,
+    paddingTop: theme.spacing()
   }
 }));

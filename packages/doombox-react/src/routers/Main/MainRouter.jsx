@@ -15,7 +15,7 @@ import {
 // Pages
 import {
   VisualizerPage,
-  AlbumPage,
+  LabelPage,
   LibraryPage
 } from '../../pages';
 
@@ -38,14 +38,14 @@ const MainRouter = () => {
 
   useEffect(() => {
     if (!Object.values(PATH.PAGE).includes(page)) {
-      setPage(PATH.PAGE.ALBUM);
+      setPage(PATH.PAGE.LABEL);
     }
   }, [page]);
 
   const renderPage = () => {
     switch (page) {
-      case PATH.PAGE.ALBUM:
-        return <AlbumPage />;
+      case PATH.PAGE.LABEL:
+        return <LabelPage />;
       case PATH.PAGE.SONG:
         return <LibraryPage />;
       case PATH.PAGE.VISUALIZER:

@@ -1,5 +1,4 @@
 import React, {
-  Fragment,
   useState,
   useEffect
 } from 'react';
@@ -75,21 +74,15 @@ const Player = () => {
             {t('description:song', { context: 'none' })}
           </Typography>
         ) : (
-          <Fragment>
-            <Tooltip
-              placement="right"
-              title={metadata.title}
-              interactive
-            >
+          <Tooltip
+            placement="right"
+            title={`(${metadata.album}) ${metadata.artist} - ${metadata.title}`}
+            interactive
+          >
+            <Box display="flex" flexDirection="column">
               <Typography align="center" clamp={2}>
                 {metadata.title}
               </Typography>
-            </Tooltip>
-            <Tooltip
-              placement="right"
-              title={metadata.artist}
-              interactive
-            >
               <Typography
                 align="center"
                 clamp={1}
@@ -97,8 +90,8 @@ const Player = () => {
               >
                 {metadata.artist}
               </Typography>
-            </Tooltip>
-          </Fragment>
+            </Box>
+          </Tooltip>
         )}
       </Box>
       <Box>

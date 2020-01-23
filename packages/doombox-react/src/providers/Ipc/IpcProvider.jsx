@@ -30,15 +30,29 @@ class IpcProvider extends Component {
         ),
         updateSystem: (type, config) => updateStorage(
           TYPE.IPC.CONFIG.SYSTEM, type, config
+        ),
+        updateCache: (type, cache) => updateStorage(
+          TYPE.IPC.CONFIG.CACHE, type, cache
         )
       },
       messageValue: {},
       interruptValue: {},
-      configValue: Object.values(TYPE.CONFIG)
-        .reduce((acc, cur) => ({ ...acc, [cur]: {} }), {}),
-      systemValue: Object.values(TYPE.CONFIG)
-        .reduce((acc, cur) => ({ ...acc, [cur]: {} }), {}),
-      imageValue: {}
+      configValue: {
+        [TYPE.CONFIG.GENERAL]: {},
+        [TYPE.CONFIG.DISCORD]: {},
+        [TYPE.CONFIG.KEYBIND]: {},
+        [TYPE.CONFIG.KEYBIND]: {},
+        [TYPE.CONFIG.PALETTE]: {},
+        [TYPE.CONFIG.LIBRARY]: {},
+        [TYPE.CONFIG.SEARCH]: {}
+      },
+      systemValue: {
+        [TYPE.CONFIG.PARSER]: {}
+      },
+      imageValue: {},
+      cacheValue: {
+        [TYPE.CONFIG.GENERAL]: {}
+      }
     };
 
     ipcRenderer.on(TYPE.IPC.MESSAGE, (event, payload) => {
@@ -72,11 +86,22 @@ class IpcProvider extends Component {
         }
       }));
     });
+
+    ipcRenderer.on(TYPE.IPC.CACHE, (event, { payload }) => {
+      this.setState(state => ({
+        ...state,
+        cacheValue: {
+          ...state.cacheValue,
+          ...payload
+        }
+      }));
+    });
   }
 
   componentDidMount() {
     readStorage(TYPE.IPC.CONFIG.USER);
     readStorage(TYPE.IPC.CONFIG.SYSTEM);
+    readStorage(TYPE.IPC.CACHE);
     readCollection(TYPE.IPC.IMAGE, { castObject: true });
   }
 
@@ -93,7 +118,8 @@ class IpcProvider extends Component {
       interruptValue,
       systemValue,
       configValue,
-      imageValue
+      imageValue,
+      cacheValue
     } = this.state;
 
     return (
@@ -104,7 +130,9 @@ class IpcProvider extends Component {
               <IpcContext.Message.Provider value={messageValue}>
                 <IpcContext.Interrupt.Provider value={interruptValue}>
                   <IpcContext.System.Provider value={systemValue}>
-                    {children}
+                    <IpcContext.Cache.Provider value={cacheValue}>
+                      {children}
+                    </IpcContext.Cache.Provider>
                   </IpcContext.System.Provider>
                 </IpcContext.Interrupt.Provider>
               </IpcContext.Message.Provider>

@@ -39,6 +39,7 @@ const TYPE = {
     FILE_FORMATS: 'fileFormats',
     GLOB: 'glob',
     PARSE_STRICT: 'parseStrict',
+    PAGE: 'page'
   },
   ID: {
     WINDOW_MINIMIZE: 'window-minimize',

@@ -274,9 +274,7 @@ class Audio extends EventEmitter {
           smallImageKey: STATUS.AUDIO.PAUSED
         }));
       },
-      onend: () => this.autoplay && this.next(),
-      onloaderror: () => this.next(),
-      onplayerror: () => this.next()
+      onend: () => this.autoplay && this.next()
     });
   }
 }

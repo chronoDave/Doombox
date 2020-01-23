@@ -26,9 +26,12 @@ export const formatTime = (time, format) => {
   if (format === 'text') return `${hours > 0 ? `${hours} h ` : ''}${minutes} min`;
   return `${hours > 0 ? `${zeroPadding(hours)}:` : ''}${zeroPadding(minutes)}:${zeroPadding(seconds)}`;
 };
-export const pathToUrl = path => path
-  .replace(/#/g, '%23')
-  .replace(/\\/g, '/');
+export const pathToUrl = path => {
+  if (!path) return null;
+  return path
+    .replace(/#/g, '%23')
+    .replace(/\\/g, '/');
+};
 export const pathToRemoteUrl = async path => new Promise((resolve, reject) => fetch(path)
   .then(response => response.blob())
   .then(blob => {

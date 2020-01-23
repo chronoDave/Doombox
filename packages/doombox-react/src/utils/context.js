@@ -18,7 +18,8 @@ export const IpcContext = {
   Interrupt: createContext(),
   Config: createContext(),
   Image: createContext(),
-  System: createContext()
+  System: createContext(),
+  Cache: createContext()
 };
 
 export const RouteContext = {

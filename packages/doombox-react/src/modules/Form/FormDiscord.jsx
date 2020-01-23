@@ -22,10 +22,11 @@ const FormDiscord = ({ children }) => {
   const { updateConfig } = useIpc(HOOK.IPC.METHOD);
 
   const id = 'discord';
+  const configDiscord = config[TYPE.CONFIG.DISCORD];
 
   return (
     <Formik
-      initialValues={config[TYPE.CONFIG.DISCORD]}
+      initialValues={configDiscord}
       onSubmit={values => updateConfig(TYPE.CONFIG.DISCORD, values)}
     >
       <Form>

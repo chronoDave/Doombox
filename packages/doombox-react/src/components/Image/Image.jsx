@@ -10,10 +10,15 @@ const Image = props => {
     className,
     children,
     disableDefault,
+    disableOverlay,
     src,
     alt
   } = props;
-  const classes = useImageStyles({ src, disableDefault });
+  const classes = useImageStyles({
+    src,
+    disableDefault,
+    disableOverlay
+  });
 
   return (
     <div
@@ -31,6 +36,7 @@ Image.propTypes = {
   alt: PropTypes.string,
   className: PropTypes.string,
   disableDefault: PropTypes.bool,
+  disableOverlay: PropTypes.bool,
   children: PropTypes.node,
 };
 
@@ -38,6 +44,7 @@ Image.defaultProps = {
   src: null,
   children: null,
   disableDefault: false,
+  disableOverlay: false,
   className: null,
   alt: 'Default image'
 };

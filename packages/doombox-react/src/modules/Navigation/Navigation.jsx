@@ -57,14 +57,14 @@ const Navigation = () => {
           />
         </Tooltip>
         <Tooltip
-          title="albums"
+          title="labels"
           placement="right"
           arrow
         >
           <IconButtonNavigation
-            active={page === PATH.PAGE.ALBUM}
+            active={page === PATH.PAGE.LABEL}
             icon={<IconAlbum />}
-            onClick={() => setPage(PATH.PAGE.ALBUM)}
+            onClick={() => setPage(PATH.PAGE.LABEL)}
           />
         </Tooltip>
         <Tooltip

@@ -16,8 +16,15 @@ export {
 export { Player } from './Player';
 export {
   VirtualLibrary,
-  VirtualPlaylist
+  VirtualPlaylist,
+  VirtualLabel
 } from './Virtual';
 export { Navigation } from './Navigation';
-export { SearchLibrary } from './Search';
-export { MenuLibrary } from './Menu';
+export {
+  SearchBase,
+  SearchLibrary
+} from './Search';
+export {
+  MenuLabel,
+  MenuLibrary
+} from './Menu';

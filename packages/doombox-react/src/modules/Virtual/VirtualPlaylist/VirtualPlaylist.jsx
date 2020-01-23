@@ -30,7 +30,7 @@ const Playlist = () => {
   const { goTo } = useAudio(HOOK.AUDIO.METHOD);
 
   const theme = useTheme();
-  const size = 6;
+  const size = 6.5;
 
   const classes = useVirtualStyles({ size });
   const { t } = useTranslation();
@@ -77,7 +77,7 @@ const Playlist = () => {
             align="center"
             noWrap
           >
-            {`${t('songsCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
+            {`${t('trackCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
           </Typography>
         ), [collection.length])}
       </Box>

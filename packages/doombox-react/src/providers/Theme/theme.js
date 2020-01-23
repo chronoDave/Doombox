@@ -35,10 +35,18 @@ export const createTheme = props => {
       ...rest
     },
     dimensions: {
+      scrollbar: 8,
       appBar: 32,
       sidebar: {
         tab: 64,
-        panel: 192
+        panel: {
+          xs: 192,
+          md: 256
+        }
+      },
+      label: {
+        divider: 48,
+        item: 160
       }
     },
     breakpoints: {

@@ -32,7 +32,7 @@ const PlaylistItem = memo(({ data, index, style }) => {
       {active && <div className={classes.activeBar} />}
       <ListItemIcon classes={{ root: classes.listItemIcon }}>
         <Typography variant="caption">
-          {`${index}.`}
+          {`${index + 1}.`}
         </Typography>
       </ListItemIcon>
       <ListItemText
