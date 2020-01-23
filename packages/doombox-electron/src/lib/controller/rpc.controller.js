@@ -10,12 +10,6 @@ module.exports = class RpcController {
     this.client = null;
 
     if (this.token) this.initialize();
-
-    if (this.client) {
-      this.client.on('error', err => {
-        this.log.createLogError(err, 'Discord');
-      });
-    }
   }
 
   initialize() {
@@ -24,6 +18,10 @@ module.exports = class RpcController {
     this.client.login({ clientId: this.token })
       .then(() => { this.connected = true; })
       .catch(err => { this.log.createLogError(err, 'Discord'); });
+
+    this.client.on('error', err => {
+      this.log.createLogError(err, 'Discord');
+    });
   }
 
   update(event, { data }) {

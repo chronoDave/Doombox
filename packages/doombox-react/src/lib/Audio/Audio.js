@@ -242,11 +242,6 @@ class Audio extends EventEmitter {
       onload: () => {
         this.emit(EVENT.AUDIO.DURATION, this.current.duration());
         this.emit(EVENT.AUDIO.CURRENT, song || this.playlist.collection[this.playlist.index]);
-        this.emit(EVENT.AUDIO.RPC, this.newRpcMessage(metadata, {
-          smallImageKey: this.autoplay ? STATUS.AUDIO.PLAYING : STATUS.AUDIO.PAUSED,
-          startTimestamp: Date.now(),
-          endTimestamp: Date.now() + Math.round(this.current.duration() * 1000)
-        }));
         this.status = this.autoplay ? STATUS.AUDIO.PLAYING : STATUS.AUDIO.PAUSED;
         this.emit(EVENT.AUDIO.STATUS, this.status);
         if ('mediaSession' in navigator) {

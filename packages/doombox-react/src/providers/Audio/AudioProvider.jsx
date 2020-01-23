@@ -118,7 +118,9 @@ class AudioProvider extends Component {
     this.audio.on(EVENT.AUDIO.CURRENT, currentValue => (
       this.setState(state => ({ ...state, currentValue }))
     ));
-    this.audio.on(EVENT.AUDIO.RPC, status => updateRpc(status));
+    this.audio.on(EVENT.AUDIO.RPC, status => {
+      updateRpc(status);
+    });
 
     // Keybind listeners
     this.keybind.on(ACTION.AUDIO.MUTE, () => this.audio.mute());
