@@ -216,9 +216,9 @@ class Audio extends EventEmitter {
 
     return ({
       largeImageKey: validateKey(),
-      largeImageText: metadata.albumartist,
-      state: metadata.album,
-      details: `${metadata.artist} - ${metadata.title}`,
+      largeImageText: metadata.album,
+      state: metadata.artist,
+      details: metadata.title,
       ...party,
       ...properties
     });
