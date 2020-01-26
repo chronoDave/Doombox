@@ -1,7 +1,7 @@
 {
   "name": "@doombox/react",
   "version": "1.0.0-ce",
-  "license": "GNU General Public License",
+  "license": "GPLv3",
   "author": "Chronocide",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
