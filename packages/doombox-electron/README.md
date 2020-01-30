@@ -10,22 +10,12 @@
 - `start`: Starts Electron in `production`, with nodemon enabled.
 - `start:dev`: Starts Electron in `development`, with nodemon enabled.
 - `build`: Build application.
-- `test`: Run tests in `production`.
-- `test:dev`: Run tests in `development`.
-
-## Code Style
-
-### IPC
-
-The backend expects the following properties on the IPC payload object:
-
-  - `action`: An `ACTION` property defined in `@doombox/utils`
-  - `async`: Optional. If true, sends `TYPE.IPC.INTERRUPT` on pending, success and error
-  - `data`: The payload data
+- `test:unit`: Run unit tests.
+- `arkit`: Generate arkit models, exported under the name `arkit-electron`.
 
 ## Discord Integration
 
-Doombox supports Discord RPC out of the box. To enable RPC, provide a valid `Client Id` to `discordToken` in `user-config`. You can create an `Client Id` on Discord's [Developer Portal - Application](https://discordapp.com/developers/applications) page.
+Doombox supports Discord RPC out of the box. To enable RPC, provide a valid `Client Id` to `discord -> token` in `user-config`. You can create an `Client Id` on Discord's [Developer Portal - Application](https://discordapp.com/developers/applications) page.
 
 Simply create an application and copy the `Client Id` on the `General Information` tab.
 
@@ -34,14 +24,6 @@ Doombox currently supports the following assets by default:
 - `icon`: Doombox' default icon (large image key)
 - `paused`: Icon when Doombox is paused (small image key)
 - `playing`: Icon when Doombox is playing (small image key)
-
-Custom assets can be defined in `imageKey`. This key must be equal to a valid MP3 metadata tag (such as `genre` or `title`). Doombox will expose the value of the tag to RPC.
-
-Example:
-
-`imageKey: 'genre'`
-
-Metadata genre equals to `Electro`, the key sent to RPC will be equal to `Electro`.
 
 ## Persistent Data
 
@@ -53,11 +35,12 @@ Data, such as config files and database files can be found in `AppData\Roaming\@
 
 - `forceQuit`: Force close on Mac when `true`, default `false`
 - `hardwareAcceleration`: Enables hardware acceleration, default `true`
+- `background`: Enable album background on Library and Album page, default `false`
 
 #### discord
 
-- `discordToken`: Enables Discord RPC feature when valid token is provided. See `Discord Integration` for more information, default `null`
-- `imageKey`: If Discord RPC is enabled, enables custom icons for the metadata key provided, default `null`
+- `token`: Enables Discord RPC feature when valid token is provided. See `Discord Integration` for more information, default `null`
+- `keyImage`: Enable custom images, default `null`
 
 #### keybinds
 
@@ -76,6 +59,8 @@ Keybinds use Electron's accelerator format, more information can be found at [El
 
 - `darkTheme`: Enable dark theme, default `true`
 - `backgroundOpacity`: Enable background opacity on Settings page, default `true`
+- `ramp`: Set custom color ramp, default `null`
+- `grey`: Set custom grey colors, default `{ dark: null, light: null }`
 
 The following properties all follow the same scheme:
 
@@ -85,7 +70,6 @@ The following properties all follow the same scheme:
 - `warning`
 - `success`
 - `info`
-- `grey`
 
 Default: `null`
 
@@ -111,16 +95,30 @@ primary: {
 }
 ```
 
+#### library
+
+- `folders`: Folders to be scanned, default `[]`
+
+#### search
+
+- `dense`: Enable dense layout, default `false`
+- `slowSearch`: Enable slow search, default `false`
+
 ### system-config
 
 #### parser
 
-- `logging`: Enables logging of parsed files, default `true`
+- `skipCovers`: Enable skipping covers when parsing, default `false`
+- `pathImage`: Set custom image path used for covers, default `null`
 - `fileFormats`: Array of supported file formats, default `['mp3']`
 - `glob`: Custom glob pattern. Doombox internally uses `/**/*.?(<fileFormats>))`. For more information on glab patterns, see [Glob - Glob Primer](https://www.npmjs.com/package/glob#glob-primer). When using `glob`, `fileFormats` will be overwritten, default `null`
 - `parseStrict`: Throw error when invalid metadata is found on file, default `false`
 
 ### system-cache
+
+#### general
+
+- `page`: Last visited page, default `<last cache value>`
 
 #### player
 
@@ -132,3 +130,8 @@ primary: {
 
 - `width`: Application width cache, default `<last cache value>`
 - `height`: Application height cache, default `<last cache value>`
+
+#### position
+
+- `x`: Doombox `x` position, default `<last cache value>`
+- `y`: Doombox `y` position, default `<last cache value>`
