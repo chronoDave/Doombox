@@ -46,7 +46,7 @@ This manually links `@doombox/utils` to `@doombox/electron` and `@doombox/react`
 
 ## Contributing
 
-If you wish to contribute to Doombox, please read the [contributing guide](/blob/master/CONTRIBUTING.md).
+If you wish to contribute to Doombox, please read the [contributing guide](CONTRIBUTING.md).
 
 ## Attribution
 ### Free Music Archive
