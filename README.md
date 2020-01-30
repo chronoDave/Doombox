@@ -58,7 +58,7 @@ All songs used for testing are obtained from the [Free Music Archive](https://fr
 
 ## Donating
 
-If you wish to support Doombox development, you can buy me a [Kofi](ko-fi.com/chronocide).
+If you wish to support Doombox development, you can buy me a [Kofi](https://ko-fi.com/chronocide).
 
 ## License
 
