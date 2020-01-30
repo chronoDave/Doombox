@@ -2,6 +2,10 @@
 
 If you're reading this, thank you! Any help I can get is greatly appreciated :)
 
+## General
+
+Fork + PR is the way to go.
+
 ## Translations
 
 Doombox uses `JSON` files for translations, which can be found in [static/locales](/packages/doombox-react/src/static/locales).
