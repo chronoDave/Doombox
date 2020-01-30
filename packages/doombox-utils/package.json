@@ -1,6 +1,6 @@
 {
   "name": "@doombox/utils",
-  "version": "1.0.0-ce",
+  "version": "1.0.0",
   "license": "GPLv3",
   "author": "Chronocide",
   "main": "./src"

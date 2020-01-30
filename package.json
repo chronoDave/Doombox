@@ -1,5 +1,5 @@
 {
-  "name": "doombox",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js --ext .jsx .",
@@ -19,7 +19,10 @@
     "arkit:react-render": "yarn workspace @doombox/react arkit:render",
     "arkit:react-flow": "yarn workspace @doombox/react arkit:flow",
     "arkit:react-inheritance": "yarn workspace @doombox/react arkit:inheritance",
-    "arkit:electron": "yarn workspace @doombox/electron arkit"
+    "arkit:electron": "yarn workspace @doombox/electron arkit",
+    "version:patch": "yarn version --patch && yarn workspaces version --patch",
+    "version:minor": "yarn version --minor && yarn workspaces version --minor",
+    "version:major": "yarn version --major && yarn workspaces version --major"
   },
   "devDependencies": {
     "arkit": "^1.6.2",

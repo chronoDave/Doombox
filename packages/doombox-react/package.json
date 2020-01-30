@@ -1,6 +1,6 @@
 {
   "name": "@doombox/react",
-  "version": "1.0.0-ce",
+  "version": "1.0.0",
   "license": "GPLv3",
   "author": "Chronocide",
   "scripts": {
