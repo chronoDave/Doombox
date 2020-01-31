@@ -1,5 +1,3 @@
-export { LabelPage } from './Label';
-export { LibraryPage } from './Library';
 export { VisualizerPage } from './Visualizer';
 export {
   SettingsDiscordPage,

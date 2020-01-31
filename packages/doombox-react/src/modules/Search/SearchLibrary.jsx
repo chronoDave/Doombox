@@ -1,32 +1,17 @@
-import React, {
-  Fragment,
-  useState
-} from 'react';
+import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Icons
-import IconPlaylistAdd from '@material-ui/icons/PlaylistAdd';
+import IconPlay from '@material-ui/icons/PlaylistPlay';
+import IconAdd from '@material-ui/icons/PlaylistAdd';
 
 // Core
-import {
-  Box,
-  IconButton
-} from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 
-import {
-  Popover,
-  Tooltip,
-  Button
-} from '../../components';
-
-// Modules
-import { FormPlaylist } from '../Form';
+import { Tooltip } from '../../components';
 
 // Hooks
 import { useAudio } from '../../hooks';
-
-// Actions
-import { createPlaylist } from '../../actions';
 
 // Utils
 import { HOOK } from '../../utils/const';
@@ -34,40 +19,44 @@ import { HOOK } from '../../utils/const';
 import SearchBase from './SearchBase';
 
 const SearchBarLibrary = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const collection = useAudio(HOOK.AUDIO.LIBRARY);
+  const {
+    addPlaylist,
+    setPlaylist,
+    createSong
+  } = useAudio(HOOK.AUDIO.METHOD);
+  const library = useAudio(HOOK.AUDIO.LIBRARY);
   const { t } = useTranslation();
 
   return (
-    <Fragment>
-      <SearchBase name="library" count={collection.length}>
-        <Tooltip
-          disableTranslation
-          placement="bottom"
-          title={t('action:create', { context: 'playlist' })}
-        >
-          <IconButton onClick={event => setAnchorEl(event.currentTarget)}>
-            <IconPlaylistAdd />
-          </IconButton>
-        </Tooltip>
-      </SearchBase>
-      <Popover
-        anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
-        position="top"
-      >
-        <Box p={2}>
-          <FormPlaylist
-            onSubmit={payload => createPlaylist({ ...payload, collection })}
-            actions={(
-              <Button onClick={() => setAnchorEl(null)}>
-                {t('action:cancel')}
-              </Button>
-            )}
-          />
-        </Box>
-      </Popover>
-    </Fragment>
+    <SearchBase name="library" count={library.length}>
+      {({ query }) => (
+        <Fragment>
+          <Tooltip
+            disableTranslation
+            placement="bottom"
+            title={t('action:play', { context: 'selection' })}
+          >
+            <IconButton
+              onClick={() => {
+                setPlaylist(query, library);
+                createSong();
+              }}
+            >
+              <IconPlay />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            disableTranslation
+            placement="bottom"
+            title={t('action:add', { context: 'playlist' })}
+          >
+            <IconButton onClick={() => addPlaylist(library)}>
+              <IconAdd />
+            </IconButton>
+          </Tooltip>
+        </Fragment>
+      )}
+    </SearchBase>
   );
 };
 

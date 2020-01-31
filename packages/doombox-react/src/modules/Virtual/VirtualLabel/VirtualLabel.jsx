@@ -39,7 +39,7 @@ const VirtualLabel = ({ labels }) => {
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-  }, []);
+  }, [handleResize]);
 
   useEffect(() => {
     if (labelRef && labelRef.current) {
@@ -70,8 +70,12 @@ const VirtualLabel = ({ labels }) => {
     t
   }), [
     labels,
+    itemDimensions,
     classes,
-    t
+    addPlaylist,
+    t,
+    setPlaylist,
+    createSong
   ]);
 
   const getItemSize = (index, width) => {

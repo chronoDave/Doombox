@@ -35,6 +35,7 @@ const SearchBase = props => {
     count,
     children
   } = props;
+  const [query, setQuery] = useState('');
   const [searched, setSearched] = useState(false);
 
   const config = useIpc(HOOK.IPC.CONFIG);
@@ -44,6 +45,7 @@ const SearchBase = props => {
   const { t } = useTranslation();
 
   const handleDebounce = value => {
+    setQuery(value);
     queryLibrary(value);
     setSearched(value.length > 0);
   };
@@ -79,7 +81,7 @@ const SearchBase = props => {
               {t('resultCount', { count })}
             </Typography>
           </Box>
-          {children}
+          {children({ query })}
         </Box>
       )}
     </Box>

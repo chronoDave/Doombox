@@ -49,12 +49,13 @@ export const HOOK = {
 
 export const PATH = {
   DOMAIN: {
-    ROOT: 'root'
+    LIBRARY: 'library',
+    VISUALIZER: 'visualizer'
   },
   PAGE: {
     SONG: 'song',
     LABEL: 'label',
-    VISUALIZER: 'visualizer'
+    ROOT: 'root'
   },
   DIALOG: {
     SETTINGS: 'settings',

@@ -1,27 +1,37 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+
+// Modules
+import { Navigation } from '../Navigation';
+import { Player } from '../Player';
+import { VirtualPlaylist } from '../Virtual';
 
 // Style
 import { useSidebarStyles } from './Sidebar.style';
 
-const Sidebar = ({ tab, panel }) => {
+const Sidebar = ({ children }) => {
   const classes = useSidebarStyles();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.tab}>
-        {tab}
+    <Fragment>
+      <div className={classes.root}>
+        <div className={classes.tab}>
+          <Navigation />
+        </div>
+        <div className={classes.panel}>
+          <Player />
+          <VirtualPlaylist />
+        </div>
       </div>
-      <div className={classes.panel}>
-        {panel}
+      <div className={classes.children}>
+        {children}
       </div>
-    </div>
+    </Fragment>
   );
 };
 
 Sidebar.propTypes = {
-  tab: PropTypes.node.isRequired,
-  panel: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired
 };
 
 export default Sidebar;

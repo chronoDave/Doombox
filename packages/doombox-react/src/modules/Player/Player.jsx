@@ -54,7 +54,7 @@ const Player = () => {
           });
       }
     }
-  }, [images]);
+  }, [getImageById, images]);
 
   return (
     <Image

@@ -43,6 +43,16 @@ export const pathToRemoteUrl = async path => new Promise((resolve, reject) => fe
 export const cleanErr = errString => errString
   .replace(/\\/g, '/')
   .replace(/\n/g, ' ');
+export const sortLibrary = library => library
+  .sort((a, b) => {
+    if (a.metadata.albumartist < b.metadata.albumartist) return -1;
+    if (a.metadata.albumartist > b.metadata.albumartist) return 1;
+    if (a.metadata.year < b.metadata.year) return -1;
+    if (a.metadata.year > b.metadata.year) return 1;
+    if (a.metadata.track.no < b.metadata.track.no) return -1;
+    if (a.metadata.track.no > b.metadata.track.no) return 1;
+    return 0;
+  });
 
 // Electron
 const { remote: { dialog: { showOpenDialog } } } = window.require('electron');

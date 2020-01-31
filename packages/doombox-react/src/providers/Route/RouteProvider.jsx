@@ -14,7 +14,8 @@ import {
 
 // Routers
 import {
-  MainRouter,
+  LibraryRouter,
+  VisualizerRouter,
   SettingsRouter,
   InterruptRouter
 } from '../../routers';
@@ -46,7 +47,7 @@ const RouteProvider = () => {
 
   useEffect(() => {
     if (!Object.values(PATH.DOMAIN).includes(domain)) {
-      setDomain(PATH.DOMAIN.ROOT);
+      setDomain(PATH.DOMAIN.LIBRARY);
     }
   }, [domain]);
 
@@ -64,8 +65,10 @@ const RouteProvider = () => {
 
   const renderRouter = useCallback(() => {
     switch (domain) {
-      case PATH.DOMAIN.ROOT:
-        return <MainRouter />;
+      case PATH.DOMAIN.LIBRARY:
+        return <LibraryRouter />;
+      case PATH.DOMAIN.VISUALIZER:
+        return <VisualizerRouter />;
       default:
         return null;
     }

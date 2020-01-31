@@ -32,7 +32,7 @@ const BackgroundAlbum = () => {
 
   useEffect(() => {
     if (images) setImage(getImageById(images[0]));
-  }, [images]);
+  }, [getImageById, images]);
 
   return configGeneral[TYPE.OPTIONS.BACKGROUND] ? (
     <Image

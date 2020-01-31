@@ -37,7 +37,7 @@ const Search = props => {
     return () => {
       handleDebounce.cancel();
     };
-  }, [query]);
+  }, [handleDebounce, query]);
 
   const handleChange = event => {
     const { target: { value } } = event;

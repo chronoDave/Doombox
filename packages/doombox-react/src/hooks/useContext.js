@@ -14,6 +14,7 @@ const createContextHook = (type, array, context) => {
     throw new Error(`Invalid hook type called: ${type}`);
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useContext(context[type]);
 };
 

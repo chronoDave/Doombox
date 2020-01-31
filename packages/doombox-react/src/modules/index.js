@@ -24,7 +24,4 @@ export {
   SearchBase,
   SearchLibrary
 } from './Search';
-export {
-  MenuLabel,
-  MenuLibrary
-} from './Menu';
+export { Toolbar } from './Toolbar';

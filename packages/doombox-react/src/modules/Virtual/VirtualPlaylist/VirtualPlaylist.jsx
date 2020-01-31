@@ -79,7 +79,7 @@ const Playlist = () => {
           >
             {`${t('trackCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
           </Typography>
-        ), [collection.length])}
+        ), [collection, t])}
       </Box>
       <Box flexGrow={1} width="100%">
         <AutoSizer>

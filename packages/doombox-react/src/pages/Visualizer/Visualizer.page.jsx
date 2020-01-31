@@ -1,11 +1,9 @@
 import React from 'react';
 
-const VisualizerPage = () => {
-  return (
-    <div>
-      Visualizer
-    </div>
-  );
-};
+const VisualizerPage = () => (
+  <div>
+    Visualizer
+  </div>
+);
 
 export default VisualizerPage;
