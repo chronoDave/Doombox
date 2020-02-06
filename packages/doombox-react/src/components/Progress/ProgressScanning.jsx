@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
+import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
+import PropTypes from 'prop-types';
 
 // Core
 import {
@@ -9,17 +11,17 @@ import {
 
 import { Typography } from '../Typography';
 
-// Hooks
-import { useIpc } from '../../hooks';
-
-// Utils
-import { HOOK } from '../../utils/const';
-
 // Styles
 import { useProgressStyles } from './Progress.style';
 
-const ProgressScanning = () => {
-  const { file, current, size } = useIpc(HOOK.IPC.MESSAGE);
+const ProgressScanning = props => {
+  const {
+    message: {
+      file,
+      current,
+      size
+    }
+  } = props;
   const classes = useProgressStyles();
 
   const throttledValue = useRef(throttle(
@@ -62,4 +64,22 @@ const ProgressScanning = () => {
   );
 };
 
-export default ProgressScanning;
+ProgressScanning.propTypes = {
+  message: PropTypes.shape({
+    file: PropTypes.string.isRequired,
+    current: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired
+  })
+};
+
+ProgressScanning.defaultProps = {
+  message: {}
+};
+
+const mapStateToProps = state => ({
+  message: state.message
+});
+
+export default connect(
+  mapStateToProps
+)(ProgressScanning);

@@ -3,36 +3,31 @@ import {
   Formik,
   Form
 } from 'formik';
+import { TYPE } from '@doombox/utils';
+import { connect } from 'react-redux';
 
 // Core
-import { useTheme as useMuiTheme } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 
 import { FieldPalette } from '../../components';
 
-// Hook
-import { useIpc } from '../../hooks';
+// Actions
+import { updateStorage } from '../../actions';
 
 // Utils
-import { HOOK } from '../../utils/const';
+import { propPalette } from '../../utils/propTypes';
 
-const FormCreatePalette = () => {
-  const { palette } = useMuiTheme();
-  const { updatePalette } = useIpc(HOOK.IPC.METHOD);
-
+const FormCreatePalette = ({ palette }) => {
   const formId = 'create-palette';
 
   return (
     <Formik
-      initialValues={{
-        primary: palette.primary,
-        secondary: palette.secondary,
-        error: palette.error,
-        warning: palette.warning,
-        success: palette.success,
-        info: palette.info
-      }}
-      onSubmit={updatePalette}
+      initialValues={palette}
+      onSubmit={values => updateStorage(
+        TYPE.IPC.CONFIG,
+        TYPE.CONFIG.PALETTE,
+        values
+      )}
     >
       <Form>
         <Button type="submit">
@@ -57,4 +52,18 @@ const FormCreatePalette = () => {
   );
 };
 
-export default FormCreatePalette;
+FormCreatePalette.propTypes = {
+  palette: propPalette
+};
+
+FormCreatePalette.defaultProps = {
+  palette: {}
+};
+
+const mapStateToProps = state => ({
+  palette: state.palette[TYPE.CONFIG.PALETTE]
+});
+
+export default connect(
+  mapStateToProps
+)(FormCreatePalette);

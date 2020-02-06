@@ -46,8 +46,8 @@ module.exports = {
     // JSX
     'jsx-a11y/label-has-for': 'off', // This rule was deprecated in v6.1.0.
     // Hooks
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     // Mocha
     'mocha/no-mocha-arrows': 'off' // Mocha context isn't used
   }

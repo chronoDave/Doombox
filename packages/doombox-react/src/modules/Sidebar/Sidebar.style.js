@@ -28,6 +28,7 @@ export const useSidebarStyles = makeStyles(theme => ({
   },
   children: {
     position: 'fixed',
+    paddingLeft: 1,
     left: theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.xs,
     height: `calc(100% - ${theme.dimensions.appBar}px)`,
     width: `calc(100% - ${theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.xs}px)`,

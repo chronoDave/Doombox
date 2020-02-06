@@ -31,11 +31,11 @@ const FormParser = () => {
     <Formik
       initialValues={{
         ...configParser,
-        [TYPE.OPTIONS.FILE_FORMATS]: configParser[TYPE.OPTIONS.FILE_FORMATS].join(', ')
+        fileFormats: configParser.fileFormats.join(', ')
       }}
       onSubmit={values => updateSystem(TYPE.CONFIG.PARSER, {
         ...values,
-        [TYPE.OPTIONS.FILE_FORMATS]: values[TYPE.OPTIONS.FILE_FORMATS]
+        fileFormats: values.fileFormats
           .split(',')
           .map(value => value.replace(/\s+/g, ''))
       })}
@@ -43,8 +43,8 @@ const FormParser = () => {
       <Form>
         <Box display="flex" flexDirection="column">
           <Switch
-            translate={TYPE.OPTIONS.SKIP_COVERS}
-            checked={configParser[TYPE.OPTIONS.SKIP_COVERS]}
+            translate="skipCovers"
+            checked={configParser.skipCovers}
             onChange={event => updateSystem(TYPE.CONFIG.PARSER, {
               ...configParser,
               [TYPE.OPTIONS.SKIP_COVERS]: event.target.checked

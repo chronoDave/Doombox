@@ -2,7 +2,6 @@ const tap = require('tap');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const path = require('path');
-const { TYPE } = require('@doombox/utils');
 
 // Core
 const MetadataParser = require('./parser');
@@ -31,9 +30,7 @@ context('MetadataParser', () => {
 
     it('Returns the provided glob', () => {
       const glob = 'glob';
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG), {
-        [TYPE.OPTIONS.GLOB]: glob
-      });
+      const parser = new MetadataParser(new NeDB(COLLECTION.SONG), { glob });
       const pattern = parser.createGlobPattern();
 
       assert.strictEqual(pattern, glob);
@@ -41,9 +38,7 @@ context('MetadataParser', () => {
 
     it('Accepts custom file formats', () => {
       const fileFormats = ['flac', 'wav'];
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG), {
-        [TYPE.OPTIONS.FILE_FORMATS]: fileFormats
-      });
+      const parser = new MetadataParser(new NeDB(COLLECTION.SONG), { fileFormats });
       const customPattern = '/**/*.?(flac|wav)';
       const pattern = parser.createGlobPattern();
 
@@ -78,7 +73,7 @@ context('MetadataParser', () => {
     it('Parses images', async () => {
       const dir = tap.testdir({});
       const db = new NeDB([COLLECTION.SONG, COLLECTION.IMAGE]);
-      const parser = new MetadataParser(db, { [TYPE.OPTIONS.PATH_IMAGE]: dir });
+      const parser = new MetadataParser(db, { pathImage: dir });
       await parser.parse(this.folderMusic);
       const docs = await db.read(COLLECTION.IMAGE);
 
@@ -124,7 +119,7 @@ context('MetadataParser', () => {
     it('Parses image metadata correctly', async () => {
       const dir = tap.testdir({});
       const db = new NeDB([COLLECTION.SONG, COLLECTION.IMAGE]);
-      const parser = new MetadataParser(db, { [TYPE.OPTIONS.PATH_IMAGE]: dir });
+      const parser = new MetadataParser(db, { pathImage: dir });
       await parser.parse(this.folderMusic);
       const payload = {
         _id: 'Tours-Enthusiast-Cover (front)',
@@ -149,8 +144,8 @@ context('MetadataParser', () => {
       const dir = tap.testdir({});
       const db = new NeDB([COLLECTION.SONG, COLLECTION.IMAGE]);
       const parser = new MetadataParser(db, {
-        [TYPE.OPTIONS.PATH_IMAGE]: dir,
-        [TYPE.OPTIONS.SKIP_COVERS]: true
+        pathImage: dir,
+        skipCovers: true
       });
       await parser.parse(this.folderMusic);
       const docs = await db.read(COLLECTION.IMAGE);

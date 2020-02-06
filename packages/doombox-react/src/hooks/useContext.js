@@ -4,8 +4,6 @@ import { useContext } from 'react';
 import { HOOK } from '../utils/const';
 import {
   AudioContext,
-  IpcContext,
-  ThemeContext,
   RouteContext
 } from '../utils/context';
 
@@ -22,12 +20,6 @@ export const useAudio = type => createContextHook(
   type, Object.values(HOOK.AUDIO), AudioContext
 );
 
-export const useIpc = type => createContextHook(
-  type, Object.values(HOOK.IPC), IpcContext
-);
-
 export const useRoute = type => createContextHook(
   type, Object.values(HOOK.ROUTE), RouteContext
 );
-
-export const useTheme = () => useContext(ThemeContext);

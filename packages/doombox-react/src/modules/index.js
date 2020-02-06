@@ -14,14 +14,8 @@ export {
   DialogConfirmation
 } from './Dialog';
 export { Player } from './Player';
-export {
-  VirtualLibrary,
-  VirtualPlaylist,
-  VirtualLabel
-} from './Virtual';
+export { Library } from './Library';
+export { Playlist } from './Playlist';
+export { Label } from './Label';
 export { Navigation } from './Navigation';
-export {
-  SearchBase,
-  SearchLibrary
-} from './Search';
-export { Toolbar } from './Toolbar';
+export { Search } from './Search';

@@ -13,8 +13,8 @@ export const useImageStyles = makeStyles(theme => ({
     const url = `url("${pathToUrl(src || (!disableDefault && backgroundDefault))}")`;
     const overlay = `linear-gradient(
       180deg,
-      ${fade(theme.palette.grey[theme.isDarkTheme ? 200 : 800], 0.5)},
-      ${fade(theme.palette.grey[theme.isDarkTheme ? 200 : 800], 0.5)}
+      ${fade(theme.palette.grey[theme.palette.type === 'dark' ? 200 : 800], 0.5)},
+      ${fade(theme.palette.grey[theme.palette.type === 'dark' ? 200 : 800], 0.5)}
     )`;
 
     return ({
@@ -25,5 +25,10 @@ export const useImageStyles = makeStyles(theme => ({
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     });
+  },
+  background: {
+    width: 'calc(100% - 9px)',
+    height: '100%',
+    position: 'absolute'
   }
 }));

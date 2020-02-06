@@ -1,20 +1,18 @@
-import React, {
-  cloneElement,
-  forwardRef
-} from 'react';
+import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 // Core
-import {
-  IconButton
-} from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+
+import { Tooltip } from '../Tooltip';
 
 // Styles
 import { useIconButtonStyles } from './IconButton.style';
 
-const IconButtonNavigation = forwardRef((props, ref) => {
+const IconButtonNavigation = props => {
   const {
+    tooltip,
     active,
     className,
     icon,
@@ -23,23 +21,29 @@ const IconButtonNavigation = forwardRef((props, ref) => {
   const classes = useIconButtonStyles();
 
   return (
-    <IconButton
-      classes={{ root: classes.root }}
-      className={clsx(
-        { [classes.active]: active },
-        className
-      )}
-      {...rest}
-      ref={ref}
+    <Tooltip
+      title={tooltip}
+      placement="right"
+      arrow
     >
-      {active && <div className={classes.activeBar} />}
-      {cloneElement(icon, { fontSize: 'inherit' })}
-    </IconButton>
+      <IconButton
+        classes={{ root: classes.root }}
+        className={clsx(
+          { [classes.active]: active },
+          className
+        )}
+        {...rest}
+      >
+        {active && <div className={classes.activeBar} />}
+        {cloneElement(icon, { fontSize: 'inherit' })}
+      </IconButton>
+    </Tooltip>
   );
-});
+};
 
 IconButtonNavigation.displayName = 'IconButtonNavigation';
 IconButtonNavigation.propTypes = {
+  tooltip: PropTypes.string.isRequired,
   className: PropTypes.string,
   active: PropTypes.bool,
   icon: PropTypes.node.isRequired,

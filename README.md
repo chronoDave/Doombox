@@ -49,6 +49,13 @@ This manually links `@doombox/utils` to `@doombox/electron` and `@doombox/react`
 If you wish to contribute to Doombox, please read the [contributing guide](CONTRIBUTING.md).
 
 ## Attribution
+### Unsplash
+
+All images found in the static folder are obtained from [Unsplash](https://unsplash.com/) under the [Unsplash License](https://unsplash.com/license).
+
+ - [libraryIconDefault.png](/packages/src/static/images) by [Namroud Gorguis](https://unsplash.com/@namroud)
+ - [backgroundDefault.png](/packages/src/static/images) by [David Dvořáček](https://unsplash.com/@dafidvor)
+
 ### Free Music Archive
 
 All songs used for testing are obtained from the [Free Music Archive](https://freemusicarchive.org/) under the [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) license.

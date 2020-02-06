@@ -1,8 +1,8 @@
 import React from 'react';
 import { TYPE } from '@doombox/utils';
+import { connect } from 'react-redux';
 
 // Core
-import { useTheme as useMuiTheme } from '@material-ui/core/styles';
 import {
   Box,
   Typography
@@ -13,34 +13,33 @@ import { Switch } from '../../components';
 // Modules
 import { FormCreatePalette } from '../../modules';
 
-// Hook
-import {
-  useTheme,
-  useIpc
-} from '../../hooks';
+// Actions
+import { updateStorage } from '../../actions';
 
 // Utils
-import { HOOK } from '../../utils/const';
+import { propPalette } from '../../utils/propTypes';
 
-const SettingsPalette = () => {
-  const theme = useMuiTheme();
-  const { setDarkTheme } = useTheme();
-  const { palette } = useIpc(HOOK.IPC.CONFIG);
-  const { updateConfig } = useIpc(HOOK.IPC.METHOD);
+const SettingsPalette = ({ palette }) => {
+  const updatePalette = payload => updateStorage(
+    TYPE.IPC.CONFIG,
+    TYPE.CONFIG.PALETTE,
+    { ...palette, ...payload }
+  );
 
   return (
     <Box display="flex" flexDirection="column">
       <Switch
         primary="Dark theme"
-        checked={theme.isDarkTheme}
-        onChange={event => setDarkTheme(event.target.checked)}
+        checked={palette.darkTheme}
+        onChange={event => updatePalette({
+          darkTheme: event.target.checked
+        })}
         maxWidth={480}
       />
       <Switch
         primary="Background opacity"
         checked={palette.backgroundOpacity}
-        onChange={event => updateConfig(TYPE.CONFIG.PALETTE, {
-          ...palette,
+        onChange={event => updatePalette({
           backgroundOpacity: event.target.checked
         })}
         maxWidth={480}
@@ -55,4 +54,18 @@ const SettingsPalette = () => {
   );
 };
 
-export default SettingsPalette;
+SettingsPalette.propTypes = {
+  palette: propPalette
+};
+
+SettingsPalette.defaultProps = {
+  palette: {}
+};
+
+const mapStateToProps = state => ({
+  palette: state.config[TYPE.CONFIG.PALETTE]
+});
+
+export default connect(
+  mapStateToProps
+)(SettingsPalette);

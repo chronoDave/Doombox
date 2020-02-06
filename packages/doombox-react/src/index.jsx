@@ -1,14 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider as ReduxProvider } from 'react-redux';
 
 // Core
 import { CssBaseline } from '@material-ui/core';
-
-// Lib
-import {
-  Audio,
-  Keybind
-} from './lib';
 
 // Providers
 import {
@@ -18,21 +13,23 @@ import {
   RouteProvider
 } from './providers';
 
+// Redux
+import { store } from './redux';
+
 // Locale
 import './utils/locale';
 
-const audio = new Audio();
-const keybind = new Keybind();
-
 render(
-  <IpcProvider>
-    <AudioProvider audio={audio} keybind={keybind}>
-      <ThemeProvider>
-        <CssBaseline>
-          <RouteProvider />
-        </CssBaseline>
-      </ThemeProvider>
-    </AudioProvider>
-  </IpcProvider>,
+  <ReduxProvider store={store}>
+    <IpcProvider>
+      <AudioProvider>
+        <ThemeProvider>
+          <CssBaseline>
+            <RouteProvider />
+          </CssBaseline>
+        </ThemeProvider>
+      </AudioProvider>
+    </IpcProvider>
+  </ReduxProvider>,
   document.getElementById('root')
 );

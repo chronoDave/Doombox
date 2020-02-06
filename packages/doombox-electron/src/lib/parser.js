@@ -5,7 +5,6 @@ const mm = require('music-metadata');
 const shortid = require('shortid');
 const glob = require('glob');
 const path = require('path');
-const { TYPE } = require('@doombox/utils');
 
 // Utils
 const { cleanFileName } = require('../utils');
@@ -26,13 +25,13 @@ module.exports = class MetadataParser {
     this.db = database;
 
     // Options
-    this.skipCovers = options[TYPE.OPTIONS.PATH_IMAGE] ?
-      !!options[TYPE.OPTIONS.SKIP_COVERS] :
+    this.skipCovers = options.pathImage ?
+      !!options.skipCovers :
       true;
-    this.pathImage = options[TYPE.OPTIONS.PATH_IMAGE];
-    this.fileFormats = options[TYPE.OPTIONS.FILE_FORMATS];
-    this.parseStrict = options[TYPE.OPTIONS.PARSE_STRICT];
-    this.glob = options[TYPE.OPTIONS.GLOB];
+    this.pathImage = options.pathImage;
+    this.fileFormats = options.fileFormats;
+    this.parseStrict = options.parseStrict;
+    this.glob = options.glob;
   }
 
   // Utility

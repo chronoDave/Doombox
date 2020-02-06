@@ -3,8 +3,16 @@ const {
   ipcMain,
   globalShortcut
 } = require('electron');
-const { TYPE } = require('@doombox/utils');
+const {
+  CONFIG,
+  CACHE,
+  TYPE
+} = require('@doombox/utils');
 const debounce = require('lodash.debounce');
+const {
+  default: installExtension,
+  REACT_DEVELOPER_TOOLS
+} = require('electron-devtools-installer');
 
 // Lib
 const { NeDB } = require('./lib/database');
@@ -28,18 +36,10 @@ const {
   createWindow
 } = require('./utils/electron');
 
-// eslint-disable-next-line import/no-dynamic-require
-const { CONFIG } = require(
-  process.env.NODE_ENV === 'development' ?
-    './config.dev' :
-    './config'
-);
+const config = new Storage(PATH.CONFIG, 'config', CONFIG);
+const cache = new Storage(PATH.CONFIG, 'cache', CACHE);
 
-const configUser = new Storage(PATH.CONFIG, 'user-config', CONFIG.USER);
-const configSystem = new Storage(PATH.CONFIG, 'system-config', CONFIG.SYSTEM);
-const cache = new Storage(PATH.CONFIG, 'cache', CONFIG.CACHE);
-
-if (!configUser.get(TYPE.CONFIG.GENERAL).hardwareAcceleration) {
+if (!config.get(TYPE.CONFIG.GENERAL).hardwareAcceleration) {
   app.disableHardwareAcceleration();
 }
 
@@ -47,13 +47,19 @@ const db = new NeDB(Object.values(COLLECTION), PATH.DATABASE);
 const logger = new Logger(PATH.LOG);
 const router = new Router(logger);
 
-const parserOptions = configSystem.get(TYPE.CONFIG.PARSER);
+const parserOptions = config.get(TYPE.CONFIG.PARSER);
 const parser = new MetadataParser(db, {
   ...parserOptions,
   pathImage: parserOptions.pathImage || PATH.IMAGE
 });
 
 app.on('ready', () => {
+  if (process.env.NODE_ENV === 'development') {
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then(name => console.log(`Added Extension: ${name}`))
+      .catch(console.error);
+  }
+
   // General
   router.createRouter(
     TYPE.IPC.LIBRARY,
@@ -69,14 +75,11 @@ app.on('ready', () => {
   );
   router.createRouter(
     TYPE.IPC.RPC,
-    new RpcController(logger, configUser.get(TYPE.CONFIG.DISCORD))
+    new RpcController(logger, config.get(TYPE.CONFIG.DISCORD))
   );
   // Storage
-  router.createRouter(TYPE.IPC.CONFIG.USER, new StorageController(
-    configUser, TYPE.IPC.CONFIG.USER
-  ));
-  router.createRouter(TYPE.IPC.CONFIG.SYSTEM, new StorageController(
-    configSystem, TYPE.IPC.CONFIG.SYSTEM
+  router.createRouter(TYPE.IPC.CONFIG, new StorageController(
+    config, TYPE.IPC.CONFIG
   ));
   router.createRouter(TYPE.IPC.CACHE, new StorageController(
     cache, TYPE.IPC.CACHE
@@ -87,7 +90,7 @@ app.on('ready', () => {
     ...cache.get(TYPE.CONFIG.POSITION)
   });
   createKeyboardListener(
-    configUser.get(TYPE.CONFIG.KEYBIND),
+    config.get(TYPE.CONFIG.KEYBIND),
     payload => mainWindow.webContents.send(TYPE.IPC.KEYBIND, payload)
   );
 
@@ -108,7 +111,7 @@ app.on('ready', () => {
 
 // Prevent multi-instance
 if (!app.requestSingleInstanceLock()) {
-  const { forceQuit } = configUser.get(TYPE.CONFIG.GENERAL);
+  const { forceQuit } = config.get(TYPE.CONFIG.GENERAL);
 
   if (!process.platform === 'darwin' || forceQuit) {
     app.quit();

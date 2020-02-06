@@ -9,8 +9,8 @@ module.exports = class StorageController {
       if (!data) {
         reject(new Error('No data found'));
       }
-      if (!data.key) {
-        reject(new Error(`No key found in data: ${JSON.stringify(data)}`));
+      if (!data._id) {
+        reject(new Error(`No _id found in data: ${JSON.stringify(data)}`));
       }
       resolve();
     });
@@ -23,13 +23,13 @@ module.exports = class StorageController {
 
   async readOne(event, { data }) {
     await this.validateData(data);
-    const payload = this.config.get(data.key);
-    event.sender.send(this.type, { key: data.key, payload });
+    const payload = this.config.get(data._id);
+    event.sender.send(this.type, { _id: data._id, payload });
   }
 
-  async update(event, { data }) {
+  async updateOne(event, { data }) {
     await this.validateData(data);
-    this.config.set(data.key, data.payload);
+    this.config.set(data._id, data.update);
     this.read(event, { data });
   }
 };

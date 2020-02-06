@@ -35,12 +35,16 @@ module.exports = class NeDB {
    * @param {String} collection
    * @param {Object} query
    * @param {Object} modifiers
+   * @param {Number} modifiers.skip
+   * @param {Number} modifiers.limit
    * @param {Object=} modifiers.projection
    * @param {Object=} modifiers.sort
    * @param {Boolean=} modifiers.castObject
    */
   async read(collection, query = {}, modifiers = {}) {
     const {
+      skip = 0,
+      limit = 0,
       projection = {},
       sort = {},
       castObject
@@ -48,8 +52,10 @@ module.exports = class NeDB {
 
     return new Promise((resolve, reject) => this[collection]
       .find(query)
-      .projection(projection)
       .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .projection(projection)
       .exec((err, docs) => {
         if (err) return reject(err);
         return resolve(castObject ? arrayToObject('_id', docs) : docs);

@@ -1,166 +1,194 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   TYPE,
   ACTION
 } from '@doombox/utils';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Actions
 import {
-  readStorage,
-  readCollection,
-  updateStorage,
-  updateRpc
+  updateRpc,
+  updateStorage
 } from '../../actions';
 
-// Lib
+// Redux
 import {
-  Audio,
-  Keybind
-} from '../../lib';
+  setPlaylist,
+  shufflePlaylist
+} from '../../redux';
+
+// Lib
+import { Audio } from '../../lib';
 
 // Utils
+import { pathToRemoteUrl } from '../../utils';
 import { AudioContext } from '../../utils/context';
-import { EVENT } from '../../utils/const';
+import {
+  EVENT,
+  MEDIA_SESSION
+} from '../../utils/const';
+import {
+  propSong,
+  propSongImage
+} from '../../utils/propTypes';
 
-// Electron
 const { ipcRenderer } = window.require('electron');
 
 class AudioProvider extends Component {
-  /**
-   * @param {Object} props
-   * @param {Audio} props.audio
-   * @param {Keybind} props.keybind
-   */
   constructor(props) {
     super(props);
 
-    const { audio, keybind } = props;
-    this.audio = audio;
-    this.keybind = keybind;
+    this.audio = new Audio();
+
+    // MediaSession
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', () => this.audio.play());
+      navigator.mediaSession.setActionHandler('pause', () => this.audio.pause());
+      navigator.mediaSession.setActionHandler('stop', () => this.audio.stop());
+      navigator.mediaSession.setActionHandler('previoustrack', () => this.audio.previous());
+      navigator.mediaSession.setActionHandler('nexttrack', () => this.audio.next());
+    }
 
     this.state = {
       methodValue: {
+        // General
         play: () => this.audio.play(),
         pause: () => this.audio.pause(),
         stop: () => this.audio.stop(),
         next: () => this.audio.next(),
         previous: () => this.audio.previous(),
         seek: newPosition => this.audio.seek(newPosition),
-        setPlaylist: (name, collection, src) => this.audio.setPlaylist(name, collection, src),
-        addPlaylist: collection => this.audio.addPlaylist(collection),
-        goTo: newIndex => this.audio.goTo(newIndex),
-        requestFrame: () => this.audio.requestFrame(),
+        // Volume
         volume: newVolume => this.audio.setVolume(newVolume),
-        autoplay: newAutoplay => this.audio.setAutoplay(newAutoplay),
-        createSong: newSong => this.audio.newSong(newSong),
         mute: () => this.audio.mute(),
-        shuffle: () => this.audio.shuffle(),
         increaseVolume: () => this.audio.setVolume(this.audio.volume + 0.01),
         decreaseVolume: () => this.audio.setVolume(this.audio.volume - 0.01),
+        // Playlist
+        goTo: newIndex => this.audio.goTo(newIndex),
+        shuffle: () => {
+          const { dispatchShufflePlaylist } = props;
+          dispatchShufflePlaylist();
+        },
+        // Misc
+        requestFrame: () => this.audio.requestFrame(),
+        autoplay: newAutoplay => this.audio.setAutoplay(newAutoplay),
+        createSong: newSong => this.audio.newSong(newSong)
       },
-      libraryValue: [],
       currentValue: {},
-      playlistValue: {
-        name: 'Default Playlist',
-        src: null,
-        collection: []
-      },
-      collectionValue: [],
-      volumeValue: this.audio.volume,
       playerValue: {
         status: this.audio.status,
         autoplay: this.audio.autoplay,
         duration: 0,
         muted: this.audio.muted
       },
+      volumeValue: this.audio.volume,
       positionValue: 0
     };
 
-    // Audio listeners
-    this.audio.on(EVENT.AUDIO.STATUS, status => (
+    // Keybind
+    ipcRenderer.on(TYPE.IPC.KEYBIND, (event, payload) => {
+      switch (payload.action) {
+        // General
+        case ACTION.AUDIO.PLAY: return this.audio.play();
+        case ACTION.AUDIO.PAUSE: return this.audio.pause();
+        case ACTION.AUDIO.STOP: return this.audio.stop();
+        case ACTION.AUDIO.NEXT: return this.audio.next();
+        case ACTION.AUDIO.PREVIOUS: return this.audio.previous();
+        // Volume
+        case ACTION.AUDIO.VOLUME_UP: return this.audio.setVolume(this.audio.volume + 0.01);
+        case ACTION.AUDIO.VOLUME_DOWN: return this.audio.setVolume(this.audio.volume - 0.01);
+        case ACTION.AUDIO.MUTE: return this.audio.mute();
+        default: return null;
+      }
+    });
+
+    // Current
+    this.audio.on(EVENT.AUDIO.CURRENT, currentValue => {
+      if ('mediaSession' in navigator) {
+        // eslint-disable-next-line no-undef
+        navigator.mediaSession.metadata = new MediaMetadata({
+          artist: currentValue.metadata.artist,
+          album: currentValue.metadata.album,
+          title: currentValue.metadata.title
+        });
+        navigator.mediaSession.playbackState = 'playing';
+        pathToRemoteUrl(currentValue.images[0].path)
+          .then(src => {
+            navigator.mediaSession.metadata.artwork = MEDIA_SESSION.SIZES
+              .map(sizes => ({ src, sizes, type: 'image/jpeg' }));
+          })
+          .catch(console.error);
+      }
+
+      this.setState(state => ({ ...state, currentValue }));
+    });
+    // Playlist
+    this.audio.on(EVENT.AUDIO.PLAYLIST, playlist => {
+      const { dispatchPlaylist } = this.props;
+      dispatchPlaylist(playlist);
+    });
+    // Player
+    this.audio.on(EVENT.AUDIO.STATUS, status => {
       this.setState(state => ({
         ...state,
         playerValue: { ...state.playerValue, status }
-      }))
-    ));
+      }));
+    });
     this.audio.on(EVENT.AUDIO.AUTOPLAY, autoplay => {
+      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { autoplay });
       this.setState(state => ({
         ...state,
         playerValue: { ...state.playerValue, autoplay }
       }));
-      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { autoplay });
     });
-    this.audio.on(EVENT.AUDIO.PLAYLIST, playlist => (
-      this.setState(state => ({ ...state, playlistValue: playlist }))
-    ));
-    this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
-      this.setState(state => ({ ...state, volumeValue }));
-      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { volume: volumeValue });
-    });
-    this.audio.on(EVENT.AUDIO.POSITION, positionValue => (
-      this.setState(state => ({ ...state, positionValue: positionValue || 0 }))
-    ));
-    this.audio.on(EVENT.AUDIO.DURATION, duration => (
+    this.audio.on(EVENT.AUDIO.DURATION, duration => {
       this.setState(state => ({
         ...state,
         playerValue: { ...state.playerValue, duration }
-      }))
-    ));
+      }));
+    });
     this.audio.on(EVENT.AUDIO.MUTED, muted => {
       this.setState(state => ({
         ...state,
         playerValue: { ...state.playerValue, muted }
       }));
-      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { muted });
     });
-    this.audio.on(EVENT.AUDIO.CURRENT, currentValue => (
-      this.setState(state => ({ ...state, currentValue }))
-    ));
-    this.audio.on(EVENT.AUDIO.RPC, status => {
-      updateRpc(status);
+    // Volume
+    this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
+      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { volume: volumeValue });
+      this.setState(state => ({ ...state, volumeValue }));
     });
-
-    // Keybind listeners
-    this.keybind.on(ACTION.AUDIO.MUTE, () => this.audio.mute());
-    this.keybind.on(ACTION.AUDIO.NEXT, () => this.audio.next());
-    this.keybind.on(ACTION.AUDIO.PAUSE, () => this.audio.pause());
-    this.keybind.on(ACTION.AUDIO.PLAY, () => this.audio.play());
-    this.keybind.on(ACTION.AUDIO.PREVIOUS, () => this.audio.previous());
-    this.keybind.on(ACTION.AUDIO.STOP, () => this.audio.stop());
-    this.keybind.on(ACTION.AUDIO.VOLUME_DOWN, () => this.audio.setVolume(this.audio.volume - 1));
-    this.keybind.on(ACTION.AUDIO.VOLUME_UP, () => this.audio.setVolume(this.audio.volume + 1));
+    // Position
+    this.audio.on(EVENT.AUDIO.POSITION, positionValue => {
+      this.setState(state => ({ ...state, positionValue }));
+    });
+    // Rpc
+    this.audio.on(EVENT.AUDIO.RPC, updateRpc);
   }
 
-  componentDidMount() {
-    ipcRenderer.once(TYPE.IPC.CACHE, (event, { payload }) => {
-      this.setState(state => ({
-        ...state,
-        playerValue: payload[TYPE.CONFIG.PLAYER]
-      }));
-      this.setState(state => ({ ...state, volume: payload.volume }));
-    });
+  componentDidUpdate(prevProps) {
+    const { playlist } = this.props;
 
-    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { payload }) => {
-      this.audio.rpc.imageKey = payload[TYPE.CONFIG.DISCORD][TYPE.OPTIONS.KEY_IMAGE] || null;
-    });
+    if (prevProps.playlist === playlist) return;
 
-    ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
-      this.setState(state => ({ ...state, libraryValue: payload }));
-    });
+    const {
+      action,
+      name,
+      collection,
+      src,
+      autoplay
+    } = playlist;
 
-    ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
-      this.setState(state => ({
-        ...state,
-        collectionValue: payload
-      }));
-    });
-
-    readStorage(TYPE.IPC.CACHE);
-
-    readCollection(TYPE.IPC.LIBRARY);
-    readCollection(TYPE.IPC.PLAYLIST);
+    if (action === ACTION.AUDIO.SHUFFLE) this.audio.shuffle(collection);
+    if (action === ACTION.AUDIO.PLAYLIST_ADD) this.audio.addPlaylist(collection);
+    if (action === ACTION.AUDIO.PLAYLIST_SET) {
+      this.audio.setPlaylist({
+        name,
+        src,
+        collection
+      }, autoplay);
+    }
   }
 
   componentWillUnmount() {
@@ -171,32 +199,23 @@ class AudioProvider extends Component {
     const { children } = this.props;
     const {
       methodValue,
-      playlistValue,
-      collectionValue,
-      libraryValue,
-      volumeValue,
       currentValue,
-      positionValue,
-      playerValue
+      playerValue,
+      volumeValue,
+      positionValue
     } = this.state;
 
     return (
       <AudioContext.Method.Provider value={methodValue}>
-        <AudioContext.Collection.Provider value={collectionValue}>
-          <AudioContext.Library.Provider value={libraryValue}>
-            <AudioContext.Playlist.Provider value={playlistValue}>
-              <AudioContext.Volume.Provider value={volumeValue}>
-                <AudioContext.Player.Provider value={playerValue}>
-                  <AudioContext.Current.Provider value={currentValue}>
-                    <AudioContext.Position.Provider value={positionValue}>
-                      {children}
-                    </AudioContext.Position.Provider>
-                  </AudioContext.Current.Provider>
-                </AudioContext.Player.Provider>
-              </AudioContext.Volume.Provider>
-            </AudioContext.Playlist.Provider>
-          </AudioContext.Library.Provider>
-        </AudioContext.Collection.Provider>
+        <AudioContext.Current.Provider value={currentValue}>
+          <AudioContext.Player.Provider value={playerValue}>
+            <AudioContext.Volume.Provider value={volumeValue}>
+              <AudioContext.Position.Provider value={positionValue}>
+                {children}
+              </AudioContext.Position.Provider>
+            </AudioContext.Volume.Provider>
+          </AudioContext.Player.Provider>
+        </AudioContext.Current.Provider>
       </AudioContext.Method.Provider>
     );
   }
@@ -204,8 +223,31 @@ class AudioProvider extends Component {
 
 AudioProvider.propTypes = {
   children: PropTypes.element.isRequired,
-  audio: PropTypes.instanceOf(Audio).isRequired,
-  keybind: PropTypes.instanceOf(Keybind).isRequired
+  dispatchPlaylist: PropTypes.func.isRequired,
+  dispatchShufflePlaylist: PropTypes.func.isRequired,
+  playlist: PropTypes.shape({
+    action: PropTypes.string,
+    name: PropTypes.string,
+    src: propSongImage,
+    collection: PropTypes.arrayOf(propSong),
+    autoplay: PropTypes.bool
+  })
 };
 
-export default AudioProvider;
+AudioProvider.defaultProps = {
+  playlist: {}
+};
+
+const mapStateToProps = state => ({
+  playlist: state.playlist
+});
+
+const mapDispatchToProps = {
+  dispatchPlaylist: setPlaylist,
+  dispatchShufflePlaylist: shufflePlaylist
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AudioProvider);

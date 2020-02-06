@@ -20,7 +20,7 @@ export const useNavigationStyles = makeStyles(theme => ({
     left: 0,
     width: theme.spacing(0.5),
     height: theme.spacing(3),
-    backgroundColor: theme.isDarkTheme ?
+    backgroundColor: theme.palette.type === 'dark' ?
       theme.palette.text.primary :
       theme.palette.text.secondary,
     borderRadius: '0px 4px 4px 0px'

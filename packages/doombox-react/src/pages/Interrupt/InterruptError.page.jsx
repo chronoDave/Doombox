@@ -2,6 +2,8 @@ import React, {
   useEffect,
   useState
 } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Icons
 import IconError from '@material-ui/icons/Error';
@@ -14,17 +16,12 @@ import {
   Tooltip
 } from '@material-ui/core';
 
-// Hooks
-import { useIpc } from '../../hooks';
-
 // Utils
 import { cleanErr } from '../../utils';
-import { HOOK } from '../../utils/const';
 
-const InterruptErrorPage = () => {
+const InterruptErrorPage = ({ err }) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState({});
-  const { err } = useIpc(HOOK.IPC.MESSAGE);
 
   useEffect(() => {
     if (err) {
@@ -92,4 +89,18 @@ const InterruptErrorPage = () => {
   );
 };
 
-export default InterruptErrorPage;
+InterruptErrorPage.propTypes = {
+  err: PropTypes.string
+};
+
+InterruptErrorPage.defaultProps = {
+  err: null
+};
+
+const mapStateToProps = state => ({
+  err: state.message.err
+});
+
+export default connect(
+  mapStateToProps
+)(InterruptErrorPage);

@@ -4,16 +4,19 @@ import {
   darken,
   lighten
 } from '@material-ui/core/styles';
+import { CONFIG } from '@doombox/utils';
 
 export const createTheme = props => {
   const {
-    darkTheme,
-    grey,
-    ramp,
-    ...rest
+    palette: {
+      darkTheme,
+      grey,
+      ramp,
+      ...paletteRest
+    }
   } = props;
 
-  const generateGrey = () => Object.keys(ramp)
+  const generateGrey = () => Object.keys(ramp || CONFIG.PALETTE.ramp)
     .map(key => {
       const value = ramp[key];
       return ({
@@ -32,7 +35,7 @@ export const createTheme = props => {
         paper: greys[50],
         default: greys[100]
       },
-      ...rest
+      ...paletteRest
     },
     dimensions: {
       scrollbar: 8,
@@ -45,7 +48,7 @@ export const createTheme = props => {
         }
       },
       label: {
-        divider: 48,
+        header: 48,
         item: 160
       }
     },
@@ -58,7 +61,6 @@ export const createTheme = props => {
         xl: 1920
       }
     },
-    isDarkTheme: darkTheme,
     border: (color, width = '1px', style = 'solid') => `${width} ${style} ${color}`
   });
 };

@@ -12,7 +12,10 @@ export {
   IconButtonNavigation
 } from './IconButton';
 export { Loader } from './Loader';
-export { TableRow } from './Table';
+export {
+  Table,
+  TableRow
+} from './Table';
 export {
   Context,
   ContextItem
@@ -34,10 +37,12 @@ export {
   FieldFolder
 } from './Field';
 export { Popover } from './Popover';
-export { Image } from './Image';
+export {
+  Image,
+  ImageBackground
+} from './Image';
 export { InputSearch } from './Input';
 export { ModalFade } from './Modal';
 export { Switch } from './Switch';
 export { ProgressScanning } from './Progress';
 export { Typography } from './Typography';
-export { BackgroundAlbum } from './Background';

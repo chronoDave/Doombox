@@ -3,7 +3,11 @@ import {
   Formik,
   Form
 } from 'formik';
-import { TYPE } from '@doombox/utils';
+import {
+  CONFIG,
+  TYPE
+} from '@doombox/utils';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
@@ -11,28 +15,25 @@ import { Box } from '@material-ui/core';
 
 import { FieldText } from '../../components';
 
-// Hook
-import { useIpc } from '../../hooks';
+// Actions
+import { updateStorage } from '../../actions';
 
-// Utils
-import { HOOK } from '../../utils/const';
-
-const FormDiscord = ({ children }) => {
-  const config = useIpc(HOOK.IPC.CONFIG);
-  const { updateConfig } = useIpc(HOOK.IPC.METHOD);
-
+const FormDiscord = ({ discord, children }) => {
   const id = 'discord';
-  const configDiscord = config[TYPE.CONFIG.DISCORD];
 
   return (
     <Formik
-      initialValues={configDiscord}
-      onSubmit={values => updateConfig(TYPE.CONFIG.DISCORD, values)}
+      initialValues={discord}
+      onSubmit={values => updateStorage(
+        TYPE.IPC.CONFIG,
+        TYPE.CONFIG.DISCORD,
+        values
+      )}
     >
       <Form>
         <Box display="flex" flexDirection="column">
-          <FieldText id={id} name={TYPE.OPTIONS.TOKEN} />
-          <FieldText id={id} name={TYPE.OPTIONS.KEY_IMAGE} />
+          <FieldText id={id} name="token" />
+          <FieldText id={id} name="imageKey" />
         </Box>
         {children}
       </Form>
@@ -41,7 +42,21 @@ const FormDiscord = ({ children }) => {
 };
 
 FormDiscord.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  discord: PropTypes.shape({
+    token: PropTypes.string,
+    imageKey: PropTypes.string
+  })
 };
 
-export default FormDiscord;
+FormDiscord.defaultProps = {
+  discord: {}
+};
+
+const mapStateToProps = state => ({
+  discord: state.config[TYPE.CONFIG.DISCORD]
+});
+
+export default connect(
+  mapStateToProps
+)(FormDiscord);

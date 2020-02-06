@@ -23,7 +23,8 @@
     "year": "Year",
     "release_date": "Release date",
     "duration": "Duration",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "playlist_default": "Default playlist"
   },
   "action": {
     "cancel": "Cancel",
@@ -34,6 +35,7 @@
     "edit_playlist": "Edit playlist",
     "add": "Add",
     "add_playlist": "Add to playlist",
+    "play_playlist": "Play playlist",
     "play_album": "Play album",
     "play_label": "Play label",
     "play_library": "Play library",

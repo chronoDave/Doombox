@@ -1,11 +1,10 @@
-import React, {
-  useState,
-  useEffect
-} from 'react';
+import React from 'react';
+import { TYPE } from '@doombox/utils';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Core
-import { useTheme } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
 import {
@@ -20,53 +19,31 @@ import {
 } from '../../components';
 
 // Hooks
-import {
-  useAudio,
-  useIpc
-} from '../../hooks';
+import { useAudio } from '../../hooks';
 
 // Utils
-import { pathToRemoteUrl } from '../../utils';
 import { HOOK } from '../../utils/const';
 
 // Styles
 import { usePlayerStyles } from './Player.style';
 
-const Player = () => {
-  const [image, setImage] = useState({});
-
+const Player = ({ darkTheme }) => {
   const classes = usePlayerStyles();
 
   const { metadata, images } = useAudio(HOOK.AUDIO.CURRENT);
-  const { getImageById } = useIpc(HOOK.IPC.METHOD);
   const { t } = useTranslation();
-  const { isDarkTheme } = useTheme();
-
-  useEffect(() => {
-    if (images) {
-      const imageData = getImageById(images[0]);
-
-      setImage(imageData);
-      if ('mediaSession' in navigator) {
-        pathToRemoteUrl(imageData.path)
-          .then(src => {
-            navigator.mediaSession.artwork = [{ src }];
-          });
-      }
-    }
-  }, [getImageById, images]);
 
   return (
     <Image
       className={classes.image}
-      src={image.path}
-      alt={image.picture}
+      src={images && images[0].path}
+      alt={images && images[0].picture}
     >
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        color={isDarkTheme ? 'text.primary' : 'grey.50'}
+        color={darkTheme ? 'text.primary' : 'grey.50'}
         pt={1}
       >
         {!metadata ? (
@@ -99,7 +76,7 @@ const Player = () => {
         <Box
           display="flex"
           justifyContent="space-around"
-          color={isDarkTheme ? 'text.primary' : 'grey.50'}
+          color={darkTheme ? 'text.primary' : 'grey.50'}
         >
           <IconButtonPrevious className={classes.iconButton} />
           <IconButtonPlay className={classes.iconButton} />
@@ -111,4 +88,18 @@ const Player = () => {
   );
 };
 
-export default Player;
+Player.propTypes = {
+  darkTheme: PropTypes.bool
+};
+
+Player.defaultProps = {
+  darkTheme: false
+};
+
+const mapStateToProps = state => ({
+  darkTheme: state.config[TYPE.CONFIG.PALETTE].darkTheme
+});
+
+export default connect(
+  mapStateToProps
+)(Player);

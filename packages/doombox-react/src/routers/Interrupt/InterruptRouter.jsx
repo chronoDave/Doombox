@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   ACTION,
   TYPE
@@ -16,32 +17,32 @@ import {
   InterruptErrorPage
 } from '../../pages';
 
-// Hooks
-import { useIpc } from '../../hooks';
-
-// Utils
-import { HOOK } from '../../utils/const';
-
 // Style
 import { useInterruptRouterStyles } from './InterruptRouter.style';
 
-const InterruptRouter = ({ open, onClose }) => {
+const InterruptRouter = props => {
+  const {
+    interrupt: {
+      type,
+      status
+    },
+    ...rest
+  } = props;
   const classes = useInterruptRouterStyles();
-  const { status, type } = useIpc(HOOK.IPC.INTERRUPT);
 
   const renderPage = () => {
-    if (status === ACTION.INTERRUPT.PENDING) {
+    if (status === ACTION.STATUS.PENDING) {
       switch (type) {
         case TYPE.IPC.LIBRARY: return <InterruptScanningPage />;
         default: return null;
       }
     }
-    if (status === ACTION.INTERRUPT.ERROR) return <InterruptErrorPage />;
+    if (status === ACTION.STATUS.ERROR) return <InterruptErrorPage />;
     return null;
   };
 
   return (
-    <ModalFade open={open} onClose={onClose}>
+    <ModalFade {...rest}>
       <Container maxWidth="sm" classes={{ root: classes.container }}>
         {renderPage()}
       </Container>
@@ -50,8 +51,20 @@ const InterruptRouter = ({ open, onClose }) => {
 };
 
 InterruptRouter.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  interrupt: PropTypes.shape({
+    status: PropTypes.string,
+    type: PropTypes.string
+  })
 };
 
-export default InterruptRouter;
+InterruptRouter.defaultProps = {
+  interrupt: {}
+};
+
+const mapStateToProps = state => ({
+  interrupt: state.interrupt
+});
+
+export default connect(
+  mapStateToProps
+)(InterruptRouter);

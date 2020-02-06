@@ -1,30 +1,11 @@
 import { createContext } from 'react';
 
-export const AudioContext = {
-  Library: createContext(),
-  Volume: createContext(),
-  Method: createContext(),
-  Playlist: createContext(),
-  Collection: createContext(),
-  Current: createContext(),
-  Player: createContext(),
-  Position: createContext()
-};
+import { HOOK } from './const';
 
-export const IpcContext = {
-  Method: createContext(),
-  Keybind: createContext(),
-  Message: createContext(),
-  Interrupt: createContext(),
-  Config: createContext(),
-  Image: createContext(),
-  System: createContext(),
-  Cache: createContext()
-};
+const createContextObject = contextObject => Object
+  .values(contextObject)
+  .map(context => ({ [context]: createContext() }))
+  .reduce((acc, cur) => ({ ...acc, ...cur }), {});
 
-export const RouteContext = {
-  Method: createContext(),
-  Location: createContext()
-};
-
-export const ThemeContext = createContext();
+export const AudioContext = createContextObject(HOOK.AUDIO);
+export const RouteContext = createContextObject(HOOK.ROUTE);

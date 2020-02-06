@@ -3,7 +3,6 @@ import EventEmitter from 'events';
 import path from 'path';
 
 // Utils
-import { shuffleArray } from '../../utils';
 import {
   STATUS,
   EVENT
@@ -26,8 +25,6 @@ class Audio extends EventEmitter {
 
     // Playlist instance
     this.playlist = {
-      name: 'Default Playlist',
-      src: null,
       collection: [],
       index: 0
     };
@@ -36,15 +33,6 @@ class Audio extends EventEmitter {
     this.rpc = {
       imageKey: null
     };
-
-    // MediaSession
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.setActionHandler('play', () => this.play());
-      navigator.mediaSession.setActionHandler('pause', () => this.pause());
-      navigator.mediaSession.setActionHandler('stop', () => this.stop());
-      navigator.mediaSession.setActionHandler('previoustrack', () => this.previous());
-      navigator.mediaSession.setActionHandler('nexttrack', () => this.next());
-    }
   }
 
   // General
@@ -101,16 +89,10 @@ class Audio extends EventEmitter {
       this.current.play();
       this.status = STATUS.AUDIO.PLAYING;
       this.emit(EVENT.AUDIO.STATUS, this.status);
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.playbackState = 'playing';
-      }
     } else {
       this.current.pause();
       this.status = STATUS.AUDIO.PAUSED;
       this.emit(EVENT.AUDIO.STATUS, this.status);
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.playbackState = 'paused';
-      }
     }
   }
 
@@ -121,36 +103,33 @@ class Audio extends EventEmitter {
     this.emit(EVENT.AUDIO.DURATION, 0);
     this.emit(EVENT.AUDIO.POSITION, 0);
     this.emit(EVENT.AUDIO.STATUS, this.status);
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.playbackState = 'none';
-    }
   }
 
   // Playlist
   /**
-   * @param {Object[]} collection - Array of song objects
-   * @param {String} name - Playlist name
-   * @param {String=} src - Playlist image source
+   * @param {Object} playlist
+   * @param {String} playlist.name - Playlist name
+   * @param {Object[]} playlist.collection - Array of song objects
+   * @param {String=} playlist.src - Playlist image source
+   * @param {Bool} autoplay - Should the playlist be played
    */
-  setPlaylist(name, collection, src) {
-    this.playlist = {
-      name,
-      collection,
-      src,
-      index: 0
-    };
-    this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
+  setPlaylist(playlist) {
+    this.playlist = { ...playlist, index: 0 };
+    if (this.autoplay) this.newSong();
   }
 
-  addPlaylist(collection) {
-    this.playlist = {
-      ...this.playlist,
-      collection: [
-        ...this.playlist.collection,
-        ...collection
-      ]
-    };
-    this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
+  addPlaylist(playlist) {
+    this.playlist.collection = [
+      ...this.playlist.collection,
+      ...playlist
+    ];
+  }
+
+  shuffle(playlist) {
+    if (this.playlist.collection.length === 0) return;
+    this.playlist.collection = playlist;
+    this.playlist.index = 0;
+    this.newSong();
   }
 
   next() {
@@ -186,44 +165,6 @@ class Audio extends EventEmitter {
     this.newSong();
   }
 
-  shuffle() {
-    if (this.playlist.collection.length === 0) return;
-    this.playlist.collection = shuffleArray(this.playlist.collection);
-    this.emit(EVENT.AUDIO.PLAYLIST, this.playlist);
-    this.playlist.index = 0;
-    this.newSong();
-  }
-
-  // RPC
-  newRpcMessage(metadata, properties = {}) {
-    const validateKey = () => {
-      if (!this.rpc.imageKey) return 'icon';
-      if (metadata[this.rpc.imageKey]) {
-        if (Array.isArray(metadata[this.rpc.imageKey])) return metadata[this.rpc.imageKey][0];
-        if (typeof metadata[this.rpc.imageKey] === 'object') return 'icon';
-        return metadata[this.rpc.imageKey];
-      }
-      return 'icon';
-    };
-
-    let party = {};
-    if (this.playlist.index + 1 < this.playlist.collection.length) {
-      party = {
-        partySize: this.playlist.index + 1,
-        partyMax: this.playlist.collection.length,
-      };
-    }
-
-    return ({
-      largeImageKey: validateKey(),
-      largeImageText: metadata.album,
-      state: metadata.artist,
-      details: metadata.title,
-      ...party,
-      ...properties
-    });
-  }
-
   // Song
   newSong(song) {
     // Makes sure that there's never multiple Howler instances
@@ -244,30 +185,19 @@ class Audio extends EventEmitter {
         this.emit(EVENT.AUDIO.CURRENT, song || this.playlist.collection[this.playlist.index]);
         this.status = this.autoplay ? STATUS.AUDIO.PLAYING : STATUS.AUDIO.PAUSED;
         this.emit(EVENT.AUDIO.STATUS, this.status);
-        if ('mediaSession' in navigator) {
-          // eslint-disable-next-line no-undef
-          navigator.mediaSession.metadata = new MediaMetadata({
-            artist: metadata.artist,
-            album: metadata.album,
-            title: metadata.title
-          });
-          navigator.mediaSession.playbackState = 'playing';
-        }
       },
       onplay: () => {
         requestAnimationFrame(this.step.bind(this));
-        this.emit(EVENT.AUDIO.RPC, this.newRpcMessage(metadata, {
+        this.emit(EVENT.AUDIO.RPC, metadata, {
           smallImageKey: STATUS.AUDIO.PLAYING,
           startTimestamp: Date.now(),
-          endTimestamp: Date.now() + Math.round(
-            (this.current.duration() - this.current.seek()) * 1000
-          )
-        }));
+          endTimestamp:
+            Date.now() +
+            Math.round((this.current.duration() - this.current.seek()) * 1000)
+        });
       },
       onpause: () => {
-        this.emit(EVENT.AUDIO.RPC, this.newRpcMessage(metadata, {
-          smallImageKey: STATUS.AUDIO.PAUSED
-        }));
+        this.emit(EVENT.AUDIO.RPC, metadata, { smallImageKey: STATUS.AUDIO.PAUSED });
       },
       onend: () => this.autoplay && this.next()
     });

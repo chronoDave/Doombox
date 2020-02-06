@@ -7,6 +7,7 @@ import {
   TYPE,
   ACTION
 } from '@doombox/utils';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
@@ -17,38 +18,54 @@ import {
   FieldText
 } from '../../components';
 
-// Hook
-import { useIpc } from '../../hooks';
+// Actions
+import { updateStorage } from '../../actions';
 
-// Utils
-import { HOOK } from '../../utils/const';
-
-const FormKeybind = ({ children }) => {
-  const config = useIpc(HOOK.IPC.CONFIG);
-  const { updateConfig } = useIpc(HOOK.IPC.METHOD);
-
-  return (
-    <Formik
-      initialValues={config[TYPE.CONFIG.KEYBIND]}
-      onSubmit={values => updateConfig(TYPE.CONFIG.KEYBIND, values)}
-    >
-      <Form>
-        <Box display="flex" flexDirection="column">
-          <Typography>
-            Audio
-          </Typography>
-          {Object.keys(ACTION.AUDIO).map(key => (
-            <FieldText key={key} id={key} name={key} />
-          ))}
-        </Box>
-        {children}
-      </Form>
-    </Formik>
-  );
-};
+const FormKeybind = ({ keybind, children }) => (
+  <Formik
+    initialValues={keybind}
+    onSubmit={values => updateStorage(
+      TYPE.IPC.CONFIG,
+      TYPE.CONFIG.KEYBIND,
+      values
+    )}
+  >
+    <Form>
+      <Box display="flex" flexDirection="column">
+        <Typography>
+          Audio
+        </Typography>
+        {Object.keys(ACTION.AUDIO).map(key => (
+          <FieldText key={key} id={key} name={key} />
+        ))}
+      </Box>
+      {children}
+    </Form>
+  </Formik>
+);
 
 FormKeybind.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  keybind: PropTypes.shape({
+    [ACTION.AUDIO.NEXT]: PropTypes.string,
+    [ACTION.AUDIO.PREVIOUS]: PropTypes.string,
+    [ACTION.AUDIO.PLAY]: PropTypes.string,
+    [ACTION.AUDIO.PAUSE]: PropTypes.string,
+    [ACTION.AUDIO.STOP]: PropTypes.string,
+    [ACTION.AUDIO.VOLUME_UP]: PropTypes.string,
+    [ACTION.AUDIO.VOLUME_DOWN]: PropTypes.string,
+    [ACTION.AUDIO.MUTE]: PropTypes.string,
+  })
 };
 
-export default FormKeybind;
+FormKeybind.defaultProps = {
+  keybind: {}
+};
+
+const mapStateToProps = state => ({
+  keybind: state.config[TYPE.CONFIG.KEYBIND]
+});
+
+export default connect(
+  mapStateToProps
+)(FormKeybind);

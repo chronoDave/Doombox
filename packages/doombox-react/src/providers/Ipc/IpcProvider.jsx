@@ -1,108 +1,87 @@
-import React, { Component } from 'react';
-import { TYPE } from '@doombox/utils';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  TYPE,
+  ACTION
+} from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Actions
 import {
-  readStorage,
-  readCollection,
-  updateStorage
+  fetchStorage,
+  fetchMixography
 } from '../../actions';
 
-// Utils
-import { IpcContext } from '../../utils/context';
+// Redux
+import {
+  setLabel,
+  setLibraryStatus,
+  setLibrary,
+  addPlaylist,
+  setPlaylist,
+  setCache,
+  setConfig,
+  setInterrupt,
+  setMixography,
+  setMessage
+} from '../../redux';
 
 const { ipcRenderer } = window.require('electron');
 
 class IpcProvider extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = {
-      methodValue: {
-        getImageById: id => {
-          if (!id) return {};
-          const { imageValue } = this.state;
-          return imageValue[id];
-        },
-        updateConfig: (type, config) => updateStorage(
-          TYPE.IPC.CONFIG.USER, type, config
-        ),
-        updateSystem: (type, config) => updateStorage(
-          TYPE.IPC.CONFIG.SYSTEM, type, config
-        ),
-        updateCache: (type, cache) => updateStorage(
-          TYPE.IPC.CONFIG.CACHE, type, cache
-        )
-      },
-      messageValue: {},
-      interruptValue: {},
-      configValue: {
-        [TYPE.CONFIG.GENERAL]: {},
-        [TYPE.CONFIG.DISCORD]: {},
-        [TYPE.CONFIG.KEYBIND]: {},
-        [TYPE.CONFIG.KEYBIND]: {},
-        [TYPE.CONFIG.PALETTE]: {},
-        [TYPE.CONFIG.LIBRARY]: {},
-        [TYPE.CONFIG.SEARCH]: {}
-      },
-      systemValue: {
-        [TYPE.CONFIG.PARSER]: {}
-      },
-      imageValue: {},
-      cacheValue: {
-        [TYPE.CONFIG.GENERAL]: {}
+    // Collection
+    ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
+      if (payload.status) props.setLibraryStatus(payload.status);
+      if (payload.transform === 'label') {
+        const { transform, ...rest } = payload;
+        props.setLabel(rest);
       }
-    };
-
-    ipcRenderer.on(TYPE.IPC.MESSAGE, (event, payload) => {
-      this.setState(state => ({ ...state, messageValue: payload }));
+      if (payload.transform === 'library') {
+        const { transform, ...rest } = payload;
+        props.setLibrary(rest);
+      }
+    });
+    ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
+      switch (payload.action) {
+        case ACTION.AUDIO.PLAYLIST_SET:
+          props.setPlaylist(payload.docs);
+          break;
+        case ACTION.AUDIO.PLAYLIST_ADD:
+          props.addPlaylist(payload.docs.collection);
+          break;
+        default:
+          props.setMixography(payload);
+          break;
+      }
     });
 
-    ipcRenderer.on(TYPE.IPC.INTERRUPT, (event, payload) => {
-      this.setState(state => ({ ...state, interruptValue: payload }));
+    // Storage
+    ipcRenderer.on(TYPE.IPC.CONFIG, (event, { payload }) => {
+      props.setConfig(payload);
     });
-
-    ipcRenderer.on(TYPE.IPC.IMAGE, (event, payload) => {
-      this.setState(state => ({ ...state, imageValue: payload }));
-    });
-
-    ipcRenderer.on(TYPE.IPC.CONFIG.USER, (event, { payload }) => {
-      this.setState(state => ({
-        ...state,
-        configValue: {
-          ...state.configValue,
-          ...payload
-        }
-      }));
-    });
-
-    ipcRenderer.on(TYPE.IPC.CONFIG.SYSTEM, (event, { payload }) => {
-      this.setState(state => ({
-        ...state,
-        systemValue: {
-          ...state.systemValue,
-          ...payload
-        }
-      }));
-    });
-
     ipcRenderer.on(TYPE.IPC.CACHE, (event, { payload }) => {
-      this.setState(state => ({
-        ...state,
-        cacheValue: {
-          ...state.cacheValue,
-          ...payload
-        }
-      }));
+      props.setCache(payload);
+    });
+
+    // Event
+    ipcRenderer.on(TYPE.IPC.INTERRUPT, (event, payload) => {
+      props.setInterrupt(payload);
+    });
+    ipcRenderer.on(TYPE.IPC.MESSAGE, (event, payload) => {
+      props.setMessage(payload);
     });
   }
 
   componentDidMount() {
-    readStorage(TYPE.IPC.CONFIG.USER);
-    readStorage(TYPE.IPC.CONFIG.SYSTEM);
-    readStorage(TYPE.IPC.CACHE);
-    readCollection(TYPE.IPC.IMAGE, { castObject: true });
+    // Storage
+    fetchStorage(TYPE.IPC.CONFIG);
+    fetchStorage(TYPE.IPC.CACHE);
+
+    // Mixography
+    fetchMixography();
   }
 
   componentWillUnmount() {
@@ -111,41 +90,39 @@ class IpcProvider extends Component {
 
   render() {
     const { children } = this.props;
-    const {
-      methodValue,
-      keybindValue,
-      messageValue,
-      interruptValue,
-      systemValue,
-      configValue,
-      imageValue,
-      cacheValue
-    } = this.state;
 
-    return (
-      <IpcContext.Method.Provider value={methodValue}>
-        <IpcContext.Image.Provider value={imageValue}>
-          <IpcContext.Config.Provider value={configValue}>
-            <IpcContext.Keybind.Provider value={keybindValue}>
-              <IpcContext.Message.Provider value={messageValue}>
-                <IpcContext.Interrupt.Provider value={interruptValue}>
-                  <IpcContext.System.Provider value={systemValue}>
-                    <IpcContext.Cache.Provider value={cacheValue}>
-                      {children}
-                    </IpcContext.Cache.Provider>
-                  </IpcContext.System.Provider>
-                </IpcContext.Interrupt.Provider>
-              </IpcContext.Message.Provider>
-            </IpcContext.Keybind.Provider>
-          </IpcContext.Config.Provider>
-        </IpcContext.Image.Provider>
-      </IpcContext.Method.Provider>
-    );
+    return children;
   }
 }
 
 IpcProvider.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  setLibraryStatus: PropTypes.func.isRequired,
+  setLabel: PropTypes.func.isRequired,
+  setLibrary: PropTypes.func.isRequired,
+  setPlaylist: PropTypes.func.isRequired,
+  setCache: PropTypes.func.isRequired,
+  setConfig: PropTypes.func.isRequired,
+  setInterrupt: PropTypes.func.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  addPlaylist: PropTypes.func.isRequired,
+  setMixography: PropTypes.func.isRequired
 };
 
-export default IpcProvider;
+const mapDispatchToProps = {
+  setLabel,
+  addPlaylist,
+  setLibraryStatus,
+  setLibrary,
+  setPlaylist,
+  setCache,
+  setConfig,
+  setInterrupt,
+  setMessage,
+  setMixography
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(IpcProvider);

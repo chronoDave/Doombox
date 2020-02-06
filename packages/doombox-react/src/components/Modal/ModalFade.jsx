@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
@@ -8,17 +9,17 @@ import {
   Fade
 } from '@material-ui/core';
 
-// Hook
-import { useIpc } from '../../hooks';
-
-// Utils
-import { HOOK } from '../../utils/const';
-
 // Styles
 import { useModalStyle } from './Modal.style';
 
-const ModalFade = ({ open, children, ...rest }) => {
-  const { palette: { backgroundOpacity } } = useIpc(HOOK.IPC.CONFIG);
+const ModalFade = props => {
+  const {
+    open,
+    backgroundOpacity,
+    children,
+    ...rest
+  } = props;
+
   const classes = useModalStyle({ backgroundOpacity });
 
   return (
@@ -41,7 +42,18 @@ const ModalFade = ({ open, children, ...rest }) => {
 
 ModalFade.propTypes = {
   open: PropTypes.bool.isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  backgroundOpacity: PropTypes.bool
 };
 
-export default ModalFade;
+ModalFade.defaultProps = {
+  backgroundOpacity: false
+};
+
+const mapStateToProps = state => ({
+  backgroundOpacity: state.config.palette.backgroundOpacity
+});
+
+export default connect(
+  mapStateToProps
+)(ModalFade);

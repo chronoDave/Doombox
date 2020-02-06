@@ -9,7 +9,6 @@ export const STATUS = {
 export const EVENT = {
   AUDIO: {
     STATUS: 'status',
-    PLAYLIST: 'playlist',
     POSITION: 'position',
     DURATION: 'duration',
     VOLUME: 'volume',
@@ -22,24 +21,12 @@ export const EVENT = {
 
 export const HOOK = {
   AUDIO: {
-    PLAYLIST: 'Playlist',
     VOLUME: 'Volume',
     METHOD: 'Method',
     CURRENT: 'Current',
     POSITION: 'Position',
-    COLLECTION: 'Collection',
-    LIBRARY: 'Library',
     PLAYER: 'Player',
     IMAGE: 'Image'
-  },
-  IPC: {
-    METHOD: 'Method',
-    CONFIG: 'Config',
-    INTERRUPT: 'Interrupt',
-    MESSAGE: 'Message',
-    SYSTEM: 'System',
-    IMAGE: 'Image',
-    CACHE: 'Cache'
   },
   ROUTE: {
     METHOD: 'Method',
@@ -69,5 +56,16 @@ export const MUI = {
     'inherit',
     'primary',
     'secondary'
+  ]
+};
+
+export const MEDIA_SESSION = {
+  SIZES: [
+    '96x96',
+    '128x128',
+    '192x192',
+    '256x256',
+    '384x384',
+    '512x512'
   ]
 };

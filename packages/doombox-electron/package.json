@@ -6,7 +6,7 @@
   "main": "./src",
   "scripts": {
     "start": "nodemon --watch src --exec electron .",
-    "start:dev": "nodemon --watch src --exec cross-env NODE_ENV=development electron .",
+    "start:dev": "nodemon --watch src --exec \"cross-env NODE_ENV=development electron . --debug\"",
     "build": "electron-builder",
     "test:unit": "tap --files=src/**/*.spec.js --no-coverage",
     "arkit": "arkit -c ../../arkit/arkit-electron.js"
@@ -14,9 +14,11 @@
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
     "discord-rpc": "^3.1.0",
+    "electron-devtools-installer": "^2.2.4",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
     "lodash.debounce": "^4.0.8",
+    "lodash.groupby": "^4.6.0",
     "music-metadata": "^5.0.1",
     "nedb": "^1.8.0",
     "shortid": "^2.2.15"

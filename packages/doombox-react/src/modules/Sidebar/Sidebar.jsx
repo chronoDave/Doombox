@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Modules
 import { Navigation } from '../Navigation';
 import { Player } from '../Player';
-import { VirtualPlaylist } from '../Virtual';
+import { Playlist } from '../Playlist';
 
 // Style
 import { useSidebarStyles } from './Sidebar.style';
@@ -20,7 +20,7 @@ const Sidebar = ({ children }) => {
         </div>
         <div className={classes.panel}>
           <Player />
-          <VirtualPlaylist />
+          <Playlist />
         </div>
       </div>
       <div className={classes.children}>

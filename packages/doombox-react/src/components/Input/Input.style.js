@@ -14,5 +14,14 @@ export const useInputStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(),
     padding: 0,
     color: theme.palette.grey[400]
+  },
+  iconCancel: {
+    transition: theme.transitions.create('color', {
+      duration: theme.transitions.duration.shortest,
+    }),
+    '&:hover': {
+      color: theme.palette.grey[600],
+      backgroundColor: 'none'
+    }
   }
 }));

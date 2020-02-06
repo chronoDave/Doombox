@@ -1,5 +1,7 @@
 import React from 'react';
 import { TYPE } from '@doombox/utils';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Core
 import { Box } from '@material-ui/core';
@@ -9,46 +11,47 @@ import {
   Typography
 } from '../../components';
 
+// Actions
+import { updateStorage } from '../../actions';
+
 // Modules
 import { FormParser } from '../../modules';
 
-// Hook
-import { useIpc } from '../../hooks';
+const SettingsGeneral = props => {
+  const {
+    forceQuit,
+    hardwareAcceleration,
+    background
+  } = props;
 
-// Utils
-import { HOOK } from '../../utils/const';
-
-const SettingsGeneral = () => {
-  const config = useIpc(HOOK.IPC.CONFIG);
-  const { updateConfig } = useIpc(HOOK.IPC.METHOD);
-
-  const configGeneral = config[TYPE.CONFIG.GENERAL];
+  const updateGeneral = payload => updateStorage(
+    TYPE.IPC.CONFIG,
+    TYPE.CONFIG.GENERAL,
+    payload
+  );
 
   return (
     <Box display="flex" flexDirection="column">
       <Switch
         disabled={window.navigator.platform.includes('Win')}
-        translate={TYPE.OPTIONS.FORCE_QUIT}
-        checked={configGeneral[TYPE.OPTIONS.FORCE_QUIT]}
-        onChange={event => updateConfig(TYPE.CONFIG.GENERAL, {
-          ...configGeneral,
-          [TYPE.OPTIONS.FORCE_QUIT]: event.target.checked
+        translate="forceQuit"
+        checked={forceQuit}
+        onChange={event => updateGeneral({
+          forceQuit: event.target.checked
         })}
       />
       <Switch
-        translate={TYPE.OPTIONS.HARDWARE_ACCELERATION}
-        checked={configGeneral[TYPE.OPTIONS.HARDWARE_ACCELERATION]}
-        onChange={event => updateConfig(TYPE.CONFIG.GENERAL, {
-          ...configGeneral,
-          [TYPE.OPTIONS.HARDWARE_ACCELERATION]: event.target.checked
+        translate="hardwareAcceleration"
+        checked={hardwareAcceleration}
+        onChange={event => updateGeneral({
+          hardwareAcceleration: event.target.checked
         })}
       />
       <Switch
-        translate={TYPE.OPTIONS.BACKGROUND}
-        checked={configGeneral[TYPE.OPTIONS.BACKGROUND]}
-        onChange={event => updateConfig(TYPE.CONFIG.GENERAL, {
-          ...configGeneral,
-          [TYPE.OPTIONS.BACKGROUND]: event.target.checked
+        translate="background"
+        checked={background}
+        onChange={event => updateGeneral({
+          background: event.target.checked
         })}
       />
       <Typography variant="h6" paragraph>
@@ -59,4 +62,18 @@ const SettingsGeneral = () => {
   );
 };
 
-export default SettingsGeneral;
+SettingsGeneral.propTypes = {
+  forceQuit: PropTypes.bool.isRequired,
+  hardwareAcceleration: PropTypes.bool.isRequired,
+  background: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+  forceQuit: state.config[TYPE.CONFIG.GENERAL].forceQuit,
+  hardwareAcceleration: state.config[TYPE.CONFIG.GENERAL].hardwareAcceleration,
+  background: state.config[TYPE.CONFIG.GENERAL].background
+});
+
+export default connect(
+  mapStateToProps
+)(SettingsGeneral);

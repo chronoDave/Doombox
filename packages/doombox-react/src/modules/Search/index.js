@@ -1,2 +1,1 @@
-export { default as SearchBase } from './SearchBase';
-export { default as SearchLibrary } from './SearchLibrary';
+export { default as Search } from './Search';

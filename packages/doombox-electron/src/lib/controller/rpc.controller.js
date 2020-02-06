@@ -1,10 +1,9 @@
 const { Client } = require('discord-rpc');
-const { TYPE } = require('@doombox/utils');
 
 module.exports = class RpcController {
   constructor(logger, options) {
     this.log = logger;
-    this.token = options[TYPE.OPTIONS.TOKEN];
+    this.token = options.token;
 
     this.connected = false;
     this.client = null;
@@ -24,9 +23,9 @@ module.exports = class RpcController {
     });
   }
 
-  update(event, { data }) {
+  update(event, { data: { update } }) {
     if (this.connected) {
-      this.client.setActivity(data);
+      this.client.setActivity(update);
     }
   }
 };

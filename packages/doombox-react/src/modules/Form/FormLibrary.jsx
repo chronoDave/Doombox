@@ -4,6 +4,8 @@ import {
   Formik,
   Form
 } from 'formik';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Core
 import { Box } from '@material-ui/core';
@@ -14,38 +16,50 @@ import {
 } from '../../components';
 
 // Actions
-import { scanFolders } from '../../actions';
+import {
+  updateStorage,
+  scanFolders
+} from '../../actions';
 
-// Hook
-import { useIpc } from '../../hooks';
-
-// Utils
-import { HOOK } from '../../utils/const';
-
-const FormLibrary = () => {
-  const config = useIpc(HOOK.IPC.CONFIG);
-  const { updateConfig } = useIpc(HOOK.IPC.METHOD);
-
-  return (
-    <Formik
-      initialValues={config[TYPE.CONFIG.LIBRARY]}
-      onSubmit={values => updateConfig(TYPE.CONFIG.LIBRARY, values)}
-    >
-      <Form>
-        <Box display="flex" flexDirection="column">
-          <FieldFolder name={TYPE.OPTIONS.FOLDERS} multi />
-          <Box display="flex">
-            <Button type="submit">
-              Save folders
-            </Button>
-            <Button onClick={() => scanFolders(config[TYPE.CONFIG.LIBRARY][TYPE.OPTIONS.FOLDERS])}>
-              Create library
-            </Button>
-          </Box>
+const FormLibrary = ({ library }) => (
+  <Formik
+    initialValues={library}
+    onSubmit={values => updateStorage(
+      TYPE.IPC.CONFIG,
+      TYPE.CONFIG.LIBRARY,
+      values
+    )}
+  >
+    <Form>
+      <Box display="flex" flexDirection="column">
+        <FieldFolder name="folders" multi />
+        <Box display="flex">
+          <Button type="submit">
+            Save folders
+          </Button>
+          <Button onClick={() => scanFolders(library.folders)}>
+            Create library
+          </Button>
         </Box>
-      </Form>
-    </Formik>
-  );
+      </Box>
+    </Form>
+  </Formik>
+);
+
+FormLibrary.propTypes = {
+  library: PropTypes.shape({
+    folders: PropTypes.arrayOf(PropTypes.string)
+  })
 };
 
-export default FormLibrary;
+FormLibrary.defaultProps = {
+  library: []
+};
+
+const mapStateToProps = state => ({
+  library: state.config[TYPE.CONFIG.LIBRARY]
+});
+
+export default connect(
+  mapStateToProps
+)(FormLibrary);

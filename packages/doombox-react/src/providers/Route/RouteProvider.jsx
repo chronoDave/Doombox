@@ -1,10 +1,13 @@
 import React, {
+  Fragment,
   useState,
-  useMemo,
   useEffect,
+  useMemo,
   useCallback
 } from 'react';
+import { connect } from 'react-redux';
 import { ACTION } from '@doombox/utils';
+import PropTypes from 'prop-types';
 
 // Modules
 import {
@@ -20,45 +23,36 @@ import {
   InterruptRouter
 } from '../../routers';
 
-// Hooks
-import { useIpc } from '../../hooks';
-
 // Utils
-import { PATH, HOOK } from '../../utils/const';
+import { PATH } from '../../utils/const';
 import { RouteContext } from '../../utils/context';
 
-const RouteProvider = () => {
-  const [domain, setDomain] = useState(PATH.DOMAIN.ROOT);
+const RouteProvider = ({ status }) => {
   const [page, setPage] = useState(PATH.PAGE.LABEL);
+  const [domain, setDomain] = useState(PATH.DOMAIN.LIBRARY);
   const [dialog, setDialog] = useState(null);
 
-  const { status } = useIpc(HOOK.IPC.INTERRUPT);
+  const methodValue = useMemo(() => ({ setDomain, setPage, setDialog }), []);
+  const locationValue = useMemo(() => ({ page, domain, dialog }), [page, domain, dialog]);
 
-  const methodValue = useMemo(() => ({
-    setDomain: newDomain => setDomain(newDomain),
-    setPage: newPage => setPage(newPage),
-    openDialog: newDialog => setDialog(newDialog),
-    closeDialog: () => setDialog(null)
-  }), []);
-
-  const locationValue = useMemo(() => ({
-    domain, page, dialog
-  }), [domain, page, dialog]);
-
+  // Domain
   useEffect(() => {
+    // Validate domain
     if (!Object.values(PATH.DOMAIN).includes(domain)) {
       setDomain(PATH.DOMAIN.LIBRARY);
     }
   }, [domain]);
 
+  // Interrupt
   useEffect(() => {
     if (
-      status === ACTION.INTERRUPT.PENDING ||
-      status === ACTION.INTERRUPT.ERROR
+      status === ACTION.STATUS.PENDING ||
+      status === ACTION.STATUS.ERROR
     ) {
       setDialog(PATH.DIALOG.INTERRUPT);
     }
-    if (!status || status === ACTION.INTERRUPT.SUCCESS) {
+
+    if (!status || status === ACTION.STATUS.SUCCESS) {
       setDialog(null);
     }
   }, [status]);
@@ -74,24 +68,44 @@ const RouteProvider = () => {
     }
   }, [domain]);
 
+  const renderDialog = useCallback(() => (
+    <Fragment>
+      <SettingsRouter
+        open={dialog === PATH.DIALOG.SETTINGS}
+        onClose={() => setDialog(null)}
+      />
+      <InterruptRouter
+        open={dialog === PATH.DIALOG.INTERRUPT}
+        onClose={() => setDialog(null)}
+      />
+    </Fragment>
+  ), [dialog]);
+
   return (
     <RouteContext.Method.Provider value={methodValue}>
       <RouteContext.Location.Provider value={locationValue}>
         <AppBar />
         <App>
           {renderRouter()}
-          <SettingsRouter
-            open={dialog === PATH.DIALOG.SETTINGS}
-            onClose={methodValue.closeDialog}
-          />
-          <InterruptRouter
-            open={dialog === PATH.DIALOG.INTERRUPT}
-            onClose={methodValue.closeDialog}
-          />
+          {renderDialog()}
         </App>
       </RouteContext.Location.Provider>
     </RouteContext.Method.Provider>
   );
 };
 
-export default RouteProvider;
+RouteProvider.propTypes = {
+  status: PropTypes.string
+};
+
+RouteProvider.defaultProps = {
+  status: null
+};
+
+const mapStateToProps = state => ({
+  status: state.interrupt.status
+});
+
+export default connect(
+  mapStateToProps
+)(RouteProvider);

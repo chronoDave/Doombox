@@ -1,47 +1,35 @@
-import React, {
-  useState,
-  useEffect,
-  cloneElement
-} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import debounce from 'lodash.debounce';
 
 // Icons
 import IconSearch from '@material-ui/icons/Search';
+import IconClear from '@material-ui/icons/Clear';
 
 // Core
-import { InputBase } from '@material-ui/core';
+import {
+  ButtonBase,
+  InputBase
+} from '@material-ui/core';
 
 // Styles
 import { useInputStyles } from './Input.style';
 
-const Search = props => {
+const InputSearch = props => {
   const {
     id,
     name,
-    onDebounce,
-    debouceTime,
-    endAdornment
+    endAdornment,
+    onChange
   } = props;
   const [query, setQuery] = useState('');
+
   const { t } = useTranslation();
   const classes = useInputStyles();
 
-  const handleDebounce = debounce(() => onDebounce(query), debouceTime);
-
-  useEffect(() => {
-    handleDebounce();
-
-    // Cleanup
-    return () => {
-      handleDebounce.cancel();
-    };
-  }, [handleDebounce, query]);
-
-  const handleChange = event => {
-    const { target: { value } } = event;
+  const handleChange = value => {
     setQuery(value);
+    onChange(value);
   };
 
   return (
@@ -52,15 +40,19 @@ const Search = props => {
       autoComplete="off"
       margin="dense"
       value={query}
-      onChange={handleChange}
+      onChange={event => handleChange(event.target.value)}
       classes={{
         root: classes.inputSearchRoot,
         input: classes.inputSearchInput
       }}
-      endAdornment={endAdornment ? (
-        cloneElement(endAdornment({
-          onCancel: () => setQuery('')
-        }), { className: classes.endAdornment })
+      endAdornment={query ? (
+        <ButtonBase
+          disableRipple
+          classes={{ root: classes.iconCancel }}
+          onClick={() => handleChange('')}
+        >
+          {endAdornment || <IconClear />}
+        </ButtonBase>
       ) : (
         <IconSearch classes={{ root: classes.endAdornment }} />
       )}
@@ -68,17 +60,15 @@ const Search = props => {
   );
 };
 
-Search.propTypes = {
+InputSearch.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  debouceTime: PropTypes.number,
-  onDebounce: PropTypes.func.isRequired,
-  endAdornment: PropTypes.func
+  endAdornment: PropTypes.element,
+  onChange: PropTypes.func.isRequired
 };
 
-Search.defaultProps = {
+InputSearch.defaultProps = {
   endAdornment: null,
-  debouceTime: 200
 };
 
-export default Search;
+export default InputSearch;

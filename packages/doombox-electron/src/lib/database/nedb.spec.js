@@ -68,20 +68,23 @@ context('NeDB', () => {
 
     it('Accepts modifiers', async () => {
       const payload = [
-        { planet: 'Earth', system: 'solar', inhabited: true },
-        { planet: 'Mars', system: 'Solar', inhabited: false },
+        { planet: 'Earth', system: 'solar', inhabited: false },
+        { planet: 'Mars', system: 'Solar', inhabited: true },
         { planet: 'Omicron Persei 8', system: 'Futarama', inhabited: true }
       ];
 
       await this.db.create(this.collection, payload);
       const docs = await this.db.read(this.collection, {}, {
         projection: { inhabited: 0 },
-        sort: { planet: -1 },
+        sort: { planet: -1 }, // O M E
+        skip: 2, // Returns Earth
+        limit: 1,
         castObject: true
       });
 
       assert.isObject(docs); // castObject
-      assert.strictEqual(Object.values(docs)[0].planet, payload[2].planet); // sort
+      assert.strictEqual(Object.keys(docs).length, 1); // limit
+      assert.strictEqual(Object.values(docs)[0].planet, payload[0].planet); // sort / skip
       assert.notProperty(Object.values(docs)[0], 'inhabited'); // projection
     });
   });

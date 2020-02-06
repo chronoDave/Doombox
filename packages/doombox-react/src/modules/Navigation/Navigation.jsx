@@ -12,10 +12,7 @@ import {
   Divider
 } from '@material-ui/core';
 
-import {
-  IconButtonNavigation,
-  Tooltip
-} from '../../components';
+import { IconButtonNavigation } from '../../components';
 
 // Hooks
 import { useRoute } from '../../hooks';
@@ -45,49 +42,29 @@ const Navigation = () => {
         alignItems="center"
         width="100%"
       >
-        <Tooltip
-          title="visualizer"
-          placement="right"
-          arrow
-        >
-          <IconButtonNavigation
-            active={page === PATH.PAGE.VISUALIZER}
-            icon={<IconVisualizer />}
-            onClick={() => setPage(PATH.PAGE.VISUALIZER)}
-          />
-        </Tooltip>
-        <Tooltip
-          title="labels"
-          placement="right"
-          arrow
-        >
-          <IconButtonNavigation
-            active={page === PATH.PAGE.LABEL}
-            icon={<IconAlbum />}
-            onClick={() => setPage(PATH.PAGE.LABEL)}
-          />
-        </Tooltip>
-        <Tooltip
-          title="library"
-          placement="right"
-          arrow
-        >
-          <IconButtonNavigation
-            active={page === PATH.PAGE.SONG}
-            icon={<IconSong />}
-            onClick={() => setPage(PATH.PAGE.SONG)}
-          />
-        </Tooltip>
-        <Tooltip
-          title="settings"
-          placement="right"
-          arrow
-        >
-          <IconButtonNavigation
-            icon={<IconSettings />}
-            onClick={() => openDialog(PATH.DIALOG.SETTINGS)}
-          />
-        </Tooltip>
+        <IconButtonNavigation
+          tooltip="visualizer"
+          active={page === PATH.PAGE.VISUALIZER}
+          icon={<IconVisualizer />}
+          onClick={() => setPage(PATH.PAGE.VISUALIZER)}
+        />
+        <IconButtonNavigation
+          tooltip="labels"
+          active={page === PATH.PAGE.LABEL}
+          icon={<IconAlbum />}
+          onClick={() => setPage(PATH.PAGE.LABEL)}
+        />
+        <IconButtonNavigation
+          tooltip="library"
+          active={page === PATH.PAGE.SONG}
+          icon={<IconSong />}
+          onClick={() => setPage(PATH.PAGE.SONG)}
+        />
+        <IconButtonNavigation
+          tooltip="settings"
+          icon={<IconSettings />}
+          onClick={() => openDialog(PATH.DIALOG.SETTINGS)}
+        />
       </Box>
       <Box p={1} width="100%">
         <Divider />
