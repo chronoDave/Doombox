@@ -6,6 +6,10 @@ If you're reading this, thank you! Any help I can get is greatly appreciated :)
 
 Fork + PR is the way to go.
 
+## Icons / logo
+
+Doombox currently does not have a custom logo nor icons. If you're an artist willing to make some application icons or a logo, please let me know!
+
 ## Translations
 
 Doombox uses `JSON` files for translations, which can be found in [static/locales](/packages/doombox-react/src/static/locales).
