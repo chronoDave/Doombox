@@ -5,13 +5,6 @@ node_js:
   - lts/*
 cache: yarn
 
-notifications:
-  webhooks:
-    urls:
-      - https://discordapp.com/api/webhooks/677961620269432875/2gU1M7sdOG9d671T2YUWJNkBxB0UEWRT7DP8dKitrtzKD9Tr0L-wTeEziKczjJCX5NWr
-    on_start: never
-    on_cancel: never
-
 jobs:
   include:
     - stage: Test
@@ -22,3 +15,12 @@ jobs:
 stages:
   - name: Test
     if: type = push OR type = pull_request
+
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
