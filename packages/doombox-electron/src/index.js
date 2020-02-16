@@ -48,7 +48,7 @@ const logger = new Logger(PATH.LOG);
 const router = new Router(logger);
 
 const parserOptions = config.get(TYPE.CONFIG.PARSER);
-const parser = new MetadataParser(parserOptions);
+const parser = new MetadataParser({ ...parserOptions, logger });
 
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'development') {

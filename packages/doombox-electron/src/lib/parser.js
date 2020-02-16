@@ -31,8 +31,12 @@ module.exports = class MetadataParser {
     this.skipCovers = options.skipCovers || CONFIG[TYPE.CONFIG.PARSER].skipCovers;
     this.fileFormats = options.fileFormats || CONFIG[TYPE.CONFIG.PARSER].fileFormats;
     this.parseStrict = options.parseStrict || CONFIG[TYPE.CONFIG.PARSER].parseStrict;
-    this.requiredMetadata = options.requiredMetadata || CONFIG[TYPE.CONFIG.PARSER].requiredMetadata;
+    this.requiredMetadata =
+      options.requiredMetadata ||
+      CONFIG[TYPE.CONFIG.PARSER].requiredMetadata ||
+      [];
     this.glob = options.glob || CONFIG[TYPE.CONFIG.PARSER].glob;
+    this.logger = options.logger;
   }
 
   // Utils
@@ -121,6 +125,7 @@ module.exports = class MetadataParser {
         cb({ payload, current: index, total: files.length });
         index += 1;
       } catch (err) {
+        if (this.logger) this.logger.createLogError(err, 'Parser');
         if (this.parseStrict) return Promise.reject(err);
       }
     }
