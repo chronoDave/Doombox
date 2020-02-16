@@ -56,7 +56,7 @@ const LabelItemAlbum = props => {
           classes={{ root: classes.albumButton }}
         >
           <Image
-            src={cover && cover.path}
+            src={cover && cover.file}
             className={classes.albumImage}
             disableOverlay
           />
@@ -70,13 +70,16 @@ const LabelItemAlbum = props => {
         flexDirection="column"
         justifyContent="flex-start"
       >
-        <Typography variant="caption" clamp={2}>
+        <Typography variant="subtitle2" clamp={2}>
           {album}
+        </Typography>
+        <Typography variant="caption" clamp={2}>
+          {songs[0].metadata.artist}
         </Typography>
         <Table>
           <TableRow
             variant="caption"
-            label={`${t('release', { context: 'date' })}:`}
+            label={`${t('release', { context: 'year' })}:`}
             value={songs[0].metadata.year || t('unknown')}
           />
           <TableRow

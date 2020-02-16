@@ -5,10 +5,6 @@ const path = require('path');
 
 // Core
 const MetadataParser = require('./parser');
-const NeDB = require('./database/nedb');
-
-// Utils
-const { COLLECTION } = require('../utils/const');
 
 tap.mochaGlobals();
 chai.use(chaiAsPromised);
@@ -21,26 +17,26 @@ context('MetadataParser', () => {
 
   describe('createGlobPattern()', () => {
     it('Returns a glob pattern', () => {
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG));
+      const parser = new MetadataParser();
       const defaultPattern = '/**/*.?(mp3)';
-      const pattern = parser.createGlobPattern();
+      const pattern = parser.getGlob();
 
       assert.strictEqual(pattern, defaultPattern);
     });
 
     it('Returns the provided glob', () => {
       const glob = 'glob';
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG), { glob });
-      const pattern = parser.createGlobPattern();
+      const parser = new MetadataParser({ glob });
+      const pattern = parser.getGlob();
 
       assert.strictEqual(pattern, glob);
     });
 
     it('Accepts custom file formats', () => {
       const fileFormats = ['flac', 'wav'];
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG), { fileFormats });
+      const parser = new MetadataParser({ fileFormats });
       const customPattern = '/**/*.?(flac|wav)';
-      const pattern = parser.createGlobPattern();
+      const pattern = parser.getGlob();
 
       assert.strictEqual(pattern, customPattern);
     });
@@ -48,13 +44,13 @@ context('MetadataParser', () => {
 
   describe('globFolders()', () => {
     it('Throws an error if an invalid folder is provided', () => {
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG));
+      const parser = new MetadataParser();
 
       expect(parser.globFolders).to.throw();
     });
 
     it('Returns an array of file paths', () => {
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG));
+      const parser = new MetadataParser();
       const files = parser.globFolders(this.folderMusic);
 
       assert.isArray(files);
@@ -62,28 +58,36 @@ context('MetadataParser', () => {
     });
   });
 
-  describe('parse()', () => {
-    it('Parses folders', async () => {
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG));
-      const docs = await parser.parse(this.folderMusic);
+  describe('parseFiles()', () => {
+    it('Parses files', async () => {
+      const parser = new MetadataParser();
+      const files = parser.globFolders(this.folderMusic);
 
-      assert.strictEqual(docs.length, 1);
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      await parser.parseFiles(files, callback);
+
+      assert.strictEqual(payload.length, 3);
     });
 
-    it('Parses images', async () => {
-      const dir = tap.testdir({});
-      const db = new NeDB([COLLECTION.SONG, COLLECTION.IMAGE]);
-      const parser = new MetadataParser(db, { pathImage: dir });
-      await parser.parse(this.folderMusic);
-      const docs = await db.read(COLLECTION.IMAGE);
+    it('Skips covers when `skipCovers` is enabled', async () => {
+      const parser = new MetadataParser({ skipCovers: true });
+      const files = parser.globFolders(path.resolve(this.folderMusic, 'Enthusiast'));
 
-      assert.strictEqual(docs.length, 1);
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      await parser.parseFiles(files, callback);
+
+      assert.strictEqual(payload[0].payload.images.length, 0);
     });
 
-    it('Parses metadata correctly', async () => {
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG));
-      const docs = await parser.parse([path.resolve(this.folderMusic, 'Enthusiast')]);
-      const payload = {
+    it('Has valid callback props', async () => {
+      const parser = new MetadataParser({ skipCovers: true });
+      const files = parser.globFolders(path.resolve(this.folderMusic, 'Enthusiast'));
+      const metadata = {
+        file: path.resolve(this.folderMusic, 'Enthusiast', 'Tours_-_01_-_Enthusiast.mp3'),
         images: [],
         format: {
           tagTypes: ['ID3v2.4'],
@@ -113,50 +117,84 @@ context('MetadataParser', () => {
         }
       };
 
-      assert.containsAllDeepKeys(docs[0], payload);
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      await parser.parseFiles(files, callback);
+
+      assert.deepEqual(payload[0].payload, metadata);
+      assert.strictEqual(payload[0].current, 0);
+      assert.strictEqual(payload[0].total, 1);
+    });
+
+    it('Parses images', async () => {
+      const parser = new MetadataParser();
+      const files = parser.globFolders(path.resolve(this.folderMusic, 'Enthusiast'));
+
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      await parser.parseFiles(files, callback);
+
+      assert.strictEqual(payload.length, 1);
     });
 
     it('Parses image metadata correctly', async () => {
-      const dir = tap.testdir({});
-      const db = new NeDB([COLLECTION.SONG, COLLECTION.IMAGE]);
-      const parser = new MetadataParser(db, { pathImage: dir });
-      await parser.parse(this.folderMusic);
-      const payload = {
+      const parser = new MetadataParser();
+      const files = parser.globFolders(path.resolve(this.folderMusic, 'Enthusiast'));
+      const metadata = {
         _id: 'Tours-Enthusiast-Cover (front)',
-        picture: 'Cover (front)',
-        description: 'cover'
+        type: 'Cover (front)',
+        description: 'cover',
+        format: 'jpg',
+        data: null
       };
-      const docs = await db.read(COLLECTION.IMAGE);
 
-      assert.containsAllKeys(docs[0], payload);
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      await parser.parseFiles(files, callback);
+
+      assert.hasAllKeys(payload[0].payload.images[0], metadata);
+      assert.instanceOf(payload[0].payload.images[0].data, Buffer);
     });
 
-    it('Fires a callback on each scan', async () => {
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG));
-      let index = 0;
-      const callback = () => { index += 1; };
+    it('Skips over invalid files if `requiredMetadata` is provided', async () => {
+      const parser = new MetadataParser({ requiredMetadata: ['title'] });
+      const files = parser.globFolders(this.folderMusic);
+
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      await parser.parseFiles(files, callback);
+
+      assert.strictEqual(payload.length, 1);
+    });
+
+    it('Throws an error when `parseStrict` is enabled and `requiredMetadata` is provided', async () => {
+      const parser = new MetadataParser({
+        parseStrict: true,
+        requiredMetadata: ['title']
+      });
+      const files = parser.globFolders(this.folderMusic);
+
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      return expect(parser.parseFiles(files, callback)).to.be.rejected;
+    });
+  });
+
+  describe('parse()', () => {
+    it('Parses folders', async () => {
+      const parser = new MetadataParser();
+
+      const payload = [];
+      const callback = props => payload.push(props);
+
       await parser.parse(this.folderMusic, callback);
 
-      assert.strictEqual(index, 1);
-    });
-
-    it('Skip covers when `skipCovers` is enabled', async () => {
-      const dir = tap.testdir({});
-      const db = new NeDB([COLLECTION.SONG, COLLECTION.IMAGE]);
-      const parser = new MetadataParser(db, {
-        pathImage: dir,
-        skipCovers: true
-      });
-      await parser.parse(this.folderMusic);
-      const docs = await db.read(COLLECTION.IMAGE);
-
-      assert.strictEqual(docs.length, 0);
-    });
-
-    it('Throws an error when `parseStrict` is enabled', async () => {
-      const parser = new MetadataParser(new NeDB(COLLECTION.SONG), { parseStrict: true });
-
-      return expect(parser.parse(this.folderMusic)).to.be.rejected;
+      assert.strictEqual(payload.length, 3);
     });
   });
 });

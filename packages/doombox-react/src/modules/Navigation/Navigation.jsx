@@ -26,7 +26,7 @@ import {
 import NavigationPlaylist from './NavigationPlaylist';
 
 const Navigation = () => {
-  const { setPage, openDialog } = useRoute(HOOK.ROUTE.METHOD);
+  const { setPage, setDialog } = useRoute(HOOK.ROUTE.METHOD);
   const { page } = useRoute(HOOK.ROUTE.LOCATION);
 
   return (
@@ -63,7 +63,7 @@ const Navigation = () => {
         <IconButtonNavigation
           tooltip="settings"
           icon={<IconSettings />}
-          onClick={() => openDialog(PATH.DIALOG.SETTINGS)}
+          onClick={() => setDialog(PATH.DIALOG.SETTINGS)}
         />
       </Box>
       <Box p={1} width="100%">

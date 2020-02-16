@@ -13,22 +13,16 @@ import { Button } from '../../components';
 
 const FormBase = props => {
   const {
-    initialValues,
-    onSubmit,
     primary,
-    children,
     actions,
     disableTranslation,
+    children,
     ...rest
   } = props;
   const { t } = useTranslation();
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      {...rest}
-    >
+    <Formik {...rest}>
       <Form>
         <Box
           display="flex"
@@ -56,9 +50,7 @@ const FormBase = props => {
 };
 
 FormBase.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
   children: PropTypes.node.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   primary: PropTypes.string,
   disableTranslation: PropTypes.bool,
   actions: PropTypes.node

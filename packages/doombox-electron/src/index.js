@@ -48,10 +48,7 @@ const logger = new Logger(PATH.LOG);
 const router = new Router(logger);
 
 const parserOptions = config.get(TYPE.CONFIG.PARSER);
-const parser = new MetadataParser(db, {
-  ...parserOptions,
-  pathImage: parserOptions.pathImage || PATH.IMAGE
-});
+const parser = new MetadataParser(parserOptions);
 
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'development') {
@@ -63,7 +60,7 @@ app.on('ready', () => {
   // General
   router.createRouter(
     TYPE.IPC.LIBRARY,
-    new LibraryController(db, parser, logger)
+    new LibraryController(db, parser, logger, config.imagePath || PATH.IMAGE)
   );
   router.createRouter(
     TYPE.IPC.PLAYLIST,

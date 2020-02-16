@@ -14,12 +14,12 @@ import { useImageStyles } from './Image.style';
 
 const ImageBackground = () => {
   const classes = useImageStyles();
-  const { image } = useAudio(HOOK.AUDIO.CURRENT);
+  const { images } = useAudio(HOOK.AUDIO.CURRENT);
 
   return (
     <Image
       className={classes.background}
-      src={image ? image.path : null}
+      src={images ? images[0].file : null}
     />
   );
 };

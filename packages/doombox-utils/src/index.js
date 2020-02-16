@@ -151,7 +151,8 @@ const CONFIG = {
     pathImage: null,
     fileFormats: ['mp3'],
     glob: null,
-    parseStrict: false
+    parseStrict: false,
+    requiredMetadata: []
   }
 };
 

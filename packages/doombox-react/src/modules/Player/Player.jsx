@@ -36,7 +36,7 @@ const Player = ({ darkTheme }) => {
   return (
     <Image
       className={classes.image}
-      src={images && images[0].path}
+      src={images && images[0].file}
       alt={images && images[0].picture}
     >
       <Box

@@ -25,7 +25,7 @@ const InterruptErrorPage = ({ err }) => {
 
   useEffect(() => {
     if (err) {
-      setError(JSON.parse(cleanErr(err)));
+      setError(JSON.parse((err)));
     }
   }, [err]);
 

@@ -36,8 +36,8 @@ const SettingsRouter = ({ open, onClose }) => {
     general: SettingsGeneralPage,
     library: SettingsLibraryPage,
     discord: SettingsDiscordPage,
-    keybind: SettingsKeybindPage,
-    palette: SettingsPalettePage
+    // keybind: SettingsKeybindPage,
+    // palette: SettingsPalettePage
   };
   const [visible, setVisible] = useState('general');
   const classes = useSettingsRouterStyles();
@@ -77,7 +77,7 @@ const SettingsRouter = ({ open, onClose }) => {
           display="flex"
           flexDirection="column"
           height="100%"
-          maxWidth={600}
+          maxWidth={1200}
           flexGrow={1}
           pl={2}
         >

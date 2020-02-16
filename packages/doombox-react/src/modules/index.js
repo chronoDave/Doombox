@@ -2,10 +2,8 @@ export {
   FormBase,
   FormPlaylist,
   FormCreatePalette,
-  FormLibrary,
   FormKeybind,
-  FormDiscord,
-  FormParser
+  FormDiscord
 } from './Form';
 export { Sidebar } from './Sidebar';
 export {
@@ -13,6 +11,7 @@ export {
   DialogForm,
   DialogConfirmation
 } from './Dialog';
+export { ContainerSettings } from './Container';
 export { Player } from './Player';
 export { Library } from './Library';
 export { Playlist } from './Playlist';

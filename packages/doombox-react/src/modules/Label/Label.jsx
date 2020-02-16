@@ -53,7 +53,7 @@ const VirtualLabel = props => {
   }, [ref, labels]);
 
   const dimensions = {
-    width: theme.dimensions.label.item * 2.5 + theme.spacing(2),
+    width: theme.dimensions.label.item * 2 + theme.spacing(2),
     height: theme.dimensions.label.item + theme.spacing(2),
     header: theme.dimensions.label.header + theme.spacing(),
     padding: 2

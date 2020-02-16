@@ -4,74 +4,143 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { Box } from '@material-ui/core';
-
 import {
   Switch,
-  Typography
-} from '../../components';
+  Box
+} from '@material-ui/core';
+
+import { SwitchLabel } from '../../components';
+
+import { ContainerSettings } from '../../modules';
 
 // Actions
-import { updateStorage } from '../../actions';
-
-// Modules
-import { FormParser } from '../../modules';
+import { updateConfig } from '../../actions';
 
 const SettingsGeneral = props => {
   const {
+    // Appearance
+    darkTheme,
+    backgroundOpacity,
+    // Library
+    slowSearch,
+    reverseScroll,
+    dense,
+    background,
+    // Advanced
     forceQuit,
-    hardwareAcceleration,
-    background
+    hardwareAcceleration
   } = props;
 
-  const updateGeneral = payload => updateStorage(
-    TYPE.IPC.CONFIG,
-    TYPE.CONFIG.GENERAL,
-    payload
-  );
+  const id = 'settingsGeneral';
 
   return (
     <Box display="flex" flexDirection="column">
-      <Switch
-        disabled={window.navigator.platform.includes('Win')}
-        translate="forceQuit"
-        checked={forceQuit}
-        onChange={event => updateGeneral({
-          forceQuit: event.target.checked
-        })}
-      />
-      <Switch
-        translate="hardwareAcceleration"
-        checked={hardwareAcceleration}
-        onChange={event => updateGeneral({
-          hardwareAcceleration: event.target.checked
-        })}
-      />
-      <Switch
-        translate="background"
-        checked={background}
-        onChange={event => updateGeneral({
-          background: event.target.checked
-        })}
-      />
-      <Typography variant="h6" paragraph>
-        Advanced
-      </Typography>
-      <FormParser />
+      <ContainerSettings title="appearance">
+        <SwitchLabel id={id} name="darkTheme">
+          <Switch
+            checked={darkTheme}
+            onChange={event => updateConfig.palette({
+              darkTheme: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+        <SwitchLabel id={id} name="background">
+          <Switch
+            checked={background}
+            onChange={event => updateConfig.general({
+              background: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+        <SwitchLabel id={id} name="backgroundOpacity">
+          <Switch
+            checked={backgroundOpacity}
+            onChange={event => updateConfig.palette({
+              backgroundOpacity: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+        <SwitchLabel id={id} name="dense">
+          <Switch
+            checked={dense}
+            onChange={event => updateConfig.general({
+              dense: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+      </ContainerSettings>
+
+      <ContainerSettings title="library">
+        <SwitchLabel id={id} name="slowSearch">
+          <Switch
+            checked={slowSearch}
+            onChange={event => updateConfig.general({
+              slowSearch: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+        <SwitchLabel id={id} name="reverseScroll">
+          <Switch
+            checked={reverseScroll}
+            onChange={event => updateConfig.general({
+              reverseScroll: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+      </ContainerSettings>
+
+      <ContainerSettings title="advanced">
+        <SwitchLabel
+          id={id}
+          name="forceQuit"
+          disabled={window.navigator.platform.includes('Win')}
+        >
+          <Switch
+            checked={forceQuit}
+            onChange={event => updateConfig.general({
+              forceQuit: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+        <SwitchLabel id={id} name="hardwareAcceleration">
+          <Switch
+            checked={hardwareAcceleration}
+            onChange={event => updateConfig.advanced({
+              hardwareAcceleration: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+      </ContainerSettings>
     </Box>
   );
 };
 
 SettingsGeneral.propTypes = {
+  // Appearance
+  darkTheme: PropTypes.bool.isRequired,
+  backgroundOpacity: PropTypes.bool.isRequired,
+  // Library
+  slowSearch: PropTypes.bool.isRequired,
+  reverseScroll: PropTypes.bool.isRequired,
+  dense: PropTypes.bool.isRequired,
+  background: PropTypes.bool.isRequired,
+  // Advanced
   forceQuit: PropTypes.bool.isRequired,
-  hardwareAcceleration: PropTypes.bool.isRequired,
-  background: PropTypes.bool.isRequired
+  hardwareAcceleration: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  // Appearance
+  darkTheme: state.config[TYPE.CONFIG.PALETTE].darkTheme,
+  backgroundOpacity: state.config[TYPE.CONFIG.PALETTE].backgroundOpacity,
+  // Library
+  slowSearch: state.config[TYPE.CONFIG.GENERAL].slowSearch,
+  reverseScroll: state.config[TYPE.CONFIG.GENERAL].reverseScroll,
+  dense: state.config[TYPE.CONFIG.GENERAL].dense,
+  background: state.config[TYPE.CONFIG.GENERAL].background,
+  // Advanced
   forceQuit: state.config[TYPE.CONFIG.GENERAL].forceQuit,
-  hardwareAcceleration: state.config[TYPE.CONFIG.GENERAL].hardwareAcceleration,
-  background: state.config[TYPE.CONFIG.GENERAL].background
+  hardwareAcceleration: state.config[TYPE.CONFIG.ADVANCED].hardwareAcceleration
 });
 
 export default connect(

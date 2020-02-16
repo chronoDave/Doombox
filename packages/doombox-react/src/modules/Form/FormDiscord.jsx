@@ -3,10 +3,8 @@ import {
   Formik,
   Form
 } from 'formik';
-import {
-  CONFIG,
-  TYPE
-} from '@doombox/utils';
+import { useTranslation } from 'react-i18next';
+import { TYPE } from '@doombox/utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -16,24 +14,26 @@ import { Box } from '@material-ui/core';
 import { FieldText } from '../../components';
 
 // Actions
-import { updateStorage } from '../../actions';
+import { updateConfig } from '../../actions';
 
-const FormDiscord = ({ discord, children }) => {
+const FormDiscord = ({ token, children }) => {
   const id = 'discord';
+
+  const { t } = useTranslation();
 
   return (
     <Formik
-      initialValues={discord}
-      onSubmit={values => updateStorage(
-        TYPE.IPC.CONFIG,
-        TYPE.CONFIG.DISCORD,
-        values
-      )}
+      initialValues={{ token }}
+      onSubmit={values => updateConfig.discord({ token: values.token })}
     >
       <Form>
         <Box display="flex" flexDirection="column">
-          <FieldText id={id} name="token" />
-          <FieldText id={id} name="imageKey" />
+          <FieldText
+            id={id}
+            name="token"
+            label={t('field:token', { context: 'discord' })}
+            description={t('description:field', { context: 'tokenDiscord' })}
+          />
         </Box>
         {children}
       </Form>
@@ -43,18 +43,15 @@ const FormDiscord = ({ discord, children }) => {
 
 FormDiscord.propTypes = {
   children: PropTypes.element.isRequired,
-  discord: PropTypes.shape({
-    token: PropTypes.string,
-    imageKey: PropTypes.string
-  })
+  token: PropTypes.string,
 };
 
 FormDiscord.defaultProps = {
-  discord: {}
+  token: ''
 };
 
 const mapStateToProps = state => ({
-  discord: state.config[TYPE.CONFIG.DISCORD]
+  token: state.config[TYPE.CONFIG.DISCORD].token
 });
 
 export default connect(

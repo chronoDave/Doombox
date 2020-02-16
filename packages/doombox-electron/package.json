@@ -6,7 +6,7 @@
   "main": "./src",
   "scripts": {
     "start": "nodemon --watch src --exec electron .",
-    "start:dev": "nodemon --watch src --exec \"cross-env NODE_ENV=development electron . --debug\"",
+    "start:dev": "cross-env NODE_ENV=development nodemon --watch src --exec electron . --debug",
     "build": "electron-builder",
     "test:unit": "tap --files=src/**/*.spec.js --no-coverage",
     "arkit": "arkit -c ../../arkit/arkit-electron.js"

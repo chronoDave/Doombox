@@ -34,7 +34,9 @@ export {
   FieldText,
   FieldColorBase,
   FieldPalette,
-  FieldFolder
+  FieldFolder,
+  FieldFolderBase,
+  FieldFolderLibrary
 } from './Field';
 export { Popover } from './Popover';
 export {
@@ -43,6 +45,9 @@ export {
 } from './Image';
 export { InputSearch } from './Input';
 export { ModalFade } from './Modal';
-export { Switch } from './Switch';
+export { SwitchLabel } from './Switch';
 export { ProgressScanning } from './Progress';
-export { Typography } from './Typography';
+export {
+  Typography,
+  TypographyField
+} from './Typography';

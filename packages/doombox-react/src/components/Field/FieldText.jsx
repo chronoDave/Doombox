@@ -3,10 +3,9 @@ import { Field } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-// Core
-import { TextField } from '@material-ui/core';
+import { TypographyField } from '../Typography';
 
-const FieldText = ({ name, id, label }) => {
+const FieldText = ({ name, ...rest }) => {
   const { t } = useTranslation();
 
   return (
@@ -19,34 +18,29 @@ const FieldText = ({ name, id, label }) => {
           touched,
           errors
         }
-      }) => (
-        <TextField
-          inputProps={{ id: `${id}-${name}` }}
-          label={label || t(`field:${name}`)}
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          error={!!errors[name] && touched[name]}
-          helperText={t(errors[name], { input: t(name) })}
-          value={value}
-          onChange={event => {
-            setFieldValue(name, event.target.value);
-            setFieldTouched(name, true);
-          }}
-        />
-      )}
+      }) => {
+        const isError = !!errors[name] && touched[name];
+
+        return (
+          <TypographyField
+            name={name}
+            value={value}
+            error={isError}
+            description={isError && t(errors[name], { input: t(name) })}
+            onChange={event => {
+              setFieldValue(name, event.target.value);
+              setFieldTouched(name, true);
+            }}
+            {...rest}
+          />
+        );
+      }}
     </Field>
   );
 };
 
 FieldText.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  id: PropTypes.string.isRequired
-};
-
-FieldText.defaultProps = {
-  label: null
+  name: PropTypes.string.isRequired
 };
 
 export default FieldText;

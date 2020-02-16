@@ -22,14 +22,16 @@ module.exports = class PlaylistController {
     const docs = await this.db.read(COLLECTION.PLAYLIST, data.query, data.modifiers);
     const librarySize = await this.db.count(COLLECTION.SONG);
 
+    const libraryPlaylist = {
+      _id: 'library',
+      name: 'library',
+      size: librarySize
+    };
+
     let transformedDocs;
     if (options.collectionToCount) {
       transformedDocs = [
-        {
-          _id: 'library',
-          name: 'library',
-          size: librarySize
-        },
+        libraryPlaylist,
         ...docs.map(({ collection, ...rest }) => ({
           ...rest,
           size: collection.length

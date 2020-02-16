@@ -1,8 +1,7 @@
 const { ipcMain } = require('electron');
 const {
   TYPE,
-  ACTION,
-  INTERRUPT
+  ACTION
 } = require('@doombox/utils');
 
 module.exports = class Router {
@@ -55,7 +54,7 @@ module.exports = class Router {
         const errJson = this.log.errToJson(err);
         this.log.createLogError(err);
         event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
-        event.sender.send(TYPE.IPC.INTERRUPT, { type, status: INTERRUPT.ERROR });
+        event.sender.send(TYPE.IPC.INTERRUPT, { type, status: ACTION.STATUS.ERROR });
       }
     });
   }

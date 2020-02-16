@@ -11,9 +11,6 @@ export const useLibraryStyles = makeStyles(theme => ({
     height: '100%',
     backgroundColor: fade(theme.palette.primary.main, 0.4)
   },
-  block: {
-    display: 'block'
-  },
   listItem: {
     paddingTop: 0,
     paddingBottom: 0
@@ -23,7 +20,7 @@ export const useLibraryStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   dividerIcon: {
-    minWidth: theme.spacing(5),
+    minWidth: theme.spacing(6),
     paddingLeft: theme.spacing(1.5)
   }
 }));

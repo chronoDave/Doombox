@@ -40,6 +40,8 @@ module.exports = {
     'no-nested-ternary': 'off',
     'class-methods-use-this': 'off', // No support for private methods yet
     'no-underscore-dangle': ['error', { 'allow': ['_id']}], // Database _id property
+    'no-await-in-loop': 'warn', // Allow async actions to be ran synchronous in series
+    'no-restricted-syntax': 'off', // For loop allow async sync series
     // Import
     'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',

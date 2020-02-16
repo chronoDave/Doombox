@@ -39,12 +39,12 @@ const PlaylistItem = memo(({ data, index, style }) => {
         primary={metadata.title}
         primaryTypographyProps={{
           noWrap: true,
-          classes: { root: classes.block }
+          display: 'block'
         }}
         secondary={metadata.artist}
         secondaryTypographyProps={{
           noWrap: true,
-          classes: { root: classes.block }
+          display: 'block'
         }}
       />
     </ListItem>

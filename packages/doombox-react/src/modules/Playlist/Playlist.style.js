@@ -14,8 +14,5 @@ export const usePlaylistStyles = makeStyles(theme => ({
         'main' :
         'light'
     ]
-  },
-  block: {
-    display: 'block'
   }
 }));

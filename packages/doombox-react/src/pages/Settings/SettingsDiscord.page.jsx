@@ -11,7 +11,7 @@ import { FormDiscord } from '../../modules';
 const SettingsDiscord = () => (
   <Box display="flex" flexDirection="column">
     <FormDiscord>
-      <Button>
+      <Button type="submit">
         Submit
       </Button>
     </FormDiscord>

@@ -7,10 +7,13 @@ import {
   ipcReadOne,
   ipcUpdate,
   ipcUpdateOne,
-  ipcDeleteOne
+  ipcDeleteOne,
+  ipcDelete
 } from './crud';
 
 // Library
+export const createLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
+
 export const fetchLibrary = (
   limit,
   offset = 0,
@@ -41,6 +44,13 @@ export const queryLabels = regex => ipcRead(TYPE.IPC.LIBRARY, {}, {
   transform: 'label',
   regex
 });
+
+export const updateLibraryFolder = folder => ipcUpdate(
+  TYPE.IPC.LIBRARY,
+  { query: folder }
+);
+
+export const deleteLibraryFolder = folder => ipcDelete(TYPE.IPC.LIBRARY, folder);
 
 // Mixography
 export const fetchMixography = () => ipcRead(
@@ -111,109 +121,17 @@ export const updateStorage = (type, _id, payload, options = {}) => {
   ipcUpdateOne(type, _id, payload, options);
 };
 
+export const updateConfig = Object.values(TYPE.CONFIG)
+  .map(config => ({
+    [config]: payload => updateStorage(
+      TYPE.IPC.CONFIG,
+      config,
+      payload
+    )
+  }))
+  .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+
 // Rpc
 export const updateRpc = (payload, options = {}) => ipcUpdate(
   TYPE.IPC.RPC, {}, payload, options
 );
-
-// // General
-// export const readCollection = (
-//   type,
-//   {
-//     skip = 0,
-//     limit = 0,
-//     query = {},
-//     projection = {},
-//     sort = {},
-//     castObject = false
-//   } = {},
-//   options = {}
-// ) => (
-//   ipcRenderer.send(type, {
-//     action: ACTION.CRUD.READ,
-//     data: {
-//       query,
-//       modifiers: {
-//         projection,
-//         sort,
-//         castObject,
-//         skip,
-//         limit
-//       },
-//       options
-//     }
-//   })
-// );
-
-// // Playlist
-// /**
-//  * @param {Object} playlist
-//  * @param {Object[]} playlist.collection
-//  * @param {String} playlist.name
-//  * @param {String} playlist.src
-//  */
-
-
-// // Library
-// export const scanFolders = folders => ipcRenderer.send(
-//   TYPE.IPC.LIBRARY, {
-//     action: ACTION.CRUD.CREATE,
-//     data: { payload: folders }
-//   }
-// );
-
-// export const getAlbums = (offset = 0) => readCollection(
-//   TYPE.IPC.LIBRARY,
-//   { skip: offset, limit: 1000 },
-//   { transform: 'album' }
-// );
-
-// export const getLabels = (offset = 0) => readCollection(
-//   TYPE.IPC.LIBRARY,
-//   { skip: offset, limit: 1000 },
-//   { transform: 'label' }
-// );
-
-// export const queryLibrary = query => {
-//   const payload = query === '' ? ({ query: '' }) : ({
-//     logic: {
-//       operator: 'or',
-//       expressions: [
-//         { key: 'metadata.artist', expression: query },
-//         { key: 'metadata.title', expression: query },
-//         { key: 'metadata.album', expression: query },
-//         { key: 'metadata.label', expression: query },
-//         { key: 'metadata.albumartist', expression: query }
-//       ]
-//     }
-//   });
-
-//   ipcRenderer.send(TYPE.IPC.LIBRARY, {
-//     action: ACTION.CRUD.READ,
-//     data: payload
-//   });
-// };
-
-// // Storage
-// export const readStorage = type => ipcRenderer.send(type, {
-//   action: ACTION.CRUD.READ
-// });
-
-// export const updateStorage = (type, key, payload) => ipcRenderer.send(
-//   type, {
-//     action: ACTION.CRUD.UPDATE,
-//     data: { key, payload }
-//   }
-// );
-
-// // Rpc
-// export const setRpc = (metadata, properties) => {
-//   const data = {
-//     largeImageText: metadata.album,
-//     state: metadata.artist,
-//     details: metadata.title,
-//     ...properties
-//   };
-
-//   ipcRenderer.send(TYPE.IPC.RPC, { action: ACTION.CRUD.UPDATE, data });
-// };

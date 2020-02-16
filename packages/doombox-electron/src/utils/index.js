@@ -3,6 +3,8 @@ const groupby = require('lodash.groupby');
 // General
 const cleanFileName = string => string
   .replace(/\/|\\|\*|\?|"|:|<|>|\.|\|/g, '_');
+const escapeRegExp = expression => expression
+  .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const arrayToObject = (key, array) => array
   .reduce((acc, cur) => ({
     ...acc,
@@ -14,6 +16,7 @@ const stripKeys = object => Object.keys(object)
     ...acc,
     [cur]: object[cur]
   }), {});
+const transformArray = item => (Array.isArray(item) ? item : [item]);
 
 /**
  * @param {Object} logic
@@ -26,7 +29,7 @@ const createLogicQuery = ({ operator, expressions }) => {
   if (!Array.isArray(expressions)) throw new Error(`${JSON.stringify(expressions)} is not an array`);
   return ({
     [`$${operator}`]: expressions.map(({ key, expression }) => ({
-      [key]: { $regex: new RegExp(expression, 'i') }
+      [key]: { $regex: new RegExp(escapeRegExp(expression), 'i') }
     }))
   });
 };
@@ -95,8 +98,13 @@ const transformLibraryDivider = item => {
 const transformLabel = (library, images) => Object
   .entries(groupby(library, 'metadata.albumartist'))
   .sort((a, b) => {
-    const aAlbumartist = a[1][0].metadata.albumartist.toLowerCase();
-    const bAlbumartist = b[1][0].metadata.albumartist.toLowerCase();
+    const aMetadata = a[1][0].metadata;
+    const bMetadata = b[1][0].metadata;
+
+    if (!aMetadata.albumartist || !bMetadata.albumartist) return -1;
+
+    const aAlbumartist = aMetadata.albumartist.toLowerCase();
+    const bAlbumartist = bMetadata.albumartist.toLowerCase();
 
     if (aAlbumartist < bAlbumartist) return -1;
     if (aAlbumartist > bAlbumartist) return 1;
@@ -112,8 +120,11 @@ const transformLabel = (library, images) => Object
 
         if (aMetadata.year < bMetadata.year) return -1;
         if (aMetadata.year > bMetadata.year) return 1;
-        if (aMetadata.album < bMetadata.album.toLowerCase()) return -1;
-        if (aMetadata.album > bMetadata.album.toLowerCase()) return 1;
+
+        if (!aMetadata.album || !bMetadata.album) return 0;
+
+        if (aMetadata.album.toLowerCase() < bMetadata.album.toLowerCase()) return -1;
+        if (aMetadata.album.toLowerCase() > bMetadata.album.toLowerCase()) return 1;
         return 0;
       })
       .map(([album, tracks]) => ({
@@ -136,5 +147,7 @@ module.exports = {
   transformLibrary,
   transformLibraryDivider,
   transformLabel,
-  populateImages
+  populateImages,
+  transformArray,
+  escapeRegExp
 };

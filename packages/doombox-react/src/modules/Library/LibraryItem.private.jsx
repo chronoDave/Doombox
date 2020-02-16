@@ -90,12 +90,12 @@ const VirtualLibraryItem = memo(({ index, style, data }) => {
             primaryTypographyProps={{
               noWrap: true,
               variant: dense ? 'body2' : 'body1',
-              classes: { root: classes.block }
+              display: 'block'
             }}
             secondary={`${metadata.artist} (${formatTime(format.duration)})`}
             secondaryTypographyProps={{
               noWrap: true,
-              classes: { root: classes.block }
+              display: 'block'
             }}
           />
         </ListItem>

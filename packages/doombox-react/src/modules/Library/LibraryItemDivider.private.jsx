@@ -34,11 +34,11 @@ const VirtualLibraryDivider = props => {
         secondary={secondary}
         primaryTypographyProps={{
           noWrap: true,
-          classes: { root: classes.block }
+          display: 'block'
         }}
         secondaryTypographyProps={{
           noWrap: true,
-          classes: { root: classes.block }
+          display: 'block'
         }}
         classes={{ root: classes.dividerRoot }}
       />
