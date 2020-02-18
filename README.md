@@ -8,6 +8,7 @@
 [![Version@master](https://img.shields.io/github/package-json/v/chronoDave/Doombox/master?label=Doombox%40master)](https://github.com/chronoDave/Doombox)
 [![Build Status](https://travis-ci.com/chronoDave/Doombox.svg?branch=master)](https://travis-ci.com/chronoDave/Doombox)
 [![CodeFactor](https://www.codefactor.io/repository/github/chronodave/doombox/badge)](https://www.codefactor.io/repository/github/chronodave/doombox)
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
 A music player designed with large music collections in mind.
 

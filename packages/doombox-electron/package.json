@@ -21,14 +21,6 @@
     "music-metadata": "^5.0.1",
     "nedb": "^1.8.0"
   },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "electron": "7.1.1",
-    "electron-builder": "^22.1.0",
-    "electron-mocha": "^8.1.2",
-    "tap": "^14.10.6"
-  },
   "build": {
     "appId": "com.electron.doombox",
     "productName": "Doombox",
