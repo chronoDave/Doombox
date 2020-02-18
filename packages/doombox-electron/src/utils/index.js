@@ -16,7 +16,7 @@ const stripKeys = object => Object.keys(object)
     ...acc,
     [cur]: object[cur]
   }), {});
-const transformArray = item => (Array.isArray(item) ? item : [item]);
+const toArray = item => (Array.isArray(item) ? item : [item]);
 
 /**
  * @param {Object} logic
@@ -148,6 +148,6 @@ module.exports = {
   transformLibraryDivider,
   transformLabel,
   populateImages,
-  transformArray,
+  toArray,
   escapeRegExp
 };

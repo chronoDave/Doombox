@@ -2,7 +2,10 @@ const Datastore = require('nedb');
 const path = require('path');
 
 // Utils
-const { arrayToObject } = require('../../utils');
+const {
+  toArray,
+  arrayToObject
+} = require('../../utils');
 
 module.exports = class NeDB {
   /**
@@ -10,8 +13,7 @@ module.exports = class NeDB {
    * @param {String=} root - Database path. If falsy, databases will be stored in memory
    */
   constructor(tables, root) {
-    const collections = Array.isArray(tables) ? tables : [tables];
-    collections.forEach(collection => {
+    toArray(tables).forEach(collection => {
       this[collection] = new Datastore({
         filename: root ? path.resolve(root, `${collection}.txt`) : null,
         autoload: !!root

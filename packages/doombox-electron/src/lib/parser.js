@@ -8,7 +8,7 @@ const {
 // Utils
 const {
   cleanFileName,
-  transformArray
+  toArray
 } = require('../utils');
 
 module.exports = class MetadataParser {
@@ -50,7 +50,7 @@ module.exports = class MetadataParser {
    */
   globFolders(folders) {
     if (!folders) throw new Error(`No folders found: ${JSON.stringify(folders)}`);
-    return transformArray(folders)
+    return toArray(folders)
       .map(folder => glob.sync(this.getGlob(), { root: folder }))
       .reduce((acc, cur) => acc.concat(cur), []);
   }
