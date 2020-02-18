@@ -68,7 +68,7 @@ context('MetadataParser', () => {
 
       await parser.parseFiles(files, callback);
 
-      assert.strictEqual(payload.length, 3);
+      assert.strictEqual(payload.length, 2);
     });
 
     it('Skips covers when `skipCovers` is enabled', async () => {
@@ -194,7 +194,7 @@ context('MetadataParser', () => {
 
       await parser.parse(this.folderMusic, callback);
 
-      assert.strictEqual(payload.length, 3);
+      assert.strictEqual(payload.length, 2);
     });
   });
 });

@@ -19,18 +19,18 @@ context('Logger', () => {
 
   describe('errToJson()', () => {
     it('Throws an error if no error is provided', () => {
-      expect(this.log.errToJson).to.throw();
+      expect(Logger.errToJson).to.throw();
     });
 
     it('Throws an error if an invalid error type is provided', () => {
-      expect(() => this.log.errToJson('This is an error')).to.throw();
+      expect(() => Logger.errToJson('This is an error')).to.throw();
     });
 
     it('Converts an error to valid JSON', () => {
       const errMessage = 'This is an error';
       const err = new Error(errMessage);
 
-      const errJson = this.log.errToJson(err);
+      const errJson = Logger.errToJson(err);
 
       assert.isString(errJson);
       assert.isTrue(errJson.includes(errMessage));
@@ -56,13 +56,25 @@ context('Logger', () => {
   });
 
   describe('createLogError()', () => {
-    it('Creates a log file', () => {
+    it('Creates a error log file', () => {
       const err = new Error('This is a log file');
       this.log.createLogError(err);
 
       const files = fse.readdirSync(this.dir);
 
       assert.strictEqual(files.length, 1);
+    });
+
+    it('Returns an error string on callback', () => {
+      const err = new Error('This is a log file');
+
+      const payload = [];
+      const callback = props => payload.push(props);
+
+      this.log.createLogError(err, 'log', callback);
+
+      assert.strictEqual(payload.length, 1);
+      assert.typeOf(payload[0], 'string');
     });
   });
 });

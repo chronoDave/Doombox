@@ -8,7 +8,10 @@ module.exports = {
   },
   settings: {
     'import/core-modules': [
-      'electron'
+      'electron',
+      'tap',
+      'chai',
+      'chai-as-promised'
     ]
   },
   extends: [
@@ -30,9 +33,6 @@ module.exports = {
     // Import
     'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',
-    'import/no-extraneous-dependencies': ['error', {
-      'devDependencies': ["**/*.test.js", "**/*.spec.js"]
-    }],
     // JSX
     'jsx-a11y/label-has-for': 'off', // This rule was deprecated in v6.1.0.
     // Mocha

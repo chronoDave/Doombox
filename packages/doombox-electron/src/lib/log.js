@@ -14,7 +14,7 @@ module.exports = class Logger {
   /**
    * @param {Error} err - Error object
    */
-  errToJson(err) {
+  static errToJson(err) {
     if (!err) throw new Error(`No error found: ${err}`);
     if (!(err instanceof Error)) throw new Error(`Expected type 'Error', got: ${typeof err}`);
     return JSON.stringify(err, Object.getOwnPropertyNames(err));
@@ -22,22 +22,26 @@ module.exports = class Logger {
 
   /**
    * @param {String} content - Content of the log file
-   * @param {String=} name - Name of the file, defaults to current UTC date
+   * @param {String=} name - Name of the file, defaults to `log`
    */
-  createLog(content, name) {
+  createLog(content, name = 'log') {
     if (!content) throw new Error(`No content found: ${content}`);
     if (typeof content !== 'string') throw new Error(`Expected type 'string', got: ${typeof content}`);
     fse.writeFileSync(path.join(
       this.root,
-      `${name ? `${name}_` : ''}${new Date().getUTCDate()}.txt`
+      `${new Date().toISOString().replace(/:|\./i, '_')}_${name}.txt`
     ), content);
   }
 
   /**
    * @param {Error} err - Error object
-   * @param {String=} name - Name of the file, defaults to `error`
+   * @param {String} name - Name of the file
+   * @param {function} cb - Callback, returns stringified error
    */
-  createLogError(err, name) {
-    this.createLog(this.errToJson(err), `error${name ? `_${name}` : ''}`);
+  createLogError(err, name, cb) {
+    const errJson = Logger.errToJson(err);
+    this.createLog(errJson, `error_${name || 'unknown'}`);
+
+    if (cb) cb(errJson);
   }
 };
