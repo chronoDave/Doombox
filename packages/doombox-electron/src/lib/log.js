@@ -12,15 +12,6 @@ module.exports = class Logger {
   }
 
   /**
-   * @param {Error} err - Error object
-   */
-  static errToJson(err) {
-    if (!err) throw new Error(`No error found: ${err}`);
-    if (!(err instanceof Error)) throw new Error(`Expected type 'Error', got: ${typeof err}`);
-    return JSON.stringify(err, Object.getOwnPropertyNames(err));
-  }
-
-  /**
    * @param {String} content - Content of the log file
    * @param {String=} name - Name of the file, defaults to `log`
    */
@@ -35,12 +26,16 @@ module.exports = class Logger {
 
   /**
    * @param {Error} err - Error object
-   * @param {String} name - Name of the file
+   * @param {String=} name - Name of the file, defaults to `Unknown`
    * @param {function} cb - Callback, returns stringified error
    */
-  createLogError(err, name, cb) {
-    const errJson = Logger.errToJson(err);
-    this.createLog(errJson, `error_${name || 'unknown'}`);
+  createLogError(err, name = 'Unknown', cb) {
+    if (!err) throw new Error(`No error found: ${err}`);
+    if (!(err instanceof Error)) throw new Error(`Expected type 'Error', got: ${typeof err}`);
+
+    const errJson = JSON.stringify(err, Object.getOwnPropertyNames(err));
+
+    this.createLog(errJson, `error_${name}`);
 
     if (cb) cb(errJson);
   }

@@ -51,10 +51,10 @@ module.exports = class Router {
             throw new Error(`Invalid action: ${payload.action}`);
         }
       } catch (err) {
-        const errJson = this.log.errToJson(err);
-        this.log.createLogError(err);
-        event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
-        event.sender.send(TYPE.IPC.INTERRUPT, { type, status: ACTION.STATUS.ERROR });
+        this.log.createLogError(err, 'Router', errJson => {
+          event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
+          event.sender.send(TYPE.IPC.INTERRUPT, { type, status: ACTION.STATUS.ERROR });
+        });
       }
     });
   }

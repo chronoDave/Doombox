@@ -17,26 +17,6 @@ context('Logger', () => {
     fse.removeSync(this.dir);
   });
 
-  describe('errToJson()', () => {
-    it('Throws an error if no error is provided', () => {
-      expect(Logger.errToJson).to.throw();
-    });
-
-    it('Throws an error if an invalid error type is provided', () => {
-      expect(() => Logger.errToJson('This is an error')).to.throw();
-    });
-
-    it('Converts an error to valid JSON', () => {
-      const errMessage = 'This is an error';
-      const err = new Error(errMessage);
-
-      const errJson = Logger.errToJson(err);
-
-      assert.isString(errJson);
-      assert.isTrue(errJson.includes(errMessage));
-    });
-  });
-
   describe('createLog()', () => {
     it('Throws an error if no content is provided', () => {
       expect(this.log.createLog).to.throw();
@@ -56,6 +36,14 @@ context('Logger', () => {
   });
 
   describe('createLogError()', () => {
+    it('Throws an error if no error is provided', () => {
+      expect(this.log.createLogError).to.throw();
+    });
+
+    it('Throws an error if an invalid error type is provided', () => {
+      expect(() => this.log.createLogError('This is an error')).to.throw();
+    });
+
     it('Creates a error log file', () => {
       const err = new Error('This is a log file');
       this.log.createLogError(err);
@@ -66,7 +54,8 @@ context('Logger', () => {
     });
 
     it('Returns an error string on callback', () => {
-      const err = new Error('This is a log file');
+      const errMessage = 'This is an error';
+      const err = new Error(errMessage);
 
       const payload = [];
       const callback = props => payload.push(props);
@@ -74,7 +63,8 @@ context('Logger', () => {
       this.log.createLogError(err, 'log', callback);
 
       assert.strictEqual(payload.length, 1);
-      assert.typeOf(payload[0], 'string');
+      assert.isString(payload[0]);
+      assert.isTrue(payload[0].includes(errMessage));
     });
   });
 });

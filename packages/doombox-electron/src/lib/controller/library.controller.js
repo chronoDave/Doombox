@@ -64,10 +64,10 @@ module.exports = class LibraryController {
   });
 
   handleError = err => {
-    const errJson = this.log.errToJson(err);
-    this.log.createLogError(err, 'Parser');
-    this.sendInterrupt(ACTION.STATUS.ERROR);
-    this.event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
+    this.log.createLogError(err, 'Parser', errJson => {
+      this.sendInterrupt(ACTION.STATUS.ERROR);
+      this.event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
+    });
   }
 
   async create(event, { data }) {
