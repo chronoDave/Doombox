@@ -9,10 +9,6 @@ const {
   TYPE
 } = require('@doombox/utils');
 const debounce = require('lodash.debounce');
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS
-} = require('electron-devtools-installer');
 
 // Lib
 const { NeDB } = require('./lib/database');
@@ -51,12 +47,6 @@ const parserOptions = config.get(TYPE.CONFIG.PARSER);
 const parser = new MetadataParser({ ...parserOptions, logger });
 
 app.on('ready', () => {
-  if (process.env.NODE_ENV === 'development') {
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => console.log(`Added Extension: ${name}`))
-      .catch(console.error);
-  }
-
   // General
   router.createRouter(
     TYPE.IPC.LIBRARY,

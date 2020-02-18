@@ -40,7 +40,6 @@
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "shortid": "^2.2.15",
     "yup": "^0.28.0"
   }
 }

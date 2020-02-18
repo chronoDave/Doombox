@@ -1,35 +1,20 @@
 module.exports = {
-  root: true,
+  parser: 'babel-eslint',
   env: {
     es6: true,
     browser: true,
     node: true,
     mocha: true
   },
-  extends: [
-    'airbnb',
-    "plugin:react/recommended",
-    'plugin:import/recommended',
-    "plugin:mocha/recommended"
-  ],
-  parser: 'babel-eslint',
-  plugins: [
-    'react-hooks',
-    'react-i18next',
-    'mocha'
-  ],
   settings: {
     'import/core-modules': [
-      'electron',
-      'spectron',
-      'chai',
-      'chai-as-promised',
-      'shortid',
-      'tap',
-      'yup',
-      'lodash.debounce'
+      'electron'
     ]
   },
+  extends: [
+    'airbnb',
+    'airbnb/hooks'
+  ],
   rules: {
     // General
     'operator-linebreak': ['error', 'after'],
@@ -45,11 +30,11 @@ module.exports = {
     // Import
     'import/namespace': ['error', { 'allowComputed': true }],
     'import/prefer-default-export': 'off',
+    'import/no-extraneous-dependencies': ['error', {
+      'devDependencies': ["**/*.test.js", "**/*.spec.js"]
+    }],
     // JSX
     'jsx-a11y/label-has-for': 'off', // This rule was deprecated in v6.1.0.
-    // Hooks
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
     // Mocha
     'mocha/no-mocha-arrows': 'off' // Mocha context isn't used
   }

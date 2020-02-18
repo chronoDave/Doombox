@@ -27,8 +27,6 @@
   "devDependencies": {
     "arkit": "^1.6.2",
     "babel-eslint": "^10.0.2",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
     "cross-env": "^6.0.3",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
@@ -38,8 +36,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.6.1",
     "eslint-plugin-react-i18next": "^1.1.0",
-    "mocha": "^6.2.2",
-    "tap": "^14.10.5"
+    "mocha": "^6.2.2"
   },
   "workspaces": [
     "packages/*"
