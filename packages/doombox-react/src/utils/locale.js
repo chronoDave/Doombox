@@ -7,7 +7,7 @@ import us from '../static/locales/en-US.json';
 i18n
   .use(initReactI18next)
   .init({
-    debug: process.env.NODE_END === 'development',
+    debug: process.env.NODE_ENV === 'development',
     resources: {
       'en-US': us
     },
