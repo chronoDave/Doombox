@@ -4,6 +4,35 @@ const {
   ACTION
 } = require('@doombox/utils');
 
+// Utils
+const { createQueryRegExp } = require('../utils');
+
+const transformPayload = payload => {
+  const { data: { regex, ...rest } } = payload;
+  const validOperators = ['and', 'or', 'not'];
+
+  if (!regex) return payload;
+
+  // Validate
+  if (!regex.operator || !validOperators.includes(regex.operator)) {
+    throw new Error(`Invalid operator (not 'string'): ${regex.operator}`);
+  }
+  if (!Array.isArray(regex.expressions)) {
+    throw new Error(`Invalid expressions (not 'array'): ${regex.expressions}`);
+  }
+
+  return ({
+    ...payload,
+    data: {
+      ...rest,
+      query: {
+        [`$${regex.operator}`]: regex.expressions
+          .map(createQueryRegExp)
+      }
+    }
+  });
+};
+
 module.exports = class Router {
   /**
    * @param {Logger} logger
@@ -24,19 +53,19 @@ module.exports = class Router {
             Controller.create(event, payload);
             break;
           case ACTION.CRUD.READ:
-            Controller.read(event, payload);
+            Controller.read(event, transformPayload(payload));
             break;
           case ACTION.CRUD.READ_ONE:
             Controller.readOne(event, payload);
             break;
           case ACTION.CRUD.UPDATE:
-            Controller.update(event, payload);
+            Controller.update(event, transformPayload(payload));
             break;
           case ACTION.CRUD.UPDATE_ONE:
             Controller.updateOne(event, payload);
             break;
           case ACTION.CRUD.DELETE:
-            Controller.delete(event, payload);
+            Controller.delete(event, transformPayload(payload));
             break;
           case ACTION.CRUD.DELETE_ONE:
             Controller.deleteOne(event, payload);
@@ -45,7 +74,7 @@ module.exports = class Router {
             Controller.drop(event, payload);
             break;
           case ACTION.CRUD.COUNT:
-            Controller.count(event, payload);
+            Controller.count(event, transformPayload(payload));
             break;
           default:
             throw new Error(`Invalid action: ${payload.action}`);

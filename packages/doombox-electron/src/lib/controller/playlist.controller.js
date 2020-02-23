@@ -1,10 +1,7 @@
 const { TYPE } = require('@doombox/utils');
 
 // Utils
-const {
-  createLogicQuery,
-  populateImages
-} = require('../../utils');
+const { populateImages } = require('../../utils');
 const { COLLECTION } = require('../../utils/const');
 
 module.exports = class PlaylistController {
@@ -47,12 +44,9 @@ module.exports = class PlaylistController {
 
     let payload;
     if (data._id === 'library' || data._id === 'label') {
-      let query = null;
-      if (options.regex) query = createLogicQuery(options.regex);
-
       const library = await this.db.read(
         COLLECTION.SONG,
-        query || {},
+        data.query,
         { sort: options.sort || { file: 1 } }
       );
 

@@ -19,9 +19,10 @@ export const ipcCreate = (
 export const ipcRead = (
   type,
   {
+    query = {},
+    regex = null,
     skip = 0,
     limit = 0,
-    query = {},
     projection = {},
     sort = {},
     castObject = false
@@ -31,6 +32,7 @@ export const ipcRead = (
   action: ACTION.CRUD.READ,
   data: {
     query,
+    regex,
     modifiers: {
       projection,
       skip,
@@ -58,13 +60,17 @@ export const ipcReadOne = (
 
 export const ipcUpdate = (
   type,
-  { query = {} },
+  {
+    regex = null,
+    query = {}
+  },
   update,
   options
 ) => ipcRenderer.send(type, {
   action: ACTION.CRUD.UPDATE,
   data: {
     query,
+    regex,
     update
   },
   options

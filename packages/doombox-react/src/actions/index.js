@@ -18,32 +18,42 @@ export const fetchLibrary = (
   limit,
   offset = 0,
   sort = 'albumartist'
-) => ipcRead(TYPE.IPC.LIBRARY, {}, {
-  transform: 'library',
-  offset,
-  limit,
-  sort
-});
+) => ipcRead(
+  TYPE.IPC.LIBRARY,
+  {},
+  {
+    transform: 'library',
+    offset,
+    limit,
+    sort
+  }
+);
 
 export const queryLibrary = (
   limit,
   offset = 0,
   regex
-) => ipcRead(TYPE.IPC.LIBRARY, {}, {
-  transform: 'library',
-  offset,
-  limit,
-  regex
-});
+) => ipcRead(
+  TYPE.IPC.LIBRARY,
+  { regex },
+  {
+    transform: 'library',
+    offset,
+    limit
+  }
+);
 
-export const fetchLabels = () => ipcRead(TYPE.IPC.LIBRARY, {}, {
-  transform: 'label'
-});
+export const fetchLabels = () => ipcRead(
+  TYPE.IPC.LIBRARY,
+  {},
+  { transform: 'label' }
+);
 
-export const queryLabels = regex => ipcRead(TYPE.IPC.LIBRARY, {}, {
-  transform: 'label',
-  regex
-});
+export const queryLabels = regex => ipcRead(
+  TYPE.IPC.LIBRARY,
+  { regex },
+  { transform: 'label' }
+);
 
 export const updateLibraryFolder = folder => ipcUpdate(
   TYPE.IPC.LIBRARY,

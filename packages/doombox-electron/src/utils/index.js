@@ -3,8 +3,6 @@ const groupby = require('lodash.groupby');
 // General
 const cleanFileName = string => string
   .replace(/\/|\\|\*|\?|"|:|<|>|\.|\|/g, '_');
-const escapeRegExp = expression => expression
-  .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const arrayToObject = (key, array) => array
   .reduce((acc, cur) => ({
     ...acc,
@@ -18,21 +16,17 @@ const stripKeys = object => Object.keys(object)
   }), {});
 const toArray = item => (Array.isArray(item) ? item : [item]);
 
+// RegExp
+const escapeRegExp = expression => expression
+  .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 /**
- * @param {Object} logic
- * @param {String} logic.operator - Logical operator. Currently supports: `or`, `and`
- * @param {string[]} logic.expressions - Array of expressions.
- * - Uses { key: '', expression: '' } format.
+ * @param {Object} payload
+ * @param {String} payload.key - Database key
+ * @param {String} payload.expression - RegExp expression
  */
-const createLogicQuery = ({ operator, expressions }) => {
-  if (!['or', 'and'].includes(operator)) throw new Error(`Invalid operator: ${operator}`);
-  if (!Array.isArray(expressions)) throw new Error(`${JSON.stringify(expressions)} is not an array`);
-  return ({
-    [`$${operator}`]: expressions.map(({ key, expression }) => ({
-      [key]: { $regex: new RegExp(escapeRegExp(expression), 'i') }
-    }))
-  });
-};
+const createQueryRegExp = ({ key, expression }) => ({
+  [key]: { $regex: new RegExp(expression, 'i') }
+});
 
 // Library
 const populateImages = (collection, images) => collection
@@ -143,7 +137,7 @@ module.exports = {
   arrayToObject,
   stripKeys,
   cleanFileName,
-  createLogicQuery,
+  createQueryRegExp,
   transformLibrary,
   transformLibraryDivider,
   transformLabel,

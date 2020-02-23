@@ -7,11 +7,9 @@ const path = require('path');
 
 // Utils
 const {
-  createLogicQuery,
   transformLibrary,
   transformLabel,
-  transformLibraryDivider,
-  escapeRegExp
+  transformLibraryDivider
 } = require('../../utils');
 const { COLLECTION } = require('../../utils/const');
 
@@ -118,10 +116,7 @@ module.exports = class LibraryController {
   async read(event, { data, options }) {
     event.sender.send(this.type, { status: ACTION.STATUS.PENDING });
 
-    let query = null;
-    if (options.regex) query = createLogicQuery(options.regex);
-
-    const docs = await this.db.read(COLLECTION.SONG, query || data.query, data.modifiers);
+    const docs = await this.db.read(COLLECTION.SONG, data.query, data.modifiers);
     const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
 
     let transformedDocs = null;
@@ -202,13 +197,7 @@ module.exports = class LibraryController {
   }
 
   async delete(event, { data }) {
-    let query = {};
-    if (typeof data.query === 'string') {
-      query = {
-        file: { $regex: new RegExp(escapeRegExp(data.query)) }
-      };
-    }
-    await this.db.delete(COLLECTION.SONG, query);
+    await this.db.delete(COLLECTION.SONG, data.query);
 
     const songs = await this.db.read(COLLECTION.SONG, {});
 
