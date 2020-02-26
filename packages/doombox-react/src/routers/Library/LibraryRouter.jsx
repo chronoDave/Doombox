@@ -6,6 +6,7 @@ import React, {
 import { TYPE } from '@doombox/utils';
 import { connect } from 'react-redux';
 import groupBy from 'lodash.groupby';
+import PropTypes from 'prop-types';
 
 // Core
 import { Box } from '@material-ui/core';
@@ -21,10 +22,7 @@ import {
 } from '../../modules';
 
 // Actions
-import {
-  queryLibrary,
-  fetchSongs
-} from '../../actions';
+import { queryLibrary } from '../../actions';
 
 // Hooks
 import { useRoute } from '../../hooks';
@@ -47,6 +45,7 @@ import {
   PATH,
   HOOK
 } from '../../utils/const';
+import { propSong } from '../../utils/propTypes';
 
 const LibraryRouter = props => {
   const {
@@ -121,11 +120,7 @@ const LibraryRouter = props => {
 
   const handleSearch = query => {
     setOffset(0); // New library, reset cache
-    if (query.length === 0) {
-      fetchSongs();
-    } else {
-      queryLibrary(createRegexPayload(query, fields, operator));
-    }
+    queryLibrary(query.length !== 0 && createRegexPayload(query, fields, operator));
   };
 
   const handleScroll = (direction, size) => {
@@ -142,7 +137,7 @@ const LibraryRouter = props => {
   }, [page]);
 
   useEffect(() => {
-    fetchSongs();
+    queryLibrary();
   }, []);
 
   const renderPage = () => {
@@ -195,6 +190,13 @@ const LibraryRouter = props => {
       </Box>
     </Sidebar>
   );
+};
+
+LibraryRouter.propTypes = {
+  songs: PropTypes.arrayOf(propSong).isRequired,
+  cacheSize: PropTypes.number.isRequired,
+  addPlaylist: PropTypes.func.isRequired,
+  setPlaylist: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

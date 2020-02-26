@@ -11,13 +11,10 @@ import {
   ipcDelete
 } from './crud';
 
-// Song
-export const fetchSongs = () => ipcRead(TYPE.IPC.LIBRARY);
-
 // Library
 export const createLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
 
-export const queryLibrary = regex => ipcRead(
+export const queryLibrary = (regex = null) => ipcRead(
   TYPE.IPC.LIBRARY,
   { regex }
 );

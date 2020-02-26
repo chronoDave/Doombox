@@ -189,7 +189,8 @@ class Audio extends EventEmitter {
       },
       onplay: () => {
         requestAnimationFrame(this.step.bind(this));
-        this.emit(EVENT.AUDIO.RPC, metadata, {
+        this.emit(EVENT.AUDIO.RPC, {
+          ...metadata,
           smallImageKey: STATUS.AUDIO.PLAYING,
           startTimestamp: Date.now(),
           endTimestamp:
@@ -198,7 +199,7 @@ class Audio extends EventEmitter {
         });
       },
       onpause: () => {
-        this.emit(EVENT.AUDIO.RPC, metadata, { smallImageKey: STATUS.AUDIO.PAUSED });
+        this.emit(EVENT.AUDIO.RPC, { ...metadata, smallImageKey: STATUS.AUDIO.PAUSED });
       },
       onend: () => this.autoplay && this.next()
     });

@@ -7,10 +7,6 @@ export {
   SettingsPalettePage
 } from './Settings';
 export {
-  LibrarySongPage,
-  LibraryLabelPage
-} from './Library';
-export {
   InterruptErrorPage,
   InterruptScanningPage
 } from './Interrupt';

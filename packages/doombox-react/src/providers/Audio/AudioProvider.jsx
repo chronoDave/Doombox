@@ -164,7 +164,32 @@ class AudioProvider extends Component {
       this.setState(state => ({ ...state, positionValue }));
     });
     // Rpc
-    this.audio.on(EVENT.AUDIO.RPC, updateRpc);
+    this.audio.on(EVENT.AUDIO.RPC, message => {
+      const {
+        artist,
+        album,
+        title,
+        albumartist,
+        smallImageKey,
+        smallImageText,
+        startTimestamp,
+        endTimestamp
+      } = message;
+
+      const payload = {
+        smallImageKey,
+        smallImageText,
+        largeImageKey: 'icon',
+        largeImageText: `Label: ${albumartist}`,
+        state: `${artist} - ${title}`,
+        details: `${album}`
+      };
+
+      if (startTimestamp) payload.startTimestamp = startTimestamp;
+      if (endTimestamp) payload.endTimestamp = endTimestamp;
+
+      updateRpc(payload);
+    });
   }
 
   componentDidUpdate(prevProps) {
