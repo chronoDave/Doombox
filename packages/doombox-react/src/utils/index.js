@@ -102,14 +102,6 @@ export const createDividerAlbum = tracks => Object
       tracks: albumTracks.map(({ _id }) => _id)
     });
   });
-export const getHeightFromStyle = ref => parseInt(
-  ref.style.cssText
-    .split(';')
-    .filter(prop => prop.includes('height'))[0]
-    .split(' ')[1]
-    .slice(0, -2),
-  10
-);
 
 // Electron
 const { remote: { dialog: { showOpenDialog } } } = window.require('electron');

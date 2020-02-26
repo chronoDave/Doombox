@@ -78,7 +78,7 @@ const VirtualLabel = ({ library, onScroll }) => {
     if (!Array.isArray(itemData.library[index])) return 50;
 
     const albumCount = itemData.library[index].length;
-    const containerWidth = width - theme.dimensions.scrollbar - theme.spacing();
+    const containerWidth = width - theme.dimensions.scrollbar - theme.spacing(2);
 
     // Calculate #albums / row
     const rowCount = Math.floor(containerWidth / dimensions.width) || 1;
@@ -94,7 +94,11 @@ const VirtualLabel = ({ library, onScroll }) => {
   return (
     <AutoSizer>
       {({ width, height }) => (
-        <VirtualScroller updateDep={itemData.library} onScroll={onScroll}>
+        <VirtualScroller
+          updateDep={itemData.library}
+          onScroll={onScroll}
+          width={width}
+        >
           <VariableSizeList
             // General
             width={width}

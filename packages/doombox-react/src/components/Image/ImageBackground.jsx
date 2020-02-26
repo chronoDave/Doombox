@@ -1,6 +1,7 @@
 import React from 'react';
 import { TYPE } from '@doombox/utils';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Core
 import Image from './Image';
@@ -25,6 +26,14 @@ const ImageBackground = ({ enableBackground }) => {
       src={(enableBackground && images) ? images[0].file : null}
     />
   );
+};
+
+ImageBackground.propTypes = {
+  enableBackground: PropTypes.bool
+};
+
+ImageBackground.defaultProps = {
+  enableBackground: false
 };
 
 const mapStateToProps = state => ({

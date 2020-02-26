@@ -6,11 +6,6 @@ const fse = require('fs-extra');
 const path = require('path');
 
 // Utils
-const {
-  transformLibrary,
-  transformLabel,
-  transformLibraryDivider
-} = require('../../utils');
 const { COLLECTION } = require('../../utils/const');
 
 module.exports = class LibraryController {

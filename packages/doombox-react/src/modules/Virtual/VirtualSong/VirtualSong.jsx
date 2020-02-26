@@ -108,12 +108,11 @@ const VirtualSong = ({ library, onScroll, dense }) => {
     <Fragment>
       <AutoSizer>
         {({ width, height }) => (
-          <VirtualScroller updateDep={itemData.library} onScroll={onScroll}>
+          <VirtualScroller onScroll={onScroll}>
             <VariableSizeList
               // General
               width={width}
               height={height}
-              initialScrollOffset={1}
               // Items
               itemCount={itemData.library.length}
               itemData={itemData}

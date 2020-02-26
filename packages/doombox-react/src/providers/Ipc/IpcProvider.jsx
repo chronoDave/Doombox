@@ -15,9 +15,6 @@ import {
 // Redux
 import {
   setSong,
-  setLabel,
-  setLibraryStatus,
-  setLibrary,
   addPlaylist,
   setPlaylist,
   setCache,
@@ -100,9 +97,6 @@ class IpcProvider extends Component {
 
 IpcProvider.propTypes = {
   children: PropTypes.element.isRequired,
-  setLibraryStatus: PropTypes.func.isRequired,
-  setLabel: PropTypes.func.isRequired,
-  setLibrary: PropTypes.func.isRequired,
   setPlaylist: PropTypes.func.isRequired,
   setCache: PropTypes.func.isRequired,
   setConfig: PropTypes.func.isRequired,
@@ -114,11 +108,8 @@ IpcProvider.propTypes = {
 };
 
 const mapDispatchToProps = {
-  setLabel,
   addPlaylist,
-  setLibraryStatus,
   setSong,
-  setLibrary,
   setPlaylist,
   setCache,
   setConfig,
