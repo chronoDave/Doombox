@@ -45,7 +45,6 @@ const RouteProvider = ({ status }) => {
 
   // Interrupt
   useEffect(() => {
-    console.log(status);
     if (
       status === ACTION.STATUS.PENDING ||
       status === ACTION.STATUS.ERROR

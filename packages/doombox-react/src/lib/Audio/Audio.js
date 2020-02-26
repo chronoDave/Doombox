@@ -3,6 +3,7 @@ import EventEmitter from 'events';
 import path from 'path';
 
 // Utils
+import { pathToUrl } from '../../utils';
 import {
   STATUS,
   EVENT
@@ -176,7 +177,7 @@ class Audio extends EventEmitter {
     } = song || this.playlist.collection[this.playlist.index];
 
     this.current = new Howl({
-      src: path.join('file://', path.resolve(file)),
+      src: path.join('file://', pathToUrl(path.resolve(file))),
       html5: true,
       volume: this.volume,
       autoplay: this.autoplay,

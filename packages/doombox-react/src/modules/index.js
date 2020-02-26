@@ -13,8 +13,10 @@ export {
 } from './Dialog';
 export { ContainerSettings } from './Container';
 export { Player } from './Player';
-export { Library } from './Library';
+export {
+  VirtualSong,
+  VirtualLabel
+} from './Virtual';
 export { Playlist } from './Playlist';
-export { Label } from './Label';
 export { Navigation } from './Navigation';
-export { Search } from './Search';
+export { SearchLibrary } from './Search';

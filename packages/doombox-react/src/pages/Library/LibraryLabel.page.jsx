@@ -9,8 +9,8 @@ import { ImageBackground } from '../../components';
 
 // Modules
 import {
-  Search,
-  Label
+  SearchLibrary,
+  VirtualLabel
 } from '../../modules';
 
 // Actions
@@ -46,16 +46,16 @@ const LibraryLabelPage = ({ size }) => {
     >
       <ImageBackground />
       <Box px={2} py={1}>
-        <Search
+        {/* <Search
           id="label"
           fields={fields}
           operator={operator}
           onSearch={handleSearch}
           count={size}
-        />
+        /> */}
       </Box>
       <Box flexGrow={1}>
-        <Label />
+        <VirtualLabel />
       </Box>
     </Box>
   );

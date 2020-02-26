@@ -11,48 +11,34 @@ import {
   ipcDelete
 } from './crud';
 
+// Song
+export const fetchSongs = () => ipcRead(TYPE.IPC.LIBRARY);
+
 // Library
 export const createLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
 
-export const fetchLibrary = (
-  limit,
-  offset = 0,
-  sort = 'albumartist'
-) => ipcRead(
+export const queryLibrary = regex => ipcRead(
   TYPE.IPC.LIBRARY,
-  {},
+  { regex }
+);
+
+/**
+ * @param {String} action - Action key
+ * @param {String[]} collection - Array of _id's
+ */
+export const libraryActionPlaylist = (action, { name, collection }) => ipcRead(
+  TYPE.IPC.LIBRARY,
   {
-    transform: 'library',
-    offset,
-    limit,
-    sort
-  }
-);
-
-export const queryLibrary = (
-  limit,
-  offset = 0,
-  regex
-) => ipcRead(
-  TYPE.IPC.LIBRARY,
-  { regex },
+    regex: {
+      operator: 'or',
+      expressions: collection
+        .map(expression => ({ key: '_id', expression }))
+    }
+  },
   {
-    transform: 'library',
-    offset,
-    limit
+    name,
+    action
   }
-);
-
-export const fetchLabels = () => ipcRead(
-  TYPE.IPC.LIBRARY,
-  {},
-  { transform: 'label' }
-);
-
-export const queryLabels = regex => ipcRead(
-  TYPE.IPC.LIBRARY,
-  { regex },
-  { transform: 'label' }
 );
 
 export const updateLibraryFolder = folder => ipcUpdate(
@@ -60,14 +46,13 @@ export const updateLibraryFolder = folder => ipcUpdate(
   { query: folder }
 );
 
-export const deleteLibraryFolder = folder => ipcDelete(TYPE.IPC.LIBRARY, folder);
+export const deleteLibraryFolder = folder => ipcDelete(
+  TYPE.IPC.LIBRARY,
+  { query: folder }
+);
 
 // Mixography
-export const fetchMixography = () => ipcRead(
-  TYPE.IPC.PLAYLIST,
-  {},
-  { collectionToCount: true }
-);
+export const fetchMixography = () => ipcRead(TYPE.IPC.PLAYLIST);
 
 // Playlist
 export const fetchPlaylist = (
@@ -93,21 +78,18 @@ export const fetchPlaylist = (
 
 export const createPlaylist = playlist => ipcCreate(
   TYPE.IPC.PLAYLIST,
-  playlist,
-  { collectionToCount: true }
+  playlist
 );
 
 export const updatePlaylist = (_id, payload) => ipcUpdateOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  { $set: payload },
-  { collectionToCount: true }
+  { query: { $set: payload } }
 );
 
 export const deletePlaylist = id => ipcDeleteOne(
   TYPE.IPC.PLAYLIST,
-  id,
-  { collectionToCount: true }
+  id
 );
 
 // Storage

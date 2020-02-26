@@ -14,6 +14,7 @@ import {
 
 // Redux
 import {
+  setSong,
   setLabel,
   setLibraryStatus,
   setLibrary,
@@ -34,14 +35,16 @@ class IpcProvider extends Component {
 
     // Collection
     ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
-      if (payload.status) props.setLibraryStatus(payload.status);
-      if (payload.transform === 'label') {
-        const { transform, ...rest } = payload;
-        props.setLabel(rest);
-      }
-      if (payload.transform === 'library') {
-        const { transform, ...rest } = payload;
-        props.setLibrary(rest);
+      switch (payload.action) {
+        case ACTION.AUDIO.PLAYLIST_SET:
+          props.setPlaylist(payload.docs);
+          break;
+        case ACTION.AUDIO.PLAYLIST_ADD:
+          props.addPlaylist(payload.docs);
+          break;
+        default:
+          props.setSong(payload);
+          break;
       }
     });
     ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
@@ -104,6 +107,7 @@ IpcProvider.propTypes = {
   setCache: PropTypes.func.isRequired,
   setConfig: PropTypes.func.isRequired,
   setInterrupt: PropTypes.func.isRequired,
+  setSong: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   addPlaylist: PropTypes.func.isRequired,
   setMixography: PropTypes.func.isRequired
@@ -113,6 +117,7 @@ const mapDispatchToProps = {
   setLabel,
   addPlaylist,
   setLibraryStatus,
+  setSong,
   setLibrary,
   setPlaylist,
   setCache,

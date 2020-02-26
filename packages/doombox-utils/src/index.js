@@ -70,7 +70,7 @@ const CONFIG = {
     reverseScroll: true
   },
   [TYPE.CONFIG.ADVANCED]: {
-    libraryCache: 10,
+    libraryCache: 25,
     hardwareAcceleration: true,
   },
   [TYPE.CONFIG.DISCORD]: {

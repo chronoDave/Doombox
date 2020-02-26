@@ -92,12 +92,16 @@ export const ipcUpdateOne = (
 
 export const ipcDelete = (
   type,
-  query,
+  {
+    query = {},
+    regex = null
+  } = {},
   options
 ) => ipcRenderer.send(type, {
   action: ACTION.CRUD.DELETE,
   data: {
-    query
+    query,
+    regex
   },
   options
 });

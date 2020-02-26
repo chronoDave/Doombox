@@ -114,44 +114,37 @@ module.exports = class LibraryController {
   }
 
   async read(event, { data, options }) {
-    event.sender.send(this.type, { status: ACTION.STATUS.PENDING });
-
-    const docs = await this.db.read(COLLECTION.SONG, data.query, data.modifiers);
+    const rawDocs = await this.db.read(COLLECTION.SONG, data.query, data.modifiers);
     const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
 
-    let transformedDocs = null;
-    if (options.transform === 'library') {
-      const library = transformLibrary(docs, images, options.sort);
+    const docs = rawDocs
+      .map(song => ({
+        ...song,
+        images: (song.images && images) ?
+          song.images.map(id => images[id]) :
+          []
+      }));
 
-      let { offset } = options;
-      if (options.offset < 0) {
-        offset = Math.ceil((library.length - options.limit) / options.limit) * options.limit;
-      }
-      if (options.offset >= library.length) offset = 0;
-
-      transformedDocs = {
-        transform: options.transform,
-        offset,
-        size: docs.length,
-        hasMore: library.length > options.limit,
-        collection: library
-          .slice(offset, offset + options.limit)
-          .map(transformLibraryDivider)
-          .flat()
-      };
+    let payload;
+    switch (options.action) {
+      case ACTION.AUDIO.PLAYLIST_SET:
+        payload = {
+          action: options.action,
+          docs: {
+            name: options.name,
+            collection: docs
+          }
+        };
+        break;
+      case ACTION.AUDIO.PLAYLIST_ADD:
+        payload = { action: options.action, docs };
+        break;
+      default:
+        payload = docs;
+        break;
     }
 
-    if (options.transform === 'label') {
-      const library = transformLabel(docs, images);
-
-      transformedDocs = {
-        size: docs.length,
-        transform: options.transform,
-        collection: library
-      };
-    }
-
-    event.sender.send(this.type, transformedDocs || docs);
+    event.sender.send(this.type, payload);
   }
 
   async update(event, { data }) {

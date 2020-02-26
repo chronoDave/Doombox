@@ -49,7 +49,7 @@ export const createTheme = props => {
       },
       label: {
         header: 48,
-        item: 180
+        item: 150
       }
     },
     breakpoints: {

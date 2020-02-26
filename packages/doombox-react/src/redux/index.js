@@ -13,7 +13,8 @@ import {
   interruptSlice,
   mixographySlice,
   messageSlice,
-  labelSlice
+  labelSlice,
+  songSlice
 } from './slices';
 
 export const {
@@ -25,12 +26,19 @@ export const {
   addPlaylist,
   shufflePlaylist
 } = playlistSlice.actions;
+export const { setSong } = songSlice.actions;
 export const { setConfig } = configSlice.actions;
 export const { setCache } = cacheSlice.actions;
 export const { setInterrupt } = interruptSlice.actions;
 export const { setMessage } = messageSlice.actions;
 export const { setMixography } = mixographySlice.actions;
 export const { setLabel } = labelSlice.actions;
+
+const middleware = [];
+
+if (process.env.NODE_ENV === 'development') {
+  middleware.push(createLogger());
+}
 
 export const store = configureStore({
   reducer: combineReducers({
@@ -41,7 +49,8 @@ export const store = configureStore({
     cache: cacheSlice.reducer,
     interrupt: interruptSlice.reducer,
     message: messageSlice.reducer,
-    mixography: mixographySlice.reducer
+    mixography: mixographySlice.reducer,
+    song: songSlice.reducer
   }),
-  middleware: [createLogger()]
+  middleware
 });

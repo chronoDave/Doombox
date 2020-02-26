@@ -15,28 +15,9 @@ module.exports = class PlaylistController {
     this.read(event, { data: {} });
   }
 
-  async read(event, { data, options = {} }) {
+  async read(event, { data }) {
     const docs = await this.db.read(COLLECTION.PLAYLIST, data.query, data.modifiers);
-    const librarySize = await this.db.count(COLLECTION.SONG);
-
-    const libraryPlaylist = {
-      _id: 'library',
-      name: 'library',
-      size: librarySize
-    };
-
-    let transformedDocs;
-    if (options.collectionToCount) {
-      transformedDocs = [
-        libraryPlaylist,
-        ...docs.map(({ collection, ...rest }) => ({
-          ...rest,
-          size: collection.length
-        }))
-      ];
-    }
-
-    event.sender.send(this.type, transformedDocs || docs);
+    event.sender.send(this.type, docs);
   }
 
   async readOne(event, { data, options }) {

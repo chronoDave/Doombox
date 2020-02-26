@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ACTION,
-  TYPE
-} from '@doombox/utils';
+import { TYPE } from '@doombox/utils';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
@@ -24,20 +21,13 @@ import {
   Typography
 } from '../../components';
 
-// Actions
-import { fetchPlaylist } from '../../actions';
-
-// Utils
-import { createRegexPayload } from '../../utils';
-
-const Search = props => {
+const SearchLibrary = props => {
   const {
-    id,
     onSearch,
     slowSearch,
-    count,
-    fields,
-    operator
+    onAdd,
+    onPlay,
+    count
   } = props;
   const [query, setQuery] = useState('');
 
@@ -48,15 +38,10 @@ const Search = props => {
     onSearch(value);
   }, slowSearch ? 100 : 20);
 
-  const handlePlaylist = action => fetchPlaylist(id, action, {
-    name: query,
-    regex: createRegexPayload(query, fields, operator)
-  });
-
   return (
     <Box display="flex" alignItems="center" height={48}>
       <InputSearch
-        id={id}
+        id="Library"
         name="Search"
         onChange={debouncedSearch}
       />
@@ -79,7 +64,7 @@ const Search = props => {
             placement="bottom"
             title={t('action:play', { context: 'selection' })}
           >
-            <IconButton onClick={() => handlePlaylist(ACTION.AUDIO.PLAYLIST_SET)}>
+            <IconButton onClick={() => onPlay(query)}>
               <IconPlay />
             </IconButton>
           </Tooltip>
@@ -88,7 +73,7 @@ const Search = props => {
             placement="bottom"
             title={t('action:add', { context: 'playlist' })}
           >
-            <IconButton onClick={() => handlePlaylist(ACTION.AUDIO.PLAYLIST_ADD)}>
+            <IconButton onClick={() => onAdd(query)}>
               <IconAdd />
             </IconButton>
           </Tooltip>
@@ -98,20 +83,12 @@ const Search = props => {
   );
 };
 
-Search.propTypes = {
-  id: PropTypes.string.isRequired,
-  fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-  operator: PropTypes.oneOf([
-    'and',
-    'or'
-  ]),
+SearchLibrary.propTypes = {
   onSearch: PropTypes.func.isRequired,
   slowSearch: PropTypes.bool.isRequired,
+  onPlay: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
   count: PropTypes.number.isRequired
-};
-
-Search.defaultProps = {
-  operator: 'or'
 };
 
 const mapStateToProps = state => ({
@@ -120,4 +97,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(Search);
+)(SearchLibrary);

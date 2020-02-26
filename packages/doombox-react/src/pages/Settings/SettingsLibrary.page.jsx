@@ -98,13 +98,13 @@ const SettingsLibrary = props => {
             libraryCache: event.target.value
           })}
         >
-          <MenuItem value={5}>
+          <MenuItem value={10}>
             {t('minimal')}
           </MenuItem>
-          <MenuItem value={10}>
+          <MenuItem value={25}>
             {t('optimal')}
           </MenuItem>
-          <MenuItem value={25}>
+          <MenuItem value={50}>
             {t('overkill')}
           </MenuItem>
         </TypographyField>

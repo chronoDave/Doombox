@@ -12,33 +12,23 @@ import {
 } from '@material-ui/core';
 
 import {
-  Typography,
-  Tooltip
-} from '../../components';
+  Tooltip,
+  Typography
+} from '../../../components';
 
-const LabelItemHeader = props => {
+const VirtualLabelHeader = props => {
   const {
     classes,
     primary,
     secondary,
-    maxHeight,
-    onPlaylistAdd,
-    onPlaylistPlay,
-    t
+    tooltip,
+    onPlay,
+    onAdd
   } = props;
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      height="100%"
-      maxHeight={maxHeight}
-    >
-      <Box
-        display="flex"
-        flexDirection="column"
-        pr={1}
-      >
+    <Box display="flex" alignItems="center" px={2}>
+      <Box display="flex" flexDirection="column">
         <Typography variant="body2" clamp={1}>
           {primary}
         </Typography>
@@ -50,19 +40,13 @@ const LabelItemHeader = props => {
           {secondary}
         </Typography>
       </Box>
-      <Tooltip
-        disableTranslation
-        title={t('action:play', { context: 'label' })}
-      >
-        <IconButton onClick={onPlaylistPlay}>
+      <Tooltip disableTranslation title={tooltip.play}>
+        <IconButton onClick={onPlay}>
           <IconPlaylistPlay />
         </IconButton>
       </Tooltip>
-      <Tooltip
-        disableTranslation
-        title={t('action:add', { context: 'playlist' })}
-      >
-        <IconButton onClick={onPlaylistAdd}>
+      <Tooltip disableTranslation title={tooltip.add}>
+        <IconButton onClick={onAdd}>
           <IconPlaylistAdd />
         </IconButton>
       </Tooltip>
@@ -71,16 +55,18 @@ const LabelItemHeader = props => {
   );
 };
 
-LabelItemHeader.propTypes = {
+VirtualLabelHeader.propTypes = {
   classes: PropTypes.shape({
     divider: PropTypes.string.isRequired
   }).isRequired,
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string.isRequired,
-  maxHeight: PropTypes.number.isRequired,
-  onPlaylistAdd: PropTypes.func.isRequired,
-  onPlaylistPlay: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired
+  tooltip: PropTypes.shape({
+    add: PropTypes.string.isRequired,
+    play: PropTypes.string.isRequired
+  }).isRequired,
+  onPlay: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired
 };
 
-export default LabelItemHeader;
+export default VirtualLabelHeader;

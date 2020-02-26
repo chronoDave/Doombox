@@ -30,7 +30,8 @@
     "release_year": "Year",
     "duration": "Duration",
     "unknown": "Unknown",
-    "playlist_default": "Default playlist"
+    "playlist_default": "Default playlist",
+    "discCount": "Disc {{count}}"
   },
   "action": {
     "cancel": "Cancel",
