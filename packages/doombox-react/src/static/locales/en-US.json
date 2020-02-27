@@ -31,7 +31,8 @@
     "duration": "Duration",
     "unknown": "Unknown",
     "playlist_default": "Default playlist",
-    "discCount": "Disc {{count}}"
+    "discCount": "Disc {{count}}",
+    "menu_library": "Library actions"
   },
   "action": {
     "cancel": "Cancel",

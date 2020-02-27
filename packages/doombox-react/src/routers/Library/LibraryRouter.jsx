@@ -1,4 +1,5 @@
 import React, {
+  Fragment,
   useEffect,
   useMemo,
   useState
@@ -6,12 +7,24 @@ import React, {
 import { TYPE } from '@doombox/utils';
 import { connect } from 'react-redux';
 import groupBy from 'lodash.groupby';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-// Core
-import { Box } from '@material-ui/core';
+// Icon
+import IconMenu from '@material-ui/icons/MoreVert';
 
-import { ImageBackground } from '../../components';
+// Core
+import {
+  Box,
+  IconButton
+} from '@material-ui/core';
+
+import {
+  ImageBackground,
+  Context,
+  ContextItem,
+  Tooltip
+} from '../../components';
 
 // Modules
 import {
@@ -35,10 +48,10 @@ import {
 
 // Utils
 import {
+  sortLibrary,
   createRegexPayload,
   createDividerDisc,
   createDividerAlbum,
-  sortLibraryDefault,
   getTotalDuration
 } from '../../utils';
 import {
@@ -55,8 +68,10 @@ const LibraryRouter = props => {
     setPlaylist
   } = props;
   const [offset, setOffset] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const { page } = useRoute(HOOK.ROUTE.LOCATION);
+  const { t } = useTranslation();
 
   const fields = [
     'metadata.artist',
@@ -68,7 +83,7 @@ const LibraryRouter = props => {
 
   const propSongLibrary = useMemo(() => (Object
     .entries(groupBy(songs, 'metadata.album'))
-    .sort(sortLibraryDefault)
+    .sort((a, b) => sortLibrary(a[1][0], b[1][0]))
     .reduce((acc, cur) => {
       const [album, tracks] = cur;
       const { metadata: { albumartist, year } } = tracks[0];
@@ -94,7 +109,7 @@ const LibraryRouter = props => {
 
   const propLabelLibrary = useMemo(() => (Object
     .entries(groupBy(songs, 'metadata.albumartist'))
-    .sort(sortLibraryDefault)
+    .sort((a, b) => sortLibrary(a[1][0], b[1][0]))
     .reduce((acc, cur) => {
       const [albumartist, tracks] = cur;
 
@@ -174,27 +189,54 @@ const LibraryRouter = props => {
   };
 
   return (
-    <Sidebar>
-      <Box
-        width="100%"
-        height="100%"
-        display="flex"
-        flexDirection="column"
+    <Fragment>
+      <Sidebar>
+        <Box
+          width="100%"
+          height="100%"
+          display="flex"
+          flexDirection="column"
+        >
+          <ImageBackground />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            px={2}
+            py={1}
+            zIndex={1}
+          >
+            <SearchLibrary
+              count={songs.length}
+              onSearch={handleSearch}
+              onAdd={() => addPlaylist(songs)}
+              onPlay={query => setPlaylist({ name: query, collection: songs })}
+            />
+            <Tooltip disableTranslation title={t('menu', { context: 'library' })}>
+              <IconButton onClick={event => setAnchorEl(event.currentTarget)}>
+                <IconMenu />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box flexGrow={1} zIndex={1}>
+            {renderPage()}
+          </Box>
+        </Box>
+      </Sidebar>
+      <Context
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        position="bottom"
       >
-        <ImageBackground />
-        <Box px={2} py={1} zIndex={1}>
-          <SearchLibrary
-            count={songs.length}
-            onSearch={handleSearch}
-            onAdd={() => addPlaylist(songs)}
-            onPlay={query => setPlaylist({ name: query, collection: songs })}
-          />
-        </Box>
-        <Box flexGrow={1} zIndex={1}>
-          {renderPage()}
-        </Box>
-      </Box>
-    </Sidebar>
+        <ContextItem
+          disableTranslation
+          onClick={() => setPlaylist({
+            name: t('library'),
+            collection: songs.slice().sort(sortLibrary)
+          })}
+          primary={t('action:play', { context: 'library' })}
+        />
+      </Context>
+    </Fragment>
   );
 };
 

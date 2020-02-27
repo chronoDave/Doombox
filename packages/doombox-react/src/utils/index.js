@@ -56,17 +56,39 @@ export const cleanErr = errString => errString
   .replace(/\n/g, ' ');
 
 // Library
-export const sortLibraryDefault = (a, b) => {
-  const { albumartist: aAlbumartist, year: aYear } = a[1][0].metadata;
-  const { albumartist: bAlbumartist, year: bYear } = b[1][0].metadata;
+export const sortLibrary = (a, b) => {
+  const {
+    metadata: {
+      albumartist: aAlbumartist,
+      album: aAlbum,
+      year: aYear,
+      track: { no: aTrackNo },
+      disk: { no: aDiskNo }
+    }
+  } = a;
+  const {
+    metadata: {
+      albumartist: bAlbumartist,
+      album: bAlbum,
+      year: bYear,
+      track: { no: bTrackNo },
+      disk: { no: bDiskNo }
+    }
+  } = b;
 
   if (aAlbumartist < bAlbumartist) return -1;
   if (aAlbumartist > bAlbumartist) return 1;
+  if (aAlbum < bAlbum) return -1;
+  if (aAlbum > bAlbum) return 1;
   if (aYear < bYear) return -1;
   if (aYear > bYear) return 1;
+  if (aDiskNo < bDiskNo) return -1;
+  if (aDiskNo > bDiskNo) return 1;
+  if (aTrackNo < bTrackNo) return -1;
+  if (aTrackNo > bTrackNo) return 1;
   return 0;
 };
-export const sortTracksTrack = (a, b) => {
+export const sortTrackNo = (a, b) => {
   if (a.metadata.track.no < b.metadata.track.no) return -1;
   if (a.metadata.track.no > b.metadata.track.no) return 1;
   return 0;

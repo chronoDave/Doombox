@@ -29,7 +29,7 @@ import { useAudio } from '../../../hooks';
 // Utils
 import {
   formatTime,
-  sortTracksTrack
+  sortTrackNo
 } from '../../../utils';
 import { HOOK } from '../../../utils/const';
 import { propSong } from '../../../utils/propTypes';
@@ -86,7 +86,7 @@ const VirtualSong = ({ library, onScroll, dense }) => {
             primary: t('discCount', { count: item.no })
           });
         }
-        return item.sort(sortTracksTrack);
+        return item.sort(sortTrackNo);
       })
       .flat()
   };
