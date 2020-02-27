@@ -14,23 +14,33 @@ import {
 // Library
 export const createLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
 
-export const queryLibrary = (regex = null) => ipcRead(
+export const queryLibrary = (regex = null, { sort = null } = {}) => ipcRead(
   TYPE.IPC.LIBRARY,
-  { regex }
+  { regex, sort }
 );
 
 /**
  * @param {String} action - Action key
  * @param {String[]} collection - Array of _id's
  */
-export const libraryActionPlaylist = (action, { name, collection }) => ipcRead(
+export const libraryActionPlaylist = (
+  action,
+  { name, collection },
+  {
+    sort = {
+      'metadata.disk.no': 1,
+      'metadata.track.no': 1
+    }
+  } = {}
+) => ipcRead(
   TYPE.IPC.LIBRARY,
   {
     regex: {
       operator: 'or',
       expressions: collection
         .map(expression => ({ key: '_id', expression }))
-    }
+    },
+    sort
   },
   {
     name,

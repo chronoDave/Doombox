@@ -109,9 +109,7 @@ const LibraryRouter = props => {
           duration,
           albums: albums.length,
           size: tracks.length,
-          tracks: albums
-            .map(({ tracks: albumTracks }) => albumTracks)
-            .flat()
+          tracks: albums.reduce((accAlbum, curAlbum) => [...accAlbum, curAlbum.tracks], [])
         },
         ...albums
       ];
@@ -120,14 +118,22 @@ const LibraryRouter = props => {
 
   const handleSearch = query => {
     setOffset(0); // New library, reset cache
-    queryLibrary(query.length !== 0 && createRegexPayload(query, fields, operator));
+    queryLibrary(
+      query.length !== 0 && createRegexPayload(query, fields, operator),
+      {
+        sort: {
+          'metadata.album': 1,
+          'metadata.disk.no': 1,
+          'metadata.track.no': 1
+        }
+      }
+    );
   };
 
   const handleScroll = (direction, size) => {
     const maxOffset = Math.floor(size / cacheSize);
 
     if (maxOffset <= 1) return;
-
     if (direction === 'backward') setOffset(offset === 0 ? maxOffset : offset - 1);
     if (direction === 'forward') setOffset(offset === maxOffset ? 0 : offset + 1);
   };

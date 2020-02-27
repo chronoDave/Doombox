@@ -101,6 +101,11 @@ export const createDividerAlbum = tracks => Object
       duration: getTotalDuration(albumTracks),
       tracks: albumTracks.map(({ _id }) => _id)
     });
+  })
+  .sort((a, b) => {
+    if (a.year < b.year) return -1;
+    if (a.year > b.year) return 1;
+    return 0;
   });
 
 // Electron
