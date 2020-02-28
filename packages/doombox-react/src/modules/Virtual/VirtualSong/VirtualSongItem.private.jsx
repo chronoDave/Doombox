@@ -1,5 +1,4 @@
 import React from 'react';
-import { ACTION } from '@doombox/utils';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -14,9 +13,6 @@ import { Typography } from '../../../components';
 
 import VirtualSongDividerAlbum from './VirtualSongDividerAlbum.private';
 import VirtualSongDividerDisc from './VirtualSongDividerDisc.private';
-
-// Actions
-import { libraryActionPlaylist } from '../../../actions';
 
 // Utils
 import { formatTime } from '../../../utils';
@@ -34,40 +30,25 @@ const VirtualSongItem = ({ index, style, data }) => {
   } = data;
 
   const renderItem = () => {
-    switch (library[index].divider) {
-      case 'album': {
-        const { handler, tracks, ...rest } = library[index];
-        const album = { name: rest.primary, collection: tracks };
+    const { divider, ...renderProps } = library[index];
 
-        return (
-          <VirtualSongDividerAlbum
-            classes={classes}
-            onMenu={event => handler.context(event, album)}
-            onPlay={() => libraryActionPlaylist(ACTION.AUDIO.PLAYLIST_SET, album)}
-            onAdd={() => libraryActionPlaylist(ACTION.AUDIO.PLAYLIST_ADD, album)}
-            {...rest}
-          />
-        );
-      }
+    switch (divider) {
+      case 'album':
+        return <VirtualSongDividerAlbum classes={classes} {...renderProps} />;
       case 'disc':
-        return (
-          <VirtualSongDividerDisc
-            classes={classes}
-            primary={library[index].primary}
-          />
-        );
+        return <VirtualSongDividerDisc classes={classes} {...renderProps} />;
       default: {
         const {
           _id,
           metadata: { title, artist, track },
           format: { duration }
-        } = library[index];
+        } = renderProps;
         const isActive = (current === _id);
 
         return (
           <ListItem
             button
-            onClick={() => createSong(library[index])}
+            onClick={() => createSong(renderProps)}
             classes={{ root: classes.listRoot }}
             className={clsx({ [classes.itemActive]: isActive })}
           >
@@ -123,7 +104,8 @@ VirtualSongItem.propTypes = {
         secondary: PropTypes.string.isRequired,
         tooltip: PropTypes.shape({
           play: PropTypes.string.isRequired,
-          add: PropTypes.string.isRequired
+          add: PropTypes.string.isRequired,
+          album: PropTypes.string.isRequired
         }).isRequired,
         handler: PropTypes.shape({
           context: PropTypes.func.isRequired

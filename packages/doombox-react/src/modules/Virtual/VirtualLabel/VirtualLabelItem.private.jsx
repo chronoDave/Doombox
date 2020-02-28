@@ -20,25 +20,7 @@ const VirtualLabelItem = ({ index, style, data }) => {
 
   const renderItem = () => {
     if (!Array.isArray(library[index])) {
-      const { tracks, ...rest } = library[index];
-      const label = { name: rest.primary, collection: tracks.flat() };
-
-      const handleLabel = action => libraryActionPlaylist(action, label, {
-        sort: {
-          'metadata.album': 1,
-          'metadata.disk.no': 1,
-          'metadata.track.no': 1
-        }
-      });
-
-      return (
-        <VirtualLabelHeader
-          classes={classes}
-          onPlay={() => handleLabel(ACTION.AUDIO.PLAYLIST_SET)}
-          onAdd={() => handleLabel(ACTION.AUDIO.PLAYLIST_ADD)}
-          {...rest}
-        />
-      );
+      return <VirtualLabelHeader classes={classes} {...library[index]} />;
     }
     return (
       <Box display="flex" flexWrap="wrap" px={1}>

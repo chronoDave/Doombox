@@ -3,8 +3,8 @@ import React, {
   useState
 } from 'react';
 import {
-  ACTION,
-  TYPE
+  TYPE,
+  ACTION
 } from '@doombox/utils';
 import { VariableSizeList } from 'react-window';
 import { useTranslation } from 'react-i18next';
@@ -17,11 +17,18 @@ import { useTheme } from '@material-ui/core/styles';
 
 import {
   Context,
-  ContextItem
+  ContextItem,
+  ContextDivider
 } from '../../../components';
 
+import VirtualScroller from '../VirtualScroller.private';
+import VirtualSongItem from './VirtualSongItem.private';
+
 // Actions
-import { libraryActionPlaylist } from '../../../actions';
+import {
+  libraryActionPlaylist,
+  createPlaylist
+} from '../../../actions';
 
 // Hooks
 import { useAudio } from '../../../hooks';
@@ -39,11 +46,11 @@ import { propSong } from '../../../validation/propTypes';
 // Styles
 import { useVirtualSongStyles } from './VirtualSong.style';
 
-import VirtualScroller from '../VirtualScroller.private';
-import VirtualSongItem from './VirtualSongItem.private';
-
 const VirtualSong = ({ library, onScroll, dense }) => {
-  const [contextMenu, setContextMenu] = useState({});
+  const [contextMenu, setContextMenu] = useState({
+    anchorEl: null,
+    playlist: null
+  });
 
   const theme = useTheme();
   const classes = useVirtualSongStyles();
@@ -51,6 +58,36 @@ const VirtualSong = ({ library, onScroll, dense }) => {
 
   const { createSong } = useAudio(HOOK.AUDIO.METHOD);
   const { _id: currentId } = useAudio(HOOK.AUDIO.CURRENT);
+
+  const actions = {
+    menu: {
+      ignore: true,
+      tooltip: t('menu', { context: 'album' }),
+      onClick: (event, playlist) => setContextMenu({
+        anchorEl: event.currentTarget,
+        playlist
+      })
+    },
+    play: {
+      tooltip: t('action:play', { context: 'album' }),
+      onClick: playlist => libraryActionPlaylist(
+        ACTION.AUDIO.PLAYLIST_SET,
+        playlist
+      )
+    },
+    add: {
+      tooltip: t('action:add', { context: 'playlist' }),
+      onClick: playlist => libraryActionPlaylist(
+        ACTION.AUDIO.PLAYLIST_ADD,
+        playlist
+      )
+    },
+    divider: 'divider',
+    favorite: {
+      tooltip: t('action:create', { context: 'playlist' }),
+      onClick: createPlaylist
+    }
+  };
 
   const itemData = {
     classes,
@@ -63,22 +100,14 @@ const VirtualSong = ({ library, onScroll, dense }) => {
           return ({
             divider: item.divider,
             primary: item.album,
+            cover: item.cover,
             secondary: [
               item.albumartist,
               item.year,
               t('trackCount', { count: item.size }),
               formatTime(item.duration, 'text')
             ].join(' \u2022 '),
-            tooltip: {
-              play: t('action:play', { context: 'album' }),
-              add: t('action:add', { context: 'playlist' })
-            },
-            handler: {
-              context: (event, playlist) => setContextMenu({
-                anchor: event.currentTarget,
-                playlist
-              })
-            },
+            actions,
             tracks: item.tracks
           });
         }
@@ -101,11 +130,6 @@ const VirtualSong = ({ library, onScroll, dense }) => {
     return theme.spacing(dense ? 6.5 : 7);
   };
 
-  const handleContextMenu = action => {
-    libraryActionPlaylist(action, contextMenu.playlist);
-    setContextMenu({ ...contextMenu, anchor: null });
-  };
-
   return (
     <Fragment>
       <AutoSizer>
@@ -126,20 +150,22 @@ const VirtualSong = ({ library, onScroll, dense }) => {
         )}
       </AutoSizer>
       <Context
-        anchorEl={contextMenu.anchor}
-        onClose={() => setContextMenu({ ...contextMenu, anchor: null })}
+        anchorEl={contextMenu.anchorEl}
+        onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
         position="bottom"
       >
-        <ContextItem
-          disableTranslation
-          onClick={() => handleContextMenu(ACTION.AUDIO.PLAYLIST_SET)}
-          primary={t('action:play', { context: 'album' })}
-        />
-        <ContextItem
-          disableTranslation
-          onClick={() => handleContextMenu(ACTION.AUDIO.PLAYLIST_ADD)}
-          primary={t('action:add', { context: 'playlist' })}
-        />
+        {Object.entries(actions).map(([key, action]) => {
+          if (action.ignore) return null;
+          if (key === 'divider') return <ContextDivider key={key} />;
+          return (
+            <ContextItem
+              key={key}
+              disableTranslation
+              primary={action.tooltip}
+              onClick={action.onClick}
+            />
+          );
+        })}
       </Context>
     </Fragment>
   );

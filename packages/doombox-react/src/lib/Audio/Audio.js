@@ -171,7 +171,7 @@ class Audio extends EventEmitter {
     // Makes sure that there's never multiple Howler instances
     if (this.current) this.current.unload();
     // Don't make a new song if there's no metadata
-    if (!song || !this.playlist.collection[this.playlist.index]) return;
+    if (!song && !this.playlist.collection[this.playlist.index]) return;
 
     const {
       file,

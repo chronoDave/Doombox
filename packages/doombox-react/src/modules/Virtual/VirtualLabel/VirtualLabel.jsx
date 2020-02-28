@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {
+  Fragment,
+  useState
+} from 'react';
+import { ACTION } from '@doombox/utils';
 import groupBy from 'lodash.groupby';
 import { useTranslation } from 'react-i18next';
 import { VariableSizeList } from 'react-window';
@@ -8,16 +12,30 @@ import PropTypes from 'prop-types';
 // Core
 import { useTheme } from '@material-ui/core/styles';
 
+import {
+  Context,
+  ContextItem,
+  ContextDivider
+} from '../../../components';
+
+import VirtualScroller from '../VirtualScroller.private';
+import VirtualLabelItem from './VirtualLabelItem.private';
+
+// Actions
+import {
+  libraryActionPlaylist,
+  createPlaylist
+} from '../../../actions';
+
 // Utils
 import { formatTime } from '../../../utils';
 
 // Style
 import { useVirtualLabelStyles } from './VirtualLabel.style';
 
-import VirtualScroller from '../VirtualScroller.private';
-import VirtualLabelItem from './VirtualLabelItem.private';
-
 const VirtualLabel = ({ library, onScroll }) => {
+  const [contextMenu, setContextMenu] = useState({});
+
   const theme = useTheme();
   const { t } = useTranslation();
   const classes = useVirtualLabelStyles();
@@ -25,6 +43,50 @@ const VirtualLabel = ({ library, onScroll }) => {
   const dimensions = {
     width: theme.dimensions.label.item * 2 + theme.spacing(2),
     height: theme.dimensions.label.item + theme.spacing(2)
+  };
+
+  const actions = {
+    menu: {
+      ignore: true,
+      tooltip: t('menu', { context: 'label' }),
+      onClick: (event, playlist) => setContextMenu({
+        anchorEl: event.currentTarget,
+        playlist
+      })
+    },
+    play: {
+      tooltip: t('action:play', { context: 'label' }),
+      onClick: playlist => libraryActionPlaylist(
+        ACTION.AUDIO.PLAYLIST_SET,
+        playlist,
+        {
+          sort: {
+            'metadata.album': 1,
+            'metadata.disk.no': 1,
+            'metadata.track.no': 1
+          }
+        }
+      )
+    },
+    add: {
+      tooltip: t('action:add', { context: 'playlist' }),
+      onClick: playlist => libraryActionPlaylist(
+        ACTION.AUDIO.PLAYLIST_ADD,
+        playlist,
+        {
+          sort: {
+            'metadata.album': 1,
+            'metadata.disk.no': 1,
+            'metadata.track.no': 1
+          }
+        }
+      )
+    },
+    divider: 'divider',
+    favorite: {
+      tooltip: t('action:create', { context: 'playlist' }),
+      onClick: createPlaylist
+    }
   };
 
   const itemData = {
@@ -46,10 +108,7 @@ const VirtualLabel = ({ library, onScroll }) => {
                 t('trackCount', { count: collection.size }),
                 formatTime(collection.duration, 'text')
               ].join(' \u2022 '),
-              tooltip: {
-                play: t('action:play', { context: 'label' }),
-                add: t('action:add', { context: 'playlist' })
-              },
+              actions,
               tracks: collection.tracks
             });
           } else {
@@ -92,27 +151,47 @@ const VirtualLabel = ({ library, onScroll }) => {
   };
 
   return (
-    <AutoSizer>
-      {({ width, height }) => (
-        <VirtualScroller
-          updateDep={itemData.library}
-          onScroll={onScroll}
-          width={width}
-        >
-          <VariableSizeList
-            // General
+    <Fragment>
+      <AutoSizer>
+        {({ width, height }) => (
+          <VirtualScroller
+            updateDep={itemData.library}
+            onScroll={onScroll}
             width={width}
-            height={height}
-            // Items
-            itemCount={itemData.library.length}
-            itemData={itemData}
-            itemSize={index => getItemSize(index, width)}
           >
-            {VirtualLabelItem}
-          </VariableSizeList>
-        </VirtualScroller>
-      )}
-    </AutoSizer>
+            <VariableSizeList
+              // General
+              width={width}
+              height={height}
+              // Items
+              itemCount={itemData.library.length}
+              itemData={itemData}
+              itemSize={index => getItemSize(index, width)}
+            >
+              {VirtualLabelItem}
+            </VariableSizeList>
+          </VirtualScroller>
+        )}
+      </AutoSizer>
+      <Context
+        anchorEl={contextMenu.anchorEl}
+        onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
+        position="bottom"
+      >
+        {Object.entries(actions).map(([key, action]) => {
+          if (action.ignore) return null;
+          if (key === 'divider') return <ContextDivider key={key} />;
+          return (
+            <ContextItem
+              key={key}
+              disableTranslation
+              primary={action.tooltip}
+              onClick={action.onClick}
+            />
+          );
+        })}
+      </Context>
+    </Fragment>
   );
 };
 

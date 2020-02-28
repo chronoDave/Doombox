@@ -88,7 +88,10 @@ const LibraryRouter = props => {
     .sort((a, b) => sortLibrary(a[1][0], b[1][0]))
     .reduce((acc, cur) => {
       const [album, tracks] = cur;
-      const { metadata: { albumartist, year } } = tracks[0];
+      const {
+        images,
+        metadata: { albumartist, year }
+      } = tracks[0];
 
       const duration = getTotalDuration(tracks);
       const discs = createDividerDisc(tracks);
@@ -99,6 +102,7 @@ const LibraryRouter = props => {
           divider: 'album',
           album,
           albumartist,
+          cover: images[0] ? images[0].file : null,
           year,
           size: tracks.length,
           duration,

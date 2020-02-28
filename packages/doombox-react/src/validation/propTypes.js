@@ -108,3 +108,9 @@ export const propLabel = PropTypes.shape({
   albumartist: PropTypes.string.isRequired,
   albums: PropTypes.arrayOf(propAlbum)
 });
+
+// Virtual
+export const propVirtualAction = PropTypes.shape({
+  tooltip: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
+});

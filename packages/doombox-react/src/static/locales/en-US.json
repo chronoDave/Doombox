@@ -32,7 +32,9 @@
     "unknown": "Unknown",
     "playlist_default": "Default playlist",
     "discCount": "Disc {{count}}",
-    "menu_library": "Library actions"
+    "menu_library": "Library actions",
+    "menu_album": "Album actions",
+    "menu_label": "Label actions"
   },
   "action": {
     "cancel": "Cancel",

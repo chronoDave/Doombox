@@ -14,18 +14,34 @@ import {
   ListItemText,
 } from '@material-ui/core';
 
-import { Tooltip } from '../../../components';
+import {
+  Tooltip,
+  Icon
+} from '../../../components';
+
+// Validation
+import { propVirtualAction } from '../../../validation/propTypes';
 
 const VirtualSongDividerAlbum = props => {
   const {
     classes,
     primary,
     secondary,
-    onMenu,
-    onPlay,
-    onAdd,
-    tooltip
+    cover,
+    tracks,
+    actions: {
+      menu,
+      play,
+      add,
+      favorite
+    }
   } = props;
+
+  const payload = {
+    name: primary,
+    src: { path: cover },
+    collection: tracks
+  };
 
   return (
     <ListItem classes={{ root: classes.listRoot }}>
@@ -37,19 +53,26 @@ const VirtualSongDividerAlbum = props => {
         classes={{ root: classes.dividerAlbumText }}
       />
       <Hidden smUp>
-        <IconButton onClick={onMenu}>
-          <IconMenu />
-        </IconButton>
+        <Tooltip disableTranslation title={menu.tooltip}>
+          <IconButton onClick={event => menu.onClick(event, payload)}>
+            <IconMenu />
+          </IconButton>
+        </Tooltip>
       </Hidden>
       <Hidden xsDown>
-        <Tooltip disableTranslation title={tooltip.play}>
-          <IconButton onClick={onPlay}>
+        <Tooltip disableTranslation title={play.tooltip}>
+          <IconButton onClick={() => play.onClick(payload)}>
             <IconPlaylistPlay />
           </IconButton>
         </Tooltip>
-        <Tooltip disableTranslation title={tooltip.add}>
-          <IconButton onClick={onAdd}>
+        <Tooltip disableTranslation title={add.tooltip}>
+          <IconButton onClick={() => add.onClick(payload)}>
             <IconPlaylistAdd />
+          </IconButton>
+        </Tooltip>
+        <Tooltip disableTranslation title={favorite.tooltip}>
+          <IconButton onClick={() => favorite.onClick(payload)}>
+            <Icon type="playlist_star" />
           </IconButton>
         </Tooltip>
       </Hidden>
@@ -64,13 +87,18 @@ VirtualSongDividerAlbum.propTypes = {
   }).isRequired,
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string.isRequired,
-  onMenu: PropTypes.func.isRequired,
-  onPlay: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  tooltip: PropTypes.shape({
-    play: PropTypes.string.isRequired,
-    add: PropTypes.string.isRequired
-  }).isRequired
+  cover: PropTypes.string,
+  tracks: PropTypes.arrayOf(PropTypes.string).isRequired,
+  actions: PropTypes.shape({
+    menu: propVirtualAction.isRequired,
+    play: propVirtualAction.isRequired,
+    add: propVirtualAction.isRequired,
+    favorite: propVirtualAction.isRequired
+  }).isRequired,
+};
+
+VirtualSongDividerAlbum.defaultProps = {
+  cover: null
 };
 
 export default VirtualSongDividerAlbum;
