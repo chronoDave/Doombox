@@ -5,17 +5,18 @@ import PropTypes from 'prop-types';
 // Core
 import { DialogContentText } from '@material-ui/core';
 
-import { Button } from '../../components';
+import { Button } from '../Button';
 
 import DialogBase from './DialogBase';
 
 const DialogConfirmation = props => {
   const {
     onConfirm,
-    primary,
+    item,
     title,
     open,
-    onClose
+    onClose,
+    ...rest
   } = props;
   const { t } = useTranslation();
 
@@ -23,7 +24,7 @@ const DialogConfirmation = props => {
     <DialogBase
       open={open}
       onClose={onClose}
-      title={title || t('action:delete')}
+      title={title}
       actions={(
         <Fragment>
           <Button onClick={onClose}>
@@ -38,10 +39,11 @@ const DialogConfirmation = props => {
           </Button>
         </Fragment>
       )}
+      {...rest}
     >
       <DialogContentText>
         {`${t('description:delete')} `}
-        <b>{primary}</b>
+        <b>{item}</b>
         ?
       </DialogContentText>
     </DialogBase>
@@ -50,16 +52,10 @@ const DialogConfirmation = props => {
 
 DialogConfirmation.propTypes = {
   onConfirm: PropTypes.func.isRequired,
-  primary: PropTypes.string,
-  open: PropTypes.bool,
-  title: PropTypes.string,
+  item: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired
-};
-
-DialogConfirmation.defaultProps = {
-  title: null,
-  open: false,
-  primary: ''
 };
 
 export default DialogConfirmation;

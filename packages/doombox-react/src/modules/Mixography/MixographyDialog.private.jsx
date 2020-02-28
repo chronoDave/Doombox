@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 
 // Core
 import {
-  DialogForm,
+  Button,
+  DialogBase,
   DialogConfirmation
-} from '../Dialog';
+} from '../../components';
+
 import { FormPlaylist } from '../Form';
 
 // Actions
 import {
-  fetchPlaylist,
   createPlaylist,
   updatePlaylist,
   deletePlaylist
@@ -23,39 +24,55 @@ import { propPlaylist } from '../../validation/propTypes';
 const MixographyDialog = ({ onClose, dialog: { id, playlist } }) => {
   const { t } = useTranslation();
 
-  const initialValues = {
-    name: playlist.name,
-    src: playlist.src
-  };
-
   return (
     <Fragment>
-      <DialogForm
+      <DialogBase
         open={id === 'create'}
         disableTranslation
         title={t('action:create', { context: 'playlist' })}
         onClose={onClose}
-        onSubmit={payload => {
-          createPlaylist(payload);
-          onClose();
-        }}
-        form={<FormPlaylist />}
-      />
-      <DialogForm
+      >
+        <FormPlaylist
+          submit="create"
+          onSubmit={payload => {
+            createPlaylist(payload);
+            onClose();
+          }}
+          actions={(
+            <Button onClick={() => onClose()}>
+              {t('action:cancel')}
+            </Button>
+          )}
+        />
+      </DialogBase>
+      <DialogBase
         open={id === 'update'}
         disableTranslation
         title={t('action:edit', { context: 'playlist' })}
         onClose={onClose}
-        onSubmit={payload => {
-          updatePlaylist(playlist._id, payload);
-          onClose();
-        }}
-        form={<FormPlaylist initialValues={initialValues} />}
-      />
+      >
+        <FormPlaylist
+          submit="update"
+          initialValues={{
+            name: playlist.name,
+            src: playlist.src
+          }}
+          onSubmit={payload => {
+            updatePlaylist(playlist._id, payload);
+            onClose();
+          }}
+          actions={(
+            <Button onClick={() => onClose()}>
+              {t('action:cancel')}
+            </Button>
+          )}
+        />
+      </DialogBase>
       <DialogConfirmation
         open={id === 'delete'}
+        disableTranslation
         title={t('action:delete', { context: 'playlist' })}
-        primary={playlist.name}
+        item={playlist.name}
         onClose={onClose}
         onConfirm={() => {
           deletePlaylist(playlist._id);

@@ -25,8 +25,10 @@ import { propPlaylist } from '../../validation/propTypes';
 import { useMixographyStyles } from './Mixography.style';
 
 const Mixography = ({ active, mixography }) => {
-  const [menu, setMenu] = useState({ anchorEl: null, playlist: {} });
-  const [dialog, setDialog] = useState({ id: null, playlist: {} });
+  const defaultPlaylist = { name: 'default', src: '', collection: [] };
+
+  const [menu, setMenu] = useState({ anchorEl: null, playlist: defaultPlaylist });
+  const [dialog, setDialog] = useState({ id: null, playlist: defaultPlaylist });
 
   const { t } = useTranslation();
   const classes = useMixographyStyles();

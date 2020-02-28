@@ -1,9 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 // Core
 import {
-  Form,
+  FormBase,
   FieldFileAvatar,
   FieldText
 } from '../../components';
@@ -11,30 +12,44 @@ import {
 // Validation
 import { schemaPlaylist } from '../../validation/schema';
 
-const FormPlaylist = props => {
+const FormPlaylist = ({ initialValues, onSubmit, ...rest }) => {
   const { t } = useTranslation();
 
-  const initialValues = {
-    name: '',
-    src: '',
-    collection: []
-  };
+  const formId = 'playlist';
 
   return (
-    <Form
-      id="playlist"
+    <FormBase
       validationSchema={schemaPlaylist}
       initialValues={initialValues}
-      {...props}
+      onSubmit={onSubmit}
+      {...rest}
     >
-      <FieldFileAvatar name="src" />
+      <FieldFileAvatar name="src" id={formId} />
       <FieldText
         name="name"
+        id={formId}
         label={t('field:name', { context: 'Playlist' })}
         disableDescription
       />
-    </Form>
+    </FormBase>
   );
+};
+
+FormPlaylist.propTypes = {
+  initialValues: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    src: PropTypes.string,
+    collection: PropTypes.arrayOf(PropTypes.string)
+  }),
+  onSubmit: PropTypes.func.isRequired
+};
+
+FormPlaylist.defaultProps = {
+  initialValues: {
+    name: '',
+    src: '',
+    collection: []
+  }
 };
 
 export default FormPlaylist;

@@ -5,11 +5,6 @@ export {
   FormDiscord
 } from './Form';
 export { Sidebar } from './Sidebar';
-export {
-  DialogBase,
-  DialogForm,
-  DialogConfirmation
-} from './Dialog';
 export { ContainerSettings } from './Container';
 export { Player } from './Player';
 export {

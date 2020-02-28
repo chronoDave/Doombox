@@ -19,6 +19,8 @@ const DialogBase = props => {
     disableTranslation,
     actions,
     children,
+    open,
+    onClose,
     ...rest
   } = props;
   const { t } = useTranslation();
@@ -27,6 +29,8 @@ const DialogBase = props => {
   return (
     <MuiDialog
       disableBackdropClick
+      open={open}
+      onClose={onClose}
       {...rest}
     >
       <MuiDialogTitle>

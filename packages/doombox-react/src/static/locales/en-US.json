@@ -37,6 +37,7 @@
   "action": {
     "cancel": "Cancel",
     "create": "Create",
+    "update": "Update",
     "create_playlist": "Create playlist",
     "delete": "Delete",
     "delete_playlist": "Delete playlist",

@@ -28,6 +28,10 @@ export {
 export { Icon } from './Icon';
 export { Tooltip } from './Tooltip';
 export {
+  DialogBase,
+  DialogConfirmation
+} from './Dialog';
+export {
   Button,
   ButtonAvatar
 } from './Button';
@@ -54,7 +58,4 @@ export {
   Typography,
   TypographyField
 } from './Typography';
-export {
-  Form,
-  FormSubmit
-} from './Form';
+export { FormBase } from './Form';

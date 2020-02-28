@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ACTION } from '@doombox/utils';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
