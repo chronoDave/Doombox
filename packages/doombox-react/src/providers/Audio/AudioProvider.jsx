@@ -28,10 +28,12 @@ import {
   EVENT,
   MEDIA_SESSION
 } from '../../utils/const';
+
+// Validation
 import {
   propSong,
   propSongImage
-} from '../../utils/propTypes';
+} from '../../validation/propTypes';
 
 const { ipcRenderer } = window.require('electron');
 

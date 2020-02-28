@@ -58,7 +58,9 @@ import {
   PATH,
   HOOK
 } from '../../utils/const';
-import { propSong } from '../../utils/propTypes';
+
+// Validation
+import { propSong } from '../../validation/propTypes';
 
 const LibraryRouter = props => {
   const {

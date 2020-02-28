@@ -49,7 +49,8 @@ const FieldFileBase = props => {
             accept={validator.map(value => `${type ? `${type}/` : ''}${value}`).join(',')}
             multiple={multiple}
             onChange={event => {
-              const files = Array.from(event.currentTarget.files)
+              const files = Array
+                .from(event.currentTarget.files)
                 .map(file => transformFileToObject(file));
               setFieldValue(name, multiple ? files : files[0]);
               setFieldTouched(name, true);
@@ -65,7 +66,7 @@ const FieldFileBase = props => {
             {children({
               value: fieldValue,
               onClick,
-              onClear: () => setFieldValue(name, null)
+              onClear: () => setFieldValue(name, '')
             })}
           </label>
         </Fragment>

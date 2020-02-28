@@ -20,7 +20,9 @@ import { libraryActionPlaylist } from '../../../actions';
 
 // Utils
 import { formatTime } from '../../../utils';
-import { propSong } from '../../../utils/propTypes';
+
+// Validation
+import { propSong } from '../../../validation/propTypes';
 
 const VirtualSongItem = ({ index, style, data }) => {
   const {

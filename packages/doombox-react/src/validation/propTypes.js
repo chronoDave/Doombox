@@ -92,7 +92,7 @@ export const propSong = PropTypes.shape({
 // Playlist
 export const propPlaylist = PropTypes.shape({
   name: PropTypes.string.isRequired,
-  src: propSongImage,
+  src: PropTypes.string,
   size: PropTypes.number.isRequired
 });
 

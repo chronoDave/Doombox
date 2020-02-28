@@ -1,5 +1,4 @@
 export {
-  FormBase,
   FormPlaylist,
   FormCreatePalette,
   FormKeybind,

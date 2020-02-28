@@ -13,6 +13,7 @@ const ContextItem = forwardRef((props, ref) => {
     primary,
     secondary,
     disableTranslation,
+    disabled,
     onClick,
     ...rest
   } = props;
@@ -23,6 +24,7 @@ const ContextItem = forwardRef((props, ref) => {
     <ListItem
       button={!!onClick}
       onClick={onClick}
+      disabled={disabled}
       ref={ref}
     >
       <ListItemText
@@ -39,6 +41,7 @@ const ContextItem = forwardRef((props, ref) => {
 
 ContextItem.displayName = 'ContextItem';
 ContextItem.propTypes = {
+  disabled: PropTypes.bool,
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string,
   disableTranslation: PropTypes.bool,
@@ -47,6 +50,7 @@ ContextItem.propTypes = {
 
 ContextItem.defaultProps = {
   secondary: null,
+  disabled: false,
   disableTranslation: false,
   onClick: null
 };

@@ -1,11 +1,23 @@
-import React from 'react';
-import { Field } from 'formik';
+import React, { Fragment } from 'react';
+import {
+  Field,
+  ErrorMessage
+} from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import { TypographyField } from '../Typography';
+// Core
+import { TextField } from '@material-ui/core';
 
-const FieldText = ({ name, ...rest }) => {
+const FieldText = props => {
+  const {
+    id,
+    label,
+    description,
+    disableDescription,
+    name,
+    ...rest
+  } = props;
   const { t } = useTranslation();
 
   return (
@@ -19,20 +31,32 @@ const FieldText = ({ name, ...rest }) => {
           errors
         }
       }) => {
-        const isError = !!errors[name] && touched[name];
+        const isError = (!!errors[name] && !!touched[name]);
 
         return (
-          <TypographyField
-            name={name}
-            value={value}
-            error={isError}
-            description={isError && t(errors[name], { input: t(name) })}
-            onChange={event => {
-              setFieldValue(name, event.target.value);
-              setFieldTouched(name, true);
-            }}
-            {...rest}
-          />
+          <Fragment>
+            <TextField
+              // General
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              // Input
+              name={name}
+              value={value}
+              inputProps={{ id: `${id}-${name}` }}
+              error={isError}
+              onChange={event => {
+                setFieldTouched(name, true);
+                setFieldValue(name, event.target.value);
+              }}
+              // Text
+              label={label || t(`field:${name}`)}
+              helperText={!disableDescription && (description || t(`description:field_${name}`))}
+              // Rest
+              {...rest}
+            />
+            {isError && <ErrorMessage name={name} />}
+          </Fragment>
         );
       }}
     </Field>
@@ -40,7 +64,17 @@ const FieldText = ({ name, ...rest }) => {
 };
 
 FieldText.propTypes = {
-  name: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  description: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  disableDescription: PropTypes.bool
+};
+
+FieldText.defaultProps = {
+  label: null,
+  description: null,
+  disableDescription: false
 };
 
 export default FieldText;

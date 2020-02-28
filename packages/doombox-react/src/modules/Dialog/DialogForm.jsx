@@ -3,29 +3,30 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 // Core
-import { Button } from '@material-ui/core';
+import { Button } from '../../components';
 
 import DialogBase from './DialogBase';
 
 const DialogForm = props => {
   const {
     form,
-    open,
+    onSubmit,
     onClose,
-    title,
     ...rest
   } = props;
   const { t } = useTranslation();
 
   return (
-    <DialogBase
-      open={open}
-      onClose={onClose}
-      title={title}
-      {...rest}
-    >
+    <DialogBase onClose={onClose} {...rest}>
       {cloneElement(form, {
-        actions: <Button onClick={onClose}>{t('action:cancel')}</Button>
+        onSubmit,
+        SubmitProps: {
+          actions: (
+            <Button onClick={onClose}>
+              {t('action:cancel')}
+            </Button>
+          )
+        }
       })}
     </DialogBase>
   );
@@ -33,8 +34,7 @@ const DialogForm = props => {
 
 DialogForm.propTypes = {
   form: PropTypes.element.isRequired,
-  title: PropTypes.string.isRequired,
-  open: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

@@ -9,26 +9,26 @@ import {
 } from '@material-ui/core';
 
 // Styles
-import { useAvatarStyles } from './Avatar.style';
+import { useButtonStyles } from './Button.style';
 
 const ButtonAvatar = forwardRef((props, ref) => {
   const {
     className,
     alt,
-    size,
     src,
+    size,
     icon,
     AvatarProps,
     ...rest
   } = props;
-  const classes = useAvatarStyles({ size });
+  const classes = useButtonStyles({ size });
 
   return (
     <ButtonBase
       classes={{ root: classes.avatarRoot }}
       className={clsx(
-        classes.hover,
-        classes.size,
+        classes.avatarHover,
+        classes.avatarSize,
         className
       )}
       {...rest}
@@ -37,7 +37,7 @@ const ButtonAvatar = forwardRef((props, ref) => {
       <Avatar
         alt={alt}
         src={src}
-        className={clsx(classes.size, classes.hover)}
+        className={clsx(classes.avatarSize, classes.avatarHover)}
         {...AvatarProps}
       >
         {icon || alt.slice(0, 1)}
@@ -47,17 +47,16 @@ const ButtonAvatar = forwardRef((props, ref) => {
 });
 
 ButtonAvatar.propTypes = {
-  AvatarProps: PropTypes.shape({}),
-  alt: PropTypes.string,
-  className: PropTypes.string,
+  AvatarProps: PropTypes.shape(Avatar.Naked.propTypes),
+  alt: PropTypes.string.isRequired,
   src: PropTypes.string,
+  className: PropTypes.string,
   icon: PropTypes.element,
   size: PropTypes.number
 };
 
 ButtonAvatar.defaultProps = {
   AvatarProps: null,
-  alt: '',
   src: null,
   className: null,
   icon: null,

@@ -14,8 +14,8 @@ import { FieldPalette } from '../../components';
 // Actions
 import { updateStorage } from '../../actions';
 
-// Utils
-import { propPalette } from '../../utils/propTypes';
+// Validation
+import { propPalette } from '../../validation/propTypes';
 
 const FormCreatePalette = ({ palette }) => {
   const formId = 'create-palette';

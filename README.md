@@ -53,7 +53,6 @@ If you wish to contribute to Doombox, please read the [contributing guide](CONTR
 
 All images found in the static folder are obtained from [Unsplash](https://unsplash.com/) under the [Unsplash License](https://unsplash.com/license).
 
- - [libraryIconDefault.png](/packages/src/static/images) by [Namroud Gorguis](https://unsplash.com/@namroud)
  - [backgroundDefault.png](/packages/src/static/images) by [David Dvořáček](https://unsplash.com/@dafidvor)
 
 ### Free Music Archive

@@ -16,41 +16,27 @@ module.exports = class PlaylistController {
   }
 
   async read(event, { data }) {
-    const docs = await this.db.read(COLLECTION.PLAYLIST, data.query, data.modifiers);
+    const rawDocs = await this.db.read(COLLECTION.PLAYLIST, data.query, data.modifiers);
+    const docs = rawDocs.map(playlist => ({
+      ...playlist,
+      src: playlist.src.path || null
+    }));
     event.sender.send(this.type, docs);
   }
 
   async readOne(event, { data, options }) {
     const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
+    const rawDocs = await this.db.readOne(COLLECTION.PLAYLIST, data._id, data.projection);
 
-    let payload;
-    if (data._id === 'library' || data._id === 'label') {
-      const library = await this.db.read(
-        COLLECTION.SONG,
-        data.query,
-        { sort: options.sort || { file: 1 } }
-      );
+    const docs = {
+      action: options.action,
+      docs: {
+        ...rawDocs,
+        collection: populateImages(rawDocs.collection, images)
+      }
+    };
 
-      payload = {
-        action: options.action,
-        docs: {
-          name: options.name || data._id,
-          collection: populateImages(library, images)
-        }
-      };
-    } else {
-      const playlist = await this.db.readOne(COLLECTION.PLAYLIST, data._id, data.projection);
-
-      payload = {
-        action: options.action,
-        docs: {
-          ...playlist,
-          collection: populateImages(playlist.collection, images)
-        }
-      };
-    }
-
-    event.sender.send(this.type, payload);
+    event.sender.send(this.type, docs);
   }
 
   async update(event, { data, options }) {

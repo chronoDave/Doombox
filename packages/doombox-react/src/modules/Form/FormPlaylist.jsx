@@ -1,67 +1,40 @@
 import React from 'react';
-import { ErrorMessage } from 'formik';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 // Core
 import {
+  Form,
   FieldFileAvatar,
   FieldText
 } from '../../components';
-
-// Modules
-import FormBase from './FormBase';
 
 // Validation
 import { schemaPlaylist } from '../../validation/schema';
 
 const FormPlaylist = props => {
-  const {
-    initialValues,
-    onSubmit,
-    children,
-    ...rest
-  } = props;
   const { t } = useTranslation();
 
-  const id = 'playlist';
+  const initialValues = {
+    name: '',
+    src: '',
+    collection: []
+  };
 
   return (
-    <FormBase
-      initialValues={initialValues}
+    <Form
+      id="playlist"
       validationSchema={schemaPlaylist}
-      onSubmit={onSubmit}
-      {...rest}
+      initialValues={initialValues}
+      {...props}
     >
-      <FieldFileAvatar id={id} name="src" />
+      <FieldFileAvatar name="src" />
       <FieldText
-        id={id}
         name="name"
-        label={t('field:name', { item: 'Playlist' })}
+        label={t('field:name', { context: 'Playlist' })}
+        disableDescription
       />
-      <ErrorMessage name="name" />
-      {children}
-    </FormBase>
+    </Form>
   );
-};
-
-FormPlaylist.propTypes = {
-  initialValues: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    src: PropTypes.shape({}).isRequired,
-    collection: PropTypes.arrayOf(PropTypes.shape({}))
-  }),
-  onSubmit: PropTypes.func.isRequired,
-  children: PropTypes.node
-};
-
-FormPlaylist.defaultProps = {
-  initialValues: {
-    name: '',
-    src: {},
-    collection: []
-  },
-  children: null
 };
 
 export default FormPlaylist;

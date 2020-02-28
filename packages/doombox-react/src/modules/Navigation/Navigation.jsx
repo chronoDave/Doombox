@@ -14,6 +14,8 @@ import {
 
 import { IconButtonNavigation } from '../../components';
 
+import { Mixography } from '../Mixography';
+
 // Hooks
 import { useRoute } from '../../hooks';
 
@@ -22,8 +24,6 @@ import {
   HOOK,
   PATH
 } from '../../utils/const';
-
-import NavigationPlaylist from './NavigationPlaylist';
 
 const Navigation = () => {
   const { setPage, setDialog } = useRoute(HOOK.ROUTE.METHOD);
@@ -69,7 +69,7 @@ const Navigation = () => {
       <Box p={1} width="100%">
         <Divider />
       </Box>
-      <NavigationPlaylist />
+      <Mixography />
     </Box>
   );
 };

@@ -8,8 +8,10 @@ import IconPerson from '@material-ui/icons/Person';
 // Core
 import { Box } from '@material-ui/core';
 
-import { AvatarButton } from '../../Avatar';
-import { Button } from '../../Button';
+import {
+  Button,
+  ButtonAvatar
+} from '../../Button';
 
 import FieldFileBase from './FieldFileBase';
 
@@ -29,8 +31,9 @@ const FieldFileAvatar = ({ id, name }) => {
           flexDirection="column"
           justifyContent="center"
         >
-          <AvatarButton
+          <ButtonAvatar
             src={value ? value.path : null}
+            alt={value ? 'Playlist' : 'Icon person'}
             onClick={onClick}
             size={10}
             icon={<IconPerson />}

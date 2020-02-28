@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 // Core
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
-// Utils
-import { propPalette } from '../../utils/propTypes';
+// Validation
+import { propPalette } from '../../validation/propTypes';
 
 import { createTheme } from './theme';
 

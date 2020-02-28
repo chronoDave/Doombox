@@ -19,7 +19,9 @@ import { useAudio } from '../../hooks';
 // Utils
 import { formatTime } from '../../utils';
 import { HOOK } from '../../utils/const';
-import { propSong } from '../../utils/propTypes';
+
+// Validation
+import { propSong } from '../../validation/propTypes';
 
 // Style
 import { usePlaylistStyles } from './Playlist.style';

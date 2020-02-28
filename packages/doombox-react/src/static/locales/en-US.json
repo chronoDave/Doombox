@@ -45,6 +45,7 @@
     "add_folder": "Add folder",
     "select_folder": "Select folder",
     "add_playlist": "Add to playlist",
+    "play": "Play",
     "play_playlist": "Play playlist",
     "play_album": "Play album",
     "play_label": "Play label",
@@ -55,10 +56,11 @@
     "remove": "Remove",
     "remove_folder": "Remove folder from library",
     "refresh_folder": "Rescan folder",
-    "show_art": "Show album art"
+    "show_art": "Show album art",
+    "submit": "Submit"
   },
   "field": {
-    "name": "{{item}} name",
+    "name": "{{context}} name",
     "dense": "Dense layout",
     "slowSearch": "Slow search",
     "background": "Library background",

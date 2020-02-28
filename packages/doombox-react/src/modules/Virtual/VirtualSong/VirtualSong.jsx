@@ -32,7 +32,9 @@ import {
   sortTrackNo
 } from '../../../utils';
 import { HOOK } from '../../../utils/const';
-import { propSong } from '../../../utils/propTypes';
+
+// Validation
+import { propSong } from '../../../validation/propTypes';
 
 // Styles
 import { useVirtualSongStyles } from './VirtualSong.style';

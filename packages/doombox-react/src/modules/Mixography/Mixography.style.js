@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useNavigationStyles = makeStyles(theme => ({
-  playlist: {
+export const useMixographyStyles = makeStyles(theme => ({
+  root: {
     width: '100%',
     paddingBottom: theme.spacing(1),
     display: 'flex',
@@ -25,14 +25,7 @@ export const useNavigationStyles = makeStyles(theme => ({
       theme.palette.text.secondary,
     borderRadius: '0px 4px 4px 0px'
   },
-  avatar: {
+  itemAvatar: {
     margin: theme.spacing(0.5)
-  },
-  delete: {
-    color: theme.palette.error.main
-  },
-  listItem: {
-    padding: theme.spacing(0.5, 1),
-    borderRadius: theme.shape.borderRadius
   }
 }));

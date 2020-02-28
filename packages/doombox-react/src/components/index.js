@@ -18,7 +18,8 @@ export {
 } from './Table';
 export {
   Context,
-  ContextItem
+  ContextItem,
+  ContextDivider
 } from './Context';
 export {
   SliderPlayer,
@@ -26,8 +27,10 @@ export {
 } from './Slider';
 export { Icon } from './Icon';
 export { Tooltip } from './Tooltip';
-export { Button } from './Button';
-export { AvatarButton } from './Avatar';
+export {
+  Button,
+  ButtonAvatar
+} from './Button';
 export {
   FieldFileBase,
   FieldFileAvatar,
@@ -51,3 +54,7 @@ export {
   Typography,
   TypographyField
 } from './Typography';
+export {
+  Form,
+  FormSubmit
+} from './Form';

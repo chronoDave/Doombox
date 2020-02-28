@@ -91,7 +91,7 @@ export const createPlaylist = playlist => ipcCreate(
 export const updatePlaylist = (_id, payload) => ipcUpdateOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  { query: { $set: payload } }
+  { $set: payload }
 );
 
 export const deletePlaylist = id => ipcDeleteOne(

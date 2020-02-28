@@ -16,8 +16,8 @@ import { FormCreatePalette } from '../../modules';
 // Actions
 import { updateStorage } from '../../actions';
 
-// Utils
-import { propPalette } from '../../utils/propTypes';
+// Validation
+import { propPalette } from '../../validation/propTypes';
 
 const SettingsPalette = ({ palette }) => {
   const updatePalette = payload => updateStorage(

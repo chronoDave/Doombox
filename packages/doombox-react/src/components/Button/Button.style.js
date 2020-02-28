@@ -58,6 +58,21 @@ export const useButtonStyles = makeStyles(theme => {
           backgroundColor: getColor(),
         },
       },
+    },
+    avatar: {
+      borderRadius: '50%'
+    },
+    avatarSize: ({ size }) => ({
+      width: theme.spacing(size || 1),
+      height: theme.spacing(size || 1)
+    }),
+    avatarHover: {
+      transition: theme.transitions.create(['border-radius'], {
+        duration: theme.transitions.duration.shortest,
+      }),
+      '&:hover': {
+        borderRadius: '25%'
+      }
     }
   });
 });
