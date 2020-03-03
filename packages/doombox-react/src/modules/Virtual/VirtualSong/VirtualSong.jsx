@@ -2,10 +2,7 @@ import React, {
   Fragment,
   useState
 } from 'react';
-import {
-  TYPE,
-  ACTION
-} from '@doombox/utils';
+import { TYPE } from '@doombox/utils';
 import { VariableSizeList } from 'react-window';
 import { useTranslation } from 'react-i18next';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -26,7 +23,8 @@ import VirtualSongItem from './VirtualSongItem.private';
 
 // Actions
 import {
-  libraryActionPlaylist,
+  playLibrary,
+  addLibrary,
   createPlaylist
 } from '../../../actions';
 
@@ -49,7 +47,7 @@ import { useVirtualSongStyles } from './VirtualSong.style';
 const VirtualSong = ({ library, onScroll, dense }) => {
   const [contextMenu, setContextMenu] = useState({
     anchorEl: null,
-    playlist: null
+    payload: null
   });
 
   const theme = useTheme();
@@ -59,34 +57,11 @@ const VirtualSong = ({ library, onScroll, dense }) => {
   const { createSong } = useAudio(HOOK.AUDIO.METHOD);
   const { _id: currentId } = useAudio(HOOK.AUDIO.CURRENT);
 
-  const actions = {
-    menu: {
-      ignore: true,
-      tooltip: t('menu', { context: 'album' }),
-      onClick: (event, playlist) => setContextMenu({
-        anchorEl: event.currentTarget,
-        playlist
-      })
-    },
-    play: {
-      tooltip: t('action:play', { context: 'album' }),
-      onClick: playlist => libraryActionPlaylist(
-        ACTION.AUDIO.PLAYLIST_SET,
-        playlist
-      )
-    },
-    add: {
-      tooltip: t('action:add', { context: 'playlist' }),
-      onClick: playlist => libraryActionPlaylist(
-        ACTION.AUDIO.PLAYLIST_ADD,
-        playlist
-      )
-    },
-    divider: 'divider',
-    favorite: {
-      tooltip: t('action:create', { context: 'playlist' }),
-      onClick: createPlaylist
-    }
+  const tooltip = {
+    menu: t('menu', { context: 'album' }),
+    play: t('action:play', { context: 'album' }),
+    add: t('action:add', { context: 'playlist' }),
+    favorite: t('action:create', { context: 'playlist' })
   };
 
   const itemData = {
@@ -107,7 +82,8 @@ const VirtualSong = ({ library, onScroll, dense }) => {
               t('trackCount', { count: item.size }),
               formatTime(item.duration, 'text')
             ].join(' \u2022 '),
-            actions,
+            tooltip,
+            handleMenu: setContextMenu,
             tracks: item.tracks
           });
         }
@@ -154,18 +130,35 @@ const VirtualSong = ({ library, onScroll, dense }) => {
         onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
         position="bottom"
       >
-        {Object.entries(actions).map(([key, action]) => {
-          if (action.ignore) return null;
-          if (key === 'divider') return <ContextDivider key={key} />;
-          return (
-            <ContextItem
-              key={key}
-              disableTranslation
-              primary={action.tooltip}
-              onClick={action.onClick}
-            />
-          );
-        })}
+        <ContextItem
+          disableTranslation
+          primary={tooltip.play}
+          onClick={() => {
+            playLibrary(contextMenu.payload);
+            setContextMenu({ ...contextMenu, anchorEl: null });
+          }}
+        />
+        <ContextItem
+          disableTranslation
+          primary={tooltip.add}
+          onClick={() => {
+            addLibrary(contextMenu.payload);
+            setContextMenu({ ...contextMenu, anchorEl: null });
+          }}
+        />
+        <ContextDivider />
+        <ContextItem
+          disableTranslation
+          primary={tooltip.favorite}
+          onClick={() => {
+            createPlaylist({
+              name: contextMenu.payload.name,
+              cover: contextMenu.payload.cover,
+              collection: contextMenu.payload.collection
+            });
+            setContextMenu({ ...contextMenu, anchorEl: null });
+          }}
+        />
       </Context>
     </Fragment>
   );

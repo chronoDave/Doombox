@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 
 // Actions
 import {
-  updateRpc,
-  updateStorage
+  setRpc,
+  updateConfig
 } from '../../actions';
 
 // Redux
@@ -32,7 +32,7 @@ import {
 // Validation
 import {
   propSong,
-  propSongImage
+  propImage
 } from '../../validation/propTypes';
 
 const { ipcRenderer } = window.require('electron');
@@ -120,6 +120,7 @@ class AudioProvider extends Component {
             navigator.mediaSession.metadata.artwork = MEDIA_SESSION.SIZES
               .map(sizes => ({ src, sizes, type: 'image/jpeg' }));
           })
+          // eslint-disable-next-line no-console
           .catch(console.error);
       }
 
@@ -138,7 +139,7 @@ class AudioProvider extends Component {
       }));
     });
     this.audio.on(EVENT.AUDIO.AUTOPLAY, autoplay => {
-      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { autoplay });
+      updateConfig.player({ autoplay });
       this.setState(state => ({
         ...state,
         playerValue: { ...state.playerValue, autoplay }
@@ -158,7 +159,7 @@ class AudioProvider extends Component {
     });
     // Volume
     this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
-      updateStorage(TYPE.IPC.CACHE, TYPE.CONFIG.PLAYER, { volume: volumeValue });
+      updateConfig.player({ volume: volumeValue });
       this.setState(state => ({ ...state, volumeValue }));
     });
     // Position
@@ -190,7 +191,7 @@ class AudioProvider extends Component {
       if (startTimestamp) payload.startTimestamp = startTimestamp;
       if (endTimestamp) payload.endTimestamp = endTimestamp;
 
-      updateRpc(payload);
+      setRpc(payload);
     });
   }
 
@@ -203,16 +204,16 @@ class AudioProvider extends Component {
       action,
       name,
       collection,
-      src,
+      cover,
       autoplay
     } = playlist;
 
     if (action === ACTION.AUDIO.SHUFFLE) this.audio.shuffle(collection);
-    if (action === ACTION.AUDIO.PLAYLIST_ADD) this.audio.addPlaylist(collection);
-    if (action === ACTION.AUDIO.PLAYLIST_SET) {
+    if (action === ACTION.PLAYLIST.ADD) this.audio.addPlaylist(collection);
+    if (action === ACTION.PLAYLIST.SET) {
       this.audio.setPlaylist({
         name,
-        src,
+        cover,
         collection
       }, autoplay);
     }
@@ -255,7 +256,7 @@ AudioProvider.propTypes = {
   playlist: PropTypes.shape({
     action: PropTypes.string,
     name: PropTypes.string,
-    src: propSongImage,
+    cover: propImage,
     collection: PropTypes.arrayOf(propSong),
     autoplay: PropTypes.bool
   })

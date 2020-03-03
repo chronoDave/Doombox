@@ -93,13 +93,14 @@ module.exports = class MetadataParser {
    * @param {function} cb - Callback function, called on each file scanned
    */
   async parseFiles(files, cb) {
-    let index = 0;
+    let index = 1;
 
     for (const file of files) {
       try {
         const {
           format,
           common: { picture, ...tags }
+        // eslint-disable-next-line no-await-in-loop
         } = await musicMetadata.parseFile(file, { skipCovers: this.skipCovers });
 
         const payload = {
@@ -122,7 +123,7 @@ module.exports = class MetadataParser {
           payload.images = this.formatImages(`${tags.albumartist}-${tags.album}`, picture);
         }
 
-        cb({ payload, current: index, total: files.length });
+        cb({ payload, index, total: files.length });
         index += 1;
       } catch (err) {
         if (this.logger) this.logger.createLogError(err, 'Parser');

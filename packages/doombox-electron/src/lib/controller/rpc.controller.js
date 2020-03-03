@@ -23,9 +23,9 @@ module.exports = class RpcController {
     });
   }
 
-  update(event, { data: { update } }) {
+  create(event, { data }) {
     if (this.connected) {
-      this.client.setActivity(update);
+      this.client.setActivity(data.payload);
     }
   }
 };

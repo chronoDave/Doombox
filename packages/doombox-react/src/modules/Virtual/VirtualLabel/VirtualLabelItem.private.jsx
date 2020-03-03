@@ -1,5 +1,4 @@
 import React from 'react';
-import { ACTION } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -9,7 +8,7 @@ import VirtualLabelHeader from './VirtualLabelHeader.private';
 import VirtualLabelAlbum from './VirtualLabelAlbum.private';
 
 // Actions
-import { libraryActionPlaylist } from '../../../actions';
+import { playLibrary } from '../../../actions';
 
 const VirtualLabelItem = ({ index, style, data }) => {
   const {
@@ -25,18 +24,15 @@ const VirtualLabelItem = ({ index, style, data }) => {
     return (
       <Box display="flex" flexWrap="wrap" px={1}>
         {library[index].map(item => {
-          const {
-            tracks,
-            ...rest
-          } = item;
-          const album = { name: rest.primary, collection: tracks };
+          const { tracks, ...rest } = item;
+          const query = { $or: tracks.map(_id => ({ _id })) };
 
           return (
             <VirtualLabelAlbum
-              key={rest.primary}
+              key={item.primary}
               classes={classes}
               width={dimensions.width}
-              onPlay={() => libraryActionPlaylist(ACTION.AUDIO.PLAYLIST_SET, album)}
+              onPlay={() => playLibrary({ query })}
               {...rest}
             />
           );

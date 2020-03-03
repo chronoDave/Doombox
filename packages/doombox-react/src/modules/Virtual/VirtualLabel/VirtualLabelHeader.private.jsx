@@ -19,8 +19,15 @@ import {
   Icon
 } from '../../../components';
 
+// Actions
+import {
+  playLibrary,
+  addLibrary,
+  createPlaylist
+} from '../../../actions';
+
 // Validation
-import { propVirtualAction } from '../../../validation/propTypes';
+import { } from '../../../validation/propTypes';
 
 const VirtualLabelHeader = props => {
   const {
@@ -28,17 +35,14 @@ const VirtualLabelHeader = props => {
     primary,
     secondary,
     tracks,
-    actions: {
-      menu,
-      play,
-      add,
-      favorite
-    }
+    tooltip,
+    handleMenu
   } = props;
 
-  const payload = {
+  const query = { $or: tracks.flat().map(track => ({ _id: track })) };
+  const playlist = {
     name: primary,
-    src: {},
+    cover: {},
     collection: tracks.flat()
   };
 
@@ -57,25 +61,30 @@ const VirtualLabelHeader = props => {
         </Typography>
       </Box>
       <Hidden smUp>
-        <Tooltip disableTranslation title={menu.tooltip}>
-          <IconButton onClick={event => menu.onClick(event, payload)}>
+        <Tooltip disableTranslation title={tooltip.menu}>
+          <IconButton
+            onClick={event => handleMenu({
+              anchorEl: event.currentTarget,
+              payload: { query, ...playlist }
+            })}
+          >
             <IconMenu />
           </IconButton>
         </Tooltip>
       </Hidden>
       <Hidden xsDown>
-        <Tooltip disableTranslation title={play.tooltip}>
-          <IconButton onClick={() => play.onClick(payload)}>
+        <Tooltip disableTranslation title={tooltip.play}>
+          <IconButton onClick={() => playLibrary({ query })}>
             <IconPlaylistPlay />
           </IconButton>
         </Tooltip>
-        <Tooltip disableTranslation title={add.tooltip}>
-          <IconButton onClick={() => add.onClick(payload)}>
+        <Tooltip disableTranslation title={tooltip.add}>
+          <IconButton onClick={() => addLibrary({ query })}>
             <IconPlaylistAdd />
           </IconButton>
         </Tooltip>
-        <Tooltip disableTranslation title={favorite.tooltip}>
-          <IconButton onClick={() => favorite.onClick(payload)}>
+        <Tooltip disableTranslation title={tooltip.favorite}>
+          <IconButton onClick={() => createPlaylist(playlist)}>
             <Icon type="playlist_star" />
           </IconButton>
         </Tooltip>
@@ -94,11 +103,12 @@ VirtualLabelHeader.propTypes = {
   tracks: PropTypes.arrayOf(
     PropTypes.arrayOf(PropTypes.string)
   ).isRequired,
-  actions: PropTypes.shape({
-    menu: propVirtualAction.isRequired,
-    play: propVirtualAction.isRequired,
-    add: propVirtualAction.isRequired,
-    favorite: propVirtualAction.isRequired
+  handleMenu: PropTypes.func.isRequired,
+  tooltip: PropTypes.shape({
+    play: PropTypes.string.isRequired,
+    add: PropTypes.string.isRequired,
+    favorite: PropTypes.string.isRequired,
+    menu: PropTypes.string.isRequired
   }).isRequired,
 };
 

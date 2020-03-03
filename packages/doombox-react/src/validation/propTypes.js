@@ -39,6 +39,15 @@ export const propPalette = PropTypes.shape({
   ramp: propPaletteRamp
 });
 
+export const propImage = PropTypes.shape({
+  lastModified: PropTypes.number,
+  lastModifiedDate: PropTypes.string,
+  name: PropTypes.string,
+  path: PropTypes.string,
+  size: PropTypes.number,
+  type: PropTypes.string
+});
+
 // Song
 export const propSongImage = PropTypes.shape({
   _id: PropTypes.string,
@@ -92,7 +101,10 @@ export const propSong = PropTypes.shape({
 // Playlist
 export const propPlaylist = PropTypes.shape({
   name: PropTypes.string.isRequired,
-  src: PropTypes.string,
+  cover: PropTypes.oneOfType([
+    propSongImage,
+    propImage
+  ]),
   collection: PropTypes.arrayOf(PropTypes.string).isRequired
 });
 
@@ -107,10 +119,4 @@ export const propAlbum = PropTypes.shape({
 export const propLabel = PropTypes.shape({
   albumartist: PropTypes.string.isRequired,
   albums: PropTypes.arrayOf(propAlbum)
-});
-
-// Virtual
-export const propVirtualAction = PropTypes.shape({
-  tooltip: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
 });

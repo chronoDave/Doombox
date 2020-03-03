@@ -16,9 +16,6 @@ import {
   Tooltip
 } from '@material-ui/core';
 
-// Utils
-import { cleanErr } from '../../utils';
-
 const InterruptErrorPage = ({ err }) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState({});

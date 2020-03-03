@@ -15,6 +15,9 @@ import {
 
 import FieldFileBase from './FieldFileBase';
 
+// Utils
+import { pathToUrl } from '../../../utils';
+
 const FieldFileAvatar = ({ id, name }) => {
   const { t } = useTranslation();
 
@@ -32,7 +35,7 @@ const FieldFileAvatar = ({ id, name }) => {
           justifyContent="center"
         >
           <ButtonAvatar
-            src={value ? value.path : null}
+            src={value ? (pathToUrl(value.path || value.file) || null) : null}
             alt={value ? 'Playlist' : 'Icon person'}
             onClick={onClick}
             size={10}

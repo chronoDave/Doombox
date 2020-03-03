@@ -9,7 +9,9 @@ export const useVirtualSongStyles = makeStyles(theme => ({
   },
   listRoot: {
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   // Item
   itemActive: {

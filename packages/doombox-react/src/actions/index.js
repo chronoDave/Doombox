@@ -1,4 +1,9 @@
-import { TYPE } from '@doombox/utils';
+import {
+  TYPE,
+  ACTION,
+  CONFIG,
+  CACHE
+} from '@doombox/utils';
 
 // Crud
 import {
@@ -7,122 +12,89 @@ import {
   ipcReadOne,
   ipcUpdate,
   ipcUpdateOne,
-  ipcDeleteOne,
-  ipcDelete
+  ipcDelete,
+  ipcDeleteOne
 } from './crud';
 
 // Library
 export const createLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
-
-export const queryLibrary = (regex = null, { sort = null } = {}) => ipcRead(
+export const fetchLibrary = () => ipcRead(TYPE.IPC.LIBRARY);
+export const searchLibrary = (regex = null, sort = null) => ipcRead(
   TYPE.IPC.LIBRARY,
-  { regex, sort }
+  {
+    regex,
+    sort
+  }
 );
-
-/**
- * @param {String} action - Action key
- * @param {String[]} collection - Array of _id's
- */
-export const libraryActionPlaylist = (
-  action,
-  { name, collection },
-  {
-    sort = {
-      'metadata.disk.no': 1,
-      'metadata.track.no': 1
-    }
-  } = {}
-) => ipcRead(
+export const playLibrary = ({
+  name = null,
+  query = null,
+  regex = null,
+  sort = {
+    'metadata.disk.no': 1,
+    'metadata.track.no': 1
+  }
+}) => ipcRead(
   TYPE.IPC.LIBRARY,
   {
-    regex: {
-      operator: 'or',
-      expressions: collection
-        .map(expression => ({ key: '_id', expression }))
-    },
+    action: ACTION.PLAYLIST.SET,
+    query,
+    regex,
     sort
   },
+  { name }
+);
+export const addLibrary = ({
+  query = null,
+  regex = null,
+  sort = {
+    'metadata.disk.no': 1,
+    'metadata.track.no': 1
+  }
+}) => ipcRead(
+  TYPE.IPC.LIBRARY,
   {
-    name,
-    action
+    action: ACTION.PLAYLIST.ADD,
+    query,
+    regex,
+    sort
   }
 );
-
-export const updateLibraryFolder = folder => ipcUpdate(
+export const updateFolder = folder => ipcUpdate(
   TYPE.IPC.LIBRARY,
   { query: folder }
 );
-
-export const deleteLibraryFolder = folder => ipcDelete(
+export const deleteFolder = folder => ipcDelete(
   TYPE.IPC.LIBRARY,
   { query: folder }
 );
-
-// Mixography
-export const fetchMixography = () => ipcRead(TYPE.IPC.PLAYLIST);
+export const dropLibrary = () => ipcDelete(TYPE.IPC.LIBRARY);
 
 // Playlist
-export const fetchPlaylist = (
-  _id,
-  action,
-  {
-    projection = {},
-    regex = null,
-    sort = null,
-    name = null,
-  } = {}
-) => ipcReadOne(
+export const createPlaylist = playlist => ipcCreate(TYPE.IPC.PLAYLIST, playlist);
+export const fetchMixography = () => ipcRead(TYPE.IPC.PLAYLIST);
+export const fetchPlaylist = _id => ipcReadOne(TYPE.IPC.PLAYLIST, _id);
+export const playPlaylist = _id => ipcReadOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  projection,
-  {
-    action,
-    regex,
-    sort,
-    name
-  }
+  { action: ACTION.PLAYLIST.SET }
 );
-
-export const createPlaylist = playlist => ipcCreate(
-  TYPE.IPC.PLAYLIST,
-  playlist
-);
-
-export const updatePlaylist = (_id, payload) => ipcUpdateOne(
+export const addPlaylist = _id => ipcReadOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  { $set: payload }
+  { action: ACTION.PLAYLIST.ADD }
 );
-
-export const deletePlaylist = id => ipcDeleteOne(
+export const updatePlaylist = (_id, playlist) => ipcUpdateOne(
   TYPE.IPC.PLAYLIST,
-  id
+  _id,
+  { $set: playlist }
 );
+export const deletePlaylist = _id => ipcDeleteOne(TYPE.IPC.PLAYLIST, _id);
 
 // Storage
-export const fetchStorage = (type, options = {}) => {
-  const validStorage = [
-    TYPE.IPC.CONFIG,
-    TYPE.IPC.CACHE
-  ];
-
-  if (!validStorage.includes(type)) throw new Error(`Invalid type: ${type}`);
-  ipcRead(type, {}, options);
-};
-
-export const updateStorage = (type, _id, payload, options = {}) => {
-  const validStorage = [
-    TYPE.IPC.CONFIG,
-    TYPE.IPC.CACHE
-  ];
-
-  if (!validStorage.includes(type)) throw new Error(`Invalid type: ${type}`);
-  ipcUpdateOne(type, _id, payload, options);
-};
-
-export const updateConfig = Object.values(TYPE.CONFIG)
+const createUpdateStorage = storage => Object.keys(storage)
   .map(config => ({
-    [config]: payload => updateStorage(
+    [config]: payload => ipcUpdateOne(
       TYPE.IPC.CONFIG,
       config,
       payload
@@ -130,7 +102,10 @@ export const updateConfig = Object.values(TYPE.CONFIG)
   }))
   .reduce((acc, cur) => ({ ...acc, ...cur }), {});
 
-// Rpc
-export const updateRpc = (payload, options = {}) => ipcUpdate(
-  TYPE.IPC.RPC, {}, payload, options
-);
+export const fetchConfig = () => ipcRead(TYPE.IPC.CONFIG);
+export const fetchCache = () => ipcRead(TYPE.IPC.CACHE);
+export const updateConfig = createUpdateStorage(CONFIG);
+export const updateCache = createUpdateStorage(CACHE);
+
+// RPC
+export const setRpc = payload => ipcCreate(TYPE.IPC.RPC, payload);

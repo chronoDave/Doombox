@@ -1,5 +1,4 @@
 import React from 'react';
-import { ACTION } from '@doombox/utils';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
@@ -12,7 +11,7 @@ import {
 } from '../../components';
 
 // Actions
-import { fetchPlaylist } from '../../actions';
+import { playPlaylist } from '../../actions';
 
 // Validation
 import { propPlaylist } from '../../validation/propTypes';
@@ -27,15 +26,13 @@ const MixographyItem = props => {
     playlist: {
       _id,
       name,
-      src,
+      cover,
       collection
     }
   } = props;
 
   const { t } = useTranslation();
   const classes = useMixographyStyles();
-
-  const handleClick = () => fetchPlaylist(_id, ACTION.AUDIO.PLAYLIST_SET);
 
   return (
     <Box display="flex" alignItems="center">
@@ -46,10 +43,10 @@ const MixographyItem = props => {
       >
         <ButtonAvatar
           alt={name}
-          src={src}
+          src={cover && (cover.path || cover.file || null)}
           size={6}
           classes={{ root: classes.itemAvatar }}
-          onClick={handleClick}
+          onClick={() => playPlaylist(_id)}
           onContextMenu={onMenu}
         />
       </Tooltip>

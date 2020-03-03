@@ -55,7 +55,7 @@ const MixographyDialog = ({ onClose, dialog: { id, playlist } }) => {
           submit="update"
           initialValues={{
             name: playlist.name,
-            src: playlist.src
+            cover: playlist.cover
           }}
           onSubmit={payload => {
             updatePlaylist(playlist._id, payload);

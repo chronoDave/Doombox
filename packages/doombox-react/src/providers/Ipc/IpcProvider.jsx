@@ -8,13 +8,14 @@ import PropTypes from 'prop-types';
 
 // Actions
 import {
-  fetchStorage,
+  fetchConfig,
+  fetchCache,
   fetchMixography
 } from '../../actions';
 
 // Redux
 import {
-  setSong,
+  setLibrary,
   addPlaylist,
   setPlaylist,
   setCache,
@@ -30,40 +31,46 @@ class IpcProvider extends Component {
   constructor(props) {
     super(props);
 
-    // Collection
+    // Library
     ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
       switch (payload.action) {
-        case ACTION.AUDIO.PLAYLIST_SET:
-          props.setPlaylist(payload.docs);
+        case ACTION.PLAYLIST.ADD:
+          props.addPlaylist(payload.data);
           break;
-        case ACTION.AUDIO.PLAYLIST_ADD:
-          props.addPlaylist(payload.docs);
+        case ACTION.PLAYLIST.SET:
+          props.setPlaylist(payload.data);
           break;
         default:
-          props.setSong(payload);
+          props.setLibrary(payload.data);
           break;
       }
     });
+
+    // Playlist
     ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
       switch (payload.action) {
-        case ACTION.AUDIO.PLAYLIST_SET:
-          props.setPlaylist(payload.docs);
+        case ACTION.PLAYLIST.ADD:
+          props.addPlaylist(payload.data);
           break;
-        case ACTION.AUDIO.PLAYLIST_ADD:
-          props.addPlaylist(payload.docs.collection);
+        case ACTION.PLAYLIST.SET:
+          props.setPlaylist(payload.data);
+          break;
+        case ACTION.CRUD.READ_ONE:
+          props.setPlaylist(payload.data);
           break;
         default:
-          props.setMixography(payload);
+          // This will break on readOne() without action
+          props.setMixography(payload.data);
           break;
       }
     });
 
     // Storage
-    ipcRenderer.on(TYPE.IPC.CONFIG, (event, { payload }) => {
-      props.setConfig(payload);
+    ipcRenderer.on(TYPE.IPC.CONFIG, (event, payload) => {
+      props.setConfig(payload.data);
     });
-    ipcRenderer.on(TYPE.IPC.CACHE, (event, { payload }) => {
-      props.setCache(payload);
+    ipcRenderer.on(TYPE.IPC.CACHE, (event, payload) => {
+      props.setCache(payload.data);
     });
 
     // Event
@@ -77,8 +84,8 @@ class IpcProvider extends Component {
 
   componentDidMount() {
     // Storage
-    fetchStorage(TYPE.IPC.CONFIG);
-    fetchStorage(TYPE.IPC.CACHE);
+    fetchConfig();
+    fetchCache();
 
     // Mixography
     fetchMixography();
@@ -101,7 +108,7 @@ IpcProvider.propTypes = {
   setCache: PropTypes.func.isRequired,
   setConfig: PropTypes.func.isRequired,
   setInterrupt: PropTypes.func.isRequired,
-  setSong: PropTypes.func.isRequired,
+  setLibrary: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   addPlaylist: PropTypes.func.isRequired,
   setMixography: PropTypes.func.isRequired
@@ -109,7 +116,7 @@ IpcProvider.propTypes = {
 
 const mapDispatchToProps = {
   addPlaylist,
-  setSong,
+  setLibrary,
   setPlaylist,
   setCache,
   setConfig,

@@ -2,7 +2,6 @@ import React, {
   Fragment,
   useState
 } from 'react';
-import { ACTION } from '@doombox/utils';
 import groupBy from 'lodash.groupby';
 import { useTranslation } from 'react-i18next';
 import { VariableSizeList } from 'react-window';
@@ -23,7 +22,8 @@ import VirtualLabelItem from './VirtualLabelItem.private';
 
 // Actions
 import {
-  libraryActionPlaylist,
+  addLibrary,
+  playLibrary,
   createPlaylist
 } from '../../../actions';
 
@@ -45,48 +45,11 @@ const VirtualLabel = ({ library, onScroll }) => {
     height: theme.dimensions.label.item + theme.spacing(2)
   };
 
-  const actions = {
-    menu: {
-      ignore: true,
-      tooltip: t('menu', { context: 'label' }),
-      onClick: (event, playlist) => setContextMenu({
-        anchorEl: event.currentTarget,
-        playlist
-      })
-    },
-    play: {
-      tooltip: t('action:play', { context: 'label' }),
-      onClick: playlist => libraryActionPlaylist(
-        ACTION.AUDIO.PLAYLIST_SET,
-        playlist,
-        {
-          sort: {
-            'metadata.album': 1,
-            'metadata.disk.no': 1,
-            'metadata.track.no': 1
-          }
-        }
-      )
-    },
-    add: {
-      tooltip: t('action:add', { context: 'playlist' }),
-      onClick: playlist => libraryActionPlaylist(
-        ACTION.AUDIO.PLAYLIST_ADD,
-        playlist,
-        {
-          sort: {
-            'metadata.album': 1,
-            'metadata.disk.no': 1,
-            'metadata.track.no': 1
-          }
-        }
-      )
-    },
-    divider: 'divider',
-    favorite: {
-      tooltip: t('action:create', { context: 'playlist' }),
-      onClick: createPlaylist
-    }
+  const tooltip = {
+    menu: t('menu', { context: 'label' }),
+    play: t('action:play', { context: 'label' }),
+    add: t('action:add', { context: 'playlist' }),
+    favorite: t('action:create', { context: 'playlist' })
   };
 
   const itemData = {
@@ -108,7 +71,8 @@ const VirtualLabel = ({ library, onScroll }) => {
                 t('trackCount', { count: collection.size }),
                 formatTime(collection.duration, 'text')
               ].join(' \u2022 '),
-              actions,
+              tooltip,
+              handleMenu: setContextMenu,
               tracks: collection.tracks
             });
           } else {
@@ -178,18 +142,35 @@ const VirtualLabel = ({ library, onScroll }) => {
         onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
         position="bottom"
       >
-        {Object.entries(actions).map(([key, action]) => {
-          if (action.ignore) return null;
-          if (key === 'divider') return <ContextDivider key={key} />;
-          return (
-            <ContextItem
-              key={key}
-              disableTranslation
-              primary={action.tooltip}
-              onClick={action.onClick}
-            />
-          );
-        })}
+        <ContextItem
+          disableTranslation
+          primary={tooltip.play}
+          onClick={() => {
+            playLibrary(contextMenu.payload);
+            setContextMenu({ ...contextMenu, anchorEl: null });
+          }}
+        />
+        <ContextItem
+          disableTranslation
+          primary={tooltip.add}
+          onClick={() => {
+            addLibrary(contextMenu.payload);
+            setContextMenu({ ...contextMenu, anchorEl: null });
+          }}
+        />
+        <ContextDivider />
+        <ContextItem
+          disableTranslation
+          primary={tooltip.favorite}
+          onClick={() => {
+            createPlaylist({
+              name: contextMenu.payload.name,
+              cover: contextMenu.payload.cover,
+              collection: contextMenu.payload.collection
+            });
+            setContextMenu({ ...contextMenu, anchorEl: null });
+          }}
+        />
       </Context>
     </Fragment>
   );

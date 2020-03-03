@@ -7,38 +7,38 @@ const {
 // Utils
 const { createQueryRegExp } = require('../utils');
 
-const transformPayload = payload => {
-  const { data: { regex, ...rest } } = payload;
-  const validOperators = ['and', 'or', 'not'];
-
-  if (!regex) return payload;
-
-  // Validate
-  if (!regex.operator || !validOperators.includes(regex.operator)) {
-    throw new Error(`Invalid operator (not 'string'): ${regex.operator}`);
-  }
-  if (!Array.isArray(regex.expressions)) {
-    throw new Error(`Invalid expressions (not 'array'): ${regex.expressions}`);
-  }
-
-  return ({
-    ...payload,
-    data: {
-      ...rest,
-      query: {
-        [`$${regex.operator}`]: regex.expressions
-          .map(createQueryRegExp)
-      }
-    }
-  });
-};
-
 module.exports = class Router {
   /**
    * @param {Logger} logger
    */
   constructor(logger) {
     this.log = logger;
+  }
+
+  transformPayload(payload) {
+    const { data: { regex, ...rest } } = payload;
+    const validOperators = ['and', 'or', 'not'];
+
+    if (!regex) return payload;
+
+    // Validate
+    if (!regex.operator || !validOperators.includes(regex.operator)) {
+      throw new Error(`Invalid operator (not 'string'): ${regex.operator}`);
+    }
+    if (!Array.isArray(regex.expressions)) {
+      throw new Error(`Invalid expressions (not 'array'): ${regex.expressions}`);
+    }
+
+    return ({
+      ...payload,
+      data: {
+        ...rest,
+        query: {
+          [`$${regex.operator}`]: regex.expressions
+            .map(createQueryRegExp)
+        }
+      }
+    });
   }
 
   /**
@@ -48,24 +48,25 @@ module.exports = class Router {
   createRouter(type, Controller) {
     ipcMain.on(type, (event, payload) => {
       try {
+        if (!payload.data) throw new Error(`Invalid data: ${JSON.stringify(payload)}`);
         switch (payload.action) {
           case ACTION.CRUD.CREATE:
             Controller.create(event, payload);
             break;
           case ACTION.CRUD.READ:
-            Controller.read(event, transformPayload(payload));
+            Controller.read(event, this.transformPayload(payload));
             break;
           case ACTION.CRUD.READ_ONE:
             Controller.readOne(event, payload);
             break;
           case ACTION.CRUD.UPDATE:
-            Controller.update(event, transformPayload(payload));
+            Controller.update(event, this.transformPayload(payload));
             break;
           case ACTION.CRUD.UPDATE_ONE:
             Controller.updateOne(event, payload);
             break;
           case ACTION.CRUD.DELETE:
-            Controller.delete(event, transformPayload(payload));
+            Controller.delete(event, this.transformPayload(payload));
             break;
           case ACTION.CRUD.DELETE_ONE:
             Controller.deleteOne(event, payload);
@@ -74,7 +75,7 @@ module.exports = class Router {
             Controller.drop(event, payload);
             break;
           case ACTION.CRUD.COUNT:
-            Controller.count(event, transformPayload(payload));
+            Controller.count(event, this.transformPayload(payload));
             break;
           default:
             throw new Error(`Invalid action: ${payload.action}`);

@@ -1,9 +1,7 @@
 import React, {
-  useState,
   useEffect,
   useRef,
   cloneElement,
-  useLayoutEffect,
   createRef
 } from 'react';
 import debounce from 'lodash.debounce';
@@ -14,9 +12,6 @@ const VirtualScroller = ({ onScroll, width, children }) => {
   const innerRef = createRef();
 
   const previousWidth = useRef(width);
-  const previousInnerHeight = useRef();
-
-  const [direction, setDirection] = useState(null);
 
   const handleScroll = ({ deltaY }) => {
     if (!innerRef.current || !ref.current) return;
@@ -38,8 +33,12 @@ const VirtualScroller = ({ onScroll, width, children }) => {
     const isScrollDown = (position >= maxHeight && deltaY > 0 && !scrollUpdateWasRequested);
 
     if (isScrollUp || isScrollDown) {
-      setDirection(scrollDirection);
       onScroll(scrollDirection);
+
+      if (ref.current) {
+        ref.current.resetAfterIndex(0); // Reset size cache
+        ref.current.scrollTo(deltaY < 0 ? 1000000 : 0);
+      }
     }
   };
 
@@ -55,23 +54,6 @@ const VirtualScroller = ({ onScroll, width, children }) => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, handleResize]);
-
-  /**
-   * Only update when the library changes
-   * Reset index cache as well, because of https://github.com/bvaughn/react-window/issues/147
-   */
-  useLayoutEffect(() => {
-    if (ref.current && innerRef.current) {
-      if (previousInnerHeight.current !== innerRef.current.scrollHeight) {
-        ref.current.resetAfterIndex(0);
-        // Hard-coded for now, as the ref doesn't update properly (it keeps old state)
-        ref.current.scrollTo(direction === 'backward' ? 10000 : 0);
-        // Clear direction cache, as rerender can occur outside of scrolling
-        previousInnerHeight.current = innerRef.current.clientHeight;
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [innerRef]);
 
   return (
     <div onWheel={handleScroll}>

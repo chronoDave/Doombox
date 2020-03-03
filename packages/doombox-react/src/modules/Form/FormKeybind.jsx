@@ -19,16 +19,12 @@ import {
 } from '../../components';
 
 // Actions
-import { updateStorage } from '../../actions';
+import { updateConfig } from '../../actions';
 
 const FormKeybind = ({ keybind, children }) => (
   <Formik
     initialValues={keybind}
-    onSubmit={values => updateStorage(
-      TYPE.IPC.CONFIG,
-      TYPE.CONFIG.KEYBIND,
-      values
-    )}
+    onSubmit={updateConfig.keybind}
   >
     <Form>
       <Box display="flex" flexDirection="column">

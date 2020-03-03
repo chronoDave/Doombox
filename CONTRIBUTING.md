@@ -4,7 +4,9 @@ If you're reading this, thank you! Any help I can get is greatly appreciated :)
 
 ## General
 
-Fork + PR is the way to go.
+### Ipc
+
+A detailed overview of Doombox' IPC API can be found in the [specs](SPEC.md).
 
 ## Icons / logo
 

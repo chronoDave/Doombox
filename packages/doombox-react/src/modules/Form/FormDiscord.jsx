@@ -24,7 +24,7 @@ const FormDiscord = ({ token, children }) => {
   return (
     <Formik
       initialValues={{ token }}
-      onSubmit={values => updateConfig.discord({ token: values.token })}
+      onSubmit={updateConfig.discord}
     >
       <Form>
         <Box display="flex" flexDirection="column">

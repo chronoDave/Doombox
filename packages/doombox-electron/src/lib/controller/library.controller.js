@@ -1,6 +1,6 @@
 const {
-  TYPE,
-  ACTION
+  ACTION,
+  TYPE
 } = require('@doombox/utils');
 const fse = require('fs-extra');
 const path = require('path');
@@ -9,68 +9,64 @@ const path = require('path');
 const { COLLECTION } = require('../../utils/const');
 
 module.exports = class LibraryController {
-  constructor(database, parser, logger, imagePath) {
+  constructor(database, parser, logger, {
+    imagePath,
+    skipCovers
+  }) {
+    this.type = TYPE.IPC.LIBRARY;
+
     this.db = database;
     this.parser = parser;
-    this.type = TYPE.IPC.LIBRARY;
     this.log = logger;
-    this.imagePath = imagePath;
 
-    this.event = null;
+    this.imagePath = imagePath;
+    this.skipCovers = skipCovers;
   }
 
-  sendInterrupt = status => {
-    this.event.sender.send(TYPE.IPC.INTERRUPT, {
+  sendInterrupt(event, status) {
+    event.sender.send(TYPE.IPC.INTERRUPT, {
       type: this.type,
       status
     });
   }
 
-  handleCreateImage = image => new Promise(async resolve => {
-    try {
-      const { data, ...rest } = image;
-
-      const file = path.resolve(this.imagePath, `${image._id}.${image.format}`);
-
-      await this.db.create(COLLECTION.IMAGE, { file, ...rest });
-      await fse.writeFile(file, data);
-
-      return resolve(image._id);
-    } catch (err) {
-      return resolve(image._id);
-    }
-  });
-
-  handleUpdateImage = image => new Promise(async resolve => {
-    try {
-      const { data, _id, ...rest } = image;
-
-      const file = path.resolve(this.imagePath, `${_id}.${image.format}`);
-
-      await this.db.updateOne(COLLECTION.IMAGE, _id, { file, ...rest });
-      await fse.writeFile(file, data);
-
-      return resolve(_id);
-    } catch (err) {
-      return resolve(image._id);
-    }
-  });
-
-  handleError = err => {
+  sendError(event, err) {
     this.log.createLogError(err, 'Parser', errJson => {
       this.sendInterrupt(ACTION.STATUS.ERROR);
-      this.event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
+      event.sender.send(TYPE.IPC.MESSAGE, { err: errJson });
+    });
+  }
+
+  sendMessage(event, message) {
+    event.sender.send(TYPE.IPC.MESSAGE, message);
+  }
+
+  handleImage(image, action) {
+    return new Promise(async resolve => {
+      try {
+        const { data, _id, ...rest } = image;
+        const file = path.resolve(this.imagePath, `${_id}.${image.format}`);
+
+        if (action === ACTION.CRUD.CREATE) {
+          await this.db.create(COLLECTION.IMAGE, { _id, file, ...rest });
+        }
+        if (action === ACTION.CRUD.UPDATE_ONE) {
+          await this.db.updateOne(COLLECTION.IMAGE, _id, { file, ...rest });
+        }
+
+        await fse.writeFile(file, data);
+
+        return resolve(image._id);
+      } catch (err) {
+        return resolve(image._id);
+      }
     });
   }
 
   async create(event, { data }) {
-    this.event = event;
-
     try {
-      // Init
-      this.sendInterrupt(ACTION.STATUS.PENDING);
+      this.sendInterrupt(event, ACTION.STATUS.PENDING);
 
-      // Clean database
       await this.db.drop(COLLECTION.SONG);
       await this.db.drop(COLLECTION.IMAGE);
 
@@ -79,63 +75,58 @@ module.exports = class LibraryController {
         fse.mkdirpSync(this.imagePath);
       }
 
-      // Parse
-      const handleParse = async ({ payload: { images, ...rest }, index, total }) => {
-        event.sender.send(TYPE.IPC.MESSAGE, {
-          file: rest.file, current: index, size: total
-        });
+      await this.parser.parse(data.payload, async ({
+        payload: docData,
+        ...docRest
+      }) => {
+        this.sendMessage(event, { file: docData.file, ...docRest });
 
-        let payload = { ...rest };
-        if (images) {
-          const imageArray = await Promise.all(images.map(this.handleCreateImage));
-          payload = { ...payload, images: imageArray };
+        let images = [];
+        if (docData.images) {
+          images = await Promise.all(docData.images
+            .map(image => this.handleImage(image, ACTION.CRUD.CREATE)));
         }
 
-        await this.db.create(COLLECTION.SONG, payload);
-      };
+        await this.db.create(COLLECTION.SONG, { ...docData, images });
+      });
 
-      await this.parser.parse(data.payload, handleParse);
-
-      // IPC
-      const songs = await this.db.read(COLLECTION.SONG, {});
-      const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
-
-      event.sender.send(this.type, songs);
-      event.sender.send(TYPE.IPC.IMAGE, images);
-      this.sendInterrupt(ACTION.STATUS.SUCCESS);
+      this.sendInterrupt(event, ACTION.STATUS.SUCCESS);
+      this.read(event, { data });
     } catch (err) {
-      this.handleError(err);
+      this.sendError(event, err);
     }
   }
 
   async read(event, { data, options }) {
-    const rawDocs = await this.db.read(COLLECTION.SONG, data.query, data.modifiers);
+    const docs = await this.db.read(COLLECTION.SONG, data.query, data.modifiers);
     const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
 
-    const docs = rawDocs
+    const docsPopulated = docs
       .map(song => ({
         ...song,
-        images: (song.images && images) ?
-          song.images.map(id => images[id]) :
-          []
+        images: images ? song.images.map(id => images[id]) : []
       }));
 
     let payload;
-    switch (options.action) {
-      case ACTION.AUDIO.PLAYLIST_SET:
+    switch (data.action) {
+      case ACTION.PLAYLIST.SET:
         payload = {
-          action: options.action,
-          docs: {
+          action: data.action,
+          data: {
             name: options.name,
-            collection: docs
+            cover: docsPopulated[0].images[0],
+            collection: docsPopulated
           }
         };
         break;
-      case ACTION.AUDIO.PLAYLIST_ADD:
-        payload = { action: options.action, docs };
+      case ACTION.PLAYLIST.ADD:
+        payload = {
+          action: data.action,
+          data: docsPopulated
+        };
         break;
       default:
-        payload = docs;
+        payload = { data: docsPopulated };
         break;
     }
 
@@ -143,52 +134,39 @@ module.exports = class LibraryController {
   }
 
   async update(event, { data }) {
-    this.event = event;
-
     try {
-      this.sendInterrupt(ACTION.STATUS.PENDING);
+      this.sendInterrupt(event, ACTION.STATUS.PENDING);
 
-      // Parse
-      const handleParse = async ({ payload, index, total }) => {
-        event.sender.send(TYPE.IPC.MESSAGE, {
-          file: payload.file, current: index, size: total
-        });
+      await this.parser.parse(data.query, async ({
+        payload: docData,
+        ...docRest
+      }) => {
+        this.sendMessage(event, { file: docData.file, ...docRest });
 
-        if (payload.images) {
-          const images = await Promise.all(payload.images.map(this.handleUpdateImage));
-          await this.db.update(
-            COLLECTION.SONG,
-            { file: payload.file },
-            { ...payload, images }
-          );
-        } else {
-          await this.db.update(
-            COLLECTION.SONG,
-            { file: payload.file },
-            payload
-          );
+        let images = [];
+        if (docData.images) {
+          images = await Promise.all(docData.images
+            .map(image => this.handleImage(image, ACTION.CRUD.UPDATE_ONE)));
         }
-      };
 
-      await this.parser.parse(data.query, handleParse);
+        await this.db.update(
+          COLLECTION.SONG,
+          { file: docData.file },
+          { ...docData, images }
+        );
+      });
 
-      // IPC
-      const songs = await this.db.read(COLLECTION.SONG, {});
-      const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
-
-      event.sender.send(this.type, songs);
-      event.sender.send(TYPE.IPC.IMAGE, images);
-      this.sendInterrupt(ACTION.STATUS.SUCCESS);
+      this.sendInterrupt(event, ACTION.STATUS.SUCCESS);
+      this.read(event, { data });
     } catch (err) {
-      this.handleError(err);
+      this.sendError(event, err);
     }
   }
 
   async delete(event, { data }) {
     await this.db.delete(COLLECTION.SONG, data.query);
+    if (!data.query) await this.db.drop(COLLECTION.IMAGE);
 
-    const songs = await this.db.read(COLLECTION.SONG, {});
-
-    event.sender.send(this.type, songs);
+    this.read(event, { data });
   }
 };

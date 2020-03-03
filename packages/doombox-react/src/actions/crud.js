@@ -19,6 +19,7 @@ export const ipcCreate = (
 export const ipcRead = (
   type,
   {
+    action = null,
     query = {},
     regex = null,
     skip = 0,
@@ -31,6 +32,7 @@ export const ipcRead = (
 ) => ipcRenderer.send(type, {
   action: ACTION.CRUD.READ,
   data: {
+    action,
     query,
     regex,
     modifiers: {
@@ -47,12 +49,16 @@ export const ipcRead = (
 export const ipcReadOne = (
   type,
   _id,
-  projection = {},
+  {
+    projection = {},
+    action = null
+  },
   options = {}
 ) => ipcRenderer.send(type, {
   action: ACTION.CRUD.READ_ONE,
   data: {
     _id,
+    action,
     projection
   },
   options

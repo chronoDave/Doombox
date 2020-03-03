@@ -11,13 +11,13 @@ export const playlistSlice = createSlice({
     autoplay: false,
     name: 'Default Playlist',
     collection: [],
-    src: {}
+    cover: {}
   },
   reducers: {
     setPlaylist(state, action) {
       return ({
         ...action.payload,
-        action: ACTION.AUDIO.PLAYLIST_SET
+        action: ACTION.PLAYLIST.SET
       });
     },
     shufflePlaylist(state) {
@@ -34,7 +34,7 @@ export const playlistSlice = createSlice({
           ...state.collection,
           ...action.payload
         ],
-        action: ACTION.AUDIO.PLAYLIST_ADD
+        action: ACTION.PLAYLIST.ADD
       });
     }
   }

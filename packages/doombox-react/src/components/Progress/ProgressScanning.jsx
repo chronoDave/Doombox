@@ -18,8 +18,8 @@ const ProgressScanning = props => {
   const {
     message: {
       file,
-      current,
-      size
+      index,
+      total
     }
   } = props;
   const classes = useProgressStyles();
@@ -44,13 +44,13 @@ const ProgressScanning = props => {
         mb={1}
       >
         <LinearProgress
-          value={throttledValue(current, size)}
+          value={throttledValue(index, total)}
           variant="determinate"
           classes={{ root: classes.root }}
           color="secondary"
         />
         <Typography>
-          {`${throttledValue(current, size)}%`}
+          {`${throttledValue(index, total)}%`}
         </Typography>
       </Box>
       <Typography
@@ -67,8 +67,8 @@ const ProgressScanning = props => {
 ProgressScanning.propTypes = {
   message: PropTypes.shape({
     file: PropTypes.string.isRequired,
-    current: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired
+    index: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired
   })
 };
 

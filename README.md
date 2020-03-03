@@ -1,7 +1,3 @@
-<p align="center">
-  <img width="512" height="256" src="https://chrono.s-ul.eu/VntleHvc.png">
-</p>
-
 # Doombox
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -16,7 +12,7 @@ A music player designed with large music collections in mind.
 
 ## Download
 
-If you just wish to install Doombox, visit <b>[Releases](https://github.com/chronoDave/Doombox/releases)</b>.
+If you just wish to install Doombox, see <b>[Releases](https://github.com/chronoDave/Doombox/releases)</b>.
 
 ## Installation
 
@@ -47,6 +43,8 @@ This manually links `@doombox/utils` to `@doombox/electron` and `@doombox/react`
 ## Contributing
 
 If you wish to contribute to Doombox, please read the [contributing guide](CONTRIBUTING.md).
+
+
 
 ## Attribution
 ### Unsplash

@@ -11,6 +11,7 @@ import {
 
 // Validation
 import { schemaPlaylist } from '../../validation/schema';
+import { propImage } from '../../validation/propTypes';
 
 const FormPlaylist = ({ initialValues, onSubmit, ...rest }) => {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ const FormPlaylist = ({ initialValues, onSubmit, ...rest }) => {
       onSubmit={onSubmit}
       {...rest}
     >
-      <FieldFileAvatar name="src" id={formId} />
+      <FieldFileAvatar name="cover" id={formId} />
       <FieldText
         name="name"
         id={formId}
@@ -38,7 +39,7 @@ const FormPlaylist = ({ initialValues, onSubmit, ...rest }) => {
 FormPlaylist.propTypes = {
   initialValues: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    src: PropTypes.string,
+    cover: propImage,
     collection: PropTypes.arrayOf(PropTypes.string)
   }),
   onSubmit: PropTypes.func.isRequired
@@ -47,7 +48,7 @@ FormPlaylist.propTypes = {
 FormPlaylist.defaultProps = {
   initialValues: {
     name: '',
-    src: '',
+    cover: {},
     collection: []
   }
 };

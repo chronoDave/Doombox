@@ -5,5 +5,3 @@ export { configSlice } from './config.slice';
 export { interruptSlice } from './interrupt.slice';
 export { messageSlice } from './message.slice';
 export { mixographySlice } from './mixography.slice';
-export { labelSlice } from './label.slice';
-export { songSlice } from './song.slice';

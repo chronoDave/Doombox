@@ -35,9 +35,7 @@ module.exports = class Storage {
   }
 
   all() {
-    return Object.keys(this.data)
-      .map(key => ([key, stripKeys(this.data[key])]))
-      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    return this.data;
   }
 
   set(key, value) {

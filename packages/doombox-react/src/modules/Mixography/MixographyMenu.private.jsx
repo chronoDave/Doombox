@@ -1,5 +1,4 @@
 import React from 'react';
-import { ACTION } from '@doombox/utils';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
@@ -11,7 +10,10 @@ import {
 } from '../../components';
 
 // Actions
-import { fetchPlaylist } from '../../actions';
+import {
+  playPlaylist,
+  addPlaylist
+} from '../../actions';
 
 // Validation
 import { propPlaylist } from '../../validation/propTypes';
@@ -25,15 +27,7 @@ const MixographyMenu = props => {
   const { t } = useTranslation();
 
   const handleDialog = id => {
-    onDialog({
-      id,
-      playlist: {
-        ...playlist,
-        src: {
-          path: playlist.src
-        }
-      }
-    });
+    onDialog({ id, playlist });
     onClose();
   };
 
@@ -45,18 +39,12 @@ const MixographyMenu = props => {
       <ContextItem
         disableTranslation
         primary={t('action:play', { context: 'playlist' })}
-        onClick={() => fetchPlaylist(
-          playlist._id,
-          ACTION.AUDIO.PLAYLIST_SET
-        )}
+        onClick={() => playPlaylist(playlist._id)}
       />
       <ContextItem
         disableTranslation
         primary={t('action:add', { context: 'playlist' })}
-        onClick={() => fetchPlaylist(
-          playlist._id,
-          ACTION.AUDIO.PLAYLIST_ADD
-        )}
+        onClick={() => addPlaylist(playlist._id)}
       />
       <ContextDivider />
       <ContextItem

@@ -29,9 +29,10 @@ import { ContainerSettings } from '../../modules';
 // Actions
 import {
   createLibrary,
-  updateLibraryFolder,
-  deleteLibraryFolder,
-  updateConfig
+  updateFolder,
+  deleteFolder,
+  updateConfig,
+  dropLibrary
 } from '../../actions';
 
 const SettingsLibrary = props => {
@@ -45,8 +46,9 @@ const SettingsLibrary = props => {
 
   const { t } = useTranslation();
 
-  const handleUpdateFolders = items => {
-    const filteredFolders = items.filter(item => !folders.includes(item));
+  const handleUpdateFolders = newFolders => {
+    const filteredFolders = newFolders
+      .filter(newFolder => !folders.includes(newFolder));
 
     if (filteredFolders.length > 0) {
       createLibrary(filteredFolders);
@@ -54,20 +56,16 @@ const SettingsLibrary = props => {
     }
   };
 
-  const handleDeleteFolder = item => {
-    deleteLibraryFolder(item);
-
+  const handleDeleteFolder = newFolder => {
     updateConfig.library({
-      folders: folders.filter(folder => folder !== item)
+      folders: folders.filter(folder => folder !== newFolder)
     });
+    deleteFolder(newFolder);
   };
 
   const handleDelete = () => {
-    deleteLibraryFolder({});
-
-    updateConfig.library({
-      folders: []
-    });
+    updateConfig.library({ folders: [] });
+    dropLibrary();
   };
 
   return (
@@ -118,7 +116,7 @@ const SettingsLibrary = props => {
           secondaryAction={folder => (
             <Box display="flex">
               <Tooltip title={t('action:refresh', { context: 'folder' })}>
-                <IconButton onClick={() => updateLibraryFolder(folder)}>
+                <IconButton onClick={() => updateFolder(folder)}>
                   <IconRefresh />
                 </IconButton>
               </Tooltip>

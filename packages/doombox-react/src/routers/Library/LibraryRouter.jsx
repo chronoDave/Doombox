@@ -35,7 +35,10 @@ import {
 } from '../../modules';
 
 // Actions
-import { queryLibrary } from '../../actions';
+import {
+  fetchLibrary,
+  searchLibrary
+} from '../../actions';
 
 // Hooks
 import { useRoute } from '../../hooks';
@@ -77,6 +80,7 @@ const LibraryRouter = props => {
 
   const fields = [
     'metadata.artist',
+    'metadata.title',
     'metadata.song',
     'metadata.album',
     'metadata.albumartist'
@@ -102,7 +106,7 @@ const LibraryRouter = props => {
           divider: 'album',
           album,
           albumartist,
-          cover: images[0] ? images[0].file : null,
+          cover: images[0] || {},
           year,
           size: tracks.length,
           duration,
@@ -139,14 +143,12 @@ const LibraryRouter = props => {
 
   const handleSearch = query => {
     setOffset(0); // New library, reset cache
-    queryLibrary(
-      query.length !== 0 && createRegexPayload(query, fields, operator),
+    searchLibrary(
+      query.length !== 0 ? createRegexPayload(query, fields, operator) : null,
       {
-        sort: {
-          'metadata.album': 1,
-          'metadata.disk.no': 1,
-          'metadata.track.no': 1
-        }
+        'metadata.album': 1,
+        'metadata.disk.no': 1,
+        'metadata.track.no': 1
       }
     );
   };
@@ -164,7 +166,7 @@ const LibraryRouter = props => {
   }, [page]);
 
   useEffect(() => {
-    queryLibrary();
+    fetchLibrary();
   }, []);
 
   const renderPage = () => {
@@ -254,7 +256,7 @@ LibraryRouter.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  songs: state.song,
+  songs: state.library,
   cacheSize: state.config[TYPE.CONFIG.ADVANCED].libraryCache
 });
 

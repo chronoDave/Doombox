@@ -8,6 +8,9 @@ import {
   Avatar
 } from '@material-ui/core';
 
+// Utils
+import { pathToUrl } from '../../utils';
+
 // Styles
 import { useButtonStyles } from './Button.style';
 
@@ -36,7 +39,7 @@ const ButtonAvatar = forwardRef((props, ref) => {
     >
       <Avatar
         alt={alt}
-        src={src}
+        src={pathToUrl(src)}
         className={clsx(classes.avatarSize, classes.avatarHover)}
         {...AvatarProps}
       >

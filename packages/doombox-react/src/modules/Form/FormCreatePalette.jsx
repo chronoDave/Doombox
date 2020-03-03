@@ -12,7 +12,7 @@ import { Button } from '@material-ui/core';
 import { FieldPalette } from '../../components';
 
 // Actions
-import { updateStorage } from '../../actions';
+import { updateConfig } from '../../actions';
 
 // Validation
 import { propPalette } from '../../validation/propTypes';
@@ -23,11 +23,7 @@ const FormCreatePalette = ({ palette }) => {
   return (
     <Formik
       initialValues={palette}
-      onSubmit={values => updateStorage(
-        TYPE.IPC.CONFIG,
-        TYPE.CONFIG.PALETTE,
-        values
-      )}
+      onSubmit={updateConfig.palette}
     >
       <Form>
         <Button type="submit">

@@ -17,7 +17,6 @@ const {
   StorageController,
   LibraryController,
   PlaylistController,
-  ImageController,
   RpcController
 } = require('./lib/controller');
 const Logger = require('./lib/log');
@@ -50,15 +49,14 @@ app.on('ready', () => {
   // General
   router.createRouter(
     TYPE.IPC.LIBRARY,
-    new LibraryController(db, parser, logger, config.imagePath || PATH.IMAGE)
+    new LibraryController(db, parser, logger, {
+      imagePath: CONFIG[TYPE.CONFIG.PARSER].pathImage || PATH.IMAGE,
+      skipCovers: CONFIG[TYPE.CONFIG.PARSER].skipCovers
+    })
   );
   router.createRouter(
     TYPE.IPC.PLAYLIST,
     new PlaylistController(db)
-  );
-  router.createRouter(
-    TYPE.IPC.IMAGE,
-    new ImageController(db)
   );
   router.createRouter(
     TYPE.IPC.RPC,

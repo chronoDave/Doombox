@@ -1,4 +1,4 @@
-require('tap').mochaGlobals();
+const tap = require('tap');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
@@ -6,6 +6,7 @@ const chaiAsPromised = require('chai-as-promised');
 const NeDB = require('./nedb');
 const { COLLECTION } = require('../../utils/const');
 
+tap.mochaGlobals();
 chai.use(chaiAsPromised);
 const { assert, expect } = chai;
 

@@ -131,7 +131,7 @@ context('MetadataParser', () => {
       await parser.parseFiles(files, callback);
 
       assert.deepEqual(payload[0].payload, metadata);
-      assert.strictEqual(payload[0].current, 0);
+      assert.strictEqual(payload[0].index, 1);
       assert.strictEqual(payload[0].total, 1);
     });
 
