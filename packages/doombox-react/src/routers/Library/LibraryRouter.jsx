@@ -129,12 +129,15 @@ const LibraryRouter = props => {
       return [
         ...acc,
         {
-          divider: 'label',
+          divider: true,
           albumartist,
           duration,
           albums: albums.length,
           size: tracks.length,
-          tracks: albums.reduce((accAlbum, curAlbum) => [...accAlbum, curAlbum.tracks], [])
+          tracks: albums.reduce((accAlbum, curAlbum) => [
+            ...accAlbum,
+            curAlbum.tracks
+          ], [])
         },
         ...albums
       ];

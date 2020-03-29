@@ -119,7 +119,7 @@ export const createDividerAlbum = tracks => Object
       album,
       albumartist,
       year,
-      cover: images[0] ? images[0].file : null,
+      cover: images[0] || null,
       duration: getTotalDuration(albumTracks),
       tracks: albumTracks.map(({ _id }) => _id)
     });

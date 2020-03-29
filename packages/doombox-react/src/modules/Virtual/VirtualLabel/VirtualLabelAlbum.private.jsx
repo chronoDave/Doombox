@@ -23,13 +23,18 @@ const VirtualLabelAlbum = props => {
     fields,
     cover,
     tooltip,
-    onPlay
+    onPlay,
+    onMenu
   } = props;
 
   return (
     <Box display="flex" width={width} p={1}>
       <Tooltip disableTranslation title={tooltip.album}>
-        <ButtonBase onClick={onPlay} classes={{ root: classes.buttonAlbum }}>
+        <ButtonBase
+          onClick={onPlay}
+          onContextMenu={onMenu}
+          classes={{ root: classes.buttonAlbum }}
+        >
           <Image
             src={cover}
             disableOverlay
@@ -74,7 +79,8 @@ VirtualLabelAlbum.propTypes = {
   tooltip: PropTypes.shape({
     album: PropTypes.string.isRequired
   }).isRequired,
-  onPlay: PropTypes.func.isRequired
+  onPlay: PropTypes.func.isRequired,
+  onMenu: PropTypes.func.isRequired
 };
 
 VirtualLabelAlbum.defaultProps = {

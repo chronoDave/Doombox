@@ -34,7 +34,8 @@ import { formatTime } from '../../../utils';
 import { useVirtualLabelStyles } from './VirtualLabel.style';
 
 const VirtualLabel = ({ library, onScroll }) => {
-  const [contextMenu, setContextMenu] = useState({});
+  const [menuDivider, setMenuDivider] = useState({ anchorEl: null, data: null });
+  const [menuAlbum, setMenuAlbum] = useState({ anchorEl: null, data: null });
 
   const theme = useTheme();
   const { t } = useTranslation();
@@ -64,7 +65,6 @@ const VirtualLabel = ({ library, onScroll }) => {
         cur.forEach(collection => {
           if (collection.divider) {
             divider.push({
-              divider: collection.divider,
               primary: collection.albumartist,
               secondary: [
                 t('albumCount', { count: collection.albums }),
@@ -72,7 +72,10 @@ const VirtualLabel = ({ library, onScroll }) => {
                 formatTime(collection.duration, 'text')
               ].join(' \u2022 '),
               tooltip,
-              handleMenu: setContextMenu,
+              handleMenu: payload => setMenuDivider({
+                ...menuDivider,
+                ...payload
+              }),
               tracks: collection.tracks
             });
           } else {
@@ -83,6 +86,10 @@ const VirtualLabel = ({ library, onScroll }) => {
               tooltip: {
                 album: t('action:play', { context: 'album' })
               },
+              handleMenu: payload => setMenuAlbum({
+                ...menuAlbum,
+                ...payload
+              }),
               fields: [
                 { key: t('release_year'), value: collection.year },
                 { key: t('duration'), value: formatTime(collection.duration, 'text') },
@@ -133,25 +140,26 @@ const VirtualLabel = ({ library, onScroll }) => {
           </VirtualScroller>
         )}
       </AutoSizer>
+      {/* Divider context menu */}
       <Context
-        anchorEl={contextMenu.anchorEl}
-        onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
+        anchorEl={menuDivider.anchorEl}
+        onClose={() => setMenuDivider({ ...menuDivider, anchorEl: null })}
         position="bottom"
       >
         <ContextItem
           disableTranslation
           primary={tooltip.play}
           onClick={() => {
-            playLibrary(contextMenu.payload);
-            setContextMenu({ ...contextMenu, anchorEl: null });
+            playLibrary(menuDivider.data);
+            setMenuDivider({ ...menuDivider, anchorEl: null });
           }}
         />
         <ContextItem
           disableTranslation
           primary={tooltip.add}
           onClick={() => {
-            addLibrary(contextMenu.payload);
-            setContextMenu({ ...contextMenu, anchorEl: null });
+            addLibrary(menuDivider.data);
+            setMenuDivider({ ...menuDivider, anchorEl: null });
           }}
         />
         <ContextDivider />
@@ -159,12 +167,31 @@ const VirtualLabel = ({ library, onScroll }) => {
           disableTranslation
           primary={tooltip.favorite}
           onClick={() => {
-            createPlaylist({
-              name: contextMenu.payload.name,
-              cover: contextMenu.payload.cover,
-              collection: contextMenu.payload.collection
-            });
-            setContextMenu({ ...contextMenu, anchorEl: null });
+            createPlaylist(menuDivider.data);
+            setMenuDivider({ ...menuDivider, anchorEl: null });
+          }}
+        />
+      </Context>
+      {/* Album context menu */}
+      <Context
+        anchorEl={menuAlbum.anchorEl}
+        onClose={() => setMenuAlbum({ ...menuAlbum, anchorEl: null })}
+        position="right"
+      >
+        <ContextItem
+          disableTranslation
+          primary={tooltip.add}
+          onClick={() => {
+            addLibrary(menuAlbum.data);
+            setMenuAlbum({ ...menuAlbum, anchorEl: null });
+          }}
+        />
+        <ContextItem
+          disableTranslation
+          primary={tooltip.favorite}
+          onClick={() => {
+            createPlaylist(menuAlbum.data);
+            setMenuAlbum({ ...menuAlbum, anchorEl: null });
           }}
         />
       </Context>

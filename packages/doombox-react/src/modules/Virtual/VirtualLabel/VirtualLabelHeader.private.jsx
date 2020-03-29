@@ -65,7 +65,7 @@ const VirtualLabelHeader = props => {
           <IconButton
             onClick={event => handleMenu({
               anchorEl: event.currentTarget,
-              payload: { query, ...playlist }
+              data: { query, ...playlist }
             })}
           >
             <IconMenu />

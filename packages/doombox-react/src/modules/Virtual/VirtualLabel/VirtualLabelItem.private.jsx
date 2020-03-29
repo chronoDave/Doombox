@@ -24,15 +24,30 @@ const VirtualLabelItem = ({ index, style, data }) => {
     return (
       <Box display="flex" flexWrap="wrap" px={1}>
         {library[index].map(item => {
-          const { tracks, ...rest } = item;
+          const {
+            handleMenu,
+            tracks,
+            cover,
+            ...rest
+          } = item;
           const query = { $or: tracks.map(_id => ({ _id })) };
+          const playlist = {
+            name: item.primary,
+            cover: cover || {},
+            collection: tracks.flat()
+          };
 
           return (
             <VirtualLabelAlbum
               key={item.primary}
               classes={classes}
+              cover={cover ? cover.file : null}
               width={dimensions.width}
               onPlay={() => playLibrary({ query })}
+              onMenu={event => handleMenu({
+                anchorEl: event.currentTarget,
+                data: playlist
+              })}
               {...rest}
             />
           );
