@@ -11,7 +11,9 @@ const VirtualScroller = ({ onScroll, width, children }) => {
   const ref = createRef();
   const innerRef = createRef();
 
+  // const previousProps = useRef({ width });
   const previousWidth = useRef(width);
+  const previousItemCount = useRef();
 
   const handleScroll = ({ deltaY }) => {
     if (!innerRef.current || !ref.current) return;
@@ -44,13 +46,24 @@ const VirtualScroller = ({ onScroll, width, children }) => {
 
   const handleResize = debounce(container => container.resetAfterIndex(0), 200);
 
-  /**
-   * Only update when width changes
-   */
   useEffect(() => {
-    if (ref.current && previousWidth.current !== width) {
-      handleResize(ref.current);
-      previousWidth.current = width;
+    if (ref.current) {
+      // Resize on width change
+      if (
+        previousWidth.current &&
+        previousWidth.current !== width
+      ) {
+        handleResize(ref.current);
+      }
+      // Rsize on content change
+      if (
+        previousItemCount.current &&
+        previousItemCount.current !== ref.current.props.itemCount
+      ) {
+        handleResize(ref.current);
+      }
+
+      previousItemCount.current = ref.current.props.itemCount;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, handleResize]);

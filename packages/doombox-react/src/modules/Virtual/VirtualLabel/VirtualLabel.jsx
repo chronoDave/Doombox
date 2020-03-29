@@ -118,11 +118,7 @@ const VirtualLabel = ({ library, onScroll }) => {
     <Fragment>
       <AutoSizer>
         {({ width, height }) => (
-          <VirtualScroller
-            updateDep={itemData.library}
-            onScroll={onScroll}
-            width={width}
-          >
+          <VirtualScroller onScroll={onScroll} width={width}>
             <VariableSizeList
               // General
               width={width}
