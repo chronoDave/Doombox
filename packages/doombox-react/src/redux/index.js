@@ -12,7 +12,8 @@ import {
   cacheSlice,
   interruptSlice,
   mixographySlice,
-  messageSlice
+  messageSlice,
+  favoritesSlice
 } from './slices';
 
 export const { setLibrary } = librarySlice.actions;
@@ -26,6 +27,7 @@ export const { setCache } = cacheSlice.actions;
 export const { setInterrupt } = interruptSlice.actions;
 export const { setMessage } = messageSlice.actions;
 export const { setMixography } = mixographySlice.actions;
+export const { setFavorites } = favoritesSlice.actions;
 
 const middleware = [];
 
@@ -41,7 +43,8 @@ export const store = configureStore({
     cache: cacheSlice.reducer,
     interrupt: interruptSlice.reducer,
     message: messageSlice.reducer,
-    mixography: mixographySlice.reducer
+    mixography: mixographySlice.reducer,
+    favorites: favoritesSlice.reducer
   }),
   middleware
 });

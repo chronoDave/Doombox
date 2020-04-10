@@ -22,7 +22,8 @@ import {
   setConfig,
   setInterrupt,
   setMixography,
-  setMessage
+  setMessage,
+  setFavorites
 } from '../../redux';
 
 const { ipcRenderer } = window.require('electron');
@@ -63,6 +64,11 @@ class IpcProvider extends Component {
           props.setMixography(payload.data);
           break;
       }
+    });
+
+    // Favorites
+    ipcRenderer.on(TYPE.IPC.FAVORITES, (event, payload) => {
+      props.setFavorites(payload.data);
     });
 
     // Storage
@@ -111,7 +117,8 @@ IpcProvider.propTypes = {
   setLibrary: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   addPlaylist: PropTypes.func.isRequired,
-  setMixography: PropTypes.func.isRequired
+  setMixography: PropTypes.func.isRequired,
+  setFavorites: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
@@ -122,7 +129,8 @@ const mapDispatchToProps = {
   setConfig,
   setInterrupt,
   setMessage,
-  setMixography
+  setMixography,
+  setFavorites
 };
 
 export default connect(

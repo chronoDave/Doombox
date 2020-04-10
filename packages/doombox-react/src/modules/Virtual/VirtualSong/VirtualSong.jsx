@@ -25,6 +25,7 @@ import VirtualSongItem from './VirtualSongItem.private';
 import {
   playLibrary,
   addLibrary,
+  addFavorite,
   createPlaylist
 } from '../../../actions';
 
@@ -46,6 +47,7 @@ import { useVirtualSongStyles } from './VirtualSong.style';
 
 const VirtualSong = ({ library, onScroll, dense }) => {
   const [contextMenu, setContextMenu] = useState({
+    type: null,
     anchorEl: null,
     payload: null
   });
@@ -69,6 +71,7 @@ const VirtualSong = ({ library, onScroll, dense }) => {
     dense,
     current: currentId,
     createSong,
+    handleMenu: setContextMenu,
     library: library
       .map(item => {
         if (item.divider === 'album') {
@@ -83,7 +86,6 @@ const VirtualSong = ({ library, onScroll, dense }) => {
               formatTime(item.duration, 'text')
             ].join(' \u2022 '),
             tooltip,
-            handleMenu: setContextMenu,
             tracks: item.tracks
           });
         }
@@ -126,38 +128,40 @@ const VirtualSong = ({ library, onScroll, dense }) => {
         )}
       </AutoSizer>
       <Context
-        anchorEl={contextMenu.anchorEl}
+        anchorEl={contextMenu.type === 'divider' && contextMenu.anchorEl}
         onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
         position="bottom"
       >
         <ContextItem
           disableTranslation
           primary={tooltip.play}
-          onClick={() => {
-            playLibrary(contextMenu.payload);
-            setContextMenu({ ...contextMenu, anchorEl: null });
-          }}
+          onClick={() => playLibrary(contextMenu.payload)}
         />
         <ContextItem
           disableTranslation
           primary={tooltip.add}
-          onClick={() => {
-            addLibrary(contextMenu.payload);
-            setContextMenu({ ...contextMenu, anchorEl: null });
-          }}
+          onClick={() => addLibrary(contextMenu.payload)}
         />
         <ContextDivider />
         <ContextItem
           disableTranslation
           primary={tooltip.favorite}
-          onClick={() => {
-            createPlaylist({
-              name: contextMenu.payload.name,
-              cover: contextMenu.payload.cover,
-              collection: contextMenu.payload.collection
-            });
-            setContextMenu({ ...contextMenu, anchorEl: null });
-          }}
+          onClick={() => createPlaylist({
+            name: contextMenu.payload.name,
+            cover: contextMenu.payload.cover,
+            collection: contextMenu.payload.collection
+          })}
+        />
+      </Context>
+      <Context
+        anchorEl={contextMenu.type === 'item' && contextMenu.anchorEl}
+        onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
+        position="bottom"
+      >
+        <ContextItem
+          disableTranslation
+          primary={t('action:add', { context: 'favorite' })}
+          onClick={() => addFavorite(contextMenu.payload)}
         />
       </Context>
     </Fragment>

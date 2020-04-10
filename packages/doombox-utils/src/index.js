@@ -8,7 +8,8 @@ const TYPE = {
     CACHE: 'Cache',
     MESSAGE: 'Message',
     INTERRUPT: 'Interrupt',
-    IMAGE: 'Image'
+    IMAGE: 'Image',
+    FAVORITES: 'Favorites'
   },
   CONFIG: {
     GENERAL: 'general',

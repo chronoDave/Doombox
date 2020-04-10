@@ -37,7 +37,8 @@ export const HOOK = {
 export const PATH = {
   DOMAIN: {
     LIBRARY: 'library',
-    VISUALIZER: 'visualizer'
+    VISUALIZER: 'visualizer',
+    FAVORITES: 'favorites'
   },
   PAGE: {
     SONG: 'song',

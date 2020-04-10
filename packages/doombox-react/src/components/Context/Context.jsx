@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  Children,
+  cloneElement
+} from 'react';
 import PropTypes from 'prop-types';
 
 // Core
@@ -27,7 +30,7 @@ const Context = props => {
     >
       <Box py={1}>
         <List dense disablePadding>
-          {children}
+          {Children.map(children, child => cloneElement(child, { onClose }))}
         </List>
       </Box>
     </Popover>

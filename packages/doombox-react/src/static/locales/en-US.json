@@ -9,6 +9,7 @@
     "songs": "Songs",
     "visualizer": "Visualizer",
     "settings": "Settings",
+    "favorites": "Favorites",
     "albums": "Albums",
     "labels": "Labels",
     "albumCount": "{{count}} album",
@@ -34,7 +35,8 @@
     "discCount": "Disc {{count}}",
     "menu_library": "Library actions",
     "menu_album": "Album actions",
-    "menu_label": "Label actions"
+    "menu_label": "Label actions",
+    "queryNoResult": "No {{context}} found"
   },
   "action": {
     "cancel": "Cancel",
@@ -48,16 +50,19 @@
     "add_folder": "Add folder",
     "select_folder": "Select folder",
     "add_playlist": "Add to playlist",
+    "add_favorite": "Add to favorites",
     "play": "Play",
     "play_playlist": "Play playlist",
     "play_album": "Play album",
     "play_label": "Play label",
     "play_library": "Play library",
     "play_selection": "Play selection",
+    "play_favorites": "Play favorites",
     "shuffle_label": "Shuffle label",
     "shuffle_library": "Shuffle library",
     "remove": "Remove",
     "remove_folder": "Remove folder from library",
+    "remove_favorite": "Remove from favorites",
     "refresh_folder": "Rescan folder",
     "show_art": "Show album art",
     "submit": "Submit"

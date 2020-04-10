@@ -149,27 +149,18 @@ const VirtualLabel = ({ library, onScroll }) => {
         <ContextItem
           disableTranslation
           primary={tooltip.play}
-          onClick={() => {
-            playLibrary(menuDivider.data);
-            setMenuDivider({ ...menuDivider, anchorEl: null });
-          }}
+          onClick={() => playLibrary(menuDivider.data)}
         />
         <ContextItem
           disableTranslation
           primary={tooltip.add}
-          onClick={() => {
-            addLibrary(menuDivider.data);
-            setMenuDivider({ ...menuDivider, anchorEl: null });
-          }}
+          onClick={() => addLibrary(menuDivider.data)}
         />
         <ContextDivider />
         <ContextItem
           disableTranslation
           primary={tooltip.favorite}
-          onClick={() => {
-            createPlaylist(menuDivider.data);
-            setMenuDivider({ ...menuDivider, anchorEl: null });
-          }}
+          onClick={() => createPlaylist(menuDivider.data)}
         />
       </Context>
       {/* Album context menu */}
@@ -181,18 +172,12 @@ const VirtualLabel = ({ library, onScroll }) => {
         <ContextItem
           disableTranslation
           primary={tooltip.add}
-          onClick={() => {
-            addLibrary(menuAlbum.data);
-            setMenuAlbum({ ...menuAlbum, anchorEl: null });
-          }}
+          onClick={() => addLibrary(menuAlbum.data)}
         />
         <ContextItem
           disableTranslation
           primary={tooltip.favorite}
-          onClick={() => {
-            createPlaylist(menuAlbum.data);
-            setMenuAlbum({ ...menuAlbum, anchorEl: null });
-          }}
+          onClick={() => createPlaylist(menuAlbum.data)}
         />
       </Context>
     </Fragment>

@@ -1,13 +1,21 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+const calc = n => `calc(100% - ${n}px)`;
+
 export const useSidebarStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
     display: 'flex',
-    width: theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.xs,
-    height: `calc(100% - ${theme.dimensions.appBar}px)`,
+    width: ({ hidePanel }) => (
+      theme.dimensions.sidebar.tab +
+      (!hidePanel ? theme.dimensions.sidebar.panel.xs : 0)
+    ),
+    height: calc(theme.dimensions.appBar),
     [theme.breakpoints.up('md')]: {
-      width: theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.md,
+      width: ({ hidePanel }) => (
+        theme.dimensions.sidebar.tab +
+        (!hidePanel ? theme.dimensions.sidebar.panel.md : 0)
+      ),
     }
   },
   tab: {
@@ -29,14 +37,26 @@ export const useSidebarStyles = makeStyles(theme => ({
   children: {
     position: 'fixed',
     paddingLeft: 1,
-    left: theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.xs,
-    height: `calc(100% - ${theme.dimensions.appBar}px)`,
-    width: `calc(100% - ${theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.xs}px)`,
+    left: ({ hidePanel }) => (
+      theme.dimensions.sidebar.tab +
+      (!hidePanel ? theme.dimensions.sidebar.panel.xs : 0)
+    ),
+    height: calc(theme.dimensions.appBar),
+    width: ({ hidePanel }) => calc(
+      theme.dimensions.sidebar.tab +
+      (!hidePanel ? theme.dimensions.sidebar.panel.xs : 0)
+    ),
     overflow: 'auto',
     backgroundColor: theme.palette.grey[200],
     [theme.breakpoints.up('md')]: {
-      left: theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.md,
-      width: `calc(100% - ${theme.dimensions.sidebar.tab + theme.dimensions.sidebar.panel.md}px)`,
+      left: ({ hidePanel }) => (
+        theme.dimensions.sidebar.tab +
+        (!hidePanel ? theme.dimensions.sidebar.panel.md : 0)
+      ),
+      width: ({ hidePanel }) => calc(
+        theme.dimensions.sidebar.tab +
+        (!hidePanel ? theme.dimensions.sidebar.panel.md : 0)
+      ),
     }
   }
 }));

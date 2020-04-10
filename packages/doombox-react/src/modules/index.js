@@ -9,8 +9,12 @@ export { ContainerSettings } from './Container';
 export { Player } from './Player';
 export {
   VirtualSong,
-  VirtualLabel
+  VirtualLabel,
+  VirtualFavorites
 } from './Virtual';
 export { Playlist } from './Playlist';
 export { Navigation } from './Navigation';
-export { SearchLibrary } from './Search';
+export {
+  SearchLibrary,
+  SearchFavorites
+} from './Search';

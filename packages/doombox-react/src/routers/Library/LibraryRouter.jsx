@@ -29,7 +29,6 @@ import {
 // Modules
 import {
   SearchLibrary,
-  Sidebar,
   VirtualLabel,
   VirtualSong
 } from '../../modules';
@@ -201,38 +200,36 @@ const LibraryRouter = props => {
 
   return (
     <Fragment>
-      <Sidebar>
+      <Box
+        width="100%"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+      >
+        <ImageBackground />
         <Box
-          width="100%"
-          height="100%"
           display="flex"
-          flexDirection="column"
+          justifyContent="space-between"
+          px={2}
+          py={1}
+          zIndex={1}
         >
-          <ImageBackground />
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            px={2}
-            py={1}
-            zIndex={1}
-          >
-            <SearchLibrary
-              count={songs.length}
-              onSearch={handleSearch}
-              onAdd={() => addPlaylist(songs)}
-              onPlay={query => setPlaylist({ name: query, collection: songs })}
-            />
-            <Tooltip disableTranslation title={t('menu', { context: 'library' })}>
-              <IconButton onClick={event => setAnchorEl(event.currentTarget)}>
-                <IconMenu />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box flexGrow={1} zIndex={1}>
-            {renderPage()}
-          </Box>
+          <SearchLibrary
+            count={songs.length}
+            onSearch={handleSearch}
+            onAdd={() => addPlaylist(songs)}
+            onPlay={query => setPlaylist({ name: query, collection: songs })}
+          />
+          <Tooltip disableTranslation title={t('menu', { context: 'library' })}>
+            <IconButton onClick={event => setAnchorEl(event.currentTarget)}>
+              <IconMenu />
+            </IconButton>
+          </Tooltip>
         </Box>
-      </Sidebar>
+        <Box flexGrow={1} zIndex={1}>
+          {renderPage()}
+        </Box>
+      </Box>
       <Context
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}

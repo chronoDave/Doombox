@@ -2,7 +2,7 @@ import React from 'react';
 
 const VisualizerPage = () => (
   <div>
-    Visualizer
+    VisualizerPage
   </div>
 );
 

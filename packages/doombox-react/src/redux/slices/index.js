@@ -5,3 +5,4 @@ export { configSlice } from './config.slice';
 export { interruptSlice } from './interrupt.slice';
 export { messageSlice } from './message.slice';
 export { mixographySlice } from './mixography.slice';
+export { favoritesSlice } from './favorites.slice';

@@ -91,6 +91,11 @@ export const updatePlaylist = (_id, playlist) => ipcUpdateOne(
 );
 export const deletePlaylist = _id => ipcDeleteOne(TYPE.IPC.PLAYLIST, _id);
 
+// Favorites
+export const fetchFavorites = () => ipcRead(TYPE.IPC.FAVORITES);
+export const addFavorite = song => ipcCreate(TYPE.IPC.FAVORITES, song);
+export const removeFavorite = _id => ipcDeleteOne(TYPE.IPC.FAVORITES, _id);
+
 // Storage
 const createUpdateStorage = storage => Object.keys(storage)
   .map(config => ({

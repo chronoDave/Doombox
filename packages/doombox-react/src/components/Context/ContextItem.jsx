@@ -13,8 +13,10 @@ const ContextItem = forwardRef((props, ref) => {
     primary,
     secondary,
     disableTranslation,
+    disableAutoClose,
     disabled,
     onClick,
+    onClose,
     ...rest
   } = props;
 
@@ -23,7 +25,12 @@ const ContextItem = forwardRef((props, ref) => {
   return (
     <ListItem
       button={!!onClick}
-      onClick={onClick}
+      onClick={event => {
+        if (onClick) {
+          onClick(event);
+          if (!disableAutoClose) onClose();
+        }
+      }}
       disabled={disabled}
       ref={ref}
     >
@@ -45,14 +52,18 @@ ContextItem.propTypes = {
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string,
   disableTranslation: PropTypes.bool,
-  onClick: PropTypes.func
+  disableAutoClose: PropTypes.bool,
+  onClick: PropTypes.func,
+  onClose: PropTypes.func
 };
 
 ContextItem.defaultProps = {
   secondary: null,
   disabled: false,
   disableTranslation: false,
-  onClick: null
+  disableAutoClose: false,
+  onClick: null,
+  onClose: null
 };
 
 export default ContextItem;

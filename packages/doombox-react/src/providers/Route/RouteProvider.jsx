@@ -9,18 +9,22 @@ import { connect } from 'react-redux';
 import { ACTION } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
-// Modules
+// Components
 import {
   App,
   AppBar
 } from '../../components';
+
+// Modules
+import { Sidebar } from '../../modules';
 
 // Routers
 import {
   LibraryRouter,
   VisualizerRouter,
   SettingsRouter,
-  InterruptRouter
+  InterruptRouter,
+  FavoritesRouter
 } from '../../routers';
 
 // Utils
@@ -32,7 +36,17 @@ const RouteProvider = ({ status }) => {
   const [domain, setDomain] = useState(PATH.DOMAIN.LIBRARY);
   const [dialog, setDialog] = useState(null);
 
-  const methodValue = useMemo(() => ({ setDomain, setPage, setDialog }), []);
+  const setRoute = (newDomain, newPage) => {
+    setDomain(newDomain);
+    setPage(newPage);
+  };
+
+  const methodValue = useMemo(() => ({
+    setDomain,
+    setPage,
+    setDialog,
+    setRoute
+  }), []);
   const locationValue = useMemo(() => ({ page, domain, dialog }), [page, domain, dialog]);
 
   // Domain
@@ -63,6 +77,8 @@ const RouteProvider = ({ status }) => {
         return <LibraryRouter />;
       case PATH.DOMAIN.VISUALIZER:
         return <VisualizerRouter />;
+      case PATH.DOMAIN.FAVORITES:
+        return <FavoritesRouter />;
       default:
         return null;
     }
@@ -86,8 +102,10 @@ const RouteProvider = ({ status }) => {
       <RouteContext.Location.Provider value={locationValue}>
         <AppBar />
         <App>
-          {renderRouter()}
-          {renderDialog()}
+          <Sidebar hidePanel={domain === PATH.DOMAIN.VISUALIZER}>
+            {renderRouter()}
+            {renderDialog()}
+          </Sidebar>
         </App>
       </RouteContext.Location.Provider>
     </RouteContext.Method.Provider>

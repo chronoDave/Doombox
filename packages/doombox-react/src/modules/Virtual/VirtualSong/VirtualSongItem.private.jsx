@@ -26,7 +26,8 @@ const VirtualSongItem = ({ index, style, data }) => {
     dense,
     library,
     current,
-    createSong
+    createSong,
+    handleMenu
   } = data;
 
   const renderItem = () => {
@@ -51,6 +52,11 @@ const VirtualSongItem = ({ index, style, data }) => {
             onClick={() => createSong(renderProps)}
             classes={{ root: classes.listRoot }}
             className={clsx({ [classes.itemActive]: isActive })}
+            onContextMenu={event => handleMenu({
+              anchorEl: event.currentTarget,
+              type: 'item',
+              payload: renderProps
+            })}
           >
             {isActive && <div className={classes.itemActiveBar} />}
             <ListItemIcon classes={{ root: classes.itemTrack }}>
@@ -88,6 +94,7 @@ VirtualSongItem.propTypes = {
     dense: PropTypes.bool.isRequired,
     current: PropTypes.string,
     createSong: PropTypes.func.isRequired,
+    handleMenu: PropTypes.func.isRequired,
     classes: PropTypes.shape({
       root: PropTypes.string.isRequired,
       listRoot: PropTypes.string.isRequired,
@@ -106,9 +113,6 @@ VirtualSongItem.propTypes = {
           play: PropTypes.string.isRequired,
           add: PropTypes.string.isRequired,
           album: PropTypes.string.isRequired
-        }).isRequired,
-        handler: PropTypes.shape({
-          context: PropTypes.func.isRequired
         }).isRequired,
         tracks: PropTypes.arrayOf(PropTypes.string).isRequired
       }),

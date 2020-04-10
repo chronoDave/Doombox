@@ -5,6 +5,7 @@ import IconVisualizer from '@material-ui/icons/Equalizer';
 import IconAlbum from '@material-ui/icons/LibraryMusic';
 import IconSong from '@material-ui/icons/QueueMusic';
 import IconSettings from '@material-ui/icons/Settings';
+import IconFavorite from '@material-ui/icons/Grade';
 
 // Core
 import {
@@ -26,8 +27,8 @@ import {
 } from '../../utils/const';
 
 const Navigation = () => {
-  const { setPage, setDialog } = useRoute(HOOK.ROUTE.METHOD);
-  const { page } = useRoute(HOOK.ROUTE.LOCATION);
+  const { setRoute, setDialog } = useRoute(HOOK.ROUTE.METHOD);
+  const { page, domain } = useRoute(HOOK.ROUTE.LOCATION);
 
   return (
     <Box
@@ -44,21 +45,39 @@ const Navigation = () => {
       >
         <IconButtonNavigation
           tooltip="visualizer"
-          active={page === PATH.PAGE.VISUALIZER}
+          active={
+            domain === PATH.DOMAIN.VISUALIZER &&
+            page === PATH.PAGE.ROOT
+          }
           icon={<IconVisualizer />}
-          onClick={() => setPage(PATH.PAGE.VISUALIZER)}
+          onClick={() => setRoute(PATH.DOMAIN.VISUALIZER, PATH.PAGE.ROOT)}
+        />
+        <IconButtonNavigation
+          tooltip="favorites"
+          active={
+            domain === PATH.DOMAIN.FAVORITES &&
+            page === PATH.PAGE.ROOT
+          }
+          icon={<IconFavorite />}
+          onClick={() => setRoute(PATH.DOMAIN.FAVORITES, PATH.PAGE.ROOT)}
         />
         <IconButtonNavigation
           tooltip="labels"
-          active={page === PATH.PAGE.LABEL}
+          active={
+            domain === PATH.DOMAIN.LIBRARY &&
+            page === PATH.PAGE.LABEL
+          }
           icon={<IconAlbum />}
-          onClick={() => setPage(PATH.PAGE.LABEL)}
+          onClick={() => setRoute(PATH.DOMAIN.LIBRARY, PATH.PAGE.LABEL)}
         />
         <IconButtonNavigation
           tooltip="library"
-          active={page === PATH.PAGE.SONG}
+          active={
+            domain === PATH.DOMAIN.LIBRARY &&
+            page === PATH.PAGE.SONG
+          }
           icon={<IconSong />}
-          onClick={() => setPage(PATH.PAGE.SONG)}
+          onClick={() => setRoute(PATH.DOMAIN.LIBRARY, PATH.PAGE.SONG)}
         />
         <IconButtonNavigation
           tooltip="settings"

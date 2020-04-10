@@ -10,3 +10,4 @@ export {
   InterruptErrorPage,
   InterruptScanningPage
 } from './Interrupt';
+export { FavoritesRootPage } from './Favorites';

@@ -66,6 +66,7 @@ const VirtualSongDividerAlbum = props => {
             <IconButton
               onClick={event => handleMenu({
                 anchorEl: event.currentTarget,
+                type: 'divider',
                 payload: { query, ...playlist }
               })}
             >

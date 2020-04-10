@@ -41,8 +41,8 @@ const SearchLibrary = props => {
   return (
     <Box display="flex" alignItems="center" height={48}>
       <InputSearch
-        id="Library"
-        name="Search"
+        id="library"
+        name="search"
         onChange={debouncedSearch}
       />
       {query !== '' && (

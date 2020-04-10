@@ -9,8 +9,8 @@ import { Playlist } from '../Playlist';
 // Style
 import { useSidebarStyles } from './Sidebar.style';
 
-const Sidebar = ({ children }) => {
-  const classes = useSidebarStyles();
+const Sidebar = ({ children, hidePanel }) => {
+  const classes = useSidebarStyles({ hidePanel });
 
   return (
     <Fragment>
@@ -18,10 +18,12 @@ const Sidebar = ({ children }) => {
         <div className={classes.tab}>
           <Navigation />
         </div>
-        <div className={classes.panel}>
-          <Player />
-          <Playlist />
-        </div>
+        {!hidePanel && (
+          <div className={classes.panel}>
+            <Player />
+            <Playlist />
+          </div>
+        )}
       </div>
       <div className={classes.children}>
         {children}
@@ -31,7 +33,12 @@ const Sidebar = ({ children }) => {
 };
 
 Sidebar.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  hidePanel: PropTypes.bool
+};
+
+Sidebar.defaultProps = {
+  hidePanel: false
 };
 
 export default Sidebar;
