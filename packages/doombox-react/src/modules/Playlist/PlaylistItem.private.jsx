@@ -16,7 +16,8 @@ const PlaylistItem = memo(({ data, index, style }) => {
     collection,
     classes,
     currentId,
-    goTo
+    goTo,
+    setMenu
   } = data;
   const { _id, metadata } = collection[index];
   const active = currentId === _id;
@@ -28,6 +29,10 @@ const PlaylistItem = memo(({ data, index, style }) => {
       style={style}
       button
       dense
+      onContextMenu={event => setMenu({
+        anchor: event.currentTarget,
+        payload: collection[index]
+      })}
     >
       {active && <div className={classes.activeBar} />}
       <ListItemIcon>
@@ -55,6 +60,7 @@ PlaylistItem.displayName = 'PlaylistItem';
 PlaylistItem.propTypes = {
   data: PropTypes.shape({
     goTo: PropTypes.func.isRequired,
+    setMenu: PropTypes.func.isRequired,
     collection: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string,
       metadata: PropTypes.shape({

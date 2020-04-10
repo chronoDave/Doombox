@@ -1,4 +1,8 @@
-import React, { useMemo } from 'react';
+import React, {
+  Fragment,
+  useState,
+  useMemo
+} from 'react';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { connect } from 'react-redux';
@@ -10,8 +14,13 @@ import { Box } from '@material-ui/core';
 
 import {
   Tooltip,
-  Typography
+  Typography,
+  Context,
+  ContextItem
 } from '../../components';
+
+// Actions
+import { addFavorite } from '../../actions';
 
 // Hooks
 import { useAudio } from '../../hooks';
@@ -29,6 +38,8 @@ import { usePlaylistStyles } from './Playlist.style';
 import PlaylistItem from './PlaylistItem.private';
 
 const Playlist = ({ name, collection }) => {
+  const [menu, setMenu] = useState({ anchor: null, payload: null });
+
   const { _id: currentId } = useAudio(HOOK.AUDIO.CURRENT);
   const { goTo } = useAudio(HOOK.AUDIO.METHOD);
 
@@ -41,62 +52,75 @@ const Playlist = ({ name, collection }) => {
     collection,
     currentId,
     classes,
+    setMenu,
     goTo
   }), [collection, classes, currentId, goTo]);
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      flexGrow={1}
-      minHeight={0}
-      width="100%"
-    >
+    <Fragment>
       <Box
-        p={1}
         display="flex"
         flexDirection="column"
-        justifyContent="center"
+        alignItems="center"
+        flexGrow={1}
+        minHeight={0}
         width="100%"
       >
-        <Tooltip
-          title={name || t('playlist', { context: 'default' })}
-          disableTranslation
-          placement="right"
+        <Box
+          p={1}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          width="100%"
         >
+          <Tooltip
+            title={name || t('playlist', { context: 'default' })}
+            disableTranslation
+            placement="right"
+          >
+            <Typography
+              variant="subtitle2"
+              align="center"
+              noWrap
+            >
+              {name || t('playlist', { context: 'default' })}
+            </Typography>
+          </Tooltip>
           <Typography
-            variant="subtitle2"
+            variant="caption"
             align="center"
             noWrap
           >
-            {name || t('playlist', { context: 'default' })}
+            {`${t('trackCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
           </Typography>
-        </Tooltip>
-        <Typography
-          variant="caption"
-          align="center"
-          noWrap
-        >
-          {`${t('trackCount', { count: collection.length })} - ${formatTime(collection.reduce((acc, cur) => acc + cur.format.duration || 0, 0), 'text')}`}
-        </Typography>
+        </Box>
+        <Box flexGrow={1} width="100%">
+          <AutoSizer>
+            {({ width, height }) => (
+              <FixedSizeList
+                width={width}
+                height={height}
+                itemCount={collection.length}
+                itemData={itemData}
+                itemSize={8 * 6.5}
+              >
+                {PlaylistItem}
+              </FixedSizeList>
+            )}
+          </AutoSizer>
+        </Box>
       </Box>
-      <Box flexGrow={1} width="100%">
-        <AutoSizer>
-          {({ width, height }) => (
-            <FixedSizeList
-              width={width}
-              height={height}
-              itemCount={collection.length}
-              itemData={itemData}
-              itemSize={8 * 6.5}
-            >
-              {PlaylistItem}
-            </FixedSizeList>
-          )}
-        </AutoSizer>
-      </Box>
-    </Box>
+      <Context
+        anchorEl={menu.anchor}
+        onClose={() => setMenu({ ...menu, anchor: null })}
+      >
+        <ContextItem
+          disableTranslation
+          primary={t('action:add', { context: 'favorite' })}
+          onClick={() => addFavorite(menu.payload)}
+        />
+      </Context>
+    </Fragment>
   );
 };
 
