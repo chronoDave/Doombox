@@ -59,7 +59,8 @@ export const useButtonStyles = makeStyles(theme => {
         },
       },
     },
-    avatar: {
+    avatarRoot: {
+      backgroundColor: theme.palette.grey[300],
       borderRadius: '50%'
     },
     avatarSize: ({ size }) => ({

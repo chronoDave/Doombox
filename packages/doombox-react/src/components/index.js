@@ -2,6 +2,7 @@ export {
   App,
   AppBar
 } from './App';
+export { Avatar } from './Avatar';
 export {
   IconButtonNext,
   IconButtonPlay,

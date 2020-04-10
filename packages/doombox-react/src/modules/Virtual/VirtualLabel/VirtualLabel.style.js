@@ -19,6 +19,7 @@ export const useVirtualLabelStyles = makeStyles(theme => ({
     }
   },
   album: {
+    backgroundColor: theme.palette.grey[300],
     flexShrink: 0,
     zIndex: -1,
     width: theme.dimensions.label.item,
