@@ -27,7 +27,11 @@ import {
 } from '../../utils/const';
 
 const Navigation = () => {
-  const { setRoute, setDialog } = useRoute(HOOK.ROUTE.METHOD);
+  const {
+    setDomain,
+    setPage,
+    setDialog
+  } = useRoute(HOOK.ROUTE.METHOD);
   const { page, domain } = useRoute(HOOK.ROUTE.LOCATION);
 
   return (
@@ -50,7 +54,7 @@ const Navigation = () => {
             page === PATH.PAGE.ROOT
           }
           icon={<IconVisualizer />}
-          onClick={() => setRoute(PATH.DOMAIN.VISUALIZER, PATH.PAGE.ROOT)}
+          onClick={() => setDomain(PATH.DOMAIN.VISUALIZER)}
         />
         <IconButtonNavigation
           tooltip="favorites"
@@ -59,7 +63,7 @@ const Navigation = () => {
             page === PATH.PAGE.ROOT
           }
           icon={<IconFavorite />}
-          onClick={() => setRoute(PATH.DOMAIN.FAVORITES, PATH.PAGE.ROOT)}
+          onClick={() => setDomain(PATH.DOMAIN.FAVORITES)}
         />
         <IconButtonNavigation
           tooltip="labels"
@@ -68,7 +72,10 @@ const Navigation = () => {
             page === PATH.PAGE.LABEL
           }
           icon={<IconAlbum />}
-          onClick={() => setRoute(PATH.DOMAIN.LIBRARY, PATH.PAGE.LABEL)}
+          onClick={() => {
+            setDomain(PATH.DOMAIN.LIBRARY);
+            setPage(PATH.PAGE.LABEL);
+          }}
         />
         <IconButtonNavigation
           tooltip="library"
@@ -77,7 +84,10 @@ const Navigation = () => {
             page === PATH.PAGE.SONG
           }
           icon={<IconSong />}
-          onClick={() => setRoute(PATH.DOMAIN.LIBRARY, PATH.PAGE.SONG)}
+          onClick={() => {
+            setDomain(PATH.DOMAIN.LIBRARY);
+            setPage(PATH.PAGE.SONG);
+          }}
         />
         <IconButtonNavigation
           tooltip="settings"

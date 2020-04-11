@@ -17,8 +17,6 @@ import {
   Typography
 } from '@material-ui/core';
 
-import { ModalFade } from '../../components';
-
 // Pages
 import {
   SettingsDiscordPage,
@@ -31,7 +29,7 @@ import {
 // Style
 import { useSettingsRouterStyles } from './SettingsRouter.style';
 
-const SettingsRouter = ({ open, onClose }) => {
+const SettingsRouter = () => {
   const tabs = {
     general: SettingsGeneralPage,
     library: SettingsLibraryPage,
@@ -44,57 +42,55 @@ const SettingsRouter = ({ open, onClose }) => {
   const { t } = useTranslation();
 
   return (
-    <ModalFade open={open} onClose={onClose}>
+    <Box
+      display="flex"
+      justifyContent="center"
+      px={{ xs: 4, md: 8 }}
+      py={2}
+      width="100%"
+      height="100%"
+    >
+      <Box>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={visible}
+          indicatorColor="primary"
+          onChange={(event, tab) => setVisible(tab)}
+          aria-label="Settings navigation"
+        >
+          {Object.keys(tabs).map(key => (
+            <Tab
+              key={key}
+              value={key}
+              label={key}
+              id={`vertical-tab-${key}`}
+              aria-controls={`vertical-tabpanel-${key}`}
+            />
+          ))}
+        </Tabs>
+      </Box>
       <Box
         display="flex"
-        justifyContent="center"
-        px={{ xs: 4, md: 8 }}
-        py={2}
-        width="100%"
+        flexDirection="column"
         height="100%"
+        maxWidth={1200}
+        flexGrow={1}
+        pl={2}
       >
-        <Box>
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={visible}
-            indicatorColor="primary"
-            onChange={(event, tab) => setVisible(tab)}
-            aria-label="Settings navigation"
-          >
-            {Object.keys(tabs).map(key => (
-              <Tab
-                key={key}
-                value={key}
-                label={key}
-                id={`vertical-tab-${key}`}
-                aria-controls={`vertical-tabpanel-${key}`}
-              />
-            ))}
-          </Tabs>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h5" gutterBottom>
+            {t(visible)}
+          </Typography>
+          <IconButton>
+            <IconClose />
+          </IconButton>
         </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          height="100%"
-          maxWidth={1200}
-          flexGrow={1}
-          pl={2}
-        >
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h5" gutterBottom>
-              {t(visible)}
-            </Typography>
-            <IconButton onClick={onClose}>
-              <IconClose />
-            </IconButton>
-          </Box>
-          <div className={classes.body}>
-            {createElement(tabs[visible])}
-          </div>
-        </Box>
+        <div className={classes.body}>
+          {createElement(tabs[visible])}
+        </div>
       </Box>
-    </ModalFade>
+    </Box>
   );
 };
 

@@ -9,8 +9,6 @@ import {
 // Core
 import { Container } from '@material-ui/core';
 
-import { ModalFade } from '../../components';
-
 // Pages
 import {
   InterruptScanningPage,
@@ -25,8 +23,7 @@ const InterruptRouter = props => {
     interrupt: {
       type,
       status
-    },
-    ...rest
+    }
   } = props;
   const classes = useInterruptRouterStyles();
 
@@ -42,11 +39,9 @@ const InterruptRouter = props => {
   };
 
   return (
-    <ModalFade {...rest}>
-      <Container maxWidth="sm" classes={{ root: classes.container }}>
-        {renderPage()}
-      </Container>
-    </ModalFade>
+    <Container maxWidth="sm" classes={{ root: classes.container }}>
+      {renderPage()}
+    </Container>
   );
 };
 

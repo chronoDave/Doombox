@@ -97,10 +97,10 @@ export const addFavorite = song => ipcCreate(TYPE.IPC.FAVORITES, song);
 export const removeFavorite = _id => ipcDeleteOne(TYPE.IPC.FAVORITES, _id);
 
 // Storage
-const createUpdateStorage = storage => Object.keys(storage)
+const updateStorage = (storage, type) => Object.keys(storage)
   .map(config => ({
     [config]: payload => ipcUpdateOne(
-      TYPE.IPC.CONFIG,
+      type,
       config,
       payload
     )
@@ -109,8 +109,8 @@ const createUpdateStorage = storage => Object.keys(storage)
 
 export const fetchConfig = () => ipcRead(TYPE.IPC.CONFIG);
 export const fetchCache = () => ipcRead(TYPE.IPC.CACHE);
-export const updateConfig = createUpdateStorage(CONFIG);
-export const updateCache = createUpdateStorage(CACHE);
+export const updateConfig = updateStorage(CONFIG, TYPE.IPC.CONFIG);
+export const updateCache = updateStorage(CACHE, TYPE.IPC.CACHE);
 
 // RPC
 export const setRpc = payload => ipcCreate(TYPE.IPC.RPC, payload);

@@ -1,18 +1,17 @@
 import React, {
-  Fragment,
-  useState,
   useEffect,
+  useState,
   useMemo,
   useCallback
 } from 'react';
-import { connect } from 'react-redux';
 import { ACTION } from '@doombox/utils';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 // Components
 import {
   App,
-  AppBar
+  AppBar,
+  ModalFade
 } from '../../components';
 
 // Modules
@@ -27,50 +26,67 @@ import {
   FavoritesRouter
 } from '../../routers';
 
+// Actions
+import { updateCache } from '../../actions';
+
 // Utils
 import { PATH } from '../../utils/const';
 import { RouteContext } from '../../utils/context';
 
-const RouteProvider = ({ status }) => {
-  const [page, setPage] = useState(PATH.PAGE.LABEL);
-  const [domain, setDomain] = useState(PATH.DOMAIN.LIBRARY);
+/**
+ * Page validation should be handled by the router
+ */
+const RouteProvider = ({ status, cache }) => {
+  const [domain, setDomain] = useState(null);
+  const [page, setPage] = useState(null);
   const [dialog, setDialog] = useState(null);
 
-  const setRoute = (newDomain, newPage) => {
-    setDomain(newDomain);
-    setPage(newPage);
-  };
-
+  // Context values
   const methodValue = useMemo(() => ({
     setDomain,
     setPage,
-    setDialog,
-    setRoute
+    setDialog
   }), []);
-  const locationValue = useMemo(() => ({ page, domain, dialog }), [page, domain, dialog]);
+  const locationValue = useMemo(() => ({
+    domain,
+    page,
+    dialog
+  }), [domain, page, dialog]);
 
-  // Domain
+  // Initialize route
   useEffect(() => {
-    // Validate domain
+    console.log(cache);
+    if (cache) {
+      if (cache.domain && !domain) setDomain(cache.domain);
+      if (cache.page && !page) setPage(cache.page);
+    }
+  }, [cache]);
+
+  // Update cache
+  useEffect(() => {
+    if (page) updateCache.general({ page });
+  }, [page]);
+
+  // Validate domain
+  useEffect(() => {
     if (!Object.values(PATH.DOMAIN).includes(domain)) {
       setDomain(PATH.DOMAIN.LIBRARY);
+    } else {
+      updateCache.general({ domain });
     }
   }, [domain]);
 
   // Interrupt
   useEffect(() => {
-    if (
-      status === ACTION.STATUS.PENDING ||
-      status === ACTION.STATUS.ERROR
-    ) {
+    if (status === ACTION.STATUS.PENDING || status === ACTION.STATUS.ERROR) {
       setDialog(PATH.DIALOG.INTERRUPT);
     }
-
     if (!status || status === ACTION.STATUS.SUCCESS) {
       setDialog(null);
     }
   }, [status]);
 
+  // Renders
   const renderRouter = useCallback(() => {
     switch (domain) {
       case PATH.DOMAIN.LIBRARY:
@@ -84,18 +100,16 @@ const RouteProvider = ({ status }) => {
     }
   }, [domain]);
 
-  const renderDialog = useCallback(() => (
-    <Fragment>
-      <SettingsRouter
-        open={dialog === PATH.DIALOG.SETTINGS}
-        onClose={() => setDialog(null)}
-      />
-      <InterruptRouter
-        open={dialog === PATH.DIALOG.INTERRUPT}
-        onClose={() => setDialog(null)}
-      />
-    </Fragment>
-  ), [dialog]);
+  const renderDialog = useCallback(() => {
+    switch (dialog) {
+      case PATH.DIALOG.SETTINGS:
+        return <SettingsRouter />;
+      case PATH.DIALOG.INTERRUPT:
+        return <InterruptRouter />;
+      default:
+        return null;
+    }
+  }, [dialog]);
 
   return (
     <RouteContext.Method.Provider value={methodValue}>
@@ -104,23 +118,18 @@ const RouteProvider = ({ status }) => {
         <App>
           <Sidebar hidePanel={domain === PATH.DOMAIN.VISUALIZER}>
             {renderRouter()}
-            {renderDialog()}
           </Sidebar>
+          <ModalFade open={!!dialog} onClose={() => setDialog(null)}>
+            {renderDialog()}
+          </ModalFade>
         </App>
       </RouteContext.Location.Provider>
     </RouteContext.Method.Provider>
   );
 };
 
-RouteProvider.propTypes = {
-  status: PropTypes.string
-};
-
-RouteProvider.defaultProps = {
-  status: null
-};
-
 const mapStateToProps = state => ({
+  cache: state.cache.general,
   status: state.interrupt.status
 });
 
