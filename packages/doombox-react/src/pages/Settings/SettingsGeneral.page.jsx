@@ -14,7 +14,11 @@ import { SwitchLabel } from '../../components';
 import { ContainerSettings } from '../../modules';
 
 // Actions
-import { updateConfig } from '../../actions';
+import {
+  updateConfigPalette,
+  updateConfigGeneral,
+  updateConfigAdvanced
+} from '../../actions';
 
 const SettingsGeneral = props => {
   const {
@@ -39,7 +43,7 @@ const SettingsGeneral = props => {
         <SwitchLabel id={id} name="darkTheme">
           <Switch
             checked={darkTheme}
-            onChange={event => updateConfig.palette({
+            onChange={event => updateConfigPalette({
               darkTheme: event.target.checked
             })}
           />
@@ -47,7 +51,7 @@ const SettingsGeneral = props => {
         <SwitchLabel id={id} name="background">
           <Switch
             checked={background}
-            onChange={event => updateConfig.general({
+            onChange={event => updateConfigGeneral({
               background: event.target.checked
             })}
           />
@@ -55,7 +59,7 @@ const SettingsGeneral = props => {
         <SwitchLabel id={id} name="backgroundOpacity">
           <Switch
             checked={backgroundOpacity}
-            onChange={event => updateConfig.palette({
+            onChange={event => updateConfigPalette({
               backgroundOpacity: event.target.checked
             })}
           />
@@ -63,7 +67,7 @@ const SettingsGeneral = props => {
         <SwitchLabel id={id} name="dense">
           <Switch
             checked={dense}
-            onChange={event => updateConfig.general({
+            onChange={event => updateConfigGeneral({
               dense: event.target.checked
             })}
           />
@@ -74,7 +78,7 @@ const SettingsGeneral = props => {
         <SwitchLabel id={id} name="slowSearch">
           <Switch
             checked={slowSearch}
-            onChange={event => updateConfig.general({
+            onChange={event => updateConfigGeneral({
               slowSearch: event.target.checked
             })}
           />
@@ -82,7 +86,7 @@ const SettingsGeneral = props => {
         <SwitchLabel id={id} name="reverseScroll">
           <Switch
             checked={reverseScroll}
-            onChange={event => updateConfig.general({
+            onChange={event => updateConfigGeneral({
               reverseScroll: event.target.checked
             })}
           />
@@ -97,7 +101,7 @@ const SettingsGeneral = props => {
         >
           <Switch
             checked={forceQuit}
-            onChange={event => updateConfig.general({
+            onChange={event => updateConfigGeneral({
               forceQuit: event.target.checked
             })}
           />
@@ -105,7 +109,7 @@ const SettingsGeneral = props => {
         <SwitchLabel id={id} name="hardwareAcceleration">
           <Switch
             checked={hardwareAcceleration}
-            onChange={event => updateConfig.advanced({
+            onChange={event => updateConfigAdvanced({
               hardwareAcceleration: event.target.checked
             })}
           />

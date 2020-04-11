@@ -4,8 +4,14 @@ import React, {
   useMemo,
   useCallback
 } from 'react';
-import { ACTION } from '@doombox/utils';
+import {
+  ACTION,
+  TYPE,
+  CACHE,
+  CONFIG
+} from '@doombox/utils';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // Components
 import {
@@ -27,7 +33,7 @@ import {
 } from '../../routers';
 
 // Actions
-import { updateCache } from '../../actions';
+import { updateCacheGeneral } from '../../actions';
 
 // Utils
 import { PATH } from '../../utils/const';
@@ -55,16 +61,16 @@ const RouteProvider = ({ status, cache }) => {
 
   // Initialize route
   useEffect(() => {
-    console.log(cache);
     if (cache) {
       if (cache.domain && !domain) setDomain(cache.domain);
       if (cache.page && !page) setPage(cache.page);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cache]);
 
   // Update cache
   useEffect(() => {
-    if (page) updateCache.general({ page });
+    if (page) updateCacheGeneral({ page });
   }, [page]);
 
   // Validate domain
@@ -72,7 +78,7 @@ const RouteProvider = ({ status, cache }) => {
     if (!Object.values(PATH.DOMAIN).includes(domain)) {
       setDomain(PATH.DOMAIN.LIBRARY);
     } else {
-      updateCache.general({ domain });
+      updateCacheGeneral({ domain });
     }
   }, [domain]);
 
@@ -126,6 +132,11 @@ const RouteProvider = ({ status, cache }) => {
       </RouteContext.Location.Provider>
     </RouteContext.Method.Provider>
   );
+};
+
+RouteProvider.propTypes = {
+  cache: PropTypes.shape(CACHE[TYPE.CONFIG.GENERAL]).isRequired,
+  status: PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => ({

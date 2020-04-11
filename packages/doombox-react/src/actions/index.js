@@ -1,8 +1,6 @@
 import {
   TYPE,
-  ACTION,
-  CONFIG,
-  CACHE
+  ACTION
 } from '@doombox/utils';
 
 // Crud
@@ -96,21 +94,82 @@ export const fetchFavorites = () => ipcRead(TYPE.IPC.FAVORITES);
 export const addFavorite = song => ipcCreate(TYPE.IPC.FAVORITES, song);
 export const removeFavorite = _id => ipcDeleteOne(TYPE.IPC.FAVORITES, _id);
 
-// Storage
-const updateStorage = (storage, type) => Object.keys(storage)
-  .map(config => ({
-    [config]: payload => ipcUpdateOne(
-      type,
-      config,
-      payload
-    )
-  }))
-  .reduce((acc, cur) => ({ ...acc, ...cur }), {});
-
+// Config
 export const fetchConfig = () => ipcRead(TYPE.IPC.CONFIG);
+export const updateConfigGeneral = payload => ipcUpdateOne(
+  TYPE.IPC.CONFIG,
+  [TYPE.CONFIG.GENERAL],
+  payload
+);
+export const updateConfigAdvanced = payload => ipcUpdateOne(
+  TYPE.IPC.CONFIG,
+  [TYPE.CONFIG.ADVANCED],
+  payload
+);
+export const updateConfigDiscord = payload => ipcUpdateOne(
+  TYPE.IPC.CONFIG,
+  [TYPE.CONFIG.DISCORD],
+  payload
+);
+export const updateConfigKeybind = payload => ipcUpdateOne(
+  TYPE.IPC.CONFIG,
+  [TYPE.CONFIG.KEYBIND],
+  payload
+);
+export const updateConfigPalette = payload => ipcUpdateOne(
+  TYPE.IPC.CONFIG,
+  [TYPE.CONFIG.PALETTE],
+  payload
+);
+export const updateConfigLibrary = payload => ipcUpdateOne(
+  TYPE.IPC.CONFIG,
+  [TYPE.CONFIG.LIBRARY],
+  payload
+);
+export const updateConfigParser = payload => ipcUpdateOne(
+  TYPE.IPC.CONFIG,
+  [TYPE.CONFIG.PARSER],
+  payload
+);
+
+// Cache
 export const fetchCache = () => ipcRead(TYPE.IPC.CACHE);
-export const updateConfig = updateStorage(CONFIG, TYPE.IPC.CONFIG);
-export const updateCache = updateStorage(CACHE, TYPE.IPC.CACHE);
+export const updateCacheGeneral = payload => ipcUpdateOne(
+  TYPE.IPC.CACHE,
+  [TYPE.CONFIG.GENERAL],
+  payload
+);
+export const updateCachePlayer = payload => ipcUpdateOne(
+  TYPE.IPC.CACHE,
+  [TYPE.CONFIG.PLAYER],
+  payload
+);
+export const updateConfigDimensions = payload => ipcUpdateOne(
+  TYPE.IPC.CACHE,
+  [TYPE.CONFIG.DIMENSIONS],
+  payload
+);
+export const updateConfigPosition = payload => ipcUpdateOne(
+  TYPE.IPC.CACHE,
+  [TYPE.CONFIG.POSITION],
+  payload
+);
+
+// // Storage
+// const updateStorage = (storage, type) => Object.keys(storage)
+//   .map(config => ({
+//     [config]: payload => ipcUpdateOne(
+//       type,
+//       config,
+//       payload
+//     )
+//   }))
+//   .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+
+// export const fetchConfig = () => ipcRead(TYPE.IPC.CONFIG);
+// export const fetchCache = () => ipcRead(TYPE.IPC.CACHE);
+// export const updateConfig = updateStorage(CONFIG, TYPE.IPC.CONFIG);
+// export const updateCache = updateStorage(CACHE, TYPE.IPC.CACHE);
 
 // RPC
 export const setRpc = payload => ipcCreate(TYPE.IPC.RPC, payload);

@@ -31,7 +31,9 @@ import {
   createLibrary,
   updateFolder,
   deleteFolder,
-  updateConfig,
+  updateConfigLibrary,
+  updateConfigParser,
+  updateConfigAdvanced,
   dropLibrary
 } from '../../actions';
 
@@ -52,19 +54,19 @@ const SettingsLibrary = props => {
 
     if (filteredFolders.length > 0) {
       createLibrary(filteredFolders);
-      updateConfig.library({ folders: [...folders, ...filteredFolders] });
+      updateConfigLibrary({ folders: [...folders, ...filteredFolders] });
     }
   };
 
   const handleDeleteFolder = newFolder => {
-    updateConfig.library({
+    updateConfigLibrary({
       folders: folders.filter(folder => folder !== newFolder)
     });
     deleteFolder(newFolder);
   };
 
   const handleDelete = () => {
-    updateConfig.library({ folders: [] });
+    updateConfigLibrary({ folders: [] });
     dropLibrary();
   };
 
@@ -74,7 +76,7 @@ const SettingsLibrary = props => {
         <SwitchLabel id={id} name="parseStrict">
           <Switch
             checked={parseStrict}
-            onChange={event => updateConfig.parser({
+            onChange={event => updateConfigParser({
               parseStrict: event.target.checked
             })}
           />
@@ -82,7 +84,7 @@ const SettingsLibrary = props => {
         <SwitchLabel id={id} name="skipCovers">
           <Switch
             checked={skipCovers}
-            onChange={event => updateConfig.parser({
+            onChange={event => updateConfigParser({
               skipCovers: event.target.checked
             })}
           />
@@ -92,7 +94,7 @@ const SettingsLibrary = props => {
           id={id}
           name="libraryCache"
           value={libraryCache}
-          onChange={event => updateConfig.advanced({
+          onChange={event => updateConfigAdvanced({
             libraryCache: event.target.value
           })}
         >

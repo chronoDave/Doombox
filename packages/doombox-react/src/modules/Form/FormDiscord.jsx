@@ -14,7 +14,7 @@ import { Box } from '@material-ui/core';
 import { FieldText } from '../../components';
 
 // Actions
-import { updateConfig } from '../../actions';
+import { updateConfigDiscord } from '../../actions';
 
 const FormDiscord = ({ token, children }) => {
   const id = 'discord';
@@ -24,7 +24,7 @@ const FormDiscord = ({ token, children }) => {
   return (
     <Formik
       initialValues={{ token }}
-      onSubmit={updateConfig.discord}
+      onSubmit={updateConfigDiscord}
     >
       <Form>
         <Box display="flex" flexDirection="column">

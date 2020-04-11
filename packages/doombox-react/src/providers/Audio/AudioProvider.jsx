@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 // Actions
 import {
   setRpc,
-  updateConfig
+  updateConfigPlayer
 } from '../../actions';
 
 // Redux
@@ -139,7 +139,7 @@ class AudioProvider extends Component {
       }));
     });
     this.audio.on(EVENT.AUDIO.AUTOPLAY, autoplay => {
-      updateConfig.player({ autoplay });
+      updateConfigPlayer({ autoplay });
       this.setState(state => ({
         ...state,
         playerValue: { ...state.playerValue, autoplay }
@@ -159,7 +159,7 @@ class AudioProvider extends Component {
     });
     // Volume
     this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
-      updateConfig.player({ volume: volumeValue });
+      updateConfigPlayer({ volume: volumeValue });
       this.setState(state => ({ ...state, volumeValue }));
     });
     // Position

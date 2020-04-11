@@ -14,7 +14,7 @@ import { Switch } from '../../components';
 import { FormCreatePalette } from '../../modules';
 
 // Actions
-import { updateConfig } from '../../actions';
+import { updateConfigPalette } from '../../actions';
 
 // Validation
 import { propPalette } from '../../validation/propTypes';
@@ -25,7 +25,7 @@ const SettingsPalette = ({ palette }) => {
       <Switch
         primary="Dark theme"
         checked={palette.darkTheme}
-        onChange={event => updateConfig.palette({
+        onChange={event => updateConfigPalette({
           darkTheme: event.target.checked
         })}
         maxWidth={480}
@@ -33,7 +33,7 @@ const SettingsPalette = ({ palette }) => {
       <Switch
         primary="Background opacity"
         checked={palette.backgroundOpacity}
-        onChange={event => updateConfig.palette({
+        onChange={event => updateConfigPalette({
           backgroundOpacity: event.target.checked
         })}
         maxWidth={480}
