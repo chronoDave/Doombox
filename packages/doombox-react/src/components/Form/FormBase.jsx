@@ -17,14 +17,11 @@ import { useFormStyles } from './Form.style';
 
 const FormBase = props => {
   const {
-    submit,
+    primary,
     disableTranslation,
     actions,
     className,
     children,
-    onSubmit,
-    validationSchema,
-    initialValues,
     ...rest
   } = props;
 
@@ -32,12 +29,7 @@ const FormBase = props => {
   const { t } = useTranslation();
 
   return (
-    <Formik
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-      initialValues={initialValues}
-      {...rest}
-    >
+    <Formik {...rest}>
       <Form>
         <Box
           display="flex"
@@ -48,7 +40,7 @@ const FormBase = props => {
           <div className={clsx(classes.container, className)}>
             {actions}
             <Button type="submit" color="primary" variant="contained">
-              {disableTranslation ? submit : t(`action:${submit}`)}
+              {disableTranslation ? primary : t(`action:${primary}`)}
             </Button>
           </div>
         </Box>
@@ -58,19 +50,16 @@ const FormBase = props => {
 };
 
 FormBase.propTypes = {
-  submit: PropTypes.string,
+  primary: PropTypes.string,
   disableTranslation: PropTypes.bool,
   actions: PropTypes.node,
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  validationSchema: PropTypes.shape({}).isRequired,
-  initialValues: PropTypes.shape({}).isRequired
+  children: PropTypes.node.isRequired
 };
 
 FormBase.defaultProps = {
   disableTranslation: false,
-  submit: 'submit',
+  primary: 'submit',
   actions: null,
   className: null
 };

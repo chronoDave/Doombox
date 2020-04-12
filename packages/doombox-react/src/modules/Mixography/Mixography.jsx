@@ -19,6 +19,7 @@ import {
   ContextItem,
   ContextDivider,
   DialogBase,
+  DialogForm,
   DialogConfirmation
 } from '../../components';
 
@@ -79,42 +80,29 @@ const Mixography = ({ mixography }) => {
 
   const renderDialog = () => (
     <Fragment>
-      <DialogBase
+      <DialogForm
         open={dialog === 'create'}
         disableTranslation
         title={t('action:create', { context: 'playlist' })}
         onClose={() => setDialog(null)}
-      >
-        <FormPlaylist
-          submit="update"
-          onSubmit={createPlaylist}
-          actions={(
-            <Button onClick={() => setDialog(null)}>
-              {t('action:cancel')}
-            </Button>
-          )}
-        />
-      </DialogBase>
-      <DialogBase
+        form={<FormPlaylist primary="update" onSubmit={createPlaylist} />}
+      />
+      <DialogForm
         open={dialog === 'update'}
         disableTranslation
         title={t('action:edit', { context: 'playlist' })}
         onClose={() => setDialog(null)}
-      >
-        <FormPlaylist
-          submit="create"
-          initialValues={{
-            name: playlist.name,
-            cover: playlist.cover
-          }}
-          onSubmit={payload => updatePlaylist(playlist._id, payload)}
-          actions={(
-            <Button onClick={() => setDialog(null)}>
-              {t('action:cancel')}
-            </Button>
-          )}
-        />
-      </DialogBase>
+        form={(
+          <FormPlaylist
+            primary="create"
+            initialValues={{
+              name: playlist.name,
+              cover: playlist.cover
+            }}
+            onSubmit={payload => updatePlaylist(playlist._id, payload)}
+          />
+        )}
+      />
       <DialogConfirmation
         open={dialog === 'delete'}
         title={t('action:delete', { context: 'playlist' })}

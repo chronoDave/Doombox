@@ -30,7 +30,8 @@ export { Icon } from './Icon';
 export { Tooltip } from './Tooltip';
 export {
   DialogBase,
-  DialogConfirmation
+  DialogConfirmation,
+  DialogForm
 } from './Dialog';
 export {
   Button,
