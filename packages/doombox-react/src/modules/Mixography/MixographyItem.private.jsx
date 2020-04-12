@@ -12,7 +12,16 @@ import {
 } from '../../components';
 
 // Actions
-import { playPlaylist } from '../../actions';
+import { fetchPlaylist } from '../../actions';
+
+// Hooks
+import { useRoute } from '../../hooks';
+
+// Utils
+import {
+  HOOK,
+  PATH
+} from '../../utils/const';
 
 // Validation
 import { propImage } from '../../validation/propTypes';
@@ -23,13 +32,14 @@ import { useMixographyStyles } from './Mixography.style';
 const MixographyItem = props => {
   const {
     name,
+    _id,
     collection,
     current,
-    _id,
     cover,
     onContextMenu
   } = props;
 
+  const { setDomain } = useRoute(HOOK.ROUTE.METHOD);
   const { t } = useTranslation();
   const classes = useMixographyStyles();
 
@@ -45,7 +55,10 @@ const MixographyItem = props => {
           src={cover && (cover.path || cover.file)}
           size={6}
           className={classes.itemAvatar}
-          onClick={() => playPlaylist(_id)}
+          onClick={() => {
+            fetchPlaylist(_id);
+            setDomain(PATH.DOMAIN.PLAYLIST);
+          }}
           onContextMenu={onContextMenu}
         />
       </Tooltip>

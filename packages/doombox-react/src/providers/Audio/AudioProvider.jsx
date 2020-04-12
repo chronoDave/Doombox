@@ -9,14 +9,11 @@ import PropTypes from 'prop-types';
 // Actions
 import {
   setRpc,
-  updateConfigPlayer
+  updateCachePlayer
 } from '../../actions';
 
 // Redux
-import {
-  setPlaylist,
-  shufflePlaylist
-} from '../../redux';
+import { setMixtape } from '../../redux';
 
 // Lib
 import { Audio } from '../../lib';
@@ -68,10 +65,6 @@ class AudioProvider extends Component {
         decreaseVolume: () => this.audio.setVolume(this.audio.volume - 0.01),
         // Playlist
         goTo: newIndex => this.audio.goTo(newIndex),
-        shuffle: () => {
-          const { dispatchShufflePlaylist } = props;
-          dispatchShufflePlaylist();
-        },
         // Misc
         requestFrame: () => this.audio.requestFrame(),
         autoplay: newAutoplay => this.audio.setAutoplay(newAutoplay),
@@ -128,8 +121,8 @@ class AudioProvider extends Component {
     });
     // Playlist
     this.audio.on(EVENT.AUDIO.PLAYLIST, playlist => {
-      const { dispatchPlaylist } = this.props;
-      dispatchPlaylist(playlist);
+      const { updateMixtape } = this.props;
+      updateMixtape(playlist);
     });
     // Player
     this.audio.on(EVENT.AUDIO.STATUS, status => {
@@ -139,7 +132,7 @@ class AudioProvider extends Component {
       }));
     });
     this.audio.on(EVENT.AUDIO.AUTOPLAY, autoplay => {
-      updateConfigPlayer({ autoplay });
+      updateCachePlayer({ autoplay });
       this.setState(state => ({
         ...state,
         playerValue: { ...state.playerValue, autoplay }
@@ -159,7 +152,7 @@ class AudioProvider extends Component {
     });
     // Volume
     this.audio.on(EVENT.AUDIO.VOLUME, volumeValue => {
-      updateConfigPlayer({ volume: volumeValue });
+      updateCachePlayer({ volume: volumeValue });
       this.setState(state => ({ ...state, volumeValue }));
     });
     // Position
@@ -196,26 +189,26 @@ class AudioProvider extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { playlist } = this.props;
+    const { mixtape } = this.props;
 
-    if (prevProps.playlist === playlist) return;
+    if (prevProps.mixtape === mixtape) return;
 
     const {
       action,
       name,
       collection,
-      cover,
-      autoplay
-    } = playlist;
+      cover
+    } = mixtape;
 
-    if (action === ACTION.AUDIO.SHUFFLE) this.audio.shuffle(collection);
-    if (action === ACTION.PLAYLIST.ADD) this.audio.addPlaylist(collection);
+    if (action === ACTION.PLAYLIST.ADD) {
+      this.audio.addPlaylist(collection);
+    }
     if (action === ACTION.PLAYLIST.SET) {
       this.audio.setPlaylist({
         name,
         cover,
         collection
-      }, autoplay);
+      });
     }
   }
 
@@ -251,28 +244,25 @@ class AudioProvider extends Component {
 
 AudioProvider.propTypes = {
   children: PropTypes.element.isRequired,
-  dispatchPlaylist: PropTypes.func.isRequired,
-  dispatchShufflePlaylist: PropTypes.func.isRequired,
-  playlist: PropTypes.shape({
+  updateMixtape: PropTypes.func.isRequired,
+  mixtape: PropTypes.shape({
     action: PropTypes.string,
     name: PropTypes.string,
     cover: propImage,
-    collection: PropTypes.arrayOf(propSong),
-    autoplay: PropTypes.bool
+    collection: PropTypes.arrayOf(propSong)
   })
 };
 
 AudioProvider.defaultProps = {
-  playlist: {}
+  mixtape: {}
 };
 
 const mapStateToProps = state => ({
-  playlist: state.playlist
+  mixtape: state.mixtape
 });
 
 const mapDispatchToProps = {
-  dispatchPlaylist: setPlaylist,
-  dispatchShufflePlaylist: shufflePlaylist
+  updateMixtape: setMixtape
 };
 
 export default connect(

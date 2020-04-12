@@ -64,11 +64,6 @@ const VirtualSongItem = ({ index, style, data }) => {
             onClick={() => createSong(renderProps)}
             classes={{ root: classes.listRoot }}
             className={clsx({ [classes.itemActive]: isActive })}
-            onContextMenu={event => handleMenu({
-              anchorEl: event.currentTarget,
-              type: 'item',
-              payload: renderProps
-            })}
           >
             {isActive && <div className={classes.itemActiveBar} />}
             <ListItemIcon classes={{ root: classes.itemTrack }}>

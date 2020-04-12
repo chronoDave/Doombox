@@ -107,30 +107,29 @@ module.exports = class LibraryController {
         images: images ? song.images.map(id => images[id]) : []
       }));
 
-    let payload;
     switch (data.action) {
       case ACTION.PLAYLIST.SET:
-        payload = {
-          action: data.action,
+        event.sender.send(TYPE.IPC.MIXTAPE, {
           data: {
+            action: data.action,
             name: options.name,
             cover: docsPopulated[0].images[0],
             collection: docsPopulated
           }
-        };
+        });
         break;
       case ACTION.PLAYLIST.ADD:
-        payload = {
-          action: data.action,
-          data: docsPopulated
-        };
+        event.sender.send(TYPE.IPC.MIXTAPE, {
+          data: {
+            action: data.action,
+            collection: docsPopulated
+          }
+        });
         break;
       default:
-        payload = { data: docsPopulated };
+        event.sender.send(this.type, { data: docsPopulated });
         break;
     }
-
-    event.sender.send(this.type, payload);
   }
 
   async update(event, { data }) {

@@ -112,7 +112,6 @@ class Audio extends EventEmitter {
    * @param {String} playlist.name - Playlist name
    * @param {Object[]} playlist.collection - Array of song objects
    * @param {String=} playlist.src - Playlist image source
-   * @param {Bool} autoplay - Should the playlist be played
    */
   setPlaylist(playlist) {
     this.playlist = { ...playlist, index: 0 };
@@ -124,13 +123,6 @@ class Audio extends EventEmitter {
       ...this.playlist.collection,
       ...playlist
     ];
-  }
-
-  shuffle(playlist) {
-    if (this.playlist.collection.length === 0) return;
-    this.playlist.collection = playlist;
-    this.playlist.index = 0;
-    this.newSong();
   }
 
   next() {

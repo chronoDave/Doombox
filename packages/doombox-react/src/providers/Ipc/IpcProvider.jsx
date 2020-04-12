@@ -16,14 +16,14 @@ import {
 // Redux
 import {
   setLibrary,
-  addPlaylist,
   setPlaylist,
+  setMixtape,
+  addMixtape,
   setCache,
   setConfig,
   setInterrupt,
   setMixography,
-  setMessage,
-  setFavorites
+  setMessage
 } from '../../redux';
 
 const { ipcRenderer } = window.require('electron');
@@ -34,41 +34,27 @@ class IpcProvider extends Component {
 
     // Library
     ipcRenderer.on(TYPE.IPC.LIBRARY, (event, payload) => {
-      switch (payload.action) {
-        case ACTION.PLAYLIST.ADD:
-          props.addPlaylist(payload.data);
-          break;
-        case ACTION.PLAYLIST.SET:
-          props.setPlaylist(payload.data);
-          break;
-        default:
-          props.setLibrary(payload.data);
-          break;
-      }
+      props.setLibrary(payload.data);
     });
 
     // Playlist
-    ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
-      switch (payload.action) {
-        case ACTION.PLAYLIST.ADD:
-          props.addPlaylist(payload.data);
-          break;
+    ipcRenderer.on(TYPE.IPC.MIXOGRAPHY, (event, payload) => {
+      props.setMixography(payload.data);
+    });
+    ipcRenderer.on(TYPE.IPC.MIXTAPE, (event, payload) => {
+      switch (payload.data.action) {
         case ACTION.PLAYLIST.SET:
-          props.setPlaylist(payload.data);
+          props.setMixtape(payload.data);
           break;
-        case ACTION.CRUD.READ_ONE:
-          props.setPlaylist(payload.data);
+        case ACTION.PLAYLIST.ADD:
+          props.addMixtape(payload.data.collection);
           break;
         default:
-          // This will break on readOne() without action
-          props.setMixography(payload.data);
           break;
       }
     });
-
-    // Favorites
-    ipcRenderer.on(TYPE.IPC.FAVORITES, (event, payload) => {
-      props.setFavorites(payload.data);
+    ipcRenderer.on(TYPE.IPC.PLAYLIST, (event, payload) => {
+      props.setPlaylist(payload.data);
     });
 
     // Storage
@@ -116,13 +102,12 @@ IpcProvider.propTypes = {
   setInterrupt: PropTypes.func.isRequired,
   setLibrary: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
-  addPlaylist: PropTypes.func.isRequired,
   setMixography: PropTypes.func.isRequired,
-  setFavorites: PropTypes.func.isRequired
+  setMixtape: PropTypes.func.isRequired,
+  addMixtape: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
-  addPlaylist,
   setLibrary,
   setPlaylist,
   setCache,
@@ -130,7 +115,8 @@ const mapDispatchToProps = {
   setInterrupt,
   setMessage,
   setMixography,
-  setFavorites
+  setMixtape,
+  addMixtape
 };
 
 export default connect(

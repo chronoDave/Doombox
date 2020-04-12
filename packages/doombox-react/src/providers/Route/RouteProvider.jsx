@@ -28,7 +28,7 @@ import {
   VisualizerRouter,
   SettingsRouter,
   InterruptRouter,
-  FavoritesRouter
+  PlaylistRouter
 } from '../../routers';
 
 // Actions
@@ -98,8 +98,8 @@ const RouteProvider = ({ status, cache }) => {
         return <LibraryRouter />;
       case PATH.DOMAIN.VISUALIZER:
         return <VisualizerRouter />;
-      case PATH.DOMAIN.FAVORITES:
-        return <FavoritesRouter />;
+      case PATH.DOMAIN.PLAYLIST:
+        return <PlaylistRouter />;
       default:
         return null;
     }

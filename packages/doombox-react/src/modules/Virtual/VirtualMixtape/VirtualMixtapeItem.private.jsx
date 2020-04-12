@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { areEqual } from 'react-window';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 // Core
 import {
@@ -11,28 +11,25 @@ import {
   Typography
 } from '@material-ui/core';
 
-const PlaylistItem = memo(({ data, index, style }) => {
+const VirtualMixtapeItem = memo(({ data, index, style }) => {
   const {
-    collection,
+    mixtape,
     classes,
     currentId,
-    goTo,
-    setMenu
+    goTo
   } = data;
-  const { _id, metadata } = collection[index];
+  const { _id, metadata } = mixtape[index];
+
   const active = currentId === _id;
+  const typographyProps = { noWrap: true, display: 'block' };
 
   return (
     <ListItem
-      className={clsx({ [classes.active]: active })}
-      onClick={() => goTo(index)}
       style={style}
+      className={clsx({ [classes.active]: active })}
       button
+      onClick={() => goTo(index)}
       dense
-      onContextMenu={event => setMenu({
-        anchor: event.currentTarget,
-        payload: collection[index]
-      })}
     >
       {active && <div className={classes.activeBar} />}
       <ListItemIcon>
@@ -42,26 +39,18 @@ const PlaylistItem = memo(({ data, index, style }) => {
       </ListItemIcon>
       <ListItemText
         primary={metadata.title}
-        primaryTypographyProps={{
-          noWrap: true,
-          display: 'block'
-        }}
+        primaryTypographyProps={typographyProps}
         secondary={metadata.artist}
-        secondaryTypographyProps={{
-          noWrap: true,
-          display: 'block'
-        }}
+        secondaryTypographyProps={typographyProps}
       />
     </ListItem>
   );
 }, areEqual);
 
-PlaylistItem.displayName = 'PlaylistItem';
-PlaylistItem.propTypes = {
+VirtualMixtapeItem.propTypes = {
   data: PropTypes.shape({
     goTo: PropTypes.func.isRequired,
-    setMenu: PropTypes.func.isRequired,
-    collection: PropTypes.arrayOf(PropTypes.shape({
+    mixtape: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string,
       metadata: PropTypes.shape({
         title: PropTypes.string,
@@ -80,4 +69,4 @@ PlaylistItem.propTypes = {
   style: PropTypes.shape({}).isRequired
 };
 
-export default PlaylistItem;
+export default VirtualMixtapeItem;

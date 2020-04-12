@@ -64,11 +64,10 @@ const VirtualSongDividerAlbum = props => {
         <Hidden smUp>
           <Tooltip disableTranslation title={tooltip.menu}>
             <IconButton
-              onClick={event => handleMenu({
-                anchorEl: event.currentTarget,
-                type: 'divider',
-                payload: { query, ...playlist }
-              })}
+              onClick={event => handleMenu(
+                event.currentTarget,
+                { query, ...playlist }
+              )}
             >
               <IconMenu />
             </IconButton>

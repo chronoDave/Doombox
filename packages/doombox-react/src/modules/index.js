@@ -10,11 +10,8 @@ export { Player } from './Player';
 export {
   VirtualSong,
   VirtualLabel,
-  VirtualFavorites
+  VirtualMixtape
 } from './Virtual';
-export { Playlist } from './Playlist';
+export { Mixtape } from './Mixtape';
 export { Navigation } from './Navigation';
-export {
-  SearchLibrary,
-  SearchFavorites
-} from './Search';
+export { SearchLibrary } from './Search';

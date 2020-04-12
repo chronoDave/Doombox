@@ -17,8 +17,7 @@ const {
   StorageController,
   LibraryController,
   PlaylistController,
-  RpcController,
-  FavoritesController
+  RpcController
 } = require('./lib/controller');
 const Logger = require('./lib/log');
 const Router = require('./lib/router');
@@ -62,10 +61,6 @@ app.on('ready', () => {
   router.createRouter(
     TYPE.IPC.RPC,
     new RpcController(logger, config.get(TYPE.CONFIG.DISCORD))
-  );
-  router.createRouter(
-    TYPE.IPC.FAVORITES,
-    new FavoritesController(db)
   );
   // Storage
   router.createRouter(TYPE.IPC.CONFIG, new StorageController(

@@ -4,7 +4,10 @@ import React, {
   useMemo,
   useState
 } from 'react';
-import { TYPE } from '@doombox/utils';
+import {
+  ACTION,
+  TYPE
+} from '@doombox/utils';
 import { connect } from 'react-redux';
 import groupBy from 'lodash.groupby';
 import { useTranslation } from 'react-i18next';
@@ -39,14 +42,14 @@ import {
   searchLibrary
 } from '../../actions';
 
-// Hooks
-import { useRoute } from '../../hooks';
-
 // Redux
 import {
-  setPlaylist as dispatchSetPlaylist,
-  addPlaylist as dispatchAddPlaylist
+  addMixtape,
+  setMixtape
 } from '../../redux';
+
+// Hooks
+import { useRoute } from '../../hooks';
 
 // Utils
 import {
@@ -54,7 +57,8 @@ import {
   createRegexPayload,
   createDividerDisc,
   createDividerAlbum,
-  getTotalDuration
+  getTotalDuration,
+  shuffleArray
 } from '../../utils';
 import {
   PATH,
@@ -68,8 +72,8 @@ const LibraryRouter = props => {
   const {
     songs,
     cacheSize,
-    addPlaylist,
-    setPlaylist
+    addToMixtape,
+    playMixtape
   } = props;
   const [offset, setOffset] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -198,6 +202,36 @@ const LibraryRouter = props => {
     }
   };
 
+  const renderContext = () => {
+    return (
+      <Context
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={() => setAnchorEl(null)}
+        position="bottom"
+      >
+        <ContextItem
+          onClick={() => playMixtape({
+            action: ACTION.PLAYLIST.SET,
+            name: t('library'),
+            // Slice makes sure a NEW array is created
+            collection: songs.slice().sort(sortLibrary)
+          })}
+          primary={t('action:play', { context: 'library' })}
+        />
+        <ContextItem
+          onClick={() => playMixtape({
+            action: ACTION.PLAYLIST.SET,
+            name: t('library'),
+            // Slice makes sure a NEW array is created
+            collection: shuffleArray(songs.slice().sort(sortLibrary))
+          })}
+          primary={t('action:shuffle', { context: 'library' })}
+        />
+      </Context>
+    );
+  };
+
   return (
     <Fragment>
       <Box
@@ -217,8 +251,8 @@ const LibraryRouter = props => {
           <SearchLibrary
             count={songs.length}
             onSearch={handleSearch}
-            onAdd={() => addPlaylist(songs)}
-            onPlay={query => setPlaylist({ name: query, collection: songs })}
+            onAdd={() => addToMixtape(songs)}
+            onPlay={query => playMixtape({ name: query, collection: songs })}
           />
           <Tooltip disableTranslation title={t('menu', { context: 'library' })}>
             <IconButton onClick={event => setAnchorEl(event.currentTarget)}>
@@ -230,20 +264,7 @@ const LibraryRouter = props => {
           {renderPage()}
         </Box>
       </Box>
-      <Context
-        anchorEl={anchorEl}
-        open={!!anchorEl}
-        onClose={() => setAnchorEl(null)}
-        position="bottom"
-      >
-        <ContextItem
-          onClick={() => setPlaylist({
-            name: t('library'),
-            collection: songs.slice().sort(sortLibrary)
-          })}
-          primary={t('action:play', { context: 'library' })}
-        />
-      </Context>
+      {renderContext()}
     </Fragment>
   );
 };
@@ -251,8 +272,8 @@ const LibraryRouter = props => {
 LibraryRouter.propTypes = {
   songs: PropTypes.arrayOf(propSong).isRequired,
   cacheSize: PropTypes.number.isRequired,
-  addPlaylist: PropTypes.func.isRequired,
-  setPlaylist: PropTypes.func.isRequired
+  addToMixtape: PropTypes.func.isRequired,
+  playMixtape: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -261,8 +282,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  addPlaylist: dispatchAddPlaylist,
-  setPlaylist: dispatchSetPlaylist
+  addToMixtape: addMixtape,
+  playMixtape: setMixtape
 };
 
 export default connect(

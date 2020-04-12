@@ -26,9 +26,6 @@ import {
   createPlaylist
 } from '../../../actions';
 
-// Validation
-import { } from '../../../validation/propTypes';
-
 const VirtualLabelHeader = props => {
   const {
     classes,
@@ -39,7 +36,7 @@ const VirtualLabelHeader = props => {
     handleMenu
   } = props;
 
-  const query = { $or: tracks.flat().map(track => ({ _id: track })) };
+  const query = { _id: { $in: tracks.flat() } };
   const playlist = {
     name: primary,
     cover: {},
@@ -63,10 +60,10 @@ const VirtualLabelHeader = props => {
       <Hidden smUp>
         <Tooltip disableTranslation title={tooltip.menu}>
           <IconButton
-            onClick={event => handleMenu({
-              anchorEl: event.currentTarget,
-              data: { query, ...playlist }
-            })}
+            onClick={event => handleMenu(
+              event.currentTarget,
+              { id: 'divider', query, ...playlist }
+            )}
           >
             <IconMenu />
           </IconButton>

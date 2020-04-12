@@ -3,13 +3,14 @@ const TYPE = {
     KEYBIND: 'Keybind',
     LIBRARY: 'Library',
     PLAYLIST: 'Playlist',
+    MIXOGRAPHY: 'Mixography',
+    MIXTAPE: 'Mixtape',
     CONFIG: 'Config',
     RPC: 'Rpc',
     CACHE: 'Cache',
     MESSAGE: 'Message',
     INTERRUPT: 'Interrupt',
-    IMAGE: 'Image',
-    FAVORITES: 'Favorites'
+    IMAGE: 'Image'
   },
   CONFIG: {
     GENERAL: 'general',

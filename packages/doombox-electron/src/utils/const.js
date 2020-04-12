@@ -3,7 +3,6 @@ module.exports = {
     USER: 'users',
     IMAGE: 'images',
     SONG: 'songs',
-    PLAYLIST: 'playlist',
-    FAVORITES: 'favorites'
+    PLAYLIST: 'playlist'
   }
 };

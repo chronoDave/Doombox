@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Modules
 import { Navigation } from '../Navigation';
 import { Player } from '../Player';
-import { Playlist } from '../Playlist';
+import { Mixtape } from '../Mixtape';
 
 // Style
 import { useSidebarStyles } from './Sidebar.style';
@@ -21,7 +21,7 @@ const Sidebar = ({ children, hidePanel }) => {
         {!hidePanel && (
           <div className={classes.panel}>
             <Player />
-            <Playlist />
+            <Mixtape />
           </div>
         )}
       </div>

@@ -52,7 +52,7 @@ export const ipcReadOne = (
   {
     projection = {},
     action = null
-  },
+  } = {},
   options = {}
 ) => ipcRenderer.send(type, {
   action: ACTION.CRUD.READ_ONE,

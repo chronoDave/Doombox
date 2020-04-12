@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ACTION } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Icons
@@ -13,12 +14,10 @@ import IconAdd from '@material-ui/icons/Add';
 import { IconButton } from '@material-ui/core';
 
 import {
-  Button,
   Tooltip,
   Context,
   ContextItem,
   ContextDivider,
-  DialogBase,
   DialogForm,
   DialogConfirmation
 } from '../../components';
@@ -30,9 +29,8 @@ import MixographyItem from './MixographyItem.private';
 // Actions
 import {
   createPlaylist,
-  playPlaylist,
-  updatePlaylist,
-  addPlaylist,
+  fetchMixtape,
+  updateMixtape,
   deletePlaylist
 } from '../../actions';
 
@@ -58,11 +56,11 @@ const Mixography = ({ mixography }) => {
     >
       <ContextItem
         primary={t('action:play', { context: 'playlist' })}
-        onClick={() => playPlaylist(playlist._id)}
+        onClick={() => fetchMixtape(playlist._id, ACTION.PLAYLIST.SET)}
       />
       <ContextItem
         primary={t('action:add', { context: 'playlist' })}
-        onClick={() => addPlaylist(playlist._id)}
+        onClick={() => fetchMixtape(playlist._id, ACTION.PLAYLIST.ADD)}
       />
       <ContextDivider />
       <ContextItem
@@ -99,7 +97,7 @@ const Mixography = ({ mixography }) => {
               name: playlist.name,
               cover: playlist.cover
             }}
-            onSubmit={payload => updatePlaylist(playlist._id, payload)}
+            onSubmit={payload => updateMixtape(playlist._id, payload)}
           />
         )}
       />

@@ -346,8 +346,8 @@ Fetch a single playlist. Get populated depending on action.
 
 ```
 {
+  action: String?,
   data: {
-    action: String?,
     _id: String,
     projection: Object?
   }
@@ -357,24 +357,8 @@ Fetch a single playlist. Get populated depending on action.
 **Response**
 
 ```
-// ACTION.PLAYLIST.SET
 {
-  action: ACTION.PLAYLIST.SET,
-  data: {
-    name: String,
-    collection: Song[]
-  }
-}
-
-// ACTION.PLAYLIST.ADD
-{
-  action: ACTION.PLAYLIST.ADD,
-  data: Song[]
-}
-
-// Default
-{
-  action: ACTION.CRUD.READ_ONE
+  action: String?,
   data: {
     collection: Song[]
     name: String,

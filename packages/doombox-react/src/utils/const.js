@@ -31,6 +31,10 @@ export const HOOK = {
   ROUTE: {
     METHOD: 'Method',
     LOCATION: 'Location'
+  },
+  PLAYLIST: {
+    METHOD: 'Method',
+    CURRENT: 'Current'
   }
 };
 
@@ -38,7 +42,7 @@ export const PATH = {
   DOMAIN: {
     LIBRARY: 'library',
     VISUALIZER: 'visualizer',
-    FAVORITES: 'favorites'
+    PLAYLIST: 'playlist'
   },
   PAGE: {
     SONG: 'song',

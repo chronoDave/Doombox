@@ -1,6 +1,6 @@
 import { makeStyles, fade } from '@material-ui/core/styles';
 
-export const usePlaylistStyles = makeStyles(theme => ({
+export const useVirtualMixtapeStyles = makeStyles(theme => ({
   active: {
     height: '100%',
     backgroundColor: fade(theme.palette.primary.main, 0.4)

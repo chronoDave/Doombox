@@ -25,7 +25,6 @@ import VirtualSongItem from './VirtualSongItem.private';
 import {
   playLibrary,
   addLibrary,
-  addFavorite,
   createPlaylist
 } from '../../../actions';
 
@@ -46,11 +45,8 @@ import { propSong } from '../../../validation/propTypes';
 import { useVirtualSongStyles } from './VirtualSong.style';
 
 const VirtualSong = ({ library, onScroll, dense }) => {
-  const [contextMenu, setContextMenu] = useState({
-    type: null,
-    anchorEl: null,
-    payload: null
-  });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [playlist, setPlaylist] = useState({ name: '' });
 
   const theme = useTheme();
   const classes = useVirtualSongStyles();
@@ -71,7 +67,10 @@ const VirtualSong = ({ library, onScroll, dense }) => {
     dense,
     current: currentId,
     createSong,
-    handleMenu: setContextMenu,
+    handleMenu: (anchor, payload) => {
+      setAnchorEl(anchor);
+      setPlaylist(payload);
+    },
     library: library
       .map(item => {
         if (item.divider === 'album') {
@@ -108,6 +107,35 @@ const VirtualSong = ({ library, onScroll, dense }) => {
     return theme.spacing(dense ? 6.5 : 7);
   };
 
+  const renderContext = () => (
+    <Fragment>
+      <Context
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={() => setAnchorEl(null)}
+        position="bottom"
+      >
+        <ContextItem
+          primary={tooltip.play}
+          onClick={() => playLibrary(playlist)}
+        />
+        <ContextItem
+          primary={tooltip.add}
+          onClick={() => addLibrary(playlist)}
+        />
+        <ContextDivider />
+        <ContextItem
+          primary={tooltip.favorite}
+          onClick={() => createPlaylist({
+            name: playlist.name,
+            cover: playlist.cover,
+            collection: playlist.collection
+          })}
+        />
+      </Context>
+    </Fragment>
+  );
+
   return (
     <Fragment>
       <AutoSizer>
@@ -127,41 +155,7 @@ const VirtualSong = ({ library, onScroll, dense }) => {
           </VirtualScroller>
         )}
       </AutoSizer>
-      <Context
-        anchorEl={contextMenu.anchorEl}
-        open={contextMenu.type === 'divider'}
-        onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
-        position="bottom"
-      >
-        <ContextItem
-          primary={tooltip.play}
-          onClick={() => playLibrary(contextMenu.payload)}
-        />
-        <ContextItem
-          primary={tooltip.add}
-          onClick={() => addLibrary(contextMenu.payload)}
-        />
-        <ContextDivider />
-        <ContextItem
-          primary={tooltip.favorite}
-          onClick={() => createPlaylist({
-            name: contextMenu.payload.name,
-            cover: contextMenu.payload.cover,
-            collection: contextMenu.payload.collection
-          })}
-        />
-      </Context>
-      <Context
-        anchorEl={contextMenu.anchorEl}
-        open={contextMenu.type === 'item'}
-        onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
-        position="bottom"
-      >
-        <ContextItem
-          primary={t('action:add', { context: 'favorite' })}
-          onClick={() => addFavorite(contextMenu.payload)}
-        />
-      </Context>
+      {renderContext()}
     </Fragment>
   );
 };

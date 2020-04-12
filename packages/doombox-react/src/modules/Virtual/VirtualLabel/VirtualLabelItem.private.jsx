@@ -14,28 +14,29 @@ const VirtualLabelItem = ({ index, style, data }) => {
   const {
     classes,
     dimensions,
+    handleMenu,
     library
   } = data;
 
   const renderItem = () => {
     if (!Array.isArray(library[index])) {
-      return <VirtualLabelHeader classes={classes} {...library[index]} />;
+      return (
+        <VirtualLabelHeader
+          classes={classes}
+          handleMenu={handleMenu}
+          {...library[index]}
+        />
+      );
     }
     return (
       <Box display="flex" flexWrap="wrap" px={1}>
         {library[index].map(item => {
           const {
-            handleMenu,
             tracks,
             cover,
             ...rest
           } = item;
-          const query = { $or: tracks.map(_id => ({ _id })) };
-          const playlist = {
-            name: item.primary,
-            cover: cover || {},
-            collection: tracks.flat()
-          };
+          const query = { _id: { $in: tracks.flat() } };
 
           return (
             <VirtualLabelAlbum
@@ -43,11 +44,11 @@ const VirtualLabelItem = ({ index, style, data }) => {
               classes={classes}
               cover={cover ? cover.file : null}
               width={dimensions.width}
-              onPlay={() => playLibrary({ query })}
-              onMenu={event => handleMenu({
-                anchorEl: event.currentTarget,
-                data: playlist
-              })}
+              onPlay={() => playLibrary({ name: item.primary, query })}
+              onMenu={event => handleMenu(
+                event.currentTarget,
+                { id: 'album', query }
+              )}
               {...rest}
             />
           );
@@ -67,6 +68,7 @@ VirtualLabelItem.propTypes = {
   index: PropTypes.number.isRequired,
   style: PropTypes.shape({}).isRequired,
   data: PropTypes.shape({
+    handleMenu: PropTypes.func.isRequired,
     classes: PropTypes.shape({
       divider: PropTypes.string.isRequired,
       buttonAlbum: PropTypes.string.isRequired,

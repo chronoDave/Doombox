@@ -2,4 +2,4 @@ export { LibraryRouter } from './Library';
 export { SettingsRouter } from './Settings';
 export { InterruptRouter } from './Interrupt';
 export { VisualizerRouter } from './Visualizer';
-export { FavoritesRouter } from './Favorites';
+export { PlaylistRouter } from './Playlist';

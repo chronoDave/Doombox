@@ -1,7 +1,4 @@
-import {
-  TYPE,
-  ACTION
-} from '@doombox/utils';
+import { TYPE } from '@doombox/utils';
 
 // Crud
 import {
@@ -14,20 +11,20 @@ import {
 
 export const createPlaylist = playlist => ipcCreate(TYPE.IPC.PLAYLIST, playlist);
 export const fetchMixography = () => ipcRead(TYPE.IPC.PLAYLIST);
-export const fetchPlaylist = _id => ipcReadOne(TYPE.IPC.PLAYLIST, _id);
-export const playPlaylist = _id => ipcReadOne(
+export const fetchPlaylist = (_id, action) => ipcReadOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  { action: ACTION.PLAYLIST.SET }
+  { action },
+  { cache: true }
 );
-export const addPlaylist = _id => ipcReadOne(
+export const fetchMixtape = (_id, action) => ipcReadOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  { action: ACTION.PLAYLIST.ADD }
+  { action }
 );
-export const updatePlaylist = (_id, playlist) => ipcUpdateOne(
+export const updateMixtape = (_id, playlist) => ipcUpdateOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  { $set: playlist }
+  { $set: { playlist } }
 );
 export const deletePlaylist = _id => ipcDeleteOne(TYPE.IPC.PLAYLIST, _id);

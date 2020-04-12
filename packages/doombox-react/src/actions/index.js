@@ -19,13 +19,6 @@ export {
   updateConfigParser
 } from './config.actions';
 
-// Favorites
-export {
-  fetchFavorites,
-  addFavorite,
-  removeFavorite
-} from './favorites.actions';
-
 // Library
 export {
   createLibrary,
@@ -42,10 +35,9 @@ export {
 export {
   createPlaylist,
   fetchMixography,
+  fetchMixtape,
   fetchPlaylist,
-  playPlaylist,
-  addPlaylist,
-  updatePlaylist,
+  updateMixtape,
   deletePlaylist
 } from './playlist.actions';
 

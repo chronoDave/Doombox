@@ -34,8 +34,8 @@ import { formatTime } from '../../../utils';
 import { useVirtualLabelStyles } from './VirtualLabel.style';
 
 const VirtualLabel = ({ library, onScroll }) => {
-  const [menuDivider, setMenuDivider] = useState({ anchorEl: null, data: null });
-  const [menuAlbum, setMenuAlbum] = useState({ anchorEl: null, data: null });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [playlist, setPlaylist] = useState({ id: null });
 
   const theme = useTheme();
   const { t } = useTranslation();
@@ -56,6 +56,10 @@ const VirtualLabel = ({ library, onScroll }) => {
   const itemData = {
     classes,
     dimensions,
+    handleMenu: (anchor, payload) => {
+      setAnchorEl(anchor);
+      setPlaylist(payload);
+    },
     library: Object
       .values(groupBy(library, 'albumartist'))
       .reduce((acc, cur) => {
@@ -72,10 +76,6 @@ const VirtualLabel = ({ library, onScroll }) => {
                 formatTime(collection.duration, 'text')
               ].join(' \u2022 '),
               tooltip,
-              handleMenu: payload => setMenuDivider({
-                ...menuDivider,
-                ...payload
-              }),
               tracks: collection.tracks
             });
           } else {
@@ -86,10 +86,6 @@ const VirtualLabel = ({ library, onScroll }) => {
               tooltip: {
                 album: t('action:play', { context: 'album' })
               },
-              handleMenu: payload => setMenuAlbum({
-                ...menuAlbum,
-                ...payload
-              }),
               fields: [
                 { key: t('release_year'), value: collection.year },
                 { key: t('duration'), value: formatTime(collection.duration, 'text') },
@@ -142,39 +138,39 @@ const VirtualLabel = ({ library, onScroll }) => {
       </AutoSizer>
       {/* Divider context menu */}
       <Context
-        anchorEl={menuDivider.anchorEl}
-        open={!!menuDivider.anchorEl}
-        onClose={() => setMenuDivider({ ...menuDivider, anchorEl: null })}
+        anchorEl={anchorEl}
+        open={playlist.id === 'divider'}
+        onClose={() => setPlaylist({ ...playlist, id: null })}
         position="bottom"
       >
         <ContextItem
           primary={tooltip.play}
-          onClick={() => playLibrary(menuDivider.data)}
+          onClick={() => playLibrary(playlist)}
         />
         <ContextItem
           primary={tooltip.add}
-          onClick={() => addLibrary(menuDivider.data)}
+          onClick={() => addLibrary(playlist)}
         />
         <ContextDivider />
         <ContextItem
           primary={tooltip.favorite}
-          onClick={() => createPlaylist(menuDivider.data)}
+          onClick={() => createPlaylist(playlist)}
         />
       </Context>
       {/* Album context menu */}
       <Context
-        anchorEl={menuAlbum.anchorEl}
-        open={!!menuAlbum.anchorEl}
-        onClose={() => setMenuAlbum({ ...menuAlbum, anchorEl: null })}
+        anchorEl={anchorEl}
+        open={playlist.id === 'album'}
+        onClose={() => setPlaylist({ ...playlist, id: null })}
         position="right"
       >
         <ContextItem
           primary={tooltip.add}
-          onClick={() => addLibrary(menuAlbum.data)}
+          onClick={() => addLibrary(playlist)}
         />
         <ContextItem
           primary={tooltip.favorite}
-          onClick={() => createPlaylist(menuAlbum.data)}
+          onClick={() => createPlaylist(playlist)}
         />
       </Context>
     </Fragment>

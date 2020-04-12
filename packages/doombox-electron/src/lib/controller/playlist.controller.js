@@ -1,7 +1,4 @@
-const {
-  TYPE,
-  ACTION
-} = require('@doombox/utils');
+const { TYPE } = require('@doombox/utils');
 
 // Utils
 const { COLLECTION } = require('../../utils/const');
@@ -20,59 +17,34 @@ module.exports = class PlaylistController {
   }
 
   async read(event, { data }) {
-    const docs = await this.db.read(COLLECTION.PLAYLIST, data.query, data.modifiers);
+    const docs = await this.db.read(
+      COLLECTION.PLAYLIST,
+      data.query,
+      data.modifiers
+    );
 
-    event.sender.send(this.type, { data: docs });
+    event.sender.send(TYPE.IPC.MIXOGRAPHY, { data: docs });
   }
 
-  async readOne(event, { data }) {
-    const doc = await this.db.readOne(COLLECTION.PLAYLIST, data._id, data.projection);
+  async readOne(event, { data, options }) {
+    const doc = await this.db.readOne(COLLECTION.PLAYLIST, data._id);
     const images = await this.db.read(COLLECTION.IMAGE, {}, { castObject: true });
     const songs = await this.db.read(
       COLLECTION.SONG,
-      {
-        $or: doc.collection.map(_id => ({ _id }))
-      },
-      {
-        sort: {
-          'metadata.disk.no': 1,
-          'metadata.track.no': 1
-        }
-      }
+      { _id: { $in: doc.collection } }
     );
     const songsPopulated = songs.map(song => ({
       ...song,
       images: images ? song.images.map(id => images[id]) : []
     }));
 
-    let payload;
-    switch (data.action) {
-      case ACTION.PLAYLIST.SET:
-        payload = {
-          action: data.action,
-          data: {
-            ...doc,
-            collection: songsPopulated
-          }
-        };
-        break;
-      case ACTION.PLAYLIST.ADD:
-        payload = {
-          action: data.action,
-          data: songsPopulated
-        };
-        break;
-      default:
-        payload = {
-          action: ACTION.CRUD.READ_ONE,
-          data: {
-            ...doc,
-            collection: songsPopulated
-          }
-        };
-    }
-
-    event.sender.send(this.type, payload);
+    event.sender.send(options.cache ? this.type : TYPE.IPC.MIXTAPE, {
+      data: {
+        ...doc,
+        action: data.action,
+        collection: songsPopulated
+      }
+    });
   }
 
   async updateOne(event, { data }) {

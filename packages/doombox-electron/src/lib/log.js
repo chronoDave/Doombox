@@ -20,7 +20,7 @@ module.exports = class Logger {
     if (typeof content !== 'string') throw new Error(`Expected type 'string', got: ${typeof content}`);
     fse.writeFileSync(path.join(
       this.root,
-      `${new Date().toISOString().replace(/:|\./i, '_')}_${name}.txt`
+      `${new Date().toISOString().replace(/:|\./ig, '_')}_${name}.txt`
     ), content);
   }
 

@@ -5,7 +5,6 @@ import IconVisualizer from '@material-ui/icons/Equalizer';
 import IconAlbum from '@material-ui/icons/LibraryMusic';
 import IconSong from '@material-ui/icons/QueueMusic';
 import IconSettings from '@material-ui/icons/Settings';
-import IconFavorite from '@material-ui/icons/Grade';
 
 // Core
 import {
@@ -55,15 +54,6 @@ const Navigation = () => {
           }
           icon={<IconVisualizer />}
           onClick={() => setDomain(PATH.DOMAIN.VISUALIZER)}
-        />
-        <IconButtonNavigation
-          tooltip="favorites"
-          active={
-            domain === PATH.DOMAIN.FAVORITES &&
-            page === PATH.PAGE.ROOT
-          }
-          icon={<IconFavorite />}
-          onClick={() => setDomain(PATH.DOMAIN.FAVORITES)}
         />
         <IconButtonNavigation
           tooltip="labels"
