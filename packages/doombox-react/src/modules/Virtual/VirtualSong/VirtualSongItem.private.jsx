@@ -35,9 +35,21 @@ const VirtualSongItem = ({ index, style, data }) => {
 
     switch (divider) {
       case 'album':
-        return <VirtualSongDividerAlbum classes={classes} {...renderProps} />;
+        return (
+          <VirtualSongDividerAlbum
+            classes={classes}
+            handleMenu={handleMenu}
+            {...renderProps}
+          />
+        );
       case 'disc':
-        return <VirtualSongDividerDisc classes={classes} {...renderProps} />;
+        return (
+          <VirtualSongDividerDisc
+            classes={classes}
+            handleMenu={handleMenu}
+            {...renderProps}
+          />
+        );
       default: {
         const {
           _id,

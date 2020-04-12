@@ -7,8 +7,7 @@ import React, {
 import {
   ACTION,
   TYPE,
-  CACHE,
-  CONFIG
+  CACHE
 } from '@doombox/utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -136,7 +135,11 @@ const RouteProvider = ({ status, cache }) => {
 
 RouteProvider.propTypes = {
   cache: PropTypes.shape(CACHE[TYPE.CONFIG.GENERAL]).isRequired,
-  status: PropTypes.shape({}).isRequired
+  status: PropTypes.string
+};
+
+RouteProvider.defaultProps = {
+  status: null
 };
 
 const mapStateToProps = state => ({

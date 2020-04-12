@@ -45,7 +45,7 @@ import { useMixographyStyles } from './Mixography.style';
 const Mixography = ({ mixography }) => {
   const [menu, setMenu] = useState(null);
   const [dialog, setDialog] = useState(null);
-  const [playlist, setPlaylist] = useState({});
+  const [playlist, setPlaylist] = useState({ name: '' });
 
   const classes = useMixographyStyles();
   const { t } = useTranslation();

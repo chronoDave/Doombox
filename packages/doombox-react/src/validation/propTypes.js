@@ -77,17 +77,17 @@ export const propSongNoOf = PropTypes.shape({
 export const propSongMetadata = PropTypes.shape({
   track: propSongNoOf,
   disk: propSongNoOf,
-  album: PropTypes.string.isRequired,
+  album: PropTypes.string,
   artists: PropTypes.arrayOf(PropTypes.string),
-  artist: PropTypes.string.isRequired,
-  albumartist: PropTypes.string.isRequired,
+  artist: PropTypes.string,
+  albumartist: PropTypes.string,
   comment: PropTypes.arrayOf(PropTypes.string),
   genre: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   year: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
-  ]).isRequired
+  ])
 });
 
 export const propSong = PropTypes.shape({

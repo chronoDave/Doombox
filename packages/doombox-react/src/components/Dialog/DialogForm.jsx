@@ -1,6 +1,4 @@
-import React, {
-  cloneElement
-} from 'react';
+import React, { cloneElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
@@ -9,13 +7,7 @@ import { Button } from '../Button';
 
 import DialogBase from './DialogBase';
 
-const DialogForm = props => {
-  const {
-    onClose,
-    form,
-    ...rest
-  } = props;
-
+const DialogForm = ({ onClose, form, ...rest }) => {
   const { t } = useTranslation();
 
   return (
@@ -37,7 +29,6 @@ const DialogForm = props => {
 
 DialogForm.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   form: PropTypes.node.isRequired
 };
 

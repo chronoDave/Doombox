@@ -42,11 +42,12 @@ const ModalFade = props => {
 
 ModalFade.propTypes = {
   open: PropTypes.bool.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
   backgroundOpacity: PropTypes.bool
 };
 
 ModalFade.defaultProps = {
+  children: null,
   backgroundOpacity: false
 };
 

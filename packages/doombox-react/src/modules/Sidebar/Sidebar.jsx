@@ -33,11 +33,12 @@ const Sidebar = ({ children, hidePanel }) => {
 };
 
 Sidebar.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   hidePanel: PropTypes.bool
 };
 
 Sidebar.defaultProps = {
+  children: null,
   hidePanel: false
 };
 
