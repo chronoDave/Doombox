@@ -7,7 +7,6 @@ import { Avatar as MuiAvatar } from '@material-ui/core';
 // Utils
 import { pathToUrl } from '../../utils';
 
-
 const Avatar = props => {
   const {
     alt,
@@ -17,15 +16,13 @@ const Avatar = props => {
   } = props;
 
   return (
-    <div>
-      <MuiAvatar
-        alt={alt}
-        src={src && pathToUrl(src)}
-        {...rest}
-      >
-        {icon || alt.slice(0, 1)}
-      </MuiAvatar>
-    </div>
+    <MuiAvatar
+      alt={alt}
+      src={src && pathToUrl(src)}
+      {...rest}
+    >
+      {icon || alt.slice(0, 1)}
+    </MuiAvatar>
   );
 };
 

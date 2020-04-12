@@ -112,10 +112,10 @@ const Playlist = ({ name, collection }) => {
       </Box>
       <Context
         anchorEl={menu.anchor}
+        open={!!menu.anchor}
         onClose={() => setMenu({ ...menu, anchor: null })}
       >
         <ContextItem
-          disableTranslation
           primary={t('action:add', { context: 'favorite' })}
           onClick={() => addFavorite(menu.payload)}
         />

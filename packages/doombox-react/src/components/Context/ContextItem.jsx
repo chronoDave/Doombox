@@ -1,68 +1,56 @@
 import React, { forwardRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  ListItem,
-  ListItemText
-} from '@material-ui/core';
+import { ButtonBase } from '@material-ui/core';
+
+import { Typography } from '../Typography';
+
+// Styles
+import { useContextStyles } from './Context.style';
 
 const ContextItem = forwardRef((props, ref) => {
   const {
-    primary,
-    secondary,
-    disableTranslation,
     disableAutoClose,
-    disabled,
     onClick,
     onClose,
+    primary,
     ...rest
   } = props;
 
-  const { t } = useTranslation();
+  const classes = useContextStyles();
+
+  const handleClick = event => {
+    onClick(event);
+    if (!disableAutoClose && onClose) onClose();
+  };
 
   return (
-    <ListItem
-      button={!!onClick}
-      onClick={event => {
-        if (onClick) {
-          onClick(event);
-          if (!disableAutoClose) onClose();
-        }
-      }}
-      disabled={disabled}
+    <ButtonBase
+      onClick={handleClick}
+      className={clsx(
+        classes.itemRoot,
+        classes.itemButton
+      )}
       ref={ref}
     >
-      <ListItemText
-        primary={disableTranslation ? primary : t(primary)}
-        secondary={secondary ?
-          (disableTranslation ? secondary : t(secondary)) :
-          null
-        }
-        {...rest}
-      />
-    </ListItem>
+      <Typography variant="body2" {...rest}>
+        {primary}
+      </Typography>
+    </ButtonBase>
   );
 });
 
-ContextItem.displayName = 'ContextItem';
 ContextItem.propTypes = {
-  disabled: PropTypes.bool,
-  primary: PropTypes.string.isRequired,
-  secondary: PropTypes.string,
-  disableTranslation: PropTypes.bool,
   disableAutoClose: PropTypes.bool,
-  onClick: PropTypes.func,
+  primary: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
   onClose: PropTypes.func
 };
 
 ContextItem.defaultProps = {
-  secondary: null,
-  disabled: false,
-  disableTranslation: false,
   disableAutoClose: false,
-  onClick: null,
   onClose: null
 };
 

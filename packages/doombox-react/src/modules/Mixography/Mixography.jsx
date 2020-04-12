@@ -2,8 +2,8 @@ import React, {
   Fragment,
   useState
 } from 'react';
-import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 // Icons
@@ -12,11 +12,28 @@ import IconAdd from '@material-ui/icons/Add';
 // Core
 import { IconButton } from '@material-ui/core';
 
-import { Tooltip } from '../../components';
+import {
+  Button,
+  Tooltip,
+  Context,
+  ContextItem,
+  ContextDivider,
+  DialogBase,
+  DialogConfirmation
+} from '../../components';
+
+import { FormPlaylist } from '../Form';
 
 import MixographyItem from './MixographyItem.private';
-import MixographyDialog from './MixographyDialog.private';
-import MixographyMenu from './MixographyMenu.private';
+
+// Actions
+import {
+  createPlaylist,
+  playPlaylist,
+  updatePlaylist,
+  addPlaylist,
+  deletePlaylist
+} from '../../actions';
 
 // Validation
 import { propPlaylist } from '../../validation/propTypes';
@@ -24,24 +41,101 @@ import { propPlaylist } from '../../validation/propTypes';
 // Styles
 import { useMixographyStyles } from './Mixography.style';
 
-const Mixography = ({ active, mixography }) => {
-  const defaultPlaylist = { name: 'default', cover: '', collection: [] };
+const Mixography = ({ mixography }) => {
+  const [menu, setMenu] = useState(null);
+  const [dialog, setDialog] = useState(null);
+  const [playlist, setPlaylist] = useState({});
 
-  const [menu, setMenu] = useState({ anchorEl: null, playlist: defaultPlaylist });
-  const [dialog, setDialog] = useState({ id: null, playlist: defaultPlaylist });
-
-  const { t } = useTranslation();
   const classes = useMixographyStyles();
+  const { t } = useTranslation();
+
+  const renderMenu = () => (
+    <Context
+      anchorEl={menu}
+      open={!!menu}
+      onClose={() => setMenu(null)}
+    >
+      <ContextItem
+        primary={t('action:play', { context: 'playlist' })}
+        onClick={() => playPlaylist(playlist._id)}
+      />
+      <ContextItem
+        primary={t('action:add', { context: 'playlist' })}
+        onClick={() => addPlaylist(playlist._id)}
+      />
+      <ContextDivider />
+      <ContextItem
+        onClick={() => setDialog('update')}
+        primary={t('action:edit', { context: 'playlist' })}
+      />
+      <ContextDivider />
+      <ContextItem
+        primary={t('action:delete', { context: 'playlist' })}
+        onClick={() => setDialog('delete')}
+        color="error"
+      />
+    </Context>
+  );
+
+  const renderDialog = () => (
+    <Fragment>
+      <DialogBase
+        open={dialog === 'create'}
+        disableTranslation
+        title={t('action:create', { context: 'playlist' })}
+        onClose={() => setDialog(null)}
+      >
+        <FormPlaylist
+          submit="update"
+          onSubmit={createPlaylist}
+          actions={(
+            <Button onClick={() => setDialog(null)}>
+              {t('action:cancel')}
+            </Button>
+          )}
+        />
+      </DialogBase>
+      <DialogBase
+        open={dialog === 'update'}
+        disableTranslation
+        title={t('action:edit', { context: 'playlist' })}
+        onClose={() => setDialog(null)}
+      >
+        <FormPlaylist
+          submit="create"
+          initialValues={{
+            name: playlist.name,
+            cover: playlist.cover
+          }}
+          onSubmit={payload => updatePlaylist(playlist._id, payload)}
+          actions={(
+            <Button onClick={() => setDialog(null)}>
+              {t('action:cancel')}
+            </Button>
+          )}
+        />
+      </DialogBase>
+      <DialogConfirmation
+        open={dialog === 'delete'}
+        title={t('action:delete', { context: 'playlist' })}
+        primary={playlist.name}
+        onClose={() => setDialog(null)}
+        onConfirm={() => deletePlaylist(playlist._id)}
+      />
+    </Fragment>
+  );
 
   return (
     <Fragment>
       <div className={classes.root}>
-        {mixography.map(playlist => (
+        {mixography.map(item => (
           <MixographyItem
-            key={playlist._id}
-            active={active}
-            playlist={playlist}
-            onMenu={event => setMenu({ anchorEl: event.currentTarget, playlist })}
+            key={item._id}
+            onContextMenu={event => {
+              setPlaylist(item);
+              setMenu(event.currentTarget);
+            }}
+            {...item}
           />
         ))}
         <Tooltip
@@ -49,36 +143,22 @@ const Mixography = ({ active, mixography }) => {
           title={t('action:create', { context: 'playlist' })}
           placement="right"
         >
-          <IconButton onClick={() => setDialog({ ...dialog, id: 'create' })}>
+          <IconButton onClick={() => setDialog('create')}>
             <IconAdd />
           </IconButton>
         </Tooltip>
       </div>
-      <MixographyDialog
-        onClose={() => setDialog({ ...dialog, id: null })}
-        dialog={dialog}
-      />
-      <MixographyMenu
-        onClose={() => setMenu({ ...menu, anchorEl: null })}
-        onDialog={newDialog => setDialog(newDialog)}
-        menu={menu}
-      />
+      {renderMenu()}
+      {renderDialog()}
     </Fragment>
   );
 };
 
 Mixography.propTypes = {
-  active: PropTypes.string,
-  mixography: PropTypes.arrayOf(propPlaylist)
-};
-
-Mixography.defaultProps = {
-  mixography: [],
-  active: null
+  mixography: PropTypes.arrayOf(propPlaylist).isRequired
 };
 
 const mapStateToProps = state => ({
-  active: state.playlist.name,
   mixography: state.mixography
 });
 

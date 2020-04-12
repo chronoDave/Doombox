@@ -11,20 +11,22 @@ import DialogBase from './DialogBase';
 
 const DialogConfirmation = props => {
   const {
+    primary,
     onConfirm,
-    item,
-    title,
-    open,
     onClose,
+    disableAutoClose,
     ...rest
   } = props;
   const { t } = useTranslation();
 
+  const handleClick = event => {
+    onConfirm(event);
+    if (!disableAutoClose) onClose();
+  };
+
   return (
     <DialogBase
-      open={open}
       onClose={onClose}
-      title={title}
       actions={(
         <Fragment>
           <Button onClick={onClose}>
@@ -33,7 +35,7 @@ const DialogConfirmation = props => {
           <Button
             variant="contained"
             color="error"
-            onClick={onConfirm}
+            onClick={handleClick}
           >
             {t('action:delete')}
           </Button>
@@ -43,7 +45,7 @@ const DialogConfirmation = props => {
     >
       <DialogContentText>
         {`${t('description:delete')} `}
-        <b>{item}</b>
+        <b>{primary}</b>
         ?
       </DialogContentText>
     </DialogBase>
@@ -52,10 +54,13 @@ const DialogConfirmation = props => {
 
 DialogConfirmation.propTypes = {
   onConfirm: PropTypes.func.isRequired,
-  item: PropTypes.string.isRequired,
-  open: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
+  primary: PropTypes.string.isRequired,
+  disableAutoClose: PropTypes.bool,
   onClose: PropTypes.func.isRequired
+};
+
+DialogConfirmation.defaultProps = {
+  disableAutoClose: false
 };
 
 export default DialogConfirmation;

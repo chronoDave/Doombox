@@ -72,11 +72,11 @@ const VirtualFavorites = ({ favorites, dense }) => {
       </AutoSizer>
       <Context
         anchorEl={menu.anchor}
+        open={!!menu.anchor}
         onClose={handleCloseMenu}
         position="bottom"
       >
         <ContextItem
-          disableTranslation
           primary={t('action:remove', { context: 'favorite' })}
           onClick={() => removeFavorite(menu.payload)}
         />

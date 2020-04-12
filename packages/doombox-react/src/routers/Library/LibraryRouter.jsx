@@ -232,11 +232,11 @@ const LibraryRouter = props => {
       </Box>
       <Context
         anchorEl={anchorEl}
+        open={!!anchorEl}
         onClose={() => setAnchorEl(null)}
         position="bottom"
       >
         <ContextItem
-          disableTranslation
           onClick={() => setPlaylist({
             name: t('library'),
             collection: songs.slice().sort(sortLibrary)

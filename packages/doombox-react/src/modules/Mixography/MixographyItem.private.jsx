@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
@@ -14,21 +15,19 @@ import {
 import { playPlaylist } from '../../actions';
 
 // Validation
-import { propPlaylist } from '../../validation/propTypes';
+import { propImage } from '../../validation/propTypes';
 
 // Styles
 import { useMixographyStyles } from './Mixography.style';
 
 const MixographyItem = props => {
   const {
-    active,
-    onMenu,
-    playlist: {
-      _id,
-      name,
-      cover,
-      collection
-    }
+    name,
+    collection,
+    current,
+    _id,
+    cover,
+    onContextMenu
   } = props;
 
   const { t } = useTranslation();
@@ -43,26 +42,37 @@ const MixographyItem = props => {
       >
         <ButtonAvatar
           alt={name}
-          src={cover && (cover.path || cover.file || null)}
+          src={cover && (cover.path || cover.file)}
           size={6}
-          classes={{ root: classes.itemAvatar }}
+          className={classes.itemAvatar}
           onClick={() => playPlaylist(_id)}
-          onContextMenu={onMenu}
+          onContextMenu={onContextMenu}
         />
       </Tooltip>
-      {name === active && <div className={classes.activeBar} />}
+      {name === current && <div className={classes.activeBar} />}
     </Box>
   );
 };
 
 MixographyItem.propTypes = {
-  active: PropTypes.string,
-  onMenu: PropTypes.func.isRequired,
-  playlist: propPlaylist.isRequired
+  name: PropTypes.string.isRequired,
+  collection: PropTypes.arrayOf(PropTypes.string).isRequired,
+  current: PropTypes.string,
+  _id: PropTypes.string.isRequired,
+  cover: propImage,
+  onContextMenu: PropTypes.func
 };
 
 MixographyItem.defaultProps = {
-  active: null
+  current: null,
+  cover: null,
+  onContextMenu: null
 };
 
-export default MixographyItem;
+const mapStateToProps = state => ({
+  current: state.playlist.name
+});
+
+export default connect(
+  mapStateToProps
+)(MixographyItem);

@@ -143,22 +143,20 @@ const VirtualLabel = ({ library, onScroll }) => {
       {/* Divider context menu */}
       <Context
         anchorEl={menuDivider.anchorEl}
+        open={!!menuDivider.anchorEl}
         onClose={() => setMenuDivider({ ...menuDivider, anchorEl: null })}
         position="bottom"
       >
         <ContextItem
-          disableTranslation
           primary={tooltip.play}
           onClick={() => playLibrary(menuDivider.data)}
         />
         <ContextItem
-          disableTranslation
           primary={tooltip.add}
           onClick={() => addLibrary(menuDivider.data)}
         />
         <ContextDivider />
         <ContextItem
-          disableTranslation
           primary={tooltip.favorite}
           onClick={() => createPlaylist(menuDivider.data)}
         />
@@ -166,16 +164,15 @@ const VirtualLabel = ({ library, onScroll }) => {
       {/* Album context menu */}
       <Context
         anchorEl={menuAlbum.anchorEl}
+        open={!!menuAlbum.anchorEl}
         onClose={() => setMenuAlbum({ ...menuAlbum, anchorEl: null })}
         position="right"
       >
         <ContextItem
-          disableTranslation
           primary={tooltip.add}
           onClick={() => addLibrary(menuAlbum.data)}
         />
         <ContextItem
-          disableTranslation
           primary={tooltip.favorite}
           onClick={() => createPlaylist(menuAlbum.data)}
         />

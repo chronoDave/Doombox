@@ -128,23 +128,21 @@ const VirtualSong = ({ library, onScroll, dense }) => {
         )}
       </AutoSizer>
       <Context
-        anchorEl={contextMenu.type === 'divider' && contextMenu.anchorEl}
+        anchorEl={contextMenu.anchorEl}
+        open={contextMenu.type === 'divider'}
         onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
         position="bottom"
       >
         <ContextItem
-          disableTranslation
           primary={tooltip.play}
           onClick={() => playLibrary(contextMenu.payload)}
         />
         <ContextItem
-          disableTranslation
           primary={tooltip.add}
           onClick={() => addLibrary(contextMenu.payload)}
         />
         <ContextDivider />
         <ContextItem
-          disableTranslation
           primary={tooltip.favorite}
           onClick={() => createPlaylist({
             name: contextMenu.payload.name,
@@ -154,12 +152,12 @@ const VirtualSong = ({ library, onScroll, dense }) => {
         />
       </Context>
       <Context
-        anchorEl={contextMenu.type === 'item' && contextMenu.anchorEl}
+        anchorEl={contextMenu.anchorEl}
+        open={contextMenu.type === 'item'}
         onClose={() => setContextMenu({ ...contextMenu, anchorEl: null })}
         position="bottom"
       >
         <ContextItem
-          disableTranslation
           primary={t('action:add', { context: 'favorite' })}
           onClick={() => addFavorite(contextMenu.payload)}
         />
