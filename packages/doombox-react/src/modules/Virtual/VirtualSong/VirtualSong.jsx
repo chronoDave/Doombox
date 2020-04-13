@@ -44,7 +44,14 @@ import { propSong } from '../../../validation/propTypes';
 // Styles
 import { useVirtualSongStyles } from './VirtualSong.style';
 
-const VirtualSong = ({ library, onScroll, dense }) => {
+const VirtualSong = props => {
+  const {
+    library,
+    localized,
+    onScroll,
+    dense
+  } = props;
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [playlist, setPlaylist] = useState({ name: '' });
 
@@ -66,6 +73,7 @@ const VirtualSong = ({ library, onScroll, dense }) => {
     classes,
     dense,
     current: currentId,
+    localized,
     createSong,
     handleMenu: (anchor, payload) => {
       setAnchorEl(anchor);
@@ -76,7 +84,7 @@ const VirtualSong = ({ library, onScroll, dense }) => {
         if (item.divider === 'album') {
           return ({
             divider: item.divider,
-            primary: item.album,
+            primary: localized ? (item.albumlocalized || item.album) : item.album,
             cover: item.cover,
             secondary: [
               item.albumartist,
@@ -163,6 +171,7 @@ const VirtualSong = ({ library, onScroll, dense }) => {
 VirtualSong.propTypes = {
   dense: PropTypes.bool.isRequired,
   onScroll: PropTypes.func.isRequired,
+  localized: PropTypes.bool.isRequired,
   library: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.shape({
       divider: PropTypes.string.isRequired,
@@ -182,6 +191,7 @@ VirtualSong.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  localized: state.config[TYPE.CONFIG.GENERAL].localized,
   dense: state.config[TYPE.CONFIG.GENERAL].dense,
 });
 

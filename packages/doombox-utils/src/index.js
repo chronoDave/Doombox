@@ -71,7 +71,8 @@ const CONFIG = {
     slowSearch: false,
     forceQuit: false,
     background: false,
-    reverseScroll: true
+    reverseScroll: true,
+    localized: true
   },
   [TYPE.CONFIG.ADVANCED]: {
     libraryCache: 25,

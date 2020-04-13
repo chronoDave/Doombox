@@ -1,6 +1,8 @@
 import React from 'react';
+import { TYPE } from '@doombox/utils';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 // Core
 import { Box } from '@material-ui/core';
@@ -18,7 +20,7 @@ import { formatTime } from '../../utils';
 // Validation
 import { propPlaylist } from '../../validation/propTypes';
 
-const Mixtape = ({ mixtape }) => {
+const Mixtape = ({ mixtape, localized }) => {
   const { name, collection } = mixtape;
   const { t } = useTranslation();
 
@@ -65,18 +67,20 @@ const Mixtape = ({ mixtape }) => {
         </Typography>
       </Box>
       <Box flexGrow={1} width="100%">
-        <VirtualMixtape mixtape={collection} />
+        <VirtualMixtape localized={localized} mixtape={collection} />
       </Box>
     </Box>
   );
 };
 
 Mixtape.propTypes = {
-  mixtape: propPlaylist.isRequired
+  mixtape: propPlaylist.isRequired,
+  localized: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  mixtape: state.mixtape
+  mixtape: state.mixtape,
+  localized: state.config[TYPE.CONFIG.GENERAL].localized
 });
 
 export default connect(

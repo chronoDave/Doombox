@@ -18,7 +18,7 @@ import { propSong } from '../../../validation/propTypes';
 // Styles
 import { useVirtualMixtapeStyles } from './VirtualMixtape.style';
 
-const VirtualMixtape = ({ mixtape }) => {
+const VirtualMixtape = ({ mixtape, localized }) => {
   const size = 6.5;
 
   const { _id: currentId } = useAudio(HOOK.AUDIO.CURRENT);
@@ -26,11 +26,18 @@ const VirtualMixtape = ({ mixtape }) => {
   const classes = useVirtualMixtapeStyles();
 
   const itemData = useMemo(() => ({
+    localized,
     classes,
     mixtape,
     currentId,
     goTo
-  }), [classes, mixtape, currentId, goTo]);
+  }), [
+    localized,
+    classes,
+    mixtape,
+    currentId,
+    goTo
+  ]);
 
   return (
     <AutoSizer>
@@ -52,7 +59,8 @@ const VirtualMixtape = ({ mixtape }) => {
 };
 
 VirtualMixtape.propTypes = {
-  mixtape: PropTypes.arrayOf(propSong)
+  mixtape: PropTypes.arrayOf(propSong),
+  localized: PropTypes.bool.isRequired
 };
 
 VirtualMixtape.defaultProps = {

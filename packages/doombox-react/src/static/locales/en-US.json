@@ -76,7 +76,8 @@
     "backgroundOpacity": "Settings opacity",
     "reverseScroll": "Reverse scroll",
     "libraryCache": "Library cache size",
-    "token_discord": "Discord token"
+    "token_discord": "Discord token",
+    "localized": "Localization"
   },
   "description": {
     "field_darkTheme": "Enable dark theme",
@@ -92,6 +93,7 @@
     "field_pathImage": "Set image path, must be an absolute path",
     "field_tokenDiscord": "Discord token used for Rich Presence",
     "field_parseStrict": "Turn this on if you want to get errors when parsing invalid metadata",
+    "field_localized": "Enable localization",
     "delete": "Are you sure you want to permanently delete",
     "song_none": "No song selected",
     "loading_library": "Loading library..."

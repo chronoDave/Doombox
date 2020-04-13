@@ -27,11 +27,45 @@ import { HOOK } from '../../utils/const';
 // Styles
 import { usePlayerStyles } from './Player.style';
 
-const Player = ({ darkTheme }) => {
+const Player = ({ darkTheme, localized }) => {
   const classes = usePlayerStyles();
 
   const { metadata, images } = useAudio(HOOK.AUDIO.CURRENT);
   const { t } = useTranslation();
+
+  const renderMetadata = () => {
+    if (metadata) {
+      const album = localized ? (metadata.albumlocalized || metadata.album) : metadata.album;
+      const artist = localized ? (metadata.artistlocalized || metadata.artist) : metadata.artist;
+      const title = localized ? (metadata.titlelocalized || metadata.title) : metadata.title;
+
+      return (
+        <Tooltip
+          placement="right"
+          title={`(${album}) ${artist} - ${title}`}
+          interactive
+        >
+          <Box display="flex" flexDirection="column">
+            <Typography align="center" clamp={2}>
+              {title}
+            </Typography>
+            <Typography
+              align="center"
+              clamp={1}
+              variant="body2"
+            >
+              {artist}
+            </Typography>
+          </Box>
+        </Tooltip>
+      );
+    }
+    return (
+      <Typography>
+        {t('description:song', { context: 'none' })}
+      </Typography>
+    );
+  };
 
   return (
     <Image
@@ -46,30 +80,7 @@ const Player = ({ darkTheme }) => {
         color={darkTheme ? 'text.primary' : 'grey.50'}
         pt={1}
       >
-        {!metadata ? (
-          <Typography>
-            {t('description:song', { context: 'none' })}
-          </Typography>
-        ) : (
-          <Tooltip
-            placement="right"
-            title={`(${metadata.album}) ${metadata.artist} - ${metadata.title}`}
-            interactive
-          >
-            <Box display="flex" flexDirection="column">
-              <Typography align="center" clamp={2}>
-                {metadata.title}
-              </Typography>
-              <Typography
-                align="center"
-                clamp={1}
-                variant="body2"
-              >
-                {metadata.artist}
-              </Typography>
-            </Box>
-          </Tooltip>
-        )}
+        {renderMetadata()}
       </Box>
       <Box>
         <SliderPlayer />
@@ -89,14 +100,12 @@ const Player = ({ darkTheme }) => {
 };
 
 Player.propTypes = {
-  darkTheme: PropTypes.bool
-};
-
-Player.defaultProps = {
-  darkTheme: false
+  localized: PropTypes.bool.isRequired,
+  darkTheme: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  localized: state.config[TYPE.CONFIG.GENERAL].localized,
   darkTheme: state.config[TYPE.CONFIG.PALETTE].darkTheme
 });
 

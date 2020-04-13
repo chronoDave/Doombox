@@ -26,6 +26,7 @@ const VirtualSongItem = ({ index, style, data }) => {
     dense,
     library,
     current,
+    localized,
     createSong,
     handleMenu
   } = data;
@@ -53,7 +54,13 @@ const VirtualSongItem = ({ index, style, data }) => {
       default: {
         const {
           _id,
-          metadata: { title, artist, track },
+          metadata: {
+            title,
+            titlelocalized,
+            artist,
+            artistlocalized,
+            track
+          },
           format: { duration }
         } = renderProps;
         const isActive = (current === _id);
@@ -72,8 +79,8 @@ const VirtualSongItem = ({ index, style, data }) => {
               </Typography>
             </ListItemIcon>
             <ListItemText
-              primary={title}
-              secondary={`${artist} (${formatTime(duration)})`}
+              primary={localized ? (titlelocalized || title) : title}
+              secondary={`${localized ? (artistlocalized || artist) : artist} (${formatTime(duration)})`}
               primaryTypographyProps={{
                 noWrap: true,
                 display: 'block',
@@ -102,6 +109,7 @@ VirtualSongItem.propTypes = {
     current: PropTypes.string,
     createSong: PropTypes.func.isRequired,
     handleMenu: PropTypes.func.isRequired,
+    localized: PropTypes.bool.isRequired,
     classes: PropTypes.shape({
       root: PropTypes.string.isRequired,
       listRoot: PropTypes.string.isRequired,

@@ -99,15 +99,27 @@ module.exports = class MetadataParser {
       try {
         const {
           format,
+          native,
           common: { picture, ...tags }
         // eslint-disable-next-line no-await-in-loop
         } = await musicMetadata.parseFile(file, { skipCovers: this.skipCovers });
+
+        const nativeTags = native['ID3v2.3']
+          .map(item => ({ [item.id]: item.value }))
+          .reduce((acc, cur) => ({ ...acc, ...cur }), {});
 
         const payload = {
           images: [],
           file,
           format,
-          metadata: tags
+          metadata: {
+            titlelocalized: nativeTags['TXXX:titlelocalized'],
+            artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'],
+            albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'],
+            cdid: nativeTags['TXXX:CDID'],
+            date: nativeTags.TDAT,
+            ...tags
+          }
         };
 
         // Validate tags

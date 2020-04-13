@@ -26,6 +26,7 @@ const SettingsGeneral = props => {
     darkTheme,
     backgroundOpacity,
     // Library
+    localized,
     slowSearch,
     reverseScroll,
     dense,
@@ -75,6 +76,14 @@ const SettingsGeneral = props => {
       </ContainerSettings>
 
       <ContainerSettings title="library">
+        <SwitchLabel id={id} name="localized">
+          <Switch
+            checked={localized}
+            onChange={event => updateConfigGeneral({
+              localized: event.target.checked
+            })}
+          />
+        </SwitchLabel>
         <SwitchLabel id={id} name="slowSearch">
           <Switch
             checked={slowSearch}
@@ -124,6 +133,7 @@ SettingsGeneral.propTypes = {
   darkTheme: PropTypes.bool.isRequired,
   backgroundOpacity: PropTypes.bool.isRequired,
   // Library
+  localized: PropTypes.bool.isRequired,
   slowSearch: PropTypes.bool.isRequired,
   reverseScroll: PropTypes.bool.isRequired,
   dense: PropTypes.bool.isRequired,
@@ -139,6 +149,7 @@ const mapStateToProps = state => ({
   backgroundOpacity: state.config[TYPE.CONFIG.PALETTE].backgroundOpacity,
   // Library
   slowSearch: state.config[TYPE.CONFIG.GENERAL].slowSearch,
+  localized: state.config[TYPE.CONFIG.GENERAL].localized,
   reverseScroll: state.config[TYPE.CONFIG.GENERAL].reverseScroll,
   dense: state.config[TYPE.CONFIG.GENERAL].dense,
   background: state.config[TYPE.CONFIG.GENERAL].background,

@@ -14,6 +14,7 @@ import {
 const VirtualMixtapeItem = memo(({ data, index, style }) => {
   const {
     mixtape,
+    localized,
     classes,
     currentId,
     goTo
@@ -22,6 +23,9 @@ const VirtualMixtapeItem = memo(({ data, index, style }) => {
 
   const active = currentId === _id;
   const typographyProps = { noWrap: true, display: 'block' };
+
+  const title = localized ? (metadata.titlelocalized || metadata.title) : metadata.title;
+  const artist = localized ? (metadata.artistlocalized || metadata.artist) : metadata.artist;
 
   return (
     <ListItem
@@ -38,9 +42,9 @@ const VirtualMixtapeItem = memo(({ data, index, style }) => {
         </Typography>
       </ListItemIcon>
       <ListItemText
-        primary={metadata.title}
+        primary={title}
         primaryTypographyProps={typographyProps}
-        secondary={metadata.artist}
+        secondary={artist}
         secondaryTypographyProps={typographyProps}
       />
     </ListItem>
@@ -50,10 +54,13 @@ const VirtualMixtapeItem = memo(({ data, index, style }) => {
 VirtualMixtapeItem.propTypes = {
   data: PropTypes.shape({
     goTo: PropTypes.func.isRequired,
+    localized: PropTypes.bool.isRequired,
     mixtape: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string,
       metadata: PropTypes.shape({
         title: PropTypes.string,
+        titlelocalized: PropTypes.string,
+        artistlocalized: PropTypes.string,
         artist: PropTypes.string
       })
     })).isRequired,

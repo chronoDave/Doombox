@@ -83,9 +83,11 @@ const LibraryRouter = props => {
 
   const fields = [
     'metadata.artist',
+    'metadata.artistlocalized',
     'metadata.title',
-    'metadata.song',
+    'metadata.titlelocalized',
     'metadata.album',
+    'metadata.albumlocalized',
     'metadata.albumartist'
   ];
   const operator = 'or';
@@ -97,7 +99,11 @@ const LibraryRouter = props => {
       const [album, tracks] = cur;
       const {
         images,
-        metadata: { albumartist, year }
+        metadata: {
+          albumlocalized,
+          albumartist,
+          year
+        }
       } = tracks[0];
 
       const duration = getTotalDuration(tracks);
@@ -108,6 +114,7 @@ const LibraryRouter = props => {
         {
           divider: 'album',
           album,
+          albumlocalized,
           albumartist,
           cover: images[0] || {},
           year,
