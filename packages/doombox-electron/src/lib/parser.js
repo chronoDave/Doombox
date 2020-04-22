@@ -104,20 +104,30 @@ module.exports = class MetadataParser {
         // eslint-disable-next-line no-await-in-loop
         } = await musicMetadata.parseFile(file, { skipCovers: this.skipCovers });
 
-        const nativeTags = native['ID3v2.3']
-          .map(item => ({ [item.id]: item.value }))
-          .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+        const generateNativeTags = () => {
+          let nativeTags = {};
+
+          if (native && native['ID3v2.3']) {
+            nativeTags = native['ID3v2.3']
+              .map(item => ({ [item.id]: item.value }))
+              .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+          }
+
+          return nativeTags;
+        };
+        const nativeTags = generateNativeTags();
+
 
         const payload = {
-          images: [],
           file,
+          images: [],
           format,
           metadata: {
-            titlelocalized: nativeTags['TXXX:titlelocalized'],
-            artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'],
-            albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'],
-            cdid: nativeTags['TXXX:CDID'],
-            date: nativeTags.TDAT,
+            titlelocalized: nativeTags['TXXX:titlelocalized'] || null,
+            artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
+            albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
+            cdid: nativeTags['TXXX:CDID'] || null,
+            date: nativeTags.TDAT || null,
             ...tags
           }
         };

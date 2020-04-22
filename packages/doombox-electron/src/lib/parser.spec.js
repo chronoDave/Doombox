@@ -110,6 +110,11 @@ context('MetadataParser', () => {
           duration: 171.04979591836735
         },
         metadata: {
+          titlelocalized: null,
+          artistlocalized: null,
+          albumlocalized: null,
+          cdid: null,
+          date: '2012-08-31T16:09:24',
           track: { no: 1, of: null },
           disk: { no: null, of: null },
           title: 'Enthusiast',
@@ -117,7 +122,6 @@ context('MetadataParser', () => {
           artist: 'Tours',
           album: 'Enthusiast',
           year: 2012,
-          date: '2012-08-31T16:09:24',
           genre: ['Electronic'],
           copyright: 'Creative Commons Attribution: http://creativecommons.org/licenses/by/3.0/',
           comment: ['URL: http://freemusicarchive.org/music/Tours/Enthusiast/Tours_-_Enthusiast\r\nComments: http://freemusicarchive.org/\r\nCurator: \r\nCopyright: Creative Commons Attribution: http://creativecommons.org/licenses/by/3.0/'],
