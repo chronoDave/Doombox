@@ -11,7 +11,6 @@ const VirtualScroller = ({ onScroll, width, children }) => {
   const ref = createRef();
   const innerRef = createRef();
 
-  // const previousProps = useRef({ width });
   const previousWidth = useRef(width);
   const previousItemCount = useRef();
 
@@ -31,15 +30,16 @@ const VirtualScroller = ({ onScroll, width, children }) => {
     const maxHeight = innerRef.current.scrollHeight - containerHeight;
     const scrollDirection = deltaY > 0 ? 'forward' : 'backward';
 
+    const noScrollbar = maxHeight < 0; // Edge case where screen bigger than max visible albums
     const isScrollUp = (position <= 0 && deltaY < 0);
     const isScrollDown = (position >= maxHeight && deltaY > 0 && !scrollUpdateWasRequested);
 
-    if (isScrollUp || isScrollDown) {
+    if (isScrollUp || isScrollDown || noScrollbar) {
       onScroll(scrollDirection);
 
       if (ref.current) {
         ref.current.resetAfterIndex(0); // Reset size cache
-        ref.current.scrollTo(deltaY < 0 ? 1000000 : 0);
+        ref.current.scrollTo(deltaY < 0 ? 1000000 : 0); // New container height is not calculated
       }
     }
   };

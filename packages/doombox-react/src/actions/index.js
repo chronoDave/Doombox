@@ -21,13 +21,13 @@ export {
 
 // Library
 export {
-  createLibrary,
+  appendLibrary,
   fetchLibrary,
   searchLibrary,
   playLibrary,
   addLibrary,
-  updateFolder,
-  deleteFolder,
+  updateFolders,
+  deleteFolders,
   dropLibrary
 } from './library.actions';
 

@@ -11,7 +11,7 @@ import {
   ipcDelete
 } from './crud';
 
-export const createLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
+export const appendLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
 export const fetchLibrary = () => ipcRead(TYPE.IPC.LIBRARY);
 export const searchLibrary = (regex = null, sort = null) => ipcRead(
   TYPE.IPC.LIBRARY,
@@ -54,12 +54,12 @@ export const addLibrary = ({
     sort
   }
 );
-export const updateFolder = folder => ipcUpdate(
+export const updateFolders = folders => ipcUpdate(
   TYPE.IPC.LIBRARY,
-  { query: folder }
+  { query: folders }
 );
-export const deleteFolder = folder => ipcDelete(
+export const deleteFolders = ({ query, regex }) => ipcDelete(
   TYPE.IPC.LIBRARY,
-  { query: folder }
+  { query, regex }
 );
 export const dropLibrary = () => ipcDelete(TYPE.IPC.LIBRARY);

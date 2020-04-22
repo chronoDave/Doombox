@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
@@ -14,7 +14,7 @@ import { MUI } from '../../utils/const';
 // Styles
 import { useButtonStyles } from './Button.style';
 
-const Button = props => {
+const Button = forwardRef((props, ref) => {
   const {
     color,
     loading,
@@ -39,6 +39,7 @@ const Button = props => {
         )
       }}
       {...rest}
+      ref={ref}
     >
       {loading ? (
         <CircularProgress
@@ -50,7 +51,7 @@ const Button = props => {
       ) : children}
     </MuiButton>
   );
-};
+});
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,

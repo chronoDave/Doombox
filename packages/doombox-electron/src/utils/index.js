@@ -23,7 +23,7 @@ const escapeRegExp = expression => expression
  * @param {String} payload.expression - RegExp expression
  */
 const createQueryRegExp = ({ key, expression }) => ({
-  [key]: { $regex: new RegExp(expression, 'i') }
+  [key]: { $regex: new RegExp(escapeRegExp(expression), 'i') }
 });
 
 // Library

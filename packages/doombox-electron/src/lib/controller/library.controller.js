@@ -67,14 +67,6 @@ module.exports = class LibraryController {
     try {
       this.sendInterrupt(event, ACTION.STATUS.PENDING);
 
-      await this.db.drop(COLLECTION.SONG);
-      await this.db.drop(COLLECTION.IMAGE);
-
-      if (this.imagePath && !this.skipCovers) {
-        fse.removeSync(this.imagePath);
-        fse.mkdirpSync(this.imagePath);
-      }
-
       await this.parser.parse(data.payload, async ({
         payload: docData,
         ...docRest
@@ -156,7 +148,7 @@ module.exports = class LibraryController {
       });
 
       this.sendInterrupt(event, ACTION.STATUS.SUCCESS);
-      this.read(event, { data });
+      this.read(event, { data: {} });
     } catch (err) {
       this.sendError(event, err);
     }
@@ -164,8 +156,15 @@ module.exports = class LibraryController {
 
   async delete(event, { data }) {
     await this.db.delete(COLLECTION.SONG, data.query);
-    if (!data.query) await this.db.drop(COLLECTION.IMAGE);
+    if (!data.query) {
+      await this.db.drop(COLLECTION.IMAGE);
 
-    this.read(event, { data });
+      if (this.imagePath && !this.skipCovers) {
+        fse.removeSync(this.imagePath);
+        fse.mkdirpSync(this.imagePath);
+      }
+    }
+
+    this.read(event, { data: {} });
   }
 };

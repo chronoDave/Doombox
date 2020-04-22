@@ -4,7 +4,7 @@ export {
   SettingsGeneralPage,
   SettingsKeybindPage,
   SettingsLibraryPage,
-  SettingsPalettePage
+  SettingsAppearancePage
 } from './Settings';
 export {
   InterruptErrorPage,

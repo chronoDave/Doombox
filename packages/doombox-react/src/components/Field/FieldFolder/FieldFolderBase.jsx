@@ -31,10 +31,11 @@ const FieldFolderBase = props => {
   const classes = useFieldFolderStyles();
 
   const handleClick = () => {
-    selectFolder(multi)
+    selectFolder({ multi })
       .then(folders => {
         if (folders) onChange(folders);
       })
+      // eslint-disable-next-line no-console
       .catch(console.error);
   };
 

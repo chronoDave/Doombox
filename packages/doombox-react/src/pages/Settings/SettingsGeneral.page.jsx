@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { TYPE } from '@doombox/utils';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 // Core
@@ -9,73 +10,37 @@ import {
   Box
 } from '@material-ui/core';
 
-import { SwitchLabel } from '../../components';
-
-import { ContainerSettings } from '../../modules';
+import {
+  Typography,
+  SwitchLabel
+} from '../../components';
 
 // Actions
 import {
-  updateConfigPalette,
   updateConfigGeneral,
   updateConfigAdvanced
 } from '../../actions';
 
 const SettingsGeneral = props => {
   const {
-    // Appearance
-    darkTheme,
-    backgroundOpacity,
     // Library
     localized,
     slowSearch,
     reverseScroll,
-    dense,
-    background,
     // Advanced
     forceQuit,
     hardwareAcceleration
   } = props;
-
   const id = 'settingsGeneral';
 
-  return (
-    <Box display="flex" flexDirection="column">
-      <ContainerSettings title="appearance">
-        <SwitchLabel id={id} name="darkTheme">
-          <Switch
-            checked={darkTheme}
-            onChange={event => updateConfigPalette({
-              darkTheme: event.target.checked
-            })}
-          />
-        </SwitchLabel>
-        <SwitchLabel id={id} name="background">
-          <Switch
-            checked={background}
-            onChange={event => updateConfigGeneral({
-              background: event.target.checked
-            })}
-          />
-        </SwitchLabel>
-        <SwitchLabel id={id} name="backgroundOpacity">
-          <Switch
-            checked={backgroundOpacity}
-            onChange={event => updateConfigPalette({
-              backgroundOpacity: event.target.checked
-            })}
-          />
-        </SwitchLabel>
-        <SwitchLabel id={id} name="dense">
-          <Switch
-            checked={dense}
-            onChange={event => updateConfigGeneral({
-              dense: event.target.checked
-            })}
-          />
-        </SwitchLabel>
-      </ContainerSettings>
+  const { t } = useTranslation();
 
-      <ContainerSettings title="library">
+  return (
+    <Fragment>
+      <Typography variant="h6">
+        {t('library')}
+      </Typography>
+      <Box p={1}>
         <SwitchLabel id={id} name="localized">
           <Switch
             checked={localized}
@@ -100,9 +65,11 @@ const SettingsGeneral = props => {
             })}
           />
         </SwitchLabel>
-      </ContainerSettings>
-
-      <ContainerSettings title="advanced">
+      </Box>
+      <Typography variant="h6">
+        {t('advanced')}
+      </Typography>
+      <Box p={1}>
         <SwitchLabel
           id={id}
           name="forceQuit"
@@ -123,36 +90,26 @@ const SettingsGeneral = props => {
             })}
           />
         </SwitchLabel>
-      </ContainerSettings>
-    </Box>
+      </Box>
+    </Fragment>
   );
 };
 
 SettingsGeneral.propTypes = {
-  // Appearance
-  darkTheme: PropTypes.bool.isRequired,
-  backgroundOpacity: PropTypes.bool.isRequired,
   // Library
   localized: PropTypes.bool.isRequired,
   slowSearch: PropTypes.bool.isRequired,
   reverseScroll: PropTypes.bool.isRequired,
-  dense: PropTypes.bool.isRequired,
-  background: PropTypes.bool.isRequired,
   // Advanced
   forceQuit: PropTypes.bool.isRequired,
   hardwareAcceleration: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  // Appearance
-  darkTheme: state.config[TYPE.CONFIG.PALETTE].darkTheme,
-  backgroundOpacity: state.config[TYPE.CONFIG.PALETTE].backgroundOpacity,
   // Library
   slowSearch: state.config[TYPE.CONFIG.GENERAL].slowSearch,
   localized: state.config[TYPE.CONFIG.GENERAL].localized,
   reverseScroll: state.config[TYPE.CONFIG.GENERAL].reverseScroll,
-  dense: state.config[TYPE.CONFIG.GENERAL].dense,
-  background: state.config[TYPE.CONFIG.GENERAL].background,
   // Advanced
   forceQuit: state.config[TYPE.CONFIG.GENERAL].forceQuit,
   hardwareAcceleration: state.config[TYPE.CONFIG.ADVANCED].hardwareAcceleration

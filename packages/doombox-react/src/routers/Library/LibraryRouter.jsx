@@ -169,7 +169,7 @@ const LibraryRouter = props => {
   const handleScroll = (direction, size) => {
     const maxOffset = Math.floor(size / cacheSize);
 
-    if (maxOffset <= 1) return;
+    if (maxOffset < 1) return;
     if (direction === 'backward') setOffset(offset === 0 ? maxOffset : offset - 1);
     if (direction === 'forward') setOffset(offset === maxOffset ? 0 : offset + 1);
   };
@@ -209,35 +209,33 @@ const LibraryRouter = props => {
     }
   };
 
-  const renderContext = () => {
-    return (
-      <Context
-        anchorEl={anchorEl}
-        open={!!anchorEl}
-        onClose={() => setAnchorEl(null)}
-        position="bottom"
-      >
-        <ContextItem
-          onClick={() => playMixtape({
-            action: ACTION.PLAYLIST.SET,
-            name: t('library'),
-            // Slice makes sure a NEW array is created
-            collection: songs.slice().sort(sortLibrary)
-          })}
-          primary={t('action:play', { context: 'library' })}
-        />
-        <ContextItem
-          onClick={() => playMixtape({
-            action: ACTION.PLAYLIST.SET,
-            name: t('library'),
-            // Slice makes sure a NEW array is created
-            collection: shuffleArray(songs.slice().sort(sortLibrary))
-          })}
-          primary={t('action:shuffle', { context: 'library' })}
-        />
-      </Context>
-    );
-  };
+  const renderContext = () => (
+    <Context
+      anchorEl={anchorEl}
+      open={!!anchorEl}
+      onClose={() => setAnchorEl(null)}
+      position="bottom"
+    >
+      <ContextItem
+        onClick={() => playMixtape({
+          action: ACTION.PLAYLIST.SET,
+          name: t('library'),
+          // Slice makes sure a NEW array is created
+          collection: songs.slice().sort(sortLibrary)
+        })}
+        primary={t('action:play', { context: 'library' })}
+      />
+      <ContextItem
+        onClick={() => playMixtape({
+          action: ACTION.PLAYLIST.SET,
+          name: t('library'),
+          // Slice makes sure a NEW array is created
+          collection: shuffleArray(songs.slice().sort(sortLibrary))
+        })}
+        primary={t('action:shuffle', { context: 'library' })}
+      />
+    </Context>
+  );
 
   return (
     <Fragment>

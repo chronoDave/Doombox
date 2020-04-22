@@ -1,78 +1,46 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { TYPE } from '@doombox/utils';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-// Icons
-import IconRemove from '@material-ui/icons/Close';
-import IconRefresh from '@material-ui/icons/Refresh';
-
 // Core
 import {
   Box,
   MenuItem,
-  Switch,
-  IconButton
+  Switch
 } from '@material-ui/core';
 
 import {
-  SwitchLabel,
-  FieldFolderBase,
+  Typography,
   TypographyField,
-  Tooltip,
-  Button
+  SwitchLabel
 } from '../../components';
 
-import { ContainerSettings } from '../../modules';
+import { ManagerLibrary } from '../../modules';
 
 // Actions
 import {
-  createLibrary,
-  updateFolder,
-  deleteFolder,
-  updateConfigLibrary,
   updateConfigParser,
-  updateConfigAdvanced,
-  dropLibrary
+  updateConfigAdvanced
 } from '../../actions';
 
 const SettingsLibrary = props => {
   const {
     libraryCache,
     skipCovers,
-    parseStrict,
-    folders
+    parseStrict
   } = props;
   const id = 'settingsLibrary';
 
   const { t } = useTranslation();
 
-  const handleUpdateFolders = newFolders => {
-    const filteredFolders = newFolders
-      .filter(newFolder => !folders.includes(newFolder));
-
-    if (filteredFolders.length > 0) {
-      createLibrary(filteredFolders);
-      updateConfigLibrary({ folders: [...folders, ...filteredFolders] });
-    }
-  };
-
-  const handleDeleteFolder = newFolder => {
-    updateConfigLibrary({
-      folders: folders.filter(folder => folder !== newFolder)
-    });
-    deleteFolder(newFolder);
-  };
-
-  const handleDelete = () => {
-    updateConfigLibrary({ folders: [] });
-    dropLibrary();
-  };
-
   return (
-    <Box display="flex" flexDirection="column">
-      <ContainerSettings title="general">
+    <Fragment>
+      <Typography variant="h6">
+        {t('general')}
+      </Typography>
+      <Box p={1}>
         <SwitchLabel id={id} name="parseStrict">
           <Switch
             checked={parseStrict}
@@ -108,48 +76,27 @@ const SettingsLibrary = props => {
             {t('overkill')}
           </MenuItem>
         </TypographyField>
-      </ContainerSettings>
-
-      <ContainerSettings title="library">
-        <FieldFolderBase
-          multi
-          value={folders}
-          onChange={handleUpdateFolders}
-          secondaryAction={folder => (
-            <Box display="flex">
-              <Tooltip title={t('action:refresh', { context: 'folder' })}>
-                <IconButton onClick={() => updateFolder(folder)}>
-                  <IconRefresh />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={t('action:remove', { context: 'folder' })}>
-                <IconButton onClick={() => handleDeleteFolder(folder)}>
-                  <IconRemove />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          )}
-        />
-        <Button onClick={handleDelete} variant="contained" color="error">
-          {t('action:delete', { context: 'library' })}
-        </Button>
-      </ContainerSettings>
-    </Box>
+      </Box>
+      <Typography variant="h6">
+        {t('folders')}
+      </Typography>
+      <Box px={1} pt={2} flexGrow={1}>
+        <ManagerLibrary />
+      </Box>
+    </Fragment>
   );
 };
 
 SettingsLibrary.propTypes = {
   libraryCache: PropTypes.number.isRequired,
   skipCovers: PropTypes.bool.isRequired,
-  parseStrict: PropTypes.bool.isRequired,
-  folders: PropTypes.arrayOf(PropTypes.string).isRequired
+  parseStrict: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   libraryCache: state.config[TYPE.CONFIG.ADVANCED].libraryCache,
   skipCovers: state.config[TYPE.CONFIG.PARSER].skipCovers,
-  parseStrict: state.config[TYPE.CONFIG.PARSER].parseStrict,
-  folders: state.config[TYPE.CONFIG.LIBRARY].folders
+  parseStrict: state.config[TYPE.CONFIG.PARSER].parseStrict
 });
 
 export default connect(

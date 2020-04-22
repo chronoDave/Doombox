@@ -24,8 +24,7 @@ export const createRegexPayload = (query, fields, operator) => {
 
   return ({
     operator,
-    expressions: fields
-      .map(key => ({ key, expression: query }))
+    expressions: fields.map(key => ({ key, expression: query }))
   });
 };
 export const zeroPadding = i => (i < 10 ? `0${i}` : i);
@@ -56,6 +55,10 @@ export const cleanErr = errString => errString
   .replace(/\n/g, ' ');
 
 // Library
+const normalizeString = string => {
+  if (!string) return 'unknown';
+  return string.toLowerCase();
+};
 export const sortLibrary = (a, b) => {
   const {
     metadata: {
@@ -76,10 +79,10 @@ export const sortLibrary = (a, b) => {
     }
   } = b;
 
-  if (aAlbumartist < bAlbumartist) return -1;
-  if (aAlbumartist > bAlbumartist) return 1;
-  if (aAlbum < bAlbum) return -1;
-  if (aAlbum > bAlbum) return 1;
+  if (normalizeString(aAlbumartist) < normalizeString(bAlbumartist)) return -1;
+  if (normalizeString(aAlbumartist) > normalizeString(bAlbumartist)) return 1;
+  if (normalizeString(aAlbum) < normalizeString(bAlbum)) return -1;
+  if (normalizeString(aAlbum) > normalizeString(bAlbum)) return 1;
   if (aYear < bYear) return -1;
   if (aYear > bYear) return 1;
   if (aDiskNo < bDiskNo) return -1;
@@ -133,7 +136,7 @@ export const createDividerAlbum = tracks => Object
 // Electron
 const { remote: { dialog: { showOpenDialog } } } = window.require('electron');
 
-export const selectFolder = multi => {
+export const selectFolder = ({ multi }) => {
   const properties = ['openDirectory'];
   if (multi) properties.push('multiSelections');
 

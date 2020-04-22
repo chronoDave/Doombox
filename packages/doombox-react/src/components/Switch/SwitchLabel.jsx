@@ -62,6 +62,7 @@ const SwitchLabel = props => {
 
 SwitchLabel.propTypes = {
   id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   primary: PropTypes.string,
   secondary: PropTypes.string,
   disableDescription: PropTypes.bool,
