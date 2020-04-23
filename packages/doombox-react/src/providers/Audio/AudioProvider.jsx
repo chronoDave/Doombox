@@ -19,7 +19,10 @@ import { setMixtape } from '../../redux';
 import { Audio } from '../../lib';
 
 // Utils
-import { pathToRemoteUrl } from '../../utils';
+import {
+  pathToRemoteUrl,
+  normalizeArtist
+} from '../../utils';
 import { AudioContext } from '../../utils/context';
 import {
   EVENT,
@@ -101,11 +104,33 @@ class AudioProvider extends Component {
     // Current
     this.audio.on(EVENT.AUDIO.CURRENT, currentValue => {
       if ('mediaSession' in navigator) {
+        const { localized } = this.props;
+        const {
+          metadata: {
+            artist,
+            artists,
+            artistlocalized,
+            artistslocalized,
+            album,
+            albumlocalized,
+            title,
+            titlelocalized
+          }
+        } = currentValue;
+        const normalizedArtist = normalizeArtist({
+          localized,
+          artist,
+          artists,
+          artistlocalized,
+          artistslocalized
+        });
+        const normalizedAlbum = localized ? (albumlocalized || album) : album;
+        const normalizedTitle = localized ? (titlelocalized || title) : title;
         // eslint-disable-next-line no-undef
         navigator.mediaSession.metadata = new MediaMetadata({
-          artist: currentValue.metadata.artist,
-          album: currentValue.metadata.album,
-          title: currentValue.metadata.title
+          artist: normalizedArtist,
+          album: normalizedAlbum,
+          title: normalizedTitle
         });
         navigator.mediaSession.playbackState = 'playing';
         pathToRemoteUrl(currentValue.images[0].path)
@@ -161,24 +186,42 @@ class AudioProvider extends Component {
     });
     // Rpc
     this.audio.on(EVENT.AUDIO.RPC, message => {
+      const { localized } = this.props;
       const {
         artist,
-        album,
+        artists,
+        artistlocalized,
+        artistslocalized,
         title,
+        titlelocalized,
+        album,
+        albumlocalized,
         albumartist,
+        albumartistlocalized,
         smallImageKey,
         smallImageText,
         startTimestamp,
         endTimestamp
       } = message;
 
+      const normalizedArtist = normalizeArtist({
+        localized,
+        artist,
+        artists,
+        artistlocalized,
+        artistslocalized,
+      });
+      const normalizedAlbum = localized ? (albumlocalized || album) : album;
+      const normalizedTitle = localized ? (titlelocalized || title) : title;
+      const normalizedAlbumartist = localized ? (albumartistlocalized || albumartist) : albumartist;
+
       const payload = {
         smallImageKey,
         smallImageText,
         largeImageKey: 'icon',
-        largeImageText: `Label: ${albumartist}`,
-        state: `${artist} - ${title}`,
-        details: `${album}`
+        largeImageText: `Label: ${normalizedAlbumartist}`,
+        state: `${normalizedArtist} - ${normalizedTitle}`,
+        details: `${normalizedAlbum}`
       };
 
       if (startTimestamp) payload.startTimestamp = startTimestamp;
@@ -250,15 +293,17 @@ AudioProvider.propTypes = {
     name: PropTypes.string,
     cover: propImage,
     collection: PropTypes.arrayOf(propSong)
-  })
+  }),
+  localized: PropTypes.bool.isRequired
 };
 
 AudioProvider.defaultProps = {
-  mixtape: {}
+  mixtape: {},
 };
 
 const mapStateToProps = state => ({
-  mixtape: state.mixtape
+  mixtape: state.mixtape,
+  localized: state.config[TYPE.CONFIG.GENERAL].localized,
 });
 
 const mapDispatchToProps = {

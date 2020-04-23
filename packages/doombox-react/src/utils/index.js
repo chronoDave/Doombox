@@ -19,14 +19,6 @@ export const shuffleArray = array => {
     }
   }
 };
-export const createRegexPayload = (query, fields, operator) => {
-  if (!['or', 'and', 'not'].includes(operator)) throw new Error(`Invalid operator: ${operator}`);
-
-  return ({
-    operator,
-    expressions: fields.map(key => ({ key, expression: query }))
-  });
-};
 export const zeroPadding = i => (i < 10 ? `0${i}` : i);
 export const formatTime = (time, format) => {
   const seconds = Math.floor(time % 60);
@@ -55,9 +47,17 @@ export const cleanErr = errString => errString
   .replace(/\n/g, ' ');
 
 // Library
-const normalizeString = string => {
-  if (!string) return 'unknown';
-  return string.toLowerCase();
+export const normalizeArtist = ({
+  localized,
+  artist,
+  artistlocalized,
+  artists,
+  artistslocalized
+}) => {
+  if (localized && Array.isArray(artistslocalized)) return artistslocalized.join(',\u00a0');
+  if (localized && artistlocalized) return artistlocalized;
+  if (Array.isArray(artists)) return artists.join(',\u00a0');
+  return artist;
 };
 export const sortLibrary = (a, b) => {
   const {
@@ -78,6 +78,11 @@ export const sortLibrary = (a, b) => {
       disk: { no: bDiskNo }
     }
   } = b;
+
+  const normalizeString = string => {
+    if (!string) return 'unknown';
+    return string.toLowerCase();
+  };
 
   if (normalizeString(aAlbumartist) < normalizeString(bAlbumartist)) return -1;
   if (normalizeString(aAlbumartist) > normalizeString(bAlbumartist)) return 1;

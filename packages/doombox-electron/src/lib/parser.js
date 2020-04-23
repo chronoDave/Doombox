@@ -109,7 +109,7 @@ module.exports = class MetadataParser {
 
           if (native && native['ID3v2.3']) {
             nativeTags = native['ID3v2.3']
-              .map(item => ({ [item.id]: item.value }))
+              .map(item => ({ [item.id.toUpperCase()]: item.value }))
               .reduce((acc, cur) => ({ ...acc, ...cur }), {});
           }
 
@@ -117,15 +117,16 @@ module.exports = class MetadataParser {
         };
         const nativeTags = generateNativeTags();
 
-
         const payload = {
           file,
           images: [],
           format,
           metadata: {
-            titlelocalized: nativeTags['TXXX:titlelocalized'] || null,
-            artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
+            titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
+            artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ')[0] || null,
+            artistslocalized: nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ') || null,
             albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
+            albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
             cdid: nativeTags['TXXX:CDID'] || null,
             date: nativeTags.TDAT || null,
             ...tags

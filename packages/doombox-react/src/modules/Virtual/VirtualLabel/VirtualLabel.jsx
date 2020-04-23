@@ -2,9 +2,11 @@ import React, {
   Fragment,
   useState
 } from 'react';
+import { TYPE } from '@doombox/utils';
 import groupBy from 'lodash.groupby';
 import { useTranslation } from 'react-i18next';
 import { VariableSizeList } from 'react-window';
+import { connect } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import PropTypes from 'prop-types';
 
@@ -33,7 +35,7 @@ import { formatTime } from '../../../utils';
 // Style
 import { useVirtualLabelStyles } from './VirtualLabel.style';
 
-const VirtualLabel = ({ library, onScroll }) => {
+const VirtualLabel = ({ library, localized, onScroll }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [playlist, setPlaylist] = useState({ id: null });
 
@@ -81,7 +83,9 @@ const VirtualLabel = ({ library, onScroll }) => {
           } else {
             tracks.push({
               cover: collection.cover,
-              primary: collection.album,
+              primary: localized ?
+                (collection.albumlocalized || collection.album) :
+                collection.album,
               tracks: collection.tracks,
               tooltip: {
                 album: t('action:play', { context: 'album' })
@@ -178,6 +182,7 @@ const VirtualLabel = ({ library, onScroll }) => {
 };
 
 VirtualLabel.propTypes = {
+  localized: PropTypes.bool.isRequired,
   library: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.shape({
       divider: PropTypes.string.isRequired,
@@ -198,4 +203,10 @@ VirtualLabel.propTypes = {
   onScroll: PropTypes.func.isRequired
 };
 
-export default VirtualLabel;
+const mapStateToProps = state => ({
+  localized: state.config[TYPE.CONFIG.GENERAL].localized,
+});
+
+export default connect(
+  mapStateToProps
+)(VirtualLabel);

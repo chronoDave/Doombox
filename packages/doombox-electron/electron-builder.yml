@@ -1,0 +1,18 @@
+appId: com.electron.doombox
+productName: Doombox
+copyright: Copyright © 2020 ${author}
+
+electronVersion: 7.1.1
+
+directories:
+  output: ../../build
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
+  uninstallDisplayName: Uninstall Doombox
+
+win:
+  target: nsis
+  publisherName: Chronocide

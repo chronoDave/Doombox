@@ -54,7 +54,6 @@ import { useRoute } from '../../hooks';
 // Utils
 import {
   sortLibrary,
-  createRegexPayload,
   createDividerDisc,
   createDividerAlbum,
   getTotalDuration,
@@ -80,17 +79,6 @@ const LibraryRouter = props => {
 
   const { page } = useRoute(HOOK.ROUTE.LOCATION);
   const { t } = useTranslation();
-
-  const fields = [
-    'metadata.artist',
-    'metadata.artistlocalized',
-    'metadata.title',
-    'metadata.titlelocalized',
-    'metadata.album',
-    'metadata.albumlocalized',
-    'metadata.albumartist'
-  ];
-  const operator = 'or';
 
   const propSongLibrary = useMemo(() => (Object
     .entries(groupBy(songs, 'metadata.album'))
@@ -157,7 +145,21 @@ const LibraryRouter = props => {
   const handleSearch = query => {
     setOffset(0); // New library, reset cache
     searchLibrary(
-      query.length !== 0 ? createRegexPayload(query, fields, operator) : null,
+      query.length !== 0 ? ({
+        operator: 'or',
+        expressions: [
+          'metadata.artist',
+          'metadata.artistlocalized',
+          'metadata.artists',
+          'metadata.artistslocalized',
+          'metadata.title',
+          'metadata.titlelocalized',
+          'metadata.album',
+          'metadata.albumlocalized',
+          'metadata.albumartist',
+          'metadata.albumartistlocalized'
+        ].map(key => ({ key, expression: query }))
+      }) : null,
       {
         'metadata.album': 1,
         'metadata.disk.no': 1,

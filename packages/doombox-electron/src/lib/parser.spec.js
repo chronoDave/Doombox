@@ -112,7 +112,9 @@ context('MetadataParser', () => {
         metadata: {
           titlelocalized: null,
           artistlocalized: null,
+          artistslocalized: null,
           albumlocalized: null,
+          albumartistlocalized: null,
           cdid: null,
           date: '2012-08-31T16:09:24',
           track: { no: 1, of: null },

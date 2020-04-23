@@ -22,6 +22,7 @@
     "howler": "^2.1.2",
     "i18next": "^19.0.1",
     "lodash.debounce": "^4.0.8",
+    "lodash.groupby": "^4.6.0",
     "lodash.throttle": "^4.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

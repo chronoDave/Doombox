@@ -11,6 +11,12 @@ import {
   Typography
 } from '@material-ui/core';
 
+// Utils
+import { normalizeArtist } from '../../../utils';
+
+// Validation
+import { propSong } from '../../../validation/propTypes';
+
 const VirtualMixtapeItem = memo(({ data, index, style }) => {
   const {
     mixtape,
@@ -25,7 +31,13 @@ const VirtualMixtapeItem = memo(({ data, index, style }) => {
   const typographyProps = { noWrap: true, display: 'block' };
 
   const title = localized ? (metadata.titlelocalized || metadata.title) : metadata.title;
-  const artist = localized ? (metadata.artistlocalized || metadata.artist) : metadata.artist;
+  const normalizedArtist = normalizeArtist({
+    localized,
+    artist: metadata.artist,
+    artists: metadata.artists,
+    artistlocalized: metadata.artistlocalized,
+    artistslocalized: metadata.artistslocalized
+  });
 
   return (
     <ListItem
@@ -44,7 +56,7 @@ const VirtualMixtapeItem = memo(({ data, index, style }) => {
       <ListItemText
         primary={title}
         primaryTypographyProps={typographyProps}
-        secondary={artist}
+        secondary={normalizedArtist}
         secondaryTypographyProps={typographyProps}
       />
     </ListItem>
@@ -55,15 +67,7 @@ VirtualMixtapeItem.propTypes = {
   data: PropTypes.shape({
     goTo: PropTypes.func.isRequired,
     localized: PropTypes.bool.isRequired,
-    mixtape: PropTypes.arrayOf(PropTypes.shape({
-      _id: PropTypes.string,
-      metadata: PropTypes.shape({
-        title: PropTypes.string,
-        titlelocalized: PropTypes.string,
-        artistlocalized: PropTypes.string,
-        artist: PropTypes.string
-      })
-    })).isRequired,
+    mixtape: PropTypes.arrayOf(propSong).isRequired,
     classes: PropTypes.shape({
       listItemIcon: PropTypes.string,
       activeBar: PropTypes.string,

@@ -15,7 +15,10 @@ import VirtualSongDividerAlbum from './VirtualSongDividerAlbum.private';
 import VirtualSongDividerDisc from './VirtualSongDividerDisc.private';
 
 // Utils
-import { formatTime } from '../../../utils';
+import {
+  formatTime,
+  normalizeArtist
+} from '../../../utils';
 
 // Validation
 import { propSong } from '../../../validation/propTypes';
@@ -58,12 +61,22 @@ const VirtualSongItem = ({ index, style, data }) => {
             title,
             titlelocalized,
             artist,
+            artists,
             artistlocalized,
+            artistslocalized,
             track
           },
           format: { duration }
         } = renderProps;
         const isActive = (current === _id);
+
+        const normalizedArtist = normalizeArtist({
+          localized,
+          artist,
+          artists,
+          artistlocalized,
+          artistslocalized
+        });
 
         return (
           <ListItem
@@ -80,7 +93,7 @@ const VirtualSongItem = ({ index, style, data }) => {
             </ListItemIcon>
             <ListItemText
               primary={localized ? (titlelocalized || title) : title}
-              secondary={`${localized ? (artistlocalized || artist) : artist} (${formatTime(duration)})`}
+              secondary={`${normalizedArtist} (${formatTime(duration)})`}
               primaryTypographyProps={{
                 noWrap: true,
                 display: 'block',

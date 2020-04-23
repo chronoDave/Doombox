@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon --watch src --exec electron .",
     "start:dev": "cross-env NODE_ENV=development nodemon --watch src --exec electron . --debug",
-    "build": "yarn del-cli ../../build -f && electron-builder",
+    "build": "yarn del-cli ../../build -f && electron-builder -c",
     "test:unit": "tap --files=src/**/*.spec.js --no-coverage",
     "arkit": "arkit -c ../../arkit/arkit-electron.js"
   },
@@ -20,24 +20,5 @@
     "lodash.groupby": "^4.6.0",
     "music-metadata": "^5.0.1",
     "nedb": "^1.8.0"
-  },
-  "build": {
-    "appId": "com.electron.doombox",
-    "productName": "Doombox",
-    "copyright": "©2020 ${author}",
-    "electronVersion": "7.1.1",
-    "directories": {
-      "output": "../../build"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": true,
-      "uninstallDisplayName": "Uninstall Doombox"
-    },
-    "win": {
-      "target": "nsis",
-      "publisherName": "Chronocide"
-    }
   }
 }

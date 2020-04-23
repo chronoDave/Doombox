@@ -21,6 +21,7 @@ import { Typography } from '../Typography';
 import { useAudio } from '../../hooks';
 
 // Utils
+import { normalizeArtist } from '../../utils';
 import { HOOK } from '../../utils/const';
 
 // Style
@@ -42,10 +43,18 @@ const AppBar = ({ localized }) => {
 
   const getTitle = () => {
     if (metadata) {
-      const artist = localized ? (metadata.artistlocalized || metadata.artist) : metadata.artist;
-      const title = localized ? (metadata.titlelocalized || metadata.title) : metadata.title;
+      const normalizedArtist = normalizeArtist({
+        localized,
+        artist: metadata.artist,
+        artists: metadata.artists,
+        artistlocalized: metadata.artistlocalized,
+        artistslocalized: metadata.artistslocalized
+      });
+      const normalizedTitle = localized ?
+        (metadata.titlelocalized || metadata.title) :
+        metadata.title;
 
-      return `${artist} - ${title}`;
+      return `${normalizedArtist} - ${normalizedTitle}`;
     }
     return 'Doombox';
   };

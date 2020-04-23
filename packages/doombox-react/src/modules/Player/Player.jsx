@@ -22,6 +22,7 @@ import {
 import { useAudio } from '../../hooks';
 
 // Utils
+import { normalizeArtist } from '../../utils';
 import { HOOK } from '../../utils/const';
 
 // Styles
@@ -35,14 +36,20 @@ const Player = ({ darkTheme, localized }) => {
 
   const renderMetadata = () => {
     if (metadata) {
+      const normalizedArtist = normalizeArtist({
+        localized,
+        artist: metadata.artist,
+        artists: metadata.artists,
+        artistlocalized: metadata.artistlocalized,
+        artistslocalized: metadata.artistslocalized
+      });
       const album = localized ? (metadata.albumlocalized || metadata.album) : metadata.album;
-      const artist = localized ? (metadata.artistlocalized || metadata.artist) : metadata.artist;
       const title = localized ? (metadata.titlelocalized || metadata.title) : metadata.title;
 
       return (
         <Tooltip
           placement="right"
-          title={`(${album}) ${artist} - ${title}`}
+          title={`(${album}) ${normalizedArtist} - ${title}`}
           interactive
         >
           <Box display="flex" flexDirection="column">
@@ -54,12 +61,13 @@ const Player = ({ darkTheme, localized }) => {
               clamp={1}
               variant="body2"
             >
-              {artist}
+              {normalizedArtist}
             </Typography>
           </Box>
         </Tooltip>
       );
     }
+
     return (
       <Typography>
         {t('description:song', { context: 'none' })}
