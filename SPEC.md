@@ -162,8 +162,6 @@ Creates a collection of songs.
 **Protocol**
 
  - Send interrupt event `ACTION.STATUS.PENDING`
- - Clean database
- - Clean images folder
  - Parse `data.payload`
  - Send interrupt event `ACTION.STATUS.SUCCESS`
  - Call `read()`
@@ -208,8 +206,8 @@ Fetch collection of songs. Populates `images` with `Image`.
 ```
 // ACTION.PLAYLIST.SET
 {
-  action: ACTION.PLAYLIST.SET,
   data: {
+    action: ACTION.PLAYLIST.SET,
     name: String,
     cover: Image,
     collection: Song[]
@@ -218,8 +216,10 @@ Fetch collection of songs. Populates `images` with `Image`.
 
 // ACTION.PLAYLIST.ADD
 {
-  action: ACTION.PLAYLIST.ADD,
-  data: Song[]
+  data: {
+    action: ACTION.PLAYLIST.ADD,
+    collection: Song[]
+  }
 }
 
 // Default
@@ -275,6 +275,7 @@ Delete songs based on query.
 
  - Delete `COLLECTION.SONG`
  - If `!data.query`, drop `COLLECTIONG.IMAGE`
+ - If `!data.query` and `imagePath` and `!skipCovers`, clear image folder
  - Call `read()`
 
 ---
@@ -358,8 +359,8 @@ Fetch a single playlist. Get populated depending on action.
 
 ```
 {
-  action: String?,
   data: {
+    action: String?,
     collection: Song[]
     name: String,
     cover: Image

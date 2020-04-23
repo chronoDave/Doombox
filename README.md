@@ -44,9 +44,10 @@ This manually links `@doombox/utils` to `@doombox/electron` and `@doombox/react`
 
 If you wish to contribute to Doombox, please read the [contributing guide](CONTRIBUTING.md).
 
-
-
 ## Attribution
+
+`discord.sh` Travis integration script by [DiscordHooks](https://github.com/DiscordHooks/travis-ci-discord-webhook).
+
 ### Unsplash
 
 All images found in the static folder are obtained from [Unsplash](https://unsplash.com/) under the [Unsplash License](https://unsplash.com/license).
