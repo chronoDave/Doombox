@@ -115,7 +115,26 @@ module.exports = class MetadataParser {
 
           return nativeTags;
         };
+
         const nativeTags = generateNativeTags();
+        const normalizedArtist = () => {
+          if (
+            nativeTags['TXXX:ARTISTLOCALIZED'] &&
+            Array.isArray(nativeTags['TXXX:ARTISTLOCALIZED'])
+          ) {
+            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ')[0];
+          }
+          return null;
+        };
+        const normalizedArtists = () => {
+          if (
+            nativeTags['TXXX:ARTISTLOCALIZED'] &&
+            Array.isArray(nativeTags['TXXX:ARTISTLOCALIZED'])
+          ) {
+            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ');
+          }
+          return null;
+        };
 
         const payload = {
           file,
@@ -123,8 +142,8 @@ module.exports = class MetadataParser {
           format,
           metadata: {
             titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
-            artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ')[0] || null,
-            artistslocalized: nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ') || null,
+            artistlocalized: normalizedArtist(),
+            artistslocalized: normalizedArtists(),
             albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
             albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
             cdid: nativeTags['TXXX:CDID'] || null,
