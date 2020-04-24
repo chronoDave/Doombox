@@ -42,4 +42,7 @@ export {
 } from './playlist.actions';
 
 // Rpc
-export { setRpc } from './rpc.actions';
+export {
+  setToken,
+  setRpc
+} from './rpc.actions';

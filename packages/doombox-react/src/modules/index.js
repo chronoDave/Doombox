@@ -1,8 +1,7 @@
 export {
   FormPlaylist,
   FormCreatePalette,
-  FormKeybind,
-  FormDiscord
+  FormKeybind
 } from './Form';
 export { Sidebar } from './Sidebar';
 export { Player } from './Player';

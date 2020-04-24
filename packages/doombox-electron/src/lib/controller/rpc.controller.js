@@ -24,8 +24,23 @@ module.exports = class RpcController {
   }
 
   create(event, { data }) {
+    if (this.client) this.client.destroy();
+    this.connected = false;
+    this.client = new Client({ transport: 'ipc' });
+
+    this.client.login({ clientId: data.payload })
+      .then(() => {
+        this.connected = true;
+      })
+      .catch(err => {
+        this.connected = false;
+        this.log.createLogError(err, 'Discord');
+      });
+  }
+
+  update(event, { data }) {
     if (this.connected) {
-      this.client.setActivity(data.payload);
+      this.client.setActivity(data.update);
     }
   }
 };

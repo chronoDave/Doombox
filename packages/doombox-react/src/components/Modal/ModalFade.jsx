@@ -17,9 +17,8 @@ const ModalFade = props => {
     open,
     backgroundOpacity,
     children,
-    ...rest
+    onClose
   } = props;
-
   const classes = useModalStyle({ backgroundOpacity });
 
   return (
@@ -29,7 +28,7 @@ const ModalFade = props => {
       BackdropComponent={Backdrop}
       BackdropProps={{ classes: { root: classes.backdrop } }}
       className={classes.presentation}
-      {...rest}
+      onClose={onClose}
     >
       <Fade in={open}>
         <div className={classes.root}>
@@ -42,6 +41,7 @@ const ModalFade = props => {
 
 ModalFade.propTypes = {
   open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
   children: PropTypes.element,
   backgroundOpacity: PropTypes.bool
 };

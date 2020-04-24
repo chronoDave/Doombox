@@ -23,10 +23,6 @@ import {
 
 const SettingsGeneral = props => {
   const {
-    // Library
-    localized,
-    slowSearch,
-    reverseScroll,
     // Advanced
     forceQuit,
     hardwareAcceleration
@@ -37,35 +33,6 @@ const SettingsGeneral = props => {
 
   return (
     <Fragment>
-      <Typography variant="h6">
-        {t('library')}
-      </Typography>
-      <Box p={1}>
-        <SwitchLabel id={id} name="localized">
-          <Switch
-            checked={localized}
-            onChange={event => updateConfigGeneral({
-              localized: event.target.checked
-            })}
-          />
-        </SwitchLabel>
-        <SwitchLabel id={id} name="slowSearch">
-          <Switch
-            checked={slowSearch}
-            onChange={event => updateConfigGeneral({
-              slowSearch: event.target.checked
-            })}
-          />
-        </SwitchLabel>
-        <SwitchLabel id={id} name="reverseScroll">
-          <Switch
-            checked={reverseScroll}
-            onChange={event => updateConfigGeneral({
-              reverseScroll: event.target.checked
-            })}
-          />
-        </SwitchLabel>
-      </Box>
       <Typography variant="h6">
         {t('advanced')}
       </Typography>
@@ -96,20 +63,12 @@ const SettingsGeneral = props => {
 };
 
 SettingsGeneral.propTypes = {
-  // Library
-  localized: PropTypes.bool.isRequired,
-  slowSearch: PropTypes.bool.isRequired,
-  reverseScroll: PropTypes.bool.isRequired,
   // Advanced
   forceQuit: PropTypes.bool.isRequired,
   hardwareAcceleration: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  // Library
-  slowSearch: state.config[TYPE.CONFIG.GENERAL].slowSearch,
-  localized: state.config[TYPE.CONFIG.GENERAL].localized,
-  reverseScroll: state.config[TYPE.CONFIG.GENERAL].reverseScroll,
   // Advanced
   forceQuit: state.config[TYPE.CONFIG.GENERAL].forceQuit,
   hardwareAcceleration: state.config[TYPE.CONFIG.ADVANCED].hardwareAcceleration

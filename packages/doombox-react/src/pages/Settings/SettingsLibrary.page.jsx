@@ -21,12 +21,16 @@ import { ManagerLibrary } from '../../modules';
 
 // Actions
 import {
+  updateConfigGeneral,
   updateConfigParser,
   updateConfigAdvanced
 } from '../../actions';
 
 const SettingsLibrary = props => {
   const {
+    localized,
+    slowSearch,
+    reverseScroll,
     libraryCache,
     skipCovers,
     parseStrict
@@ -41,19 +45,27 @@ const SettingsLibrary = props => {
         {t('general')}
       </Typography>
       <Box p={1}>
-        <SwitchLabel id={id} name="parseStrict">
+        <SwitchLabel id={id} name="localized">
           <Switch
-            checked={parseStrict}
-            onChange={event => updateConfigParser({
-              parseStrict: event.target.checked
+            checked={localized}
+            onChange={event => updateConfigGeneral({
+              localized: event.target.checked
             })}
           />
         </SwitchLabel>
-        <SwitchLabel id={id} name="skipCovers">
+        <SwitchLabel id={id} name="slowSearch">
           <Switch
-            checked={skipCovers}
-            onChange={event => updateConfigParser({
-              skipCovers: event.target.checked
+            checked={slowSearch}
+            onChange={event => updateConfigGeneral({
+              slowSearch: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+        <SwitchLabel id={id} name="reverseScroll">
+          <Switch
+            checked={reverseScroll}
+            onChange={event => updateConfigGeneral({
+              reverseScroll: event.target.checked
             })}
           />
         </SwitchLabel>
@@ -78,6 +90,27 @@ const SettingsLibrary = props => {
         </TypographyField>
       </Box>
       <Typography variant="h6">
+        {t('parser')}
+      </Typography>
+      <Box p={1}>
+        <SwitchLabel id={id} name="parseStrict">
+          <Switch
+            checked={parseStrict}
+            onChange={event => updateConfigParser({
+              parseStrict: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+        <SwitchLabel id={id} name="skipCovers">
+          <Switch
+            checked={skipCovers}
+            onChange={event => updateConfigParser({
+              skipCovers: event.target.checked
+            })}
+          />
+        </SwitchLabel>
+      </Box>
+      <Typography variant="h6">
         {t('folders')}
       </Typography>
       <Box px={1} pt={2} flexGrow={1}>
@@ -88,12 +121,18 @@ const SettingsLibrary = props => {
 };
 
 SettingsLibrary.propTypes = {
+  localized: PropTypes.bool.isRequired,
+  slowSearch: PropTypes.bool.isRequired,
+  reverseScroll: PropTypes.bool.isRequired,
   libraryCache: PropTypes.number.isRequired,
   skipCovers: PropTypes.bool.isRequired,
   parseStrict: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  slowSearch: state.config[TYPE.CONFIG.GENERAL].slowSearch,
+  localized: state.config[TYPE.CONFIG.GENERAL].localized,
+  reverseScroll: state.config[TYPE.CONFIG.GENERAL].reverseScroll,
   libraryCache: state.config[TYPE.CONFIG.ADVANCED].libraryCache,
   skipCovers: state.config[TYPE.CONFIG.PARSER].skipCovers,
   parseStrict: state.config[TYPE.CONFIG.PARSER].parseStrict

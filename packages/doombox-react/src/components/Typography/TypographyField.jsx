@@ -13,6 +13,7 @@ const TypographyField = props => {
     id,
     name,
     label,
+    disableDescription,
     description,
     ...rest
   } = props;
@@ -22,17 +23,24 @@ const TypographyField = props => {
 
   return (
     <TextField
-      inputProps={{ id: `${id}-${name}` }}
-      label={label || t(`field:${name}`)}
-      helperText={description || t(`description:field_${name}`)}
+      // General
       variant="outlined"
-      fullWidth
       margin="normal"
+      fullWidth
       FormHelperTextProps={{
         classes: {
           root: classes.helperText
         }
       }}
+      // Input
+      name={name}
+      inputProps={{ id: `${id}-${name}` }}
+      // Text
+      label={label || t(`field:${name}`)}
+      helperText={!disableDescription ?
+        (description || t(`description:field_${name}`)) :
+        null
+      }
       {...rest}
     />
   );
@@ -43,11 +51,13 @@ TypographyField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   description: PropTypes.string,
+  disableDescription: PropTypes.bool
 };
 
 TypographyField.defaultProps = {
   label: null,
-  description: null
+  description: null,
+  disableDescription: false
 };
 
 export default TypographyField;
