@@ -72,7 +72,8 @@ const LibraryRouter = props => {
     songs,
     cacheSize,
     addToMixtape,
-    playMixtape
+    playMixtape,
+    reverseScroll
   } = props;
   const [offset, setOffset] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -168,12 +169,20 @@ const LibraryRouter = props => {
     );
   };
 
-  const handleScroll = (direction, size) => {
+  const handleScroll = ({ scrollDirection, scrollToView }, size) => {
     const maxOffset = Math.floor(size / cacheSize);
 
     if (maxOffset < 1) return;
-    if (direction === 'backward') setOffset(offset === 0 ? maxOffset : offset - 1);
-    if (direction === 'forward') setOffset(offset === maxOffset ? 0 : offset + 1);
+    if (scrollDirection === 'backward') {
+      if (!reverseScroll && offset === 0) return;
+      setOffset(offset === 0 ? maxOffset : offset - 1);
+      scrollToView();
+    }
+    if (scrollDirection === 'forward') {
+      if (!reverseScroll && offset === maxOffset) return;
+      setOffset(offset === maxOffset ? 0 : offset + 1);
+      scrollToView();
+    }
   };
 
   useEffect(() => {
@@ -280,12 +289,14 @@ LibraryRouter.propTypes = {
   songs: PropTypes.arrayOf(propSong).isRequired,
   cacheSize: PropTypes.number.isRequired,
   addToMixtape: PropTypes.func.isRequired,
-  playMixtape: PropTypes.func.isRequired
+  playMixtape: PropTypes.func.isRequired,
+  reverseScroll: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   songs: state.library,
-  cacheSize: state.config[TYPE.CONFIG.ADVANCED].libraryCache
+  cacheSize: state.config[TYPE.CONFIG.ADVANCED].libraryCache,
+  reverseScroll: state.config[TYPE.CONFIG.GENERAL].reverseScroll
 });
 
 const mapDispatchToProps = {

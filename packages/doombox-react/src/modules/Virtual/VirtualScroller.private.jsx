@@ -35,12 +35,14 @@ const VirtualScroller = ({ onScroll, width, children }) => {
     const isScrollDown = (position >= maxHeight && deltaY > 0 && !scrollUpdateWasRequested);
 
     if (isScrollUp || isScrollDown || noScrollbar) {
-      onScroll(scrollDirection);
+      const scrollToView = () => {
+        if (ref.current) {
+          ref.current.resetAfterIndex(0); // Reset size cache
+          ref.current.scrollTo(deltaY < 0 ? 1000000 : 0); // New container height is not calculated
+        }
+      };
 
-      if (ref.current) {
-        ref.current.resetAfterIndex(0); // Reset size cache
-        ref.current.scrollTo(deltaY < 0 ? 1000000 : 0); // New container height is not calculated
-      }
+      onScroll({ scrollDirection, scrollToView });
     }
   };
 
