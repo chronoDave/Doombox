@@ -47,13 +47,7 @@ const VirtualSongItem = ({ index, style, data }) => {
           />
         );
       case 'disc':
-        return (
-          <VirtualSongDividerDisc
-            classes={classes}
-            handleMenu={handleMenu}
-            {...renderProps}
-          />
-        );
+        return <VirtualSongDividerDisc classes={classes} {...renderProps} />;
       default: {
         const {
           _id,
@@ -82,6 +76,13 @@ const VirtualSongItem = ({ index, style, data }) => {
           <ListItem
             button
             onClick={() => createSong(renderProps)}
+            onContextMenu={event => handleMenu(
+              {
+                anchor: event.currentTarget,
+                type: 'item'
+              },
+              { query: { _id } }
+            )}
             classes={{ root: classes.listRoot }}
             className={clsx({ [classes.itemActive]: isActive })}
           >

@@ -19,7 +19,8 @@ import {
 export const { setLibrary } = librarySlice.actions;
 export const {
   setMixtape,
-  addMixtape
+  addMixtape,
+  shuffleMixtape
 } = mixtapeSlice.actions;
 export const { setPlaylist } = playlistSlice.actions;
 export const { setConfig } = configSlice.actions;

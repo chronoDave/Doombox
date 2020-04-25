@@ -118,11 +118,8 @@ class Audio extends EventEmitter {
     if (this.autoplay) this.newSong();
   }
 
-  addPlaylist(playlist) {
-    this.playlist.collection = [
-      ...this.playlist.collection,
-      ...playlist
-    ];
+  addPlaylist(collection) {
+    this.playlist.collection = collection;
   }
 
   next() {

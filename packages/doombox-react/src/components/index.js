@@ -4,12 +4,8 @@ export {
 } from './App';
 export { Avatar } from './Avatar';
 export {
-  IconButtonNext,
   IconButtonPlay,
-  IconButtonPrevious,
-  IconButtonStop,
   IconButtonMute,
-  IconButtonShuffle,
   IconButtonNavigation
 } from './IconButton';
 export { Loader } from './Loader';

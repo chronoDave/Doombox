@@ -52,7 +52,7 @@ const VirtualSong = props => {
     dense
   } = props;
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [menu, setMenu] = useState({ type: null, anchor: null });
   const [playlist, setPlaylist] = useState({ name: '' });
 
   const theme = useTheme();
@@ -75,8 +75,8 @@ const VirtualSong = props => {
     current: currentId,
     localized,
     createSong,
-    handleMenu: (anchor, payload) => {
-      setAnchorEl(anchor);
+    handleMenu: (newMenu, payload) => {
+      setMenu(newMenu);
       setPlaylist(payload);
     },
     library: library
@@ -118,9 +118,9 @@ const VirtualSong = props => {
   const renderContext = () => (
     <Fragment>
       <Context
-        anchorEl={anchorEl}
-        open={!!anchorEl}
-        onClose={() => setAnchorEl(null)}
+        anchorEl={menu.anchor}
+        open={menu.type === 'divider'}
+        onClose={() => setMenu({ ...menu, type: null })}
         position="bottom"
       >
         <ContextItem
@@ -139,6 +139,17 @@ const VirtualSong = props => {
             cover: playlist.cover,
             collection: playlist.collection
           })}
+        />
+      </Context>
+      <Context
+        anchorEl={menu.anchor}
+        open={menu.type === 'item'}
+        onClose={() => setMenu({ ...menu, type: null })}
+        position="bottom"
+      >
+        <ContextItem
+          primary={t('action:add', { context: 'playlist' })}
+          onClick={() => addLibrary(playlist)}
         />
       </Context>
     </Fragment>

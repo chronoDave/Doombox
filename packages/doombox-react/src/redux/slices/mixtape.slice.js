@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ACTION } from '@doombox/utils';
 
+// Utils
+import { shuffleArray } from '../../utils';
+
 export const mixtapeSlice = createSlice({
   name: 'mixtape',
   initialState: {
@@ -25,6 +28,13 @@ export const mixtapeSlice = createSlice({
           ...state.collection,
           ...action.payload
         ]
+      });
+    },
+    shuffleMixtape(state) {
+      return ({
+        ...state,
+        action: ACTION.PLAYLIST.SET,
+        collection: shuffleArray(state.collection)
       });
     }
   }

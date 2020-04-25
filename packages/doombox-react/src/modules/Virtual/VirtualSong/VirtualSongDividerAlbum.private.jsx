@@ -65,7 +65,10 @@ const VirtualSongDividerAlbum = props => {
           <Tooltip disableTranslation title={tooltip.menu}>
             <IconButton
               onClick={event => handleMenu(
-                event.currentTarget,
+                {
+                  type: 'divider',
+                  anchor: event.currentTarget
+                },
                 { query, ...playlist }
               )}
             >

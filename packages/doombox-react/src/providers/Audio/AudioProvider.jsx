@@ -21,7 +21,8 @@ import { Audio } from '../../lib';
 // Utils
 import {
   pathToRemoteUrl,
-  normalizeArtist
+  normalizeArtist,
+  shuffleArray
 } from '../../utils';
 import { AudioContext } from '../../utils/context';
 import {

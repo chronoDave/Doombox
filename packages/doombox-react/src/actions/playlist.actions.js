@@ -25,6 +25,6 @@ export const fetchMixtape = (_id, action) => ipcReadOne(
 export const updateMixtape = (_id, playlist) => ipcUpdateOne(
   TYPE.IPC.PLAYLIST,
   _id,
-  { $set: { playlist } }
+  { $set: playlist }
 );
 export const deletePlaylist = _id => ipcDeleteOne(TYPE.IPC.PLAYLIST, _id);

@@ -1,22 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { TYPE } from '@doombox/utils';
 import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// Icons
+import IconNext from '@material-ui/icons/SkipNext';
+import IconPrevious from '@material-ui/icons/SkipPrevious';
+import IconShuffle from '@material-ui/icons/Shuffle';
+
 // Core
-import { Box } from '@material-ui/core';
+import {
+  Box,
+  IconButton
+} from '@material-ui/core';
 
 import {
-  IconButtonNext,
-  IconButtonPrevious,
   IconButtonPlay,
-  IconButtonShuffle,
   Typography,
   SliderPlayer,
   Tooltip,
   Image
 } from '../../components';
+
+// Redux
+import { shuffleMixtape } from '../../redux';
 
 // Hooks
 import { useAudio } from '../../hooks';
@@ -28,10 +36,12 @@ import { HOOK } from '../../utils/const';
 // Styles
 import { usePlayerStyles } from './Player.style';
 
-const Player = ({ darkTheme, localized }) => {
+const Player = ({ darkTheme, localized, shuffle }) => {
   const classes = usePlayerStyles();
 
+  const { next, previous } = useAudio(HOOK.AUDIO.METHOD);
   const { metadata, images } = useAudio(HOOK.AUDIO.CURRENT);
+
   const { t } = useTranslation();
 
   const renderMetadata = () => {
@@ -97,10 +107,16 @@ const Player = ({ darkTheme, localized }) => {
           justifyContent="space-around"
           color={darkTheme ? 'text.primary' : 'grey.50'}
         >
-          <IconButtonPrevious className={classes.iconButton} />
+          <IconButton className={classes.iconButton} onClick={previous}>
+            <IconPrevious />
+          </IconButton>
           <IconButtonPlay className={classes.iconButton} />
-          <IconButtonNext className={classes.iconButton} />
-          <IconButtonShuffle className={classes.iconButton} />
+          <IconButton className={classes.iconButton} onClick={next}>
+            <IconNext />
+          </IconButton>
+          <IconButton className={classes.iconButton} onClick={() => shuffle()}>
+            <IconShuffle />
+          </IconButton>
         </Box>
       </Box>
     </Image>
@@ -109,7 +125,8 @@ const Player = ({ darkTheme, localized }) => {
 
 Player.propTypes = {
   localized: PropTypes.bool.isRequired,
-  darkTheme: PropTypes.bool.isRequired
+  darkTheme: PropTypes.bool.isRequired,
+  shuffle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -117,6 +134,11 @@ const mapStateToProps = state => ({
   darkTheme: state.config[TYPE.CONFIG.PALETTE].darkTheme
 });
 
+const dispatchMapToProps = {
+  shuffle: shuffleMixtape
+};
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  dispatchMapToProps
 )(Player);
