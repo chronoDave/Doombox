@@ -1,7 +1,4 @@
-export {
-  FormPlaylist,
-  FormKeybind
-} from './Form';
+export { FormPlaylist } from './Form';
 export { Sidebar } from './Sidebar';
 export { Player } from './Player';
 export {

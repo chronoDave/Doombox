@@ -65,7 +65,10 @@ const SettingsRouter = () => {
         indicatorColor="primary"
         onChange={(event, tab) => setVisible(tab)}
         aria-label="Settings navigation"
-        classes={{ flexContainer: classes.tabsContainer }}
+        classes={{
+          root: classes.tabsRoot,
+          flexContainer: classes.tabsContainer
+        }}
       >
         {Object.keys(tabs).map(key => (
           <Tab

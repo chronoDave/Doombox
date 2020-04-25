@@ -10,6 +10,9 @@ export const useSettingsRouterStyles = makeStyles(theme => ({
     overflowY: 'auto',
     overflowX: 'hidden',
   },
+  tabsRoot: {
+    flexShrink: 0
+  },
   tabsContainer: {
     paddingRight: theme.spacing(2)
   }

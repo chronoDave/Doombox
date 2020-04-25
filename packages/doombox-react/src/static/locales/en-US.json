@@ -46,7 +46,8 @@
     "light": "Light",
     "contrastText": "Text",
     "primary": "Primary",
-    "secondary": "Secondary"
+    "secondary": "Secondary",
+    "player": "Player"
   },
   "action": {
     "cancel": "Cancel",
@@ -109,7 +110,8 @@
     "field_localized": "When available, use localized metadata",
     "delete": "Are you sure you want to permanently delete",
     "song_none": "No song selected",
-    "loading_library": "Loading library..."
+    "loading_library": "Loading library...",
+    "restartRequired": "Requires restart"
   },
   "title": {
     "createPlaylist": "Create Playlist"
