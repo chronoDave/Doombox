@@ -1,12 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useInputStyles = makeStyles(theme => ({
-  inputSearchRoot: {
+export const useInputSearchStyles = makeStyles(theme => ({
+  root: {
     backgroundColor: theme.palette.grey[100],
     padding: theme.spacing(0.5, 1),
     borderRadius: theme.shape.borderRadius
   },
-  inputSearchInput: {
+  input: {
     width: '100%',
     padding: theme.spacing(0.75)
   },

@@ -13,7 +13,7 @@ import {
 
 import {
   Typography,
-  TypographyField,
+  InputText,
   SwitchLabel
 } from '../../components';
 
@@ -69,7 +69,7 @@ const SettingsLibrary = props => {
             })}
           />
         </SwitchLabel>
-        <TypographyField
+        <InputText
           select
           id={id}
           name="libraryCache"
@@ -87,7 +87,7 @@ const SettingsLibrary = props => {
           <MenuItem value={50}>
             {t('overkill')}
           </MenuItem>
-        </TypographyField>
+        </InputText>
       </Box>
       <Typography variant="h6">
         {t('parser')}

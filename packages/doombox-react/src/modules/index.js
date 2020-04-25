@@ -1,6 +1,5 @@
 export {
   FormPlaylist,
-  FormCreatePalette,
   FormKeybind
 } from './Form';
 export { Sidebar } from './Sidebar';
@@ -15,3 +14,4 @@ export { Mixtape } from './Mixtape';
 export { Navigation } from './Navigation';
 export { SearchLibrary } from './Search';
 export { ManagerLibrary } from './Manager';
+export { Palette } from './Palette';

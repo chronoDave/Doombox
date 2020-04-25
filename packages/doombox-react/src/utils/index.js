@@ -29,7 +29,7 @@ export const formatTime = (time, format) => {
   return `${hours > 0 ? `${zeroPadding(hours)}:` : ''}${zeroPadding(minutes)}:${zeroPadding(seconds)}`;
 };
 export const pathToUrl = path => {
-  if (!path) return null;
+  if (typeof path !== 'string') return null;
   return path
     .replace(/#/g, '%23')
     .replace(/\\/g, '/');

@@ -1,5 +1,8 @@
 import React from 'react';
 
-const VisualizerRouter = () => <div>VisualizerRouter</div>;
+// Core
+import { VisualizerPage } from '../../pages';
+
+const VisualizerRouter = () => <VisualizerPage />;
 
 export default VisualizerRouter;

@@ -38,7 +38,15 @@
     "menu_album": "Album actions",
     "menu_label": "Label actions",
     "queryNoResult": "No {{context}} found",
-    "foldersNone": "No folders found"
+    "foldersNone": "No folders found",
+    "icon_playlist": "Playlist icon",
+    "icon_default": "Default icon",
+    "main": "Main",
+    "dark": "Dark",
+    "light": "Light",
+    "contrastText": "Text",
+    "primary": "Primary",
+    "secondary": "Secondary"
   },
   "action": {
     "cancel": "Cancel",

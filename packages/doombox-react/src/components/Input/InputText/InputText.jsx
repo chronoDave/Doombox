@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import { TextField } from '@material-ui/core';
 
 // Styles
-import { useTypographyStyles } from './Typography.style';
+import { useInputTextStyles } from './InputText.style';
 
-const TypographyField = props => {
+const InputText = props => {
   const {
     id,
     name,
@@ -18,7 +18,7 @@ const TypographyField = props => {
     ...rest
   } = props;
 
-  const classes = useTypographyStyles();
+  const classes = useInputTextStyles();
   const { t } = useTranslation();
 
   return (
@@ -46,7 +46,7 @@ const TypographyField = props => {
   );
 };
 
-TypographyField.propTypes = {
+InputText.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -54,10 +54,10 @@ TypographyField.propTypes = {
   disableDescription: PropTypes.bool
 };
 
-TypographyField.defaultProps = {
+InputText.defaultProps = {
   label: null,
   description: null,
   disableDescription: false
 };
 
-export default TypographyField;
+export default InputText;

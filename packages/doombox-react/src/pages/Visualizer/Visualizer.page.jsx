@@ -1,9 +1,14 @@
 import React from 'react';
 
-const VisualizerPage = () => (
-  <div>
-    VisualizerPage
-  </div>
-);
+// Modules
+import { Palette } from '../../modules';
+
+const VisualizerPage = () => {
+  return (
+    <div>
+      Vios
+    </div>
+  );
+}
 
 export default VisualizerPage;

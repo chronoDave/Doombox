@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 // Core
 import {
   FormBase,
-  FieldFileAvatar,
+  FieldAvatar,
   FieldText
 } from '../../components';
 
@@ -21,7 +21,7 @@ const FormPlaylist = props => {
       validationSchema={schemaPlaylist}
       {...props}
     >
-      <FieldFileAvatar name="cover" id={formId} />
+      <FieldAvatar name="cover" id={formId} />
       <FieldText
         name="name"
         id={formId}

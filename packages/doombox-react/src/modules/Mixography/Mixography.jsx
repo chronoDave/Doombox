@@ -83,7 +83,17 @@ const Mixography = ({ mixography }) => {
         disableTranslation
         title={t('action:create', { context: 'playlist' })}
         onClose={() => setDialog(null)}
-        form={<FormPlaylist primary="update" onSubmit={createPlaylist} />}
+        form={(
+          <FormPlaylist
+            primary="create"
+            initialValues={{
+              name: '',
+              collection: [],
+              cover: null
+            }}
+            onSubmit={createPlaylist}
+          />
+        )}
       />
       <DialogForm
         open={dialog === 'update'}
@@ -92,7 +102,7 @@ const Mixography = ({ mixography }) => {
         onClose={() => setDialog(null)}
         form={(
           <FormPlaylist
-            primary="create"
+            primary="update"
             initialValues={{
               name: playlist.name,
               cover: playlist.cover

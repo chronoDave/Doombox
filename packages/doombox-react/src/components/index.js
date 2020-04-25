@@ -38,26 +38,25 @@ export {
   ButtonAvatar
 } from './Button';
 export {
-  FieldFileBase,
-  FieldFileAvatar,
-  FieldText,
-  FieldColorBase,
-  FieldPalette,
-  FieldFolder,
-  FieldFolderBase,
-  FieldFolderLibrary
+  FieldAvatar,
+  FieldText
 } from './Field';
 export { Popover } from './Popover';
 export {
   Image,
   ImageBackground
 } from './Image';
-export { InputSearch } from './Input';
+export {
+  InputSearch,
+  InputText,
+  InputNativeFile,
+  InputNative,
+  InputNativeColor,
+  InputColor,
+  InputColorLabel
+} from './Input';
 export { ModalFade } from './Modal';
 export { SwitchLabel } from './Switch';
 export { ProgressScanning } from './Progress';
-export {
-  Typography,
-  TypographyField
-} from './Typography';
+export { Typography } from './Typography';
 export { FormBase } from './Form';

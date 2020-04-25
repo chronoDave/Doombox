@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 
 // Styles
-import { useInputStyles } from './Input.style';
+import { useInputSearchStyles } from './InputSearch.style';
 
 const InputSearch = props => {
   const {
@@ -25,7 +25,7 @@ const InputSearch = props => {
   const [query, setQuery] = useState('');
 
   const { t } = useTranslation();
-  const classes = useInputStyles();
+  const classes = useInputSearchStyles();
 
   const handleChange = value => {
     setQuery(value);
@@ -42,8 +42,8 @@ const InputSearch = props => {
       value={query}
       onChange={event => handleChange(event.target.value)}
       classes={{
-        root: classes.inputSearchRoot,
-        input: classes.inputSearchInput
+        root: classes.root,
+        input: classes.input
       }}
       endAdornment={query ? (
         <ButtonBase

@@ -16,6 +16,7 @@ const ButtonAvatar = forwardRef((props, ref) => {
     alt,
     src,
     size,
+    icon,
     AvatarProps,
     ...rest
   } = props;
@@ -37,6 +38,7 @@ const ButtonAvatar = forwardRef((props, ref) => {
         alt={alt}
         src={src}
         className={clsx(classes.avatarSize, classes.avatarHover)}
+        icon={icon}
         {...AvatarProps}
       />
     </ButtonBase>

@@ -21,7 +21,7 @@ import {
 
 import {
   Typography,
-  TypographyField
+  InputText
 } from '../../components';
 
 // Actions
@@ -48,7 +48,7 @@ const SettingsDiscord = ({ discordToken }) => {
         {t('general')}
       </Typography>
       <Box p={1}>
-        <TypographyField
+        <InputText
           id={id}
           name="token_discord"
           description={t('description:field_tokenDiscord')}

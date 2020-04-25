@@ -3,7 +3,7 @@ import { Field, ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
 
 // Core
-import { TypographyField } from '../Typography';
+import { InputText } from '../Input';
 
 const FieldText = ({ name, ...rest }) => (
   <Field name={name}>
@@ -20,7 +20,7 @@ const FieldText = ({ name, ...rest }) => (
 
       return (
         <Fragment>
-          <TypographyField
+          <InputText
             // Input
             name={name}
             value={value}

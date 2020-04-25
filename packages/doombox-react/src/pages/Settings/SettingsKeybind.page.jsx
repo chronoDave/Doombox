@@ -9,13 +9,16 @@ import { Button } from '../../components';
 import { FormKeybind } from '../../modules';
 
 const SettingsKeybind = () => (
-  <Box display="flex" flexDirection="column">
-    <FormKeybind>
-      <Button>
-        Submit
-      </Button>
-    </FormKeybind>
-  </Box>
+  // <Box display="flex" flexDirection="column">
+  //   <FormKeybind>
+  //     <Button>
+  //       Submit
+  //     </Button>
+  //   </FormKeybind>
+  // </Box>
+  <div>
+    Keybind
+  </div>
 );
 
 export default SettingsKeybind;

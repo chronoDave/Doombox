@@ -21,6 +21,7 @@ import {
   SettingsDiscordPage,
   SettingsGeneralPage,
   SettingsKeybindPage,
+  SettingsPalettePage,
   SettingsLibraryPage,
   SettingsAppearancePage
 } from '../../pages';
@@ -37,10 +38,11 @@ import { useSettingsRouterStyles } from './SettingsRouter.style';
 const SettingsRouter = () => {
   const tabs = {
     general: SettingsGeneralPage,
-    appearance: SettingsAppearancePage,
     library: SettingsLibraryPage,
+    appearance: SettingsAppearancePage,
+    palette: SettingsPalettePage,
+    keybind: SettingsKeybindPage,
     discord: SettingsDiscordPage,
-    // keybind: SettingsKeybindPage,
   };
   const [visible, setVisible] = useState('general');
   const { setDialog } = useRoute(HOOK.ROUTE.METHOD);
