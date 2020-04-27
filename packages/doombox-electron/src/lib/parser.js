@@ -122,7 +122,7 @@ module.exports = class MetadataParser {
             nativeTags['TXXX:ARTISTLOCALIZED'] &&
             Array.isArray(nativeTags['TXXX:ARTISTLOCALIZED'])
           ) {
-            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ')[0];
+            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' / ')[0];
           }
           return null;
         };
@@ -131,7 +131,7 @@ module.exports = class MetadataParser {
             nativeTags['TXXX:ARTISTLOCALIZED'] &&
             Array.isArray(nativeTags['TXXX:ARTISTLOCALIZED'])
           ) {
-            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' -- ');
+            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' / ');
           }
           return null;
         };
