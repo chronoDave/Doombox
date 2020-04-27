@@ -117,23 +117,12 @@ module.exports = class MetadataParser {
         };
 
         const nativeTags = generateNativeTags();
-        const normalizedArtist = () => {
-          if (
-            nativeTags['TXXX:ARTISTLOCALIZED'] &&
-            Array.isArray(nativeTags['TXXX:ARTISTLOCALIZED'])
-          ) {
-            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' / ')[0];
-          }
-          return null;
-        };
-        const normalizedArtists = () => {
-          if (
-            nativeTags['TXXX:ARTISTLOCALIZED'] &&
-            Array.isArray(nativeTags['TXXX:ARTISTLOCALIZED'])
-          ) {
-            return nativeTags['TXXX:ARTISTLOCALIZED'].split(' / ');
-          }
-          return null;
+        const getNormalizedArtist = ({ split } = {}) => {
+          const tagArtistLocalized = nativeTags['TXXX:ARTISTLOCALIZED'];
+
+          if (!tagArtistLocalized) return null;
+          if (split) return tagArtistLocalized.split(' / ');
+          return tagArtistLocalized;
         };
 
         const payload = {
@@ -142,8 +131,8 @@ module.exports = class MetadataParser {
           format,
           metadata: {
             titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
-            artistlocalized: normalizedArtist(),
-            artistslocalized: normalizedArtists(),
+            artistlocalized: getNormalizedArtist(),
+            artistslocalized: getNormalizedArtist({ split: true }),
             albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
             albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
             cdid: nativeTags['TXXX:CDID'] || null,

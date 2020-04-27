@@ -8,7 +8,8 @@ import {
   ipcCreate,
   ipcRead,
   ipcUpdate,
-  ipcDelete
+  ipcDelete,
+  ipcDrop
 } from './crud';
 
 export const appendLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
@@ -62,4 +63,4 @@ export const deleteFolders = ({ query, regex }) => ipcDelete(
   TYPE.IPC.LIBRARY,
   { query, regex }
 );
-export const dropLibrary = () => ipcDelete(TYPE.IPC.LIBRARY);
+export const dropLibrary = () => ipcDrop(TYPE.IPC.LIBRARY);

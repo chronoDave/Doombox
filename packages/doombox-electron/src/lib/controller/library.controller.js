@@ -156,13 +156,17 @@ module.exports = class LibraryController {
 
   async delete(event, { data }) {
     await this.db.delete(COLLECTION.SONG, data.query);
-    if (!data.query) {
-      await this.db.drop(COLLECTION.IMAGE);
 
-      if (this.imagePath && !this.skipCovers) {
-        fse.removeSync(this.imagePath);
-        fse.mkdirpSync(this.imagePath);
-      }
+    this.read(event, { data: {} });
+  }
+
+  async drop(event) {
+    await this.db.drop(COLLECTION.SONG);
+    await this.db.drop(COLLECTION.IMAGE);
+
+    if (this.imagePath) {
+      fse.removeSync(this.imagePath);
+      fse.mkdirpSync(this.imagePath);
     }
 
     this.read(event, { data: {} });

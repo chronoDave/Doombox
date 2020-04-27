@@ -118,15 +118,10 @@ export const createDividerDisc = tracks => Object
 export const createDividerAlbum = tracks => Object
   .values(groupBy(tracks, 'metadata.album'))
   .map(albumTracks => {
-    const {
-      metadata: { albumartist, album, year },
-      images
-    } = albumTracks[0];
+    const { metadata, images } = albumTracks[0];
 
     return ({
-      album,
-      albumartist,
-      year,
+      ...metadata,
       cover: images[0] || null,
       duration: getTotalDuration(albumTracks),
       tracks: albumTracks.map(({ _id }) => _id)

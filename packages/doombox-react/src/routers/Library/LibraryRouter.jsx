@@ -170,17 +170,17 @@ const LibraryRouter = props => {
   };
 
   const handleScroll = ({ scrollDirection, scrollToView }, size) => {
-    const maxOffset = Math.floor(size / cacheSize);
+    const maxOffset = Math.floor(size / cacheSize) - 1;
 
     if (maxOffset < 1) return;
     if (scrollDirection === 'backward') {
-      if (!reverseScroll && offset === 0) return;
-      setOffset(offset === 0 ? maxOffset : offset - 1);
+      if (!reverseScroll && offset <= 0) return;
+      setOffset(offset <= 0 ? maxOffset : offset - 1);
       scrollToView();
     }
     if (scrollDirection === 'forward') {
-      if (!reverseScroll && offset === maxOffset) return;
-      setOffset(offset === maxOffset ? 0 : offset + 1);
+      if (!reverseScroll && offset >= maxOffset) return;
+      setOffset(offset >= maxOffset ? 0 : offset + 1);
       scrollToView();
     }
   };
@@ -193,16 +193,31 @@ const LibraryRouter = props => {
     fetchLibrary();
   }, []);
 
+  const getLabelLibrary = () => {
+    const indexMin = offset * cacheSize;
+    const indexMax = (offset + 1) * cacheSize;
+
+    const isDivider =
+      propLabelLibrary[indexMax - 1] &&
+      propLabelLibrary[indexMax - 1].divider;
+    const isDividerPrevious =
+      propLabelLibrary[indexMin - 1] &&
+      propLabelLibrary[indexMin - 1].divider;
+
+    return propLabelLibrary
+      .slice(
+        indexMin - (isDividerPrevious ? 1 : 0),
+        indexMax - (isDivider ? 1 : 0)
+      );
+  };
+
   const renderPage = () => {
     switch (page) {
       case PATH.PAGE.LABEL:
         return (
           <VirtualLabel
             onScroll={event => handleScroll(event, propLabelLibrary.length)}
-            library={propLabelLibrary.slice(
-              offset * cacheSize,
-              (offset + 1) * cacheSize
-            )}
+            library={getLabelLibrary()}
           />
         );
       case PATH.PAGE.SONG:

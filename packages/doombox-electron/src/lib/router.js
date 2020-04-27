@@ -48,7 +48,7 @@ module.exports = class Router {
   createRouter(type, Controller) {
     ipcMain.on(type, (event, payload) => {
       try {
-        if (!payload.data) throw new Error(`Invalid data: ${JSON.stringify(payload)}`);
+        if (!payload.data) throw new Error(`Invalid payload, missing property "data": ${JSON.stringify(payload)}`);
         switch (payload.action) {
           case ACTION.CRUD.CREATE:
             Controller.create(event, payload);

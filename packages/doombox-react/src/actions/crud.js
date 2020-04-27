@@ -129,5 +129,6 @@ export const ipcDrop = (
   options
 ) => ipcRenderer.send(type, {
   action: ACTION.CRUD.DROP,
+  data: {},
   options
 });
