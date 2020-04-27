@@ -2,7 +2,7 @@ appId: com.electron.doombox
 productName: Doombox
 copyright: Copyright © 2020 ${author}
 
-electronVersion: 7.1.1
+electronVersion: 8.2.3
 
 directories:
   output: ../../build

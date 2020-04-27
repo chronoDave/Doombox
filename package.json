@@ -34,7 +34,6 @@
     "del-cli": "^3.0.0",
     "electron": "7.1.1",
     "electron-builder": "^22.1.0",
-    "electron-mocha": "^8.1.2",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.0",
