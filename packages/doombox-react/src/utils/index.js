@@ -86,10 +86,10 @@ export const sortLibrary = (a, b) => {
 
   if (normalizeString(aAlbumartist) < normalizeString(bAlbumartist)) return -1;
   if (normalizeString(aAlbumartist) > normalizeString(bAlbumartist)) return 1;
-  if (normalizeString(aAlbum) < normalizeString(bAlbum)) return -1;
-  if (normalizeString(aAlbum) > normalizeString(bAlbum)) return 1;
   if (aYear < bYear) return -1;
   if (aYear > bYear) return 1;
+  if (normalizeString(aAlbum) < normalizeString(bAlbum)) return -1;
+  if (normalizeString(aAlbum) > normalizeString(bAlbum)) return 1;
   if (aDiskNo < bDiskNo) return -1;
   if (aDiskNo > bDiskNo) return 1;
   if (aTrackNo < bTrackNo) return -1;

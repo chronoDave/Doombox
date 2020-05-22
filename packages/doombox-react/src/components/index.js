@@ -5,7 +5,6 @@ export {
 export { Avatar } from './Avatar';
 export {
   IconButtonPlay,
-  IconButtonMute,
   IconButtonNavigation
 } from './IconButton';
 export { Loader } from './Loader';

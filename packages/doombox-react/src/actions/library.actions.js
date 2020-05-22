@@ -14,45 +14,29 @@ import {
 
 export const appendLibrary = folders => ipcCreate(TYPE.IPC.LIBRARY, folders);
 export const fetchLibrary = () => ipcRead(TYPE.IPC.LIBRARY);
-export const searchLibrary = (regex = null, sort = null) => ipcRead(
-  TYPE.IPC.LIBRARY,
-  {
-    regex,
-    sort
-  }
-);
+export const searchLibrary = (regex = null) => ipcRead(TYPE.IPC.LIBRARY, { regex });
 export const playLibrary = ({
   name = null,
   query = null,
-  regex = null,
-  sort = {
-    'metadata.disk.no': 1,
-    'metadata.track.no': 1
-  }
+  regex = null
 }) => ipcRead(
   TYPE.IPC.LIBRARY,
   {
     action: ACTION.PLAYLIST.SET,
     query,
-    regex,
-    sort
+    regex
   },
   { name }
 );
 export const addLibrary = ({
   query = null,
-  regex = null,
-  sort = {
-    'metadata.disk.no': 1,
-    'metadata.track.no': 1
-  }
+  regex = null
 }) => ipcRead(
   TYPE.IPC.LIBRARY,
   {
     action: ACTION.PLAYLIST.ADD,
     query,
-    regex,
-    sort
+    regex
   }
 );
 export const updateFolders = folders => ipcUpdate(

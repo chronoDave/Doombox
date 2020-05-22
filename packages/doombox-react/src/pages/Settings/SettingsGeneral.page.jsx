@@ -12,6 +12,7 @@ import {
 
 import {
   Typography,
+  SliderVolume,
   SwitchLabel
 } from '../../components';
 
@@ -33,6 +34,12 @@ const SettingsGeneral = props => {
 
   return (
     <Fragment>
+      <Typography variant="h6">
+        {t('volume')}
+      </Typography>
+      <Box p={1}>
+        <SliderVolume />
+      </Box>
       <Typography variant="h6">
         {t('advanced')}
       </Typography>

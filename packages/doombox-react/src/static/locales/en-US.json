@@ -9,6 +9,7 @@
     "songs": "Songs",
     "visualizer": "Visualizer",
     "settings": "Settings",
+    "volume": "Volume",
     "albums": "Albums",
     "labels": "Labels",
     "albumCount": "{{count}} album",

@@ -63,7 +63,7 @@ class AudioProvider extends Component {
         previous: () => this.audio.previous(),
         seek: newPosition => this.audio.seek(newPosition),
         // Volume
-        volume: newVolume => this.audio.setVolume(newVolume),
+        setVolume: newVolume => this.audio.setVolume(newVolume),
         mute: () => this.audio.mute(),
         increaseVolume: () => this.audio.setVolume(this.audio.volume + 0.01),
         decreaseVolume: () => this.audio.setVolume(this.audio.volume - 0.01),
