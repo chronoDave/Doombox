@@ -34,6 +34,14 @@ export const mixtapeSlice = createSlice({
         ]
       });
     },
+    addShuffleMixtape(state, action) {
+      return ({
+        ...state,
+        ...action.payload,
+        action: ACTION.PLAYLIST.SET,
+        collection: shuffleArray(action.payload.collection)
+      });
+    },
     shuffleMixtape(state) {
       return ({
         ...state,

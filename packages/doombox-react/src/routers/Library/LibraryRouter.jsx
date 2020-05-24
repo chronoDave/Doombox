@@ -45,7 +45,8 @@ import {
 // Redux
 import {
   addMixtape,
-  setMixtape
+  setMixtape,
+  addShuffleMixtape
 } from '../../redux';
 
 // Hooks
@@ -56,8 +57,7 @@ import {
   sortLibrary,
   createDividerDisc,
   createDividerAlbum,
-  getTotalDuration,
-  shuffleArray
+  getTotalDuration
 } from '../../utils';
 import {
   PATH,
@@ -72,6 +72,7 @@ const LibraryRouter = props => {
     songs,
     cacheSize,
     addToMixtape,
+    shuffle,
     playMixtape,
     reverseScroll
   } = props;
@@ -247,16 +248,16 @@ const LibraryRouter = props => {
           action: ACTION.PLAYLIST.SET,
           name: t('library'),
           // Slice makes sure a NEW array is created
-          collection: songs.slice().sort(sortLibrary)
+          collection: songs.slice()
         })}
         primary={t('action:play', { context: 'library' })}
       />
       <ContextItem
-        onClick={() => playMixtape({
+        onClick={() => shuffle({
           action: ACTION.PLAYLIST.SET,
           name: t('library'),
           // Slice makes sure a NEW array is created
-          collection: shuffleArray(songs.slice().sort(sortLibrary))
+          collection: songs.slice()
         })}
         primary={t('action:shuffle', { context: 'library' })}
       />
@@ -305,6 +306,7 @@ LibraryRouter.propTypes = {
   cacheSize: PropTypes.number.isRequired,
   addToMixtape: PropTypes.func.isRequired,
   playMixtape: PropTypes.func.isRequired,
+  shuffle: PropTypes.func.isRequired,
   reverseScroll: PropTypes.bool.isRequired
 };
 
@@ -316,7 +318,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   addToMixtape: addMixtape,
-  playMixtape: setMixtape
+  playMixtape: setMixtape,
+  shuffle: addShuffleMixtape
 };
 
 export default connect(

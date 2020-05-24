@@ -20,7 +20,8 @@ export const { setLibrary } = librarySlice.actions;
 export const {
   setMixtape,
   addMixtape,
-  shuffleMixtape
+  shuffleMixtape,
+  addShuffleMixtape
 } = mixtapeSlice.actions;
 export const { setPlaylist } = playlistSlice.actions;
 export const { setConfig } = configSlice.actions;
