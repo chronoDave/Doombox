@@ -1,10 +1,4 @@
-*.log
-.DS_STORE
-build
-dist
 node_modules
+dev
+dist
 client
-.vs
-config.dev.js
-*.arkit.svg
-.nyc_output

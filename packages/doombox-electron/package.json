@@ -1,24 +1,28 @@
 {
   "name": "@doombox/electron",
-  "version": "1.1.0",
-  "license": "GPLv3",
+  "version": "2.0.0",
   "author": "Chronocide",
-  "main": "./src",
+  "private": true,
+  "license": "GPL-3.0",
+  "main": "src/index.js",
   "scripts": {
-    "start": "nodemon --watch src --exec electron .",
-    "start:dev": "cross-env NODE_ENV=development nodemon --watch src --exec electron . --debug",
-    "build": "yarn del-cli ../../build -f && electron-builder -c",
-    "test:unit": "tap --files=src/**/*.spec.js --no-coverage",
-    "arkit": "arkit -c ../../arkit/arkit-electron.js"
+    "start": "nodemon --config .nodemon.json",
+    "test": "mocha src/**/*.spec.js",
+    "build": "electron-builder -c .buildconfig.js",
+    "build:debug": "cross-env NODE_ENV=development electron-builder -c .buildconfig.js"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
-    "discord-rpc": "^3.1.0",
-    "fs-extra": "^8.1.0",
-    "glob": "^7.1.6",
+    "fast-glob": "^3.2.4",
+    "fs-extra": "^9.0.1",
+    "leaf-db": "^1.0.9",
     "lodash.debounce": "^4.0.8",
-    "lodash.groupby": "^4.6.0",
-    "music-metadata": "^5.0.1",
-    "nedb": "^1.8.0"
+    "music-metadata": "^7.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "electron": "10.1.0",
+    "electron-builder": "^22.8.0",
+    "nodemon": "^2.0.4"
   }
 }

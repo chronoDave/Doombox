@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Obtained from https://github.com/DiscordHooks/travis-ci-discord-webhook
+
 if [ -z "$2" ]; then
   echo -e "WARNING!!\nYou need to pass the WEBHOOK_URL environment variable as the second argument to this script.\nFor details & guide, visit: https://github.com/DiscordHooks/travis-ci-discord-webhook" && exit
 fi

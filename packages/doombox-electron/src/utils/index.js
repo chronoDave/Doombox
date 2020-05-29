@@ -1,44 +1,82 @@
-// General
-const cleanFileName = string => string
-  .replace(/\/|\\|\*|\?|"|:|<|>|\.|\|/g, '_');
-const arrayToObject = (key, array) => array
-  .reduce((acc, cur) => ({
-    ...acc,
-    [cur[key]]: { ...cur }
-  }), {});
-const stripKeys = object => Object.keys(object)
-  .filter(key => !(object[key] === undefined || object[key] === null))
-  .reduce((acc, cur) => ({
-    ...acc,
-    [cur]: object[cur]
-  }), {});
-const toArray = item => (Array.isArray(item) ? item : [item]);
+const parser = require('music-metadata');
 
-// RegExp
-const escapeRegExp = expression => expression
-  .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// Utils
+const {
+  toArray,
+  sanitizeFileName
+} = require('@doombox/utils');
+
 /**
- * @param {Object} payload
- * @param {String} payload.key - Database key
- * @param {String} payload.expression - RegExp expression
+ * Parse file
+ * @param {string} file - Absolute path to file
+ * @param {object} options
+ * @param {boolean} options.skipCovers - Should covers be skipped (default `false`)
+ * @param {array} options.requiredMetadata - Required metadata tags (default `[]`)
  */
-const createQueryRegExp = ({ key, expression }) => ({
-  [key]: { $regex: new RegExp(escapeRegExp(expression), 'i') }
-});
+const parseMetadata = async (file, { skipCovers = false, requiredMetadata = [] } = {}) => {
+  const {
+    format,
+    native,
+    common: { picture, ...tags }
+  } = await parser.parseFile(file, { skipCovers });
 
-// Library
-const populateImages = (collection, images) => collection
-  .map(song => ({
-    ...song,
-    images: song.images ? song.images.map(id => images[id]) : []
-  }));
+  // Validation
+  if (format.tagTypes.length === 0) {
+    return Promise.reject(new Error(`Corrupted file: ${file}`));
+  }
+  if (
+    Array.isArray(requiredMetadata) &&
+    requiredMetadata.length > 0 &&
+    !Object.keys(tags).some(key => requiredMetadata.includes(key))
+  ) {
+    return Promise.reject(new Error(`Missing metadata: '${requiredMetadata}', ${file}`));
+  }
+
+  // Get native tags
+  const formatType = format.tagTypes.sort().pop();
+  const nativeTags = native[formatType]
+    .reduce((acc, { id, value }) => ({
+      ...acc,
+      [id.toUpperCase()]: value
+    }), {});
+  const cdid = (() => {
+    const tag = toArray(
+      tags.catalognumber ||
+      nativeTags['TXXX:CATALOGID'] ||
+      nativeTags['TXXX:CDID']
+    )
+      .filter(v => v);
+
+    if (tag.length > 0) return tag;
+    return null;
+  })();
+
+  // Get images
+  const images = picture ?
+    picture.map(image => ({
+      _id: sanitizeFileName(`${tags.albumartist}-${tags.album}`),
+      ...image,
+      format: image.format.split('/').pop() // image/jpg => jpg
+    })) :
+    [];
+
+  return Promise.resolve({
+    file,
+    images,
+    format,
+    metadata: {
+      titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
+      artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
+      albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
+      albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
+      cdid,
+      date: nativeTags.TDAT || null,
+      event: nativeTags['TXXX:EVENT'] || null,
+      ...tags
+    }
+  });
+};
 
 module.exports = {
-  arrayToObject,
-  stripKeys,
-  cleanFileName,
-  createQueryRegExp,
-  populateImages,
-  toArray,
-  escapeRegExp
+  parseMetadata
 };

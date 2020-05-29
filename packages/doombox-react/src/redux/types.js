@@ -1,0 +1,5 @@
+export const IPC = {
+  SET_CACHE: 'SET_CACHE',
+  SET_CONFIG: 'SET_CONFIG',
+  SET_THEME: 'SET_THEME'
+};

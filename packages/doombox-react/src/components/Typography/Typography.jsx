@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Typography as MuiTypography } from '@material-ui/core';
 
 // Styles
-import { useTypographyStyles } from './Typography.style';
+import { useTypographyStyles } from './Typography.styles';
 
 const Typography = forwardRef((props, ref) => {
   const {

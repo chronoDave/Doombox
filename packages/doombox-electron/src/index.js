@@ -1,113 +1,53 @@
-const {
-  app,
-  ipcMain,
-  globalShortcut
-} = require('electron');
-const {
-  CONFIG,
-  CACHE,
-  TYPE
-} = require('@doombox/utils');
+const { app } = require('electron');
+const path = require('path');
 const debounce = require('lodash.debounce');
-
-// Lib
-const { NeDB } = require('./lib/database');
-const MetadataParser = require('./lib/parser');
 const {
-  StorageController,
-  LibraryController,
-  PlaylistController,
-  RpcController
-} = require('./lib/controller');
-const Logger = require('./lib/log');
-const Router = require('./lib/router');
-const Storage = require('./lib/storage');
+  TYPES,
+  IPC,
+  CACHE,
+  THEME
+} = require('@doombox/utils');
 
-// Utils
-const { PATH } = require('./utils/path');
-const { COLLECTION } = require('./utils/const');
-const {
-  createKeyboardListener,
-  createWindow
-} = require('./utils/electron');
+// Core
+const { App } = require('./app');
+const { Storage } = require('./storage');
+const { StorageController } = require('./controllers');
 
-const config = new Storage(PATH.CONFIG, 'config', CONFIG);
-const cache = new Storage(PATH.CONFIG, 'cache', CACHE);
+const root = process.env.NODE_ENV === 'development' ?
+  path.resolve(__dirname, '../dev') :
+  app.getPath('userData');
+const assets = process.env.NODE_ENV === 'development' ?
+  path.resolve(__dirname, '../../../build') :
+  path.resolve(__dirname, '../../');
 
-if (!config.get(TYPE.CONFIG.GENERAL).hardwareAcceleration) {
-  app.disableHardwareAcceleration();
-}
+const cache = new Storage(root, 'cache', CACHE);
+const theme = new Storage(root, 'theme', THEME);
 
-const db = new NeDB(Object.values(COLLECTION), PATH.DATABASE);
-const logger = new Logger(PATH.LOG);
-const router = new Router(logger);
-
-const parserOptions = config.get(TYPE.CONFIG.PARSER);
-const parser = new MetadataParser({ ...parserOptions, logger });
+const Doombox = new App(root, assets);
 
 app.on('ready', () => {
-  // General
-  router.createRouter(
-    TYPE.IPC.LIBRARY,
-    new LibraryController(db, parser, logger, {
-      imagePath: CONFIG[TYPE.CONFIG.PARSER].pathImage || PATH.IMAGE,
-      skipCovers: CONFIG[TYPE.CONFIG.PARSER].skipCovers
-    })
-  );
-  router.createRouter(
-    TYPE.IPC.PLAYLIST,
-    new PlaylistController(db)
-  );
-  router.createRouter(
-    TYPE.IPC.RPC,
-    new RpcController(logger, config.get(TYPE.CONFIG.DISCORD))
-  );
-  // Storage
-  router.createRouter(TYPE.IPC.CONFIG, new StorageController(
-    config, TYPE.IPC.CONFIG
-  ));
-  router.createRouter(TYPE.IPC.CACHE, new StorageController(
-    cache, TYPE.IPC.CACHE
-  ));
+  Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
-  let mainWindow = createWindow({
-    ...cache.get(TYPE.CONFIG.DIMENSIONS),
-    ...cache.get(TYPE.CONFIG.POSITION)
+  const window = Doombox.createWindow({
+    ...cache.get(TYPES.STORAGE.WINDOW),
+    darkTheme: theme.get('variant') === 'dark',
+    backgroundColor: theme.get('grey')[theme.get('variant')]
   });
-  createKeyboardListener(
-    config.get(TYPE.CONFIG.KEYBIND),
-    payload => mainWindow.webContents.send(TYPE.IPC.KEYBIND, payload)
-  );
 
-  mainWindow.on('resize', () => cache.set(TYPE.CONFIG.DIMENSIONS, { ...mainWindow.getBounds() }));
-  const handleMove = debounce(() => {
-    const position = mainWindow.getPosition();
-    cache.set(TYPE.CONFIG.POSITION, {
-      x: position[0],
-      y: position[1]
-    });
+  const handleResize = debounce(() => {
+    const { width, height } = window.getBounds();
+    cache.update({ width, height }, TYPES.STORAGE.WINDOW);
   }, 100);
-  mainWindow.on('move', handleMove);
+  const handleMove = debounce(() => {
+    const [x, y] = window.getPosition();
+    cache.update({ x, y }, TYPES.STORAGE.WINDOW);
+  }, 100);
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
-});
-
-// Prevent multi-instance
-if (!app.requestSingleInstanceLock()) {
-  const { forceQuit } = config.get(TYPE.CONFIG.GENERAL);
-
-  if (!process.platform === 'darwin' || forceQuit) {
-    app.quit();
-  }
-}
-
-app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
-  ipcMain.removeAllListeners();
+  window.on('resize', handleResize);
+  window.on('move', handleMove);
 });
 
 app.on('window-all-closed', () => {
+  app.removeAllListeners();
   app.quit();
 });

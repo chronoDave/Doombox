@@ -1,7 +1,10 @@
 {
   "name": "@doombox/utils",
-  "version": "1.1.0",
-  "license": "GPLv3",
+  "version": "2.0.0",
   "author": "Chronocide",
-  "main": "./src"
+  "private": true,
+  "license": "GPL-3.0",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
 }

@@ -5,30 +5,27 @@ import { Provider as ReduxProvider } from 'react-redux';
 // Core
 import { CssBaseline } from '@material-ui/core';
 
+import { App } from './components';
+
 // Providers
 import {
   IpcProvider,
-  AudioProvider,
-  ThemeProvider,
-  RouteProvider
+  ThemeProvider
 } from './providers';
 
 // Redux
 import { store } from './redux';
 
-// Locale
-import './utils/locale';
-
 render(
   <ReduxProvider store={store}>
     <IpcProvider>
-      <AudioProvider>
-        <ThemeProvider>
-          <CssBaseline>
-            <RouteProvider />
-          </CssBaseline>
-        </ThemeProvider>
-      </AudioProvider>
+      <ThemeProvider>
+        <CssBaseline>
+          <App>
+            <p>Hey</p>
+          </App>
+        </CssBaseline>
+      </ThemeProvider>
     </IpcProvider>
   </ReduxProvider>,
   document.getElementById('root')
