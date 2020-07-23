@@ -1,8 +1,4 @@
-const mockEvent = callback => ({
-  sender: {
-    send: callback
-  }
-});
+const mockEvent = cb => ({ sender: { send: cb } });
 
 module.exports = {
   mockEvent

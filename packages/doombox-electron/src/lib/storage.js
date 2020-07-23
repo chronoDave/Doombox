@@ -1,50 +1,89 @@
 const path = require('path');
-const fs = require('fs');
+const fse = require('fs-extra');
 
-// Utils
-const { stripKeys } = require('../utils');
+// Lib
+const Reporter = require('./reporter');
 
-module.exports = class Storage {
+module.exports = class Storage extends Reporter {
   /**
-   * @param {String} root - Path to storage file
-   * @param {String} name - Name of storage file
-   * @param {Object} defaults - Default storage values
+   * @param {string} root - Path to file
+   * @param {string} name - File name
+   * @param {object} defaults
    */
-  constructor(root, name, defaults) {
+  constructor(root, name, defaults = {}) {
+    super(path.resolve(root, 'log'));
+
     this.file = path.join(root, `${name}.json`);
-    this.data = this.parseFile(this.file, defaults);
-  }
-
-  /**
-   * @param {String} file - Path to storage file
-   * @param {Object} defaults - Default storage values
-   */
-  parseFile(file, defaults) {
     try {
-      return {
+      this.data = {
         ...defaults,
-        ...JSON.parse(fs.readFileSync(file))
+        ...fse.readJsonSync(this.file)
       };
     } catch (err) {
-      return defaults;
+      // ENOENT is expected when file does not exist
+      // Any other error is logged
+      if (err.code !== 'ENOENT') this.logError(err);
+      this.data = defaults;
     }
   }
 
+  /**
+   * Get storage data
+   * @param {string?} key - Config key. If no key, return all data
+   * @returns `data[key]` or `data`
+  */
   get(key) {
-    return stripKeys(this.data[key]);
+    if (!key) return this.data;
+    return this.data[key];
   }
 
-  all() {
+  /**
+   * Set storage data
+   * @param {any} payload
+   * @param {string?} key - Config key. If no key, override data
+   * @returns `data[key] or `data`
+   */
+  set(payload, key) {
+    if (!key) {
+      this.data = payload;
+    } else {
+      this.data[key] = payload;
+    }
+
+    try {
+      fse.writeFileSync(this.file, JSON.stringify(this.data, null, ' '));
+    } catch (err) {
+      this.logError(err);
+    }
+
     return this.data;
   }
 
-  set(key, value) {
-    this.data[key] = { ...this.data[key], ...value };
+  /**
+   * Update storage data
+   * @param {any} payload
+   * @param {string?} key - Config key. If no key, override data
+   * @returns `data[key] or `data`
+   */
+  update(payload, key) {
+    if (!key) {
+      this.data = {
+        ...this.data,
+        ...payload
+      };
+    } else {
+      this.data[key] = {
+        ...this.data[key],
+        ...payload
+      };
+    }
 
     try {
-      fs.writeFileSync(this.file, JSON.stringify(this.data));
+      fse.writeFileSync(this.file, JSON.stringify(this.data, null, ' '));
     } catch (err) {
-      throw err;
+      this.logError(err);
     }
+
+    return this.data;
   }
 };

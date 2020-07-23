@@ -1,112 +1,71 @@
-const {
-  app,
-  ipcMain,
-  globalShortcut
-} = require('electron');
-const {
-  CONFIG,
-  CACHE,
-  TYPE
-} = require('@doombox/utils');
+const { app } = require('electron');
+const path = require('path');
 const debounce = require('lodash.debounce');
+const {
+  IPC,
+  CACHE,
+  CONFIG,
+  STORAGE,
+  THEME
+} = require('@doombox/utils');
 
 // Lib
-const { NeDB } = require('./lib/database');
-const MetadataParser = require('./lib/parser');
 const {
-  StorageController,
-  LibraryController,
-  PlaylistController,
-  RpcController
-} = require('./lib/controller');
-const Logger = require('./lib/log');
-const Router = require('./lib/router');
-const Storage = require('./lib/storage');
+  Storage,
+  StorageController
+} = require('./lib');
 
 // Utils
-const { PATH } = require('./utils/path');
-const { COLLECTION } = require('./utils/const');
 const {
-  createKeyboardListener,
-  createWindow
+  createWindow,
+  createRouter
 } = require('./utils/electron');
 
-const config = new Storage(PATH.CONFIG, 'config', CONFIG);
-const cache = new Storage(PATH.CONFIG, 'cache', CACHE);
+// Init
+const rootPath = process.env.NODE_ENV === 'development' ?
+  path.resolve(__dirname, 'dev') :
+  app.getPath('userData');
 
-if (!config.get(TYPE.CONFIG.GENERAL).hardwareAcceleration) {
-  app.disableHardwareAcceleration();
-}
+const cache = new Storage(rootPath, 'cache', CACHE);
+const config = new Storage(rootPath, 'config', CONFIG);
+const theme = new Storage(rootPath, 'theme', THEME);
 
-const db = new NeDB(Object.values(COLLECTION), PATH.DATABASE);
-const logger = new Logger(PATH.LOG);
-const router = new Router(logger);
-
-const parserOptions = config.get(TYPE.CONFIG.PARSER);
-const parser = new MetadataParser({ ...parserOptions, logger });
+// Theme
+const { variant, grey } = theme.get();
+const backgroundColor = grey[variant];
 
 app.on('ready', () => {
-  // General
-  router.createRouter(
-    TYPE.IPC.LIBRARY,
-    new LibraryController(db, parser, logger, {
-      imagePath: CONFIG[TYPE.CONFIG.PARSER].pathImage || PATH.IMAGE,
-      skipCovers: CONFIG[TYPE.CONFIG.PARSER].skipCovers
-    })
-  );
-  router.createRouter(
-    TYPE.IPC.PLAYLIST,
-    new PlaylistController(db)
-  );
-  router.createRouter(
-    TYPE.IPC.RPC,
-    new RpcController(logger, config.get(TYPE.CONFIG.DISCORD))
-  );
-  // Storage
-  router.createRouter(TYPE.IPC.CONFIG, new StorageController(
-    config, TYPE.IPC.CONFIG
-  ));
-  router.createRouter(TYPE.IPC.CACHE, new StorageController(
-    cache, TYPE.IPC.CACHE
-  ));
+  // Routers
+  createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
-  let mainWindow = createWindow({
-    ...cache.get(TYPE.CONFIG.DIMENSIONS),
-    ...cache.get(TYPE.CONFIG.POSITION)
+  // Window
+  const windowMain = createWindow({
+    ...cache.get(STORAGE.WINDOW),
+    darkTheme: variant === 'dark',
+    backgroundColor
   });
-  createKeyboardListener(
-    config.get(TYPE.CONFIG.KEYBIND),
-    payload => mainWindow.webContents.send(TYPE.IPC.KEYBIND, payload)
-  );
 
-  mainWindow.on('resize', () => cache.set(TYPE.CONFIG.DIMENSIONS, { ...mainWindow.getBounds() }));
-  const handleMove = debounce(() => {
-    const position = mainWindow.getPosition();
-    cache.set(TYPE.CONFIG.POSITION, {
-      x: position[0],
-      y: position[1]
-    });
+  const handleResize = debounce(() => {
+    const { width, height } = windowMain.getBounds();
+    cache.update({ width, height }, STORAGE.WINDOW);
   }, 100);
-  mainWindow.on('move', handleMove);
+  const handleMove = debounce(() => {
+    const [x, y] = windowMain.getPosition();
+    cache.update({ x, y }, STORAGE.WINDOW);
+  }, 100);
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  windowMain.on('resize', handleResize);
+  windowMain.on('move', handleMove);
 });
 
 // Prevent multi-instance
 if (!app.requestSingleInstanceLock()) {
-  const { forceQuit } = config.get(TYPE.CONFIG.GENERAL);
+  const { forceQuit } = config.get(STORAGE.GENERAL);
 
-  if (!process.platform === 'darwin' || forceQuit) {
+  if (!process.platform !== 'darwin' || forceQuit) {
     app.quit();
   }
 }
-
-app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
-  ipcMain.removeAllListeners();
-});
 
 app.on('window-all-closed', () => {
   app.quit();

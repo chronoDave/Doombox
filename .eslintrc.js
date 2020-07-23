@@ -11,7 +11,7 @@ module.exports = {
       'electron',
       'tap',
       'chai',
-      'chai-as-promised'
+      'chai-as-promised',
     ]
   },
   extends: [
@@ -25,20 +25,11 @@ module.exports = {
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
     'arrow-parens': ['error', 'as-needed'],
-    'no-nested-ternary': 'off',
-    'class-methods-use-this': 'off', // No support for private methods yet
-    'no-underscore-dangle': ['error', { 'allow': ['_id']}], // Database _id property
-    'no-await-in-loop': 'warn', // Allow async actions to be ran synchronous in series
-    'no-restricted-syntax': 'off', // For loop allow async sync series
-    // Import
-    'import/namespace': ['error', { 'allowComputed': true }],
-    'import/prefer-default-export': 'off',
+    'no-underscore-dangle': 'off', // NeDB _id
     // React
-    'react/jsx-fragments': 'off', // Prefer <Fragment />
-    'react/jsx-props-no-spreading': 'off', // Prefer spread operator
-    // JSX
-    'jsx-a11y/label-has-for': 'off', // This rule was deprecated in v6.1.0.
-    // Mocha
-    'mocha/no-mocha-arrows': 'off' // Mocha context isn't used
+    'react/jsx-fragments': 'off', // Prefer verbose syntax
+    'react/jsx-props-no-spreading': 'off', // Spread appropriatly
+    // Import
+    'import/prefer-default-export': 'off'
   }
-}
+};

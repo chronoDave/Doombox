@@ -1,21 +1,16 @@
 const Datastore = require('nedb');
 const path = require('path');
-
-// Utils
-const {
-  toArray,
-  arrayToObject
-} = require('../../utils');
+const { toArray } = require('@doombox/utils');
 
 module.exports = class NeDB {
   /**
-   * @param {(string[]|String)} tables - Array of table names or table name
+   * @param {(string[]|String)} stores - Array of store names
    * @param {String=} root - Database path. If falsy, databases will be stored in memory
    */
-  constructor(tables, root) {
-    toArray(tables).forEach(collection => {
-      this[collection] = new Datastore({
-        filename: root ? path.resolve(root, `${collection}.txt`) : null,
+  constructor(stores, root) {
+    toArray(stores).forEach(store => {
+      this[store] = new Datastore({
+        filename: root ? path.resolve(root, `${store}.txt`) : null,
         autoload: !!root
       });
     });
@@ -40,7 +35,6 @@ module.exports = class NeDB {
    * @param {Number} modifiers.skip
    * @param {Number} modifiers.limit
    * @param {Object=} modifiers.projection
-   * @param {Object=} modifiers.sort
    * @param {Boolean=} modifiers.castObject
    */
   async read(collection, query = {}, modifiers = {}) {
@@ -48,19 +42,21 @@ module.exports = class NeDB {
       skip = 0,
       limit = 0,
       projection = {},
-      sort = {},
       castObject
     } = modifiers;
 
     return new Promise((resolve, reject) => this[collection]
       .find(query)
-      .sort(sort)
       .skip(skip)
       .limit(limit)
       .projection(projection)
       .exec((err, docs) => {
         if (err) return reject(err);
-        return resolve(castObject ? arrayToObject('_id', docs) : docs);
+        return resolve(
+          castObject ?
+            docs.reduce((acc, cur) => ({ ...acc, [cur._id]: { ...cur } }), {}) :
+            docs
+        );
       }));
   }
 

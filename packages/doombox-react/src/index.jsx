@@ -4,20 +4,17 @@ import { Provider as ReduxProvider } from 'react-redux';
 
 // Core
 import { CssBaseline } from '@material-ui/core';
+import { App } from './components';
 
 // Providers
 import {
   IpcProvider,
-  AudioProvider,
   ThemeProvider,
-  RouteProvider
+  AudioProvider
 } from './providers';
 
 // Redux
 import { store } from './redux';
-
-// Locale
-import './utils/locale';
 
 render(
   <ReduxProvider store={store}>
@@ -25,7 +22,7 @@ render(
       <AudioProvider>
         <ThemeProvider>
           <CssBaseline>
-            <RouteProvider />
+            <App />
           </CssBaseline>
         </ThemeProvider>
       </AudioProvider>

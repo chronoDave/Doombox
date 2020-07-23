@@ -1,22 +1,6 @@
-// Core
-import { makeStyles } from '@material-ui/core/styles';
+import { useContext } from 'react';
 
-export {
-  useAudio,
-  useRoute
-} from './useContext';
+// Utils
+import { AudioContext } from '../utils/context';
 
-export const useGlobalStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      overflow: 'hidden'
-    },
-    '*::-webkit-scrollbar': {
-      backgroundColor: theme.palette.grey[300],
-      width: theme.spacing()
-    },
-    '*::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.palette.grey[400]
-    }
-  }
-}));
+export const useAudio = () => useContext(AudioContext);

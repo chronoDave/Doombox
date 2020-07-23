@@ -1,0 +1,17 @@
+export const AUDIO = {
+  SET_SONG: 'SET_SONG',
+  SET_PLAYER: 'SET_PLAYER',
+  SET_PLAYLIST: 'SET_PLAYLIST',
+  SET_VOLUME: 'SET_VOLUME',
+  SET_POSITION: 'SET_POSITION'
+};
+
+export const IPC = {
+  SET_CACHE: 'SET_CACHE',
+  SET_CONFIG: 'SET_CONFIG',
+  SET_THEME: 'SET_THEME'
+};
+
+export const ERROR = {
+  SET_ERROR: 'SET_ERROR'
+};

@@ -1,51 +1,42 @@
 import {
-  configureStore,
-  combineReducers
-} from '@reduxjs/toolkit';
-import { createLogger } from 'redux-logger';
+  createStore,
+  combineReducers,
+  applyMiddleware
+} from 'redux';
 
 // Slices
 import {
-  librarySlice,
-  mixtapeSlice,
-  playlistSlice,
-  configSlice,
-  cacheSlice,
-  interruptSlice,
-  mixographySlice,
-  messageSlice
+  audioSlice,
+  errorSlice,
+  ipcSlice
 } from './slices';
 
-export const { setLibrary } = librarySlice.actions;
+// Middleware
+import { logger } from './middleware';
+
 export const {
-  setMixtape,
-  addMixtape,
-  shuffleMixtape,
-  addShuffleMixtape
-} = mixtapeSlice.actions;
-export const { setPlaylist } = playlistSlice.actions;
-export const { setConfig } = configSlice.actions;
-export const { setCache } = cacheSlice.actions;
-export const { setInterrupt } = interruptSlice.actions;
-export const { setMessage } = messageSlice.actions;
-export const { setMixography } = mixographySlice.actions;
+  setSong,
+  setPlayer,
+  setPlaylist,
+  setVolume,
+  setPosition
+} = audioSlice.actions;
 
-const middleware = [];
+export const {
+  setError
+} = errorSlice.actions;
 
-if (process.env.NODE_ENV === 'development') {
-  middleware.push(createLogger());
-}
+export const {
+  setCache,
+  setConfig,
+  setTheme
+} = ipcSlice.actions;
 
-export const store = configureStore({
-  reducer: combineReducers({
-    library: librarySlice.reducer,
-    playlist: playlistSlice.reducer,
-    mixtape: mixtapeSlice.reducer,
-    config: configSlice.reducer,
-    cache: cacheSlice.reducer,
-    interrupt: interruptSlice.reducer,
-    message: messageSlice.reducer,
-    mixography: mixographySlice.reducer
+export const store = createStore(
+  combineReducers({
+    [audioSlice.name]: audioSlice.reducer,
+    [errorSlice.name]: errorSlice.reducer,
+    [ipcSlice.name]: ipcSlice.reducer
   }),
-  middleware
-});
+  applyMiddleware(logger)
+);

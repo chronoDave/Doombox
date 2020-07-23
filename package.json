@@ -1,12 +1,41 @@
 {
   "version": "2.0.0",
+  "name": "doombox",
   "private": true,
-  "scripts": {
-    "bump:patch": "yarn version --patch && yarn workspaces version --patch",
-    "bump:minor": "yarn version --minor && yarn workspaces version --minor",
-    "bump:major": "yarn version --major && yarn workspaces version --major"
+  "engines": {
+    "node": "12.17.0"
   },
-  "devDependencies": {},
+  "scripts": {
+    "start:react": "yarn workspace @doombox/react start",
+    "start:electron": "nodemon --watch packages/@doombox/electron/src/* --ext .js --exec yarn workspace @doombox/electron start",
+    "test": "yarn workspace @doombox/electron test:unit",
+    "link:all": "cd ./packages/doombox-utils && yarn link && cd ../@doombox/electron && yarn link @doombox/utils && cd ../@doombox/react && yarn link @doombox/utils",
+    "build:react": "yarn workspace @doombox/react build",
+    "build:electron": "yarn workspace @doombox/electron build",
+    "build:debug": "yarn workspace @doombox/electron build:fast",
+    "build": "yarn build:react && yarn build:electron",
+    "build:release": "yarn build:react && yarn workspace @doombox/electron build:release",
+    "bump:patch": "yarn version --patch && yarn workspaces run version --patch",
+    "bump:minor": "yarn version --minor && yarn workspaces run version --minor",
+    "bump:major": "yarn version --major && yarn workspaces run version --major"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.2",
+    "del-cli": "^3.0.1",
+    "eslint": "^7.1.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-mocha": "^7.0.1",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "mocha": "^7.2.0",
+    "nodemon": "^2.0.4",
+    "tap": "^14.10.7"
+  },
   "dependencies": {},
   "workspaces": [
     "packages/*"

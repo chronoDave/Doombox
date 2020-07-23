@@ -4,7 +4,7 @@ const chaiAsPromised = require('chai-as-promised');
 
 // Core
 const NeDB = require('./nedb');
-const { COLLECTION } = require('../../utils/const');
+const { STORE } = require('../../utils/const');
 
 tap.mochaGlobals();
 chai.use(chaiAsPromised);
@@ -12,7 +12,7 @@ const { assert, expect } = chai;
 
 context('NeDB', () => {
   beforeEach(() => {
-    this.collection = COLLECTION.IMAGE;
+    this.collection = STORE.SONG;
     this.db = new NeDB(this.collection);
   });
 
@@ -77,15 +77,12 @@ context('NeDB', () => {
       await this.db.create(this.collection, payload);
       const docs = await this.db.read(this.collection, {}, {
         projection: { inhabited: 0 },
-        sort: { planet: -1 }, // O M E
-        skip: 2, // Returns Earth
         limit: 1,
         castObject: true
       });
 
       assert.isObject(docs); // castObject
       assert.strictEqual(Object.keys(docs).length, 1); // limit
-      assert.strictEqual(Object.values(docs)[0].planet, payload[0].planet); // sort / skip
       assert.notProperty(Object.values(docs)[0], 'inhabited'); // projection
     });
   });

@@ -1,10 +1,6 @@
-*.log
-.DS_STORE
-build
-dist
 node_modules
+dist
+yarn-error.log
 client
-.vs
-config.dev.js
-*.arkit.svg
-.nyc_output
+dev
+*.ignore.js
