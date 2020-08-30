@@ -7,9 +7,10 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon --config .nodemon.json",
-    "test": "mocha src/**/*.spec.js",
-    "build": "electron-builder -c .buildconfig.js",
-    "build:debug": "cross-env NODE_ENV=development electron-builder -c .buildconfig.js"
+    "test": "tape src/**/*.spec.js | tap-spec",
+    "clean": "node scripts/clean.js",
+    "build": "yarn clean && electron-builder -c .buildconfig.js",
+    "build:debug": "yarn clean && cross-env NODE_ENV=development electron-builder -c .build.config.js"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
@@ -17,6 +18,8 @@
     "fs-extra": "^9.0.1",
     "leaf-db": "^1.0.9",
     "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
     "music-metadata": "^7.0.2"
   },
   "devDependencies": {

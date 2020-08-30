@@ -1,4 +1,4 @@
-const { assert } = require('chai');
+const test = require('tape');
 const LeafDB = require('leaf-db');
 const path = require('path');
 const fse = require('fs-extra');
@@ -6,77 +6,85 @@ const { TYPES } = require('@doombox/utils');
 
 const LibraryController = require('./library.controller');
 
-describe('LibraryController', () => {
-  describe('create()', () => {
-    beforeEach(() => {
-      this.root = path.resolve(__dirname, '../../test/songs');
-      this.imageFolder = path.resolve(__dirname, 'images');
+const root = path.resolve(__dirname, '../../../../test/songs');
+const folder = path.resolve(__dirname, 'images');
+const libraryFile = path.resolve(__dirname, 'library.txt');
+const imageFile = path.resolve(__dirname, 'images.txt');
+const image = path.resolve(folder, 'Tours-Enthusiast.png');
 
-      this.libraryFile = path.resolve(__dirname, 'library.txt');
-      this.imageFile = path.resolve(__dirname, 'images.txt');
+test('should insert songs into the database', async t => {
+  const db = {
+    [TYPES.DATABASE.LIBRARY]: new LeafDB({ root: __dirname, name: 'library', strict: true }),
+    [TYPES.DATABASE.IMAGES]: new LeafDB({ root: __dirname, name: 'images', strict: true })
+  };
 
-      this.db = {
-        [TYPES.DATABASE.LIBRARY]: new LeafDB({ root: __dirname, name: 'library', strict: true }),
-        [TYPES.DATABASE.IMAGES]: new LeafDB({ root: __dirname, name: 'images', strict: true })
-      };
+  const controller = new LibraryController(db);
 
-      this.controller = new LibraryController(this.db);
-    });
+  try {
+    await controller.create(null, { payload: root });
 
-    afterEach(() => {
-      fse.removeSync(this.libraryFile);
-      fse.removeSync(this.imageFile);
-      fse.removeSync(this.imageFolder);
-    });
+    const data = fse
+      .readFileSync(libraryFile, 'utf-8')
+      .split('\n')
+      .filter(v => v);
 
-    it('Should insert songs into the database', async () => {
-      try {
-        await this.controller.create(null, { payload: this.root });
+    t.strictEqual(data.length, 1, 'creates database file');
+    t.ok(data[0].includes('_id'), 'writes database data');
+  } catch (err) {
+    t.fail(err);
+  }
 
-        const data = fse
-          .readFileSync(this.libraryFile, 'utf-8')
-          .split('\n')
-          .filter(value => value);
+  fse.removeSync(libraryFile);
 
-        assert.strictEqual(data.length, 1);
-        assert.include(data[0], '_id');
-      } catch (err) {
-        assert.fail(err);
-      }
-    });
+  t.end();
+});
 
-    it('Should parse covers', async () => {
-      const image = path.resolve(this.imageFolder, 'Tours-Enthusiast.png');
+test('should parse covers', async t => {
+  const db = {
+    [TYPES.DATABASE.LIBRARY]: new LeafDB({ root: __dirname, name: 'library', strict: true }),
+    [TYPES.DATABASE.IMAGES]: new LeafDB({ root: __dirname, name: 'images', strict: true })
+  };
 
-      fse.mkdirpSync(this.imageFolder);
+  const controller = new LibraryController(db);
+  controller.folder = folder;
 
-      this.controller.folder = this.imageFolder;
+  fse.mkdirpSync(folder);
 
-      try {
-        await this.controller.create(null, { payload: this.root });
+  try {
+    await controller.create(null, { payload: root });
 
-        // Library
-        const libraryDatabase = fse
-          .readFileSync(this.libraryFile, 'utf-8')
-          .split('\n')
-          .filter(value => value);
-        assert.strictEqual(libraryDatabase.length, 1);
-        assert.include(libraryDatabase[0], '_id');
+    // Library
+    const libraryDatabase = fse
+      .readFileSync(libraryFile, 'utf-8')
+      .split('\n')
+      .filter(v => v);
 
-        // Image
-        const imageDatabase = fse
-          .readFileSync(this.imageFile, 'utf-8')
-          .split('\n')
-          .filter(value => value);
-        assert.strictEqual(imageDatabase.length, 1);
-        assert.include(imageDatabase[0], '_id');
+    t.strictEqual(libraryDatabase.length, 1, 'creates library database file');
+    t.ok(libraryDatabase[0].includes('_id'), 'writes library database data');
 
-        // PNG
-        assert.isTrue(fse.existsSync(image));
-        assert.strictEqual(fse.readFileSync(image, 'hex').slice(0, 8), '89504e47'); // PNG magic number
-      } catch (err) {
-        assert.fail(err);
-      }
-    });
-  });
+    // Image
+    const imageDatabase = fse
+      .readFileSync(imageFile, 'utf-8')
+      .split('\n')
+      .filter(v => v);
+
+    t.strictEqual(imageDatabase.length, 1, 'creates image database file');
+    t.ok(imageDatabase[0].includes('_id'), 'writes image database data');
+
+    // PNG
+    t.ok(fse.existsSync(image), 'creates image');
+    t.strictEqual(
+      fse.readFileSync(image, 'hex').slice(0, 8),
+      '89504e47', // PNG magic number
+      'creates valid image'
+    );
+  } catch (err) {
+    t.fail(err);
+  }
+
+  fse.removeSync(libraryFile);
+  fse.removeSync(imageFile);
+  fse.removeSync(folder);
+
+  t.end();
 });

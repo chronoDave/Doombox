@@ -4,12 +4,14 @@ const path = require('path');
 const FsWebpackPlugin = require('fs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = env => ({
+const outputPath = path.resolve(__dirname, '../../build/client');
+
+module.exports = {
   mode: 'development',
   cache: false,
   entry: path.resolve(__dirname, 'src/index.jsx'),
   output: {
-    path: path.resolve(__dirname, '../../build/client'),
+    path: outputPath,
     filename: '[name].bundle.js'
   },
   target: 'electron-renderer',
@@ -46,24 +48,19 @@ module.exports = env => ({
       }
     }]
   },
-  plugins: (() => {
-    const plugins = [
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src/index.html'),
-        filename: 'index.html'
-      })
-    ];
-
-    if (env.production) {
-      plugins.push(new FsWebpackPlugin([
-        { type: 'delete', files: '../../build/client/**/*' },
-        { type: 'copy', files: 'assets/**/*', to: '../../build/client/assets' }
-      ]));
-    }
-
-    return plugins;
-  })(),
+  plugins: [
+    new FsWebpackPlugin([{
+      type: 'delete',
+      files: '*',
+      root: outputPath,
+      hooks: ['beforeRun']
+    }]),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'src/index.html'),
+      filename: 'index.html'
+    })
+  ],
   resolve: {
     extensions: ['.js', '.jsx']
   }
-});
+};

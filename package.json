@@ -8,20 +8,20 @@
     "start:react": "yarn workspace @doombox/react start",
     "start:electron": "yarn workspace @doombox/electron start",
     "build:react": "yarn workspace @doombox/react build",
-    "build:electron-debug": "yarn clean && yarn workspace @doombox/electron build:debug",
-    "test": "yarn workspace @doombox/electron test"
+    "build:electron-debug": "yarn workspace @doombox/electron build:debug",
+    "test:react": "yarn workspace @doombox/react test",
+    "test:electron": "yarn workspace @doombox/electron test"
   },
   "dependencies": {},
   "devDependencies": {
-    "chai": "^4.2.0",
     "eslint": "^7.7.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
-    "fs-extra": "^9.0.1",
-    "mocha": "^8.1.1"
+    "tap-spec": "^5.0.0",
+    "tape": "^5.0.1"
   },
   "workspaces": [
     "packages/*"

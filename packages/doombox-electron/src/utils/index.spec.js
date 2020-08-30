@@ -1,64 +1,61 @@
-const { assert } = require('chai');
+const test = require('tape');
 const path = require('path');
+const objectGet = require('lodash.get');
 
 const { parseMetadata } = require('./index');
 
-const root = path.resolve(__dirname, '../../test/songs');
+const root = path.resolve(__dirname, '../../../../test/songs');
 const corrupt = path.resolve(root, 'Directionless EP/Comfort_Fit_-_03_-_Sorry (corrupted metadata).mp3');
 const valid = path.resolve(root, 'Enthusiast/Tours_-_01_-_Enthusiast.mp3');
 
-describe('utils', () => {
-  describe('parseMetadata()', () => {
-    it('Throws an error on corrupted file', async () => {
-      try {
-        await parseMetadata(corrupt);
-        assert.fail();
-      } catch (err) {
-        assert.include(err.message, 'Corrupted file');
-      }
-    });
+test('should throw an error on corrupted file', async t => {
+  try {
+    await parseMetadata(corrupt);
 
-    it('Throws an error on missing tags', async () => {
-      try {
-        await parseMetadata(valid, { requiredMetadata: ['TXXX:CATALOGID'] });
-        assert.fail();
-      } catch (err) {
-        assert.include(err.message, 'Missing metadata');
-      }
-    });
+    t.fail('expected an error');
+  } catch (err) {
+    t.ok(err.message.includes('Corrupted file'), 'throws expected error');
+  }
 
-    it('Parses metadata', async () => {
-      try {
-        const metadata = await parseMetadata(valid);
-        assert.hasAnyDeepKeys(metadata, [
-          'file',
-          'images',
-          'format',
-          'metadata',
-          'titlelocalized',
-          'artistlocalized',
-          'albumlocalized',
-          'albumartistlocalized',
-          'cdid',
-          'date',
-          'event'
-        ]);
-        assert.isArray(metadata.images);
-        assert.hasAnyKeys(metadata.images[0], ['_id', 'format']);
-        assert.include(['jpg', 'jpeg', 'png', 'gif'], metadata.images[0].format);
-      } catch (err) {
-        assert.fail(err);
-      }
-    });
+  t.end();
+});
 
-    it('Ignores covers if skipCovers is true', async () => {
-      try {
-        const metadata = await parseMetadata(valid, { skipCovers: true });
-        assert.isArray(metadata.images);
-        assert.isEmpty(metadata.images);
-      } catch (err) {
-        assert.fail(err);
-      }
-    });
-  });
+test('should throw an error on missing tags', async t => {
+  try {
+    await parseMetadata(valid, { requiredMetadata: ['TXXX:CATALOGID'] });
+
+    t.fail('expected an error');
+  } catch (err) {
+    t.ok(err.message.includes('Missing metadata'), 'throws expected error');
+  }
+
+  t.end();
+});
+
+test('parses metadata', async t => {
+  try {
+    const metadata = await parseMetadata(valid);
+
+    const expectedTags = [
+      'file',
+      'images',
+      'format',
+      'metadata.titlelocalized',
+      'metadata.artistlocalized',
+      'metadata.albumlocalized',
+      'metadata.albumartistlocalized',
+      'metadata.cdid',
+      'metadata.date',
+      'metadata.event'
+    ];
+    for (let i = 0; i < expectedTags.length; i += 1) {
+      const tag = expectedTags[i];
+
+      t.notStrictEqual(objectGet(metadata, tag), undefined, `has tag: '${tag}'`);
+    }
+  } catch (err) {
+    t.fail(err);
+  }
+
+  t.end();
 });

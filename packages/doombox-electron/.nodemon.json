@@ -1,5 +1,6 @@
 {
   "watch": ["packages/doombox-electron/src/**"],
+  "ignore": ["*.spec.js"],
   "ext": "js",
   "env": {
     "NODE_ENV": "development"

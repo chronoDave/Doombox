@@ -12,6 +12,17 @@ const TYPES = {
       PAUSED: 'PAUSED',
       STOPPED: 'STOPPED'
     }
+  },
+  EVENT: {
+    AUDIO: {
+      POSITION: 'POSITION',
+      VOLUME: 'VOLUME',
+      MUTED: 'MUTED',
+      PLAYLIST: 'PLAYLIST',
+      DURATION: 'DURATION',
+      METADATA: 'METADATA',
+      STATUS: 'STATUS'
+    }
   }
 };
 
@@ -88,6 +99,7 @@ const zeroPad = (txt, n = 1) => {
   }
   return txt;
 };
+const clamp = (min, max, n) => Math.min(Math.max(n, min), max);
 
 module.exports = {
   TYPES,
@@ -97,5 +109,6 @@ module.exports = {
   toArray,
   sanitizeFileName,
   getTimestamp,
-  zeroPad
+  zeroPad,
+  clamp
 };

@@ -6,6 +6,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "start": "webpack -w src --env development",
+    "test": "mocha src/**/*.spec.js -r esm",
     "build": "webpack --mode production --env.production"
   },
   "dependencies": {
@@ -25,9 +26,11 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
+    "esm": "^3.2.25",
     "file-loader": "^6.0.0",
-    "fs-webpack-plugin": "^1.1.0",
+    "fs-webpack-plugin": "^2.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "sinon": "^9.0.3",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   }

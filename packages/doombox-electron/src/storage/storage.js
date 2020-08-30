@@ -1,5 +1,7 @@
 const path = require('path');
 const fse = require('fs-extra');
+const objectGet = require('lodash.get');
+const objectSet = require('lodash.set');
 
 module.exports = class Storage {
   /**
@@ -22,7 +24,7 @@ module.exports = class Storage {
   */
   get(key) {
     if (!key) return this.data;
-    return this.data[key];
+    return objectGet(this.data, key);
   }
 
   /**
@@ -35,31 +37,7 @@ module.exports = class Storage {
     if (!key) {
       this.data = payload;
     } else {
-      this.data[key] = payload;
-    }
-
-    fse.writeFileSync(this.file, JSON.stringify(this.data, null, ' '));
-
-    return this.data;
-  }
-
-  /**
-   * Update storage data
-   * @param {any} payload
-   * @param {string?} key - Config key. If no key, override data
-   * @returns `data[key] or `data`
-   */
-  update(payload, key) {
-    if (!key) {
-      this.data = {
-        ...this.data,
-        ...payload
-      };
-    } else {
-      this.data[key] = {
-        ...this.data[key],
-        ...payload
-      };
+      objectSet(this.data, key, payload);
     }
 
     fse.writeFileSync(this.file, JSON.stringify(this.data, null, '\t'));

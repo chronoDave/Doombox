@@ -7,7 +7,7 @@ module.exports = {
   },
   extends: ['airbnb', 'airbnb/hooks'],
   settings: {
-    'import/core-modules': ['electron', 'chai']
+    'import/core-modules': ['electron', 'tape']
   },
   rules: {
     // General
@@ -18,6 +18,7 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'object-curly-newline': 'off',
     'no-await-in-loop': 'off',
+    'no-underscore-dangle': 'off', // Leaf-DB
     // React
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/jsx-props-no-spreading': 'off', // Spread appropriatly
