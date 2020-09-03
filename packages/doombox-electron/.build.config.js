@@ -24,7 +24,11 @@ module.exports = {
     'package.json',
     'src/**/*',
     '!src/**/*.spec.js',
-    path.resolve(__dirname, '../../build'),
+    '!**/node_modules/@tokenizer/**/*',
+    '!**/node_modules/HISTORY.md',
+    { from: '../../build/client', to: 'client' },
+    { from: '../../build/mui-icons', to: 'mui-icons' },
+    { from: '../../build/icons', to: 'icons' }
   ],
 
   // Windows
@@ -43,5 +47,14 @@ module.exports = {
       ],
     icon: path.resolve(__dirname, '../../build/app.ico'),
     publisherName: 'Chronocide'
+  },
+
+  // Mac
+  mac: {
+    category: 'public.app-category.music',
+    darkModeSupport: true,
+    type: process.env.NODE_ENV === 'development' ?
+      'development' :
+      'distribution'
   }
 };

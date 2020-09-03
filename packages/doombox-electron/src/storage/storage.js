@@ -31,13 +31,17 @@ module.exports = class Storage {
    * Set storage data
    * @param {any} payload
    * @param {string?} key - Config key. If no key, override data
+   * @param {boolean} override - Should data be overwritten (default `false`)
    * @returns `data[key] or `data`
    */
-  set(payload, key) {
+  set(payload, key, override = false) {
     if (!key) {
       this.data = payload;
     } else {
-      objectSet(this.data, key, payload);
+      const newData = override ?
+        payload :
+        { ...this.get(key), ...payload };
+      objectSet(this.data, key, newData);
     }
 
     fse.writeFileSync(this.file, JSON.stringify(this.data, null, '\t'));

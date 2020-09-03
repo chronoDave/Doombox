@@ -18,7 +18,7 @@ const root = process.env.NODE_ENV === 'development' ?
   app.getPath('userData');
 const assets = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../../build') :
-  path.resolve(__dirname, '../../');
+  path.resolve(__dirname, '../../app.asar');
 
 const cache = new Storage(root, 'cache', CACHE);
 const theme = new Storage(root, 'theme', THEME);
@@ -36,11 +36,11 @@ app.on('ready', () => {
 
   const handleResize = debounce(() => {
     const { width, height } = window.getBounds();
-    cache.update({ width, height }, TYPES.STORAGE.WINDOW);
+    cache.set({ width, height }, TYPES.STORAGE.WINDOW);
   }, 100);
   const handleMove = debounce(() => {
     const [x, y] = window.getPosition();
-    cache.update({ x, y }, TYPES.STORAGE.WINDOW);
+    cache.set({ x, y }, TYPES.STORAGE.WINDOW);
   }, 100);
 
   window.on('resize', handleResize);
