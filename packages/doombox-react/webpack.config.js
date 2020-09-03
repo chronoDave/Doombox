@@ -8,8 +8,6 @@ const outputPath = path.resolve(__dirname, '../../build/client');
 
 module.exports = {
   mode: 'development',
-  cache: false,
-  entry: path.resolve(__dirname, 'src/index.jsx'),
   output: {
     path: outputPath,
     filename: '[name].bundle.js'

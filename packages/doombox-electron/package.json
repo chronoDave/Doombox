@@ -9,8 +9,8 @@
     "start": "nodemon --config .nodemon.json",
     "test": "tape src/**/*.spec.js | tap-spec",
     "clean": "node scripts/clean.js",
-    "build": "yarn clean && electron-builder -c .buildconfig.js",
-    "build:debug": "yarn clean && cross-env NODE_ENV=development electron-builder -c .build.config.js"
+    "build": "yarn clean && webpack --mode production && electron-builder -c .build.config.js",
+    "build:portable": "yarn clean && webpack --mode production && cross-env NODE_ENV=portable electron-builder -c .build.config.js"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
@@ -23,9 +23,15 @@
     "music-metadata": "^7.0.2"
   },
   "devDependencies": {
+    "chokidar": "^3.4.2",
     "cross-env": "^7.0.2",
     "electron": "10.1.0",
     "electron-builder": "^22.8.0",
-    "nodemon": "^2.0.4"
+    "fs-webpack-plugin": "^2.0.0",
+    "nodemon": "^2.0.4",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.0.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }

@@ -11,7 +11,7 @@ import {
   ButtonBase
 } from '@material-ui/core';
 
-import { Icon } from '../Icon';
+import { Icon } from '../../components';
 
 import AppBar from './AppBar.private';
 

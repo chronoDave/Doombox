@@ -29,9 +29,13 @@ module.exports = class App extends Reporter {
    * @param {string} id - File name
    */
   createThumbarIcon(id) {
-    return nativeImage.createFromPath(path.resolve(this.assets, `mui-icons/${id}.png`));
+    return nativeImage.createFromPath(path.resolve(this.assets, `icons/mui/${id}.png`));
   }
 
+  /**
+   * @param {string} channel - IPC channel
+   * @param {*} Controller - Controller object
+   */
   createRouter(channel, Controller) {
     ipcMain.on(channel, (event, payload) => {
       const handleSuccess = data => event.sender.send(channel, { data, error: null });

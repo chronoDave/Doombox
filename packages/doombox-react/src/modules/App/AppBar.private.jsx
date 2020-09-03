@@ -12,8 +12,10 @@ import {
   ButtonBase
 } from '@material-ui/core';
 
-import { Typography } from '../Typography';
-import { Icon } from '../Icon';
+import {
+  Typography,
+  Icon
+} from '../../components';
 
 // Actions
 import {

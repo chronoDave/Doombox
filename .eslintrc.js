@@ -7,7 +7,7 @@ module.exports = {
   },
   extends: ['airbnb', 'airbnb/hooks'],
   settings: {
-    'import/core-modules': ['electron', 'tape']
+    'import/core-modules': ['chokidar', 'electron', 'tape']
   },
   rules: {
     // General

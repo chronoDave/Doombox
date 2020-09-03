@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 // Core
 import { CssBaseline } from '@material-ui/core';
 
-import { App } from './components';
+import { App } from './modules';
 
 // Providers
 import {

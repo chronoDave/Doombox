@@ -8,6 +8,11 @@ const {
   THEME
 } = require('@doombox/utils');
 
+// Dev
+const chokidar = process.env.NODE_ENV === 'development' ?
+  require('chokidar') :
+  null;
+
 // Core
 const { App } = require('./app');
 const { Storage } = require('./storage');
@@ -18,7 +23,7 @@ const root = process.env.NODE_ENV === 'development' ?
   app.getPath('userData');
 const assets = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../../build') :
-  path.resolve(__dirname, '../../app.asar');
+  app.getAppPath();
 
 const cache = new Storage(root, 'cache', CACHE);
 const theme = new Storage(root, 'theme', THEME);
@@ -33,6 +38,12 @@ app.on('ready', () => {
     darkTheme: theme.get('variant') === 'dark',
     backgroundColor: theme.get('grey')[theme.get('variant')]
   });
+
+  if (chokidar) {
+    chokidar
+      .watch(`${assets}/client/**/*`)
+      .on('change', () => window.reload());
+  }
 
   const handleResize = debounce(() => {
     const { width, height } = window.getBounds();

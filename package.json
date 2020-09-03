@@ -7,9 +7,11 @@
   "scripts": {
     "start:react": "yarn workspace @doombox/react start",
     "start:electron": "yarn workspace @doombox/electron start",
-    "build:debug": "yarn build:react && yarn build:electron-debug",
     "build:react": "yarn workspace @doombox/react build",
-    "build:electron-debug": "yarn workspace @doombox/electron build:debug",
+    "build:electron": "yarn workspace @doombox/electron build",
+    "build:electron-portable": "yarn workspace @doombox/electron build:portable",
+    "build:debug": "yarn build:react && yarn build:electron-debug",
+    "build": "yarn build:react && yarn build:electron",
     "test:react": "yarn workspace @doombox/react test",
     "test:electron": "yarn workspace @doombox/electron test"
   },
@@ -20,9 +22,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.1.0",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.0.1"
+    "eslint-plugin-react-hooks": "^4.1.0"
   },
   "workspaces": [
     "packages/*"

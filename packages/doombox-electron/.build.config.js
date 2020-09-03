@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   appId: 'com.electron.doombox',
-  productName: process.env.NODE_ENV === 'development' ?
+  productName: process.env.NODE_ENV === 'portable' ?
     'Doombox (Debug)' :
     'Doombox',
   copyright: 'Copyright © 2019-2020 ${author}',
@@ -13,22 +13,20 @@ module.exports = {
       url: 'https://github.com/chronoDave/Doombox.git',
       directory: 'packages/doombox-electron'
     },
-    main: 'src/index.js',
+    main: 'src/main.bundle.js',
     description: 'Music player for your unwieldy music collection'
   },
-  
+
   directories: {
     output: path.resolve(__dirname, '../../dist')
   },
   files: [
     'package.json',
-    'src/**/*',
-    '!src/**/*.spec.js',
-    '!**/node_modules/@tokenizer/**/*',
-    '!**/node_modules/HISTORY.md',
+    '!**/node_modules/**/*',
     { from: '../../build/client', to: 'client' },
     { from: '../../build/mui-icons', to: 'mui-icons' },
-    { from: '../../build/icons', to: 'icons' }
+    { from: '../../build/icons', to: 'icons' },
+    { from: '../../build/src', to: 'src' }
   ],
 
   // Windows
@@ -39,13 +37,13 @@ module.exports = {
     uninstallDisplayName: '${productName} ${version}'
   },
   win: {
-    target: process.env.NODE_ENV === 'development' ?
+    target: process.env.NODE_ENV === 'portable' ?
       'portable' :
       [
         { target: 'nsis', arch: ['x64', 'ia32'] },
         { target: 'portable', arch: ['x64', 'ia32'] }
       ],
-    icon: path.resolve(__dirname, '../../build/app.ico'),
+    icon: path.resolve(__dirname, '../../build/icons/app.ico'),
     publisherName: 'Chronocide'
   },
 
@@ -53,7 +51,7 @@ module.exports = {
   mac: {
     category: 'public.app-category.music',
     darkModeSupport: true,
-    type: process.env.NODE_ENV === 'development' ?
+    type: process.env.NODE_ENV === 'portable' ?
       'development' :
       'distribution'
   }
