@@ -1,0 +1,25 @@
+language: node_js
+os: windows
+services:
+  - xvfb
+node_js:
+  - lts/*
+cache: yarn
+
+jobs:
+  include:
+    - stage: Install
+      script: yarn
+    - stage: Test
+      script: yarn test
+    - stage: Build
+      script: yarn build
+
+after_success:
+  - wget https://raw.githubusercontent.com/chronoDave/Doombox/master/scripts/discord.sh
+  - chmod +x discord.sh
+  - ./discord.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/chronoDave/Doombox/master/scripts/discord.sh
+  - chmod +x discord.sh
+  - ./discord.sh failure $WEBHOOK_URL

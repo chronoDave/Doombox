@@ -12,8 +12,8 @@
     "build:electron-portable": "yarn workspace @doombox/electron build:portable",
     "build:debug": "yarn build:react && yarn build:electron-debug",
     "build": "yarn build:react && yarn build:electron",
-    "test:react": "yarn workspace @doombox/react test",
-    "test:electron": "yarn workspace @doombox/electron test"
+    "test:electron": "yarn workspace @doombox/electron test",
+    "test": "yarn test:electron"
   },
   "dependencies": {},
   "devDependencies": {
