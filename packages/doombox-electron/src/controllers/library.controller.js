@@ -1,6 +1,7 @@
+const path = require('path');
+
 const { toArray, TYPES } = require('@doombox/utils');
 const glob = require('fast-glob');
-const path = require('path');
 const fse = require('fs-extra');
 
 // Utils

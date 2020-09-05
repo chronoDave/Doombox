@@ -6,8 +6,14 @@ module.exports = {
     mocha: true
   },
   extends: ['airbnb', 'airbnb/hooks'],
+  plugins: ['ava'],
   settings: {
-    'import/core-modules': ['chokidar', 'electron', 'tape']
+    'import/core-modules': [
+      'electron',
+      'chokidar',
+      'sinon',
+      'ava'
+    ]
   },
   rules: {
     // General
@@ -16,13 +22,15 @@ module.exports = {
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
     'arrow-parens': ['error', 'as-needed'],
-    'object-curly-newline': 'off',
     'no-await-in-loop': 'off',
     'no-underscore-dangle': 'off', // Leaf-DB
     // React
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/jsx-props-no-spreading': 'off', // Spread appropriatly
     // Import
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'import/order': ['error', {
+      'newlines-between': 'always-and-inside-groups'
+    }]
   }
 };

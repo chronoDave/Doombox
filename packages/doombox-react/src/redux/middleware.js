@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 export const logger = store => next => action => {
   const prev = store.getState();
   const result = next(action);

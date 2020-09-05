@@ -1,10 +1,12 @@
-import { Howler, Howl } from 'howler';
 import EventEmitter from 'events';
+
 import {
-  TYPES,
+  EVENTS,
+  STATUS,
   clamp,
   toArray
 } from '@doombox/utils';
+import { Howler, Howl } from 'howler';
 
 class Audio extends EventEmitter {
   constructor() {
@@ -12,11 +14,12 @@ class Audio extends EventEmitter {
 
     this.instance = null; // Song instance
     this.autoplay = true;
-    this.status = TYPES.STATUS.AUDIO.STOPPED;
+    this.status = STATUS.AUDIO.STOPPED;
     this.volume = 1;
     this.muted = false;
 
     this.playlist = {
+      name: '',
       collection: [],
       index: 0
     };
@@ -30,7 +33,7 @@ class Audio extends EventEmitter {
     this.previous = this.previous.bind(this);
     this.skip = this.skip.bind(this);
     this.add = this.add.bind(this);
-    this.setPlaylist = this.setPlaylist.bind(this);
+    this.set = this.set.bind(this);
 
     this.mute = this.mute.bind(this);
     this.setVolume = this.setVolume.bind(this);
@@ -39,7 +42,7 @@ class Audio extends EventEmitter {
   }
 
   play() {
-    if (this.instance && this.status !== TYPES.STATUS.AUDIO.PLAYING) {
+    if (this.instance && this.status !== STATUS.AUDIO.PLAYING) {
       this.instance.play();
     } else if (this.playlist.collection.length > 0) {
       this.create();
@@ -48,8 +51,8 @@ class Audio extends EventEmitter {
 
   pause() {
     if (this.instance) {
-      if (this.status === TYPES.STATUS.AUDIO.PLAYING) this.instance.pause();
-      if (this.status === TYPES.STATUS.AUDIO.PAUSED) this.instance.play();
+      if (this.status === STATUS.AUDIO.PLAYING) this.instance.pause();
+      if (this.status === STATUS.AUDIO.PAUSED) this.instance.play();
     }
   }
 
@@ -62,39 +65,46 @@ class Audio extends EventEmitter {
     if (this.instance) {
       this.instance.seek(pos);
 
-      this.emit(TYPES.EVENT.AUDIO.POSITION, pos);
+      this.emit(EVENTS.AUDIO.POSITION, pos);
     }
   }
 
   setVolume(volume) {
-    this.volume = clamp(0, 1, volume);
+    const newVolume = clamp(0, 1, volume);
 
-    if (this.instance) this.instance.volume = volume;
+    this.volume = clamp(0, 1, newVolume);
 
-    this.emit(TYPES.EVENT.AUDIO.VOLUME);
+    if (this.instance) this.instance.volume = newVolume;
+
+    this.emit(EVENTS.AUDIO.VOLUME, this.volume);
   }
 
-  mute() {
-    this.muted = !this.muted;
+  mute(muted = !this.muted) {
+    this.muted = muted;
 
     if (this.instance) this.instance.mute();
 
-    this.emit(TYPES.EVENT.AUDIO.MUTED, this.muted);
+    this.emit(EVENTS.AUDIO.MUTED, this.muted);
   }
 
   add(songs) {
-    this.playlist.collection = this.playlist.collection
-      .concat(toArray(songs));
+    if (!songs) return;
+    if (Array.isArray(songs) && songs.length <= 0) return;
 
-    this.emit(TYPES.EVENT.AUDIO.PLAYLIST, this.playlist);
+    this.playlist.collection = this.playlist.collection.concat(toArray(songs));
+
+    this.emit(EVENTS.AUDIO.PLAYLIST, this.playlist);
   }
 
-  setPlaylist(playlist) {
+  set(playlist) {
     this.playlist = playlist;
 
+    if (!this.playlist) this.playlist = {};
     if (!this.playlist.index) this.playlist.index = 0;
+    if (!this.playlist.collection) this.playlist.collection = [];
+    if (!this.playlist.name) this.playlist.name = '';
 
-    this.emit(TYPES.EVENT.AUDIO.PLAYLIST, this.playlist);
+    this.emit(EVENTS.AUDIO.PLAYLIST, this.playlist);
   }
 
   next() {
@@ -122,9 +132,11 @@ class Audio extends EventEmitter {
   }
 
   skip(n) {
-    this.playlist.index = clamp(0, this.playlist.collection.length - 1, n);
+    if (this.playlist.collection.length > 0 && n) {
+      this.playlist.index = clamp(0, this.playlist.collection.length - 1, n);
 
-    this.create();
+      this.create();
+    }
   }
 
   create(song = this.playlist.collection[this.playlist.index]) {
@@ -139,23 +151,23 @@ class Audio extends EventEmitter {
         format: song.format.container,
         autoplay: this.autoplay,
         onload: () => {
-          this.emit(TYPES.EVENT.AUDIO.DURATION, this.instance.duration());
-          this.emit(TYPES.EVENT.AUDIO.METADATA, song);
+          this.emit(EVENTS.AUDIO.DURATION, this.instance.duration());
+          this.emit(EVENTS.AUDIO.METADATA, song);
         },
         onplay: () => {
-          this.status = TYPES.STATUS.AUDIO.PLAYING;
+          this.status = STATUS.AUDIO.PLAYING;
 
-          this.emit(TYPES.EVENT.AUDIO.STATUS, this.status);
+          this.emit(EVENTS.AUDIO.STATUS, this.status);
         },
         onpause: () => {
-          this.status = TYPES.STATUS.AUDIO.PAUSED;
+          this.status = STATUS.AUDIO.PAUSED;
 
-          this.emit(TYPES.EVENT.AUDIO.STATUS, this.status);
+          this.emit(EVENTS.AUDIO.STATUS, this.status);
         },
         onstop: () => {
-          this.status = TYPES.STATUS.AUDIO.STOPPED;
+          this.status = STATUS.AUDIO.STOPPED;
 
-          this.emit(TYPES.EVENT.AUDIO.STATUS, this.status);
+          this.emit(EVENTS.AUDIO.STATUS, this.status);
         },
         onend: () => {
           if (this.autoplay) this.next();

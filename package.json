@@ -5,6 +5,7 @@
   "private": true,
   "license": "GPL-3.0",
   "scripts": {
+    "lint": "eslint packages --ext .js --ext .jsx",
     "start:react": "yarn workspace @doombox/react start",
     "start:electron": "yarn workspace @doombox/electron start",
     "build:react": "yarn workspace @doombox/react build",
@@ -13,16 +14,20 @@
     "build:debug": "yarn build:react && yarn build:electron-debug",
     "build": "yarn build:react && yarn build:electron",
     "test:electron": "yarn workspace @doombox/electron test",
-    "test": "yarn test:electron"
+    "test:react": "yarn workspace @doombox/react test",
+    "test": "yarn test:electron && yarn test:react"
   },
   "dependencies": {},
   "devDependencies": {
+    "ava": "^3.12.1",
     "eslint": "^7.7.0",
     "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-ava": "^11.0.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.1.0"
+    "eslint-plugin-react-hooks": "^4.1.0",
+    "sinon": "^9.0.3"
   },
   "workspaces": [
     "packages/*"

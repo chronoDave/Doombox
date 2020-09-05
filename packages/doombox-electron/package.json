@@ -7,7 +7,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon --config .nodemon.json",
-    "test": "tape src/**/*.spec.js | tap-spec",
+    "test": "ava src/**/*.spec.js",
     "clean": "node scripts/clean.js",
     "build": "yarn clean && webpack --mode production && electron-builder -c .build.config.js",
     "build:portable": "yarn clean && webpack --mode production && cross-env NODE_ENV=portable electron-builder -c .build.config.js"
@@ -29,8 +29,6 @@
     "electron-builder": "^22.8.0",
     "fs-webpack-plugin": "^2.0.0",
     "nodemon": "^2.0.4",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.0.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   }

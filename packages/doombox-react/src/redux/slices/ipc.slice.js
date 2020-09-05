@@ -1,9 +1,11 @@
+import { THEME } from '@doombox/utils';
+
 import { IPC } from '../types';
 
 const initialState = {
   cache: null,
   config: null,
-  theme: null
+  theme: THEME
 };
 
 const reducer = (state = initialState, action) => {

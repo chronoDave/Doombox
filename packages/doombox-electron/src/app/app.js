@@ -4,8 +4,9 @@ const {
   nativeImage
 } = require('electron');
 const path = require('path');
+
+const { STATUS, IPC } = require('@doombox/utils');
 const fse = require('fs-extra');
-const { TYPES, IPC } = require('@doombox/utils');
 
 // Core
 const { Reporter } = require('../reporter');
@@ -148,15 +149,15 @@ module.exports = class App extends Reporter {
               tooltip: 'Previous'
             },
             {
-              icon: payload.data === TYPES.STATUS.AUDIO.PLAYING ?
+              icon: payload.data === STATUS.AUDIO.PLAYING ?
                 iconPause :
                 iconPlay,
               click: () => event.sender.send(IPC.CHANNEL.WINDOW, {
-                action: payload.data === TYPES.STATUS.AUDIO.PLAYING ?
+                action: payload.data === STATUS.AUDIO.PLAYING ?
                   IPC.ACTION.AUDIO.PAUSE :
                   IPC.ACTION.AUDIO.PLAY
               }),
-              tooltip: payload.data === TYPES.STATUS.AUDIO.PLAYING ?
+              tooltip: payload.data === STATUS.AUDIO.PLAYING ?
                 'Pause' :
                 'Play'
             },

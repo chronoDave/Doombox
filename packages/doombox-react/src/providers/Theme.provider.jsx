@@ -11,14 +11,11 @@ import { createTheme } from '../theme';
 // Validation
 import { propTheme } from '../validation/propTypes';
 
-const ThemeProvider = ({ children, theme }) => {
-  if (!theme) return null;
-  return (
-    <MuiThemeProvider theme={createTheme(theme)}>
-      {children}
-    </MuiThemeProvider>
-  );
-};
+const ThemeProvider = ({ children, theme }) => (
+  <MuiThemeProvider theme={createTheme(theme)}>
+    {children}
+  </MuiThemeProvider>
+);
 
 const mapStateToProps = state => ({
   theme: state.ipc.theme
@@ -26,11 +23,7 @@ const mapStateToProps = state => ({
 
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  theme: propTheme
-};
-
-ThemeProvider.defaultProps = {
-  theme: null
+  theme: propTheme.isRequired
 };
 
 export default connect(

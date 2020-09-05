@@ -28,6 +28,7 @@ module.exports = {
     rules: [{
       test: /\.(js|jsx)$/,
       include: path.resolve(__dirname, 'src'),
+      exclude: [/\.(spec\.js)$/, /(_utils)/],
       use: {
         loader: 'babel-loader',
         options: {

@@ -1,22 +1,21 @@
+const chokidar = process.env.NODE_ENV === 'development' ?
+  require('chokidar') :
+  null;
 const { app } = require('electron');
 const path = require('path');
-const debounce = require('lodash.debounce');
+
 const {
   TYPES,
   IPC,
   CACHE,
   THEME
 } = require('@doombox/utils');
-
-// Dev
-const chokidar = process.env.NODE_ENV === 'development' ?
-  require('chokidar') :
-  null;
+const debounce = require('lodash.debounce');
 
 // Core
 const { App } = require('./app');
-const { Storage } = require('./storage');
 const { StorageController } = require('./controllers');
+const { Storage } = require('./storage');
 
 const root = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../dev') :

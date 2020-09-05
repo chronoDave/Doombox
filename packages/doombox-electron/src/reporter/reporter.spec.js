@@ -1,12 +1,13 @@
-const test = require('tape');
+const test = require('ava');
 const path = require('path');
+
 const fse = require('fs-extra');
 
 const Reporter = require('./reporter');
 
 const root = path.resolve(__dirname, 'test');
 
-test('should create log file', t => {
+test.serial('should create log file', t => {
   const text = 'This is a test';
 
   const reporter = new Reporter(root);
@@ -17,17 +18,15 @@ test('should create log file', t => {
 
   const files = fse.readdirSync(root);
 
-  t.strictEqual(files.length, 1, 'creates file');
-  t.ok(files[0].includes('tape'), 'has file name');
-  t.ok(files[0].includes('TEST'), 'has log type');
+  t.is(files.length, 1, 'creates file');
+  t.true(files[0].includes('tape'), 'has file name');
+  t.true(files[0].includes('TEST'), 'has log type');
 
   const file = fse.readFileSync(path.resolve(root, files[0]), 'utf-8');
 
-  t.strictEqual(file, text, 'has text');
+  t.is(file, text, 'has text');
 
   fse.removeSync(root);
-
-  t.end();
 });
 
 test('should create error log file', t => {
@@ -41,14 +40,12 @@ test('should create error log file', t => {
 
   const files = fse.readdirSync(root);
 
-  t.strictEqual(files.length, 1, 'creates file');
+  t.is(files.length, 1, 'creates file');
 
   const file = fse.readFileSync(path.resolve(root, files[0]), 'utf-8');
 
-  t.ok(file.includes(error.message), 'has error message');
-  t.ok(file.includes(error.stack), 'has error stack');
+  t.true(file.includes(error.message), 'has error message');
+  t.true(file.includes(error.stack), 'has error stack');
 
   fse.removeSync(root);
-
-  t.end();
 });

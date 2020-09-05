@@ -1,10 +1,7 @@
-const parser = require('music-metadata');
+const crypto = require('crypto');
 
-// Utils
-const {
-  toArray,
-  sanitizeFileName
-} = require('@doombox/utils');
+const { toArray } = require('@doombox/utils');
+const parser = require('music-metadata');
 
 /**
  * Parse file
@@ -54,7 +51,10 @@ const parseMetadata = async (file, { skipCovers = false, requiredMetadata = [] }
   // Get images
   const images = picture ?
     picture.map(image => ({
-      _id: sanitizeFileName(`${tags.albumartist}-${tags.album}`),
+      _id: crypto
+        .createHash('md5')
+        .update(`${tags.albumartist || ''}${tags.album || ''}`)
+        .digest('hex'),
       ...image,
       format: image.format.split('/').pop() // image/jpg => jpg
     })) :

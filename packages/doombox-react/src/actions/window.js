@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron';
+
 import { IPC } from '@doombox/utils';
 
 export const setWindowTitle = title => ipcRenderer.send(

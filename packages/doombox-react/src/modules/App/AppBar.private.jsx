@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 // Icons
 import IconMaximize from '@material-ui/icons/Fullscreen';
@@ -24,12 +25,12 @@ import {
   windowMinimize
 } from '../../actions';
 
-// Styles
-import { useAppStyles } from './App.styles';
-
 // Assets
 import iconDark from '../../../assets/icon_dark.png';
 import iconLight from '../../../assets/icon_light.png';
+
+// Styles
+import { useAppStyles } from './App.styles';
 
 const AppBar = ({ variant }) => {
   const classes = useAppStyles();
@@ -70,6 +71,10 @@ const AppBar = ({ variant }) => {
       </Box>
     </div>
   );
+};
+
+AppBar.propTypes = {
+  variant: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

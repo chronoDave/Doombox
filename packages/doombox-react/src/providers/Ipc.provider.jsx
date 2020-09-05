@@ -1,5 +1,6 @@
-import { Component } from 'react';
 import { ipcRenderer } from 'electron';
+
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { IPC } from '@doombox/utils';
 import PropTypes from 'prop-types';

@@ -1,5 +1,6 @@
-const test = require('tape');
+const test = require('ava');
 const path = require('path');
+
 const objectGet = require('lodash.get');
 
 const { parseMetadata } = require('./index');
@@ -14,10 +15,8 @@ test('should throw an error on corrupted file', async t => {
 
     t.fail('expected an error');
   } catch (err) {
-    t.ok(err.message.includes('Corrupted file'), 'throws expected error');
+    t.true(err.message.includes('Corrupted file'), 'throws expected error');
   }
-
-  t.end();
 });
 
 test('should throw an error on missing tags', async t => {
@@ -26,10 +25,8 @@ test('should throw an error on missing tags', async t => {
 
     t.fail('expected an error');
   } catch (err) {
-    t.ok(err.message.includes('Missing metadata'), 'throws expected error');
+    t.true(err.message.includes('Missing metadata'), 'throws expected error');
   }
-
-  t.end();
 });
 
 test('parses metadata', async t => {
@@ -51,11 +48,14 @@ test('parses metadata', async t => {
     for (let i = 0; i < expectedTags.length; i += 1) {
       const tag = expectedTags[i];
 
-      t.notStrictEqual(objectGet(metadata, tag), undefined, `has tag: '${tag}'`);
+      t.not(objectGet(metadata, tag), undefined, `has tag: '${tag}'`);
+      if (tag === 'images') {
+        t.is(metadata.images.length, 1);
+        t.true(typeof metadata.images[0]._id === 'string');
+        t.is(metadata.images[0].format, 'png');
+      }
     }
   } catch (err) {
     t.fail(err);
   }
-
-  t.end();
 });

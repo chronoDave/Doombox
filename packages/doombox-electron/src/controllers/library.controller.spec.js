@@ -1,8 +1,9 @@
-const test = require('tape');
-const LeafDB = require('leaf-db');
+const test = require('ava');
 const path = require('path');
-const fse = require('fs-extra');
+
 const { TYPES } = require('@doombox/utils');
+const fse = require('fs-extra');
+const LeafDB = require('leaf-db');
 
 const LibraryController = require('./library.controller');
 
@@ -10,15 +11,19 @@ const root = path.resolve(__dirname, '../../../../test/songs');
 const folder = path.resolve(__dirname, 'images');
 const libraryFile = path.resolve(__dirname, 'library.txt');
 const imageFile = path.resolve(__dirname, 'images.txt');
-const image = path.resolve(folder, 'Tours-Enthusiast.png');
 
-test('should insert songs into the database', async t => {
+const setup = (options = {}) => {
   const db = {
     [TYPES.DATABASE.LIBRARY]: new LeafDB({ root: __dirname, name: 'library', strict: true }),
     [TYPES.DATABASE.IMAGES]: new LeafDB({ root: __dirname, name: 'images', strict: true })
   };
+  const controller = new LibraryController(db, options);
 
-  const controller = new LibraryController(db);
+  return controller;
+};
+
+test.serial('should insert songs into the database', async t => {
+  const controller = setup();
 
   try {
     await controller.create(null, { payload: root });
@@ -28,25 +33,17 @@ test('should insert songs into the database', async t => {
       .split('\n')
       .filter(v => v);
 
-    t.strictEqual(data.length, 1, 'creates database file');
-    t.ok(data[0].includes('_id'), 'writes database data');
+    t.is(data.length, 1, 'creates database file');
+    t.true(data[0].includes('_id'), 'writes database data');
   } catch (err) {
     t.fail(err);
   }
 
   fse.removeSync(libraryFile);
-
-  t.end();
 });
 
-test('should parse covers', async t => {
-  const db = {
-    [TYPES.DATABASE.LIBRARY]: new LeafDB({ root: __dirname, name: 'library', strict: true }),
-    [TYPES.DATABASE.IMAGES]: new LeafDB({ root: __dirname, name: 'images', strict: true })
-  };
-
-  const controller = new LibraryController(db);
-  controller.folder = folder;
+test.serial('should parse covers', async t => {
+  const controller = setup({ folder });
 
   fse.mkdirpSync(folder);
 
@@ -59,8 +56,8 @@ test('should parse covers', async t => {
       .split('\n')
       .filter(v => v);
 
-    t.strictEqual(libraryDatabase.length, 1, 'creates library database file');
-    t.ok(libraryDatabase[0].includes('_id'), 'writes library database data');
+    t.is(libraryDatabase.length, 1, 'creates library database file');
+    t.true(libraryDatabase[0].includes('_id'), 'writes library database data');
 
     // Image
     const imageDatabase = fse
@@ -68,12 +65,14 @@ test('should parse covers', async t => {
       .split('\n')
       .filter(v => v);
 
-    t.strictEqual(imageDatabase.length, 1, 'creates image database file');
-    t.ok(imageDatabase[0].includes('_id'), 'writes image database data');
+    t.is(imageDatabase.length, 1, 'creates image database file');
+    t.true(imageDatabase[0].includes('_id'), 'writes image database data');
 
     // PNG
-    t.ok(fse.existsSync(image), 'creates image');
-    t.strictEqual(
+    const image = JSON.parse(imageDatabase[0])._id;
+
+    t.true(fse.existsSync(image), 'creates image');
+    t.is(
       fse.readFileSync(image, 'hex').slice(0, 8),
       '89504e47', // PNG magic number
       'creates valid image'
@@ -85,6 +84,4 @@ test('should parse covers', async t => {
   fse.removeSync(libraryFile);
   fse.removeSync(imageFile);
   fse.removeSync(folder);
-
-  t.end();
 });

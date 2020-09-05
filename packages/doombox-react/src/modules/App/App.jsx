@@ -13,14 +13,14 @@ import {
 
 import { Icon } from '../../components';
 
-import AppBar from './AppBar.private';
-
 // Actions
 import {
   windowMaximize,
   windowClose,
   windowMinimize
 } from '../../actions';
+
+import AppBar from './AppBar.private';
 
 // Styles
 import { useAppStyles } from './App.styles';
