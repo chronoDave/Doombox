@@ -2,17 +2,21 @@ const {
   TYPES,
   IPC,
   STATUS,
-  EVENTS,
-  CACHE,
-  THEME
-} = require('./types');
+  EVENTS
+} = require('./src/types');
 
 const {
   toArray,
   getTimestamp,
   zPad,
-  clamp
-} = require('./utils');
+  shuffle,
+  clamp,
+  formatTime
+} = require('./src/utils');
+
+const THEME = require('./src/theme');
+const CACHE = require('./src/cache');
+const CONFIG = require('./src/config');
 
 module.exports = {
   TYPES,
@@ -21,8 +25,11 @@ module.exports = {
   IPC,
   CACHE,
   THEME,
+  CONFIG,
   toArray,
+  formatTime,
   getTimestamp,
+  shuffle,
   zPad,
   clamp
 };

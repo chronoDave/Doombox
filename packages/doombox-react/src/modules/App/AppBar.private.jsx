@@ -32,12 +32,25 @@ import iconLight from '../../../assets/icon_light.png';
 // Styles
 import { useAppStyles } from './App.styles';
 
-const AppBar = ({ variant }) => {
+const AppBar = props => {
+  const {
+    variant,
+    title,
+    artist,
+    album
+  } = props;
   const classes = useAppStyles();
+
+  const getText = () => {
+    if (title || artist || album) {
+      return `${artist || 'Unknown'} - ${title || 'Unknown'} (${album || 'Unknown'})`;
+    }
+    return 'Doombox';
+  };
 
   return (
     <div className={classes.barRoot}>
-      <div className={classes.barIcon}>
+      <div className={clsx(classes.barIcon, classes.drag)}>
         <img
           src={variant === 'dark' ? iconDark : iconLight}
           alt="Doombox icon"
@@ -45,7 +58,7 @@ const AppBar = ({ variant }) => {
       </div>
       <div className={clsx(classes.barTitle, classes.drag)}>
         <Typography noWrap variant="body2">
-          Doombox
+          {getText()}
         </Typography>
       </div>
       <Box display="flex" flexShrink={0}>
@@ -74,11 +87,23 @@ const AppBar = ({ variant }) => {
 };
 
 AppBar.propTypes = {
-  variant: PropTypes.string.isRequired
+  variant: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  artist: PropTypes.string,
+  album: PropTypes.string
+};
+
+AppBar.defaultProps = {
+  title: '',
+  artist: '',
+  album: ''
 };
 
 const mapStateToProps = state => ({
-  variant: state.ipc.theme.variant
+  variant: state.ipc.theme.variant,
+  title: state.audio.metadata.title,
+  artist: state.audio.metadata.artist,
+  album: state.audio.metadata.album
 });
 
 export default connect(

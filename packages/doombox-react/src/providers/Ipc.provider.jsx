@@ -6,7 +6,11 @@ import { IPC } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Redux
-import { setTheme } from '../redux';
+import {
+  setCache,
+  setConfig,
+  setTheme
+} from '../redux';
 
 class IpcProvider extends Component {
   constructor(props) {
@@ -15,10 +19,28 @@ class IpcProvider extends Component {
     ipcRenderer.on(IPC.CHANNEL.THEME, (event, payload) => {
       props.setTheme(payload.data);
     });
+
+    ipcRenderer.on(IPC.CHANNEL.CACHE, (event, payload) => {
+      props.setCache(payload.data);
+    });
+
+    ipcRenderer.on(IPC.CHANNEL.CONFIG, (event, payload) => {
+      props.setConfig(payload.data);
+    });
   }
 
   componentDidMount() {
     ipcRenderer.send(IPC.CHANNEL.THEME, {
+      action: IPC.ACTION.READ,
+      data: { query: null }
+    });
+
+    ipcRenderer.send(IPC.CHANNEL.CONFIG, {
+      action: IPC.ACTION.READ,
+      data: { query: null }
+    });
+
+    ipcRenderer.send(IPC.CHANNEL.CACHE, {
       action: IPC.ACTION.READ,
       data: { query: null }
     });
@@ -37,11 +59,15 @@ class IpcProvider extends Component {
 
 IpcProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  setTheme: PropTypes.func.isRequired
+  setTheme: PropTypes.func.isRequired,
+  setCache: PropTypes.func.isRequired,
+  setConfig: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
-  setTheme
+  setTheme,
+  setCache,
+  setConfig
 };
 
 export default connect(

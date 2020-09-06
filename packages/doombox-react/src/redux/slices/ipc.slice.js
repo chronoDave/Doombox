@@ -1,10 +1,14 @@
-import { THEME } from '@doombox/utils';
+import {
+  THEME,
+  CONFIG,
+  CACHE
+} from '@doombox/utils';
 
 import { IPC } from '../types';
 
 const initialState = {
-  cache: null,
-  config: null,
+  cache: CACHE,
+  config: CONFIG,
   theme: THEME
 };
 
@@ -13,17 +17,26 @@ const reducer = (state = initialState, action) => {
     case IPC.SET_CACHE:
       return ({
         ...state,
-        cache: action.payload
+        cache: {
+          ...state.cache,
+          ...action.payload
+        }
       });
     case IPC.SET_CONFIG:
       return ({
         ...state,
-        config: action.payload
+        config: {
+          ...state.config,
+          ...action.payload
+        }
       });
     case IPC.SET_THEME:
       return ({
         ...state,
-        theme: action.payload
+        theme: {
+          ...state.theme,
+          ...action.payload
+        }
       });
     default:
       return state;

@@ -19,12 +19,14 @@ const defaultRamp = {
 
 export const createTheme = ({
   variant,
+  breakpoints,
   grey: {
     light,
     dark
   },
   ramp
 } = {}) => createMuiTheme({
+  breakpoints,
   palette: {
     type: variant,
     grey: Object.entries({

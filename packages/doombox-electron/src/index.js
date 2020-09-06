@@ -8,6 +8,7 @@ const {
   TYPES,
   IPC,
   CACHE,
+  CONFIG,
   THEME
 } = require('@doombox/utils');
 const debounce = require('lodash.debounce');
@@ -25,15 +26,18 @@ const assets = process.env.NODE_ENV === 'development' ?
   app.getAppPath();
 
 const cache = new Storage(root, 'cache', CACHE);
+const config = new Storage(root, 'config', CONFIG);
 const theme = new Storage(root, 'theme', THEME);
 
 const Doombox = new App(root, assets);
 
 app.on('ready', () => {
+  Doombox.createRouter(IPC.CHANNEL.CACHE, new StorageController(cache));
+  Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
   Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
   const window = Doombox.createWindow({
-    ...cache.get(TYPES.STORAGE.WINDOW),
+    ...cache.get(TYPES.CACHE.WINDOW),
     darkTheme: theme.get('variant') === 'dark',
     backgroundColor: theme.get('grey')[theme.get('variant')]
   });
@@ -46,11 +50,11 @@ app.on('ready', () => {
 
   const handleResize = debounce(() => {
     const { width, height } = window.getBounds();
-    cache.set({ width, height }, TYPES.STORAGE.WINDOW);
+    cache.set({ width, height }, TYPES.CACHE.WINDOW);
   }, 100);
   const handleMove = debounce(() => {
     const [x, y] = window.getPosition();
-    cache.set({ x, y }, TYPES.STORAGE.WINDOW);
+    cache.set({ x, y }, TYPES.CACHE.WINDOW);
   }, 100);
 
   window.on('resize', handleResize);

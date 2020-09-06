@@ -5,7 +5,10 @@ import {
 } from 'redux';
 
 // Slices
-import { ipcSlice } from './slices';
+import {
+  ipcSlice,
+  audioSlice
+} from './slices';
 
 // Middleware
 import { logger } from './middleware';
@@ -22,9 +25,18 @@ export const {
   setTheme
 } = ipcSlice.actions;
 
+export const {
+  setMetadata,
+  setPlayer,
+  setPlaylist,
+  setVolume,
+  setPosition
+} = audioSlice.actions;
+
 export const store = createStore(
   combineReducers({
-    [ipcSlice.name]: ipcSlice.reducer
+    [ipcSlice.name]: ipcSlice.reducer,
+    [audioSlice.name]: audioSlice.reducer
   }),
   applyMiddleware(...middleware)
 );

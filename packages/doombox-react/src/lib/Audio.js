@@ -4,18 +4,20 @@ import {
   EVENTS,
   STATUS,
   clamp,
+  shuffle,
   toArray
 } from '@doombox/utils';
 import { Howler, Howl } from 'howler';
 
 class Audio extends EventEmitter {
-  constructor() {
+  constructor({ autoplay = true, volume = 1 } = {}) {
     super();
 
+    this.autoplay = autoplay;
+    this.volume = volume;
+
     this.instance = null; // Song instance
-    this.autoplay = true;
     this.status = STATUS.AUDIO.STOPPED;
-    this.volume = 1;
     this.muted = false;
 
     this.playlist = {
@@ -28,17 +30,32 @@ class Audio extends EventEmitter {
     this.pause = this.pause.bind(this);
     this.stop = this.stop.bind(this);
     this.seek = this.seek.bind(this);
-
+    this.step = this.step.bind(this);
     this.next = this.next.bind(this);
     this.previous = this.previous.bind(this);
     this.skip = this.skip.bind(this);
     this.add = this.add.bind(this);
     this.set = this.set.bind(this);
-
     this.mute = this.mute.bind(this);
     this.setVolume = this.setVolume.bind(this);
-
     this.create = this.create.bind(this);
+    this.shuffle = this.shuffle.bind(this);
+  }
+
+  seek(pos) {
+    if (this.instance) {
+      this.instance.seek(pos);
+      this.step(pos);
+    }
+  }
+
+  step(pos = null) {
+    if (this.instance) {
+      const newPos = Math.round(pos || this.instance.seek());
+
+      if (!Number.isNaN(newPos)) this.emit(EVENTS.AUDIO.POSITION, newPos);
+      if (this.status === STATUS.AUDIO.PLAYING) requestAnimationFrame(() => this.step());
+    }
   }
 
   play() {
@@ -59,14 +76,6 @@ class Audio extends EventEmitter {
   stop() {
     Howler.unload(); // Remove all instances
     this.instance = null;
-  }
-
-  seek(pos) {
-    if (this.instance) {
-      this.instance.seek(pos);
-
-      this.emit(EVENTS.AUDIO.POSITION, pos);
-    }
   }
 
   setVolume(volume) {
@@ -107,6 +116,10 @@ class Audio extends EventEmitter {
     this.emit(EVENTS.AUDIO.PLAYLIST, this.playlist);
   }
 
+  shuffle() {
+    this.playlist.collection = shuffle(this.playlist.collection);
+  }
+
   next() {
     if (this.playlist.collection.length > 0) {
       this.playlist.index += 1;
@@ -144,20 +157,24 @@ class Audio extends EventEmitter {
     if (this.instance) this.instance.unload();
     // Only create valid song
     if (song) {
+      this.emit(EVENTS.AUDIO.STATUS, STATUS.AUDIO.STOPPED);
+
       this.instance = new Howl({
-        src: new URL(song.file).href,
+        src: new URL(song.file).href.replace(/#/g, '%23'),
         volume: this.volume,
         html5: true,
         format: song.format.container,
         autoplay: this.autoplay,
         onload: () => {
-          this.emit(EVENTS.AUDIO.DURATION, this.instance.duration());
+          this.emit(EVENTS.AUDIO.DURATION, Math.round(this.instance.duration()));
           this.emit(EVENTS.AUDIO.METADATA, song);
         },
         onplay: () => {
           this.status = STATUS.AUDIO.PLAYING;
 
           this.emit(EVENTS.AUDIO.STATUS, this.status);
+
+          requestAnimationFrame(() => this.step());
         },
         onpause: () => {
           this.status = STATUS.AUDIO.PAUSED;

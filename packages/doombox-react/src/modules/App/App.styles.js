@@ -34,15 +34,14 @@ export const useAppStyles = makeStyles(theme => ({
     flexGrow: 1,
     display: 'flex',
     alignItems: 'center',
-    overflow: 'hidden'
-  },
-  barSpacer: {
-    flexGrow: 1,
-    flexShrink: 1,
-    maxWidth: theme.spacing(18) - theme.component.appBar
+    overflow: 'hidden',
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'center',
+      paddingLeft: theme.spacing(15) - theme.component.appBar
+    }
   },
   button: {
-    width: theme.spacing(6),
+    width: theme.spacing(5),
     '&:hover': {
       backgroundColor: fade(
         theme.palette.type === 'dark' ? '#fff' : '#000',

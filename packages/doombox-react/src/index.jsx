@@ -5,11 +5,15 @@ import { Provider as ReduxProvider } from 'react-redux';
 // Core
 import { CssBaseline } from '@material-ui/core';
 
-import { App } from './modules';
+import {
+  App,
+  Player
+} from './modules';
 
 // Providers
 import {
   IpcProvider,
+  AudioProvider,
   ThemeProvider
 } from './providers';
 
@@ -19,13 +23,15 @@ import { store } from './redux';
 render(
   <ReduxProvider store={store}>
     <IpcProvider>
-      <ThemeProvider>
-        <CssBaseline>
-          <App>
-            <p>Hey</p>
-          </App>
-        </CssBaseline>
-      </ThemeProvider>
+      <AudioProvider>
+        <ThemeProvider>
+          <CssBaseline>
+            <App>
+              <Player />
+            </App>
+          </CssBaseline>
+        </ThemeProvider>
+      </AudioProvider>
     </IpcProvider>
   </ReduxProvider>,
   document.getElementById('root')

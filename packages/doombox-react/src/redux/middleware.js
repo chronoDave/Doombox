@@ -3,6 +3,8 @@ export const logger = store => next => action => {
   const prev = store.getState();
   const result = next(action);
 
+  if (action.type === 'SET_POSITION') return result;
+
   console.group(`[${new Date().toLocaleTimeString()}] Middleware - Logger`);
   console.info('Previous', prev);
   console.info('Dispatch', action);
