@@ -12,7 +12,7 @@ import { useAudio } from '../../hooks';
 
 import IconButton from './IconButton';
 
-const IconButtonPlay = ({ status, ...rest }) => {
+const IconButtonPlay = ({ status }) => {
   const { pause, play } = useAudio();
 
   const handleClick = () => {
@@ -24,7 +24,7 @@ const IconButtonPlay = ({ status, ...rest }) => {
   };
 
   return (
-    <IconButton onClick={handleClick} {...rest}>
+    <IconButton onClick={handleClick}>
       {status === STATUS.AUDIO.PLAYING ? <IconPause /> : <IconPlay />}
     </IconButton>
   );
