@@ -12,10 +12,6 @@ export const useAppStyles = makeStyles(theme => ({
     height: '100%',
     overflow: 'auto'
   },
-  debug: {
-    width: '110vw',
-    height: '110vh'
-  },
   barRoot: {
     position: 'fixed',
     display: 'flex',

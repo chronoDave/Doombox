@@ -39,7 +39,7 @@ module.exports = {
         }
       }
     }, {
-      test: /\.(png|jpe?g|gif)$/,
+      test: /\.(ttf|png|jpe?g|gif)$/,
       include: path.resolve(__dirname, 'assets'),
       loader: 'file-loader',
       options: {
@@ -50,8 +50,14 @@ module.exports = {
   plugins: [
     new FsWebpackPlugin([{
       type: 'delete',
-      files: '*',
+      files: '**/*',
       root: outputPath,
+      hooks: ['beforeRun']
+    }, {
+      type: 'copy',
+      files: 'fonts/LICENSE.txt',
+      root: path.resolve(__dirname, 'assets'),
+      to: path.resolve(outputPath, 'assets/fonts'),
       hooks: ['beforeRun']
     }]),
     new HtmlWebpackPlugin({

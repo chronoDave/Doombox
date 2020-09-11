@@ -4,6 +4,9 @@ import {
   lighten
 } from '@material-ui/core/styles';
 
+// Fonts
+import RobotoRegular from '../../assets/fonts/Roboto-Regular.ttf'
+
 const defaultRamp = {
   50: 0,
   100: 0.02,
@@ -26,6 +29,20 @@ export const createTheme = ({
   },
   ramp
 } = {}) => createMuiTheme({
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '@font-face': [{
+          fontFamily: 'Roboto',
+          fontWeight: 400,
+          src: `url(${RobotoRegular}) format('truetype')`
+        }]
+      }
+    }
+  },
+  typography: {
+    fontFamily: ['Roboto', 'sans-serif'].join(',')
+  },
   breakpoints,
   palette: {
     type: variant,
