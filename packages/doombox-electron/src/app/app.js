@@ -110,6 +110,7 @@ module.exports = class App extends Reporter {
       frame: false,
       webPreferences: {
         nodeIntegration: true,
+        enableRemoteModule: true,
         webSecurity: false
       },
     });

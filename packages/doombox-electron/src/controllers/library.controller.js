@@ -31,6 +31,8 @@ module.exports = class LibraryController {
     this.fileTypes = fileTypes;
     this.skipCovers = skipCovers;
     this.requiredMetadata = requiredMetadata;
+
+    if (this.folder) fse.mkdirpSync(this.folder);
   }
 
   async createImages(images) {
@@ -84,5 +86,9 @@ module.exports = class LibraryController {
     this.db[TYPES.DATABASE.IMAGES].persist();
 
     return Promise.resolve();
+  }
+
+  async drop(event) {
+    await this.db[TYPES.DATABASE.LIBRARY].delete({}, { multi: true });
   }
 };

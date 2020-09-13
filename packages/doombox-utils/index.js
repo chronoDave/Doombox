@@ -11,7 +11,10 @@ const {
   zPad,
   shuffle,
   clamp,
-  formatTime
+  getModChar,
+  formatTime,
+  normalizeKeybind,
+  capitalize
 } = require('./src/utils');
 
 const THEME = require('./src/theme');
@@ -28,7 +31,10 @@ module.exports = {
   CONFIG,
   toArray,
   formatTime,
+  getModChar,
   getTimestamp,
+  normalizeKeybind,
+  capitalize,
   shuffle,
   zPad,
   clamp

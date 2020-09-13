@@ -15,7 +15,9 @@
     "build": "yarn build:react && yarn build:electron",
     "test:electron": "yarn workspace @doombox/electron test",
     "test:react": "yarn workspace @doombox/react test",
-    "test": "yarn test:electron && yarn test:react"
+    "test": "yarn test:electron && yarn test:react",
+    "analyze:react": "yarn workspace @doombox/react build:analyze && webpack-bundle-analyzer packages/doombox-react/.bundle.json",
+    "analyze:electron": "yarn workspace @doombox/electron build:analyze && webpack-bundle-analyzer packages/doombox-electron/.bundle.json"
   },
   "dependencies": {},
   "devDependencies": {
@@ -27,7 +29,8 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
-    "sinon": "^9.0.3"
+    "sinon": "^9.0.3",
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "workspaces": [
     "packages/*"

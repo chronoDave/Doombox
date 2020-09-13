@@ -11,11 +11,15 @@ const {
   CONFIG,
   THEME
 } = require('@doombox/utils');
+const LeafDB = require('leaf-db');
 const debounce = require('lodash.debounce');
 
 // Core
 const { App } = require('./app');
-const { StorageController } = require('./controllers');
+const {
+  StorageController,
+  LibraryController
+} = require('./controllers');
 const { Storage } = require('./storage');
 
 const root = process.env.NODE_ENV === 'development' ?
@@ -29,6 +33,11 @@ const cache = new Storage(root, 'cache', CACHE);
 const config = new Storage(root, 'config', CONFIG);
 const theme = new Storage(root, 'theme', THEME);
 
+const db = {
+  [TYPES.DATABASE.LIBRARY]: new LeafDB({ name: TYPES.DATABASE.LIBRARY, root }),
+  [TYPES.DATABASE.IMAGES]: new LeafDB({ name: TYPES.DATABASE.IMAGES, root })
+};
+
 const Doombox = new App(root, assets);
 
 app.on('ready', () => {
@@ -36,10 +45,18 @@ app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
   Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
+  Doombox.createRouter(
+    IPC.CHANNEL.LIBRARY,
+    new LibraryController(db, {
+      ...config.get(TYPES.CONFIG.PARSER),
+      folder: path.resolve(root, 'images')
+    })
+  );
+
   const window = Doombox.createWindow({
     ...cache.get(TYPES.CACHE.WINDOW),
     darkTheme: theme.get('variant') === 'dark',
-    backgroundColor: theme.get('grey')[theme.get('variant')]
+    backgroundColor: theme.get('grey')[300]
   });
 
   if (chokidar) {

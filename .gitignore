@@ -4,3 +4,4 @@ dist
 client
 build/src
 .DS_Store
+.bundle.json

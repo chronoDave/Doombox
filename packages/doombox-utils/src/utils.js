@@ -24,6 +24,12 @@ const zPad = (n, d = 1) => {
 };
 
 /**
+ * Capitalize string
+ * @param {string} s
+ */
+const capitalize = s => `${s[0].toUpperCase()}${s.slice(1)}`;
+
+/**
  * Format seconds into hh:mm:ss format
  * @param {number} n - Time in seconds
  * @param {string} useText - Use text format (default `false`)
@@ -60,11 +66,28 @@ const shuffle = a => {
   }
 };
 
+const getModChar = () => (window.navigator.platform.toLowerCase().includes('win') ?
+  'Ctrl' :
+  '\u2318'
+);
+
+/** Normalize keybind */
+const normalizeKeybind = keybind => keybind
+  .split('+')
+  .map(char => {
+    if (char === 'mod') return getModChar();
+    return capitalize(char);
+  })
+  .join('+');
+
 module.exports = {
   toArray,
   getTimestamp,
   formatTime,
+  normalizeKeybind,
+  capitalize,
   shuffle,
+  getModChar,
   zPad,
   clamp
 };

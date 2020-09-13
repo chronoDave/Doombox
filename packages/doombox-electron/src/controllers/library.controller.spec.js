@@ -45,8 +45,6 @@ test.serial('should insert songs into the database', async t => {
 test.serial('should parse covers', async t => {
   const controller = setup({ folder });
 
-  fse.mkdirpSync(folder);
-
   try {
     await controller.create(null, { payload: root });
 

@@ -8,7 +8,9 @@ const TYPES = {
     VOLUME: 'volume'
   },
   CONFIG: {
-    PLAYER: 'player'
+    PARSER: 'parser',
+    PLAYER: 'player',
+    KEYBINDS: 'keybinds'
   }
 };
 
@@ -35,6 +37,7 @@ const EVENTS = {
 const IPC = {
   CHANNEL: {
     WINDOW: 'WINDOW',
+    LIBRARY: 'LIBRARY',
     THEME: 'THEME',
     CACHE: 'CACHE',
     CONFIG: 'CONFIG'
