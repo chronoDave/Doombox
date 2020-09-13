@@ -14,7 +14,8 @@ import {
 import {
   IpcProvider,
   AudioProvider,
-  ThemeProvider
+  ThemeProvider,
+  KeybindProvider
 } from './providers';
 
 // Redux
@@ -24,13 +25,15 @@ render(
   <ReduxProvider store={store}>
     <IpcProvider>
       <AudioProvider>
-        <ThemeProvider>
-          <CssBaseline>
-            <App>
-              <Player />
-            </App>
-          </CssBaseline>
-        </ThemeProvider>
+        <KeybindProvider>
+          <ThemeProvider>
+            <CssBaseline>
+              <App>
+                <Player />
+              </App>
+            </CssBaseline>
+          </ThemeProvider>
+        </KeybindProvider>
       </AudioProvider>
     </IpcProvider>
   </ReduxProvider>,

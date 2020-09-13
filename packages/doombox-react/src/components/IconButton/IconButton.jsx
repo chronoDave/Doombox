@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,7 @@ import { IconButton as MuiIconButton } from '@material-ui/core';
 // Styles
 import { useIconButtonStyles } from './IconButton.style';
 
-const IconButton = forwardRef((props, ref) => {
+const IconButton = props => {
   const {
     square,
     className,
@@ -24,12 +24,11 @@ const IconButton = forwardRef((props, ref) => {
         className
       )}
       {...rest}
-      ref={ref}
     >
       {children}
     </MuiIconButton>
   );
-});
+};
 
 IconButton.propTypes = {
   children: PropTypes.node.isRequired,

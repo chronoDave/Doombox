@@ -1,4 +1,4 @@
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 export const useAppStyles = makeStyles(theme => ({
   root: {
@@ -7,16 +7,15 @@ export const useAppStyles = makeStyles(theme => ({
     width: '100vw',
     height: `calc(100vh - ${theme.component.appBar}px)`
   },
-  body: {
-    width: '100%',
-    height: '100%',
-    overflow: 'auto'
+  drag: {
+    '-webkit-app-region': 'drag'
   },
   barRoot: {
     position: 'fixed',
     display: 'flex',
     width: '100%',
-    height: theme.component.appBar
+    height: theme.component.appBar,
+    backgroundColor: theme.palette.grey[50]
   },
   barIcon: {
     display: 'flex',
@@ -32,26 +31,23 @@ export const useAppStyles = makeStyles(theme => ({
     alignItems: 'center',
     overflow: 'hidden',
     [theme.breakpoints.up('sm')]: {
-      justifyContent: 'center',
-      paddingLeft: theme.spacing(15) - theme.component.appBar
+      height: theme.component.appBar,
+      position: 'absolute',
+      left: '50%',
+      transform: 'translate(-50%, 0px)'
     }
   },
-  button: {
+  barButtonText: {
+    padding: theme.spacing(0, 1),
+    ...theme.typography.body2
+  },
+  barButtonIcon: {
     width: theme.spacing(5),
-    '&:hover': {
-      backgroundColor: fade(
-        theme.palette.type === 'dark' ? '#fff' : '#000',
-        theme.palette.action.hoverOpacity
-      )
-    }
   },
-  buttonClose: {
+  barButtonClose: {
     '&:hover': {
       color: '#fff',
       backgroundColor: theme.palette.error.main,
     }
-  },
-  drag: {
-    '-webkit-app-region': 'drag'
   }
 }));

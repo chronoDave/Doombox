@@ -1,21 +1,17 @@
 import PropTypes from 'prop-types';
 
 export const propTheme = PropTypes.shape({
-  variant: PropTypes.oneOf(['light', 'dark']).isRequired,
+  variant: PropTypes.oneOf(['light', 'dark']),
   grey: PropTypes.shape({
-    light: PropTypes.string.isRequired,
-    dark: PropTypes.string.isRequired
-  }).isRequired,
-  ramp: PropTypes.shape({
-    50: PropTypes.number.isRequired,
-    100: PropTypes.number.isRequired,
-    200: PropTypes.number.isRequired,
-    300: PropTypes.number.isRequired,
-    400: PropTypes.number.isRequired,
-    500: PropTypes.number.isRequired,
-    600: PropTypes.number.isRequired,
-    700: PropTypes.number.isRequired,
-    800: PropTypes.number.isRequired,
-    900: PropTypes.number.isRequired
-  }).isRequired
+    50: PropTypes.string.isRequired,
+    100: PropTypes.string.isRequired,
+    200: PropTypes.string.isRequired,
+    300: PropTypes.string.isRequired,
+    400: PropTypes.string.isRequired,
+    500: PropTypes.string.isRequired,
+    600: PropTypes.string.isRequired,
+    700: PropTypes.string.isRequired,
+    800: PropTypes.string.isRequired,
+    900: PropTypes.string.isRequired
+  })
 });

@@ -5,9 +5,10 @@
   "private": true,
   "license": "GPL-3.0",
   "scripts": {
-    "start": "webpack -w src --env development",
+    "start": "webpack -w src",
     "test": "ava src/**/*.spec.js --config .ava.config.js",
-    "build": "webpack --mode production --env.production"
+    "build": "webpack --mode production",
+    "build:analyze": "webpack --env.analyze --profile --json > .bundle.json"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
@@ -16,6 +17,7 @@
     "clsx": "^1.1.1",
     "esm": "^3.2.25",
     "howler": "^2.2.0",
+    "mousetrap": "^1.6.5",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
