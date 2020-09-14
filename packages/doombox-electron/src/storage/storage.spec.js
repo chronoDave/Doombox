@@ -38,7 +38,7 @@ test.serial('should return all data if no key is provided', t => {
 test.serial('should return data based on query', t => {
   const storage = setup();
 
-  t.is(storage.get('ramp.50'), THEME.ramp[50], 'returns query data');
+  t.is(storage.get('grey.50'), THEME.grey[50], 'returns query data');
 
   fse.removeSync(config);
 });

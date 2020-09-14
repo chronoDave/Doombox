@@ -34,8 +34,8 @@ const config = new Storage(root, 'config', CONFIG);
 const theme = new Storage(root, 'theme', THEME);
 
 const db = {
-  [TYPES.DATABASE.LIBRARY]: new LeafDB({ name: TYPES.DATABASE.LIBRARY, root }),
-  [TYPES.DATABASE.IMAGES]: new LeafDB({ name: TYPES.DATABASE.IMAGES, root })
+  [TYPES.DATABASE.LIBRARY]: new LeafDB(TYPES.DATABASE.LIBRARY, { root }),
+  [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root })
 };
 
 const Doombox = new App(root, assets);

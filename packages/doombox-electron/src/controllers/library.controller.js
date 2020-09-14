@@ -44,7 +44,7 @@ module.exports = class LibraryController {
 
         const file = path.resolve(this.folder, `${_id}.${rest.format}`);
 
-        await this.db[TYPES.DATABASE.IMAGES].create({ _id: file, ...rest });
+        await this.db[TYPES.DATABASE.IMAGES].insert({ _id: file, ...rest });
         await fse.writeFile(file, data);
 
         ids.push(_id);
@@ -76,7 +76,7 @@ module.exports = class LibraryController {
           images = await this.createImages(rawImages);
         }
 
-        await this.db[TYPES.DATABASE.LIBRARY].create({ images, ...rest });
+        await this.db[TYPES.DATABASE.LIBRARY].insert({ images, ...rest });
       } catch (err) {
         if (this.strict) return Promise.reject(err);
       }

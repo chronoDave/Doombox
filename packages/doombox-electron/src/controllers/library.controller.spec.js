@@ -14,8 +14,8 @@ const imageFile = path.resolve(__dirname, 'images.txt');
 
 const setup = (options = {}) => {
   const db = {
-    [TYPES.DATABASE.LIBRARY]: new LeafDB({ root: __dirname, name: 'library', strict: true }),
-    [TYPES.DATABASE.IMAGES]: new LeafDB({ root: __dirname, name: 'images', strict: true })
+    [TYPES.DATABASE.LIBRARY]: new LeafDB(TYPES.DATABASE.LIBRARY, { root: __dirname, strict: true }),
+    [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root: __dirname, strict: true })
   };
   const controller = new LibraryController(db, options);
 
