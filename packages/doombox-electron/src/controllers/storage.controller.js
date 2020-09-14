@@ -6,7 +6,7 @@ module.exports = class StorageController {
     this.storage = storage;
   }
 
-  read(event, { query }) {
+  find(event, { query }) {
     const data = this.storage.get(query);
     return Promise.resolve(data);
   }

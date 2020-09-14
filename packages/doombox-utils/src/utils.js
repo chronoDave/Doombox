@@ -66,16 +66,18 @@ const shuffle = a => {
   }
 };
 
-const getModChar = () => (window.navigator.platform.toLowerCase().includes('win') ?
-  'Ctrl' :
-  '\u2318'
-);
+const isMac = () => {
+  if (!window) return null;
+  return window.navigator.platform.toLowerCase().includes('mac');
+};
 
 /** Normalize keybind */
 const normalizeKeybind = keybind => keybind
   .split('+')
   .map(char => {
-    if (char === 'mod') return getModChar();
+    if (char === 'mod' && isMac()) return '\u2318';
+    if (char === 'shift' && isMac()) return '\u21e7';
+    if ((char === 'option' || char === 'alt') && isMac()) return '\u03b1';
     return capitalize(char);
   })
   .join('+');
@@ -87,7 +89,7 @@ module.exports = {
   normalizeKeybind,
   capitalize,
   shuffle,
-  getModChar,
+  isMac,
   zPad,
   clamp
 };

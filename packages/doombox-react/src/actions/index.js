@@ -4,12 +4,14 @@ export {
   windowClose,
   windowMaximize,
   windowMinimize,
-} from './window';
+} from './window.actions';
 
 export {
   ipcCreate
-} from './crud';
+} from './ipc.actions';
 
 export {
-  scanFolder
-} from './ipc';
+  scanFolder,
+  scanFolderNative,
+  deleteLibrary
+} from './library.actions';

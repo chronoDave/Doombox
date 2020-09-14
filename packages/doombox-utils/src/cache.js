@@ -5,5 +5,6 @@ module.exports = {
     width: 320,
     height: 240
   },
-  [TYPES.CACHE.VOLUME]: 1
+  [TYPES.CACHE.VOLUME]: 1,
+  [TYPES.CACHE.FOLDERS]: []
 };

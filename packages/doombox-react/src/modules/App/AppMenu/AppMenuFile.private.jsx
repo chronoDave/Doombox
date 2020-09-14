@@ -9,24 +9,38 @@ import { Divider } from '@material-ui/core';
 import { MenuItem } from '../../../components';
 
 // Actions
-import { windowClose } from '../../../actions';
+import {
+  scanFolder,
+  scanFolderNative,
+  deleteLibrary,
+  windowClose
+} from '../../../actions';
 
-const AppMenuFile = ({ keybinds }) => (
+const AppMenuFile = ({ onClose, keybinds, folders }) => (
   <Fragment>
     <MenuItem
       primary="Rescan Library"
       secondary={normalizeKeybind(keybinds.rescan)}
-      onClick={windowClose}
+      onClick={() => {
+        scanFolder(folders);
+        onClose();
+      }}
     />
     <Divider />
     <MenuItem
       primary="Scan Folder..."
       secondary={normalizeKeybind(keybinds.scanFolder)}
-      onClick={windowClose}
+      onClick={() => {
+        scanFolderNative();
+        onClose();
+      }}
     />
     <MenuItem
       primary="Delete Library"
-      onClick={windowClose}
+      onClick={() => {
+        deleteLibrary();
+        onClose();
+      }}
     />
     <Divider />
     <MenuItem primary="Exit" onClick={windowClose} />
@@ -34,13 +48,16 @@ const AppMenuFile = ({ keybinds }) => (
 );
 
 AppMenuFile.propTypes = {
+  onClose: PropTypes.func.isRequired,
   keybinds: PropTypes.shape({
     rescan: PropTypes.string.isRequired,
     scanFolder: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  folders: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = state => ({
+  folders: state.ipc.cache[TYPES.CACHE.FOLDERS],
   keybinds: state.ipc.config[TYPES.CONFIG.KEYBINDS]
 });
 

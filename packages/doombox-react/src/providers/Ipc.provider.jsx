@@ -31,17 +31,17 @@ class IpcProvider extends Component {
 
   componentDidMount() {
     ipcRenderer.send(IPC.CHANNEL.THEME, {
-      action: IPC.ACTION.READ,
+      action: IPC.ACTION.FIND,
       data: { query: null }
     });
 
     ipcRenderer.send(IPC.CHANNEL.CONFIG, {
-      action: IPC.ACTION.READ,
+      action: IPC.ACTION.FIND,
       data: { query: null }
     });
 
     ipcRenderer.send(IPC.CHANNEL.CACHE, {
-      action: IPC.ACTION.READ,
+      action: IPC.ACTION.FIND,
       data: { query: null }
     });
   }

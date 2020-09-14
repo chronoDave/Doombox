@@ -26,7 +26,7 @@ test.serial('should insert songs into the database', async t => {
   const controller = setup();
 
   try {
-    await controller.create(null, { payload: root });
+    await controller.insert(null, { payload: root });
 
     const data = fse
       .readFileSync(libraryFile, 'utf-8')
@@ -46,7 +46,7 @@ test.serial('should parse covers', async t => {
   const controller = setup({ folder });
 
   try {
-    await controller.create(null, { payload: root });
+    await controller.insert(null, { payload: root });
 
     // Library
     const libraryDatabase = fse

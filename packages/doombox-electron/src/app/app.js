@@ -19,7 +19,6 @@ module.exports = class App extends Reporter {
   constructor(root, assets) {
     super(path.resolve(root, 'log'));
 
-    this.root = root;
     this.assets = assets;
 
     // Create directories
@@ -48,13 +47,18 @@ module.exports = class App extends Reporter {
       if (!payload) handleError(new Error(`No payload found: ${JSON.stringify(payload)}`));
 
       switch (payload.action) {
-        case IPC.ACTION.CREATE:
-          Controller.create(event, payload.data)
+        case IPC.ACTION.INSERT:
+          Controller.insert(event, payload.data)
             .then(handleSuccess)
             .catch(handleError);
           break;
-        case IPC.ACTION.READ:
-          Controller.read(event, payload.data)
+        case IPC.ACTION.FIND:
+          Controller.find(event, payload.data)
+            .then(handleSuccess)
+            .catch(handleError);
+          break;
+        case IPC.ACTION.FIND_BY_ID:
+          Controller.findById(event, payload.data)
             .then(handleSuccess)
             .catch(handleError);
           break;
@@ -63,8 +67,23 @@ module.exports = class App extends Reporter {
             .then(handleSuccess)
             .catch(handleError);
           break;
+        case IPC.ACTION.UPDATE_BY_ID:
+          Controller.updateById(event, payload.data)
+            .then(handleSuccess)
+            .catch(handleError);
+          break;
         case IPC.ACTION.DELETE:
           Controller.delete(event, payload.data)
+            .then(handleSuccess)
+            .catch(handleError);
+          break;
+        case IPC.ACTION.DELETE_BY_ID:
+          Controller.deleteById(event, payload.data)
+            .then(handleSuccess)
+            .catch(handleError);
+          break;
+        case IPC.ACTION.DROP:
+          Controller.drop(event)
             .then(handleSuccess)
             .catch(handleError);
           break;

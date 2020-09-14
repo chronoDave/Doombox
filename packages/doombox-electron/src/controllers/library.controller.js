@@ -56,7 +56,7 @@ module.exports = class LibraryController {
     return Promise.resolve(ids);
   }
 
-  async create(event, { payload }) {
+  async insert(event, { payload }) {
     const files = toArray(payload)
       .map(folder => glob.sync(`**/*.?(${this.fileTypes.join('|')})`, {
         cwd: folder,
@@ -88,7 +88,9 @@ module.exports = class LibraryController {
     return Promise.resolve();
   }
 
-  async drop(event) {
+  async drop() {
     await this.db[TYPES.DATABASE.LIBRARY].delete({}, { multi: true });
+
+    return Promise.resolve();
   }
 };

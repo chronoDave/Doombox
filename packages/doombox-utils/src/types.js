@@ -5,7 +5,8 @@ const TYPES = {
   },
   CACHE: {
     WINDOW: 'window',
-    VOLUME: 'volume'
+    VOLUME: 'volume',
+    FOLDERS: 'folders'
   },
   CONFIG: {
     PARSER: 'parser',
@@ -43,10 +44,14 @@ const IPC = {
     CONFIG: 'CONFIG'
   },
   ACTION: {
-    CREATE: 'CREATE',
-    READ: 'READ',
+    INSERT: 'INSERT',
+    FIND: 'FIND',
+    FIND_BY_ID: 'FIND_BY_ID',
     UPDATE: 'UPDATE',
+    UPDATE_BY_ID: 'UPDATE_BY_ID',
     DELETE: 'DELETE',
+    DELETE_BY_ID: 'DELETE_BY_ID',
+    DROP: 'DROP',
     WINDOW: {
       SET_TITLE: 'SET_TITLE',
       MINIMIZE: 'MINIMIZE',

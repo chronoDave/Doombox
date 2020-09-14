@@ -29,9 +29,9 @@ const AppMenu = () => {
 
   const renderMenu = () => {
     switch (menu.id) {
-      case 'file': return <AppMenuFile />;
-      case 'help': return <AppMenuHelp />;
-      case 'playlist': return <AppMenuPlaylist />;
+      case 'file': return <AppMenuFile onClose={() => setMenu(false)} />;
+      case 'help': return <AppMenuHelp onClose={() => setMenu(false)} />;
+      case 'playlist': return <AppMenuPlaylist onClose={() => setMenu(false)} />;
       default: return null;
     }
   };
