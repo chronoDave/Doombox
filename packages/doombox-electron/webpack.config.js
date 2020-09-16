@@ -5,7 +5,7 @@ const FsWebpackPlugin = require('fs-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, '../../build/src');
 
-module.exports = env => ({
+module.exports = ({
   mode: 'development',
   output: {
     path: outputPath,
@@ -17,7 +17,7 @@ module.exports = env => ({
       type: 'delete',
       files: '*',
       root: outputPath,
-      hooks: (!env || !env.analyze) ? ['beforeRun'] : []
+      hooks: ['beforeRun']
     }])
   ]
 });

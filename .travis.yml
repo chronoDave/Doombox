@@ -1,23 +1,27 @@
 language: node_js
-services:
-  - xvfb
-node_js:
-  - lts/*
 cache: yarn
+node_js: lts/*
+git:
+  depth: 2
 
 jobs:
   include:
-    - stage: Install
-      script: yarn
-    - stage: Test
-      script: yarn test
-    - stage: Build
-      script: yarn build
-
+    - os: windows
+      env: YARN_GPG=no
+      services: xvfb
+      script:
+        - yarn test
+        - yarn build
+    - os: osx
+      script:
+        - yarn test
+        - yarn build
+        
 after_success:
   - wget https://raw.githubusercontent.com/chronoDave/Doombox/master/scripts/discord.sh
   - chmod +x discord.sh
   - ./discord.sh success $WEBHOOK_URL
+
 after_failure:
   - wget https://raw.githubusercontent.com/chronoDave/Doombox/master/scripts/discord.sh
   - chmod +x discord.sh

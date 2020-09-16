@@ -9,9 +9,9 @@
     "start": "nodemon --config .nodemon.json",
     "test": "ava src/**/*.spec.js",
     "clean": "node scripts/clean.js",
-    "build": "yarn clean && webpack --mode production && electron-builder -c .build.config.js",
+    "build": "yarn clean && webpack --mode production && electron-builder -p=never -c .build.config.js",
     "build:portable": "yarn clean && webpack --mode production && cross-env NODE_ENV=portable electron-builder -c .build.config.js",
-    "build:analyze": "webpack --env.analyze --profile --json > .bundle.json"
+    "build:analyze": "webpack --profile --json > .bundle.json"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",

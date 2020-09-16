@@ -40,8 +40,8 @@ module.exports = {
     target: process.env.NODE_ENV === 'portable' ?
       'portable' :
       [
-        { target: 'nsis', arch: ['x64', 'ia32'] },
-        { target: 'portable', arch: ['x64', 'ia32'] }
+        { target: 'nsis', arch: 'x64' },
+        { target: 'portable', arch: 'x64' }
       ],
     icon: path.resolve(__dirname, '../../build/icons/app.ico'),
     publisherName: 'Chronocide'
@@ -50,6 +50,7 @@ module.exports = {
   // Mac
   mac: {
     category: 'public.app-category.music',
+    icon: path.resolve(__dirname, '../../build/icons/app.png'),
     darkModeSupport: true,
     type: process.env.NODE_ENV === 'portable' ?
       'development' :

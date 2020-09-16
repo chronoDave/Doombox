@@ -3914,6 +3914,14 @@ fs-webpack-plugin@^2.0.0:
     fast-glob "^3.2.4"
     fs-extra "^9.0.1"
 
+fs-webpack-plugin@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fs-webpack-plugin/-/fs-webpack-plugin-2.0.1.tgz#f2629d0605759cd50d0e0c27555b12d72c740141"
+  integrity sha512-bgpDTPbdEcRENiE2mqhxrrkjxWGSAqZBAOrLrVvAeyi3n069gYGFObFcPORQM0PKlBWPqK7tdxx6iLxy2d0fIA==
+  dependencies:
+    fast-glob "^3.2.4"
+    fs-extra "^9.0.1"
+
 fs-write-stream-atomic@^1.0.8:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/fs-write-stream-atomic/-/fs-write-stream-atomic-1.0.10.tgz#b47df53493ef911df75731e70a9ded0189db40c9"

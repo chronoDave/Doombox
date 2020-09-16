@@ -8,7 +8,7 @@
     "start": "webpack -w src",
     "test": "ava src/**/*.spec.js --config .ava.config.js",
     "build": "webpack --mode production",
-    "build:analyze": "webpack --env.analyze --profile --json > .bundle.json"
+    "build:analyze": "webpack --profile --json > .bundle.json"
   },
   "dependencies": {
     "@doombox/utils": "./packages/doombox-utils",
@@ -30,7 +30,7 @@
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
     "file-loader": "^6.0.0",
-    "fs-webpack-plugin": "^2.0.0",
+    "fs-webpack-plugin": "^2.0.1",
     "html-webpack-plugin": "^4.3.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"

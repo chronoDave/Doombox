@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, '../../build/client');
 
-module.exports = env => ({
+module.exports = ({
   mode: 'development',
   output: {
     path: outputPath,
@@ -50,16 +50,16 @@ module.exports = env => ({
   plugins: [
     new FsWebpackPlugin([{
       type: 'delete',
-      files: '**/*',
+      files: '*',
       root: outputPath,
-      hooks: (!env || !env.analyze) ? ['beforeRun'] : []
+      hooks: ['beforeRun']
     }, {
       type: 'copy',
       files: 'fonts/LICENSE.txt',
       root: path.resolve(__dirname, 'assets'),
       to: path.resolve(outputPath, 'assets/fonts'),
-      hooks: (!env || !env.analyze) ? ['beforeRun'] : []
-    }]),
+      hooks: ['beforeRun']
+    }], { verbose: true }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
       filename: 'index.html'
