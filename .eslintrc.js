@@ -2,8 +2,7 @@ module.exports = {
   env: {
     es6: true,
     browser: true,
-    node: true,
-    mocha: true
+    node: true
   },
   extends: ['airbnb', 'airbnb/hooks'],
   plugins: ['ava'],
@@ -31,6 +30,13 @@ module.exports = {
     // Import
     'import/prefer-default-export': 'off',
     'import/order': ['error', {
+      groups: [
+        'builtin',
+        'external',
+        'parent',
+        'sibling',
+        'index'
+      ],
       'newlines-between': 'always-and-inside-groups'
     }]
   }

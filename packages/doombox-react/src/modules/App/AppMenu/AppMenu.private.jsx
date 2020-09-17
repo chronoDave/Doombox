@@ -28,6 +28,8 @@ const AppMenu = () => {
   };
 
   const renderMenu = () => {
+    if (!menu) return null;
+
     switch (menu.id) {
       case 'file': return <AppMenuFile onClose={() => setMenu(false)} />;
       case 'help': return <AppMenuHelp onClose={() => setMenu(false)} />;
@@ -74,7 +76,7 @@ const AppMenu = () => {
           flexDirection="column"
           width={210}
         >
-          {menu ? renderMenu() : null}
+          {renderMenu()}
         </Box>
       </Menu>
     </Fragment>

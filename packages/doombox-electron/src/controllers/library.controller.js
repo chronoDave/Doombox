@@ -89,7 +89,7 @@ module.exports = class LibraryController {
   }
 
   async drop() {
-    await this.db[TYPES.DATABASE.LIBRARY].delete({}, { multi: true });
+    await this.db[TYPES.DATABASE.LIBRARY].drop();
 
     return Promise.resolve();
   }
