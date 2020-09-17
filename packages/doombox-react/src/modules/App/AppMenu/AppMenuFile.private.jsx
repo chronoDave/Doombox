@@ -57,8 +57,8 @@ AppMenuFile.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  folders: state.ipc.cache[TYPES.CACHE.FOLDERS],
-  keybinds: state.ipc.config[TYPES.CONFIG.KEYBINDS]
+  folders: state.cache[TYPES.CACHE.FOLDERS],
+  keybinds: state.config[TYPES.CONFIG.KEYBINDS]
 });
 
 export default connect(

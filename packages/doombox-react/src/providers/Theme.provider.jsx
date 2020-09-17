@@ -1,6 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import { ipcRenderer } from 'electron';
+
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { IPC, THEME } from '@doombox/utils';
 
 // Core
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
@@ -8,24 +10,24 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 // Utils
 import { createTheme } from '../theme';
 
-// Validation
-import { propTheme } from '../validation/propTypes';
+const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState(createTheme(THEME));
 
-const ThemeProvider = ({ children, theme }) => (
-  <MuiThemeProvider theme={createTheme(theme)}>
-    {children}
-  </MuiThemeProvider>
-);
+  useEffect(() => {
+    ipcRenderer.once(IPC.CHANNEL.THEME, (event, payload) => {
+      setTheme(createTheme(payload.data));
+    });
+  }, []);
 
-const mapStateToProps = state => ({
-  theme: state.ipc.theme
-});
-
-ThemeProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-  theme: propTheme.isRequired
+  return (
+    <MuiThemeProvider theme={theme}>
+      {children}
+    </MuiThemeProvider>
+  );
 };
 
-export default connect(
-  mapStateToProps
-)(ThemeProvider);
+ThemeProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+export default ThemeProvider;

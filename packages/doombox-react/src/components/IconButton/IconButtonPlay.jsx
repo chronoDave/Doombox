@@ -40,7 +40,7 @@ IconButtonPlay.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  status: state.audio.player.status
+  status: state.player.status
 });
 
 export default connect(

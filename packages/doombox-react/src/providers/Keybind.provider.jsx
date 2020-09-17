@@ -32,8 +32,8 @@ KeybindProvider.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  keybinds: state.ipc.config[TYPES.CONFIG.KEYBINDS],
-  folders: state.ipc.cache[TYPES.CACHE.FOLDERS]
+  keybinds: state.config[TYPES.CONFIG.KEYBINDS],
+  folders: state.cache[TYPES.CACHE.FOLDERS]
 });
 
 export default connect(

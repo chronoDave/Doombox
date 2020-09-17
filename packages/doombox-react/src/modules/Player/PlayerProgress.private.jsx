@@ -39,8 +39,8 @@ PlayerProgress.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  position: state.audio.position,
-  duration: state.audio.player.duration
+  position: state.player.position,
+  duration: state.player.duration
 });
 
 export default connect(

@@ -6,37 +6,41 @@ import {
 
 // Slices
 import {
-  ipcSlice,
-  audioSlice
+  configSlice,
+  cacheSlice,
+  playerSlice,
+  playlistSlice
 } from './slices';
 
 // Middleware
 import { logger } from './middleware';
 
-const middleware = [];
-
-if (process.env.NODE_ENV === 'development') {
-  middleware.push(logger);
-}
-
+// Actions
+export const { setConfig } = configSlice.actions;
+export const { setCache } = cacheSlice.actions;
 export const {
-  setCache,
-  setConfig,
-  setTheme
-} = ipcSlice.actions;
-
-export const {
-  setMetadata,
   setPlayer,
-  setPlaylist,
+  setMetadata,
+  setStatus,
+  setAutoplay,
+  setDuration,
+  setMuted,
   setVolume,
   setPosition
-} = audioSlice.actions;
+} = playerSlice.actions;
+export const {
+  setPlaylist,
+  setName,
+  setCover,
+  setCollection
+} = playlistSlice.actions;
 
 export const store = createStore(
   combineReducers({
-    [ipcSlice.name]: ipcSlice.reducer,
-    [audioSlice.name]: audioSlice.reducer
+    [cacheSlice.name]: cacheSlice.reducer,
+    [configSlice.name]: configSlice.reducer,
+    [playerSlice.name]: playerSlice.reducer,
+    [playlistSlice.name]: playlistSlice.reducer
   }),
-  applyMiddleware(...middleware)
+  applyMiddleware(logger)
 );

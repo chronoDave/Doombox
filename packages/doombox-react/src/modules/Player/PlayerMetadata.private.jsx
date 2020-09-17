@@ -47,9 +47,9 @@ PlayerMetadata.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  title: state.audio.metadata.title,
-  artist: state.audio.metadata.artist,
-  album: state.audio.metadata.album
+  title: state.player.metadata.title,
+  artist: state.player.metadata.artist,
+  album: state.player.metadata.album
 });
 
 export default connect(

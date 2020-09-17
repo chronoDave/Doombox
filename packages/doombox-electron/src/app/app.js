@@ -1,8 +1,4 @@
-const {
-  BrowserWindow,
-  ipcMain,
-  nativeImage
-} = require('electron');
+const { BrowserWindow, ipcMain, nativeImage } = require('electron');
 const path = require('path');
 
 const { STATUS, IPC } = require('@doombox/utils');

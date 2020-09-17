@@ -88,6 +88,16 @@ module.exports = class LibraryController {
     return Promise.resolve();
   }
 
+  async find(event, { payload }) {
+    try {
+      const docs = await this.db[TYPES.DATABASE.LIBRARY].find(payload);
+
+      return Promise.resolve(docs);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
   async drop() {
     await this.db[TYPES.DATABASE.LIBRARY].drop();
 

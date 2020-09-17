@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { IPC, EVENTS } from '@doombox/utils';
+import { IPC, TYPES, EVENTS } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Hooks
@@ -14,8 +14,11 @@ import { setThumbar } from '../actions';
 // Redux
 import {
   setMetadata,
-  setPlayer,
+  setStatus,
+  setAutoplay,
   setPlaylist,
+  setDuration,
+  setMuted,
   setVolume,
   setPosition
 } from '../redux';
@@ -78,33 +81,33 @@ class AudioProvider extends Component {
     }
 
     // Events
-    this.audio.on(EVENTS.AUDIO.DURATION, duration => {
-      props.setPlayer({ duration });
-    });
-    this.audio.on(EVENTS.AUDIO.MUTED, muted => {
-      props.setPlayer({ muted });
-    });
-    this.audio.on(EVENTS.AUDIO.PLAYLIST, playlist => {
-      props.setPlaylist(playlist);
-    });
-    this.audio.on(EVENTS.AUDIO.POSITION, position => {
-      props.setPosition(position);
-    });
-    this.audio.on(EVENTS.AUDIO.METADATA, song => {
-      props.setMetadata(song);
-    });
+    const {
+      dispatchDuration,
+      dispatchMuted,
+      dispatchPlaylist,
+      dispatchPosition,
+      dispatchMetadata,
+      dispatchStatus,
+      dispatchVolume,
+      dispatchAutoplay
+    } = props;
+
+    this.audio.on(EVENTS.AUDIO.DURATION, dispatchDuration);
+    this.audio.on(EVENTS.AUDIO.MUTED, dispatchMuted);
+    this.audio.on(EVENTS.AUDIO.PLAYLIST, dispatchPlaylist);
+    this.audio.on(EVENTS.AUDIO.POSITION, dispatchPosition);
+    this.audio.on(EVENTS.AUDIO.METADATA, dispatchMetadata);
+    this.audio.on(EVENTS.AUDIO.VOLUME, dispatchVolume);
+    this.audio.on(EVENTS.AUDIO.AUTOPLAY, dispatchAutoplay);
     this.audio.on(EVENTS.AUDIO.STATUS, status => {
-      props.setPlayer({ status });
+      dispatchStatus(status);
       setThumbar(status);
-    });
-    this.audio.on(EVENTS.AUDIO.VOLUME, volume => {
-      props.setVolume(volume);
     });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.autoplay !== this.props.autoplay) this.audio.autoplay = this.props.autoplay;
-    if (prevProps.volume !== this.props.volume) setVolume(this.props.volume);
+    if (prevProps.volume !== this.props.volume) this.audio.volume = this.props.volume;
   }
 
   componentWillUnmount() {
@@ -126,24 +129,30 @@ AudioProvider.propTypes = {
   children: PropTypes.node.isRequired,
   autoplay: PropTypes.bool.isRequired,
   volume: PropTypes.number.isRequired,
-  setMetadata: PropTypes.func.isRequired,
-  setPlayer: PropTypes.func.isRequired,
-  setPlaylist: PropTypes.func.isRequired,
-  setVolume: PropTypes.func.isRequired,
-  setPosition: PropTypes.func.isRequired
+  dispatchDuration: PropTypes.func.isRequired,
+  dispatchMuted: PropTypes.func.isRequired,
+  dispatchPlaylist: PropTypes.func.isRequired,
+  dispatchPosition: PropTypes.func.isRequired,
+  dispatchMetadata: PropTypes.func.isRequired,
+  dispatchStatus: PropTypes.func.isRequired,
+  dispatchVolume: PropTypes.func.isRequired,
+  dispatchAutoplay: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  autoplay: state.ipc.config.player.autoplay,
-  volume: state.ipc.cache.volume
+  autoplay: state.config[TYPES.CONFIG.PLAYER].autoplay,
+  volume: state.cache[TYPES.CACHE.VOLUME]
 });
 
 const mapDispatchToProps = {
-  setMetadata,
-  setPlayer,
-  setPlaylist,
-  setVolume,
-  setPosition
+  dispatchDuration: setDuration,
+  dispatchMuted: setMuted,
+  dispatchPlaylist: setPlaylist,
+  dispatchPosition: setPosition,
+  dispatchMetadata: setMetadata,
+  dispatchStatus: setStatus,
+  dispatchVolume: setVolume,
+  dispatchAutoplay: setAutoplay
 };
 
 export default connect(

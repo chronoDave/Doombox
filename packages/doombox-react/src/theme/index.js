@@ -6,7 +6,7 @@ import RobotoRegular from '../../assets/fonts/Roboto-Regular.ttf';
 export const createTheme = ({
   variant,
   grey
-} = {}) => createMuiTheme({
+}) => createMuiTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
