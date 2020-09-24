@@ -84,7 +84,10 @@ const isMac = process.platform === 'darwin';
 const normalizeKeybind = keybind => keybind
   .split('+')
   .map(char => {
-    if (char === 'mod' && isMac) return '\u2318';
+    if (char === 'mod') {
+      if (isMac) return '\u2318';
+      return 'Ctrl';
+    }
     if (char === 'shift' && isMac) return '\u21e7';
     if ((char === 'option' || char === 'alt') && isMac) return '\u03b1';
     return capitalize(char);

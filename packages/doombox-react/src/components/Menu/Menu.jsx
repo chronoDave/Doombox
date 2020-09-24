@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // Core
 import {
+  Box,
   ClickAwayListener,
   Popper,
   Paper
@@ -30,22 +31,25 @@ const Menu = props => {
     >
       <ClickAwayListener onClickAway={onClose}>
         <Paper square elevation={4}>
-          {children}
+          <Box display="flex" flexDirection="column">
+            {children}
+          </Box>
         </Paper>
       </ClickAwayListener>
     </Popper>
   );
 };
 
+Menu.defaultProps = {
+  anchorEl: null,
+  children: null
+};
+
 Menu.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   anchorEl: PropTypes.shape({})
-};
-
-Menu.defaultProps = {
-  anchorEl: null
 };
 
 export default Menu;

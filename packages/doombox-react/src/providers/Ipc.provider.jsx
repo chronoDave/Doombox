@@ -2,8 +2,15 @@ import { ipcRenderer } from 'electron';
 
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { IPC } from '@doombox/utils';
+import { IPC, TYPES } from '@doombox/utils';
 import PropTypes from 'prop-types';
+
+// Actions
+import {
+  scanFolder,
+  scanFolderNative,
+  deleteLibrary
+} from '../actions';
 
 // Redux
 import { setCache, setConfig } from '../redux';
@@ -12,10 +19,26 @@ class IpcProvider extends Component {
   constructor(props) {
     super(props);
 
-    const { dispatchCache, dispatchConfig } = props;
+    const { folders, dispatchCache, dispatchConfig } = props;
 
     ipcRenderer.on(IPC.CHANNEL.CACHE, (_, { data }) => dispatchCache(data));
     ipcRenderer.on(IPC.CHANNEL.CONFIG, (_, { data }) => dispatchConfig(data));
+
+    ipcRenderer.on(IPC.CHANNEL.KEYBIND, (_, action) => {
+      switch (action) {
+        case IPC.ACTION.MENU.RESCAN:
+          scanFolder(folders);
+          break;
+        case IPC.ACTION.MENU.SCAN_FOLDER:
+          scanFolderNative();
+          break;
+        case IPC.ACTION.MENU.DELETE_LIBRARY:
+          deleteLibrary();
+          break;
+        default:
+          console.error(`Unhandeled keybind action: ${action}`);
+      }
+    });
   }
 
   componentDidMount() {
@@ -43,9 +66,14 @@ class IpcProvider extends Component {
 
 IpcProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  folders: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatchCache: PropTypes.func.isRequired,
   dispatchConfig: PropTypes.func.isRequired
 };
+
+const mapStateToProps = state => ({
+  folders: state.cache[TYPES.CACHE.FOLDERS]
+});
 
 const mapDispatchToProps = {
   dispatchCache: setCache,
@@ -53,6 +81,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(IpcProvider);

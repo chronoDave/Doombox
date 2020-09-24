@@ -12,6 +12,7 @@ module.exports = {
   },
   [TYPES.CONFIG.KEYBINDS]: {
     rescan: 'mod+s',
-    scanFolder: 'mod+shift+s'
+    scanFolder: 'mod+shift+s',
+    toggleDevTools: 'mod+shift+i'
   }
 };

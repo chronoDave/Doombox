@@ -210,7 +210,7 @@ module.exports = class App extends Reporter {
     });
   }
 
-  createMenuMac(keybinds) {
+  createMenuMac(window, keybinds) {
     Menu.setApplicationMenu(Menu.buildFromTemplate([
       {
         label: this.title,
@@ -231,14 +231,34 @@ module.exports = class App extends Reporter {
         submenu: [
           {
             label: MENUS.FILE.RESCAN_LIBRARY,
-            accelerator: keybindToAccelerator(keybinds.rescan)
+            accelerator: keybindToAccelerator(keybinds.rescan),
+            click: () => {
+              window.webContents.send(
+                IPC.CHANNEL.KEYBIND,
+                IPC.ACTION.MENU.RESCAN
+              );
+            }
           },
           { type: 'separator' },
           {
             label: MENUS.FILE.SCAN_FOLDER,
-            accelerator: keybindToAccelerator(keybinds.scanFolder)
+            accelerator: keybindToAccelerator(keybinds.scanFolder),
+            click: () => {
+              window.webContents.send(
+                IPC.CHANNEL.KEYBIND,
+                IPC.ACTION.MENU.SCAN_FOLDER
+              );
+            }
           },
-          { label: MENUS.FILE.DELETE_LIBRARY },
+          {
+            label: MENUS.FILE.DELETE_LIBRARY,
+            click: () => {
+              window.webContents.send(
+                IPC.CHANNEL.KEYBIND,
+                IPC.ACTION.MENU.DELETE_LIBRARY
+              );
+            }
+          },
           { type: 'separator' },
           { role: 'close' }
         ]
@@ -270,13 +290,13 @@ module.exports = class App extends Reporter {
         submenu: [
           {
             label: MENUS.HELP.OPEN_GITHUB,
-            click: async () => {
-              await shell.openExternal(URLS[MENUS.HELP.OPEN_GITHUB]);
+            click: () => {
+              shell.openExternal(URLS[MENUS.HELP.OPEN_GITHUB]);
             }
           }, {
             label: MENUS.HELP.REPORT_ISSUE,
-            click: async () => {
-              await shell.openExternal(URLS[MENUS.HELP.REPORT_ISSUE]);
+            click: () => {
+              shell.openExternal(URLS[MENUS.HELP.REPORT_ISSUE]);
             }
           }
         ]

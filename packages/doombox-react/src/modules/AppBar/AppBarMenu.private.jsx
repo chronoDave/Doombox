@@ -1,4 +1,4 @@
-import { shell } from 'electron';
+import { shell, remote } from 'electron';
 
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
@@ -65,16 +65,32 @@ const AppBarMenu = ({ keybinds, folders }) => {
     help: [
       {
         primary: MENUS.HELP.OPEN_GITHUB,
-        onClick: async event => {
+        onClick: event => {
           event.preventDefault();
-          await shell.openExternal(URLS[MENUS.HELP.OPEN_GITHUB]);
+          shell.openExternal(URLS[MENUS.HELP.OPEN_GITHUB]);
           handleClose();
         }
       }, {
         primary: 'Report issue',
-        onClick: async event => {
+        divider: true,
+        onClick: event => {
           event.preventDefault();
-          await shell.openExternal(URLS[MENUS.HELP.REPORT_ISSUE]);
+          shell.openExternal(URLS[MENUS.HELP.REPORT_ISSUE]);
+          handleClose();
+        }
+      }, {
+        primary: MENUS.HELP.TOGGLE_DEV_TOOLS,
+        secondary: keybinds.toggleDevTools,
+        onClick: event => {
+          event.preventDefault();
+          const window = remote.getCurrentWindow();
+
+          if (window.isDevToolsOpened()) {
+            window.closeDevTools();
+          } else {
+            window.openDevTools();
+          }
+
           handleClose();
         }
       }
@@ -101,23 +117,16 @@ const AppBarMenu = ({ keybinds, folders }) => {
         anchorEl={menu.anchorEl}
         onClose={handleClose}
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          width={210}
-        >
-          {menu.id && menus[menu.id].map(item => (
-            <Fragment>
-              <MenuItem
-                key={item.primary}
-                primary={item.primary}
-                secondary={item.secondary && normalizeKeybind(item.secondary)}
-                onClick={item.onClick}
-              />
-              {item.divider && <Divider />}
-            </Fragment>
-          ))}
-        </Box>
+        {menu.id && menus[menu.id].map(item => (
+          <Fragment key={item.primary}>
+            <MenuItem
+              primary={item.primary}
+              secondary={item.secondary && normalizeKeybind(item.secondary)}
+              onClick={item.onClick}
+            />
+            {item.divider && <Divider />}
+          </Fragment>
+        ))}
       </Menu>
     </Fragment>
   );
@@ -126,7 +135,8 @@ const AppBarMenu = ({ keybinds, folders }) => {
 AppBarMenu.propTypes = {
   keybinds: PropTypes.shape({
     rescan: PropTypes.string.isRequired,
-    scanFolder: PropTypes.string.isRequired
+    scanFolder: PropTypes.string.isRequired,
+    toggleDevTools: PropTypes.string.isRequired
   }).isRequired,
   folders: PropTypes.arrayOf(PropTypes.string).isRequired
 };

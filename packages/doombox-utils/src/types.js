@@ -23,6 +23,7 @@ const MENUS = {
     EXIT: 'Exit'
   },
   HELP: {
+    TOGGLE_DEV_TOOLS: 'Toggle Developer Tools',
     OPEN_GITHUB: 'Open GitHub',
     REPORT_ISSUE: 'Report Issue'
   }
@@ -59,7 +60,8 @@ const IPC = {
     LIBRARY: 'LIBRARY',
     THEME: 'THEME',
     CACHE: 'CACHE',
-    CONFIG: 'CONFIG'
+    CONFIG: 'CONFIG',
+    KEYBIND: 'KEYBIND'
   },
   ACTION: {
     INSERT: 'INSERT',
@@ -70,6 +72,11 @@ const IPC = {
     DELETE: 'DELETE',
     DELETE_BY_ID: 'DELETE_BY_ID',
     DROP: 'DROP',
+    MENU: {
+      SCAN_FOLDER: 'SCAN',
+      RESCAN: 'RESCAN',
+      DELETE_LIBRARY: 'DELETE_LIBRARY'
+    },
     WINDOW: {
       SET_TITLE: 'SET_TITLE',
       MINIMIZE: 'MINIMIZE',

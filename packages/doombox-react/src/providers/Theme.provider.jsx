@@ -14,9 +14,13 @@ const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(createTheme(THEME));
 
   useEffect(() => {
-    ipcRenderer.once(IPC.CHANNEL.THEME, (event, payload) => {
+    ipcRenderer.on(IPC.CHANNEL.THEME, (event, payload) => {
       setTheme(createTheme(payload.data));
     });
+
+    return () => {
+      ipcRenderer.removeListener(IPC.CHANNEL.THEME);
+    };
   }, []);
 
   return (

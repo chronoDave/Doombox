@@ -20,8 +20,8 @@ const MenuItem = props => {
 
   return (
     <ButtonBase
-      className={classes.itemRoot}
       onClick={onClick}
+      classes={{ root: classes.itemRoot }}
     >
       <Typography variant="body2">
         {primary}
