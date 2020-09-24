@@ -1,7 +1,8 @@
 const crypto = require('crypto');
 
-const { toArray } = require('@doombox/utils');
 const parser = require('music-metadata');
+
+const { toArray } = require('../../../doombox-utils');
 
 /**
  * Parse file

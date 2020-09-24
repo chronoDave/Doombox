@@ -1,13 +1,9 @@
 import EventEmitter from 'events';
 
-import {
-  EVENTS,
-  STATUS,
-  clamp,
-  shuffle,
-  toArray
-} from '@doombox/utils';
 import { Howler, Howl } from 'howler';
+
+import { EVENTS, STATUS } from '../../../doombox-types';
+import { clamp, shuffle, toArray } from '../../../doombox-utils';
 
 class Audio extends EventEmitter {
   constructor({ autoplay = true, volume = 1 } = {}) {

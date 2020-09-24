@@ -1,9 +1,5 @@
-import {
-  CONFIG,
-  STATUS,
-  TYPES,
-  createReduxSlice
-} from '@doombox/utils';
+import { CONFIG, STATUS, TYPES } from '../../../../doombox-types';
+import { createReduxSlice } from '../../../../doombox-utils';
 
 const initialState = {
   metadata: {},

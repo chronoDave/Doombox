@@ -1,8 +1,9 @@
 const test = require('ava');
 const path = require('path');
 
-const { CACHE, THEME } = require('@doombox/utils');
 const fse = require('fs-extra');
+
+const { CACHE, THEME } = require('../../../doombox-types');
 
 const Storage = require('./storage');
 

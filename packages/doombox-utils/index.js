@@ -1,15 +1,3 @@
-const CACHE = require('./src/cache');
-const CONFIG = require('./src/config');
-const THEME = require('./src/theme');
-const {
-  TYPES,
-  STATUS,
-  URLS,
-  EVENTS,
-  MENUS,
-  IPC
-} = require('./src/types');
-
 /** Casts to array */
 const toArray = any => (Array.isArray(any) ?
   any :
@@ -125,15 +113,6 @@ const createReduxSlice = (name, initialState, reducers) => {
 };
 
 module.exports = {
-  CACHE,
-  CONFIG,
-  THEME,
-  MENUS,
-  TYPES,
-  STATUS,
-  EVENTS,
-  IPC,
-  URLS,
   toArray,
   getTimestamp,
   formatTime,

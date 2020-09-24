@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatTime } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -10,6 +9,9 @@ import { Typography } from '../../components';
 
 // Hooks
 import { useAudio } from '../../hooks';
+
+// Utils
+import { formatTime } from '../../../../doombox-utils';
 
 const PlayerProgress = ({ duration, position }) => {
   const { seek } = useAudio();

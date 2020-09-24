@@ -2,7 +2,6 @@ import { ipcRenderer } from 'electron';
 
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { IPC, TYPES } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Actions
@@ -14,6 +13,9 @@ import {
 
 // Redux
 import { setCache, setConfig } from '../redux';
+
+// Types
+import { IPC, TYPES } from '../../../doombox-types';
 
 class IpcProvider extends Component {
   constructor(props) {

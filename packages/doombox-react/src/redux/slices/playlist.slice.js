@@ -1,4 +1,4 @@
-import { createReduxSlice } from '@doombox/utils';
+import { createReduxSlice } from '../../../../doombox-utils';
 
 const initialState = {
   name: '',

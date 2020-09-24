@@ -1,7 +1,8 @@
 const path = require('path');
 
-const { getTimestamp } = require('@doombox/utils');
 const fse = require('fs-extra');
+
+const { getTimestamp } = require('../../../doombox-utils');
 
 module.exports = class Reporter {
   /**

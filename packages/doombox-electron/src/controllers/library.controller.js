@@ -1,11 +1,13 @@
 const path = require('path');
 
-const { toArray, TYPES } = require('@doombox/utils');
 const glob = require('fast-glob');
 const fse = require('fs-extra');
 
 // Utils
 const { parseMetadata } = require('../utils');
+
+const { toArray } = require('../../../doombox-utils');
+const { TYPES } = require('../../../doombox-types');
 
 module.exports = class LibraryController {
   /**

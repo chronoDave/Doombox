@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 
-import { IPC } from '@doombox/utils';
+import { IPC } from '../../../doombox-types';
 
 export const ipcCreate = (channel, payload) => ipcRenderer
   .send(channel, {

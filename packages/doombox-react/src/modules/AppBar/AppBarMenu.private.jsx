@@ -2,13 +2,6 @@ import { shell, remote } from 'electron';
 
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  capitalize,
-  normalizeKeybind,
-  TYPES,
-  URLS,
-  MENUS
-} from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -23,6 +16,10 @@ import {
   deleteLibrary,
   windowClose
 } from '../../actions';
+
+// Utils
+import { capitalize, normalizeKeybind, } from '../../../../doombox-utils';
+import { TYPES, URLS, MENUS } from '../../../../doombox-types';
 
 // Styles
 import { useAppBarStyles } from './AppBar.styles';

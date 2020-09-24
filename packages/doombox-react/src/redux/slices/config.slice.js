@@ -1,4 +1,5 @@
-import { CONFIG, createReduxSlice } from '@doombox/utils';
+import { CONFIG } from '../../../../doombox-types';
+import { createReduxSlice } from '../../../../doombox-utils';
 
 const reducers = {
   setConfig: (state, payload) => ({ ...state, ...payload })

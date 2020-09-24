@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { TYPES } from '@doombox/utils';
 import Mousetrap from 'mousetrap';
 import PropTypes from 'prop-types';
 
 // Actions
 import { scanFolder, scanFolderNative } from '../actions';
+
+// Types
+import { TYPES } from '../../../doombox-types';
 
 const KeybindProvider = ({ folders, keybinds, children }) => {
   useEffect(() => {

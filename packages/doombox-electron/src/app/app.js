@@ -7,15 +7,15 @@ const {
 } = require('electron');
 const path = require('path');
 
+const fse = require('fs-extra');
+
 const {
   STATUS,
   IPC,
   MENUS,
-  URLS,
-  keybindToAccelerator,
-  isMac
-} = require('@doombox/utils');
-const fse = require('fs-extra');
+  URLS
+} = require('../../../doombox-types');
+const { keybindToAccelerator, isMac } = require('../../../doombox-utils');
 
 // Core
 const { Reporter } = require('../reporter');

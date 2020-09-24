@@ -14,7 +14,6 @@
     "build:analyze": "webpack --profile --json > .bundle.json"
   },
   "dependencies": {
-    "@doombox/utils": "./packages/doombox-utils",
     "fast-glob": "^3.2.4",
     "fs-extra": "^9.0.1",
     "leaf-db": "^2.0.0",
@@ -29,7 +28,6 @@
     "electron": "10.1.0",
     "electron-builder": "^22.8.0",
     "fs-webpack-plugin": "^2.0.0",
-    "nodemon": "^2.0.4",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   }

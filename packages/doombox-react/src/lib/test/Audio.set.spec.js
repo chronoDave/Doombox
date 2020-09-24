@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { EVENTS } from '@doombox/utils';
+import { EVENTS } from '../../../../doombox-types';
 
 import { setup } from './_utils';
 

@@ -2,7 +2,6 @@ import { ipcRenderer } from 'electron';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { IPC, TYPES, EVENTS } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Hooks
@@ -22,6 +21,9 @@ import {
   setVolume,
   setPosition
 } from '../redux';
+
+// Types
+import { IPC, TYPES, EVENTS } from '../../../doombox-types';
 
 // Lib
 import { Audio } from '../lib';

@@ -103,5 +103,5 @@ module.exports = {
   URLS,
   EVENTS,
   MENUS,
-  IPC
+  IPC,
 };

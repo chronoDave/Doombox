@@ -52,8 +52,6 @@ module.exports = {
     category: 'public.app-category.music',
     icon: path.resolve(__dirname, '../../build/icons/app.png'),
     darkModeSupport: true,
-    type: process.env.NODE_ENV === 'portable' ?
-      'development' :
-      'distribution'
+    type: 'distribution'
   }
 };

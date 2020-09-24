@@ -4,16 +4,17 @@ const chokidar = process.env.NODE_ENV === 'development' ?
 const { app } = require('electron');
 const path = require('path');
 
+const LeafDB = require('leaf-db');
+const debounce = require('lodash.debounce');
+
+const { isMac } = require('../../doombox-utils');
 const {
-  isMac,
   TYPES,
   IPC,
   CACHE,
   CONFIG,
   THEME
-} = require('@doombox/utils');
-const LeafDB = require('leaf-db');
-const debounce = require('lodash.debounce');
+} = require('../../doombox-types');
 
 // Core
 const { App } = require('./app');
@@ -61,7 +62,7 @@ app.on('ready', () => {
   });
 
   if (isMac) {
-    Doombox.createMenuMac(config.get(TYPES.CONFIG.KEYBINDS));
+    Doombox.createMenuMac(window, config.get(TYPES.CONFIG.KEYBINDS));
   } else {
     Doombox.createMenuWindows(window);
   }

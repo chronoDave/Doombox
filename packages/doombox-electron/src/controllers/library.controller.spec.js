@@ -1,9 +1,10 @@
 const test = require('ava');
 const path = require('path');
 
-const { TYPES } = require('@doombox/utils');
 const fse = require('fs-extra');
 const LeafDB = require('leaf-db');
+
+const { TYPES } = require('../../../doombox-types');
 
 const LibraryController = require('./library.controller');
 

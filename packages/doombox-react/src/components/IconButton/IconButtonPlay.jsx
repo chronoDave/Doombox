@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { STATUS } from '@doombox/utils';
 import PropTypes from 'prop-types';
 
 // Icons
 import IconPlay from '@material-ui/icons/PlayArrow';
 import IconPause from '@material-ui/icons/Pause';
+
+// Types
+import { STATUS } from '../../../../doombox-types';
 
 // Hooks
 import { useAudio } from '../../hooks';

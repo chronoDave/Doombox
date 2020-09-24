@@ -1,7 +1,7 @@
 import test from 'ava';
 import sinon from 'sinon';
 
-import { STATUS } from '@doombox/utils';
+import { STATUS } from '../../../../doombox-types';
 
 import { setup } from './_utils';
 
