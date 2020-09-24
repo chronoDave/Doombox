@@ -1,4 +1,4 @@
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core';
 
 export const useButtonStyles = makeStyles(theme => ({
   baseRoot: {

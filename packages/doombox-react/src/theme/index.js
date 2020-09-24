@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core';
 
 // Fonts
 import RobotoRegular from '../../assets/fonts/Roboto-Regular.ttf';

@@ -5,6 +5,7 @@ const { app } = require('electron');
 const path = require('path');
 
 const {
+  isMac,
   TYPES,
   IPC,
   CACHE,
@@ -58,6 +59,12 @@ app.on('ready', () => {
     darkTheme: theme.get('variant') === 'dark',
     backgroundColor: theme.get('grey')[300]
   });
+
+  if (isMac) {
+    Doombox.createMenuMac(config.get(TYPES.CONFIG.KEYBINDS));
+  } else {
+    Doombox.createMenuWindows(window);
+  }
 
   if (chokidar) {
     chokidar

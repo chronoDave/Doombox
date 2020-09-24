@@ -1,7 +1,20 @@
-const { BrowserWindow, ipcMain, nativeImage } = require('electron');
+const {
+  BrowserWindow,
+  Menu,
+  ipcMain,
+  shell,
+  nativeImage
+} = require('electron');
 const path = require('path');
 
-const { STATUS, IPC } = require('@doombox/utils');
+const {
+  STATUS,
+  IPC,
+  MENUS,
+  URLS,
+  keybindToAccelerator,
+  isMac
+} = require('@doombox/utils');
 const fse = require('fs-extra');
 
 // Core
@@ -15,6 +28,7 @@ module.exports = class App extends Reporter {
   constructor(root, assets) {
     super(path.resolve(root, 'log'));
 
+    this.title = 'Doombox';
     this.assets = assets;
 
     // Create directories
@@ -112,7 +126,7 @@ module.exports = class App extends Reporter {
      * as Doombox doesn't load external url's
      */
     const window = new BrowserWindow({
-      title: 'Doombox',
+      title: this.title,
       icon: path.resolve(this.assets, 'icons/app.ico'),
       minWidth: 320,
       minHeight: 240,
@@ -122,7 +136,7 @@ module.exports = class App extends Reporter {
       height,
       darkTheme,
       backgroundColor,
-      frame: false,
+      frame: isMac,
       webPreferences: {
         nodeIntegration: true,
         enableRemoteModule: true,
@@ -132,6 +146,10 @@ module.exports = class App extends Reporter {
 
     window.loadFile(path.resolve(this.assets, 'client/index.html'));
 
+    return window;
+  }
+
+  createMenuWindows(window) {
     const iconPrevious = this.createThumbarIcon('icon_skipPrevious');
     const iconPause = this.createThumbarIcon('icon_pause');
     const iconPlay = this.createThumbarIcon('icon_play');
@@ -190,7 +208,79 @@ module.exports = class App extends Reporter {
           this.logError(new Error(`Invalid API action: ${payload.action}`), 'createWindow()');
       }
     });
+  }
 
-    return window;
+  createMenuMac(keybinds) {
+    Menu.setApplicationMenu(Menu.buildFromTemplate([
+      {
+        label: this.title,
+        role: 'appMenu',
+        submenu: [
+          { role: 'about' },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hideothers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' }
+        ]
+      }, {
+        role: 'fileMenu',
+        submenu: [
+          {
+            label: MENUS.FILE.RESCAN_LIBRARY,
+            accelerator: keybindToAccelerator(keybinds.rescan)
+          },
+          { type: 'separator' },
+          {
+            label: MENUS.FILE.SCAN_FOLDER,
+            accelerator: keybindToAccelerator(keybinds.scanFolder)
+          },
+          { label: MENUS.FILE.DELETE_LIBRARY },
+          { type: 'separator' },
+          { role: 'close' }
+        ]
+      }, {
+        role: 'viewMenu',
+        submenu: [
+          { role: 'reload' },
+          { role: 'forcereload' },
+          { role: 'toggledevtools' },
+          { type: 'separator' },
+          { role: 'resetzoom' },
+          { role: 'zoomin' },
+          { role: 'zoomout' },
+          { type: 'separator' },
+          { role: 'togglefullscreen' }
+        ]
+      }, {
+        role: 'windowMenu',
+        submenu: [
+          { role: 'minimize' },
+          { role: 'zoom' },
+          { type: 'separator' },
+          { role: 'front' },
+          { type: 'separator' },
+          { role: 'window' }
+        ]
+      }, {
+        role: 'help',
+        submenu: [
+          {
+            label: MENUS.HELP.OPEN_GITHUB,
+            click: async () => {
+              await shell.openExternal(URLS[MENUS.HELP.OPEN_GITHUB]);
+            }
+          }, {
+            label: MENUS.HELP.REPORT_ISSUE,
+            click: async () => {
+              await shell.openExternal(URLS[MENUS.HELP.REPORT_ISSUE]);
+            }
+          }
+        ]
+      }
+    ]));
   }
 };

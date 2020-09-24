@@ -15,6 +15,24 @@ const TYPES = {
   }
 };
 
+const MENUS = {
+  FILE: {
+    RESCAN_LIBRARY: 'Rescan Library',
+    SCAN_FOLDER: 'Scan Folder...',
+    DELETE_LIBRARY: 'Delete Library',
+    EXIT: 'Exit'
+  },
+  HELP: {
+    OPEN_GITHUB: 'Open GitHub',
+    REPORT_ISSUE: 'Report Issue'
+  }
+};
+
+const URLS = {
+  [MENUS.HELP.OPEN_GITHUB]: 'https://github.com/chronoDave/Doombox',
+  [MENUS.HELP.REPORT_ISSUE]: 'https://github.com/chronoDave/Doombox/issues/new'
+};
+
 const STATUS = {
   AUDIO: {
     PLAYING: 'PLAYING',
@@ -75,6 +93,8 @@ const IPC = {
 module.exports = {
   TYPES,
   STATUS,
+  URLS,
   EVENTS,
+  MENUS,
   IPC
 };

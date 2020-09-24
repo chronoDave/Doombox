@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { IPC, THEME } from '@doombox/utils';
 
 // Core
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core';
 
 // Utils
 import { createTheme } from '../theme';

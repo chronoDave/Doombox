@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 // Core
 import { Hidden } from '@material-ui/core';
 
-import { Typography } from '../../../components';
+import { Typography } from '../../components';
 
 // Styles
-import { useAppStyles } from '../App.styles';
+import { useAppBarStyles } from './AppBar.styles';
 
-const AppTitle = ({ title, artist, album }) => {
-  const classes = useAppStyles();
+const AppBarTitle = ({ title, artist, album }) => {
+  const classes = useAppBarStyles();
 
   const getTitle = () => {
     if (title || artist || album) return `${artist || 'Unknown'} - ${title || 'Unknown'} (${album || 'Unknown'})`;
@@ -20,7 +20,7 @@ const AppTitle = ({ title, artist, album }) => {
   };
 
   return (
-    <div className={clsx(classes.barTitle, classes.drag)}>
+    <div className={clsx(classes.title, classes.drag)}>
       <Hidden xsDown>
         <Typography noWrap variant="body2">
           {getTitle()}
@@ -30,13 +30,13 @@ const AppTitle = ({ title, artist, album }) => {
   );
 };
 
-AppTitle.propTypes = {
+AppBarTitle.propTypes = {
   title: PropTypes.string,
   artist: PropTypes.string,
   album: PropTypes.string
 };
 
-AppTitle.defaultProps = {
+AppBarTitle.defaultProps = {
   title: '',
   artist: '',
   album: ''
@@ -50,4 +50,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(AppTitle);
+)(AppBarTitle);
