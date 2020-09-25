@@ -1,4 +1,5 @@
 const {
+  app,
   BrowserWindow,
   Menu,
   ipcMain,
@@ -12,10 +13,10 @@ const fse = require('fs-extra');
 const {
   STATUS,
   IPC,
-  MENUS,
   URLS
 } = require('../../../doombox-types');
 const { keybindToAccelerator, isMac } = require('../../../doombox-utils');
+const { getTranslation } = require('../../../doombox-intl');
 
 // Core
 const { Reporter } = require('../reporter');
@@ -24,15 +25,21 @@ module.exports = class App extends Reporter {
   /**
    * @param {string} root - Application folder
    * @param {string} assets - Assets folder
+   * @param {string} language - User language
    */
-  constructor(root, assets) {
+  constructor(root, assets, language) {
     super(path.resolve(root, 'log'));
 
-    this.title = 'Doombox';
+    this.name = 'Doombox';
     this.assets = assets;
+    this.language = language;
 
     // Create directories
     fse.mkdirpSync(path.resolve(root, 'log'));
+  }
+
+  translate(id) {
+    return getTranslation(this.language, id);
   }
 
   /**
@@ -126,7 +133,7 @@ module.exports = class App extends Reporter {
      * as Doombox doesn't load external url's
      */
     const window = new BrowserWindow({
-      title: this.title,
+      title: this.name,
       icon: path.resolve(this.assets, 'icons/app.ico'),
       minWidth: 320,
       minHeight: 240,
@@ -180,7 +187,7 @@ module.exports = class App extends Reporter {
               click: () => event.sender.send(IPC.CHANNEL.WINDOW, {
                 action: IPC.ACTION.AUDIO.PREVIOUS
               }),
-              tooltip: 'Previous'
+              tooltip: this.translate('action.audio.previous')
             },
             {
               icon: payload.data === STATUS.AUDIO.PLAYING ?
@@ -192,15 +199,15 @@ module.exports = class App extends Reporter {
                   IPC.ACTION.AUDIO.PLAY
               }),
               tooltip: payload.data === STATUS.AUDIO.PLAYING ?
-                'Pause' :
-                'Play'
+                this.translate('action.audio.pause') :
+                this.translate('action.audio.play')
             },
             {
               icon: iconNext,
               click: () => event.sender.send(IPC.CHANNEL.WINDOW, {
                 action: IPC.ACTION.AUDIO.NEXT
               }),
-              tooltip: 'Next'
+              tooltip: this.translate('action.audio.next')
             }
           ]);
           break;
@@ -211,9 +218,11 @@ module.exports = class App extends Reporter {
   }
 
   createMenuMac(window, keybinds) {
+    app.setName(this.name);
+
     Menu.setApplicationMenu(Menu.buildFromTemplate([
       {
-        label: this.title,
+        label: this.name,
         role: 'appMenu',
         submenu: [
           { role: 'about' },
@@ -230,7 +239,7 @@ module.exports = class App extends Reporter {
         role: 'fileMenu',
         submenu: [
           {
-            label: MENUS.FILE.RESCAN_LIBRARY,
+            label: this.translate('action.menu.rescan_folder'),
             accelerator: keybindToAccelerator(keybinds.rescan),
             click: () => {
               window.webContents.send(
@@ -241,7 +250,7 @@ module.exports = class App extends Reporter {
           },
           { type: 'separator' },
           {
-            label: MENUS.FILE.SCAN_FOLDER,
+            label: this.translate('action.menu.scan_folder'),
             accelerator: keybindToAccelerator(keybinds.scanFolder),
             click: () => {
               window.webContents.send(
@@ -251,7 +260,7 @@ module.exports = class App extends Reporter {
             }
           },
           {
-            label: MENUS.FILE.DELETE_LIBRARY,
+            label: this.translate('action.menu.delete_library'),
             click: () => {
               window.webContents.send(
                 IPC.CHANNEL.KEYBIND,
@@ -289,14 +298,14 @@ module.exports = class App extends Reporter {
         role: 'help',
         submenu: [
           {
-            label: MENUS.HELP.OPEN_GITHUB,
+            label: this.translate('action.menu.open_github'),
             click: () => {
-              shell.openExternal(URLS[MENUS.HELP.OPEN_GITHUB]);
+              shell.openExternal(URLS.OPEN_GITHUB);
             }
           }, {
-            label: MENUS.HELP.REPORT_ISSUE,
+            label: this.translate('action.menu.report_issue'),
             click: () => {
-              shell.openExternal(URLS[MENUS.HELP.REPORT_ISSUE]);
+              shell.openExternal(URLS.REPORT_ISSUE);
             }
           }
         ]

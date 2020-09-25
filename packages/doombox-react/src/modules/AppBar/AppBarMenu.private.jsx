@@ -9,6 +9,9 @@ import { Box, Divider } from '@material-ui/core';
 
 import { Menu, MenuItem, ButtonBase } from '../../components';
 
+// Hooks
+import { useTranslation } from '../../hooks';
+
 // Actions
 import {
   scanFolder,
@@ -19,13 +22,15 @@ import {
 
 // Utils
 import { capitalize, normalizeKeybind, } from '../../../../doombox-utils';
-import { TYPES, URLS, MENUS } from '../../../../doombox-types';
+import { TYPES, URLS } from '../../../../doombox-types';
 
 // Styles
 import { useAppBarStyles } from './AppBar.styles';
 
 const AppBarMenu = ({ keybinds, folders }) => {
   const [menu, setMenu] = useState({ id: null, anchorEl: null });
+
+  const { t } = useTranslation();
   const classes = useAppBarStyles();
 
   const handleClose = () => setMenu({ ...menu, id: null });
@@ -33,7 +38,7 @@ const AppBarMenu = ({ keybinds, folders }) => {
   const menus = {
     file: [
       {
-        primary: MENUS.FILE.RESCAN_LIBRARY,
+        primary: 'action.menu.rescan_folder',
         secondary: keybinds.rescan,
         divider: true,
         onClick: () => {
@@ -41,42 +46,42 @@ const AppBarMenu = ({ keybinds, folders }) => {
           handleClose();
         }
       }, {
-        primary: MENUS.FILE.SCAN_FOLDER,
+        primary: 'action.menu.scan_folder',
         secondary: keybinds.scanFolder,
         onClick: () => {
           scanFolderNative();
           handleClose();
         }
       }, {
-        primary: MENUS.FILE.DELETE_LIBRARY,
+        primary: 'action.menu.delete_library',
         divider: true,
         onClick: () => {
           deleteLibrary();
           handleClose();
         }
       }, {
-        primary: MENUS.FILE.EXIT,
+        primary: 'action.menu.exit',
         onClick: windowClose
       }
     ],
     help: [
       {
-        primary: MENUS.HELP.OPEN_GITHUB,
+        primary: 'action.menu.open_github',
         onClick: event => {
           event.preventDefault();
-          shell.openExternal(URLS[MENUS.HELP.OPEN_GITHUB]);
+          shell.openExternal(URLS.OPEN_GITHUB);
           handleClose();
         }
       }, {
-        primary: 'Report issue',
+        primary: 'action.menu.report_issue',
         divider: true,
         onClick: event => {
           event.preventDefault();
-          shell.openExternal(URLS[MENUS.HELP.REPORT_ISSUE]);
+          shell.openExternal(URLS.HELP.REPORT_ISSUE);
           handleClose();
         }
       }, {
-        primary: MENUS.HELP.TOGGLE_DEV_TOOLS,
+        primary: 'action.menu.toggle_dev_tools',
         secondary: keybinds.toggleDevTools,
         onClick: event => {
           event.preventDefault();
@@ -117,7 +122,7 @@ const AppBarMenu = ({ keybinds, folders }) => {
         {menu.id && menus[menu.id].map(item => (
           <Fragment key={item.primary}>
             <MenuItem
-              primary={item.primary}
+              primary={t(item.primary)}
               secondary={item.secondary && normalizeKeybind(item.secondary)}
               onClick={item.onClick}
             />

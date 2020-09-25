@@ -9,29 +9,16 @@ const TYPES = {
     FOLDERS: 'folders'
   },
   CONFIG: {
+    LANGUAGE: 'language',
     PARSER: 'parser',
     PLAYER: 'player',
     KEYBINDS: 'keybinds'
   }
 };
 
-const MENUS = {
-  FILE: {
-    RESCAN_LIBRARY: 'Rescan Library',
-    SCAN_FOLDER: 'Scan Folder...',
-    DELETE_LIBRARY: 'Delete Library',
-    EXIT: 'Exit'
-  },
-  HELP: {
-    TOGGLE_DEV_TOOLS: 'Toggle Developer Tools',
-    OPEN_GITHUB: 'Open GitHub',
-    REPORT_ISSUE: 'Report Issue'
-  }
-};
-
 const URLS = {
-  [MENUS.HELP.OPEN_GITHUB]: 'https://github.com/chronoDave/Doombox',
-  [MENUS.HELP.REPORT_ISSUE]: 'https://github.com/chronoDave/Doombox/issues/new'
+  OPEN_GITHUB: 'https://github.com/chronoDave/Doombox',
+  REPORT_ISSUE: 'https://github.com/chronoDave/Doombox/issues/new'
 };
 
 const STATUS = {
@@ -102,6 +89,5 @@ module.exports = {
   STATUS,
   URLS,
   EVENTS,
-  MENUS,
   IPC,
 };

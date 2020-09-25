@@ -12,6 +12,7 @@ import {
 
 // Providers
 import {
+  LanguaugeProvider,
   IpcProvider,
   AudioProvider,
   ThemeProvider,
@@ -24,17 +25,19 @@ import { store } from './redux';
 render(
   <ReduxProvider store={store}>
     <IpcProvider>
-      <AudioProvider>
-        <KeybindProvider>
-          <ThemeProvider>
-            <CssBaseline>
-              <App>
-                <Player />
-              </App>
-            </CssBaseline>
-          </ThemeProvider>
-        </KeybindProvider>
-      </AudioProvider>
+      <LanguaugeProvider>
+        <AudioProvider>
+          <KeybindProvider>
+            <ThemeProvider>
+              <CssBaseline>
+                <App>
+                  <Player />
+                </App>
+              </CssBaseline>
+            </ThemeProvider>
+          </KeybindProvider>
+        </AudioProvider>
+      </LanguaugeProvider>
     </IpcProvider>
   </ReduxProvider>,
   document.getElementById('root')

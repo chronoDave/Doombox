@@ -1,5 +1,10 @@
 {
-  "watch": ["packages/doombox-electron/src/**"],
+  "watch": [
+    "packages/doombox-electron/src/**",
+    "packages/doombox-utils/**",
+    "packages/doombox-types/**",
+    "packages/doombox-intl/**"
+  ],
   "ignore": ["*.spec.js"],
   "ext": "js",
   "env": {

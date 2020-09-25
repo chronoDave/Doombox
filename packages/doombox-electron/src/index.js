@@ -40,7 +40,7 @@ const db = {
   [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root })
 };
 
-const Doombox = new App(root, assets);
+const Doombox = new App(root, assets, config.get(TYPES.CONFIG.LANGUAGE));
 
 app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.CACHE, new StorageController(cache));

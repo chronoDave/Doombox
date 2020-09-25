@@ -1,6 +1,7 @@
 const { TYPES } = require('./types');
 
 module.exports = {
+  [TYPES.CONFIG.LANGUAGE]: 'en',
   [TYPES.CONFIG.PARSER]: {
     strict: false,
     fileTypes: ['mp3'],
