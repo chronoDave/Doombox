@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 // Core
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core';
 
+// Actions
+import { ipcFind } from '../actions';
+
 // Utils
 import { createTheme } from '../theme';
 
@@ -19,6 +22,8 @@ const ThemeProvider = ({ children }) => {
     ipcRenderer.on(IPC.CHANNEL.THEME, (event, payload) => {
       setTheme(createTheme(payload.data));
     });
+
+    ipcFind(IPC.CHANNEL.THEME, null);
 
     return () => {
       ipcRenderer.removeListener(IPC.CHANNEL.THEME);

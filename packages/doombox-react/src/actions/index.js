@@ -7,7 +7,8 @@ export {
 } from './window.actions';
 
 export {
-  ipcCreate
+  ipcInsert,
+  ipcFind
 } from './ipc.actions';
 
 export {

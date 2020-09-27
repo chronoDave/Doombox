@@ -159,11 +159,10 @@ class Audio extends EventEmitter {
         src: new URL(song.file).href.replace(/#/g, '%23'),
         volume: this.volume,
         html5: true,
-        format: song.format.container,
         autoplay: this.autoplay,
         onload: () => {
           this.emit(EVENTS.AUDIO.DURATION, Math.round(this.instance.duration()));
-          this.emit(EVENTS.AUDIO.METADATA, song);
+          this.emit(EVENTS.AUDIO.METADATA, song.metadata);
         },
         onplay: () => {
           this.status = STATUS.AUDIO.PLAYING;

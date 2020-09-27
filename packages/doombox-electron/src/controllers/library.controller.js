@@ -2,6 +2,7 @@ const path = require('path');
 
 const glob = require('fast-glob');
 const fse = require('fs-extra');
+const groupBy = require('lodash.groupby');
 
 // Utils
 const { parseMetadata } = require('../utils');
@@ -41,21 +42,56 @@ module.exports = class LibraryController {
     const ids = [];
 
     for (let i = 0; i < images.length; i += 1) {
+      const { data, _id, ...rest } = images[i];
+      const file = path.resolve(this.folder, `${_id}.${rest.format}`);
+
+      ids.push(_id);
+
       try {
-        const { data, _id, ...rest } = images[i];
-
-        const file = path.resolve(this.folder, `${_id}.${rest.format}`);
-
         await this.db[TYPES.DATABASE.IMAGES].insert({ _id: file, ...rest });
         await fse.writeFile(file, data);
-
-        ids.push(_id);
       } catch (err) {
         if (!err.message.includes('_id')) return Promise.reject(err);
       }
     }
 
     return Promise.resolve(ids);
+  }
+
+  async createAlbums() {
+    const songs = await this.db[TYPES.DATABASE.LIBRARY].find();
+
+    const albums = Object
+      .entries(groupBy(songs, '_albumId'))
+      .map(([album, albumSongs]) => ({
+        _id: album,
+        artists: [...new Set(albumSongs.map(({ metadata: { artist } }) => artist))],
+        album: albumSongs[0].metadata.album,
+        cover: albumSongs[0].images,
+        year: albumSongs[0].metadata.year,
+        date: albumSongs[0].metadata.date,
+        cdid: albumSongs[0].metadata.cdid,
+        songs: albumSongs.map(({ _id }) => _id),
+        duration: albumSongs.reduce((acc, { format: { duration } }) => acc + duration, 0)
+      }));
+
+    await this.db[TYPES.DATABASE.ALBUMS].insert(albums, { persist: true });
+  }
+
+  async createLabels() {
+    const songs = await this.db[TYPES.DATABASE.LIBRARY].find();
+
+    const labels = Object
+      .entries(groupBy(songs, '_labelId'))
+      .map(([label, labelSongs]) => ({
+        _id: label,
+        label: labelSongs[0].metadata.albumartist,
+        albums: Object.keys(groupBy(labelSongs, '_albumId')),
+        songs: labelSongs.map(({ _id }) => _id),
+        duration: labelSongs.reduce((acc, { format: { duration } }) => acc + duration, 0)
+      }));
+
+    await this.db[TYPES.DATABASE.LABELS].insert(labels, { persist: true });
   }
 
   async insert(event, { payload }) {
@@ -87,12 +123,15 @@ module.exports = class LibraryController {
     this.db[TYPES.DATABASE.LIBRARY].persist();
     this.db[TYPES.DATABASE.IMAGES].persist();
 
+    this.createAlbums();
+    this.createLabels();
+
     return Promise.resolve();
   }
 
-  async find(event, { payload }) {
+  async find(event, { query }) {
     try {
-      const docs = await this.db[TYPES.DATABASE.LIBRARY].find(payload);
+      const docs = await this.db[TYPES.DATABASE.LIBRARY].find(query);
 
       return Promise.resolve(docs);
     } catch (err) {
@@ -102,6 +141,11 @@ module.exports = class LibraryController {
 
   async drop() {
     await this.db[TYPES.DATABASE.LIBRARY].drop();
+    await this.db[TYPES.DATABASE.LABELS].drop();
+    await this.db[TYPES.DATABASE.ALBUMS].drop();
+    await this.db[TYPES.DATABASE.IMAGES].drop();
+
+    fse.emptyDirSync(this.folder);
 
     return Promise.resolve();
   }

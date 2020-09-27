@@ -1,6 +1,8 @@
 const TYPES = {
   DATABASE: {
     LIBRARY: 'library',
+    LABELS: 'labels',
+    ALBUMS: 'albums',
     IMAGES: 'images'
   },
   CACHE: {
@@ -45,6 +47,9 @@ const IPC = {
   CHANNEL: {
     WINDOW: 'WINDOW',
     LIBRARY: 'LIBRARY',
+    IMAGE: 'IMAGE',
+    ALBUM: 'ALBUM',
+    LABEL: 'LABEL',
     THEME: 'THEME',
     CACHE: 'CACHE',
     CONFIG: 'CONFIG',

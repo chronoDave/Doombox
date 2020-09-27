@@ -16,9 +16,10 @@
   "dependencies": {
     "fast-glob": "^3.2.4",
     "fs-extra": "^9.0.1",
-    "leaf-db": "^2.0.0",
+    "leaf-db": "^2.2.0",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
+    "lodash.groupby": "^4.6.0",
     "lodash.set": "^4.3.2",
     "music-metadata": "^7.0.2"
   },

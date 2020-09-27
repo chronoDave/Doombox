@@ -20,7 +20,10 @@ const {
 const { App } = require('./app');
 const {
   StorageController,
-  LibraryController
+  LibraryController,
+  LabelController,
+  AlbumController,
+  ImageController
 } = require('./controllers');
 const { Storage } = require('./storage');
 
@@ -37,7 +40,9 @@ const theme = new Storage(root, 'theme', THEME);
 
 const db = {
   [TYPES.DATABASE.LIBRARY]: new LeafDB(TYPES.DATABASE.LIBRARY, { root }),
-  [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root })
+  [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root }),
+  [TYPES.DATABASE.ALBUMS]: new LeafDB(TYPES.DATABASE.ALBUMS, { root }),
+  [TYPES.DATABASE.LABELS]: new LeafDB(TYPES.DATABASE.LABELS, { root })
 };
 
 const Doombox = new App(root, assets, config.get(TYPES.CONFIG.LANGUAGE));
@@ -47,6 +52,9 @@ app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
   Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
+  Doombox.createRouter(IPC.CHANNEL.IMAGE, new ImageController(db));
+  Doombox.createRouter(IPC.CHANNEL.ALBUM, new AlbumController(db));
+  Doombox.createRouter(IPC.CHANNEL.LABEL, new LabelController(db));
   Doombox.createRouter(
     IPC.CHANNEL.LIBRARY,
     new LibraryController(db, {

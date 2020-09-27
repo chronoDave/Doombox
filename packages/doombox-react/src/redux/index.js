@@ -9,7 +9,8 @@ import {
   configSlice,
   cacheSlice,
   playerSlice,
-  playlistSlice
+  playlistSlice,
+  entitySlice
 } from './slices';
 
 // Middleware
@@ -34,13 +35,20 @@ export const {
   setCover,
   setCollection
 } = playlistSlice.actions;
+export const {
+  setImages,
+  setSongs,
+  setAlbums,
+  setLabels
+} = entitySlice.actions;
 
 export const store = createStore(
   combineReducers({
     [cacheSlice.name]: cacheSlice.reducer,
     [configSlice.name]: configSlice.reducer,
     [playerSlice.name]: playerSlice.reducer,
-    [playlistSlice.name]: playlistSlice.reducer
+    [playlistSlice.name]: playlistSlice.reducer,
+    [entitySlice.name]: entitySlice.reducer
   }),
   applyMiddleware(logger)
 );

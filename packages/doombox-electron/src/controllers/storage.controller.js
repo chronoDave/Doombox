@@ -8,6 +8,7 @@ module.exports = class StorageController {
 
   find(event, { query }) {
     const data = this.storage.get(query);
+
     return Promise.resolve(data);
   }
 };

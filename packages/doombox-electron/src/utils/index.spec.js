@@ -43,7 +43,9 @@ test('parses metadata', async t => {
       'metadata.albumartistlocalized',
       'metadata.cdid',
       'metadata.date',
-      'metadata.event'
+      'metadata.event',
+      '_albumId',
+      '_labelId'
     ];
     for (let i = 0; i < expectedTags.length; i += 1) {
       const tag = expectedTags[i];

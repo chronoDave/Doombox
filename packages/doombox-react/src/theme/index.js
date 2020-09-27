@@ -23,7 +23,11 @@ export const createTheme = ({
   },
   breakpoints: {
     values: {
-      sm: 420
+      xs: 0,
+      sm: 420,
+      md: 960,
+      lg: 1280,
+      xl: 1920
     }
   },
   palette: {
@@ -31,6 +35,11 @@ export const createTheme = ({
     grey
   },
   component: {
-    appBar: 30
+    appBar: 30,
+    player: {
+      xs: 150,
+      md: 240,
+      lg: 300
+    }
   }
 });

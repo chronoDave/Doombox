@@ -5,10 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 // Core
 import { CssBaseline } from '@material-ui/core';
 
-import {
-  App,
-  Player
-} from './modules';
+import { App } from './modules';
 
 // Providers
 import {
@@ -30,9 +27,7 @@ render(
           <KeybindProvider>
             <ThemeProvider>
               <CssBaseline>
-                <App>
-                  <Player />
-                </App>
+                <App />
               </CssBaseline>
             </ThemeProvider>
           </KeybindProvider>

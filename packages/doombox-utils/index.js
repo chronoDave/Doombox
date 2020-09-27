@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 /** Casts to array */
 const toArray = any => (Array.isArray(any) ?
   any :
@@ -112,16 +114,63 @@ const createReduxSlice = (name, initialState, reducers) => {
   return ({ name, reducer, actions });
 };
 
+/**
+ * Create hash _id
+ * @param {string} seed - Hash seed
+ * */
+const createId = seed => crypto
+  .createHash('md5')
+  .update(seed)
+  .digest('hex');
+
+/**
+ * `Promise.all()` with concurrency limit
+ * @param {array} array
+ * @param {function} cb `f(array[i], i, array) => Promise`
+ * @param {number} limit
+ *
+ * Based on: https://github.com/mhjam/async-pool
+ */
+const promiseConcurrent = async (array, cb, limit = 16) => {
+  const stack = [];
+  const current = [];
+
+  let i = 0;
+  const queue = () => {
+    if (i === array.length) return Promise.resolve();
+
+    // eslint-disable-next-line no-plusplus
+    const p = Promise.resolve().then(() => cb(array[i++], i));
+    stack.push(p);
+
+    let r = Promise.resolve();
+    if (limit <= array.length) {
+      const e = p.then(() => current.splice(current.indexOf(e), 1));
+      current.push(e);
+
+      if (current.length >= limit) {
+        r = Promise.race(current);
+      }
+    }
+
+    return r.then(() => queue());
+  };
+
+  return queue().then(() => Promise.all(stack));
+};
+
 module.exports = {
   toArray,
   getTimestamp,
   formatTime,
   normalizeKeybind,
   keybindToAccelerator,
+  createId,
   capitalize,
   shuffle,
   isMac,
   zPad,
   createReduxSlice,
+  promiseConcurrent,
   clamp
 };

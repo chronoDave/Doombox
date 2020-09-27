@@ -10,13 +10,18 @@ const LibraryController = require('./library.controller');
 
 const root = path.resolve(__dirname, '../../../../test/songs');
 const folder = path.resolve(__dirname, 'images');
+
 const libraryFile = path.resolve(__dirname, 'library.txt');
+const labelFile = path.resolve(__dirname, 'labels.txt');
+const albumFile = path.resolve(__dirname, 'albums.txt');
 const imageFile = path.resolve(__dirname, 'images.txt');
 
 const setup = (options = {}) => {
   const db = {
     [TYPES.DATABASE.LIBRARY]: new LeafDB(TYPES.DATABASE.LIBRARY, { root: __dirname, strict: true }),
-    [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root: __dirname, strict: true })
+    [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root: __dirname, strict: true }),
+    [TYPES.DATABASE.LABELS]: new LeafDB(TYPES.DATABASE.LABELS, { root: __dirname, strict: true }),
+    [TYPES.DATABASE.ALBUMS]: new LeafDB(TYPES.DATABASE.ALBUMS, { root: __dirname, strict: true })
   };
   const controller = new LibraryController(db, options);
 
@@ -41,6 +46,8 @@ test.serial('should insert songs into the database', async t => {
   }
 
   fse.removeSync(libraryFile);
+  fse.removeSync(albumFile);
+  fse.removeSync(labelFile);
 });
 
 test.serial('should parse covers', async t => {
@@ -82,5 +89,7 @@ test.serial('should parse covers', async t => {
 
   fse.removeSync(libraryFile);
   fse.removeSync(imageFile);
+  fse.removeSync(albumFile);
+  fse.removeSync(labelFile);
   fse.removeSync(folder);
 });
