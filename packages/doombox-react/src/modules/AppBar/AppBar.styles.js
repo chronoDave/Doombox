@@ -17,18 +17,12 @@ export const useAppBarStyles = makeStyles(theme => ({
     height: theme.component.appBar
   },
   titleRoot: {
-    flexGrow: 1
-  },
-  titleTypography: {
     display: 'flex',
     alignItems: 'center',
-    overflow: 'hidden',
-    [theme.breakpoints.up('sm')]: {
-      height: theme.component.appBar,
-      position: 'absolute',
-      left: '50%',
-      transform: 'translate(-50%, 0px)'
-    }
+    justifyContent: 'center',
+    padding: theme.spacing(0, 1),
+    minWidth: 0,
+    flexGrow: 1
   },
   buttonIcon: {
     width: theme.spacing(5),

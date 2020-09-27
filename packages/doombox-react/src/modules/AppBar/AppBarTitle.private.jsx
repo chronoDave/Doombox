@@ -20,18 +20,13 @@ const AppBarTitle = ({ title, artist, album }) => {
   };
 
   return (
-    <Fragment>
-      <div className={clsx(classes.titleRoot, classes.drag)} />
+    <div className={clsx(classes.titleRoot, classes.drag)}>
       <Hidden xsDown>
-        <Typography
-          classes={{ root: classes.titleTypography }}
-          noWrap
-          variant="body2"
-        >
+        <Typography noWrap variant="body2">
           {getTitle()}
         </Typography>
       </Hidden>
-    </Fragment>
+    </div>
   );
 };
 
