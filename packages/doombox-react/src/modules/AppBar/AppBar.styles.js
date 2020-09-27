@@ -16,8 +16,10 @@ export const useAppBarStyles = makeStyles(theme => ({
     width: theme.component.appBar,
     height: theme.component.appBar
   },
-  title: {
-    flexGrow: 1,
+  titleRoot: {
+    flexGrow: 1
+  },
+  titleTypography: {
     display: 'flex',
     alignItems: 'center',
     overflow: 'hidden',

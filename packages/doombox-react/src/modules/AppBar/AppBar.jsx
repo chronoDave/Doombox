@@ -44,7 +44,6 @@ const AppBar = () => {
       <Box
         display="flex"
         flexShrink={0}
-        flexGrow={1}
         justifyContent="flex-end"
       >
         <ButtonBase

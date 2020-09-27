@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -20,13 +20,18 @@ const AppBarTitle = ({ title, artist, album }) => {
   };
 
   return (
-    <div className={clsx(classes.title, classes.drag)}>
+    <Fragment>
+      <div className={clsx(classes.titleRoot, classes.drag)} />
       <Hidden xsDown>
-        <Typography noWrap variant="body2">
+        <Typography
+          classes={{ root: classes.titleTypography }}
+          noWrap
+          variant="body2"
+        >
           {getTitle()}
         </Typography>
       </Hidden>
-    </div>
+    </Fragment>
   );
 };
 
