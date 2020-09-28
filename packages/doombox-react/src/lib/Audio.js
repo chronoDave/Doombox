@@ -1,9 +1,15 @@
 import EventEmitter from 'events';
+import url from 'url';
 
 import { Howler, Howl } from 'howler';
 
 import { EVENTS, STATUS } from '../../../doombox-types';
-import { clamp, shuffle, toArray } from '../../../doombox-utils';
+import {
+  clamp,
+  shuffle,
+  toArray,
+  isMac
+} from '../../../doombox-utils';
 
 class Audio extends EventEmitter {
   constructor({ autoplay = true, volume = 1 } = {}) {
@@ -156,7 +162,7 @@ class Audio extends EventEmitter {
       this.emit(EVENTS.AUDIO.STATUS, STATUS.AUDIO.STOPPED);
 
       this.instance = new Howl({
-        src: new URL(song.file).href.replace(/#/g, '%23'),
+        src: url.pathToFileURL(song.file).href,
         volume: this.volume,
         html5: true,
         autoplay: this.autoplay,
