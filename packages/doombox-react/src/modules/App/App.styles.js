@@ -1,5 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 
+// Utils
+import { isMac } from '../../../../doombox-utils';
+
 export const useAppStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
@@ -12,7 +15,7 @@ export const useAppStyles = makeStyles(theme => ({
   },
   player: {
     position: 'fixed',
-    top: theme.component.appBar,
+    top: !isMac ? theme.component.appBar : 0,
     width: theme.component.player.xs,
     [theme.breakpoints.up('md')]: {
       width: theme.component.player.md
@@ -23,10 +26,12 @@ export const useAppStyles = makeStyles(theme => ({
   },
   library: {
     position: 'fixed',
-    top: theme.component.appBar,
+    top: !isMac ? theme.component.appBar : 0,
     left: theme.component.player.xs,
     width: `calc(100% - ${theme.component.player.xs}px)`,
-    height: `calc(100% - ${theme.component.appBar}px)`,
+    height: !isMac ?
+      `calc(100% - ${theme.component.appBar}px)` :
+      '100%',
     overflow: 'auto',
     [theme.breakpoints.up('md')]: {
       left: theme.component.player.md,
