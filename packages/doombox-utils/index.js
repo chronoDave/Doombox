@@ -54,17 +54,20 @@ const formatTime = (n, useText = false) => {
 const clamp = (min, max, n) => Math.min(Math.max(n, min), max);
 
 /** Shuffle array */
-const shuffle = a => {
+const shuffle = array => {
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const s = a.slice();
-    for (let i = s.length - 1; i >= 0; i -= 1) {
+    const shuffled = array.slice();
+    for (let i = shuffled.length - 1; i >= 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
-      const swap = s[j];
-      s[j] = s[i];
-      s[i] = swap;
+      const swap = shuffled[j];
+      shuffled[j] = shuffled[i];
+      shuffled[i] = swap;
     }
-    if (s.length <= 1 || s.some((v, i) => v !== a[i])) return s;
+    if (
+      shuffled.length <= 1 ||
+      shuffled.some((v, i) => v !== array[i])
+    ) return shuffled;
   }
 };
 
@@ -123,42 +126,6 @@ const createId = seed => crypto
   .update(seed)
   .digest('hex');
 
-/**
- * `Promise.all()` with concurrency limit
- * @param {array} array
- * @param {function} cb `f(array[i], i, array) => Promise`
- * @param {number} limit
- *
- * Based on: https://github.com/mhjam/async-pool
- */
-const promiseConcurrent = async (array, cb, limit = 16) => {
-  const stack = [];
-  const current = [];
-
-  let i = 0;
-  const queue = () => {
-    if (i === array.length) return Promise.resolve();
-
-    // eslint-disable-next-line no-plusplus
-    const p = Promise.resolve().then(() => cb(array[i++], i));
-    stack.push(p);
-
-    let r = Promise.resolve();
-    if (limit <= array.length) {
-      const e = p.then(() => current.splice(current.indexOf(e), 1));
-      current.push(e);
-
-      if (current.length >= limit) {
-        r = Promise.race(current);
-      }
-    }
-
-    return r.then(() => queue());
-  };
-
-  return queue().then(() => Promise.all(stack));
-};
-
 module.exports = {
   toArray,
   getTimestamp,
@@ -171,6 +138,5 @@ module.exports = {
   isMac,
   zPad,
   createReduxSlice,
-  promiseConcurrent,
   clamp
 };
