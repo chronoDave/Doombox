@@ -32,7 +32,7 @@ const AppBar = () => {
   const classes = useAppBarStyles();
 
   return (
-    <div className={classes.root}>
+    <Box display="flex" flexGrow={1} bgcolor="grey.50">
       <div className={clsx(classes.icon, classes.drag)}>
         <img
           src={theme.palette.type === 'dark' ? iconDark : iconLight}
@@ -65,7 +65,7 @@ const AppBar = () => {
           <IconClose fontSize="small" />
         </ButtonBase>
       </Box>
-    </div>
+    </Box>
   );
 };
 

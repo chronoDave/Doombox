@@ -11,7 +11,11 @@ const Library = ({ songs }) => {
   const { create } = useAudio();
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Box
+      display="flex"
+      flexDirection="column"
+      overflow="auto"
+    >
       {songs.map(song => (
         <button
           type="button"

@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
-import clsx from 'clsx';
+import React from 'react';
 
 // Core
+import { Box } from '@material-ui/core';
+
 import { AppBar } from '../AppBar';
 import { Player } from '../Player';
 import { Playlist } from '../Playlist';
@@ -10,25 +11,22 @@ import { Library } from '../Library';
 // Utils
 import { isMac } from '../../../../doombox-utils';
 
-// Styles
-import { useAppStyles } from './App.styles';
-
-const App = () => {
-  const classes = useAppStyles();
-
-  return (
-    <Fragment>
-      {!isMac && <AppBar />}
-      <div className={clsx(classes.root, { [classes.appBar]: !isMac })} />
-      <div className={classes.player}>
+const App = () => (
+  <Box
+    display="flex"
+    flexDirection="column"
+    overflow="hidden"
+    maxHeight="100vh"
+  >
+    {!isMac && <AppBar />}
+    <Box display="flex" minHeight={0}>
+      <Box display="flex" flexDirection="column">
         <Player />
         <Playlist />
-      </div>
-      <div className={classes.library}>
-        <Library />
-      </div>
-    </Fragment>
-  );
-};
+      </Box>
+      <Library />
+    </Box>
+  </Box>
+);
 
 export default App;

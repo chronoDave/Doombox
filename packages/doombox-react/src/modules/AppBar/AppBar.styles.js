@@ -1,20 +1,11 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useAppBarStyles = makeStyles(theme => ({
-  root: {
-    position: 'fixed',
-    display: 'flex',
-    width: '100%',
-    height: theme.component.appBar,
-    backgroundColor: theme.palette.grey[50]
-  },
   icon: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexShrink: 0,
-    width: theme.component.appBar,
-    height: theme.component.appBar
+    flexShrink: 0
   },
   titleRoot: {
     display: 'flex',

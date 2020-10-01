@@ -8,7 +8,7 @@ import PlayerProgress from './PlayerProgress.private';
 import PlayerButtons from './PlayerButtons.private';
 
 const Player = () => (
-  <Box display="flex" flexDirection="column" height="100%">
+  <Box display="flex" flexDirection="column">
     <PlayerMetadata />
     <PlayerProgress />
     <PlayerButtons />

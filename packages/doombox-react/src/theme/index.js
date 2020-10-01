@@ -10,6 +10,11 @@ export const createTheme = ({
   overrides: {
     MuiCssBaseline: {
       '@global': {
+        'html, body': {
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden'
+        },
         '@font-face': [{
           fontFamily: 'Roboto',
           fontWeight: 400,
@@ -33,13 +38,5 @@ export const createTheme = ({
   palette: {
     type: variant,
     grey
-  },
-  component: {
-    appBar: 30,
-    player: {
-      xs: 150,
-      md: 240,
-      lg: 300
-    }
   }
 });
