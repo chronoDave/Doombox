@@ -9,3 +9,4 @@ export {
   IconButtonPlay
 } from './IconButton';
 export { ButtonBase } from './Button';
+export { Hidden } from './Hidden';

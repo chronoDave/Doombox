@@ -3,6 +3,10 @@ import { createMuiTheme } from '@material-ui/core';
 // Fonts
 import RobotoRegular from '../../assets/fonts/Roboto-Regular.ttf';
 
+const breakpointValues = {
+  small: 480
+};
+
 export const createTheme = ({
   variant,
   grey
@@ -27,13 +31,9 @@ export const createTheme = ({
     fontFamily: ['Roboto', 'sans-serif'].join(',')
   },
   breakpoints: {
-    values: {
-      xs: 0,
-      sm: 420,
-      md: 960,
-      lg: 1280,
-      xl: 1920
-    }
+    values: breakpointValues,
+    up: key => `@media (min-width:${breakpointValues[key]}px)`,
+    down: key => `@media (max-width:${breakpointValues[key]}px)`
   },
   palette: {
     type: variant,

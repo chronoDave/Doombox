@@ -1,12 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 // Core
-import { Hidden } from '@material-ui/core';
-
-import { Typography } from '../../components';
+import { Typography, Hidden } from '../../components';
 
 // Styles
 import { useAppBarStyles } from './AppBar.styles';
@@ -21,7 +19,7 @@ const AppBarTitle = ({ title, artist, album }) => {
 
   return (
     <div className={clsx(classes.titleRoot, classes.drag)}>
-      <Hidden xsDown>
+      <Hidden smallDown>
         <Typography noWrap variant="body2">
           {getTitle()}
         </Typography>
