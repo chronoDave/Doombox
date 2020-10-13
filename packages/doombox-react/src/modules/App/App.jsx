@@ -1,32 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Core
 import { Box } from '@material-ui/core';
 
 import { AppBar } from '../AppBar';
-import { Player } from '../Player';
-import { Playlist } from '../Playlist';
-import { Library } from '../Library';
 
 // Utils
 import { isMac } from '../../../../doombox-utils';
 
-const App = () => (
+const App = ({ children }) => (
   <Box
     display="flex"
     flexDirection="column"
     overflow="hidden"
-    maxHeight="100vh"
+    height="100vh"
   >
     {!isMac && <AppBar />}
-    <Box display="flex" minHeight={0}>
-      <Box display="flex" flexDirection="column">
-        <Player />
-        <Playlist />
-      </Box>
-      <Library />
-    </Box>
+    {children}
   </Box>
 );
+
+App.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 export default App;

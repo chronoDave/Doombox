@@ -2,9 +2,10 @@ import { ipcRenderer } from 'electron';
 
 import { IPC } from '../../../doombox-types';
 
-export const ipcInsert = (channel, payload) => ipcRenderer
+export const ipcInsert = (channel, payload, { from = null, to = null } = {}) => ipcRenderer
   .send(channel, {
     action: IPC.ACTION.INSERT,
+    route: { from, to },
     data: { payload }
   });
 

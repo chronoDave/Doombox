@@ -18,6 +18,11 @@ const TYPES = {
   }
 };
 
+const ROUTES = {
+  MAIN: 'MAIN',
+  INTERRUPT: 'INTERRUPT'
+};
+
 const URLS = {
   OPEN_GITHUB: 'https://github.com/chronoDave/Doombox',
   REPORT_ISSUE: 'https://github.com/chronoDave/Doombox/issues/new'
@@ -53,7 +58,9 @@ const IPC = {
     THEME: 'THEME',
     CACHE: 'CACHE',
     CONFIG: 'CONFIG',
-    KEYBIND: 'KEYBIND'
+    KEYBIND: 'KEYBIND',
+    INTERRUPT: 'INTERRUPT',
+    ROUTE: 'ROUTE'
   },
   ACTION: {
     INSERT: 'INSERT',
@@ -94,5 +101,6 @@ module.exports = {
   STATUS,
   URLS,
   EVENTS,
+  ROUTES,
   IPC,
 };

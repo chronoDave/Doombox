@@ -3,12 +3,13 @@ const path = require('path');
 const glob = require('fast-glob');
 const fse = require('fs-extra');
 const groupBy = require('lodash.groupby');
+const throttle = require('lodash.throttle');
 
 // Utils
 const { parseMetadata } = require('../utils');
 
 const { toArray } = require('../../../doombox-utils');
-const { TYPES } = require('../../../doombox-types');
+const { IPC, TYPES } = require('../../../doombox-types');
 
 module.exports = class LibraryController {
   /**
@@ -95,6 +96,10 @@ module.exports = class LibraryController {
   }
 
   async insert(event, { payload }) {
+    const sendInterrupt = throttle(data => event.sender.send(
+      IPC.CHANNEL.INTERRUPT,
+      { data, error: null }
+    ), 10);
     const files = toArray(payload)
       .map(folder => glob.sync(`**/*.?(${this.fileTypes.join('|')})`, {
         cwd: folder,
@@ -102,7 +107,7 @@ module.exports = class LibraryController {
       }))
       .flat();
 
-    for (let i = 0; i < files.length; i += 1) {
+    for (let i = 0, total = files.length; i < total; i += 1) {
       try {
         const { images: rawImages, ...rest } = await parseMetadata(files[i], {
           skipCovers: this.skipCovers,
@@ -115,6 +120,11 @@ module.exports = class LibraryController {
         }
 
         await this.db[TYPES.DATABASE.LIBRARY].insert({ images, ...rest });
+        sendInterrupt({
+          file: rest.file,
+          index: i + 1,
+          total
+        });
       } catch (err) {
         if (this.strict) return Promise.reject(err);
       }

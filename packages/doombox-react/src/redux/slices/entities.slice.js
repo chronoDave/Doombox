@@ -19,7 +19,7 @@ const initialState = {
   }
 };
 
-const normalize = collection => ({
+const normalize = (collection = []) => ({
   list: collection,
   map: collection.reduce((acc, cur) => ({
     ...acc,

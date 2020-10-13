@@ -34,14 +34,16 @@ const capitalize = s => `${s[0].toUpperCase()}${s.slice(1)}`;
 /**
  * Format seconds into hh:mm:ss format
  * @param {number} n - Time in seconds
- * @param {string} useText - Use text format (default `false`)
+ * @param {object} options
+ * @param {string} options.useText - Use text format (default `false`)
+ * @param {boolean} options.displaySeconds - Should text format display seconds (default `false`)
  */
-const formatTime = (n, useText = false) => {
+const formatTime = (n, { useText = false, displaySeconds = false } = {}) => {
   const h = Math.floor(n / 3600);
   const m = Math.floor((n % 3600) / 60);
   const s = Math.floor((n % 3600) % 60);
 
-  if (useText) return `${h > 0 ? `${h} h` : ''}${m} m`;
+  if (useText) return `${h > 0 ? `${h} h` : ''}${m} m${displaySeconds ? ` ${s} s` : ''}`;
   return `${h > 0 ? `${zPad(h)}:` : ''}${zPad(m)}:${zPad(s)}`;
 };
 

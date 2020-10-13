@@ -7,8 +7,7 @@ import { EVENTS, STATUS } from '../../../doombox-types';
 import {
   clamp,
   shuffle,
-  toArray,
-  isMac
+  toArray
 } from '../../../doombox-utils';
 
 class Audio extends EventEmitter {

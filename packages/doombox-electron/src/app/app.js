@@ -55,6 +55,7 @@ module.exports = class App extends Reporter {
    */
   createRouter(channel, Controller) {
     ipcMain.on(channel, (event, payload) => {
+      const handleRoute = data => event.sender.send(IPC.CHANNEL.ROUTE, { data, error: null });
       const handleSuccess = data => event.sender.send(channel, { data, error: null });
       const handleError = error => {
         this.logError(error);
@@ -65,43 +66,75 @@ module.exports = class App extends Reporter {
 
       switch (payload.action) {
         case IPC.ACTION.INSERT:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.insert(event, payload.data)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         case IPC.ACTION.FIND:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.find(event, payload.data)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         case IPC.ACTION.FIND_BY_ID:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.findById(event, payload.data)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         case IPC.ACTION.UPDATE:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.update(event, payload.data)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         case IPC.ACTION.UPDATE_BY_ID:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.updateById(event, payload.data)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         case IPC.ACTION.DELETE:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.delete(event, payload.data)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         case IPC.ACTION.DELETE_BY_ID:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.deleteById(event, payload.data)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         case IPC.ACTION.DROP:
+          if (payload.route && payload.route.from) handleRoute(payload.route.from);
           Controller.drop(event)
-            .then(handleSuccess)
+            .then(data => {
+              if (payload.route && payload.route.to) handleRoute(payload.route.to);
+              handleSuccess(data);
+            })
             .catch(handleError);
           break;
         default:

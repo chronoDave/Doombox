@@ -8,7 +8,7 @@ export const logger = store => next => action => {
     action.type === 'setPosition'
   ) return result;
 
-  console.group(`[${new Date().toLocaleTimeString()}-${new Date().getMilliseconds()}] Middleware - Logger`);
+  console.group(`[${new Date().toLocaleTimeString()}-${new Date().getMilliseconds()}] ${action.type}`);
   console.info('Previous', prev);
   console.info('Dispatch', action);
   console.info('Current', store.getState());

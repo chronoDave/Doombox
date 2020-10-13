@@ -8,6 +8,7 @@ const {
   EVENTS,
   MENUS,
   IPC,
+  ROUTES
 } = require('./src/types');
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
   URLS,
   EVENTS,
   MENUS,
-  IPC
+  IPC,
+  ROUTES
 };

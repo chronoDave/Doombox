@@ -26,7 +26,7 @@ const ThemeProvider = ({ children }) => {
     ipcFind(IPC.CHANNEL.THEME, null);
 
     return () => {
-      ipcRenderer.removeListener(IPC.CHANNEL.THEME);
+      ipcRenderer.removeAllListeners(IPC.CHANNEL.THEME);
     };
   }, []);
 

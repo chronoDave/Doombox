@@ -19,7 +19,8 @@ import {
   setImages,
   setAlbums,
   setLabels,
-  setSongs
+  setSongs,
+  setRoute
 } from '../redux';
 
 // Types
@@ -36,18 +37,21 @@ class IpcProvider extends Component {
       dispatchImages,
       dispatchLabels,
       dispatchAlbums,
-      dispatchSongs
+      dispatchSongs,
+      dispatchRoute
     } = props;
 
-    ipcRenderer.on(IPC.CHANNEL.CACHE, (_, { data }) => dispatchCache(data));
-    ipcRenderer.on(IPC.CHANNEL.CONFIG, (_, { data }) => dispatchConfig(data));
+    ipcRenderer.on(IPC.CHANNEL.ROUTE, (event, { data }) => dispatchRoute(data));
 
-    ipcRenderer.on(IPC.CHANNEL.IMAGE, (_, { data }) => dispatchImages(data));
-    ipcRenderer.on(IPC.CHANNEL.LABEL, (_, { data }) => dispatchLabels(data));
-    ipcRenderer.on(IPC.CHANNEL.ALBUM, (_, { data }) => dispatchAlbums(data));
-    ipcRenderer.on(IPC.CHANNEL.LIBRARY, (_, { data }) => dispatchSongs(data));
+    ipcRenderer.on(IPC.CHANNEL.CACHE, (event, { data }) => dispatchCache(data));
+    ipcRenderer.on(IPC.CHANNEL.CONFIG, (event, { data }) => dispatchConfig(data));
 
-    ipcRenderer.on(IPC.CHANNEL.KEYBIND, (_, action) => {
+    ipcRenderer.on(IPC.CHANNEL.IMAGE, (event, { data }) => dispatchImages(data));
+    ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));
+    ipcRenderer.on(IPC.CHANNEL.ALBUM, (event, { data }) => dispatchAlbums(data));
+    ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => dispatchSongs(data));
+
+    ipcRenderer.on(IPC.CHANNEL.KEYBIND, (event, action) => {
       switch (action) {
         case IPC.ACTION.MENU.RESCAN:
           scanFolder(folders);
@@ -92,7 +96,8 @@ IpcProvider.propTypes = {
   dispatchImages: PropTypes.func.isRequired,
   dispatchLabels: PropTypes.func.isRequired,
   dispatchAlbums: PropTypes.func.isRequired,
-  dispatchSongs: PropTypes.func.isRequired
+  dispatchSongs: PropTypes.func.isRequired,
+  dispatchRoute: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -105,7 +110,8 @@ const mapDispatchToProps = {
   dispatchImages: setImages,
   dispatchLabels: setLabels,
   dispatchAlbums: setAlbums,
-  dispatchSongs: setSongs
+  dispatchSongs: setSongs,
+  dispatchRoute: setRoute
 };
 
 export default connect(
