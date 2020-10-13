@@ -71,10 +71,6 @@ class IpcProvider extends Component {
   componentDidMount() {
     ipcFind(IPC.CHANNEL.CONFIG, null);
     ipcFind(IPC.CHANNEL.CACHE, null);
-    ipcFind(IPC.CHANNEL.IMAGE);
-    ipcFind(IPC.CHANNEL.LABEL);
-    ipcFind(IPC.CHANNEL.ALBUM);
-    ipcFind(IPC.CHANNEL.LIBRARY);
   }
 
   componentWillUnmount() {

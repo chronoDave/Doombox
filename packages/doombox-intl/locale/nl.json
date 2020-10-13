@@ -15,5 +15,11 @@
       "play": "Speel",
       "pause": "Pauseer"
     }
+  },
+  "title": {
+    "scanning_folders": "Folder scannen"
+  },
+  "description": {
+    "scanning_folders": "Een moment geduld, dit kan even duren"
   }
 }

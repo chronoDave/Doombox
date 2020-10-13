@@ -15,5 +15,11 @@
       "play": "Play",
       "pause": "Pause"
     }
+  },
+  "title": {
+    "scanning_folders": "Scanning folders"
+  },
+  "description": {
+    "scanning_folders": "Please be patient, this could take a while"
   }
 }
