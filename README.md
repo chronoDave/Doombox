@@ -6,6 +6,21 @@
 
 A music player designed with large music collections in mind.
 
+# Keybinds
+
+Mod: Windows (ctrl), Mac (⌘)
+
+**System**
+
+ - `mod + =`: Zoom in
+ - `mod + alt + =`: Reset zoom
+
+**Configurable**
+
+ - `mod + s`: Rescan current folder
+ - `mod + shift + s`: Scan folder
+ - `mod + shift + i`: Toggle dev tools
+
 # Downloads
 
 [Releases](https://github.com/chronoDave/Doombox/releases)

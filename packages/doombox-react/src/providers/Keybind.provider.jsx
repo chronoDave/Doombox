@@ -1,3 +1,5 @@
+import { webFrame } from 'electron';
+
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
@@ -11,6 +13,11 @@ import { TYPES } from '../../../doombox-types';
 
 const KeybindProvider = ({ folders, keybinds, children }) => {
   useEffect(() => {
+    // Global
+    Mousetrap.bind('mod+=', () => webFrame.setZoomLevel(webFrame.getZoomLevel() + 0.5));
+    Mousetrap.bind('mod+alt+=', () => webFrame.setZoomFactor(1));
+
+    // Config
     Mousetrap.bind(keybinds.rescan, () => scanFolder(folders));
     Mousetrap.bind(keybinds.scanFolder, scanFolderNative);
 
