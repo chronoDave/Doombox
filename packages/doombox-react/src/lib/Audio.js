@@ -167,7 +167,7 @@ class Audio extends EventEmitter {
         autoplay: this.autoplay,
         onload: () => {
           this.emit(EVENTS.AUDIO.DURATION, Math.round(this.instance.duration()));
-          this.emit(EVENTS.AUDIO.METADATA, song.metadata);
+          this.emit(EVENTS.AUDIO.METADATA, { ...song.metadata, cover: song.images });
         },
         onplay: () => {
           this.status = STATUS.AUDIO.PLAYING;

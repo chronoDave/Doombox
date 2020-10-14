@@ -49,7 +49,7 @@ module.exports = class LibraryController {
       ids.push(_id);
 
       try {
-        await this.db[TYPES.DATABASE.IMAGES].insert({ _id: file, ...rest });
+        await this.db[TYPES.DATABASE.IMAGES].insert({ _id, file, ...rest });
         await fse.writeFile(file, data);
       } catch (err) {
         if (!err.message.includes('_id')) return Promise.reject(err);

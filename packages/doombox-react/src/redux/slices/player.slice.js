@@ -2,7 +2,7 @@ import { CONFIG, STATUS, TYPES } from '../../../../doombox-types';
 import { createReduxSlice } from '../../../../doombox-utils';
 
 const initialState = {
-  metadata: {},
+  metadata: { cover: [] },
   status: STATUS.AUDIO.STOPPED,
   autoplay: CONFIG[TYPES.CONFIG.PLAYER].autoplay,
   duration: 0,
@@ -13,7 +13,7 @@ const initialState = {
 
 const reducers = {
   setPlayer: (state, payload) => ({ ...state, ...payload }),
-  setMetadata: (state, metadata) => ({ ...state, metadata }),
+  setMetadata: (state, metadata) => ({ ...state, metadata: { cover: [], ...metadata } }),
   setStatus: (state, status) => ({ ...state, status }),
   setAutoplay: (state, autoplay) => ({ ...state, autoplay }),
   setDuration: (state, duration) => ({ ...state, duration }),

@@ -15,6 +15,9 @@ export const useAppBarStyles = makeStyles(theme => ({
     minWidth: 0,
     flexGrow: 1
   },
+  titleHidden: {
+    minWidth: 0,
+  },
   buttonIcon: {
     width: theme.spacing(5),
   },

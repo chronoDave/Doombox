@@ -1,3 +1,6 @@
+import url from 'url';
+
+// Core
 import { createMuiTheme } from '@material-ui/core';
 
 // Fonts
@@ -26,19 +29,13 @@ export const createTheme = ({
       }
     }
   },
-  mixins: {
-    player: {
-      [breakpoints.up(breakpoints.keys.small)]: {
-        width: 240
-      },
-      [breakpoints.up(breakpoints.keys.medium)]: {
-        width: 300
-      }
-    }
-  },
   typography: {
     fontFamily: ['Roboto', 'sans-serif'].join(',')
   },
+  createBackgroundImage: (src, opacity = 0.42) => [
+    `linear-gradient(rgba(0,0,0,${opacity}), rgba(0,0,0,${opacity}))`,
+    `url("${url.pathToFileURL(src).href}")`
+  ].join(','),
   breakpoints,
   palette: {
     type: variant,

@@ -19,7 +19,7 @@ const AppBarTitle = ({ title, artist, album }) => {
 
   return (
     <div className={clsx(classes.titleRoot, classes.drag)}>
-      <Hidden smallDown>
+      <Hidden className={classes.titleHidden} smallDown>
         <Typography noWrap variant="body2">
           {getTitle()}
         </Typography>

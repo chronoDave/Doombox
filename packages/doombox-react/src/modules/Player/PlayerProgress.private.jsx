@@ -3,37 +3,23 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { Box, Slider } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 import { Typography } from '../../components';
-
-// Hooks
-import { useAudio } from '../../hooks';
 
 // Utils
 import { formatTime } from '../../../../doombox-utils';
 
-const PlayerProgress = ({ duration, position }) => {
-  const { seek } = useAudio();
-
-  return (
-    <Box display="flex" flexDirection="column">
-      <Box display="flex" justifyContent="space-between">
-        <Typography>
-          {formatTime(position)}
-        </Typography>
-        <Typography>
-          {`-${formatTime(duration - position)}`}
-        </Typography>
-      </Box>
-      <Slider
-        value={position}
-        max={duration}
-        onChange={(_, value) => seek(value)}
-      />
-    </Box>
-  );
-};
+const PlayerProgress = ({ duration, position }) => (
+  <Box display="flex" justifyContent="space-between">
+    <Typography variant="body2">
+      {formatTime(position)}
+    </Typography>
+    <Typography variant="body2">
+      {`-${formatTime(duration - position)}`}
+    </Typography>
+  </Box>
+);
 
 PlayerProgress.propTypes = {
   position: PropTypes.number.isRequired,

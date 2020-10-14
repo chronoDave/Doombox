@@ -4,9 +4,6 @@ export {
   Menu,
   MenuItem
 } from './Menu';
-export {
-  IconButton,
-  IconButtonPlay
-} from './IconButton';
+export { IconButton } from './IconButton';
 export { ButtonBase } from './Button';
 export { Hidden } from './Hidden';

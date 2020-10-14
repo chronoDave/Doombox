@@ -11,7 +11,7 @@ const values = {
 };
 
 const up = key => `@media (min-width:${values[key]}px)`;
-const down = key => `@media (max-width:${values[key]}px)`;
+const down = key => `@media (max-width:${values[key] - 1}px)`;
 
 export default {
   keys,
