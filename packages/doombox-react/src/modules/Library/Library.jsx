@@ -15,6 +15,7 @@ const Library = ({ songs }) => {
       display="flex"
       flexDirection="column"
       overflow="auto"
+      flexGrow={1}
     >
       {songs.map(song => (
         <button
