@@ -75,7 +75,7 @@ test.serial('should parse covers', async t => {
     t.true(imageDatabase[0].includes('_id'), 'writes image database data');
 
     // PNG
-    const image = JSON.parse(imageDatabase[0])._id;
+    const image = JSON.parse(imageDatabase[0]).file;
 
     t.true(fse.existsSync(image), 'creates image');
     t.is(
