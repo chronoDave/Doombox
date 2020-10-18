@@ -70,7 +70,6 @@ app.on('ready', () => {
     Doombox.createMenuWindows(window);
   }
 
-  console.log(chokidar);
   if (chokidar) {
     chokidar
       .watch(`${assets}/client/**/*`)

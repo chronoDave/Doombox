@@ -1,50 +1,70 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 // Core
-import { Box } from '@material-ui/core';
+import {
+  Box,
+  ButtonBase,
+  Divider,
+  withStyles
+} from '@material-ui/core';
 
 import { Typography } from '../Typography';
-import { ButtonBase } from '../Button';
 
 // Styles
-import { useMenuStyles } from './Menu.style';
+import { menuStyles } from './Menu.styles';
 
 const MenuItem = props => {
   const {
+    classes,
     primary,
     secondary,
-    onClick
+    divider,
+    onClick,
+    onClose
   } = props;
-  const classes = useMenuStyles();
 
   return (
-    <ButtonBase
-      onClick={onClick}
-      classes={{ root: classes.itemRoot }}
-    >
-      <Typography variant="body2">
-        {primary}
-      </Typography>
-      {secondary && (
-        <Box ml={3}>
-          <Typography variant="body2" align="right">
-            {secondary}
-          </Typography>
-        </Box>
-      )}
-    </ButtonBase>
+    <Fragment>
+      <ButtonBase
+        onClick={event => {
+          onClick(event);
+          if (onClose) onClose(event);
+        }}
+        className={clsx(classes.itemRoot)}
+      >
+        <Typography variant="body2">
+          {primary}
+        </Typography>
+        {secondary && (
+          <Box ml={3}>
+            <Typography variant="body2" align="right">
+              {secondary}
+            </Typography>
+          </Box>
+        )}
+      </ButtonBase>
+      {divider && <Divider />}
+    </Fragment>
   );
 };
 
+MenuItem.defaultProps = {
+  divider: false,
+  secondary: null,
+  onClose: null
+};
+
 MenuItem.propTypes = {
+  classes: PropTypes.shape({
+    itemRoot: PropTypes.string.isRequired
+  }).isRequired,
+  divider: PropTypes.bool,
   primary: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   secondary: PropTypes.string
 };
 
-MenuItem.defaultProps = {
-  secondary: null
-};
-
-export default MenuItem;
+export default withStyles(menuStyles)(MenuItem);

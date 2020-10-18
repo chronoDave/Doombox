@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { Children, cloneElement, useEffect } from 'react';
 import Mousetrap from 'mousetrap';
 import PropTypes from 'prop-types';
 
 // Core
 import {
-  Box,
   ClickAwayListener,
+  Fade,
   Popper,
-  Paper
+  Paper,
+  withStyles
 } from '@material-ui/core';
+
+// Styles
+import { menuStyles } from './Menu.styles';
 
 const Menu = props => {
   const {
+    classes,
     children,
     open,
     onClose,
-    anchorEl
+    anchorEl,
+    ...rest
   } = props;
 
   useEffect(() => {
@@ -28,14 +34,22 @@ const Menu = props => {
       open={open}
       anchorEl={anchorEl}
       placement="top-start"
+      transition
     >
-      <ClickAwayListener onClickAway={onClose}>
-        <Paper square elevation={4}>
-          <Box display="flex" flexDirection="column">
-            {children}
-          </Box>
-        </Paper>
-      </ClickAwayListener>
+      {({ TransitionProps }) => (
+        <ClickAwayListener onClickAway={onClose}>
+          <Fade {...TransitionProps}>
+            <Paper
+              {...rest}
+              square
+              elevation={4}
+              classes={{ root: classes.paperRoot }}
+            >
+              {Children.map(children, child => cloneElement(child, { onClose }))}
+            </Paper>
+          </Fade>
+        </ClickAwayListener>
+      )}
     </Popper>
   );
 };
@@ -47,9 +61,12 @@ Menu.defaultProps = {
 
 Menu.propTypes = {
   children: PropTypes.node,
+  classes: PropTypes.shape({
+    paperRoot: PropTypes.string.isRequired
+  }).isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   anchorEl: PropTypes.shape({})
 };
 
-export default Menu;
+export default withStyles(menuStyles)(Menu);

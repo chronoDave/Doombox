@@ -1,25 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
 export const usePlayerStyles = makeStyles(theme => ({
-  iconButtonRoot: {
-    padding: theme.spacing(0.5),
-    [theme.breakpoints.up(theme.breakpoints.keys.small)]: {
-      margin: theme.spacing(0, 0.5)
-    }
-  },
-  iconButtonIcon: {
-    fontSize: theme.typography.pxToRem(20),
-    [theme.breakpoints.up(theme.breakpoints.keys.small)]: {
-      fontSize: theme.typography.pxToRem(24)
-    }
-  },
-  buttonsRoot: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    [theme.breakpoints.up(theme.breakpoints.keys.small)]: {
-      justifyContent: 'center'
-    }
-  },
   metadataImage: ({ cover = {} }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -29,25 +10,34 @@ export const usePlayerStyles = makeStyles(theme => ({
     height: 150,
     width: 150,
     padding: theme.spacing(1),
-    [theme.breakpoints.up(theme.breakpoints.keys.small)]: {
+    [theme.breakpoints.up('sm')]: {
       width: 210,
       height: 210
     },
-    [theme.breakpoints.up(theme.breakpoints.keys.medium)]: {
+    [theme.breakpoints.up('md')]: {
       width: 300,
       height: 300
     }
   }),
   progressRoot: {
     padding: 0,
-    height: 4
+    height: 4,
+    [theme.breakpoints.up('sm')]: {
+      height: 6
+    }
   },
   progressRail: {
     height: 4,
-    backgroundColor: theme.palette.grey[600]
+    backgroundColor: theme.palette.grey[600],
+    [theme.breakpoints.up('sm')]: {
+      height: 6
+    }
   },
   progressTrack: {
-    height: 4
+    height: 4,
+    [theme.breakpoints.up('sm')]: {
+      height: 6
+    }
   },
   progressThumb: {
     height: 4,
@@ -61,6 +51,11 @@ export const usePlayerStyles = makeStyles(theme => ({
     },
     '&.MuiSlider-active': {
       boxShadow: 'initial'
+    },
+    [theme.breakpoints.up('sm')]: {
+      height: 6,
+      width: 6,
+      marginLeft: -6
     }
   }
 }));

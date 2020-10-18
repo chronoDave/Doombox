@@ -1,12 +1,20 @@
-import { makeStyles, fade } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 export const useButtonStyles = makeStyles(theme => ({
-  baseRoot: {
+  window: {
+    minWidth: theme.spacing(5),
+    padding: theme.spacing(0, 1),
+    color: theme.palette.text.secondary,
+    transition: theme.transitions.create(
+      ['color', 'background-color'],
+      { duration: theme.transitions.duration.shortest }
+    ),
     '&:hover': {
-      backgroundColor: fade(
-        theme.palette.type === 'dark' ? '#fff' : '#000',
-        theme.palette.action.hoverOpacity
-      )
+      color: theme.palette.common.white,
+      backgroundColor: theme.palette.action.hover
     }
+  },
+  windowActive: {
+    color: theme.palette.common.white
   }
 }));

@@ -1,9 +1,15 @@
 export { Typography } from './Typography';
-export { Icon } from './Icon';
+export {
+  Icon,
+  IconApp
+} from './Icon';
 export {
   Menu,
   MenuItem
 } from './Menu';
-export { IconButton } from './IconButton';
-export { ButtonBase } from './Button';
-export { Hidden } from './Hidden';
+export {
+  IconButton,
+  IconButtonPlay,
+  IconButtonVolume
+} from './IconButton';
+export { ButtonWindow } from './Button';

@@ -19,10 +19,9 @@ const Typography = forwardRef((props, ref) => {
 
   return (
     <MuiTypography
-      className={clsx(
-        { [classes.clamp]: clamp },
-        className
-      )}
+      className={clsx({
+        [classes.clamp]: clamp
+      }, className)}
       {...rest}
       ref={ref}
     >

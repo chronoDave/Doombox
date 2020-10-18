@@ -44,7 +44,9 @@ module.exports = class LibraryController {
 
     for (let i = 0; i < images.length; i += 1) {
       const { data, _id, ...rest } = images[i];
-      const file = path.resolve(this.folder, `${_id}.${rest.format}`);
+      const file = path
+        .resolve(this.folder, `${_id}.${rest.format}`)
+        .replace('\\', '/');
 
       ids.push(_id);
 

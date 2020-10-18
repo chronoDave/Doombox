@@ -78,17 +78,19 @@ class Audio extends EventEmitter {
   setVolume(volume) {
     const newVolume = clamp(0, 1, volume);
 
-    this.volume = clamp(0, 1, newVolume);
+    this.volume = newVolume;
 
-    if (this.instance) this.instance.volume = newVolume;
+    if (this.instance) this.instance.volume(newVolume);
 
     this.emit(EVENTS.AUDIO.VOLUME, this.volume);
   }
 
-  mute(muted = !this.muted) {
-    this.muted = muted;
+  mute() {
+    this.muted = !this.muted;
 
-    if (this.instance) this.instance.mute();
+    if (this.instance) {
+      this.instance.mute(this.muted);
+    }
 
     this.emit(EVENTS.AUDIO.MUTED, this.muted);
   }

@@ -1,15 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { formatTime } from '@doombox-utils';
+import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 
 // Core
-import { Box } from '@material-ui/core';
+import { Slider, Box, Hidden } from '@material-ui/core';
 
-import { Hidden, Typography } from '../../components';
+import { Typography } from '../../components';
 
-import PlayerProgress from './PlayerProgress.private';
-import PlayerSlider from './PlayerSlider.private';
-import PlayerButtons from './PlayerButtons.private';
+// Hooks
+import { useAudio } from '../../hooks';
+
+import { PlayerControls } from '../PlayerControls';
+
+// Validation
+import { propCover } from '../../validation/propTypes';
 
 // Styles
 import { usePlayerStyles } from './Player.style';
@@ -18,9 +24,14 @@ const Player = props => {
   const {
     title,
     artist,
-    cover
+    cover,
+    duration,
+    position
   } = props;
+  const { seek } = useAudio();
   const classes = usePlayerStyles({ cover });
+
+  const throttledSeek = throttle((event, newValue) => seek(newValue), 100);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -39,26 +50,38 @@ const Player = props => {
             {artist}
           </Typography>
         </Box>
-        <Hidden mediumUp>
-          <PlayerButtons />
+        <Hidden mdUp>
+          <PlayerControls />
         </Hidden>
-        <Hidden mediumDown>
-          <PlayerProgress />
+        <Hidden smDown>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2">
+              {formatTime(position)}
+            </Typography>
+            <Typography variant="body2">
+              {`-${formatTime(duration - position)}`}
+            </Typography>
+          </Box>
         </Hidden>
       </div>
-      <PlayerSlider />
-      <Hidden mediumDown>
+      <Slider
+        value={position}
+        max={duration}
+        onChange={throttledSeek}
+        classes={{
+          root: classes.progressRoot,
+          rail: classes.progressRail,
+          track: classes.progressTrack,
+          thumb: classes.progressThumb
+        }}
+      />
+      <Hidden smDown>
         <Box p={1}>
-          <PlayerButtons />
+          <PlayerControls />
         </Box>
       </Hidden>
     </Box>
   );
-};
-
-Player.propTypes = {
-  title: PropTypes.string,
-  artist: PropTypes.string
 };
 
 Player.defaultProps = {
@@ -66,11 +89,22 @@ Player.defaultProps = {
   artist: ''
 };
 
+Player.propTypes = {
+  title: PropTypes.string,
+  artist: PropTypes.string,
+  cover: propCover.isRequired,
+  position: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired
+};
+
 const mapStateToProps = state => ({
-  cover: state.player.metadata.cover
-    .map(image => state.entities.images.map[image])[0],
+  cover: state.player.metadata.cover.map(image => (
+    state.entities.images.map[image]
+  ))[0],
   title: state.player.metadata.title,
-  artist: state.player.metadata.artist
+  artist: state.player.metadata.artist,
+  position: state.player.position,
+  duration: state.player.duration
 });
 
 export default connect(

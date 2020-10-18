@@ -18,18 +18,10 @@ export const useAppBarStyles = makeStyles(theme => ({
   titleHidden: {
     minWidth: 0,
   },
-  buttonIcon: {
-    width: theme.spacing(5),
-  },
-  buttonIconClose: {
+  buttonWindowClose: {
     '&:hover': {
-      color: '#fff',
       backgroundColor: theme.palette.error.main,
     }
-  },
-  menuItem: {
-    padding: theme.spacing(0, 1),
-    ...theme.typography.body2
   },
   drag: {
     '-webkit-app-region': 'drag'

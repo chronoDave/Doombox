@@ -1,1 +1,1 @@
-export { default as ButtonBase } from './ButtonBase';
+export { default as ButtonWindow } from './ButtonWindow';

@@ -6,13 +6,15 @@ import { createMuiTheme } from '@material-ui/core';
 // Fonts
 import RobotoRegular from '../assets/fonts/Roboto-Regular.ttf';
 
-// Theme
-import breakpoints from './breakpoints';
-
 export const createTheme = ({
   variant,
   grey
 }) => createMuiTheme({
+  props: {
+    MuiFade: {
+      timeout: 150 // theme.transitions.duration.shortest
+    }
+  },
   overrides: {
     MuiCssBaseline: {
       '@global': {
@@ -36,7 +38,15 @@ export const createTheme = ({
     `linear-gradient(rgba(0,0,0,${opacity}), rgba(0,0,0,${opacity}))`,
     `url("${url.pathToFileURL(src).href}")`
   ].join(','),
-  breakpoints,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 480,
+      md: 720,
+      lg: 1280,
+      xl: 1920
+    }
+  },
   palette: {
     type: variant,
     grey
