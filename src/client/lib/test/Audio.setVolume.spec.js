@@ -22,21 +22,16 @@ test('sets volume', t => {
 
   audio.setVolume(vNormal);
   t.equal(audio.volume, expected[0]);
-  t.equal(audio.instance.volume, expected[0]);
 
   audio.setVolume(vString);
   t.equal(audio.volume, expected[1]);
-  t.equal(audio.instance.volume, expected[1]);
   t.true(typeof audio.volume === 'number');
-  t.true(typeof audio.instance.volume === 'number');
 
   audio.setVolume(vNegative);
   t.equal(audio.volume, expected[2]);
-  t.equal(audio.instance.volume, expected[2]);
 
   audio.setVolume(vOverflow);
   t.equal(audio.volume, expected[3]);
-  t.equal(audio.instance.volume, expected[3]);
 
   t.end();
 });

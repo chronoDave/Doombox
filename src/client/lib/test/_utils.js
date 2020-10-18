@@ -11,7 +11,8 @@ export const setup = noInstance => {
       play: sinon.fake(),
       pause: sinon.fake(),
       seek: sinon.fake(),
-      mute: sinon.fake()
+      mute: sinon.fake(),
+      volume: sinon.fake()
     };
   }
 

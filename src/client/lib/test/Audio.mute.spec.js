@@ -8,7 +8,7 @@ test('mutes', t => {
   const audio = setup();
 
   let n = 0;
-  const expected = [true, true, false];
+  const expected = [true, false, true];
 
   audio.on(EVENTS.AUDIO.MUTED, actual => {
     t.equal(actual, expected[n]);
@@ -18,11 +18,11 @@ test('mutes', t => {
   audio.mute();
   t.true(audio.muted);
 
-  audio.mute(true);
-  t.true(audio.muted);
-
   audio.mute();
   t.false(audio.muted);
+
+  audio.mute();
+  t.true(audio.muted);
 
   t.end();
 });
