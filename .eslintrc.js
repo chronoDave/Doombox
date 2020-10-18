@@ -5,13 +5,20 @@ module.exports = {
     node: true
   },
   extends: ['airbnb', 'airbnb/hooks'],
-  plugins: ['ava'],
   settings: {
+    'import/resolver': {
+      node: {},
+      webpack: {
+        config: 'webpack.config.js'
+      }
+    },
     'import/core-modules': [
+      '@babel/register',
+      '@babel/polyfill',
       'electron',
-      'chokidar',
+      'tape',
       'sinon',
-      'ava'
+      'chokidar'
     ]
   },
   rules: {
@@ -32,7 +39,7 @@ module.exports = {
     'import/order': ['error', {
       groups: [
         'builtin',
-        'external',
+        ['external', 'internal'],
         'parent',
         'sibling',
         'index'

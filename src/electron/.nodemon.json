@@ -1,0 +1,15 @@
+{
+  "watch": ["src/**"],
+  "ignore": [
+    "*.spec.js",
+    "src/client/**",
+    "build/**",
+    "dist/**",
+    "test/**"
+  ],
+  "ext": "js",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "exec": "webpack -c src/electron/webpack.config.js && electron build/src/main.bundle.js"
+}

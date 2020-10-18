@@ -1,38 +1,80 @@
 {
   "name": "doombox",
   "version": "2.0.0",
+  "description": "Music player for your unwieldy music collection",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chronoDave/Doombox.git"
+  },
   "author": "Chronocide",
   "private": true,
   "license": "GPL-3.0",
-  "scripts": {
-    "lint": "eslint packages --ext .js --ext .jsx",
-    "start:react": "yarn workspace @doombox/react start",
-    "start:electron": "yarn workspace @doombox/electron start",
-    "build:react": "yarn workspace @doombox/react build",
-    "build:electron": "yarn workspace @doombox/electron build",
-    "build": "yarn build:react && yarn build:electron",
-    "build:portable": "yarn build:react && yarn workspace @doombox/electron build:portable",
-    "test:electron": "yarn workspace @doombox/electron test",
-    "test:react": "yarn workspace @doombox/react test",
-    "test": "yarn test:electron && yarn test:react",
-    "analyze:react": "yarn workspace @doombox/react build:analyze && webpack-bundle-analyzer packages/doombox-react/.bundle.json",
-    "analyze:electron": "yarn workspace @doombox/electron build:analyze && webpack-bundle-analyzer packages/doombox-electron/.bundle.json"
+  "engines": {
+    "node": ">=10.13.0"
   },
-  "dependencies": {},
+  "scripts": {
+    "lint": "eslint src --ext .js --ext .jsx",
+    "test:electron": "node.cmd ./scripts/test.js src/electron/**/*.spec.js",
+    "test:react": "node.cmd ./scripts/test.js src/client/**/*.spec.js",
+    "test": "yarn test:react && yarn test:electron",
+    "clean:dist": "node scripts/clean.js",
+    "start:react": "webpack -c src/client/webpack.config.js -w",
+    "start:electron": "nodemon --config src/electron/.nodemon.json",
+    "prebuild:react": "webpack -c src/client/webpack.config.js --mode production",
+    "prebuild:electron": "webpack -c src/electron/webpack.config.js --mode production",
+    "prebuild": "yarn prebuild:react && yarn prebuild:electron && yarn clean:dist",
+    "build": "yarn prebuild && electron-builder -p=never -c src/electron/.build.config.js",
+    "build:portable": "yarn prebuild && cross-env NODE_ENV=portable electron-builder -p=never -c src/electron/.build.config.js"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "clsx": "^1.1.1",
+    "fast-glob": "^3.2.4",
+    "howler": "^2.2.0",
+    "leaf-db": "^2.2.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2",
+    "lodash.groupby": "^4.6.0",
+    "lodash.set": "^4.3.2",
+    "lodash.throttle": "^4.1.1",
+    "mousetrap": "^1.6.5",
+    "music-metadata": "^7.4.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5"
+  },
   "devDependencies": {
-    "ava": "^3.12.1",
+    "@babel/core": "^7.12.0",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.12.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/register": "^7.12.1",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "chokidar": "^3.4.3",
+    "cross-env": "^7.0.2",
+    "electron": "^10.1.3",
+    "electron-builder": "^22.9.1",
     "eslint": "^7.7.0",
     "eslint-config-airbnb": "^18.2.0",
-    "eslint-plugin-ava": "^11.0.0",
+    "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
+    "file-loader": "^6.1.1",
+    "fs-webpack-plugin": "^2.1.1",
+    "html-webpack-plugin": "^5.0.0-alpha.5",
     "nodemon": "^2.0.4",
-    "sinon": "^9.0.3",
-    "webpack-bundle-analyzer": "^3.8.0"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+    "sinon": "^9.2.0",
+    "tape": "^5.0.1",
+    "terser-webpack-plugin": "^5.0.0",
+    "webpack": "^5.1.1",
+    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-cli": "^4.0.0",
+    "webpack-merge": "^5.2.0"
+  }
 }

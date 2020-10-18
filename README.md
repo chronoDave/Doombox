@@ -6,24 +6,27 @@
 
 A music player designed with large music collections in mind.
 
-# Keybinds
+## Documentation
 
-Mod: Windows (ctrl), Mac (⌘)
+ - [Keybinds](./docs/KEYBIND.md)
+ - [Project](./docs/PROJECT.md)
+ - [IPC](./docs/IPC.md)
 
-**System**
+## Downloads
 
- - `mod + =`: Zoom in
- - `mod + alt + =`: Reset zoom
+**1.x.x**
 
-**Configurable**
+ - [1.1.0-beta (Win)](https://github.com/chronoDave/Doombox/releases/tag/1.1.0-beta)
+ - [1.1.0-alpha (Win)](https://github.com/chronoDave/Doombox/releases/tag/1.1.0-alpha)
+ - [1.0.0-alpha (Win)](https://github.com/chronoDave/Doombox/releases/tag/v1.0.0-alpha)
 
- - `mod + s`: Rescan current folder
- - `mod + shift + s`: Scan folder
- - `mod + shift + i`: Toggle dev tools
+**0.x.x.**
 
-# Downloads
+ - [0.7.0-alpha (Win + Mac)](https://github.com/chronoDave/Doombox/releases/tag/v0.7.0-alpha)
 
-[Releases](https://github.com/chronoDave/Doombox/releases)
+## License
+
+Licensed under the [GNU General Public License v3.0](./LICENSE).
 
 ## Donating
 
