@@ -14,8 +14,8 @@
   },
   "scripts": {
     "lint": "eslint src --ext .js --ext .jsx",
-    "test:electron": "node.cmd ./scripts/test.js src/electron/**/*.spec.js",
-    "test:react": "node.cmd ./scripts/test.js src/client/**/*.spec.js",
+    "test:electron": "node ./scripts/test.js src/electron/**/*.spec.js",
+    "test:react": "node ./scripts/test.js src/client/**/*.spec.js",
     "test": "yarn test:react && yarn test:electron",
     "clean:dist": "node scripts/clean.js",
     "start:react": "webpack -c src/client/webpack.config.js -w",
