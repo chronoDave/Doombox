@@ -41,9 +41,6 @@ class IpcProvider extends Component {
 
     ipcRenderer.on(IPC.CHANNEL.ROUTE, (event, { data }) => dispatchRoute(data));
 
-    ipcRenderer.on(IPC.CHANNEL.CACHE, (event, { data }) => dispatchCache(data));
-    ipcRenderer.on(IPC.CHANNEL.CONFIG, (event, { data }) => dispatchConfig(data));
-
     ipcRenderer.on(IPC.CHANNEL.IMAGE, (event, { data }) => dispatchImages(data));
     ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));
     ipcRenderer.on(IPC.CHANNEL.ALBUM, (event, { data }) => dispatchAlbums(data));
@@ -64,6 +61,10 @@ class IpcProvider extends Component {
           console.error(`Unhandeled keybind action: ${action}`);
       }
     });
+
+    // Config
+    ipcRenderer.once(IPC.CHANNEL.CACHE, (event, { data }) => dispatchCache(data));
+    ipcRenderer.once(IPC.CHANNEL.CONFIG, (event, { data }) => dispatchConfig(data));
   }
 
   componentDidMount() {

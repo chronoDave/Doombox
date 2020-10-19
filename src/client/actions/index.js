@@ -16,3 +16,7 @@ export {
   scanFolderNative,
   deleteLibrary
 } from './library.actions';
+
+export {
+  updateCache
+} from './storage.actions';

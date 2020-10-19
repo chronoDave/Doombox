@@ -37,16 +37,15 @@ module.exports = class Storage {
    * Set storage data
    * @param {any} payload
    * @param {string?} key - Config key. If no key, override data
-   * @param {boolean} override - Should data be overwritten (default `false`)
    * @returns `data[key] or `data`
    */
-  set(payload, key, override = false) {
+  set(payload, key) {
     if (!key) {
       this.data = payload;
     } else {
-      const newData = override ?
-        payload :
-        { ...this.get(key), ...payload };
+      const newData = typeof payload === 'object' ?
+        { ...this.get(key), ...payload } :
+        payload;
       objectSet(this.data, key, newData);
     }
 

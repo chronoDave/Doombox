@@ -18,6 +18,9 @@ import {
   Slider
 } from '@material-ui/core';
 
+// Actions
+import { updateCache } from '../../actions';
+
 // Hooks
 import { useAudio, useHover } from '../../hooks';
 
@@ -87,6 +90,7 @@ const IconButtonVolume = props => {
                 value={volume}
                 classes={{ root: classes.volumeSliderRoot }}
                 onChange={throttledSetVolume}
+                onChangeCommitted={(event, newVolume) => updateCache('player.volume', newVolume)}
               />
               <Typography variant="caption">
                 {Math.round(volume * 100)}

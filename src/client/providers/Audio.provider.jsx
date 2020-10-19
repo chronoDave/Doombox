@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { AudioContext } from '../hooks';
 
 // Actions
-import { setThumbar } from '../actions';
+import { updateCache, setThumbar } from '../actions';
 
 // Redux
 import {
@@ -30,10 +30,7 @@ class AudioProvider extends Component {
   constructor(props) {
     super(props);
 
-    this.audio = new Audio({
-      autoplay: props.autoplay,
-      volume: props.volume
-    });
+    this.audio = new Audio();
 
     this.methods = {
       play: this.audio.play,
@@ -93,7 +90,10 @@ class AudioProvider extends Component {
     } = props;
 
     this.audio.on(EVENTS.AUDIO.DURATION, dispatchDuration);
-    this.audio.on(EVENTS.AUDIO.MUTED, dispatchMuted);
+    this.audio.on(EVENTS.AUDIO.MUTED, muted => {
+      dispatchMuted(muted);
+      updateCache('player.muted', muted);
+    });
     this.audio.on(EVENTS.AUDIO.PLAYLIST, dispatchPlaylist);
     this.audio.on(EVENTS.AUDIO.POSITION, dispatchPosition);
     this.audio.on(EVENTS.AUDIO.METADATA, dispatchMetadata);
@@ -106,8 +106,18 @@ class AudioProvider extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.autoplay !== this.props.autoplay) this.audio.autoplay = this.props.autoplay;
-    if (prevProps.volume !== this.props.volume) this.audio.volume = this.props.volume;
+    if (prevProps.autoplay !== this.props.autoplay) {
+      this.audio.autoplay = this.props.autoplay;
+      this.props.dispatchAutoplay(this.props.autoplay);
+    }
+    if (prevProps.volume !== this.props.volume) {
+      this.audio.volume = this.props.volume;
+      this.props.dispatchVolume(this.props.volume);
+    }
+    if (prevProps.muted !== this.props.muted) {
+      this.audio.muted = this.props.muted;
+      this.props.dispatchMuted(this.props.muted);
+    }
   }
 
   componentWillUnmount() {
@@ -129,6 +139,7 @@ AudioProvider.propTypes = {
   children: PropTypes.node.isRequired,
   autoplay: PropTypes.bool.isRequired,
   volume: PropTypes.number.isRequired,
+  muted: PropTypes.bool.isRequired,
   dispatchDuration: PropTypes.func.isRequired,
   dispatchMuted: PropTypes.func.isRequired,
   dispatchPlaylist: PropTypes.func.isRequired,
@@ -141,7 +152,8 @@ AudioProvider.propTypes = {
 
 const mapStateToProps = state => ({
   autoplay: state.config.player.autoplay,
-  volume: state.cache.volume
+  muted: state.cache.player.muted,
+  volume: state.cache.player.volume
 });
 
 const mapDispatchToProps = {

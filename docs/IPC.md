@@ -48,3 +48,14 @@ Electron expects a specific payload structure:
   }
 }
 ```
+
+**Action: UPDATE**
+
+```JSON
+{
+  data: {
+    query: <String>,
+    update: <Object>
+  }
+}
+```

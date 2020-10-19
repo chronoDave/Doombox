@@ -86,13 +86,16 @@ const Player = props => {
 
 Player.defaultProps = {
   title: 'No song selected',
-  artist: ''
+  artist: '',
+  cover: {
+    file: ''
+  }
 };
 
 Player.propTypes = {
   title: PropTypes.string,
   artist: PropTypes.string,
-  cover: propCover.isRequired,
+  cover: propCover,
   position: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired
 };

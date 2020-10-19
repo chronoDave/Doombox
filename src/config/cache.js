@@ -3,6 +3,9 @@ module.exports = {
     width: 320,
     height: 240
   },
-  volume: 1,
+  player: {
+    muted: false,
+    volume: 1
+  },
   folders: []
 };

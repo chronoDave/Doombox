@@ -11,4 +11,10 @@ module.exports = class StorageController {
 
     return Promise.resolve(data);
   }
+
+  update(event, { query, update }) {
+    this.storage.set(update, query);
+
+    return Promise.resolve();
+  }
 };

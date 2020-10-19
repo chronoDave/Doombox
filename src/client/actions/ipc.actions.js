@@ -13,6 +13,18 @@ export const ipcInsert = (
     data: { payload }
   });
 
+export const ipcUpdate = (
+  channel,
+  query,
+  update,
+  { from = null, to = null } = {}
+) => ipcRenderer
+  .send(channel, {
+    action: IPC.ACTION.UPDATE,
+    route: { from, to },
+    data: { query, update }
+  });
+
 export const ipcFind = (
   channel,
   query = {},
