@@ -1,14 +1,14 @@
-import { ROUTES } from '@doombox-utils/types';
+import { VIEWS } from '@doombox-utils/types';
 
 import { createReduxSlice } from '../utils';
 
 const initialState = {
-  route: ROUTES.MAIN,
+  view: VIEWS.MAIN,
   dialog: null
 };
 
 const reducers = {
-  setRoute: (state, route) => ({ ...state, route }),
+  setView: (state, view) => ({ ...state, view }),
   setDialog: (state, dialog) => ({ ...state, dialog })
 };
 

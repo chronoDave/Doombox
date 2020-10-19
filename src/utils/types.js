@@ -64,7 +64,7 @@ module.exports = {
       STOPPED: 'STOPPED'
     }
   },
-  ROUTES: {
+  VIEWS: {
     MAIN: 'MAIN',
     INTERRUPT: 'INTERRUPT'
   },

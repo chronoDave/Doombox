@@ -1,4 +1,4 @@
-import { IPC, ROUTES } from '@doombox-utils/types';
+import { IPC, VIEWS } from '@doombox-utils/types';
 
 import { ipcInsert, ipcDrop } from './ipc.actions';
 
@@ -13,7 +13,7 @@ export const scanFolderNative = () => dialog.showOpenDialog(null, {
       ipcInsert(
         IPC.CHANNEL.LIBRARY,
         filePaths,
-        { from: ROUTES.INTERRUPT, to: ROUTES.MAIN }
+        { from: VIEWS.INTERRUPT, to: VIEWS.MAIN }
       );
     }
   })
@@ -24,7 +24,7 @@ export const scanFolder = folders => {
     ipcInsert(
       IPC.CHANNEL.LIBRARY,
       folders,
-      { from: ROUTES.INTERRUPT, to: ROUTES.MAIN }
+      { from: VIEWS.INTERRUPT, to: VIEWS.MAIN }
     );
   }
 };

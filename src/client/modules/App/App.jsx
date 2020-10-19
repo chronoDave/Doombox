@@ -1,5 +1,7 @@
 import React from 'react';
 import { isMac } from '@doombox-utils';
+import { VIEWS } from '@doombox-utils/types';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
@@ -7,7 +9,10 @@ import { Box } from '@material-ui/core';
 
 import { AppBar } from '../AppBar';
 
-const App = ({ children }) => (
+// Views
+import { MainView, InterruptView } from '../../views';
+
+const App = ({ route }) => (
   <Box
     display="flex"
     flexDirection="column"
@@ -15,12 +20,27 @@ const App = ({ children }) => (
     height="100vh"
   >
     {!isMac && <AppBar />}
-    {children}
+    {(() => {
+      switch (route) {
+        case VIEWS.INTERRUPT:
+          return <InterruptView />;
+        case VIEWS.MAIN:
+          return <MainView />;
+        default:
+          return null;
+      }
+    })()}
   </Box>
 );
 
 App.propTypes = {
-  children: PropTypes.node.isRequired
+  route: PropTypes.string.isRequired
 };
 
-export default App;
+const mapStateToProps = state => ({
+  route: state.location.view
+});
+
+export default connect(
+  mapStateToProps
+)(App);

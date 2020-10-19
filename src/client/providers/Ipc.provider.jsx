@@ -21,7 +21,7 @@ import {
   setAlbums,
   setLabels,
   setSongs,
-  setRoute
+  setView
 } from '../redux';
 
 class IpcProvider extends Component {
@@ -106,7 +106,7 @@ const mapDispatchToProps = {
   dispatchLabels: setLabels,
   dispatchAlbums: setAlbums,
   dispatchSongs: setSongs,
-  dispatchRoute: setRoute
+  dispatchRoute: setView
 };
 
 export default connect(
