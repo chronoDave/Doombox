@@ -3,7 +3,7 @@ import { VIEWS } from '@doombox-utils/types';
 import { createReduxSlice } from '../utils';
 
 const initialState = {
-  view: VIEWS.MAIN,
+  view: VIEWS.ALBUM,
   dialog: null
 };
 

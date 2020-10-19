@@ -1,18 +1,20 @@
 import React from 'react';
 import { isMac } from '@doombox-utils';
 import { VIEWS } from '@doombox-utils/types';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 // Core
 import { Box } from '@material-ui/core';
 
+import { Route } from '../../components';
+
 import { AppBar } from '../AppBar';
+import { Interrupt } from '../Interrupt';
+import { Player } from '../Player';
+import { Playlist } from '../Playlist';
+import { LibrarySongs } from '../LibrarySongs';
+import { LibraryAlbums } from '../LibraryAlbums';
 
-// Views
-import { MainView, InterruptView } from '../../views';
-
-const App = ({ route }) => (
+const App = () => (
   <Box
     display="flex"
     flexDirection="column"
@@ -20,27 +22,24 @@ const App = ({ route }) => (
     height="100vh"
   >
     {!isMac && <AppBar />}
-    {(() => {
-      switch (route) {
-        case VIEWS.INTERRUPT:
-          return <InterruptView />;
-        case VIEWS.MAIN:
-          return <MainView />;
-        default:
-          return null;
-      }
-    })()}
+    <Route view={VIEWS.INTERRUPT}>
+      <Interrupt />
+    </Route>
+    <Route view={[VIEWS.ALBUM, VIEWS.SONG]}>
+      <Box display="flex" minHeight={0}>
+        <Box display="flex" flexDirection="column">
+          <Player />
+          <Playlist />
+        </Box>
+        <Route view={VIEWS.SONG}>
+          <LibrarySongs />
+        </Route>
+        <Route view={VIEWS.ALBUM}>
+          <LibraryAlbums />
+        </Route>
+      </Box>
+    </Route>
   </Box>
 );
 
-App.propTypes = {
-  route: PropTypes.string.isRequired
-};
-
-const mapStateToProps = state => ({
-  route: state.location.view
-});
-
-export default connect(
-  mapStateToProps
-)(App);
+export default App;

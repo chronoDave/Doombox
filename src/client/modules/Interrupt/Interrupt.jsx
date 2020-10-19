@@ -15,7 +15,7 @@ import { useTranslation } from '../../hooks';
 // Styles
 import { useInterruptStyles } from './Interrupt.styles';
 
-const InterruptView = () => {
+const Interrupt = () => {
   const [progress, setProgress] = useState({ file: '', index: 0, total: 0 });
   const [count, setCount] = useState(0);
 
@@ -77,4 +77,4 @@ const InterruptView = () => {
   );
 };
 
-export default InterruptView;
+export default Interrupt;

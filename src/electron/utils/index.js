@@ -63,6 +63,7 @@ const parseMetadata = async (file, { skipCovers = false, requiredMetadata = [] }
     _albumId: createId(`${tags.albumartist || 'Unknown'}${tags.album}` || 'Unknown'),
     _labelId: createId(tags.albumartist || 'Unknown'),
     metadata: {
+      albumartist: nativeTags.TP2 || null,
       titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
       artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
       albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,

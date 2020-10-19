@@ -13,9 +13,6 @@ import { ipcFind } from '../../actions';
 const MainView = () => {
   useEffect(() => {
     ipcFind(IPC.CHANNEL.IMAGE);
-    ipcFind(IPC.CHANNEL.LABEL);
-    ipcFind(IPC.CHANNEL.ALBUM);
-    ipcFind(IPC.CHANNEL.LIBRARY);
   }, []);
 
   return (

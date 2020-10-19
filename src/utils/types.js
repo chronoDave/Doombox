@@ -65,7 +65,8 @@ module.exports = {
     }
   },
   VIEWS: {
-    MAIN: 'MAIN',
+    SONG: 'SONG',
+    ALBUM: 'ALBUM',
     INTERRUPT: 'INTERRUPT'
   },
   URLS: {

@@ -13,7 +13,7 @@ export const scanFolderNative = () => dialog.showOpenDialog(null, {
       ipcInsert(
         IPC.CHANNEL.LIBRARY,
         filePaths,
-        { from: VIEWS.INTERRUPT, to: VIEWS.MAIN }
+        { from: VIEWS.INTERRUPT, to: VIEWS.ALBUM }
       );
     }
   })
@@ -24,11 +24,11 @@ export const scanFolder = folders => {
     ipcInsert(
       IPC.CHANNEL.LIBRARY,
       folders,
-      { from: VIEWS.INTERRUPT, to: VIEWS.MAIN }
+      { from: VIEWS.INTERRUPT, to: VIEWS.ALBUM }
     );
   }
 };
 
 export const deleteLibrary = () => {
-  ipcDrop(IPC.CHANNEL.LIBRARY);
+  ipcDrop(IPC.CHANNEL.LIBRARY, { from: VIEWS.INTERRUPT, to: VIEWS.ALBUM });
 };
