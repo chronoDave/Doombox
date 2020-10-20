@@ -66,12 +66,14 @@ module.exports = class LibraryController {
       .entries(groupBy(songs, '_albumId'))
       .map(([album, albumSongs]) => ({
         _id: album,
-        artists: [...new Set(albumSongs.map(({ metadata: { artist } }) => artist))],
-        album: albumSongs[0].metadata.album,
+        artists: [...new Set(albumSongs
+          .map(({ metadata: { artist } }) => artist)
+          .filter(artist => artist))],
+        album: albumSongs[0].metadata.album || null,
         cover: albumSongs[0].images,
-        year: albumSongs[0].metadata.year,
-        date: albumSongs[0].metadata.date,
-        cdid: albumSongs[0].metadata.cdid,
+        year: albumSongs[0].metadata.year || null,
+        date: albumSongs[0].metadata.date || null,
+        cdid: albumSongs[0].metadata.cdid || null,
         songs: albumSongs.map(({ _id }) => _id),
         duration: albumSongs.reduce((acc, { format: { duration } }) => acc + duration, 0)
       }));
@@ -88,7 +90,7 @@ module.exports = class LibraryController {
       .entries(groupBy(songs, '_labelId'))
       .map(([label, labelSongs]) => ({
         _id: label,
-        label: labelSongs[0].metadata.albumartist,
+        label: labelSongs[0].metadata.albumartist || null,
         albums: Object.keys(groupBy(labelSongs, '_albumId')),
         songs: labelSongs.map(({ _id }) => _id),
         duration: labelSongs.reduce((acc, { format: { duration } }) => acc + duration, 0)
