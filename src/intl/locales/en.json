@@ -1,30 +1,37 @@
 {
   "common": {
-    "albums": "albums",
-    "tracks": "tracks"
+    "album": "album",
+    "album_plural": "albums",
+    "track": "track",
+    "track_plural": "tracks",
+    "folder": "folder",
+    "library": "library",
+    "github": "GitHub"
   },
   "action": {
+    "common": {
+      "scan": "scan {item}",
+      "rescan": "rescan {item}",
+      "delete": "delete {item}",
+      "exit": "exit",
+      "open": "open {item}"
+    },
     "menu": {
-      "scan_folder": "Scan Folder",
-      "rescan_folder": "Rescan Folder",
-      "delete_library": "Delete Library",
-      "exit": "Exit",
-      "toggle_dev_tools": "Toggle Developer Tools",
-      "open_github": "Open GitHub",
-      "report_issue": "Report Issue",
-      "display_keybinds": "Keyboard Shortcuts"
+      "toggle_dev_tools": "toggle developer tools",
+      "report_issue": "report issue",
+      "display_keybinds": "keyboard shortcuts"
     },
     "audio": {
-      "previous": "Previous",
-      "next": "Next",
-      "play": "Play",
-      "pause": "Pause"
+      "previous": "previous",
+      "next": "next",
+      "play": "play",
+      "pause": "pause"
     }
   },
   "title": {
-    "scanning_folders": "Scanning folders"
+    "scanning_folders": "scanning folders"
   },
   "description": {
-    "scanning_folders": "Please be patient, this could take a while"
+    "scanning_folders": "please be patient, this could take a while"
   }
 }

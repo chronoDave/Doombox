@@ -64,43 +64,43 @@ const AppBar = props => {
 
   const appMenu = {
     file: [{
-      primary: 'action.menu.rescan_folder',
+      primary: t('action.common.rescan', { item: 'folder' }),
       secondary: keybinds.rescan,
       divider: true,
       onClick: () => scanFolder(folders)
     }, {
-      primary: 'action.menu.scan_folder',
+      primary: t('action.common.scan', { item: 'folder' }),
       secondary: keybinds.scanFolder,
       onClick: scanFolderNative
     }, {
-      primary: 'action.menu.delete_library',
+      primary: t('action.common.delete', { item: 'library' }),
       divider: true,
       onClick: deleteLibrary
     }, {
-      primary: 'action.menu.exit',
+      primary: t('action.common.exit'),
       onClick: windowClose
     }],
     help: [{
-      primary: 'action.menu.display_keybinds',
+      primary: t('action.menu.display_keybinds'),
       onClick: event => {
         event.preventDefault();
         shell.openExternal(URLS.KEYBINDS);
       }
     }, {
-      primary: 'action.menu.open_github',
+      primary: t('action.common.open', { item: t('action.common.github') }),
       onClick: event => {
         event.preventDefault();
         shell.openExternal(URLS.REPO);
       }
     }, {
-      primary: 'action.menu.report_issue',
+      primary: t('action.menu.report_issue'),
       divider: true,
       onClick: event => {
         event.preventDefault();
         shell.openExternal(URLS.HELP.REPORT_ISSUE);
       }
     }, {
-      primary: 'action.menu.toggle_dev_tools',
+      primary: t('action.menu.toggle_dev_tools'),
       secondary: keybinds.toggleDevTools,
       onClick: event => {
         event.preventDefault();
@@ -188,7 +188,7 @@ const AppBar = props => {
         {appMenu[menu.id].map(({ primary, secondary, ...rest }) => (
           <MenuItem
             key={primary}
-            primary={t(primary)}
+            primary={primary}
             secondary={secondary && normalizeKeybind(secondary)}
             {...rest}
           />

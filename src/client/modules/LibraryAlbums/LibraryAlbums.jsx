@@ -33,8 +33,8 @@ const LibraryAlbums = ({ songs, labels }) => {
             </Typography>
             <Typography noWrap variant="body2" color="textSecondary">
               {[
-                `${label.albums.length} ${t('common.albums')}`,
-                `${label.songs.length} ${t('common.tracks')}`,
+                `${label.albums.length} ${t('common.album', { plural: label.albums.length !== 1 })}`,
+                `${label.songs.length} ${t('common.track', { plural: label.songs.length !== 1 })}`,
                 formatTime(label.duration || 0)
               ].join('\u2022')}
             </Typography>

@@ -1,30 +1,37 @@
 {
   "common": {
-    "albums": "albums",
-    "tracks": "nummers"
+    "album": "album",
+    "album_plural": "albums",
+    "track": "nummer",
+    "track_plural": "nummers",
+    "folder": "folder",
+    "library": "library",
+    "github": "GitHub"
   },
   "action": {
+    "common": {
+      "scan": "scan {item}",
+      "rescan": "scan opnieuw {item}",
+      "delete": "verwijder {item}",
+      "exit": "sluiten",
+      "open": "open {item}"
+    },
     "menu": {
-      "scan_folder": "Scan Folder",
-      "rescan_folder": "Scan Folder Opnieuw",
-      "delete_library": "Verwijder Bibliotheek",
-      "exit": "Sluiten",
-      "toggle_dev_tools": "Shakel Developer Tools In",
-      "open_github": "Open GitHub",
-      "report_issue": "Rapporteer Probleem",
-      "display_keybinds": "Toon Sneltoetsen"
+      "toggle_dev_tools": "shakel developer tools in",
+      "report_issue": "rapporteer probleem",
+      "display_keybinds": "toon sneltoetsen"
     },
     "audio": {
-      "previous": "Vorige",
-      "next": "Volgende",
-      "play": "Speel",
-      "pause": "Pauseer"
+      "previous": "vorige",
+      "next": "volgende",
+      "play": "speel",
+      "pause": "pauseer"
     }
   },
   "title": {
-    "scanning_folders": "Folder scannen"
+    "scanning_folders": "folder scannen"
   },
   "description": {
-    "scanning_folders": "Een moment geduld, dit kan even duren"
+    "scanning_folders": "een moment geduld, dit kan even duren"
   }
 }

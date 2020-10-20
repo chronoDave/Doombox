@@ -9,7 +9,7 @@ import { LanguageContext } from '../hooks';
 const LanguageProvider = ({ language, children }) => {
   const value = {
     language,
-    t: id => getTranslation(language, id)
+    t: (id, args) => getTranslation(language, id, args)
   };
 
   return (

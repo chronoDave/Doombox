@@ -271,7 +271,7 @@ module.exports = class App extends Reporter {
         role: 'fileMenu',
         submenu: [
           {
-            label: this.translate('action.menu.rescan_folder'),
+            label: this.translate('action.common.rescan', { item: 'folder' }),
             accelerator: keybindToAccelerator(keybinds.rescan),
             click: () => {
               window.webContents.send(
@@ -282,7 +282,7 @@ module.exports = class App extends Reporter {
           },
           { type: 'separator' },
           {
-            label: this.translate('action.menu.scan_folder'),
+            label: this.translate('action.common.scan', { item: 'folder' }),
             accelerator: keybindToAccelerator(keybinds.scanFolder),
             click: () => {
               window.webContents.send(
@@ -292,7 +292,7 @@ module.exports = class App extends Reporter {
             }
           },
           {
-            label: this.translate('action.menu.delete_library'),
+            label: this.translate('action.common.delete', { item: 'library' }),
             click: () => {
               window.webContents.send(
                 IPC.CHANNEL.KEYBIND,
@@ -335,7 +335,7 @@ module.exports = class App extends Reporter {
               shell.openExternal(URLS.KEYBINDS);
             }
           }, {
-            label: this.translate('action.menu.open_github'),
+            label: this.translate('action.common.open', { item: this.translate('common.github') }),
             click: () => {
               shell.openExternal(URLS.REPO);
             }
