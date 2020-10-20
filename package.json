@@ -32,7 +32,7 @@
     "clsx": "^1.1.1",
     "fast-glob": "^3.2.4",
     "howler": "^2.2.0",
-    "leaf-db": "^2.2.0",
+    "leaf-db": "^2.3.2",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",

@@ -44,9 +44,7 @@ module.exports = class LibraryController {
 
     for (let i = 0; i < images.length; i += 1) {
       const { data, _id, ...rest } = images[i];
-      const file = path
-        .resolve(this.folder, `${_id}.${rest.format}`)
-        .replace('\\', '/');
+      const file = path.resolve(this.folder, `${_id}.${rest.format}`);
 
       ids.push(_id);
 
@@ -145,9 +143,9 @@ module.exports = class LibraryController {
     return Promise.resolve();
   }
 
-  async find(event, { query }) {
+  async find(event, { query, projection }) {
     try {
-      const docs = await this.db[TYPES.DATABASE.LIBRARY].find(query);
+      const docs = await this.db[TYPES.DATABASE.LIBRARY].find(query, projection);
 
       return Promise.resolve(docs);
     } catch (err) {

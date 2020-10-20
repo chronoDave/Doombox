@@ -21,10 +21,15 @@ const initialState = {
 
 const normalize = (collection = []) => ({
   list: collection,
-  map: collection.reduce((acc, cur) => ({
-    ...acc,
-    [cur._id]: cur
-  }), {})
+  map: (() => {
+    const object = {};
+
+    for (let i = 0; i < collection.length; i += 1) {
+      object[collection[i]._id] = collection[i];
+    }
+
+    return object;
+  })()
 });
 
 const reducers = {

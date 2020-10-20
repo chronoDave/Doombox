@@ -28,12 +28,12 @@ export const ipcUpdate = (
 export const ipcFind = (
   channel,
   query = {},
-  { from = null, to = null } = {}
+  { projection = null, from = null, to = null } = {}
 ) => ipcRenderer
   .send(channel, {
     action: IPC.ACTION.FIND,
     route: { from, to },
-    data: { query }
+    data: { query, projection }
   });
 
 export const ipcDrop = (
