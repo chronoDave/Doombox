@@ -52,11 +52,11 @@ test('should capitalize if args contains "capitalize"', t => {
 });
 
 test('should PascalCase if args contains "pascal"', t => {
-  const key = 'action.menu.scan_folder';
+  const key = 'action.menu.toggle_dev_tools';
 
   t.equal(
     getTranslation(LANGUAGES.EN, key, { transform: 'pascal' }),
-    LOCALES[LANGUAGES.EN].action.menu.scan_folder
+    LOCALES[LANGUAGES.EN].action.menu.toggle_dev_tools
       .split(' ')
       .map(capitalize)
       .join(' ')
@@ -66,11 +66,11 @@ test('should PascalCase if args contains "pascal"', t => {
 });
 
 test('should lowercase if args contains "none"', t => {
-  const key = 'action.menu.scan_folder';
+  const key = 'action.menu.toggle_dev_tools';
 
   t.equal(
     getTranslation(LANGUAGES.EN, key, { transform: 'none' }),
-    LOCALES[LANGUAGES.EN].action.menu.scan_folder.toLowerCase()
+    LOCALES[LANGUAGES.EN].action.menu.toggle_dev_tools.toLowerCase()
   );
 
   t.end();
