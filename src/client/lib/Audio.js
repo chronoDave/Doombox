@@ -112,6 +112,8 @@ class Audio extends EventEmitter {
     if (!this.playlist.collection) this.playlist.collection = [];
     if (!this.playlist.name) this.playlist.name = '';
 
+    this.create();
+
     this.emit(EVENTS.AUDIO.PLAYLIST, this.playlist);
   }
 

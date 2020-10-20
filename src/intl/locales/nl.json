@@ -1,4 +1,8 @@
 {
+  "common": {
+    "albums": "albums",
+    "tracks": "nummers"
+  },
   "action": {
     "menu": {
       "scan_folder": "Scan Folder",

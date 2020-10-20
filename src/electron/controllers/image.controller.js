@@ -9,8 +9,8 @@ module.exports = class ImageController {
     this.db = db;
   }
 
-  async find(event, { query }) {
-    const docs = await this.db[TYPES.DATABASE.IMAGES].find(query);
+  async find(event, { query, projection }) {
+    const docs = await this.db[TYPES.DATABASE.IMAGES].find(query, projection);
 
     return Promise.resolve(docs);
   }

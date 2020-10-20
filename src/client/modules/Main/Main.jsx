@@ -16,7 +16,7 @@ import { ipcFind } from '../../actions';
 
 const Main = () => {
   useEffect(() => {
-    ipcFind(IPC.CHANNEL.IMAGE);
+    ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['file', '_id'] });
     ipcFind(IPC.CHANNEL.LIBRARY, {}, {
       projection: [
         'file',
