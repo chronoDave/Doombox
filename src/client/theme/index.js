@@ -4,7 +4,8 @@ import url from 'url';
 import { createMuiTheme } from '@material-ui/core';
 
 // Fonts
-import RobotoRegular from '../assets/fonts/Roboto-Regular.ttf';
+import NotoSansJPRegular from '../assets/fonts/NotoSansJP-Regular.otf';
+import NotoSansJPMedium from '../assets/fonts/NotoSansJP-Medium.otf';
 
 export const createTheme = ({
   variant,
@@ -24,15 +25,25 @@ export const createTheme = ({
           overflow: 'hidden'
         },
         '@font-face': [{
-          fontFamily: 'Roboto',
+          fontFamily: 'MPlus',
           fontWeight: 400,
-          src: `url(${RobotoRegular}) format('truetype')`
-        }]
+          src: `url(${NotoSansJPRegular}) format('truetype')`
+        }, {
+          fontFamily: 'MPlus',
+          fontWeight: 500,
+          src: `url(${NotoSansJPMedium}) format('truetype')`
+        }],
       }
     }
   },
   typography: {
-    fontFamily: ['Roboto', 'sans-serif'].join(',')
+    fontFamily: ['MPlus', 'sans-serif'].join(','),
+    body1: {
+      letterSpacing: `${1 / 32}rem`
+    },
+    body2: {
+      letterSpacing: `${1 / 32}rem`
+    }
   },
   createBackgroundImage: (src, opacity = 0.42) => [
     `linear-gradient(rgba(0,0,0,${opacity}), rgba(0,0,0,${opacity}))`,

@@ -7,5 +7,8 @@ export const useTypographyStyles = makeStyles(() => ({
     '-webkit-line-clamp': clamp,
     '-webkit-box-orient': 'vertical',
     overflow: 'hidden'
-  })
+  }),
+  bold: {
+    fontWeight: 500
+  }
 }));

@@ -12,5 +12,6 @@ export {
   IconButtonPlay,
   IconButtonVolume
 } from './IconButton';
+export { Tooltip } from './Tooltip';
 export { Route } from './Route';
 export { ButtonWindow } from './Button';

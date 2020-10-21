@@ -12,6 +12,7 @@ const Typography = forwardRef((props, ref) => {
   const {
     children,
     className,
+    bold,
     clamp,
     ...rest
   } = props;
@@ -20,7 +21,8 @@ const Typography = forwardRef((props, ref) => {
   return (
     <MuiTypography
       className={clsx({
-        [classes.clamp]: clamp
+        [classes.clamp]: clamp,
+        [classes.bold]: bold
       }, className)}
       {...rest}
       ref={ref}
@@ -35,12 +37,14 @@ Typography.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]).isRequired,
+  bold: PropTypes.bool,
   className: PropTypes.string,
   clamp: PropTypes.number
 };
 
 Typography.defaultProps = {
   className: null,
+  bold: false,
   clamp: null
 };
 

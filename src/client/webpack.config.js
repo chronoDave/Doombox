@@ -32,7 +32,7 @@ module.exports = merge(baseConfig, {
         ]
       }
     }, {
-      test: /\.(ttf|png|jpe?g|gif)$/,
+      test: /\.(otf|ttf|png|jpe?g|gif)$/,
       include: [path.resolve(__dirname, 'assets')],
       loader: 'file-loader',
       options: {

@@ -11,7 +11,7 @@ module.exports = {
       CONFIG: 'CONFIG',
       KEYBIND: 'KEYBIND',
       INTERRUPT: 'INTERRUPT',
-      ROUTE: 'ROUTE'
+      VIEW: 'VIEW'
     },
     ACTION: {
       INSERT: 'INSERT',

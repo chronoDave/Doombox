@@ -54,7 +54,7 @@ module.exports = class App extends Reporter {
    */
   createRouter(channel, Controller) {
     ipcMain.on(channel, (event, payload) => {
-      const handleRoute = data => event.sender.send(IPC.CHANNEL.ROUTE, { data, error: null });
+      const handleRoute = data => event.sender.send(IPC.CHANNEL.VIEW, { data, error: null });
       const handleSuccess = data => event.sender.send(channel, { data, error: null });
       const handleError = error => {
         this.logError(error);

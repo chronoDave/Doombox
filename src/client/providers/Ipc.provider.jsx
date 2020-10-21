@@ -39,7 +39,7 @@ class IpcProvider extends Component {
       dispatchRoute
     } = props;
 
-    ipcRenderer.on(IPC.CHANNEL.ROUTE, (event, { data }) => dispatchRoute(data));
+    ipcRenderer.on(IPC.CHANNEL.VIEW, (event, { data }) => dispatchRoute(data));
 
     ipcRenderer.on(IPC.CHANNEL.IMAGE, (event, { data }) => dispatchImages(data));
     ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));

@@ -87,7 +87,7 @@ const AppBar = props => {
         shell.openExternal(URLS.KEYBINDS);
       }
     }, {
-      primary: t('action.common.open', { item: t('action.common.github') }),
+      primary: t('action.common.open', { item: t('common.github') }),
       onClick: event => {
         event.preventDefault();
         shell.openExternal(URLS.REPO);

@@ -1,1 +1,1 @@
-All fonts in this folder are obtained from [Google Fonts](https://fonts.google.com/) and are licensed under [Apache license version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
+All fonts in this folder are obtained from [Google Fonts](https://fonts.google.com/) and are licensed under [SIL Open Font License (OFL)](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL).

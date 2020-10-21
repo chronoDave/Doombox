@@ -43,7 +43,7 @@ const Player = props => {
           justifyContent="center"
           flexGrow={1}
         >
-          <Typography clamp={2} align="center">
+          <Typography clamp={2} align="center" gutterBottom>
             {title}
           </Typography>
           <Typography variant="body2" clamp={2} align="center">
@@ -76,9 +76,7 @@ const Player = props => {
         }}
       />
       <Hidden smDown>
-        <Box p={1}>
-          <PlayerControls />
-        </Box>
+        <PlayerControls />
       </Hidden>
     </Box>
   );

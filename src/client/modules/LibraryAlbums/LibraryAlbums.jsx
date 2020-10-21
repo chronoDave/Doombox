@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase, Box } from '@material-ui/core';
+import { ButtonBase, Box, useMediaQuery } from '@material-ui/core';
 
-import { Typography } from '../../components';
+import { Tooltip, Typography } from '../../components';
 
 // Hooks
 import { useTranslation, useAudio } from '../../hooks';
@@ -18,6 +18,8 @@ const LibraryAlbums = ({ songs, labels }) => {
   const { t } = useTranslation();
   const { set } = useAudio();
 
+  const isSmall = useMediaQuery(theme => theme.breakpoints.down('xs'));
+
   return (
     <Box
       display="flex"
@@ -25,44 +27,52 @@ const LibraryAlbums = ({ songs, labels }) => {
       overflow="auto"
       flexGrow={1}
     >
-      {labels.map(label => (
-        <Box key={label._id} display="flex" flexDirection="column">
-          <Box display="flex" flexDirection="column">
-            <Typography noWrap>
-              {label.label || ''}
-            </Typography>
-            <Typography noWrap variant="body2" color="textSecondary">
-              {[
-                `${label.albums.length} ${t('common.album', { plural: label.albums.length !== 1 })}`,
-                `${label.songs.length} ${t('common.track', { plural: label.songs.length !== 1 })}`,
-                formatTime(label.duration || 0)
-              ].join('\u2022')}
-            </Typography>
+      {labels.map(label => {
+        const labelPrimary = [
+          `${label.albums.length} ${t('common.album', { plural: label.albums.length !== 1 })}`,
+          `${label.songs.length} ${t('common.track', { plural: label.songs.length !== 1 })}`,
+          formatTime(label.duration || 0)
+        ].join(' \u2022 ');
+
+        return (
+          <Box key={label._id} display="flex" flexDirection="column">
+            <Box display="flex" flexDirection="column">
+              <Tooltip disabled={!isSmall} primary={labelPrimary}>
+                <Typography noWrap variant="body2">
+                  {label.label || ''}
+                </Typography>
+              </Tooltip>
+              {!isSmall && (
+                <Typography noWrap variant="caption" color="textSecondary">
+                  {labelPrimary}
+                </Typography>
+              )}
+            </Box>
+            <Box display="flex" flexWrap="wrap">
+              {label.albums.map(album => (
+                <ButtonBase
+                  key={album._id}
+                  onClick={() => set({
+                    name: album.album,
+                    collection: album.songs
+                      .map(id => songs[id])
+                      .sort(sortByTrack)
+                  })}
+                >
+                  <img
+                    src={album.cover}
+                    alt={album.album}
+                    width="100%"
+                    height="100%"
+                    decoding="async"
+                    loading="lazy"
+                  />
+                </ButtonBase>
+              ))}
+            </Box>
           </Box>
-          <Box display="flex" flexWrap="wrap">
-            {label.albums.map(album => (
-              <ButtonBase
-                key={album._id}
-                onClick={() => set({
-                  name: album.album,
-                  collection: album.songs
-                    .map(id => songs[id])
-                    .sort(sortByTrack)
-                })}
-              >
-                <img
-                  src={album.cover}
-                  alt={album.album}
-                  width="100%"
-                  height="100%"
-                  decoding="async"
-                  loading="lazy"
-                />
-              </ButtonBase>
-            ))}
-          </Box>
-        </Box>
-      ))}
+        );
+      })}
     </Box>
   );
 };

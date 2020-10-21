@@ -1,5 +1,9 @@
 # Doombox - IPC
 
+## Global data flow
+
+![Global IPC data flow](./assets/ipc-global.jpg)
+
 ## Channels
 
 - `WINDOW` - Window actions (minimize, maximize, etc.)
@@ -12,7 +16,7 @@
 - `CONFIG` - Storage controller (config)
 - `KEYBIND` - Keybind actions (play, pause, etc.)
 - `INTERRUPT` - Interrupt data channel
-- `ROUTE` - Routing (interrupt, main, etc.)
+- `VIEW` - Routing (interrupt, main, etc.)
 
 ## Protocol
 
@@ -24,8 +28,8 @@ Electron expects a specific payload structure:
 {
   action: <String>, // IPC.ACTION
   route: { // Optional
-    from: <String>, // ROUTE, set client route to `from` on arrival
-    to: <String> // ROUTE, set client route to `to` on success
+    from: <String>, // VIEW, set client route to `from` on arrival
+    to: <String> // VIEW, set client route to `to` on success
   },
   data: <Object> // Data, depends on action
 }
@@ -44,7 +48,8 @@ Electron expects a specific payload structure:
 ```JSON
 {
   data: {
-    query: <String>
+    query: <String>,
+    projection: Array<String>
   }
 }
 ```
@@ -55,7 +60,8 @@ Electron expects a specific payload structure:
 {
   data: {
     query: <String>,
-    update: <Object>
+    update: <Object>,
+    projection: Array<String>
   }
 }
 ```
