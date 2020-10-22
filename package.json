@@ -14,8 +14,8 @@
   },
   "scripts": {
     "lint": "eslint src --ext .js --ext .jsx",
-    "test:electron": "node ./scripts/test.js src/electron/**/*.spec.js",
-    "test:react": "node ./scripts/test.js src/client/**/*.spec.js",
+    "test:electron": "node ./scripts/test.js src/electron .spec.js",
+    "test:react": "node ./scripts/test.js src/client .spec.js",
     "test:intl": "tape src/intl/**/*.spec.js",
     "test": "yarn test:intl && yarn test:react && yarn test:electron",
     "clean": "node scripts/clean.js",
@@ -29,7 +29,6 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "clsx": "^1.1.1",
-    "fast-glob": "^3.2.4",
     "howler": "^2.2.0",
     "leaf-db": "^2.3.2",
     "lodash.debounce": "^4.0.8",

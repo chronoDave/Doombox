@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
+const { walk } = require('../src/utils');
 
 require('@babel/register')({
   presets: ['@babel/preset-env'],
@@ -17,7 +18,5 @@ require('@babel/register')({
 });
 require('@babel/polyfill');
 
-const glob = require('fast-glob');
-
-const files = glob.sync(process.argv[2], { absolute: true });
+const files = walk(process.argv[2], process.argv[3]);
 files.forEach(file => require(file));

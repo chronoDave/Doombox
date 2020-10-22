@@ -1,11 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 
-const glob = require('fast-glob');
 const groupBy = require('lodash.groupby');
 const throttle = require('lodash.throttle');
 
-const { toArray } = require('@doombox-utils');
+const { walk, toArray } = require('@doombox-utils');
 const { IPC, TYPES } = require('@doombox-utils/types');
 
 // Utils
@@ -107,10 +106,7 @@ module.exports = class LibraryController {
       { data, error: null }
     ), 10);
     const files = toArray(payload)
-      .map(folder => glob.sync(`**/*.?(${this.fileTypes.join('|')})`, {
-        cwd: folder,
-        absolute: true
-      }))
+      .map(folder => walk(folder, this.fileTypes))
       .flat();
 
     for (let i = 0, total = files.length; i < total; i += 1) {
