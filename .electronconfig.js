@@ -10,11 +10,12 @@ module.exports = {
   },
 
   directories: {
-    app: path.resolve(__dirname, '../../'),
-    output: path.resolve(__dirname, '../../dist')
+    app: __dirname,
+    output: path.resolve(__dirname, 'dist')
   },
   files: [
     '!**/*',
+    'LICENSE',
     'package.json',
     { from: 'build/client', to: 'client' },
     { from: 'build/icons/mui', to: 'mui-icons' },
@@ -29,20 +30,18 @@ module.exports = {
     uninstallDisplayName: '${productName} ${version}'
   },
   win: {
-    target: process.env.NODE_ENV === 'portable' ?
-      'portable' :
-      [
-        { target: 'nsis', arch: 'x64' },
-        { target: 'portable', arch: 'x64' }
-      ],
-    icon: path.resolve(__dirname, '../../build/icons/app.ico'),
+    target: [
+      { target: 'nsis', arch: 'x64' },
+      { target: 'portable', arch: 'x64' }
+    ],
+    icon: path.resolve(__dirname, 'build/icons/app.ico'),
     publisherName: 'Chronocide'
   },
 
   // Mac
   mac: {
     category: 'public.app-category.music',
-    icon: path.resolve(__dirname, '../../build/icons/app.png'),
+    icon: path.resolve(__dirname, 'build/icons/app.png'),
     darkModeSupport: true,
     type: 'distribution'
   }
