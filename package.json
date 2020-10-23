@@ -20,7 +20,8 @@
     "test": "yarn test:intl && yarn test:react && yarn test:electron",
     "clean": "node scripts/clean.js",
     "start:react": "webpack --config-name=client -w",
-    "start:electron": "node ./scripts/watch.js -e webpack --config-name=electron -e electron build/src/main.bundle.js",
+    "start:electron-webpack": "webpack --config-name=electron -w",
+    "start:electron": "nodemon --exec electron build/src/main.bundle.js -w build/src",
     "prebuild:react": "webpack --config-name=client --mode production",
     "prebuild:electron": "webpack --config-name=electron --mode production",
     "build": "yarn prebuild:react && yarn prebuild:electron && yarn clean && electron-builder -p=never -c .electronconfig.js"
@@ -65,6 +66,7 @@
     "file-loader": "^6.1.1",
     "fs-webpack-plugin": "^2.1.1",
     "html-webpack-plugin": "^5.0.0-alpha.5",
+    "nodemon": "^2.0.6",
     "sinon": "^9.2.0",
     "tape": "^5.0.1",
     "terser-webpack-plugin": "^5.0.0",
