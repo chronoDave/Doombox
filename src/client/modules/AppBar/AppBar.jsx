@@ -1,26 +1,21 @@
 import { shell, remote } from 'electron';
 
 import React, { Fragment, useState, useEffect } from 'react';
+import { cx } from 'emotion';
 import { connect } from 'react-redux';
 import { capitalize, normalizeKeybind } from '@doombox-utils';
 import { URLS } from '@doombox-utils/types';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-// Icons
-import IconMaximize from '@material-ui/icons/Fullscreen';
-import IconClose from '@material-ui/icons/Close';
-
 // Core
-import { Box, Hidden } from '@material-ui/core';
-
 import {
   Menu,
   MenuItem,
   Icon,
   IconApp,
   Typography,
-  ButtonWindow
+  ButtonBase,
+  Hidden
 } from '../../components';
 
 // Actions
@@ -41,7 +36,7 @@ import { useHover, useTranslation } from '../../hooks';
 import { propKeybinds } from '../../validation/propTypes';
 
 // Styles
-import { useAppBarStyles } from './AppBar.styles';
+import useAppBarStyles from './AppBar.styles';
 
 const AppBar = props => {
   const {
@@ -56,11 +51,11 @@ const AppBar = props => {
   const [appTitle, setAppTitle] = useState('Doombox');
 
   const { t } = useTranslation();
+  const classes = useAppBarStyles();
   const { onEnter, onLeave } = useHover({
     enter: () => setOpen(true),
     leave: () => setOpen(false)
   });
-  const classes = useAppBarStyles();
 
   const appMenu = {
     file: [{
@@ -125,19 +120,18 @@ const AppBar = props => {
 
   return (
     <Fragment>
-      <Box display="flex" bgcolor="grey.50">
-        <div className={clsx(classes.icon, classes.drag)}>
+      <div className={classes.root}>
+        <div className={classes.icon}>
           <IconApp />
         </div>
-        <Box display="flex">
+        <div className={classes.menu}>
           {Object.keys(appMenu).map(id => (
-            <ButtonWindow
+            <ButtonBase
               key={id}
               onClick={event => {
                 setOpen(!open);
                 setMenu({ id, anchorEl: event.currentTarget });
               }}
-              active={menu.id === id && open}
               onMouseEnter={event => {
                 if (open) {
                   setMenu({ id, anchorEl: event.currentTarget });
@@ -145,45 +139,45 @@ const AppBar = props => {
                 }
               }}
               onMouseLeave={onLeave}
+              className={cx(classes.menuButton, {
+                [classes.menuButtonActive]: menu.id === id && open
+              })}
             >
-              <Typography variant="body2">
+              <Typography color="inherit">
                 {capitalize(id)}
               </Typography>
-            </ButtonWindow>
+            </ButtonBase>
           ))}
-        </Box>
-        <div className={clsx(classes.titleRoot, classes.drag)}>
-          <Hidden className={classes.titleHidden} xsDown>
-            <Typography noWrap variant="body2">
+        </div>
+        <div className={classes.title}>
+          <Hidden mdDown>
+            <Typography noWrap>
               {appTitle}
             </Typography>
           </Hidden>
         </div>
-        <Box
-          display="flex"
-          flexShrink={0}
-          justifyContent="flex-end"
-        >
-          <ButtonWindow onClick={windowMinimize}>
-            <Icon type="minimize" fontSize="small" />
-          </ButtonWindow>
-          <ButtonWindow onClick={windowMaximize}>
-            <IconMaximize fontSize="small" />
-          </ButtonWindow>
-          <ButtonWindow
-            onClick={windowClose}
-            className={classes.buttonWindowClose}
+        <div className={classes.buttons}>
+          <ButtonBase className={classes.menuButton} onClick={windowMinimize}>
+            <Icon type="minimize" small />
+          </ButtonBase>
+          <ButtonBase className={classes.menuButton} onClick={windowMaximize}>
+            <Icon type="maximize" small />
+          </ButtonBase>
+          <ButtonBase
+            className={cx(classes.menuButton, classes.menuButtonClose)}
+            onClick={windowMinimize}
           >
-            <IconClose fontSize="small" />
-          </ButtonWindow>
-        </Box>
-      </Box>
+            <Icon type="close" small />
+          </ButtonBase>
+        </div>
+      </div>
       <Menu
         open={open}
         anchorEl={menu.anchorEl}
         onClose={() => setOpen(false)}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
+        placement="auto-end"
       >
         {appMenu[menu.id].map(({ primary, secondary, ...rest }) => (
           <MenuItem

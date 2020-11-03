@@ -2,9 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 
-// Core
-import { CssBaseline } from '@material-ui/core';
-
 import { App } from './modules';
 
 // Providers
@@ -26,9 +23,7 @@ render(
         <AudioProvider>
           <KeybindProvider>
             <ThemeProvider>
-              <CssBaseline>
-                <App />
-              </CssBaseline>
+              <App />
             </ThemeProvider>
           </KeybindProvider>
         </AudioProvider>

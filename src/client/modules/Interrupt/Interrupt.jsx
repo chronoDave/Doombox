@@ -5,15 +5,13 @@ import { formatTime } from '@doombox-utils';
 import { IPC } from '@doombox-utils/types';
 
 // Core
-import { Box, LinearProgress } from '@material-ui/core';
-
-import { Typography } from '../../components';
+import { Typography, LinearProgress } from '../../components';
 
 // Hooks
 import { useTranslation } from '../../hooks';
 
 // Styles
-import { useInterruptStyles } from './Interrupt.styles';
+import useInterruptStyles from './Interrupt.styles';
 
 const Interrupt = () => {
   const [progress, setProgress] = useState({ file: '', index: 0, total: 0 });
@@ -36,44 +34,33 @@ const Interrupt = () => {
     return () => clearInterval(counter);
   }, []);
 
-  const percentage = progress.total > 0 ?
+  const value = progress.total > 0 ?
     Math.round((progress.index / progress.total) * 100) :
     0;
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      height="100%"
-      p={2}
-    >
-      <Box display="flex" flexDirection="column" mb={1}>
+    <div className={classes.root}>
+      <div className={classes.title}>
         <Typography align="center">
           {t('title.scanning_folders')}
         </Typography>
-        <Typography paragraph variant="body2">
+        <Typography>
           {t('description.scanning_folders')}
         </Typography>
-        <Typography variant="body2" align="center">
+        <Typography align="center">
           {`${formatTime(count)}`}
         </Typography>
-      </Box>
-      <Box display="flex" alignItems="center" width="100%">
-        <LinearProgress
-          classes={{ root: classes.progressRoot }}
-          value={percentage}
-          variant="determinate"
-        />
-        <Typography variant="body2">
-          {`${percentage}%`}
+      </div>
+      <div className={classes.progress}>
+        <LinearProgress value={value} />
+        <Typography className={classes.progressLabel}>
+          {`${value}%`}
         </Typography>
-      </Box>
+      </div>
       <Typography variant="caption" clamp={4}>
         {progress.file}
       </Typography>
-    </Box>
+    </div>
   );
 };
 

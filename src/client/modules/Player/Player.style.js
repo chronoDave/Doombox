@@ -1,10 +1,14 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '../../theme';
 
-export const usePlayerStyles = makeStyles(theme => ({
-  metadataImage: ({ cover = {} }) => ({
+export default makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  cover: ({ cover = {} }) => ({
     display: 'flex',
     flexDirection: 'column',
-    backgroundImage: cover.file && theme.createBackgroundImage(cover.file),
+    backgroundImage: cover.file && theme.createImage(cover.file),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: 150,
@@ -19,43 +23,15 @@ export const usePlayerStyles = makeStyles(theme => ({
       height: 300
     }
   }),
-  progressRoot: {
-    padding: 0,
-    height: 4,
-    [theme.breakpoints.up('sm')]: {
-      height: 6
-    }
+  coverTitle: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexGrow: 1
   },
-  progressRail: {
-    height: 4,
-    backgroundColor: theme.palette.grey[600],
-    [theme.breakpoints.up('sm')]: {
-      height: 6
-    }
-  },
-  progressTrack: {
-    height: 4,
-    [theme.breakpoints.up('sm')]: {
-      height: 6
-    }
-  },
-  progressThumb: {
-    height: 4,
-    width: 4,
-    margin: 0,
-    marginLeft: -4,
-    borderRadius: 'initial',
-    color: theme.palette.primary.light,
-    '&:after': {
-      display: 'none'
-    },
-    '&.MuiSlider-active': {
-      boxShadow: 'initial'
-    },
-    [theme.breakpoints.up('sm')]: {
-      height: 6,
-      width: 6,
-      marginLeft: -6
-    }
+  duration: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
-}));
+}), 'player');

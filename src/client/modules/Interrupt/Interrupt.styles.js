@@ -1,8 +1,25 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '../../theme';
 
-export const useInterruptStyles = makeStyles(theme => ({
-  progressRoot: {
-    width: '100%',
-    marginRight: theme.spacing(2)
+export default makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    padding: theme.spacing(2)
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: theme.spacing()
+  },
+  progress: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%'
+  },
+  progressLabel: {
+    marginLeft: theme.spacing()
   }
-}));
+}), 'interrupt');

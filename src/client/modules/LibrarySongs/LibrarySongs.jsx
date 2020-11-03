@@ -1,22 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// Core
-import { Box } from '@material-ui/core';
-
 // Hooks
 import { useAudio } from '../../hooks';
 
+// Styles
+import useLibrarySongsStyles from './LibrarySongs.styles';
+
 const Library = ({ songs }) => {
   const { create } = useAudio();
+  const classes = useLibrarySongsStyles();
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      overflow="auto"
-      flexGrow={1}
-    >
+    <div className={classes.root}>
       {songs.map(song => (
         <button
           type="button"
@@ -26,7 +22,7 @@ const Library = ({ songs }) => {
           {`${song.metadata.artist} - ${song.metadata.title}`}
         </button>
       ))}
-    </Box>
+    </div>
   );
 };
 

@@ -13,3 +13,8 @@ export const propKeybinds = PropTypes.shape(
 export const propCover = PropTypes.shape({
   file: PropTypes.string.isRequired
 });
+
+export const propAnchorEl = PropTypes.oneOfType([
+  PropTypes.func,
+  PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+]);

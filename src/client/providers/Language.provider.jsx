@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { getTranslation } from '@doombox-intl';
 import PropTypes from 'prop-types';
 
-// Hooks
-import { LanguageContext } from '../hooks';
+// Context
+import { LanguageContext } from '../context';
 
 const LanguageProvider = ({ language, children }) => {
   const value = {

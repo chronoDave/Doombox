@@ -12,14 +12,14 @@ const config = path.resolve(__dirname, 'config.json');
 const setup = () => {
   fs.writeFileSync(config, JSON.stringify(THEME));
 
-  return new Storage(__dirname, 'config', { variant: 'light' });
+  return new Storage(__dirname, 'config', { dark: false });
 };
 
 test('should read config file', t => {
   const storage = setup();
 
   t.equal(storage.data.grey[50], THEME.grey[50], 'reads config file');
-  t.equal(storage.data.variant, 'dark', 'should override defaults');
+  t.equal(storage.data.dark, true, 'should override defaults');
 
   fs.unlinkSync(config);
 
@@ -43,7 +43,7 @@ test('should return all data if no key is provided', t => {
 test('should return data based on query', t => {
   const storage = setup();
 
-  t.equal(storage.get('grey.50'), THEME.grey[50], 'returns query data');
+  t.equal(storage.get('grey.1'), THEME.grey[1], 'returns query data');
 
   fs.unlinkSync(config);
 

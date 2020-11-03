@@ -61,7 +61,7 @@ app.on('ready', () => {
   const window = Doombox.createWindow({
     ...cache.get(TYPES.CACHE.WINDOW),
     darkTheme: theme.get('variant') === 'dark',
-    backgroundColor: theme.get('grey')[300]
+    backgroundColor: theme.get('grey')[1]
   });
 
   if (isMac) {

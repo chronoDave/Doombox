@@ -5,9 +5,7 @@ import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 
 // Core
-import { Slider, Box, Hidden } from '@material-ui/core';
-
-import { Typography } from '../../components';
+import { Typography, Slider, Hidden } from '../../components';
 
 // Hooks
 import { useAudio } from '../../hooks';
@@ -18,7 +16,7 @@ import { PlayerControls } from '../PlayerControls';
 import { propCover } from '../../validation/propTypes';
 
 // Styles
-import { usePlayerStyles } from './Player.style';
+import usePlayerStyles from './Player.style';
 
 const Player = props => {
   const {
@@ -34,51 +32,39 @@ const Player = props => {
   const throttledSeek = throttle((event, newValue) => seek(newValue), 100);
 
   return (
-    <Box display="flex" flexDirection="column">
-      <div className={classes.metadataImage}>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          flexGrow={1}
-        >
-          <Typography clamp={2} align="center" gutterBottom>
+    <div className={classes.root}>
+      <div className={classes.cover}>
+        <div className={classes.coverTitle}>
+          <Typography clamp={2} align="center">
             {title}
           </Typography>
-          <Typography variant="body2" clamp={2} align="center">
+          <Typography clamp={2} align="center">
             {artist}
           </Typography>
-        </Box>
-        <Hidden mdUp>
-          <PlayerControls />
+        </div>
+        <Hidden smUp>
+          <PlayerControls className={classes.controls} />
         </Hidden>
-        <Hidden smDown>
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="body2">
+        <Hidden mdDown>
+          <div className={classes.duration}>
+            <Typography>
               {formatTime(position)}
             </Typography>
-            <Typography variant="body2">
+            <Typography>
               {`-${formatTime(duration - position)}`}
             </Typography>
-          </Box>
+          </div>
         </Hidden>
       </div>
       <Slider
         value={position}
         max={duration}
-        onChange={throttledSeek}
-        classes={{
-          root: classes.progressRoot,
-          rail: classes.progressRail,
-          track: classes.progressTrack,
-          thumb: classes.progressThumb
-        }}
+        onDrag={throttledSeek}
       />
       <Hidden smDown>
         <PlayerControls />
       </Hidden>
-    </Box>
+    </div>
   );
 };
 

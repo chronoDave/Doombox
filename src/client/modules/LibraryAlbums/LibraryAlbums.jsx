@@ -4,29 +4,23 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase, Box, useMediaQuery } from '@material-ui/core';
-
-import { Tooltip, Typography } from '../../components';
+import { ButtonBase, Typography } from '../../components';
 
 // Hooks
-import { useTranslation, useAudio } from '../../hooks';
+import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
 
-// Utils
-import { sortByTrack } from '../../utils';
+// Styles
+import useLibraryAlbumStyles from './LibraryAlbums.styles';
 
 const LibraryAlbums = ({ songs, labels }) => {
   const { t } = useTranslation();
   const { set } = useAudio();
+  const classes = useLibraryAlbumStyles();
 
-  const isSmall = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      overflow="auto"
-      flexGrow={1}
-    >
+    <div className={classes.root}>
       {labels.map(label => {
         const labelPrimary = [
           `${label.albums.length} ${t('common.album', { plural: label.albums.length !== 1 })}`,
@@ -35,20 +29,18 @@ const LibraryAlbums = ({ songs, labels }) => {
         ].join(' \u2022 ');
 
         return (
-          <Box key={label._id} display="flex" flexDirection="column">
-            <Box display="flex" flexDirection="column">
-              <Tooltip disabled={!isSmall} primary={labelPrimary}>
-                <Typography noWrap variant="body2">
-                  {label.label || ''}
-                </Typography>
-              </Tooltip>
+          <div key={label._id} className={classes.itemRoot}>
+            <div className={classes.itemLabel}>
+              <Typography noWrap>
+                {label.label || ''}
+              </Typography>
               {!isSmall && (
-                <Typography noWrap variant="caption" color="textSecondary">
+                <Typography noWrap variant="caption">
                   {labelPrimary}
                 </Typography>
               )}
-            </Box>
-            <Box display="flex" flexWrap="wrap">
+            </div>
+            <div className={classes.itemAlbums}>
               {label.albums.map(album => (
                 <ButtonBase
                   key={album._id}
@@ -56,7 +48,11 @@ const LibraryAlbums = ({ songs, labels }) => {
                     name: album.album,
                     collection: album.songs
                       .map(id => songs[id])
-                      .sort(sortByTrack)
+                      .sort((a, b) => {
+                        if (a.metadata.track.no < b.metadata.track.no) return -1;
+                        if (a.metadata.track.no > b.metadata.track.no) return 1;
+                        return 0;
+                      })
                   })}
                 >
                   <img
@@ -69,11 +65,11 @@ const LibraryAlbums = ({ songs, labels }) => {
                   />
                 </ButtonBase>
               ))}
-            </Box>
-          </Box>
+            </div>
+          </div>
         );
       })}
-    </Box>
+    </div>
   );
 };
 

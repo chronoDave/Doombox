@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { STATUS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Icons
-import IconPlay from '@material-ui/icons/PlayArrow';
-import IconPause from '@material-ui/icons/Pause';
+// Core
+import { Icon } from '../Icon';
 
 // Hooks
 import { useAudio } from '../../hooks';
@@ -20,9 +19,9 @@ const IconButtonPlay = ({ status, dispatch, ...rest }) => {
   return (
     <IconButton {...rest} onClick={handleClick}>
       {status === STATUS.AUDIO.PLAYING ? (
-        <IconPause />
+        <Icon type="pause" />
       ) : (
-        <IconPlay />
+        <Icon type="play" />
       )}
     </IconButton>
   );

@@ -1,52 +1,41 @@
-import React, { Fragment } from 'react';
-import clsx from 'clsx';
+import React from 'react';
+import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  Box,
-  ButtonBase,
-  Divider,
-  withStyles
-} from '@material-ui/core';
-
+import { ButtonBase } from '../ButtonBase';
 import { Typography } from '../Typography';
 
 // Styles
-import { menuStyles } from './Menu.styles';
+import useMenuStyles from './Menu.styles';
 
 const MenuItem = props => {
   const {
-    classes,
     primary,
     secondary,
     divider,
     onClick,
     onClose
   } = props;
+  const classes = useMenuStyles();
 
   return (
-    <Fragment>
-      <ButtonBase
-        onClick={event => {
-          onClick(event);
-          if (onClose) onClose(event);
-        }}
-        className={clsx(classes.itemRoot)}
-      >
-        <Typography variant="body2">
-          {primary}
+    <ButtonBase
+      onClick={event => {
+        onClick(event);
+        if (typeof onClose === 'function') onClose(event);
+      }}
+      className={cx(classes.itemRoot, { [classes.itemDivider]: divider })}
+    >
+      <Typography>
+        {primary}
+      </Typography>
+      {secondary && (
+        <Typography className={classes.itemSecondary}>
+          {secondary}
         </Typography>
-        {secondary && (
-          <Box ml={3}>
-            <Typography variant="body2" align="right">
-              {secondary}
-            </Typography>
-          </Box>
-        )}
-      </ButtonBase>
-      {divider && <Divider />}
-    </Fragment>
+      )}
+    </ButtonBase>
   );
 };
 
@@ -57,9 +46,6 @@ MenuItem.defaultProps = {
 };
 
 MenuItem.propTypes = {
-  classes: PropTypes.shape({
-    itemRoot: PropTypes.string.isRequired
-  }).isRequired,
   divider: PropTypes.bool,
   primary: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
@@ -67,4 +53,4 @@ MenuItem.propTypes = {
   secondary: PropTypes.string
 };
 
-export default withStyles(menuStyles)(MenuItem);
+export default MenuItem;

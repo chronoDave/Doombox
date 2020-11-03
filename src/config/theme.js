@@ -1,15 +1,25 @@
 module.exports = {
-  variant: 'dark',
+  dark: true,
   grey: {
-    50: '#202225',
-    100: '#292b2f',
-    200: '#2f3136',
-    300: '#32353b',
-    400: '#36393f',
-    500: '#3a3c43',
-    600: '#4f545c',
-    700: '#72767d',
-    800: '#8e9297',
-    900: '#b9bbbe'
+    1: '#202225',
+    2: '#292b2f',
+    3: '#2f3136',
+    4: '#32353b',
+    8: '#36393f',
+    16: '#3a3c43'
+  },
+  primary: {
+    main: '#664d82',
+    contrastText: '#fff'
+  },
+  text: {
+    primary: '#dcddde'
+  },
+  error: {
+    main: '#f04747'
+  },
+  action: {
+    inactive: 0.42,
+    hover: 0.14
   }
 };

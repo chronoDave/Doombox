@@ -3,26 +3,23 @@ import Mousetrap from 'mousetrap';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  ClickAwayListener,
-  Fade,
-  Popper,
-  Paper,
-  withStyles
-} from '@material-ui/core';
+import { Popper } from '../Popper';
+
+// Validation
+import { propAnchorEl } from '../../validation/propTypes';
 
 // Styles
-import { menuStyles } from './Menu.styles';
+import useMenuStyles from './Menu.styles';
 
 const Menu = props => {
   const {
-    classes,
-    children,
     open,
     onClose,
     anchorEl,
+    children,
     ...rest
   } = props;
+  const classes = useMenuStyles();
 
   useEffect(() => {
     Mousetrap.bind('escape', onClose);
@@ -31,42 +28,26 @@ const Menu = props => {
 
   return (
     <Popper
-      open={open}
       anchorEl={anchorEl}
-      placement="top-start"
-      transition
+      open={open}
+      className={classes.root}
+      {...rest}
     >
-      {({ TransitionProps }) => (
-        <ClickAwayListener onClickAway={onClose}>
-          <Fade {...TransitionProps}>
-            <Paper
-              {...rest}
-              square
-              elevation={4}
-              classes={{ root: classes.paperRoot }}
-            >
-              {Children.map(children, child => cloneElement(child, { onClose }))}
-            </Paper>
-          </Fade>
-        </ClickAwayListener>
-      )}
+      {Children.map(children, child => cloneElement(child, { onClose }))}
     </Popper>
   );
 };
 
 Menu.defaultProps = {
-  anchorEl: null,
-  children: null
+  open: false,
+  anchorEl: null
 };
 
 Menu.propTypes = {
-  children: PropTypes.node,
-  classes: PropTypes.shape({
-    paperRoot: PropTypes.string.isRequired
-  }).isRequired,
+  open: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  anchorEl: PropTypes.shape({})
+  anchorEl: propAnchorEl,
+  children: PropTypes.node.isRequired
 };
 
-export default withStyles(menuStyles)(Menu);
+export default Menu;

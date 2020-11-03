@@ -1,24 +1,34 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '../../theme';
 
-export const useIconButtonStyles = makeStyles(theme => ({
-  square: {
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing()
+export default makeStyles(theme => ({
+  root: {
+    borderRadius: theme.spacing(),
+    padding: theme.spacing(),
+    color: theme.palette.text.primary,
+    transition: theme.transition.create(
+      ['background-color'],
+      { duration: theme.transition.duration.shortest }
+    ),
+    '&:hover': {
+      backgroundColor: theme.palette.fade(
+        theme.palette.text.primary,
+        theme.palette.action.hover
+      )
+    }
   },
   small: {
     padding: theme.spacing(0.5)
   },
   iconSmall: {
-    fontSize: theme.typography.pxToRem(20),
+    fontSize: theme.typography.pxToRem(20)
   },
-  volumePaperRoot: {
+  menu: {
+    backgroundColor: theme.palette.grey[2],
+    padding: theme.spacing(0.5),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    height: 90
-  },
-  volumeSliderRoot: {
-    marginTop: theme.spacing(1.5),
-    marginBottom: theme.spacing(1)
+    height: 90,
+    width: 28,
+    alignItems: 'center'
   }
-}));
+}), 'iconButton');

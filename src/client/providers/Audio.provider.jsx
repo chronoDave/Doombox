@@ -5,8 +5,8 @@ import { IPC, EVENTS } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Hooks
-import { AudioContext } from '../hooks';
+// Context
+import { AudioContext } from '../context';
 
 // Actions
 import { updateCache, setThumbar } from '../actions';

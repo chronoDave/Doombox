@@ -3,6 +3,8 @@ export {
   Icon,
   IconApp
 } from './Icon';
+export { Popper } from './Popper';
+export { Hidden } from './Hidden';
 export {
   Menu,
   MenuItem
@@ -12,6 +14,7 @@ export {
   IconButtonPlay,
   IconButtonVolume
 } from './IconButton';
-export { Tooltip } from './Tooltip';
+export { Slider } from './Slider';
+export { LinearProgress } from './LinearProgress';
 export { Route } from './Route';
-export { ButtonWindow } from './Button';
+export { ButtonBase } from './ButtonBase';

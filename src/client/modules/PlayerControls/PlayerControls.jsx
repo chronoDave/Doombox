@@ -1,41 +1,41 @@
 import React from 'react';
+import { cx } from 'emotion';
 import { connect } from 'react-redux';
-
-// Icons
-import IconNext from '@material-ui/icons/SkipNext';
-import IconPrevious from '@material-ui/icons/SkipPrevious';
-import IconShuffle from '@material-ui/icons/Shuffle';
+import PropTypes from 'prop-types';
 
 // Core
-import { Box, useMediaQuery } from '@material-ui/core';
-
 import {
+  Icon,
   IconButton,
   IconButtonPlay,
   IconButtonVolume
 } from '../../components';
 
 // Hooks
-import { useAudio } from '../../hooks';
+import { useAudio, useMediaQuery } from '../../hooks';
 
-const PlayerControls = () => {
+// Styles
+import usePlayerControls from './PlayerControls.styles';
+
+const PlayerControls = ({ className }) => {
   const { next, previous, shuffle } = useAudio();
-  const isSmall = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
+  const classes = usePlayerControls();
 
   return (
-    <Box display="flex" justifyContent={{ xs: 'space-around', sm: 'center' }}>
-      <IconButtonVolume square small={isSmall} />
-      <IconButton square small={isSmall} onClick={previous}>
-        <IconPrevious />
+    <div className={cx(classes.root, className)}>
+      <IconButtonVolume small={isSmall} />
+      <IconButton small={isSmall} onClick={previous}>
+        <Icon type="previous" />
       </IconButton>
-      <IconButtonPlay square small={isSmall} />
-      <IconButton square small={isSmall} onClick={next}>
-        <IconNext />
+      <IconButtonPlay small={isSmall} />
+      <IconButton small={isSmall} onClick={next}>
+        <Icon type="next" />
       </IconButton>
-      <IconButton square small={isSmall} onClick={shuffle}>
-        <IconShuffle />
+      <IconButton small={isSmall} onClick={shuffle}>
+        <Icon type="shuffle" />
       </IconButton>
-    </Box>
+    </div>
   );
 };
 
@@ -43,6 +43,14 @@ const mapStateToProps = state => ({
   volume: state.player.volume,
   status: state.player.status
 });
+
+PlayerControls.defaultProps = {
+  className: null
+};
+
+PlayerControls.propTypes = {
+  className: PropTypes.string
+};
 
 export default connect(
   mapStateToProps

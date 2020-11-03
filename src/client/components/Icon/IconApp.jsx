@@ -1,7 +1,7 @@
 import React from 'react';
 
-// Core
-import { useTheme } from '@material-ui/core';
+// Hooks
+import { useTheme } from '../../hooks';
 
 // Assets
 import iconDark from '../../assets/icons/icon_dark.png';
@@ -13,7 +13,7 @@ const IconApp = props => {
   return (
     <img
       {...props}
-      src={theme.palette.type === 'dark' ? iconDark : iconLight}
+      src={theme.palette.dark ? iconDark : iconLight}
       alt="Doombox App icon"
     />
   );

@@ -3,20 +3,11 @@ import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 
-// Icons
-import IconVolumeOff from '@material-ui/icons/VolumeOff';
-import IconVolumeLow from '@material-ui/icons/VolumeMute';
-import IconVolumeMedium from '@material-ui/icons/VolumeDown';
-import IconVolumeHigh from '@material-ui/icons/VolumeUp';
-
 // Core
-import {
-  Typography,
-  Popper,
-  Fade,
-  Paper,
-  Slider
-} from '@material-ui/core';
+import { Icon } from '../Icon';
+import { Popper } from '../Popper';
+import { Slider } from '../Slider';
+import { Typography } from '../Typography';
 
 // Actions
 import { updateCache } from '../../actions';
@@ -25,7 +16,7 @@ import { updateCache } from '../../actions';
 import { useAudio, useHover } from '../../hooks';
 
 // Styles
-import { useIconButtonStyles } from './IconButton.style';
+import useIconButtonStyles from './IconButton.style';
 
 import IconButton from './IconButton';
 
@@ -48,10 +39,10 @@ const IconButtonVolume = props => {
   const classes = useIconButtonStyles();
 
   const renderIcon = () => {
-    if (muted) return <IconVolumeOff />;
-    if (volume === 0) return <IconVolumeLow />;
-    if (volume === 1) return <IconVolumeHigh />;
-    return <IconVolumeMedium />;
+    if (muted) return <Icon type="mute" />;
+    if (volume === 0) return <Icon type="volumeLow" />;
+    if (volume === 1) return <Icon type="volumeHigh" />;
+    return <Icon type="volumeMedium" />;
   };
 
   const id = 'iconButtonVolume';
@@ -73,31 +64,24 @@ const IconButtonVolume = props => {
         id={id}
         open={open}
         anchorEl={ref.current}
-        transition
-        placement="top"
+        placement="top-start"
       >
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps}>
-            <Paper
-              classes={{ root: classes.volumePaperRoot }}
-              onMouseEnter={onEnter}
-              onMouseLeave={onLeave}
-            >
-              <Slider
-                orientation="vertical"
-                max={1}
-                step={0.01}
-                value={volume}
-                classes={{ root: classes.volumeSliderRoot }}
-                onChange={throttledSetVolume}
-                onChangeCommitted={(event, newVolume) => updateCache('player.volume', newVolume)}
-              />
-              <Typography variant="caption">
-                {Math.round(volume * 100)}
-              </Typography>
-            </Paper>
-          </Fade>
-        )}
+        <div
+          className={classes.menu}
+          onMouseEnter={onEnter}
+          onMouseLeave={onLeave}
+        >
+          <Slider
+            value={volume}
+            max={1}
+            vertical
+            onDrag={throttledSetVolume}
+            onDragEnd={(event, newVolume) => updateCache('player.volume', newVolume)}
+          />
+          <Typography>
+            {Math.round(volume * 100)}
+          </Typography>
+        </div>
       </Popper>
     </Fragment>
   );

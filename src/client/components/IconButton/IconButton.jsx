@@ -1,12 +1,12 @@
 import React, { forwardRef, Children, cloneElement } from 'react';
-import clsx from 'clsx';
+import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
 // Core
-import { IconButton as MuiIconButton } from '@material-ui/core';
+import { ButtonBase } from '../ButtonBase';
 
 // Styles
-import { useIconButtonStyles } from './IconButton.style';
+import useIconButtonStyles from './IconButton.style';
 
 const IconButton = forwardRef((props, ref) => {
   const {
@@ -19,19 +19,17 @@ const IconButton = forwardRef((props, ref) => {
   const classes = useIconButtonStyles();
 
   return (
-    <MuiIconButton
-      className={clsx(
-        { [classes.square]: square },
-        { [classes.small]: small },
-        className
-      )}
+    <ButtonBase
+      className={cx(classes.root, {
+        [classes.small]: small
+      })}
       {...rest}
       ref={ref}
     >
       {Children.map(children, child => cloneElement(child, {
-        className: clsx({ [classes.iconSmall]: small })
+        className: cx({ [classes.iconSmall]: small }, child.props.className)
       }))}
-    </MuiIconButton>
+    </ButtonBase>
   );
 });
 

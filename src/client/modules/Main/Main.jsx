@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { IPC, VIEWS } from '@doombox-utils/types';
 
 // Core
-import { Box } from '@material-ui/core';
-
 import { Route } from '../../components';
 
 import { Player } from '../Player';
@@ -14,7 +12,12 @@ import { LibraryAlbums } from '../LibraryAlbums';
 // Actions
 import { ipcFind } from '../../actions';
 
+// Styles
+import useMainStyles from './Main.styles';
+
 const Main = () => {
+  const classes = useMainStyles();
+
   useEffect(() => {
     ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['file', '_id'] });
     ipcFind(IPC.CHANNEL.LIBRARY, {}, {
@@ -44,18 +47,18 @@ const Main = () => {
   }, []);
 
   return (
-    <Box display="flex" minHeight={0}>
-      <Box display="flex" flexDirection="column">
+    <div className={classes.root}>
+      <div className={classes.player}>
         <Player />
         <Playlist />
-      </Box>
+      </div>
       <Route view={VIEWS.SONG}>
         <LibrarySongs />
       </Route>
       <Route view={VIEWS.ALBUM}>
         <LibraryAlbums />
       </Route>
-    </Box>
+    </div>
   );
 };
 
