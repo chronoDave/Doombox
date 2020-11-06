@@ -11,8 +11,8 @@ export default makeStyles(theme => ({
     backgroundImage: cover.file && theme.createImage(cover.file),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    height: 150,
-    width: 150,
+    height: 135,
+    width: 135,
     padding: theme.spacing(1),
     [theme.breakpoints.up('sm')]: {
       width: 210,

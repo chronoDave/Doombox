@@ -1,10 +1,10 @@
+import { remote } from 'electron';
+
 import { IPC, VIEWS } from '@doombox-utils/types';
 
 import { ipcInsert, ipcDrop } from './ipc.actions';
 
-const { dialog } = require('electron').remote;
-
-export const scanFolderNative = () => dialog.showOpenDialog(null, {
+export const scanFolderNative = () => remote.dialog.showOpenDialog(null, {
   title: 'Scan folder',
   properties: ['openDirectory', 'multiSelections']
 })

@@ -1,8 +1,11 @@
-import React, { useRef, useState, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from 'emotion';
 import { createPopper } from '@popperjs/core';
 import PropTypes from 'prop-types';
+
+// Hooks
+import { useTheme } from '../../hooks';
 
 // Validation
 import { propAnchorEl } from '../../validation/propTypes';
@@ -14,34 +17,25 @@ const Popper = props => {
   const {
     children,
     disablePortal,
-    position,
     anchorEl,
-    duration,
+    fade,
     className,
-    placement,
     open,
+    placement,
+    modifiers,
+    position,
     ...rest
   } = props;
-  const [transition, setTransition] = useState(open);
+  const theme = useTheme();
+
+  const duration = fade || theme.transition.duration.shortest;
+  const classes = usePopperStyles({ duration });
 
   const ref = useRef(null);
   const popper = useRef(null);
-  const timer = useRef(null);
+  const timeout = useRef(null);
 
-  const classes = usePopperStyles({ duration });
-
-  const render = (
-    <div
-      className={cx(classes.root, {
-        [classes.hidden]: !open,
-        [classes.unmount]: !open && !transition
-      }, className)}
-      {...rest}
-      ref={ref}
-    >
-      {children}
-    </div>
-  );
+  const [visible, setVisible] = useState(true);
 
   const cleanup = () => {
     if (popper.current) {
@@ -55,51 +49,65 @@ const Popper = props => {
       cleanup();
       popper.current = createPopper(anchorEl, ref.current, {
         placement,
-        strategy: position,
+        modifiers,
+        position,
       });
     }
 
     return cleanup;
-  }, [anchorEl, placement, position]);
+  }, [anchorEl, placement, modifiers, position]);
 
   useLayoutEffect(() => {
     if (!open) {
-      timer.current = setTimeout(() => setTransition(false), duration);
+      timeout.current = setTimeout(() => setVisible(false), duration);
     } else {
-      setTransition(true);
+      setVisible(true);
     }
 
     return () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-        timer.current = null;
+      if (timeout.current) {
+        clearTimeout(timeout.current);
+        timeout.current = null;
       }
     };
   }, [duration, open]);
 
-  return disablePortal ?
-    render :
-    createPortal(
-      render,
+  if (!anchorEl) return null;
+  return createPortal(
+    <div
+      className={cx(classes.root, {
+        [classes.hidden]: !open,
+        [classes.disabled]: !visible && !open
+      }, className)}
+      {...rest}
+      ref={ref}
+    >
+      {children}
+    </div>,
+    disablePortal ?
+      anchorEl :
       document.getElementById('root')
-    );
+  );
 };
 
 Popper.defaultProps = {
-  duration: null,
+  fade: null,
   disablePortal: false,
-  position: 'fixed',
-  placement: 'auto',
   className: null,
   anchorEl: null,
-  open: false
+  open: false,
+  placement: 'auto',
+  position: 'absolute',
+  modifiers: []
 };
 
 Popper.propTypes = {
-  duration: PropTypes.number,
+  fade: PropTypes.number,
   children: PropTypes.node.isRequired,
   disablePortal: PropTypes.bool,
-  position: PropTypes.oneOf(['fixed', 'absolute']),
+  className: PropTypes.string,
+  anchorEl: propAnchorEl,
+  open: PropTypes.bool,
   placement: PropTypes.oneOf([
     'auto',
     'auto-start',
@@ -117,9 +125,28 @@ Popper.propTypes = {
     'left-start',
     'left-end'
   ]),
-  className: PropTypes.string,
-  anchorEl: propAnchorEl,
-  open: PropTypes.bool
+  modifiers: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    enabled: PropTypes.bool.isRequired,
+    phase: PropTypes.oneOf([
+      'beforeRead',
+      'read',
+      'afterRead',
+      'beforeMain',
+      'main',
+      'afterMain',
+      'beforeWrite',
+      'write',
+      'afterWrite'
+    ]).isRequired,
+    fn: PropTypes.func.isRequired,
+    requires: PropTypes.arrayOf(PropTypes.string),
+    requiresIfExists: PropTypes.arrayOf(PropTypes.string),
+    effect: PropTypes.func,
+    options: PropTypes.shape({}),
+    data: PropTypes.shape({})
+  })),
+  position: PropTypes.oneOf(['absolute', 'fixed']),
 };
 
 export default Popper;
