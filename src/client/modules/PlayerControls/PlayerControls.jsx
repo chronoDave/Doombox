@@ -19,9 +19,9 @@ import usePlayerControls from './PlayerControls.styles';
 
 const PlayerControls = ({ className }) => {
   const { next, previous, shuffle } = useAudio();
-  const isSmall = useMediaQuery(theme => theme.breakpoints.create(
-    theme.breakpoints.directions.down,
-    theme.breakpoints.values.sm
+  const isSmall = useMediaQuery(({ breakpoints }) => breakpoints.create(
+    breakpoints.directions.down,
+    breakpoints.values.sm
   ));
   const classes = usePlayerControls();
 

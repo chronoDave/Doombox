@@ -15,14 +15,7 @@ const getTimestamp = () => new Date()
  * @param {number} n
  * @param {number} d - Padding depth (default `1`)
  */
-const zPad = (n, d = 1) => {
-  for (let i = 0; i < d; i += 1) {
-    if (n < (10 ** (i + 1))) {
-      return `${'0'.repeat(d - i)}${n}`;
-    }
-  }
-  return n;
-};
+const zPad = (n, d = 1) => `${'0'.repeat(Math.max(d - n.toString().length, 0))}${n}`;
 
 /**
  * Return files from directory recursively
@@ -71,7 +64,7 @@ const formatTime = (n, { useText = false, displaySeconds = false } = {}) => {
   const s = Math.floor((n % 3600) % 60);
 
   if (useText) return `${h > 0 ? `${h} h` : ''}${m} m${displaySeconds ? ` ${s} s` : ''}`;
-  return `${h > 0 ? `${zPad(h)}:` : ''}${zPad(m)}:${zPad(s)}`;
+  return `${h > 0 ? `${zPad(h, 2)}:` : ''}${zPad(m, 2)}:${zPad(s, 2)}`;
 };
 
 /**

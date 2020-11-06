@@ -9,6 +9,7 @@ module.exports = {
     16: '#3a3c43'
   },
   primary: {
+    dark: '#342841',
     main: '#664d82',
     contrastText: '#fff'
   },

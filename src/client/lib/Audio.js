@@ -146,7 +146,7 @@ class Audio extends EventEmitter {
   }
 
   skip(n) {
-    if (this.playlist.collection.length > 0 && n) {
+    if (this.playlist.collection.length > 0 && typeof n === 'number') {
       this.playlist.index = clamp(0, this.playlist.collection.length - 1, n);
 
       this.create();
@@ -165,9 +165,10 @@ class Audio extends EventEmitter {
         volume: this.volume,
         html5: true,
         autoplay: this.autoplay,
+        mute: this.muted,
         onload: () => {
           this.emit(EVENTS.AUDIO.DURATION, Math.round(this.instance.duration()));
-          this.emit(EVENTS.AUDIO.METADATA, { ...song.metadata, cover: song.images });
+          this.emit(EVENTS.AUDIO.METADATA, { _id: song._id, ...song.metadata, cover: song.images });
         },
         onplay: () => {
           this.status = STATUS.AUDIO.PLAYING;

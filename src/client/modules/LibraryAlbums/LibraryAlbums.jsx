@@ -17,9 +17,9 @@ const LibraryAlbums = ({ songs, labels }) => {
   const { set } = useAudio();
   const classes = useLibraryAlbumStyles();
 
-  const isSmall = useMediaQuery(theme => theme.breakpoints.create(
-    theme.breakpoints.directions.down,
-    theme.breakpoints.values.sm
+  const isSmall = useMediaQuery(({ breakpoints }) => breakpoints.create(
+    breakpoints.directions.down,
+    breakpoints.values.sm
   ));
 
   return (
@@ -52,6 +52,8 @@ const LibraryAlbums = ({ songs, labels }) => {
                     collection: album.songs
                       .map(id => songs[id])
                       .sort((a, b) => {
+                        if (a.metadata.disk.no < b.metadata.disk.no) return -1;
+                        if (a.metadata.disk.no > b.metadata.disk.no) return 1;
                         if (a.metadata.track.no < b.metadata.track.no) return -1;
                         if (a.metadata.track.no > b.metadata.track.no) return 1;
                         return 0;

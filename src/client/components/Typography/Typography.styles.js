@@ -21,7 +21,7 @@ export default makeStyles(theme => ({
   clamp: ({ clamp }) => ({
     width: '100%',
     display: '-webkit-box',
-    WebkitLineClamp: clamp || 1,
+    WebkitLineClamp: typeof clamp === 'number' ? clamp : 1,
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden'
   }),

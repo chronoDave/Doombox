@@ -73,7 +73,7 @@ app.on('ready', () => {
   if (chokidar) {
     chokidar
       .watch(`${assets}/client/**/*`)
-      .on('change', () => window.reload());
+      .on('change', () => window.reloadIgnoringCache());
   }
 
   const handleResize = debounce(() => {
