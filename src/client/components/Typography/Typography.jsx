@@ -73,7 +73,10 @@ Typography.propTypes = {
   fontWeight: PropTypes.oneOf([300, 400, 500]),
   className: PropTypes.string,
   noWrap: PropTypes.bool,
-  clamp: PropTypes.number
+  clamp: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool
+  ])
 };
 
 Typography.defaultProps = {

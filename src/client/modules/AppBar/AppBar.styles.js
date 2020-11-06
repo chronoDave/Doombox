@@ -47,12 +47,6 @@ export default makeStyles(theme => ({
     flexGrow: 1,
     WebkitAppRegion: 'drag'
   },
-  titleHidden: {
-    minWidth: 0,
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
-  },
   buttons: {
     display: 'flex',
     flexShrink: 0,

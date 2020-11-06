@@ -1,11 +1,8 @@
 import { makeStyles } from '../../theme';
 
-export default makeStyles(theme => ({
+export default makeStyles(() => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-around',
-    [theme.breakpoints.up('nd')]: {
-      justifyContent: 'center'
-    }
+    justifyContent: 'space-around'
   }
 }), 'playerControls');

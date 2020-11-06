@@ -150,8 +150,8 @@ const AppBar = props => {
           ))}
         </div>
         <div className={classes.title}>
-          <Hidden mdDown>
-            <Typography noWrap>
+          <Hidden on={({ create, directions, values }) => create(directions.down, values.sm)}>
+            <Typography noWrap align="center">
               {appTitle}
             </Typography>
           </Hidden>

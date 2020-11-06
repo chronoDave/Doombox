@@ -17,7 +17,10 @@ const LibraryAlbums = ({ songs, labels }) => {
   const { set } = useAudio();
   const classes = useLibraryAlbumStyles();
 
-  const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
+  const isSmall = useMediaQuery(theme => theme.breakpoints.create(
+    theme.breakpoints.directions.down,
+    theme.breakpoints.values.sm
+  ));
 
   return (
     <div className={classes.root}>
@@ -31,11 +34,11 @@ const LibraryAlbums = ({ songs, labels }) => {
         return (
           <div key={label._id} className={classes.itemRoot}>
             <div className={classes.itemLabel}>
-              <Typography noWrap>
+              <Typography clamp>
                 {label.label || ''}
               </Typography>
               {!isSmall && (
-                <Typography noWrap variant="caption">
+                <Typography clamp variant="caption">
                   {labelPrimary}
                 </Typography>
               )}

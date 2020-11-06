@@ -11,15 +11,43 @@ export default makeStyles(theme => ({
     backgroundImage: cover.file && theme.createImage(cover.file),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    height: 135,
+    padding: theme.spacing(0.5),
+    height: 90,
     width: 135,
-    padding: theme.spacing(1),
-    [theme.breakpoints.up('sm')]: {
-      width: 210,
+    // 'xs'
+    [theme.breakpoints.create(
+      theme.breakpoints.directions.up,
+      theme.breakpoints.values.xs,
+      theme.breakpoints.axises.y
+    )]: {
+      height: 135
+    },
+    // 'sm'
+    [theme.breakpoints.create(
+      theme.breakpoints.directions.up,
+      theme.breakpoints.values.sm
+    )]: {
+      width: 210
+    },
+    [theme.breakpoints.create(
+      theme.breakpoints.directions.up,
+      theme.breakpoints.values.sm,
+      theme.breakpoints.axises.y
+    )]: {
       height: 210
     },
-    [theme.breakpoints.up('md')]: {
-      width: 300,
+    // 'md'
+    [theme.breakpoints.create(
+      theme.breakpoints.directions.up,
+      theme.breakpoints.values.md
+    )]: {
+      width: 300
+    },
+    [theme.breakpoints.create(
+      theme.breakpoints.directions.up,
+      theme.breakpoints.values.md,
+      theme.breakpoints.axises.y
+    )]: {
       height: 300
     }
   }),

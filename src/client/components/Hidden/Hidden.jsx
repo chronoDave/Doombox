@@ -1,51 +1,28 @@
 import { Children, cloneElement } from 'react';
-import { cx } from 'emotion';
+import { css, cx } from 'emotion';
 import PropTypes from 'prop-types';
 
-// Styles
-import useHiddenStyles from './Hidden.styles';
+// Hooks
+import { useTheme } from '../../hooks';
 
-const Hidden = props => {
-  const {
-    smDown,
-    smUp,
-    mdDown,
-    mdUp,
-    lgDown,
-    lgUp,
-    children
-  } = props;
-  const classes = useHiddenStyles();
+const Hidden = ({ children, on }) => {
+  const theme = useTheme();
 
-  return Children.map(children, child => cloneElement(child, {
-    className: cx(child.props.className, {
-      [classes.smDown]: smDown,
-      [classes.smUp]: smUp,
-      [classes.mdDown]: mdDown,
-      [classes.mdUp]: mdUp,
-      [classes.lgDown]: lgDown,
-      [classes.lgUp]: lgUp
+  return Children.map(
+    children,
+    child => cloneElement(child, {
+      className: cx(child.props.className, css({
+        [on(theme.breakpoints)]: {
+          display: 'none'
+        }
+      }))
     })
-  }));
-};
-
-Hidden.defaultProps = {
-  smDown: false,
-  smUp: false,
-  mdDown: false,
-  mdUp: false,
-  lgDown: false,
-  lgUp: false
+  );
 };
 
 Hidden.propTypes = {
-  smDown: PropTypes.bool,
-  smUp: PropTypes.bool,
-  mdDown: PropTypes.bool,
-  mdUp: PropTypes.bool,
-  lgDown: PropTypes.bool,
-  lgUp: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  on: PropTypes.func.isRequired
 };
 
 export default Hidden;
