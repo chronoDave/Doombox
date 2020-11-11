@@ -18,5 +18,13 @@ export default makeStyles(() => ({
   itemAlbums: {
     display: 'flex',
     flexWrap: 'wrap'
+  },
+  itemButton: {
+    width: 75,
+    height: 75
+  },
+  itemCover: {
+    width: '100%',
+    height: '100%'
   }
 }), 'libraryAlbums');

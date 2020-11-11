@@ -118,7 +118,14 @@ class Audio extends EventEmitter {
   }
 
   shuffle() {
-    this.playlist.collection = shuffle(this.playlist.collection);
+    if (this.playlist.collection.length > 0) {
+      this.playlist.collection = shuffle(this.playlist.collection);
+      this.playlist.index = 0;
+
+      this.create();
+
+      this.emit(EVENTS.AUDIO.PLAYLIST, this.playlist);
+    }
   }
 
   next() {

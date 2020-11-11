@@ -5,7 +5,7 @@ import { zPad } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import { Typography, ButtonBase } from '../../components';
+import { Typography, ButtonBase, VirtualList } from '../../components';
 
 // Hooks
 import { useAudio, useMediaQuery } from '../../hooks';
@@ -26,17 +26,6 @@ const Playlist = ({ name, songs, current }) => {
     breakpoints.values.sm
   ));
 
-  const maxIndex = (() => {
-    if (songs.length === 0) return 0;
-
-    const maxSong = songs
-      .sort((a, b) => a.metadata.track.of - b.metadata.track.of)
-      .pop();
-
-    if (!maxSong) return songs.length;
-    return maxSong.metadata.track.of + 1;
-  })();
-
   useLayoutEffect(() => {
     if (ref.current) {
       ref.current.scroll({ top: 0 });
@@ -46,37 +35,43 @@ const Playlist = ({ name, songs, current }) => {
   return (
     <div className={classes.root}>
       <div className={classes.title}>
-        <Typography clamp={1} align="center">
+        <Typography clamp align="center">
           {name}
         </Typography>
       </div>
-      <div className={classes.container} ref={ref}>
-        {songs.map((song, i) => (
+      <VirtualList
+        data={songs}
+        itemHeight={40}
+        overscroll={1}
+        ref={ref}
+      >
+        {({ data, style, index }) => (
           <ButtonBase
-            key={song._id}
-            onClick={() => skip(i)}
+            style={style}
+            key={data._id}
+            onClick={() => skip(index)}
             className={cx(classes.button, {
-              [classes.buttonActive]: current === song._id
+              [classes.buttonActive]: current === data._id
             })}
           >
             {isNotSmall && (
               <Typography className={classes.buttonIndex}>
-                {`${zPad(song.metadata.track.no || i + 1, maxIndex.toString().length)}.`}
+                {`${zPad(index + 1, `${songs.length}`.length)}.`}
               </Typography>
             )}
             <div className={classes.buttonMetadata}>
               <Typography clamp>
-                {song.metadata.title}
+                {data.metadata.title}
               </Typography>
               {isNotSmall && (
                 <Typography clamp>
-                  {song.metadata.artist}
+                  {data.metadata.artist}
                 </Typography>
               )}
             </div>
           </ButtonBase>
-        ))}
-      </div>
+        )}
+      </VirtualList>
     </div>
   );
 };

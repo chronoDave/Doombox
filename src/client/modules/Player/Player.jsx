@@ -38,7 +38,7 @@ const Player = props => {
           <Typography clamp={2} align="center">
             {title}
           </Typography>
-          <Typography clamp={2} align="center">
+          <Typography clamp align="center">
             {artist}
           </Typography>
         </div>

@@ -5,6 +5,7 @@ export default makeStyles(() => ({
     outline: 0,
     cursor: 'pointer',
     border: 'none',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    padding: 0
   }
 }), 'buttonBase');

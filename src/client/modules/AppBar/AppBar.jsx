@@ -165,7 +165,7 @@ const AppBar = props => {
           </ButtonBase>
           <ButtonBase
             className={cx(classes.menuButton, classes.menuButtonClose)}
-            onClick={windowMinimize}
+            onClick={windowClose}
           >
             <Icon type="close" small />
           </ButtonBase>

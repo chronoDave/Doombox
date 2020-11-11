@@ -9,12 +9,6 @@ export default makeStyles(theme => ({
   title: {
     minWidth: 0
   },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'auto',
-    flexGrow: 1
-  },
   button: {
     display: 'flex',
     alignItems: 'center',
