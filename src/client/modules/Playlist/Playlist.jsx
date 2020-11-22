@@ -41,8 +41,7 @@ const Playlist = ({ name, songs, current }) => {
       </div>
       <VirtualList
         data={songs}
-        itemHeight={40}
-        overscroll={1}
+        item={{ height: 64 }}
         ref={ref}
       >
         {({ data, style, index }) => (

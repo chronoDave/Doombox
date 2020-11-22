@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase, Typography } from '../../components';
+import {
+  VirtualList,
+  ButtonBase,
+  Typography
+} from '../../components';
 
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
@@ -12,110 +16,119 @@ import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
 // Styles
 import useLibraryAlbumStyles from './LibraryAlbums.styles';
 
-const LibraryAlbums = ({ songsById, labelsById, labels }) => {
+const LibraryAlbums = ({ songMap, labelMap, labels }) => {
   const { t } = useTranslation();
   const { set } = useAudio();
-  const classes = useLibraryAlbumStyles();
-
   const isSmall = useMediaQuery(({ breakpoints }) => breakpoints.create(
     breakpoints.directions.down,
     breakpoints.values.sm
   ));
 
+  const classes = useLibraryAlbumStyles();
+
   return (
     <div className={classes.root}>
-      {labels.map(label => {
-        const labelPrimary = [
-          `${label.albums.length} ${t('common.album', { plural: label.albums.length !== 1 })}`,
-          `${label.songs.length} ${t('common.track', { plural: label.songs.length !== 1 })}`,
-          formatTime(label.duration || 0)
-        ].join(' \u2022 ');
+      <VirtualList
+        data={labels}
+        item={{
+          height: ({ data, width }) => {
+            const rows = Math.floor(width / 75);
+            const columns = Math.ceil(data.albums.length / rows);
 
-        return (
-          <div key={label._id} className={classes.itemRoot}>
-            <ButtonBase
-              className={classes.itemLabel}
-              onClick={() => set({
-                name: label.label,
-                collection: labelsById[label._id].songs
-                  .map(id => songsById[id])
-                  .sort((a, b) => {
-                    if (a.metadata.date && b.metadata.date) {
-                      if (a.metadata.date < b.metadata.date) return -1;
-                      if (a.metadata.date > b.metadata.date) return 1;
-                    }
-                    if (a.metadata.year < b.metadata.year) return -1;
-                    if (a.metadata.disk.no < b.metadata.disk.no) return -1;
-                    if (a.metadata.disk.no > b.metadata.disk.no) return 1;
-                    if (a.metadata.track.no < b.metadata.track.no) return -1;
-                    if (a.metadata.track.no > b.metadata.track.no) return 1;
-                    return 0;
-                  })
-              })}
+            return 35 + columns * 75;
+          }
+        }}
+      >
+        {({ data, style }) => {
+          const labelPrimary = [
+            `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
+            `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
+            formatTime(data.duration || 0)
+          ].join(' \u2022 ');
+
+          return (
+            <div
+              key={data._id}
+              className={classes.itemRoot}
+              style={style}
             >
-              <Typography clamp>
-                {label.label || ''}
-              </Typography>
-              {!isSmall && (
-                <Typography clamp variant="caption">
-                  {labelPrimary}
+              <ButtonBase
+                className={classes.itemLabel}
+                onClick={() => set({
+                  name: data.label,
+                  collection: labelMap[data._id].songs
+                    .map(id => songMap[id])
+                    .sort((a, b) => {
+                      if (a.metadata.date && b.metadata.date) {
+                        if (a.metadata.date < b.metadata.date) return -1;
+                        if (a.metadata.date > b.metadata.date) return 1;
+                      }
+                      if (a.metadata.year < b.metadata.year) return -1;
+                      if (a.metadata.disk.no < b.metadata.disk.no) return -1;
+                      if (a.metadata.disk.no > b.metadata.disk.no) return 1;
+                      if (a.metadata.track.no < b.metadata.track.no) return -1;
+                      if (a.metadata.track.no > b.metadata.track.no) return 1;
+                      return 0;
+                    })
+                })}
+              >
+                <Typography clamp>
+                  {data.label || ''}
                 </Typography>
-              )}
-            </ButtonBase>
-            <div className={classes.itemAlbums}>
-              {label.albums.map(album => (
-                <ButtonBase
-                  key={album._id}
-                  className={classes.itemButton}
-                  onClick={() => set({
-                    name: album.album,
-                    collection: album.songs
-                      .map(id => songsById[id])
-                      .sort((a, b) => {
-                        if (a.metadata.disk.no < b.metadata.disk.no) return -1;
-                        if (a.metadata.disk.no > b.metadata.disk.no) return 1;
-                        if (a.metadata.track.no < b.metadata.track.no) return -1;
-                        if (a.metadata.track.no > b.metadata.track.no) return 1;
-                        return 0;
-                      })
-                  })}
-                >
-                  <img
-                    src={album.cover}
-                    alt={album.album}
-                    className={classes.itemCover}
-                    decoding="async"
-                    loading="lazy"
-                  />
-                </ButtonBase>
-              ))}
+                {!isSmall && (
+                  <Typography clamp variant="caption">
+                    {labelPrimary}
+                  </Typography>
+                )}
+              </ButtonBase>
+              <div className={classes.itemAlbums}>
+                {data.albums.map(album => (
+                  <ButtonBase
+                    key={album._id}
+                    className={classes.itemButton}
+                    onClick={() => set({
+                      name: album.album,
+                      collection: album.songs
+                        .map(id => songMap[id])
+                        .sort((a, b) => {
+                          if (a.metadata.disk.no < b.metadata.disk.no) return -1;
+                          if (a.metadata.disk.no > b.metadata.disk.no) return 1;
+                          if (a.metadata.track.no < b.metadata.track.no) return -1;
+                          if (a.metadata.track.no > b.metadata.track.no) return 1;
+                          return 0;
+                        })
+                    })}
+                  >
+                    <img
+                      src={album.cover}
+                      alt={album.album}
+                      className={classes.itemCover}
+                      decoding="async"
+                    />
+                  </ButtonBase>
+                ))}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        }}
+      </VirtualList>
     </div>
   );
 };
 
 LibraryAlbums.propTypes = {
-  songsById: PropTypes.shape({}).isRequired,
-  labelsById: PropTypes.shape({}).isRequired,
+  songMap: PropTypes.shape({}).isRequired,
+  labelMap: PropTypes.shape({}).isRequired,
   labels: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    duration: PropTypes.number,
-    label: PropTypes.string,
-    songs: PropTypes.arrayOf(PropTypes.string).isRequired,
     albums: PropTypes.arrayOf(PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      cover: PropTypes.string,
-      songs: PropTypes.arrayOf(PropTypes.string).isRequired
-    })).isRequired
+      cover: PropTypes.string
+    }))
   })).isRequired
 };
 
 const mapStateToProps = state => ({
-  songsById: state.entities.songs.map,
-  labelsById: state.entities.labels.map,
+  songMap: state.entities.songs.map,
+  labelMap: state.entities.labels.map,
   labels: state.entities.labels.list
     .map(({ albums, ...restLabel }) => ({
       albums: albums

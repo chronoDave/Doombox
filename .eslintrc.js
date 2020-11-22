@@ -31,6 +31,10 @@ module.exports = {
     'no-await-in-loop': 'off',
     'no-underscore-dangle': 'off', // Leaf-DB
     'no-bitwise': 'warn',
+    'max-len': ['error', {
+      code: 120,
+      ignoreComments: true
+    }],
     // React
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/jsx-props-no-spreading': 'off', // Spread appropriatly

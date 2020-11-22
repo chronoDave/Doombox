@@ -19,7 +19,11 @@ export default {
   values,
   axises,
   directions,
-  create: (direction, value, axis = axises.x) => `@media (${direction}-${axis}: ${value - (direction === directions.down ? 0.01 : 0)}px)`,
+  create: (
+    direction,
+    value,
+    axis = axises.x
+  ) => `@media (${direction}-${axis}: ${value - (direction === directions.down ? 0.01 : 0)}px)`,
   join: (...args) => `@media ${args
     .map(breakpoint => breakpoint.replace(/@media\s/, ''))
     .join(' and ')}`
