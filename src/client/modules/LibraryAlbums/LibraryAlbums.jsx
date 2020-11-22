@@ -19,8 +19,8 @@ import useLibraryAlbumStyles from './LibraryAlbums.styles';
 const LibraryAlbums = ({ songMap, labelMap, labels }) => {
   const { t } = useTranslation();
   const { set } = useAudio();
-  const isSmall = useMediaQuery(({ breakpoints }) => breakpoints.create(
-    breakpoints.directions.down,
+  const isSmall = useMediaQuery(breakpoints => breakpoints.create(
+    breakpoints.queries.minWidth,
     breakpoints.values.sm
   ));
 

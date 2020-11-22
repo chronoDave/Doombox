@@ -19,23 +19,29 @@ import usePlayerControls from './PlayerControls.styles';
 
 const PlayerControls = ({ className }) => {
   const { next, previous, shuffle } = useAudio();
-  const isSmall = useMediaQuery(({ breakpoints }) => breakpoints.create(
-    breakpoints.directions.down,
-    breakpoints.values.sm
+  const isNotSmall = useMediaQuery(breakpoints => breakpoints.join(
+    breakpoints.create(
+      breakpoints.queries.minWidth,
+      breakpoints.values.sm
+    ),
+    breakpoints.create(
+      breakpoints.queries.minHeight,
+      breakpoints.values.xs
+    )
   ));
   const classes = usePlayerControls();
 
   return (
     <div className={cx(classes.root, className)}>
-      <IconButtonVolume small={isSmall} />
-      <IconButton small={isSmall} onClick={previous}>
+      <IconButtonVolume small={!isNotSmall} />
+      <IconButton small={!isNotSmall} onClick={previous}>
         <Icon type="previous" />
       </IconButton>
-      <IconButtonPlay small={isSmall} />
-      <IconButton small={isSmall} onClick={next}>
+      <IconButtonPlay small={!isNotSmall} />
+      <IconButton small={!isNotSmall} onClick={next}>
         <Icon type="next" />
       </IconButton>
-      <IconButton small={isSmall} onClick={shuffle}>
+      <IconButton small={!isNotSmall} onClick={shuffle}>
         <Icon type="shuffle" />
       </IconButton>
     </div>

@@ -9,7 +9,7 @@ export default query => {
 
   useLayoutEffect(() => {
     const getMatch = () => setMatches(window
-      .matchMedia(query(theme).replace(/@media/g, ''))
+      .matchMedia(query(theme.breakpoints).replace(/@media/g, ''))
       .matches);
 
     getMatch();

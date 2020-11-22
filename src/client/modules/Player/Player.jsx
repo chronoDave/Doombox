@@ -42,10 +42,10 @@ const Player = props => {
             {artist}
           </Typography>
         </div>
-        <Hidden on={({ create, values, directions }) => create(directions.up, values.sm)}>
+        <Hidden on={({ create, values, queries }) => create(queries.maxWidth, values.sm)}>
           <PlayerControls />
         </Hidden>
-        <Hidden on={({ create, values, directions }) => create(directions.down, values.sm)}>
+        <Hidden on={({ create, values, queries }) => create(queries.maxHeight, values.xs)}>
           <div className={classes.duration}>
             <Typography>
               {formatTime(position)}
@@ -61,7 +61,7 @@ const Player = props => {
         max={duration}
         onDrag={throttledSeek}
       />
-      <Hidden on={({ create, values, directions }) => create(directions.down, values.sm)}>
+      <Hidden on={({ create, values, queries }) => create(queries.minWidth, values.sm)}>
         <PlayerControls />
       </Hidden>
     </div>

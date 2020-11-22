@@ -5,25 +5,20 @@ const values = {
   lg: 1280
 };
 
-const axises = {
-  x: 'width',
-  y: 'height'
-};
-
-const directions = {
-  up: 'min',
-  down: 'max'
+const queries = {
+  minWidth: 'min-width',
+  minHeight: 'min-height',
+  maxWidth: 'max-width',
+  maxHeight: 'max-height'
 };
 
 export default {
   values,
-  axises,
-  directions,
-  create: (
-    direction,
-    value,
-    axis = axises.x
-  ) => `@media (${direction}-${axis}: ${value - (direction === directions.down ? 0.01 : 0)}px)`,
+  queries,
+  create: (query, value) => {
+    const queryValue = value - (query.includes('max') ? 1 : 0);
+    return `@media (${query}: ${queryValue}px)`;
+  },
   join: (...args) => `@media ${args
     .map(breakpoint => breakpoint.replace(/@media\s/, ''))
     .join(' and ')}`

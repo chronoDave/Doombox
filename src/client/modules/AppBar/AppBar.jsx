@@ -150,7 +150,7 @@ const AppBar = props => {
           ))}
         </div>
         <div className={classes.title}>
-          <Hidden on={({ create, directions, values }) => create(directions.down, values.sm)}>
+          <Hidden on={({ create, queries, values }) => create(queries.maxWidth, values.sm)}>
             <Typography noWrap align="center">
               {appTitle}
             </Typography>

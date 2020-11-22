@@ -13,42 +13,41 @@ export default makeStyles(theme => ({
     backgroundPosition: 'center',
     padding: theme.spacing(0.5),
     height: 90,
-    width: 135,
-    // 'xs'
-    [theme.breakpoints.create(
-      theme.breakpoints.directions.up,
-      theme.breakpoints.values.xs,
-      theme.breakpoints.axises.y
+    [theme.breakpoints.join(
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minWidth,
+        theme.breakpoints.values.xs
+      ),
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minHeight,
+        theme.breakpoints.values.xs
+      )
     )]: {
-      height: 135
+      height: theme.mixins.player.xs.height
     },
-    // 'sm'
-    [theme.breakpoints.create(
-      theme.breakpoints.directions.up,
-      theme.breakpoints.values.sm
+    [theme.breakpoints.join(
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minWidth,
+        theme.breakpoints.values.sm
+      ),
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minHeight,
+        theme.breakpoints.values.sm
+      )
     )]: {
-      width: 210
+      height: theme.mixins.player.sm.height
     },
-    [theme.breakpoints.create(
-      theme.breakpoints.directions.up,
-      theme.breakpoints.values.sm,
-      theme.breakpoints.axises.y
+    [theme.breakpoints.join(
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minWidth,
+        theme.breakpoints.values.md
+      ),
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minHeight,
+        theme.breakpoints.values.md
+      )
     )]: {
-      height: 210
-    },
-    // 'md'
-    [theme.breakpoints.create(
-      theme.breakpoints.directions.up,
-      theme.breakpoints.values.md
-    )]: {
-      width: 300
-    },
-    [theme.breakpoints.create(
-      theme.breakpoints.directions.up,
-      theme.breakpoints.values.md,
-      theme.breakpoints.axises.y
-    )]: {
-      height: 300
+      height: theme.mixins.player.md.height
     }
   }),
   coverTitle: {

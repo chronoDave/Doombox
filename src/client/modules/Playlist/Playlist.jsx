@@ -21,8 +21,8 @@ const Playlist = ({ name, songs, current }) => {
   const { skip } = useAudio();
 
   const ref = useRef();
-  const isNotSmall = useMediaQuery(({ breakpoints }) => breakpoints.create(
-    breakpoints.directions.up,
+  const isNotSmall = useMediaQuery(breakpoints => breakpoints.create(
+    breakpoints.queries.minWidth,
     breakpoints.values.sm
   ));
 
@@ -41,7 +41,7 @@ const Playlist = ({ name, songs, current }) => {
       </div>
       <VirtualList
         data={songs}
-        item={{ height: 64 }}
+        item={{ height: isNotSmall ? 40 : 20 }}
         ref={ref}
       >
         {({ data, style, index }) => (
