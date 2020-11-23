@@ -17,7 +17,7 @@
     "analyze": "webpack --env analyze --mode production",
     "test:electron": "node ./scripts/test.js src/electron .spec.js",
     "test:react": "node ./scripts/test.js src/client .spec.js",
-    "test:intl": "tape src/intl/**/*.spec.js",
+    "test:intl": "node ./scripts/test.js src/intl .spec.js",
     "test": "yarn test:intl && yarn test:react && yarn test:electron",
     "clean": "node scripts/clean.js",
     "start:webpack": "webpack -w",

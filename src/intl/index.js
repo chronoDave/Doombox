@@ -1,4 +1,6 @@
-const { capitalize } = require('../utils');
+const objectGet = require('lodash.get');
+
+const { capitalize } = require('@doombox-utils');
 
 const localeEn = require('./locales/en.json');
 const localeNl = require('./locales/nl.json');
@@ -20,41 +22,47 @@ const DARWIN_KEYBINDS = {
   alt: '\u03b1'
 };
 
-const getTranslation = (language, id, args = {}) => {
-  const path = id.split('.');
+/**
+ * Get translation string
+ * @param {string} language - Language key
+ * @param {string} key - Value key
+ * @param {object} options
+ * @param {boolean} options.plural - Is value plural?
+ * @param {string} options.transform - String transform
+ * @param {object} options.mixins - Mixins
+ */
+const getTranslation = (
+  language,
+  key,
+  {
+    plural = false,
+    transform = null,
+    mixins = {}
+  } = {}
+) => {
+  const values = LOCALES[language];
+  let value = objectGet(values, plural ? `${key}_plural` : key);
 
-  if (args && args.plural) {
-    path[path.length - 1] = `${path[path.length - 1]}_plural`;
-  }
+  if (!value) return key;
 
-  let index = 0;
-  let value = LOCALES[language];
-  while (value && index < path.length) {
-    value = value[path[index]];
-    index += 1;
-  }
-
-  if (!value || !index || index !== path.length) return id;
-  const matches = value.match(/({.[^}]*.)/g);
-
-  if (matches) {
-    if (typeof args === 'object') {
-      for (let i = 0; i < matches.length; i += 1) {
-        value = value.replace(matches[i], args[matches[i].slice(1, -1)]);
-      }
+  // Mixins
+  const templates = value.match(/({.[^}]*.)/g); // String templates
+  if (templates && templates.length > 0) {
+    for (let i = 0; i < templates.length; i += 1) {
+      value = value.replace(templates[i], mixins[templates[i].slice(1, -1)]);
     }
   }
 
-  switch (args.transform) {
+  // Transform
+  switch (transform) {
     case 'capitalize':
       return capitalize(value);
     case 'pascal':
-      return value.split(' ').map(capitalize).join(' ');
-    case 'none':
-      return value.toLowerCase();
+      return value
+        .split(' ')
+        .map(capitalize)
+        .join(' ');
     default:
-      if (path.includes('action')) return value.split(' ').map(capitalize).join(' ');
-      if (path.includes('title') || path.includes('description')) return capitalize(value);
       return value;
   }
 };
@@ -62,11 +70,14 @@ const getTranslation = (language, id, args = {}) => {
 const getNativeKeybind = keybind => {
   if (process.platform !== 'darwin') return keybind;
 
+  let newValue = keybind;
   Object
     .entries(DARWIN_KEYBINDS)
-    .forEach(([key, value]) => keybind.replace(key, value));
+    .forEach(([key, value]) => {
+      newValue = keybind.replace(key, value);
+    });
 
-  return keybind;
+  return newValue;
 };
 
 module.exports = {

@@ -279,7 +279,10 @@ module.exports = class App extends Reporter {
         role: 'fileMenu',
         submenu: [
           {
-            label: this.translate('action.common.rescan', { item: 'folder' }),
+            label: this.translate('action.common.rescan', {
+              mixins: { item: this.translate('common.folder') },
+              transform: 'pascal'
+            }),
             accelerator: createAccelerator(keybinds.rescan),
             click: () => {
               window.webContents.send(
@@ -290,7 +293,10 @@ module.exports = class App extends Reporter {
           },
           { type: 'separator' },
           {
-            label: this.translate('action.common.scan', { item: 'folder' }),
+            label: this.translate('action.common.scan', {
+              mixins: { item: this.translate('common.folder') },
+              transform: 'pascal'
+            }),
             accelerator: createAccelerator(keybinds.scanFolder),
             click: () => {
               window.webContents.send(
@@ -300,7 +306,10 @@ module.exports = class App extends Reporter {
             }
           },
           {
-            label: this.translate('action.common.delete', { item: 'library' }),
+            label: this.translate('action.common.delete', {
+              mixins: { item: this.translate('common.library') },
+              transform: 'pascal'
+            }),
             click: () => {
               window.webContents.send(
                 IPC.CHANNEL.KEYBIND,
@@ -338,17 +347,20 @@ module.exports = class App extends Reporter {
         role: 'help',
         submenu: [
           {
-            label: this.translate('action.menu.display_keybinds'),
+            label: this.translate('action.menu.display_keybinds', { transform: 'pascal' }),
             click: () => {
               shell.openExternal(URLS.KEYBINDS);
             }
           }, {
-            label: this.translate('action.common.open', { item: this.translate('common.github') }),
+            label: this.translate('action.common.open', {
+              mixins: { item: this.translate('common.github') },
+              transform: 'pascal'
+            }),
             click: () => {
               shell.openExternal(URLS.REPO);
             }
           }, {
-            label: this.translate('action.menu.report_issue'),
+            label: this.translate('action.menu.report_issue', { transform: 'pascal' }),
             click: () => {
               shell.openExternal(URLS.REPORT_ISSUE);
             }
