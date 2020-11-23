@@ -3,7 +3,7 @@ import { shell, remote } from 'electron';
 import React, { Fragment, useState, useEffect } from 'react';
 import { cx } from 'emotion';
 import { connect } from 'react-redux';
-import { capitalize, normalizeKeybind } from '@doombox-utils';
+import { capitalize } from '@doombox-utils';
 import { URLS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
@@ -50,7 +50,7 @@ const AppBar = props => {
   const [menu, setMenu] = useState({ id: 'file' });
   const [appTitle, setAppTitle] = useState('Doombox');
 
-  const { t } = useTranslation();
+  const { t, getNativeKeybind } = useTranslation();
   const classes = useAppBarStyles();
   const { onEnter, onLeave } = useHover({
     enter: () => setOpen(true),
@@ -183,7 +183,7 @@ const AppBar = props => {
           <MenuItem
             key={primary}
             primary={primary}
-            secondary={secondary && normalizeKeybind(secondary)}
+            secondary={secondary && getNativeKeybind(secondary)}
             {...rest}
           />
         ))}

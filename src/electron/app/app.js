@@ -9,7 +9,7 @@ const {
 const path = require('path');
 const fs = require('fs');
 
-const { keybindToAccelerator, isMac } = require('@doombox-utils');
+const { capitalize } = require('@doombox-utils');
 const {
   STATUS,
   IPC,
@@ -37,8 +37,8 @@ module.exports = class App extends Reporter {
     fs.mkdirSync(path.resolve(root, 'log'), { recursive: true });
   }
 
-  translate(id) {
-    return getTranslation(this.language, id);
+  translate(id, options) {
+    return getTranslation(this.language, id, options);
   }
 
   /**
@@ -175,7 +175,7 @@ module.exports = class App extends Reporter {
       height,
       darkTheme,
       backgroundColor,
-      frame: isMac,
+      frame: process.platform === 'darwin',
       webPreferences: {
         nodeIntegration: true,
         enableRemoteModule: true,
@@ -250,6 +250,14 @@ module.exports = class App extends Reporter {
   }
 
   createMenuMac(window, keybinds) {
+    const createAccelerator = keybind => keybind
+      .split('+')
+      .map(key => {
+        if (key === 'mod') return 'Command';
+        return capitalize(key);
+      })
+      .join('+');
+
     app.setName(this.name);
 
     Menu.setApplicationMenu(Menu.buildFromTemplate([
@@ -272,7 +280,7 @@ module.exports = class App extends Reporter {
         submenu: [
           {
             label: this.translate('action.common.rescan', { item: 'folder' }),
-            accelerator: keybindToAccelerator(keybinds.rescan),
+            accelerator: createAccelerator(keybinds.rescan),
             click: () => {
               window.webContents.send(
                 IPC.CHANNEL.KEYBIND,
@@ -283,7 +291,7 @@ module.exports = class App extends Reporter {
           { type: 'separator' },
           {
             label: this.translate('action.common.scan', { item: 'folder' }),
-            accelerator: keybindToAccelerator(keybinds.scanFolder),
+            accelerator: createAccelerator(keybinds.scanFolder),
             click: () => {
               window.webContents.send(
                 IPC.CHANNEL.KEYBIND,

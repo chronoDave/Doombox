@@ -13,6 +13,13 @@ const LOCALES = {
   [LANGUAGES.NL]: localeNl
 };
 
+const DARWIN_KEYBINDS = {
+  mod: '\u2318',
+  shift: '\u21e7',
+  option: '\u03b1',
+  alt: '\u03b1'
+};
+
 const getTranslation = (language, id, args = {}) => {
   const path = id.split('.');
 
@@ -52,8 +59,19 @@ const getTranslation = (language, id, args = {}) => {
   }
 };
 
+const getNativeKeybind = keybind => {
+  if (process.platform !== 'darwin') return keybind;
+
+  Object
+    .entries(DARWIN_KEYBINDS)
+    .forEach(([key, value]) => keybind.replace(key, value));
+
+  return keybind;
+};
+
 module.exports = {
   LANGUAGES,
   LOCALES,
-  getTranslation
+  getTranslation,
+  getNativeKeybind
 };

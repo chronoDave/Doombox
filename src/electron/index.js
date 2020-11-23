@@ -7,7 +7,6 @@ const path = require('path');
 const LeafDB = require('leaf-db');
 const debounce = require('lodash.debounce');
 
-const { isMac } = require('@doombox-utils');
 const { TYPES, IPC } = require('@doombox-utils/types');
 const { CACHE, CONFIG, THEME } = require('@doombox-config');
 
@@ -64,7 +63,7 @@ app.on('ready', () => {
     backgroundColor: theme.get('grey')[1]
   });
 
-  if (isMac) {
+  if (process.platform === 'darwin') {
     Doombox.createMenuMac(window, config.get(TYPES.CONFIG.KEYBINDS));
   } else {
     Doombox.createMenuWindows(window);

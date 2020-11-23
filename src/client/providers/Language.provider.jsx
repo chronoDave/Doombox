@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getTranslation } from '@doombox-intl';
+import { getTranslation, getNativeKeybind } from '@doombox-intl';
 import PropTypes from 'prop-types';
 
 // Context
@@ -9,6 +9,7 @@ import { LanguageContext } from '../context';
 const LanguageProvider = ({ language, children }) => {
   const value = {
     language,
+    getNativeKeybind,
     t: (id, args) => getTranslation(language, id, args)
   };
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { isMac } from '@doombox-utils';
 import { VIEWS } from '@doombox-utils/types';
 
 // Core
@@ -17,7 +16,7 @@ const App = () => {
 
   return (
     <div className={classes.root}>
-      {!isMac && <AppBar />}
+      {process.platform !== 'darwin' && <AppBar />}
       <Route view={VIEWS.INTERRUPT}>
         <Interrupt />
       </Route>

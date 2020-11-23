@@ -2,8 +2,6 @@ const path = require('path');
 
 const fs = require('fs');
 
-const { getTimestamp } = require('@doombox-utils');
-
 module.exports = class Reporter {
   /**
    * @param {string} root
@@ -18,7 +16,10 @@ module.exports = class Reporter {
    * @param {string} type - Log type (default `LOG`)
    */
   log(text, name = 'unknown', type = 'LOG') {
-    const file = `[${getTimestamp()}] ${name} (${type}).txt`;
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/\.|:/g, '_');
+    const file = `[${timestamp}] ${name} (${type}).txt`;
 
     fs.writeFileSync(path.join(this.root, file), text);
   }

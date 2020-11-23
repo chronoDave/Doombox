@@ -1,6 +1,8 @@
+const crypto = require('crypto');
+
 const parser = require('music-metadata');
 
-const { toArray, createId } = require('@doombox-utils');
+const { toArray } = require('@doombox-utils');
 
 /**
  * Parse file
@@ -10,6 +12,11 @@ const { toArray, createId } = require('@doombox-utils');
  * @param {array} options.requiredMetadata - Required metadata tags (default `[]`)
  */
 const parseMetadata = async (file, { skipCovers = false, requiredMetadata = [] } = {}) => {
+  const generateId = seed => crypto
+    .createHash('md5')
+    .update(seed)
+    .digest('hex');
+
   const {
     format,
     native,
@@ -50,7 +57,7 @@ const parseMetadata = async (file, { skipCovers = false, requiredMetadata = [] }
   // Get images
   const images = picture ?
     picture.map(image => ({
-      _id: createId(`${tags.albumartist || ''}${tags.album || ''}`),
+      _id: generateId(`${tags.albumartist || ''}${tags.album || ''}`),
       ...image,
       format: image.format.split('/').pop() // image/jpg => jpg
     })) :
@@ -60,8 +67,8 @@ const parseMetadata = async (file, { skipCovers = false, requiredMetadata = [] }
     file,
     images,
     format,
-    _albumId: createId(`${tags.albumartist || 'Unknown'}${tags.album}` || 'Unknown'),
-    _labelId: createId(tags.albumartist || 'Unknown'),
+    _albumId: generateId(`${tags.albumartist || 'Unknown'}${tags.album}` || 'Unknown'),
+    _labelId: generateId(tags.albumartist || 'Unknown'),
     metadata: {
       albumartist: nativeTags.TP2 || null,
       titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
