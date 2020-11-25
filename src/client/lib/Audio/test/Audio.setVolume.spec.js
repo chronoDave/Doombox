@@ -4,7 +4,7 @@ import { EVENTS } from '@doombox-utils/types';
 
 import { setup } from './_utils';
 
-test('sets volume', t => {
+test('[Audio.setVolume] sets volume', t => {
   const audio = setup();
 
   const vNormal = 0.5;
@@ -36,7 +36,7 @@ test('sets volume', t => {
   t.end();
 });
 
-test('ignores instance if it does not exist', t => {
+test('[Audio.setVolume] ignores instance if it does not exist', t => {
   const audio = setup(true);
 
   audio.setVolume(0);

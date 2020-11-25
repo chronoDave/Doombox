@@ -36,14 +36,12 @@ const Main = () => {
         'metadata.disk',
         'metadata.track',
         'metadata.year',
-        'images',
+        'covers',
         '_id',
         '_albumId',
         '_labelId'
       ]
     });
-    ipcFind(IPC.CHANNEL.ALBUM);
-    ipcFind(IPC.CHANNEL.LABEL);
   }, []);
 
   return (

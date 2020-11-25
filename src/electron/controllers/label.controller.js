@@ -1,6 +1,3 @@
-// Types
-const { TYPES } = require('@doombox-utils/types');
-
 module.exports = class LabelController {
   /**
    * @param {object} db - Database object
@@ -10,7 +7,7 @@ module.exports = class LabelController {
   }
 
   async find(event, { query, projection }) {
-    const docs = await this.db[TYPES.DATABASE.LABELS].find(query, projection);
+    const docs = await this.db.find(query, projection);
 
     return Promise.resolve(docs);
   }

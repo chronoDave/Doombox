@@ -133,10 +133,10 @@ const mapStateToProps = state => ({
     .map(({ albums, ...restLabel }) => ({
       albums: albums
         .map(albumId => {
-          const { cover, ...restAlbum } = state.entities.albums.map[albumId];
+          const { covers, ...restAlbum } = state.entities.albums.map[albumId];
 
           return ({
-            cover: cover.map(coverId => {
+            cover: covers.map(coverId => {
               const image = state.entities.images.map[coverId];
 
               return image ? image.file : null;

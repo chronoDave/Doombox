@@ -4,7 +4,7 @@ import { EVENTS } from '@doombox-utils/types';
 
 import { setup } from './_utils';
 
-test('resets playlist with no params', t => {
+test('[Audio.set] resets playlist with no params', t => {
   const audio = setup();
 
   const mockPlaylist = { index: 3, collection: [1, 2, 3, 4], name: 'Test' };
@@ -22,7 +22,7 @@ test('resets playlist with no params', t => {
   t.end();
 });
 
-test('sets playlist', t => {
+test('[Audio.set] sets playlist', t => {
   const audio = setup();
   const expected = { index: 3, collection: [1, 2, 3, 4], name: '' };
 
@@ -37,7 +37,7 @@ test('sets playlist', t => {
   t.end();
 });
 
-test('sets missing fields', t => {
+test('[Audio.set] sets missing fields', t => {
   const audio = setup();
   const incomplete = { collection: [1, 2, 3, 4], name: '' };
   const expected = { index: 0, ...incomplete };

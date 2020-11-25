@@ -2,7 +2,7 @@ import test from 'tape';
 
 import { setup } from './_utils';
 
-test('ignores if collection does not exist', t => {
+test('[Audio.next] ignores if collection does not exist', t => {
   const audio = setup();
 
   audio.next();
@@ -11,7 +11,7 @@ test('ignores if collection does not exist', t => {
   t.end();
 });
 
-test('increases index', t => {
+test('[Audio.next] increases index', t => {
   const audio = setup();
   audio.playlist = {
     index: 0,
@@ -26,7 +26,7 @@ test('increases index', t => {
   t.end();
 });
 
-test('handles overflow', t => {
+test('[Audio.next] handles overflow', t => {
   const audio = setup();
   audio.playlist = {
     index: 4,

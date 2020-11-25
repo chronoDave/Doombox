@@ -4,7 +4,7 @@ const chokidar = process.env.NODE_ENV === 'development' ?
 const { app } = require('electron');
 const path = require('path');
 
-const LeafDB = require('leaf-db');
+const LeafDB = require('leaf-db').default;
 const debounce = require('lodash.debounce');
 
 const { TYPES, IPC } = require('@doombox-utils/types');
@@ -15,6 +15,7 @@ const { App } = require('./app');
 const {
   StorageController,
   LibraryController,
+  SongController,
   LabelController,
   AlbumController,
   ImageController
@@ -33,8 +34,8 @@ const config = new Storage(root, 'config', CONFIG);
 const theme = new Storage(root, 'theme', THEME);
 
 const db = {
-  [TYPES.DATABASE.LIBRARY]: new LeafDB(TYPES.DATABASE.LIBRARY, { root }),
   [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root }),
+  [TYPES.DATABASE.SONGS]: new LeafDB(TYPES.DATABASE.SONGS, { root }),
   [TYPES.DATABASE.ALBUMS]: new LeafDB(TYPES.DATABASE.ALBUMS, { root }),
   [TYPES.DATABASE.LABELS]: new LeafDB(TYPES.DATABASE.LABELS, { root })
 };
@@ -46,16 +47,15 @@ app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
   Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
-  Doombox.createRouter(IPC.CHANNEL.IMAGE, new ImageController(db));
-  Doombox.createRouter(IPC.CHANNEL.ALBUM, new AlbumController(db));
-  Doombox.createRouter(IPC.CHANNEL.LABEL, new LabelController(db));
-  Doombox.createRouter(
-    IPC.CHANNEL.LIBRARY,
-    new LibraryController(db, {
-      ...config.get(TYPES.CONFIG.PARSER),
-      folder: path.resolve(root, 'images')
-    })
-  );
+  Doombox.createRouter(IPC.CHANNEL.IMAGE, new ImageController(db[TYPES.DATABASE.IMAGES]));
+  Doombox.createRouter(IPC.CHANNEL.SONG, new SongController(db[TYPES.DATABASE.SONGS]));
+  Doombox.createRouter(IPC.CHANNEL.ALBUM, new AlbumController(db[TYPES.DATABASE.ALBUMS]));
+  Doombox.createRouter(IPC.CHANNEL.LABEL, new LabelController(db[TYPES.DATABASE.LABELS]));
+
+  Doombox.createRouter(IPC.CHANNEL.LIBRARY, new LibraryController(db, {
+    ...config.get(TYPES.CONFIG.PARSER),
+    folder: path.resolve(root, 'images')
+  }));
 
   const window = Doombox.createWindow({
     ...cache.get(TYPES.CACHE.WINDOW),

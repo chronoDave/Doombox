@@ -4,7 +4,7 @@ import { EVENTS } from '@doombox-utils/types';
 
 import { setup } from './_utils';
 
-test('mutes', t => {
+test('[Audio.mute] mutes', t => {
   const audio = setup();
 
   let n = 0;
@@ -27,7 +27,7 @@ test('mutes', t => {
   t.end();
 });
 
-test('ignores instance if it does not exist', t => {
+test('[Audio.mute] ignores instance if it does not exist', t => {
   const audio = setup(true);
 
   audio.mute();

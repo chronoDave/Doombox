@@ -4,7 +4,7 @@ import { CONFIG } from '@doombox-config';
 import { createReduxSlice } from '../utils';
 
 const initialState = {
-  metadata: { cover: [] },
+  metadata: { covers: [] },
   status: STATUS.AUDIO.STOPPED,
   autoplay: CONFIG.player.autoplay,
   duration: 0,
@@ -15,7 +15,7 @@ const initialState = {
 
 const reducers = {
   setPlayer: (state, payload) => ({ ...state, ...payload }),
-  setMetadata: (state, metadata) => ({ ...state, metadata: { cover: [], ...metadata } }),
+  setMetadata: (state, metadata) => ({ ...state, metadata: { covers: [], ...metadata } }),
   setStatus: (state, status) => ({ ...state, status }),
   setAutoplay: (state, autoplay) => ({ ...state, autoplay }),
   setDuration: (state, duration) => ({ ...state, duration }),

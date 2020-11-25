@@ -4,7 +4,7 @@ import { EVENTS } from '@doombox-utils/types';
 
 import { setup } from './_utils';
 
-test('should ignore if instance does not exist', t => {
+test('[Audio.seek] should ignore if instance does not exist', t => {
   const audio = setup(true);
 
   audio.seek();
@@ -13,7 +13,7 @@ test('should ignore if instance does not exist', t => {
   t.end();
 });
 
-test('should seek', t => {
+test('[Audio.seek] should seek', t => {
   t.plan(2);
 
   const audio = setup();

@@ -1,10 +1,10 @@
 const sinon = require('sinon');
 
-const createMockEvent = () => ({
+const createMockElectronEvent = () => ({
   sender: {
     send: sinon.spy()
   }
 });
 module.exports = {
-  createMockEvent
+  createMockElectronEvent
 };

@@ -2,7 +2,7 @@ import test from 'tape';
 
 import { setup } from './_utils';
 
-test('should ignore if instance and playlist do not exist', t => {
+test('[Audio.play] should ignore if instance and playlist do not exist', t => {
   const audio = setup(true);
 
   audio.play();
@@ -11,7 +11,7 @@ test('should ignore if instance and playlist do not exist', t => {
   t.end();
 });
 
-test('should create new song if instance does not exist and playlist has songs', t => {
+test('[Audio.play] should create new song if instance does not exist and playlist has songs', t => {
   const audio = setup(true);
 
   audio.playlist = { collection: [], index: 0 };
@@ -25,7 +25,7 @@ test('should create new song if instance does not exist and playlist has songs',
   t.end();
 });
 
-test('should resume if instance exists', t => {
+test('[Audio.play] should resume if instance exists', t => {
   const audio = setup();
 
   audio.play();

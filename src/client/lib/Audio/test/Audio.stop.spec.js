@@ -2,7 +2,7 @@ import test from 'tape';
 
 import { setup } from './_utils';
 
-test('should stop', t => {
+test('[Audio.stop] should stop', t => {
   const audio = setup();
 
   audio.stop();

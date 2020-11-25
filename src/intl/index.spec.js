@@ -4,7 +4,7 @@ const { capitalize } = require('../utils');
 
 const { LOCALES, LANGUAGES, getTranslation } = require('./index');
 
-test('should return key if value does not exist', t => {
+test('[getTranslation] should return key if value does not exist', t => {
   const key = 'test_key';
 
   t.equal(getTranslation(LANGUAGES.EN, key), key);
@@ -12,7 +12,7 @@ test('should return key if value does not exist', t => {
   t.end();
 });
 
-test('should return translation if value exists', t => {
+test('[getTranslation] should return translation if value exists', t => {
   const value = LOCALES[LANGUAGES.EN].common.album;
   const key = 'common.album';
 
@@ -21,7 +21,7 @@ test('should return translation if value exists', t => {
   t.end();
 });
 
-test('should return plural if `options` contains `plural`', t => {
+test('[getTranslation] should return plural if `options` contains `plural`', t => {
   const value = LOCALES[LANGUAGES.EN].common.album_plural;
   const key = 'common.album';
 
@@ -30,7 +30,7 @@ test('should return plural if `options` contains `plural`', t => {
   t.end();
 });
 
-test('should replace placeholder if `options` contains `mixins`', t => {
+test('[getTranslation] should replace placeholder if `options` contains `mixins`', t => {
   const key = 'action.common.scan';
   const item = 'Test';
 
@@ -39,7 +39,7 @@ test('should replace placeholder if `options` contains `mixins`', t => {
   t.end();
 });
 
-test('should capitalize if `transform` contains `capitalize`', t => {
+test('[getTranslation] should capitalize if `transform` contains `capitalize`', t => {
   const value = LOCALES[LANGUAGES.EN].common.album;
   const key = 'common.album';
 
@@ -51,7 +51,7 @@ test('should capitalize if `transform` contains `capitalize`', t => {
   t.end();
 });
 
-test('should pascal case if `transform` contains `pascal`', t => {
+test('[getTranslation] should pascal case if `transform` contains `pascal`', t => {
   const key = 'action.menu.toggle_dev_tools';
 
   t.equal(

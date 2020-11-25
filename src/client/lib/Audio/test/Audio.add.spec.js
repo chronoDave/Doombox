@@ -4,7 +4,7 @@ import { EVENTS } from '@doombox-utils/types';
 
 import { setup } from './_utils';
 
-test('adds songs to playlist collection', t => {
+test('[Audio.add] adds songs to playlist collection', t => {
   const mockPlaylist = {
     collection: [1, 2, 3],
     index: 0

@@ -42,9 +42,17 @@ class IpcProvider extends Component {
     ipcRenderer.on(IPC.CHANNEL.VIEW, (event, { data }) => dispatchRoute(data));
 
     ipcRenderer.on(IPC.CHANNEL.IMAGE, (event, { data }) => dispatchImages(data));
-    ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));
+    ipcRenderer.on(IPC.CHANNEL.SONG, (event, { data }) => dispatchSongs(data));
     ipcRenderer.on(IPC.CHANNEL.ALBUM, (event, { data }) => dispatchAlbums(data));
-    ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => dispatchSongs(data));
+    ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));
+
+    ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => {
+      if (data) {
+        dispatchSongs(data.songs);
+        dispatchAlbums(data.albums);
+        dispatchLabels(data.labels);
+      }
+    });
 
     ipcRenderer.on(IPC.CHANNEL.KEYBIND, (event, action) => {
       switch (action) {

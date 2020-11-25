@@ -85,7 +85,7 @@ Player.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  cover: state.player.metadata.cover.map(image => (
+  cover: state.player.metadata.covers.map(image => (
     state.entities.images.map[image]
   ))[0],
   title: state.player.metadata.title,

@@ -4,7 +4,7 @@ import { STATUS } from '@doombox-utils/types';
 
 import { setup } from './_utils';
 
-test('should pause if playing', t => {
+test('[Audio.pause] should pause if playing', t => {
   const audio = setup();
   audio.status = STATUS.AUDIO.PLAYING;
 
@@ -14,7 +14,7 @@ test('should pause if playing', t => {
   t.end();
 });
 
-test('should play if paused', t => {
+test('[Audio.pause] should play if paused', t => {
   const audio = setup();
   audio.status = STATUS.AUDIO.PAUSED;
 
@@ -24,7 +24,7 @@ test('should play if paused', t => {
   t.end();
 });
 
-test('should ignore if no instance exists', t => {
+test('[Audio.pause] should ignore if no instance exists', t => {
   const audio = setup(true);
   audio.status = STATUS.AUDIO.PAUSED;
 
@@ -34,7 +34,7 @@ test('should ignore if no instance exists', t => {
   t.end();
 });
 
-test('should ignore if status is not playing or paused', t => {
+test('[Audio.pause] should ignore if status is not playing or paused', t => {
   const audio = setup();
   audio.status = STATUS.AUDIO.STOPPED;
 

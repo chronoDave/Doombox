@@ -4,6 +4,7 @@ module.exports = {
       WINDOW: 'WINDOW',
       LIBRARY: 'LIBRARY',
       IMAGE: 'IMAGE',
+      SONG: 'SONG',
       ALBUM: 'ALBUM',
       LABEL: 'LABEL',
       THEME: 'THEME',
@@ -76,7 +77,7 @@ module.exports = {
   },
   TYPES: {
     DATABASE: {
-      LIBRARY: 'library',
+      SONGS: 'songs',
       LABELS: 'labels',
       ALBUMS: 'albums',
       IMAGES: 'images'
