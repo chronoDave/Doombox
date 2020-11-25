@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatTime } from '@doombox-utils';
+import { IPC } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,8 +8,12 @@ import PropTypes from 'prop-types';
 import {
   VirtualList,
   ButtonBase,
-  Typography
+  Typography,
+  Search
 } from '../../components';
+
+// Actions
+import { ipcFind } from '../../actions';
 
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
@@ -28,6 +33,16 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
 
   return (
     <div className={classes.root}>
+      <Search
+        onSearch={(_, value) => ipcFind(IPC.CHANNEL.LIBRARY, {
+          $some: [
+            { $includes: { 'metadata.album': value.toString() } },
+            { $includes: { 'metadata.albumlocalized': value.toString() } },
+            { $includes: { 'metadata.albumartist': value.toString() } },
+            { $includes: { 'metadata.albumartistlocalized': value.toString() } }
+          ]
+        })}
+      />
       <VirtualList
         data={labels}
         item={{
@@ -133,7 +148,7 @@ const mapStateToProps = state => ({
     .map(({ albums, ...restLabel }) => ({
       albums: albums
         .map(albumId => {
-          const { covers, ...restAlbum } = state.entities.albums.map[albumId];
+          const { covers = [], ...restAlbum } = state.entities.albums.map[albumId] || {};
 
           return ({
             cover: covers.map(coverId => {
@@ -168,6 +183,7 @@ export default connect(
   {
     areStatesEqual: (next, prev) => (
       next.entities.songs.list.length === prev.entities.songs.list.length &&
+      next.entities.albums.list.length === prev.entities.albums.list.length &&
       next.entities.labels.list.length === prev.entities.labels.list.length
     )
   }

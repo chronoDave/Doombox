@@ -29,7 +29,7 @@
     "@popperjs/core": "^2.5.3",
     "emotion": "^10.0.27",
     "howler": "^2.2.0",
-    "leaf-db": "^2.3.2",
+    "leaf-db": "^3.3.0",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",

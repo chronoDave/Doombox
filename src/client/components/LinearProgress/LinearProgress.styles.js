@@ -11,4 +11,4 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     width: `${value}%`
   })
-}));
+}), 'linearProgress');

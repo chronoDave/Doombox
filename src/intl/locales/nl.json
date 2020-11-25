@@ -14,7 +14,8 @@
       "rescan": "scan opnieuw {item}",
       "delete": "verwijder {item}",
       "exit": "sluiten",
-      "open": "open {item}"
+      "open": "open {item}",
+      "search": "zoeken"
     },
     "menu": {
       "toggle_dev_tools": "shakel developer tools in",

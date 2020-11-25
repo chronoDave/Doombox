@@ -14,7 +14,8 @@
       "rescan": "rescan {item}",
       "delete": "delete {item}",
       "exit": "exit",
-      "open": "open {item}"
+      "open": "open {item}",
+      "search": "search"
     },
     "menu": {
       "toggle_dev_tools": "toggle developer tools",

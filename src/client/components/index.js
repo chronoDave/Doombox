@@ -16,6 +16,7 @@ export {
 } from './IconButton';
 export { Slider } from './Slider';
 export { LinearProgress } from './LinearProgress';
+export { Search } from './Search';
 export { Route } from './Route';
 export { ButtonBase } from './ButtonBase';
 export { VirtualList } from './VirtualList';
