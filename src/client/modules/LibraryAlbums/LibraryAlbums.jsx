@@ -36,10 +36,18 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
       <Search
         onSearch={(_, value) => ipcFind(IPC.CHANNEL.LIBRARY, {
           $some: [
-            { $includes: { 'metadata.album': value.toString() } },
-            { $includes: { 'metadata.albumlocalized': value.toString() } },
-            { $includes: { 'metadata.albumartist': value.toString() } },
-            { $includes: { 'metadata.albumartistlocalized': value.toString() } }
+            { $stringLoose: { 'metadata.album': value.toString() } },
+            { $stringLoose: { 'metadata.albumlocalized': value.toString() } },
+            { $stringLoose: { 'metadata.albumartist': value.toString() } },
+            { $stringLoose: { 'metadata.albumartistlocalized': value.toString() } }
+          ]
+        })}
+        onChange={(_, value) => ipcFind(IPC.CHANNEL.LIBRARY, value.length === 0 ? {} : {
+          $some: [
+            { $stringLoose: { 'metadata.album': value.toString() } },
+            { $stringLoose: { 'metadata.albumlocalized': value.toString() } },
+            { $stringLoose: { 'metadata.albumartist': value.toString() } },
+            { $stringLoose: { 'metadata.albumartistlocalized': value.toString() } }
           ]
         })}
       />
@@ -148,7 +156,11 @@ const mapStateToProps = state => ({
     .map(({ albums, ...restLabel }) => ({
       albums: albums
         .map(albumId => {
-          const { covers = [], ...restAlbum } = state.entities.albums.map[albumId] || {};
+          const album = state.entities.albums.map[albumId];
+
+          if (!album) return null;
+
+          const { covers = [], ...restAlbum } = album;
 
           return ({
             cover: covers.map(coverId => {
@@ -159,6 +171,7 @@ const mapStateToProps = state => ({
             ...restAlbum
           });
         })
+        .filter(album => album)
         .sort((a, b) => {
           if (a.date && b.date) {
             if (a.date < b.date) return -1;
@@ -181,10 +194,17 @@ export default connect(
   null,
   null,
   {
-    areStatesEqual: (next, prev) => (
-      next.entities.songs.list.length === prev.entities.songs.list.length &&
-      next.entities.albums.list.length === prev.entities.albums.list.length &&
-      next.entities.labels.list.length === prev.entities.labels.list.length
-    )
+    areStatesEqual: (next, prev) => {
+      const isEntityEqual = entity => new Set([
+        ...Object.keys(next.entities[entity].map),
+        ...Object.keys(prev.entities[entity].map)
+      ]).size === Object.keys(prev.entities[entity].map);
+
+      return (
+        isEntityEqual('songs') &&
+        isEntityEqual('albums') &&
+        isEntityEqual('labels')
+      );
+    }
   }
 )(LibraryAlbums);
