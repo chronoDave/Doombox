@@ -13,12 +13,9 @@ const { CACHE, CONFIG, THEME } = require('@doombox-config');
 // Core
 const { App } = require('./app');
 const {
+  Controller,
   StorageController,
-  LibraryController,
-  SongController,
-  LabelController,
-  AlbumController,
-  ImageController
+  LibraryController
 } = require('./controllers');
 const { Storage } = require('./storage');
 
@@ -47,10 +44,10 @@ app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
   Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
-  Doombox.createRouter(IPC.CHANNEL.IMAGE, new ImageController(db[TYPES.DATABASE.IMAGES]));
-  Doombox.createRouter(IPC.CHANNEL.SONG, new SongController(db[TYPES.DATABASE.SONGS]));
-  Doombox.createRouter(IPC.CHANNEL.ALBUM, new AlbumController(db[TYPES.DATABASE.ALBUMS]));
-  Doombox.createRouter(IPC.CHANNEL.LABEL, new LabelController(db[TYPES.DATABASE.LABELS]));
+  Doombox.createRouter(IPC.CHANNEL.IMAGE, new Controller(db[TYPES.DATABASE.IMAGES]));
+  Doombox.createRouter(IPC.CHANNEL.SONG, new Controller(db[TYPES.DATABASE.SONGS]));
+  Doombox.createRouter(IPC.CHANNEL.ALBUM, new Controller(db[TYPES.DATABASE.ALBUMS]));
+  Doombox.createRouter(IPC.CHANNEL.LABEL, new Controller(db[TYPES.DATABASE.LABELS]));
 
   Doombox.createRouter(IPC.CHANNEL.LIBRARY, new LibraryController(db, {
     ...config.get(TYPES.CONFIG.PARSER),

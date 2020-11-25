@@ -1,7 +1,4 @@
-module.exports = class LabelController {
-  /**
-   * @param {object} db - Database object
-   */
+module.exports = class Controller {
   constructor(db) {
     this.db = db;
 
