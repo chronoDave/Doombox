@@ -1,6 +1,6 @@
 const objectGet = require('lodash.get');
 
-const { capitalize } = require('@doombox-utils');
+const { capitalize, pascalize } = require('@doombox-utils');
 
 const localeEn = require('./locales/en.json');
 const localeNl = require('./locales/nl.json');
@@ -13,13 +13,6 @@ const LANGUAGES = {
 const LOCALES = {
   [LANGUAGES.EN]: localeEn,
   [LANGUAGES.NL]: localeNl
-};
-
-const DARWIN_KEYBINDS = {
-  mod: '\u2318',
-  shift: '\u21e7',
-  option: '\u03b1',
-  alt: '\u03b1'
 };
 
 /**
@@ -58,26 +51,40 @@ const getTranslation = (
     case 'capitalize':
       return capitalize(value);
     case 'pascal':
-      return value
-        .split(' ')
-        .map(capitalize)
-        .join(' ');
+      return pascalize(value, ' ');
     default:
       return value;
   }
 };
 
-const getNativeKeybind = keybind => {
-  if (process.platform !== 'darwin') return keybind;
+const getNativeKeybind = (keybind, transform) => {
+  const nativeKeybinds = {
+    win32: {
+      mod: 'ctrl'
+    },
+    darwin: {
+      mod: '\u2318',
+      shift: '\u21e7',
+      option: '\u03b1',
+      alt: '\u03b1'
+    }
+  };
 
-  let newValue = keybind;
+  let nativeKeybind = keybind;
   Object
-    .entries(DARWIN_KEYBINDS)
+    .entries(nativeKeybinds[process.platform])
     .forEach(([key, value]) => {
-      newValue = keybind.replace(key, value);
+      nativeKeybind = nativeKeybind.replace(key, value);
     });
 
-  return newValue;
+  switch (transform) {
+    case 'capitalize':
+      return capitalize(nativeKeybind);
+    case 'pascal':
+      return pascalize(nativeKeybind, '+');
+    default:
+      return nativeKeybind;
+  }
 };
 
 module.exports = {

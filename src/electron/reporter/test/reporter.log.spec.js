@@ -11,8 +11,6 @@ test('[reporter.log] should create log file', t => {
 
   const reporter = new Reporter(root);
 
-  fs.mkdirSync(root, { recursive: true });
-
   reporter.log(text, 'tape', 'TEST');
 
   const files = fs.readdirSync(root);

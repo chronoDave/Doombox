@@ -33,6 +33,12 @@ module.exports = class LibraryController {
     this.requiredMetadata = requiredMetadata;
 
     if (this.folder) fs.mkdirSync(this.folder, { recursive: true });
+
+    this.parseMetadata = this.parseMetadata.bind(this);
+    this.insertImages = this.insertImages.bind(this);
+    this.insert = this.insert.bind(this);
+    this.find = this.find.bind(this);
+    this.drop = this.drop.bind(this);
   }
 
   async parseMetadata(file) {

@@ -4,6 +4,9 @@ module.exports = class StorageController {
    */
   constructor(storage) {
     this.storage = storage;
+
+    this.find = this.find.bind(this);
+    this.update = this.update.bind(this);
   }
 
   find(event, { query }) {

@@ -21,7 +21,7 @@
     "test": "yarn test:intl && yarn test:react && yarn test:electron",
     "clean": "node scripts/clean.js",
     "start:webpack": "webpack -w",
-    "start:electron": "nodemon --exec electron build/src/main.bundle.js -w build/src",
+    "start:electron": "nodemon --config .nodemon.json",
     "prebuild": "webpack --mode production",
     "build": "yarn prebuild && yarn clean && electron-builder -p=never -c .electronconfig.js"
   },

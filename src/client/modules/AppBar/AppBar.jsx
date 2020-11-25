@@ -59,43 +59,55 @@ const AppBar = props => {
 
   const appMenu = {
     file: [{
-      primary: t('action.common.rescan', { item: 'folder' }),
+      primary: t(
+        'action.common.rescan',
+        { mixins: { item: t('common.folder') }, transform: 'pascal' }
+      ),
       secondary: keybinds.rescan,
       divider: true,
       onClick: () => scanFolder(folders)
     }, {
-      primary: t('action.common.scan', { item: 'folder' }),
+      primary: t(
+        'action.common.scan',
+        { mixins: { item: t('common.folder') }, transform: 'pascal' }
+      ),
       secondary: keybinds.scanFolder,
       onClick: scanFolderNative
     }, {
-      primary: t('action.common.delete', { item: 'library' }),
+      primary: t(
+        'action.common.delete',
+        { mixins: { item: t('common.library') }, transform: 'pascal' }
+      ),
       divider: true,
       onClick: deleteLibrary
     }, {
-      primary: t('action.common.exit'),
+      primary: t('action.common.exit', { transform: 'pascal' }),
       onClick: windowClose
     }],
     help: [{
-      primary: t('action.menu.display_keybinds'),
+      primary: t('action.menu.display_keybinds', { transform: 'pascal' }),
       onClick: event => {
         event.preventDefault();
         shell.openExternal(URLS.KEYBINDS);
       }
     }, {
-      primary: t('action.common.open', { item: t('common.github') }),
+      primary: t(
+        'action.common.open',
+        { mixins: { item: t('common.github') }, transform: 'pascal' }
+      ),
       onClick: event => {
         event.preventDefault();
         shell.openExternal(URLS.REPO);
       }
     }, {
-      primary: t('action.menu.report_issue'),
+      primary: t('action.menu.report_issue', { transform: 'pascal' }),
       divider: true,
       onClick: event => {
         event.preventDefault();
         shell.openExternal(URLS.HELP.REPORT_ISSUE);
       }
     }, {
-      primary: t('action.menu.toggle_dev_tools'),
+      primary: t('action.menu.toggle_dev_tools', { transform: 'pascal' }),
       secondary: keybinds.toggleDevTools,
       onClick: event => {
         event.preventDefault();
@@ -183,7 +195,7 @@ const AppBar = props => {
           <MenuItem
             key={primary}
             primary={primary}
-            secondary={secondary && getNativeKeybind(secondary)}
+            secondary={secondary && getNativeKeybind(secondary, 'pascal')}
             {...rest}
           />
         ))}

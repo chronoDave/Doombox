@@ -10,7 +10,7 @@ const LanguageProvider = ({ language, children }) => {
   const value = {
     language,
     getNativeKeybind,
-    t: (id, args) => getTranslation(language, id, args)
+    t: (id, options) => getTranslation(language, id, options)
   };
 
   return (

@@ -1,0 +1,8 @@
+{
+  "watch": ["build/src/**"],
+  "ext": "js",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "exec": "electron build/src/main.bundle.js"
+}

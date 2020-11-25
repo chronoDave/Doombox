@@ -11,8 +11,6 @@ test('[reporter.logError] should create error log file', t => {
 
   const reporter = new Reporter(root);
 
-  fs.mkdirSync(root, { recursive: true });
-
   reporter.logError(error);
 
   const files = fs.readdirSync(root);

@@ -4,6 +4,8 @@ module.exports = class AlbumController {
    */
   constructor(db) {
     this.db = db;
+
+    this.find = this.find.bind(this);
   }
 
   async find(event, { query, projection }) {

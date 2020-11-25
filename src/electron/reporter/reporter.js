@@ -1,5 +1,4 @@
 const path = require('path');
-
 const fs = require('fs');
 
 module.exports = class Reporter {
@@ -8,6 +7,8 @@ module.exports = class Reporter {
    */
   constructor(root) {
     this.root = root;
+
+    fs.mkdirSync(root, { recursive: true });
   }
 
   /**
