@@ -1,6 +1,5 @@
 import React from 'react';
 import { formatTime } from '@doombox-utils';
-import { IPC } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -9,11 +8,9 @@ import {
   VirtualList,
   ButtonBase,
   Typography,
-  Search
 } from '../../components';
 
-// Actions
-import { ipcFind } from '../../actions';
+import { LibrarySearch } from '../LibrarySearch';
 
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
@@ -33,24 +30,7 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
 
   return (
     <div className={classes.root}>
-      <Search
-        onSearch={(_, value) => ipcFind(IPC.CHANNEL.LIBRARY, {
-          $some: [
-            { $stringLoose: { 'metadata.album': value.toString() } },
-            { $stringLoose: { 'metadata.albumlocalized': value.toString() } },
-            { $stringLoose: { 'metadata.albumartist': value.toString() } },
-            { $stringLoose: { 'metadata.albumartistlocalized': value.toString() } }
-          ]
-        })}
-        onChange={(_, value) => ipcFind(IPC.CHANNEL.LIBRARY, value.length === 0 ? {} : {
-          $some: [
-            { $stringLoose: { 'metadata.album': value.toString() } },
-            { $stringLoose: { 'metadata.albumlocalized': value.toString() } },
-            { $stringLoose: { 'metadata.albumartist': value.toString() } },
-            { $stringLoose: { 'metadata.albumartistlocalized': value.toString() } }
-          ]
-        })}
-      />
+      <LibrarySearch />
       <VirtualList
         data={labels}
         item={{
@@ -87,8 +67,8 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
                         if (a.metadata.date > b.metadata.date) return 1;
                       }
                       if (a.metadata.year < b.metadata.year) return -1;
-                      if (a.metadata.disk.no < b.metadata.disk.no) return -1;
-                      if (a.metadata.disk.no > b.metadata.disk.no) return 1;
+                      if (a.metadata.disc.no < b.metadata.disc.no) return -1;
+                      if (a.metadata.disc.no > b.metadata.disc.no) return 1;
                       if (a.metadata.track.no < b.metadata.track.no) return -1;
                       if (a.metadata.track.no > b.metadata.track.no) return 1;
                       return 0;
@@ -114,8 +94,8 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
                       collection: album.songs
                         .map(id => songMap[id])
                         .sort((a, b) => {
-                          if (a.metadata.disk.no < b.metadata.disk.no) return -1;
-                          if (a.metadata.disk.no > b.metadata.disk.no) return 1;
+                          if (a.metadata.disc.no < b.metadata.disc.no) return -1;
+                          if (a.metadata.disc.no > b.metadata.disc.no) return 1;
                           if (a.metadata.track.no < b.metadata.track.no) return -1;
                           if (a.metadata.track.no > b.metadata.track.no) return 1;
                           return 0;

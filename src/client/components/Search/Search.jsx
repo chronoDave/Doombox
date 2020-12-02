@@ -11,7 +11,7 @@ import { useTranslation } from '../../hooks';
 // Styles
 import useSearchStyles from './Search.styles';
 
-const Search = ({ onChange, onSearch }) => {
+const Search = ({ onChange, onSearch, IconProps }) => {
   const ref = useRef();
 
   const classes = useSearchStyles();
@@ -27,7 +27,10 @@ const Search = ({ onChange, onSearch }) => {
         onChange={event => onChange(event, event.currentTarget.value)}
         onKeyDown={event => event.keyCode === 13 && onSearch(event, ref.current.value)}
       />
-      <IconButton onClick={event => onSearch(event, ref.current.value)}>
+      <IconButton
+        onClick={event => onSearch(event, ref.current.value)}
+        {...IconProps}
+      >
         <Icon type="magnify" />
       </IconButton>
     </div>
@@ -35,12 +38,18 @@ const Search = ({ onChange, onSearch }) => {
 };
 
 Search.defaultProps = {
-  onChange: () => null
+  onChange: () => null,
+  IconProps: {}
 };
 
 Search.propTypes = {
   onChange: PropTypes.func,
-  onSearch: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired,
+  IconProps: PropTypes.shape({
+    square: PropTypes.bool,
+    small: PropTypes.bool,
+    className: PropTypes.string
+  })
 };
 
 export default Search;

@@ -55,16 +55,25 @@ module.exports = class LibraryController {
       !Object.keys(tags).some(key => this.requiredMetadata.includes(key))
     ) return Promise.reject(new Error(`Missing metadata: ${this.requiredMetadata}, ${file}`));
 
-    const _albumId = generateUid(`${tags.albumartist || 'Unknown'}${tags.album}` || 'Unknown');
     const nativeTags = native[format.tagTypes.sort().pop()]
       .reduce((acc, { id, value }) => ({
         ...acc,
         [id.toUpperCase()]: value
       }), {});
+    const _albumId = generateUid(`${nativeTags.TPE2 || 'Unknown'}${nativeTags.TALB || 'Unknown'}` || 'Unknown');
+
+    const getNoOfTag = tag => {
+      const [_no, _of] = (tag || '').split(/\/|\\|\.|-/);
+
+      return ({
+        no: _no || 1,
+        of: _of || 1
+      });
+    };
 
     return Promise.resolve({
       _albumId,
-      _labelId: generateUid(tags.albumartist || 'Unknown'),
+      _labelId: generateUid(nativeTags.TPE2 || 'Unknown'),
       file,
       format,
       images: !picture ? [] : picture.map(image => ({
@@ -73,19 +82,25 @@ module.exports = class LibraryController {
         format: image.format.split('/').pop() // image/jpg => jpg
       })),
       metadata: {
-        albumartist: nativeTags.TP2 || null,
-        titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
+        artist: nativeTags.TPE1 || null,
+        title: nativeTags.TIT2 || null,
+        album: nativeTags.TALB || null,
+        albumartist: nativeTags.TPE2 || null,
+        track: getNoOfTag(nativeTags.TRCK),
+        disc: getNoOfTag(nativeTags.TPOS),
+        year: nativeTags.TYER || null,
         artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
+        titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
         albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
         albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
         date: nativeTags.TDAT || null,
         event: nativeTags['TXXX:EVENT'] || null,
+        genre: nativeTags.TCON || null,
         cdid: toArray(
           tags.catalognumber ||
           nativeTags['TXXX:CATALOGID'] ||
           nativeTags['TXXX:CDID']
-        ).filter(cdid => cdid),
-        ...tags
+        ).filter(cdid => cdid)
       }
     });
   }

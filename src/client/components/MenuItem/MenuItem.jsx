@@ -7,7 +7,7 @@ import { ButtonBase } from '../ButtonBase';
 import { Typography } from '../Typography';
 
 // Styles
-import useMenuStyles from './Menu.styles';
+import useMenuItemStyles from './MenuItem.styles';
 
 const MenuItem = props => {
   const {
@@ -17,7 +17,7 @@ const MenuItem = props => {
     onClick,
     onClose
   } = props;
-  const classes = useMenuStyles();
+  const classes = useMenuItemStyles();
 
   return (
     <ButtonBase
@@ -25,13 +25,13 @@ const MenuItem = props => {
         onClick(event);
         if (typeof onClose === 'function') onClose(event);
       }}
-      className={cx(classes.itemRoot, { [classes.itemDivider]: divider })}
+      className={cx(classes.root, { [classes.divider]: divider })}
     >
       <Typography>
         {primary}
       </Typography>
       {secondary && (
-        <Typography className={classes.itemSecondary}>
+        <Typography className={classes.secondary}>
           {secondary}
         </Typography>
       )}

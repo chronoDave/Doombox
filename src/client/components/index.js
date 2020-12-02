@@ -1,22 +1,13 @@
-export { Typography } from './Typography';
-export {
-  Icon,
-  IconApp
-} from './Icon';
-export { Popper } from './Popper';
-export { Hidden } from './Hidden';
-export {
-  Menu,
-  MenuItem
-} from './Menu';
-export {
-  IconButton,
-  IconButtonPlay,
-  IconButtonVolume
-} from './IconButton';
-export { Slider } from './Slider';
-export { LinearProgress } from './LinearProgress';
-export { Search } from './Search';
-export { Route } from './Route';
-export { ButtonBase } from './ButtonBase';
-export { VirtualList } from './VirtualList';
+export * from './ButtonBase';
+export * from './Hidden';
+export * from './Icon';
+export * from './IconButton';
+export * from './LinearProgress';
+export * from './Menu';
+export * from './MenuItem';
+export * from './Popper';
+export * from './Route';
+export * from './Search';
+export * from './Slider';
+export * from './Typography';
+export * from './VirtualList';

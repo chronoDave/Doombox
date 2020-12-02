@@ -15,7 +15,9 @@
       "delete": "verwijder {item}",
       "exit": "sluiten",
       "open": "open {item}",
-      "search": "zoeken"
+      "search": "zoeken",
+      "play": "speel {item}",
+      "shuffle": "schuiffel {item}"
     },
     "menu": {
       "toggle_dev_tools": "shakel developer tools in",

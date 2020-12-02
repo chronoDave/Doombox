@@ -28,7 +28,7 @@ export const propMetadata = PropTypes.shape({
   artistlocalized: PropTypes.string,
   cdid: PropTypes.arrayOf(PropTypes.string),
   date: PropTypes.string,
-  disk: PropTypes.shape({
+  disc: PropTypes.shape({
     no: PropTypes.number,
     of: PropTypes.number
   }),

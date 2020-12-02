@@ -48,9 +48,7 @@ const ThemeProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    ipcRenderer.on(IPC.CHANNEL.THEME, (event, payload) => {
-      setTheme(createTheme(payload.data));
-    });
+    ipcRenderer.on(IPC.CHANNEL.THEME, (event, payload) => setTheme(createTheme(payload.data)));
 
     ipcFind(IPC.CHANNEL.THEME, null);
 
@@ -58,6 +56,18 @@ const ThemeProvider = ({ children }) => {
       ipcRenderer.removeAllListeners(IPC.CHANNEL.THEME);
     };
   }, []);
+
+  useEffect(() => {
+    injectGlobal({
+      '*::-webkit-scrollbar': {
+        backgroundColor: theme.palette.grey[4],
+        width: theme.spacing()
+      },
+      '*::-webkit-scrollbar-thumb': {
+        backgroundColor: theme.palette.grey[16]
+      }
+    });
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={theme}>

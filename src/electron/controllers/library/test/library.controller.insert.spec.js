@@ -1,5 +1,4 @@
 const test = require('tape');
-const path = require('path');
 const fs = require('fs');
 
 const { createMockElectronEvent } = require('../../../../../test/mock');

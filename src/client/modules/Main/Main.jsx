@@ -33,7 +33,7 @@ const Main = () => {
         'metadata.albumartistlocalized',
         'metadata.cdid',
         'metadata.date',
-        'metadata.disk',
+        'metadata.disc',
         'metadata.track',
         'metadata.year',
         'covers',
