@@ -14,16 +14,28 @@
 | **Ctrl + Shift + S** | Scan folder      |
 | **Ctrl + Shift + I** | Toggle dev tools |
 
+| Playlist | |
+| :------------------ | ------------- |
+| **Ctrl + Alt + →**  | Next song     |
+| **Ctrl + Alt + ←**  | Previous song |
+| **Ctrl + Alt + \\** | Play / pause  |
+
 ## Mac
 
-| System (non-configurable) |  |
+| System (non-configurable) | |
 |:------------------ | ---------- |
-| **⌘ + =**       | Zoom in    |
-| **⌘ + -**       | Zoom out   |
-| **⌘ + ⌥ + =** | Reset zoom |
+| **⌘ + =**         | Zoom in    |
+| **⌘ + -**         | Zoom out   |
+| **⌘ + ⌥ + =**     | Reset zoom |
 
 | File | |
 |:-------------------- | ---------------- |
-| **⌘ + S**         | Rescan library   |
-| **⌘ + ⇧ + S** | Scan folder      |
-| **⌘ + ⇧ + I** | Toggle dev tools |
+| **⌘ + S**           | Rescan library   |
+| **⌘ + ⇧ + S**       | Scan folder      |
+| **⌘ + ⇧ + I**       | Toggle dev tools |
+
+| Playlist | |
+| :--------------- | ------------- |
+| **⌘ + ⌥ + →**  | Next song     |
+| **⌘ + ⌥ + ←**  | Previous song |
+| **⌘ + ⌥ + \\** | Play / pause  |

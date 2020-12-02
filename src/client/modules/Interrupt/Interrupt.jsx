@@ -42,10 +42,10 @@ const Interrupt = () => {
     <div className={classes.root}>
       <div className={classes.title}>
         <Typography align="center">
-          {t('title.scanning_folders')}
+          {t('title.scanning_files')}
         </Typography>
         <Typography>
-          {t('description.scanning_folders')}
+          {t('description.scanning_files')}
         </Typography>
         <Typography align="center">
           {`${formatTime(count)}`}

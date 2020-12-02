@@ -32,9 +32,9 @@
     }
   },
   "title": {
-    "scanning_folders": "scanning folders"
+    "scanning_files": "scanning files"
   },
   "description": {
-    "scanning_folders": "please be patient, this might take a while"
+    "scanning_files": "please be patient, this might take a while"
   }
 }

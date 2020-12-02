@@ -32,9 +32,9 @@
     }
   },
   "title": {
-    "scanning_folders": "folder scannen"
+    "scanning_files": "bestanden aan het scannen"
   },
   "description": {
-    "scanning_folders": "een moment geduld, dit kan even duren"
+    "scanning_files": "een moment geduld, dit kan even duren"
   }
 }
