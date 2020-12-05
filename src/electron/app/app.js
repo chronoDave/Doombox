@@ -241,7 +241,7 @@ module.exports = class App extends Reporter {
         click: () => shell.openExternal(URLS.REPO)
       }, {
         label: this.translate('action.menu.report_issue', { transform: 'pascal' }),
-        click: shell.openExternal(URLS.REPORT_ISSUE)
+        click: () => shell.openExternal(URLS.REPORT_ISSUE)
       }]
     }]));
   }
