@@ -165,7 +165,7 @@ module.exports = class App extends Reporter {
     });
   }
 
-  createMenuMac(windows, keybinds) {
+  createMenuMac(window, keybinds) {
     const createAccelerator = keybind => pascalize(keybind.replace('mod', 'Command'));
 
     Menu.setApplicationMenu(Menu.buildFromTemplate([{
