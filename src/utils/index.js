@@ -2,6 +2,7 @@ const capitalize = require('./capitalize');
 const clamp = require('./clamp');
 const formatTime = require('./formatTime');
 const generateUid = require('./generateUid');
+const getCumulative = require('./getCumulative');
 const pascalize = require('./pascalize');
 const shuffle = require('./shuffle');
 const toArray = require('./toArray');
@@ -13,6 +14,7 @@ module.exports = {
   clamp,
   formatTime,
   generateUid,
+  getCumulative,
   pascalize,
   shuffle,
   toArray,

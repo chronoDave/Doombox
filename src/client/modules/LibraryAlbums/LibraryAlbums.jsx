@@ -175,10 +175,16 @@ export default connect(
   null,
   {
     areStatesEqual: (next, prev) => {
-      const isEntityEqual = entity => new Set([
-        ...Object.keys(next.entities[entity].map),
-        ...Object.keys(prev.entities[entity].map)
-      ]).size === Object.keys(prev.entities[entity].map);
+      const isEntityEqual = entity => {
+        const nextArray = next.entities[entity].list;
+        const prevArray = prev.entities[entity].list;
+
+        if (nextArray.length !== prevArray.length) return false;
+        for (let i = 0; i < nextArray.length; i += 1) {
+          if (nextArray[i]._id !== prevArray[i]._id) return false;
+        }
+        return true;
+      };
 
       return (
         isEntityEqual('songs') &&

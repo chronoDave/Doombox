@@ -5,6 +5,7 @@ import React, {
   useRef,
   useCallback
 } from 'react';
+import { getCumulative } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Styles
@@ -18,7 +19,11 @@ const VirtualList = forwardRef((props, ref) => {
     children
   } = props;
   const [sliceIndex, setSliceIndex] = useState([0, 0]);
-  const [height, setHeight] = useState({ items: [], cumulative: [], total: 0 });
+  const [height, setHeight] = useState({
+    items: [],
+    cumulative: [],
+    total: 0
+  });
 
   const innerRef = useRef();
   const containerRef = useRef();
@@ -29,7 +34,7 @@ const VirtualList = forwardRef((props, ref) => {
 
     const indexEndCumulative = height.cumulative.findIndex(cHeight => cHeight > window.y + window.height);
     const indexEnd = indexEndCumulative < 0 ?
-      data.length :
+      0 :
       Math.min(data.length, indexEndCumulative + overscroll);
 
     setSliceIndex([indexStart, indexEnd]);
@@ -47,7 +52,7 @@ const VirtualList = forwardRef((props, ref) => {
 
       setHeight({
         items: itemHeights,
-        cumulative: itemHeights.reduce((acc, cur) => ([...acc, acc.pop() + cur]), [0]),
+        cumulative: getCumulative(itemHeights, 0),
         total: itemHeights.reduce((acc, cur) => acc + cur, 0)
       });
     }
