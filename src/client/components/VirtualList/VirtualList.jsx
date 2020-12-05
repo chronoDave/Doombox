@@ -2,8 +2,7 @@ import React, {
   forwardRef,
   useState,
   useEffect,
-  useRef,
-  useCallback
+  useRef
 } from 'react';
 import { getCumulative } from '@doombox-utils';
 import PropTypes from 'prop-types';
@@ -11,93 +10,124 @@ import PropTypes from 'prop-types';
 // Styles
 import useVirtualListStyles from './VirtualList.styles';
 
-const VirtualList = forwardRef((props, ref) => {
+const getViewTuple = ({ container, height, overscroll }) => {
+  /**
+   * Find smallest cumulative height that's larger than the current scroll position,
+   * and remove 1, as the previous item is still (partly) visible
+   *
+   * Can return -1
+   */
+  const indexStart = height.cumulative
+    .findIndex(cumulativeHeight => cumulativeHeight > container.y) - 1;
+
+  /**
+   * Find smallest cumulative height that's larger than the container height + scroll position,
+   * overflow is desired, so no need to remove 1
+   *
+   * Can return -1
+   */
+  const indexEnd = height.cumulative
+    .findIndex(cumulativeHeight => cumulativeHeight > container.y + container.height);
+
+  /** Start index must always be at least 0 */
+  const normalizedIndexStart = Math.max(0, indexStart - overscroll);
+
+  /**
+   * End index must always be at least 0
+   * If total height is small than container height, return max index
+   * */
+  const normalizedIndexEnd = height.total <= container.height ?
+    Math.max(0, height.cumulative.length - 1) :
+    Math.max(0, indexEnd + overscroll);
+
+  return ([normalizedIndexStart, normalizedIndexEnd]);
+};
+
+const VirtualList = forwardRef((props, outerRef) => {
   const {
     data,
-    item,
     overscroll,
+    itemHeight,
     children
   } = props;
-  const [sliceIndex, setSliceIndex] = useState([0, 0]);
+  const [viewTuple, setViewTuple] = useState([0, 0]);
   const [height, setHeight] = useState({
-    items: [],
+    children: [],
     cumulative: [],
     total: 0
   });
 
   const innerRef = useRef();
-  const containerRef = useRef();
-  const rootRef = ref || innerRef;
-
-  const virtualize = useCallback(window => {
-    const indexStart = Math.max(0, height.cumulative.findIndex(itemHeight => itemHeight > window.y) - 1);
-
-    const indexEndCumulative = height.cumulative.findIndex(cHeight => cHeight > window.y + window.height);
-    const indexEnd = indexEndCumulative < 0 ?
-      0 :
-      Math.min(data.length, indexEndCumulative + overscroll);
-
-    setSliceIndex([indexStart, indexEnd]);
-  }, [data, height, overscroll]);
-
-  const getHeight = useCallback(() => {
-    if (containerRef && containerRef.current) {
-      const itemHeights = typeof item.height === 'function' ? (
-        data.map((itemData, i) => item.height({
-          data: itemData,
-          width: containerRef.current.getBoundingClientRect().width,
-          index: i
-        }))
-      ) : data.map(() => item.height);
-
-      setHeight({
-        items: itemHeights,
-        cumulative: getCumulative(itemHeights, 0),
-        total: itemHeights.reduce((acc, cur) => acc + cur, 0)
-      });
-    }
-  }, [data, item]);
+  const refContainer = useRef();
+  const ref = outerRef || innerRef;
 
   const classes = useVirtualListStyles({ height: height.total });
 
   useEffect(() => {
-    if (rootRef && rootRef.current) {
-      virtualize({
-        y: rootRef.current.scrollTop,
-        height: rootRef.current.getBoundingClientRect().height
+    const getHeights = container => {
+      const heights = typeof itemHeight === 'number' ?
+        data.map(() => itemHeight) :
+        data.map((childData, index) => itemHeight({
+          data: childData,
+          container,
+          index
+        }));
+
+      setHeight({
+        children: heights,
+        cumulative: getCumulative(heights, 0),
+        total: heights.reduce((acc, cur) => acc + cur, 0)
       });
+    };
+
+    if (ref && ref.current && refContainer && refContainer.current) {
+      const container = refContainer.current.getBoundingClientRect();
+
+      getHeights(container);
+      window.addEventListener('resize', () => getHeights(container));
     }
-  }, [rootRef, virtualize, height]);
+
+    return () => window.removeEventListener('resize', getHeights);
+  }, [ref, itemHeight, data]);
 
   useEffect(() => {
-    getHeight();
-
-    window.addEventListener('resize', getHeight);
-
-    return () => window.removeEventListener('resize', getHeight);
-  }, [getHeight]);
+    if (ref && ref.current) {
+      setViewTuple(getViewTuple({
+        overscroll,
+        height,
+        container: {
+          y: ref.current.scrollTop,
+          height: ref.current.getBoundingClientRect().height
+        }
+      }));
+    }
+  }, [ref, height, overscroll]);
 
   return (
     <div
-      ref={rootRef}
+      ref={ref}
       className={classes.root}
-      onScroll={event => virtualize({
-        y: event.currentTarget.scrollTop,
-        height: event.currentTarget.getBoundingClientRect().height
-      })}
+      onScroll={event => setViewTuple(getViewTuple({
+        overscroll,
+        height,
+        container: {
+          y: event.currentTarget.scrollTop,
+          height: event.currentTarget.getBoundingClientRect().height
+        }
+      }))}
     >
-      <div className={classes.container} ref={containerRef}>
-        {data.slice(sliceIndex[0], sliceIndex[1]).map((itemData, i) => {
-          const index = sliceIndex[0] + i;
+      <div ref={refContainer} className={classes.container}>
+        {data.slice(viewTuple[0], viewTuple[1]).map((childData, i) => {
+          const index = viewTuple[0] + i;
 
           return children({
             index,
-            data: itemData,
+            data: childData,
             style: {
               position: 'absolute',
               top: height.cumulative[index],
               width: '100%',
-              height: height.items[index]
+              height: height.children[index]
             }
           });
         })}
@@ -111,14 +141,12 @@ VirtualList.defaultProps = {
 };
 
 VirtualList.propTypes = {
-  data: PropTypes.array.isRequired,
-  item: PropTypes.shape({
-    height: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.func
-    ]).isRequired
-  }).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
   overscroll: PropTypes.number,
+  itemHeight: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.func
+  ]).isRequired,
   children: PropTypes.func.isRequired
 };
 

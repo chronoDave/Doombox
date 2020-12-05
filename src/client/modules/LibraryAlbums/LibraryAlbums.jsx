@@ -33,13 +33,11 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
       <LibrarySearch />
       <VirtualList
         data={labels}
-        item={{
-          height: ({ data, width }) => {
-            const rows = Math.floor(width / 75);
-            const columns = Math.ceil(data.albums.length / rows);
+        itemHeight={({ data, container: { width } }) => {
+          const rows = Math.floor(width / 75);
+          const columns = Math.ceil(data.albums.length / rows);
 
-            return 35 + columns * 75;
-          }
+          return 35 + columns * 75;
         }}
       >
         {({ data, style }) => {

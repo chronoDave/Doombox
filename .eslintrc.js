@@ -40,7 +40,6 @@ module.exports = {
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/jsx-props-no-spreading': 'off', // Spread appropriatly
     'react/destructuring-assignment': 'off',
-    'react/forbid-prop-types': 'warn',
     // Import
     'import/prefer-default-export': 'off',
     'import/order': ['error', {

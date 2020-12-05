@@ -27,9 +27,7 @@ const Playlist = ({ name, songs, current }) => {
   ));
 
   useLayoutEffect(() => {
-    if (ref.current) {
-      ref.current.scroll({ top: 0 });
-    }
+    if (ref.current) ref.current.scroll({ top: 0 });
   }, [songs]);
 
   return (
@@ -40,9 +38,9 @@ const Playlist = ({ name, songs, current }) => {
         </Typography>
       </div>
       <VirtualList
-        data={songs}
-        item={{ height: isNotSmall ? 40 : 20 }}
         ref={ref}
+        data={songs}
+        itemHeight={isNotSmall ? 40 : 20}
       >
         {({ data, style, index }) => (
           <ButtonBase
