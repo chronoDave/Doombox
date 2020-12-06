@@ -96,7 +96,39 @@ class AudioProvider extends Component {
     });
     this.audio.on(EVENTS.AUDIO.PLAYLIST, dispatchPlaylist);
     this.audio.on(EVENTS.AUDIO.POSITION, dispatchPosition);
-    this.audio.on(EVENTS.AUDIO.METADATA, dispatchMetadata);
+    this.audio.on(EVENTS.AUDIO.METADATA, metadata => {
+      dispatchMetadata(metadata);
+
+      // eslint-disable-next-line no-undef
+      navigator.mediaSession.metadata = new MediaMetadata({
+        artist: metadata.artist,
+        title: metadata.title,
+        album: metadata.album,
+      });
+
+      const cover = metadata.covers
+        .map(id => this.props.images[id])
+        .sort()[0];
+
+      if (cover && cover.file) {
+        fetch(cover.file)
+          .then(response => response.blob())
+          .then(blob => {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+              // eslint-disable-next-line no-undef
+              navigator.mediaSession.metadata = new MediaMetadata({
+                artist: metadata.artist,
+                title: metadata.title,
+                album: metadata.album,
+                artwork: [{ src: reader.result, type: `image/${cover.file.split('.').pop()}`, sizes: '192x192' }]
+              });
+            };
+            reader.readAsDataURL(blob);
+          });
+      }
+    });
     this.audio.on(EVENTS.AUDIO.VOLUME, dispatchVolume);
     this.audio.on(EVENTS.AUDIO.AUTOPLAY, dispatchAutoplay);
     this.audio.on(EVENTS.AUDIO.STATUS, status => {
@@ -140,6 +172,7 @@ AudioProvider.propTypes = {
   autoplay: PropTypes.bool.isRequired,
   volume: PropTypes.number.isRequired,
   muted: PropTypes.bool.isRequired,
+  images: PropTypes.shape({}).isRequired,
   dispatchDuration: PropTypes.func.isRequired,
   dispatchMuted: PropTypes.func.isRequired,
   dispatchPlaylist: PropTypes.func.isRequired,
@@ -151,6 +184,7 @@ AudioProvider.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  images: state.entities.images.map,
   autoplay: state.config.player.autoplay,
   muted: state.cache.player.muted,
   volume: state.cache.player.volume

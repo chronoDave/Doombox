@@ -19,8 +19,8 @@ test('[library.controller.parseMetadata] should parse metadata', async t => {
     t.true(metadata._labelId, 'has `_labelId`');
     t.true(metadata.file, 'has `file`');
     t.true(metadata.metadata, 'has `metadata`');
+    t.equal(metadata.metadata.cdid, null, 'has `cdid`');
     t.true(Array.isArray(metadata.images), '`images` is an array');
-    t.true(Array.isArray(metadata.metadata.cdid), '`cdid` is an array');
   } catch (err) {
     t.fail(err);
   }

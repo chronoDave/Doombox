@@ -20,25 +20,21 @@ export const propAnchorEl = PropTypes.oneOfType([
 ]);
 
 export const propMetadata = PropTypes.shape({
-  album: PropTypes.string.isRequired,
-  albumartist: PropTypes.string.isRequired,
-  albumartistlocalized: PropTypes.string,
-  albumlocalized: PropTypes.string,
-  artist: PropTypes.string.isRequired,
+  artist: PropTypes.string,
+  title: PropTypes.string,
+  album: PropTypes.string,
+  albumartist: PropTypes.string,
+  track: PropTypes.arrayOf(PropTypes.number),
+  disc: PropTypes.arrayOf(PropTypes.number),
+  year: PropTypes.number,
   artistlocalized: PropTypes.string,
-  cdid: PropTypes.arrayOf(PropTypes.string),
-  date: PropTypes.string,
-  disc: PropTypes.shape({
-    no: PropTypes.number,
-    of: PropTypes.number
-  }),
-  title: PropTypes.string.isRequired,
   titlelocalized: PropTypes.string,
-  track: PropTypes.shape({
-    no: PropTypes.number,
-    of: PropTypes.number
-  }),
-  year: PropTypes.number
+  albumlocalized: PropTypes.string,
+  albumartistlocalized: PropTypes.string,
+  date: PropTypes.string,
+  event: PropTypes.string,
+  genre: PropTypes.string,
+  cdid: PropTypes.string
 });
 
 export const propSong = PropTypes.shape({

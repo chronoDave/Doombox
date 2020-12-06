@@ -45,30 +45,42 @@ module.exports = class LibraryController {
     const {
       format,
       native,
-      common: { picture, ...tags }
+      common: { picture }
     } = await parseFile(file, { skipCovers: this.skipCovers });
 
-    // Validation
-    if (format.tagTypes.length === 0) return Promise.reject(new Error(`Corrupted file: ${file}`));
+    const tagTypes = ['ID3v2.3', 'ID3v2.4'];
+    if (!format.tagTypes.some(tagType => tagTypes.includes(tagType))) {
+      return Promise.reject(new Error(`File does not contain valid metadata: ${file}`));
+    }
+
+    const nativeTags = tagTypes
+      .map(tagType => {
+        const tags = native[tagType];
+
+        if (!tags) return null;
+        return tags
+          .reduce((acc, { id, value }) => ({
+            ...acc,
+            [id.toUpperCase()]: value
+          }), {});
+      })
+      .sort()[0];
+
     if (
       this.requiredMetadata.length > 0 &&
-      !Object.keys(tags).some(key => this.requiredMetadata.includes(key))
+      !Object.keys(nativeTags).some(key => this.requiredMetadata.includes(key))
     ) return Promise.reject(new Error(`Missing metadata: ${this.requiredMetadata}, ${file}`));
 
-    const nativeTags = native[format.tagTypes.sort().pop()]
-      .reduce((acc, { id, value }) => ({
-        ...acc,
-        [id.toUpperCase()]: value
-      }), {});
     const _albumId = generateUid(`${nativeTags.TPE2 || 'Unknown'}${nativeTags.TALB || 'Unknown'}` || 'Unknown');
+    const getTagSet = tag => {
+      if (!tag) return [-1, -1];
 
-    const getNoOfTag = tag => {
-      const [_no, _of] = (tag || '').split(/\/|\\|\.|-/);
+      const set = tag
+        .split(/\/|\\|\.|-/)
+        .map(value => parseInt(value, 10));
 
-      return ({
-        no: _no || 1,
-        of: _of || 1
-      });
+      if (set.length !== 2) return [set[0] || -1, set[1] || -1];
+      return set;
     };
 
     return Promise.resolve({
@@ -86,9 +98,11 @@ module.exports = class LibraryController {
         title: nativeTags.TIT2 || null,
         album: nativeTags.TALB || null,
         albumartist: nativeTags.TPE2 || null,
-        track: getNoOfTag(nativeTags.TRCK),
-        disc: getNoOfTag(nativeTags.TPOS),
-        year: nativeTags.TYER || null,
+        track: getTagSet(nativeTags.TRCK),
+        disc: getTagSet(nativeTags.TPOS),
+        year: nativeTags.TYER ?
+          parseInt(nativeTags.TYER, 10) :
+          null,
         artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
         titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
         albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
@@ -96,11 +110,7 @@ module.exports = class LibraryController {
         date: nativeTags.TDAT || null,
         event: nativeTags['TXXX:EVENT'] || null,
         genre: nativeTags.TCON || null,
-        cdid: toArray(
-          tags.catalognumber ||
-          nativeTags['TXXX:CATALOGID'] ||
-          nativeTags['TXXX:CDID']
-        ).filter(cdid => cdid)
+        cdid: nativeTags['TXXX:CDID'] || nativeTags['TXXX:CATALOGID'] || null
       }
     });
   }

@@ -4,7 +4,7 @@ module.exports = {
   appId: 'com.electron.doombox',
   productName: 'Doombox',
   copyright: 'Copyright © 2019-2020 ${author}',
-  electronVersion: '10.1.0',
+  electronVersion: '11.0.3',
   extraMetadata: {
     main: 'src/main.bundle.js'
   },
@@ -18,7 +18,7 @@ module.exports = {
     'LICENSE',
     'package.json',
     { from: 'build/client', to: 'client' },
-    { from: 'build/icons/mui', to: 'mui-icons' },
+    { from: 'build/icons', to: 'icons' },
     { from: 'build/src', to: 'src' }
   ],
 
