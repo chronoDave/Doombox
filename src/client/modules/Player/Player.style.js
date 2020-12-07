@@ -1,4 +1,9 @@
+import url from 'url';
+
 import { makeStyles } from '../../theme';
+
+// Assets
+import backgroundDefault from '../../assets/images/backgroundDefault.png';
 
 export default makeStyles(theme => ({
   root: {
@@ -8,11 +13,14 @@ export default makeStyles(theme => ({
   cover: ({ cover = {} }) => ({
     display: 'flex',
     flexDirection: 'column',
-    backgroundImage: cover.file && theme.createImage(cover.file),
+    backgroundImage: theme.createImage((cover.file ?
+      url.pathToFileURL(cover.file).href :
+      backgroundDefault
+    )),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     padding: theme.spacing(0.5),
-    height: 90,
+    height: 80,
     [theme.breakpoints.join(
       theme.breakpoints.create(
         theme.breakpoints.queries.minWidth,
@@ -60,5 +68,8 @@ export default makeStyles(theme => ({
   duration: {
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  controls: {
+    backgroundColor: theme.palette.grey[1]
   }
 }), 'player');

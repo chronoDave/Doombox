@@ -27,7 +27,7 @@ export default makeStyles(theme => ({
     flexShrink: 0,
     borderRadius: '50%',
     marginTop: -2,
-    backgroundColor: theme.palette.text.primary
+    backgroundColor: theme.palette.text
   },
   thumbVertical: {
     marginTop: 0,

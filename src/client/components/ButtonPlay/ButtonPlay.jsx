@@ -4,30 +4,26 @@ import { STATUS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
-import { Icon } from '../Icon';
+import { ButtonIcon } from '../ButtonIcon';
 
 // Hooks
 import { useAudio } from '../../hooks';
 
-import IconButton from './IconButton';
-
-const IconButtonPlay = ({ status, dispatch, ...rest }) => {
+const ButtonPlay = ({ status, dispatch, ...rest }) => {
   const { play, pause } = useAudio();
 
   const handleClick = () => (status === STATUS.AUDIO.PLAYING ? pause() : play());
 
   return (
-    <IconButton {...rest} onClick={handleClick}>
-      {status === STATUS.AUDIO.PLAYING ? (
-        <Icon type="pause" />
-      ) : (
-        <Icon type="play" />
-      )}
-    </IconButton>
+    <ButtonIcon
+      {...rest}
+      icon={status === STATUS.AUDIO.PLAYING ? 'pause' : 'play'}
+      onClick={handleClick}
+    />
   );
 };
 
-IconButtonPlay.propTypes = {
+ButtonPlay.propTypes = {
   dispatch: PropTypes.func.isRequired,
   status: PropTypes.oneOf(Object.values(STATUS.AUDIO)).isRequired
 };
@@ -38,4 +34,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(IconButtonPlay);
+)(ButtonPlay);

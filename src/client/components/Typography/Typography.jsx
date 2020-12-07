@@ -36,7 +36,7 @@ const Typography = forwardRef((props, ref) => {
         [classes[variant]]: variant,
         [classes.clamp]: clamp,
         [classes.noWrap]: noWrap,
-        [classes.align]: align
+        [classes.align]: align,
       }, className),
       ...rest,
       ref
@@ -63,8 +63,9 @@ Typography.propTypes = {
   ]),
   color: PropTypes.oneOf([
     'inherit',
+    'text',
     'primary',
-    'secondary',
+    'secondary'
   ]),
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -81,7 +82,7 @@ Typography.propTypes = {
 
 Typography.defaultProps = {
   align: 'left',
-  color: 'primary',
+  color: 'text',
   variant: 'body',
   noWrap: false,
   className: null,

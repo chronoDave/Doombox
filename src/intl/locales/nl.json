@@ -35,6 +35,7 @@
     "scanning_files": "bestanden aan het scannen"
   },
   "description": {
-    "scanning_files": "een moment geduld, dit kan even duren"
+    "scanning_files": "een moment geduld, dit kan even duren",
+    "playlist_empty": "geen liedjes geselecteerd"
   }
 }

@@ -4,12 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  Icon,
-  IconButton,
-  IconButtonPlay,
-  IconButtonVolume
-} from '../../components';
+import { ButtonIcon, ButtonPlay, ButtonVolume } from '../../components';
 
 // Hooks
 import { useAudio, useMediaQuery } from '../../hooks';
@@ -33,17 +28,11 @@ const PlayerControls = ({ className }) => {
 
   return (
     <div className={cx(classes.root, className)}>
-      <IconButtonVolume small={!isNotSmall} />
-      <IconButton small={!isNotSmall} onClick={previous}>
-        <Icon type="previous" />
-      </IconButton>
-      <IconButtonPlay small={!isNotSmall} />
-      <IconButton small={!isNotSmall} onClick={next}>
-        <Icon type="next" />
-      </IconButton>
-      <IconButton small={!isNotSmall} onClick={shuffle}>
-        <Icon type="shuffle" />
-      </IconButton>
+      <ButtonVolume small={!isNotSmall} />
+      <ButtonIcon icon="previous" small={!isNotSmall} onClick={previous} />
+      <ButtonPlay small={!isNotSmall} />
+      <ButtonIcon icon="next" small={!isNotSmall} onClick={next} />
+      <ButtonIcon icon="shuffle" small={!isNotSmall} onClick={shuffle} />
     </div>
   );
 };

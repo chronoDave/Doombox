@@ -3,20 +3,21 @@ import { IPC, VIEWS } from '@doombox-utils/types';
 
 // Core
 import { Route } from '../../components';
-
-import { Player } from '../Player';
-import { Playlist } from '../Playlist';
-import { LibrarySongs } from '../LibrarySongs';
-import { LibraryAlbums } from '../LibraryAlbums';
+import {
+  Player,
+  Playlist,
+  LibraryAlbums,
+  LibrarySongs
+} from '../../modules';
 
 // Actions
 import { ipcFind } from '../../actions';
 
 // Styles
-import useMainStyles from './Main.styles';
+import useMainViewStyles from './MainView.styles';
 
-const Main = () => {
-  const classes = useMainStyles();
+const MainView = () => {
+  const classes = useMainViewStyles();
 
   useEffect(() => {
     ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['file', '_id'] });
@@ -60,4 +61,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default MainView;

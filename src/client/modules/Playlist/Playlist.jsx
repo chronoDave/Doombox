@@ -33,14 +33,14 @@ const Playlist = ({ name, songs, current }) => {
   return (
     <div className={classes.root}>
       <div className={classes.title}>
-        <Typography clamp align="center">
+        <Typography clamp>
           {name}
         </Typography>
       </div>
       <VirtualList
         ref={ref}
         data={songs}
-        itemHeight={isNotSmall ? 40 : 20}
+        itemHeight={isNotSmall ? 40 : 24}
       >
         {({ data, style, index }) => (
           <ButtonBase
@@ -48,7 +48,8 @@ const Playlist = ({ name, songs, current }) => {
             key={data._id}
             onClick={() => skip(index)}
             className={cx(classes.button, {
-              [classes.buttonActive]: current === data._id
+              [classes.buttonActive]: current === data._id,
+              [classes.buttonAlt]: index % 2 === 0
             })}
           >
             {isNotSmall && (

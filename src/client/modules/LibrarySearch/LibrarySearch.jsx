@@ -5,8 +5,7 @@ import { IPC } from '@doombox-utils/types';
 
 // Core
 import {
-  Icon,
-  IconButton,
+  ButtonIcon,
   Search,
   Menu,
   MenuItem
@@ -58,19 +57,14 @@ const LibrarySearch = ({ songs }) => {
         <Search
           onSearch={handleSearch}
           onChange={handleSearch}
-          IconProps={{
-            square: true,
-            small: !isSmall
-          }}
+          IconProps={{ small: !isSmall }}
         />
-        <IconButton
+        <ButtonIcon
           ref={ref}
           small={!isSmall}
-          square
+          icon="dotsVertical"
           onClick={() => setOpen(!open)}
-        >
-          <Icon type="dotsVertical" />
-        </IconButton>
+        />
       </div>
       <Menu
         open={open}

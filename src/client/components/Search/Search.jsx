@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { Icon } from '../Icon';
-import { IconButton } from '../IconButton';
+import { ButtonIcon } from '../ButtonIcon';
 
 // Hooks
 import { useTranslation } from '../../hooks';
@@ -27,12 +26,11 @@ const Search = ({ onChange, onSearch, IconProps }) => {
         onChange={event => onChange(event, event.currentTarget.value)}
         onKeyDown={event => event.keyCode === 13 && onSearch(event, ref.current.value)}
       />
-      <IconButton
+      <ButtonIcon
+        icon="magnify"
         onClick={event => onSearch(event, ref.current.value)}
         {...IconProps}
-      >
-        <Icon type="magnify" />
-      </IconButton>
+      />
     </div>
   );
 };
@@ -46,7 +44,6 @@ Search.propTypes = {
   onChange: PropTypes.func,
   onSearch: PropTypes.func.isRequired,
   IconProps: PropTypes.shape({
-    square: PropTypes.bool,
     small: PropTypes.bool,
     className: PropTypes.string
   })

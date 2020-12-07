@@ -64,7 +64,7 @@ const ThemeProvider = ({ children }) => {
         width: theme.spacing()
       },
       '*::-webkit-scrollbar-thumb': {
-        backgroundColor: theme.palette.grey[16]
+        backgroundColor: theme.palette.grey[6]
       }
     });
   }, [theme]);

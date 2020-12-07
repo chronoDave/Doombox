@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 
 // Core
-import { Icon } from '../Icon';
+import { ButtonIcon } from '../ButtonIcon';
 import { Popper } from '../Popper';
 import { Slider } from '../Slider';
 import { Typography } from '../Typography';
@@ -16,11 +16,9 @@ import { updateCache } from '../../actions';
 import { useAudio, useHover } from '../../hooks';
 
 // Styles
-import useIconButtonStyles from './IconButton.style';
+import useButtonVolumeStyles from './ButtonVolume.style';
 
-import IconButton from './IconButton';
-
-const IconButtonVolume = props => {
+const ButtonVolume = props => {
   const {
     volume,
     muted,
@@ -31,35 +29,33 @@ const IconButtonVolume = props => {
 
   const ref = useRef(null);
 
+  const classes = useButtonVolumeStyles();
   const { mute, setVolume } = useAudio();
   const { onEnter, onLeave } = useHover({
     enter: () => setOpen(true),
     leave: () => setOpen(false)
   });
-  const classes = useIconButtonStyles();
 
-  const renderIcon = () => {
-    if (muted) return <Icon type="mute" />;
-    if (volume === 0) return <Icon type="volumeLow" />;
-    if (volume === 1) return <Icon type="volumeHigh" />;
-    return <Icon type="volumeMedium" />;
-  };
-
-  const id = 'iconButtonVolume';
+  const id = 'buttonVolume';
   const throttledSetVolume = throttle((event, newVolume) => setVolume(newVolume), 100);
+  const getIcon = () => {
+    if (muted) return 'mute';
+    if (volume === 0) return 'volumeLow';
+    if (volume === 1) return 'volumeHigh';
+    return 'volumeMedium';
+  };
 
   return (
     <Fragment>
-      <IconButton
+      <ButtonIcon
         {...rest}
+        icon={getIcon()}
         aria-describedby={id}
         ref={ref}
         onClick={mute}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
-      >
-        {renderIcon()}
-      </IconButton>
+      />
       <Popper
         id={id}
         open={open}
@@ -87,7 +83,7 @@ const IconButtonVolume = props => {
   );
 };
 
-IconButtonVolume.propTypes = {
+ButtonVolume.propTypes = {
   muted: PropTypes.bool.isRequired,
   volume: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired
@@ -100,4 +96,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(IconButtonVolume);
+)(ButtonVolume);

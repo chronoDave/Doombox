@@ -36,9 +36,9 @@ const getViewTuple = ({ container, height, overscroll }) => {
    * End index must always be at least 0
    * If total height is small than container height, return max index
    * */
-  const normalizedIndexEnd = height.total <= container.height ?
+  const normalizedIndexEnd = (indexEnd < 0 || height.total <= container.height) ?
     Math.max(0, height.cumulative.length - 1) :
-    Math.max(0, indexEnd + overscroll);
+    Math.max(0, Math.min(height.cumulative.length - 1, indexEnd + overscroll));
 
   return ([normalizedIndexStart, normalizedIndexEnd]);
 };
@@ -64,12 +64,12 @@ const VirtualList = forwardRef((props, outerRef) => {
   const classes = useVirtualListStyles({ height: height.total });
 
   useEffect(() => {
-    const getHeights = container => {
+    const getHeights = () => {
       const heights = typeof itemHeight === 'number' ?
         data.map(() => itemHeight) :
         data.map((childData, index) => itemHeight({
           data: childData,
-          container,
+          container: refContainer.current.getBoundingClientRect(),
           index
         }));
 
@@ -80,12 +80,8 @@ const VirtualList = forwardRef((props, outerRef) => {
       });
     };
 
-    if (ref && ref.current && refContainer && refContainer.current) {
-      const container = refContainer.current.getBoundingClientRect();
-
-      getHeights(container);
-      window.addEventListener('resize', () => getHeights(container));
-    }
+    getHeights();
+    window.addEventListener('resize', getHeights);
 
     return () => window.removeEventListener('resize', getHeights);
   }, [ref, itemHeight, data]);

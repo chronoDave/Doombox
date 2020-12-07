@@ -11,13 +11,13 @@ import { Typography, LinearProgress } from '../../components';
 import { useTranslation } from '../../hooks';
 
 // Styles
-import useInterruptStyles from './Interrupt.styles';
+import useInterruptViewStyles from './InterruptView.styles';
 
-const Interrupt = () => {
+const InterruptView = () => {
   const [progress, setProgress] = useState({ file: '', index: 0, total: 0 });
   const [count, setCount] = useState(0);
 
-  const classes = useInterruptStyles();
+  const classes = useInterruptViewStyles();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -64,4 +64,4 @@ const Interrupt = () => {
   );
 };
 
-export default Interrupt;
+export default InterruptView;

@@ -22,8 +22,9 @@
     "clean": "node scripts/clean.js",
     "start:webpack": "webpack -w",
     "start:electron": "nodemon --config .nodemon.json",
-    "prebuild": "webpack --mode production",
-    "build": "yarn prebuild && yarn clean && electron-builder -p=never -c .electronconfig.js"
+    "build:client": "webpack --mode production",
+    "build:electron": "electron-builder -p=never -c .electronconfig.js",
+    "build": "yarn build:client && yarn clean && yarn build:electron"
   },
   "dependencies": {
     "@popperjs/core": "^2.5.3",

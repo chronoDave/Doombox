@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { Typography, Slider, Hidden } from '../../components';
 
 // Hooks
-import { useAudio } from '../../hooks';
+import { useAudio, useTranslation } from '../../hooks';
 
 import { PlayerControls } from '../PlayerControls';
 
@@ -27,6 +27,7 @@ const Player = props => {
     position
   } = props;
   const { seek } = useAudio();
+  const { t } = useTranslation();
   const classes = usePlayerStyles({ cover });
 
   const throttledSeek = throttle((event, newValue) => seek(newValue), 100);
@@ -36,7 +37,7 @@ const Player = props => {
       <div className={classes.cover}>
         <div className={classes.coverTitle}>
           <Typography clamp={2} align="center">
-            {title}
+            {title || t('description.playlist_empty', { transform: 'capitalize' })}
           </Typography>
           <Typography clamp align="center">
             {artist}
@@ -69,7 +70,7 @@ const Player = props => {
 };
 
 Player.defaultProps = {
-  title: 'No song selected',
+  title: null,
   artist: '',
   cover: {
     file: ''
