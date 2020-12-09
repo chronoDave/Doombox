@@ -38,12 +38,19 @@ const ButtonVolume = props => {
 
   const id = 'buttonVolume';
   const throttledSetVolume = throttle(newVolume => setVolume(newVolume), 100);
+
   const getIcon = () => {
     if (muted) return 'mute';
     if (volume === 0) return 'volumeLow';
     if (volume === 1) return 'volumeHigh';
     return 'volumeMedium';
   };
+
+  const handleWheel = event => throttledSetVolume(
+    event.deltaY > 0 ?
+      volume - 0.03 :
+      volume + 0.03
+  );
 
   return (
     <Fragment>
@@ -55,6 +62,7 @@ const ButtonVolume = props => {
         onClick={mute}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
+        onWheel={handleWheel}
       />
       <Popper
         id={id}
@@ -73,7 +81,7 @@ const ButtonVolume = props => {
             vertical
             onDrag={(_, newVolume) => throttledSetVolume(newVolume)}
             onDragEnd={(event, newVolume) => updateCache('player.volume', newVolume)}
-            onWheel={event => throttledSetVolume(event.deltaY > 0 ? volume - 0.03 : volume + 0.03)}
+            onWheel={handleWheel}
           />
           <Typography>
             {Math.round(volume * 100)}
