@@ -37,7 +37,7 @@ const ButtonVolume = props => {
   });
 
   const id = 'buttonVolume';
-  const throttledSetVolume = throttle((event, newVolume) => setVolume(newVolume), 100);
+  const throttledSetVolume = throttle(newVolume => setVolume(newVolume), 100);
   const getIcon = () => {
     if (muted) return 'mute';
     if (volume === 0) return 'volumeLow';
@@ -71,8 +71,9 @@ const ButtonVolume = props => {
             value={volume}
             max={1}
             vertical
-            onDrag={throttledSetVolume}
+            onDrag={(_, newVolume) => throttledSetVolume(newVolume)}
             onDragEnd={(event, newVolume) => updateCache('player.volume', newVolume)}
+            onWheel={event => throttledSetVolume(event.deltaY > 0 ? volume - 0.03 : volume + 0.03)}
           />
           <Typography>
             {Math.round(volume * 100)}

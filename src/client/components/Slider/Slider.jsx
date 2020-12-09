@@ -13,7 +13,8 @@ const Slider = props => {
     onDrag,
     onDragEnd,
     min,
-    max
+    max,
+    ...rest
   } = props;
   const ref = useRef(null);
   const classes = useSliderStyles({ value: value / ((max - min) / 100) });
@@ -79,6 +80,7 @@ const Slider = props => {
     <div
       className={cx(classes.root, { [classes.rootVertical]: vertical })}
       ref={ref}
+      {...rest}
     >
       <div className={cx(classes.track, { [classes.trackVertical]: vertical })} />
       <div
