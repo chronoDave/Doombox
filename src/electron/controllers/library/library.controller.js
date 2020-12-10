@@ -71,7 +71,6 @@ module.exports = class LibraryController {
       !Object.keys(nativeTags).some(key => this.requiredMetadata.includes(key))
     ) return Promise.reject(new Error(`Missing metadata: ${this.requiredMetadata}, ${file}`));
 
-    const _albumId = generateUid(`${nativeTags.TPE2 || 'Unknown'}${nativeTags.TALB || 'Unknown'}` || 'Unknown');
     const getTagSet = tag => {
       if (!tag) return [-1, -1];
 
@@ -83,13 +82,17 @@ module.exports = class LibraryController {
       return set;
     };
 
+    const joinTags = (...tags) => tags
+      .map(tag => nativeTags[tag] || 'Unknown')
+      .join();
+
     return Promise.resolve({
-      _albumId,
-      _labelId: generateUid(nativeTags.TPE2 || 'Unknown'),
+      _albumId: generateUid(joinTags('TPE2', 'TALB')),
+      _labelId: generateUid(joinTags('TPE2')),
       file,
       format,
       images: !picture ? [] : picture.map(image => ({
-        _id: _albumId,
+        _id: generateUid(joinTags('TPE2', 'TALB', 'TIT2')),
         ...image,
         format: image.format.split('/').pop() // image/jpg => jpg
       })),
