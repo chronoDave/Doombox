@@ -12,4 +12,4 @@ const reducers = {
   setDialog: (state, dialog) => ({ ...state, dialog })
 };
 
-export const locationSlice = createReduxSlice('location', initialState, reducers);
+export default createReduxSlice('window', initialState, reducers);

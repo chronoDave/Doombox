@@ -6,4 +6,4 @@ const reducers = {
   setCache: (state, payload) => ({ ...state, ...payload })
 };
 
-export const cacheSlice = createReduxSlice('cache', CACHE, reducers);
+export default createReduxSlice('cache', CACHE, reducers);

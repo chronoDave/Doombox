@@ -39,4 +39,4 @@ const reducers = {
   setSongs: (state, payload) => ({ ...state, songs: normalize(payload) })
 };
 
-export const entitySlice = createReduxSlice('entities', initialState, reducers);
+export default createReduxSlice('entities', initialState, reducers);

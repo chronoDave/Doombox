@@ -24,4 +24,4 @@ const reducers = {
   setPosition: (state, position) => ({ ...state, position })
 };
 
-export const playerSlice = createReduxSlice('player', initialState, reducers);
+export default createReduxSlice('player', initialState, reducers);

@@ -14,10 +14,17 @@ export default makeStyles(theme => ({
     flexDirection: 'column',
     marginBottom: theme.spacing()
   },
+  time: {
+    marginTop: theme.spacing()
+  },
   progress: {
     display: 'flex',
     alignItems: 'center',
     width: '100%'
+  },
+  description: {
+    marginTop: theme.spacing(),
+    height: 60
   },
   progressLabel: {
     marginLeft: theme.spacing()

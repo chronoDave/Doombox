@@ -1,6 +1,6 @@
-export { playerSlice } from './player.slice';
-export { playlistSlice } from './playlist.slice';
-export { cacheSlice } from './cache.slice';
-export { configSlice } from './config.slice';
-export { entitySlice } from './entities.slice';
-export { locationSlice } from './location.slice';
+export { default as playerSlice } from './player.slice';
+export { default as playlistSlice } from './playlist.slice';
+export { default as cacheSlice } from './cache.slice';
+export { default as configSlice } from './config.slice';
+export { default as entitySlice } from './entities.slice';
+export { default as windowSlice } from './window.slice';

@@ -11,7 +11,7 @@ import {
   playerSlice,
   playlistSlice,
   entitySlice,
-  locationSlice
+  windowSlice
 } from './slices';
 
 // Middleware
@@ -20,7 +20,7 @@ import { logger } from './middleware';
 // Actions
 export const { setConfig } = configSlice.actions;
 export const { setCache } = cacheSlice.actions;
-export const { setView, setDialog } = locationSlice.actions;
+export const { setView, setDialog } = windowSlice.actions;
 export const {
   setPlayer,
   setMetadata,
@@ -51,7 +51,7 @@ export const store = createStore(
     [playerSlice.name]: playerSlice.reducer,
     [playlistSlice.name]: playlistSlice.reducer,
     [entitySlice.name]: entitySlice.reducer,
-    [locationSlice.name]: locationSlice.reducer
+    [windowSlice.name]: windowSlice.reducer
   }),
   applyMiddleware(logger)
 );

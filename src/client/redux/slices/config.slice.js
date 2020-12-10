@@ -6,4 +6,4 @@ const reducers = {
   setConfig: (state, payload) => ({ ...state, ...payload })
 };
 
-export const configSlice = createReduxSlice('config', CONFIG, reducers);
+export default createReduxSlice('config', CONFIG, reducers);

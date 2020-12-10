@@ -13,4 +13,4 @@ const reducers = {
   setCollection: (state, collection) => ({ ...state, collection })
 };
 
-export const playlistSlice = createReduxSlice('playlist', initialState, reducers);
+export default createReduxSlice('playlist', initialState, reducers);

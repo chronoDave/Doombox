@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { formatTime } from '@doombox-utils';
 import { IPC } from '@doombox-utils/types';
 
@@ -14,16 +14,17 @@ import { useTranslation } from '../../hooks';
 import useInterruptViewStyles from './InterruptView.styles';
 
 const InterruptView = () => {
-  const [progress, setProgress] = useState({ file: '', index: 0, total: 0 });
+  const [progress, setProgress] = useState({ file: null, index: 0, total: 10 });
   const [count, setCount] = useState(0);
 
   const classes = useInterruptViewStyles();
   const { t } = useTranslation();
 
   useEffect(() => {
-    ipcRenderer.on(IPC.CHANNEL.INTERRUPT, (event, payload) => {
-      setProgress(payload.data);
-    });
+    ipcRenderer.on(
+      IPC.CHANNEL.INTERRUPT,
+      (event, payload) => setProgress(payload.data)
+    );
 
     return () => ipcRenderer.removeAllListeners(IPC.CHANNEL.INTERRUPT);
   }, []);
@@ -38,17 +39,24 @@ const InterruptView = () => {
     Math.round((progress.index / progress.total) * 100) :
     0;
 
+  // Should only update on counter update
+  const estimate = useMemo(() => {
+    if (value === 0) return '\u221e';
+    return formatTime(count / (value / 100));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count]);
+
   return (
     <div className={classes.root}>
       <div className={classes.title}>
         <Typography align="center">
-          {t('title.scanning_files')}
+          {t('title.scanning_files', { transform: 'capitalize' })}
         </Typography>
-        <Typography>
-          {t('description.scanning_files')}
+        <Typography variant="subtitle">
+          {t('description.scanning_files', { transform: 'capitalize' })}
         </Typography>
-        <Typography align="center">
-          {`${formatTime(count)}`}
+        <Typography align="center" className={classes.time}>
+          {`${formatTime(count)} / ${estimate}`}
         </Typography>
       </div>
       <div className={classes.progress}>
@@ -57,9 +65,15 @@ const InterruptView = () => {
           {`${value}%`}
         </Typography>
       </div>
-      <Typography variant="caption" clamp={4}>
-        {progress.file}
-      </Typography>
+      {progress.file && (
+        <Typography
+          variant="caption"
+          clamp={4}
+          className={classes.description}
+        >
+          {progress.file}
+        </Typography>
+      )}
     </div>
   );
 };
