@@ -21,11 +21,12 @@ const MenuItem = props => {
 
   return (
     <ButtonBase
+      className={cx(classes.root, { [classes.divider]: divider })}
+      disableAnimation
       onClick={event => {
         onClick(event);
-        if (typeof onClose === 'function') onClose(event);
+        onClose(event);
       }}
-      className={cx(classes.root, { [classes.divider]: divider })}
     >
       <Typography>
         {primary}

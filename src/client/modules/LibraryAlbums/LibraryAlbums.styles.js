@@ -1,11 +1,12 @@
 import { makeStyles } from '../../theme';
 
-export default makeStyles(() => ({
+export default makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'auto',
-    flexGrow: 1
+    flexGrow: 1,
+    backgroundColor: theme.palette.grey[1]
   },
   itemRoot: {
     display: 'flex',
@@ -13,7 +14,8 @@ export default makeStyles(() => ({
   },
   itemLabel: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    padding: theme.spacing(0.5)
   },
   itemAlbums: {
     display: 'flex',

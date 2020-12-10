@@ -3,7 +3,7 @@ import { makeStyles } from '../../theme';
 export default makeStyles(theme => {
   const getColor = color => {
     if (color === 'inherit') return color;
-    if (color === 'text') return theme.palette.text;
+    if (color === 'text') return theme.palette.text.primary;
     return theme.palette[color].contrastText;
   };
 

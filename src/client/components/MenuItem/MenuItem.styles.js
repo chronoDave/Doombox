@@ -18,6 +18,6 @@ export default makeStyles(theme => ({
     marginLeft: theme.spacing(3)
   },
   divider: {
-    borderBottom: theme.border(theme.palette.grey[5])
+    borderBottom: theme.border(theme.palette.grey[3])
   }
 }), 'menuItem');

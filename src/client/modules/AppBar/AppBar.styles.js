@@ -17,21 +17,18 @@ export default makeStyles(theme => ({
   menuButton: {
     minWidth: theme.spacing(5),
     padding: theme.spacing(0, 1),
-    color: theme.palette.fade(
-      theme.palette.text,
-      theme.palette.opacity.inactive
-    ),
+    color: theme.palette.text.disabled,
     transition: theme.transition.create(
       ['color', 'background-color'],
       { duration: theme.transition.duration.shortest }
     ),
     '&:hover': {
-      color: theme.palette.text,
-      backgroundColor: theme.palette.grey[2]
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.grey[1]
     }
   },
   menuButtonActive: {
-    color: theme.palette.text
+    color: theme.palette.text.primary
   },
   menuButtonClose: {
     '&:hover': {

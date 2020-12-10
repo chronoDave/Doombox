@@ -37,7 +37,7 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
           const rows = Math.floor(width / 75);
           const columns = Math.ceil(data.albums.length / rows);
 
-          return 35 + columns * 75;
+          return 35 + columns * 75 + 8;
         }}
       >
         {({ data, style }) => {

@@ -48,8 +48,7 @@ const Playlist = ({ name, songs, current }) => {
             key={data._id}
             onClick={() => skip(index)}
             className={cx(classes.button, {
-              [classes.buttonActive]: current === data._id,
-              [classes.buttonAlt]: index % 2 === 0
+              [classes.buttonActive]: current === data._id
             })}
           >
             {isNotSmall && (

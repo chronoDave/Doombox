@@ -70,6 +70,6 @@ export default makeStyles(theme => ({
     justifyContent: 'space-between'
   },
   controls: {
-    backgroundColor: theme.palette.grey[1]
+    backgroundColor: theme.palette.grey[0]
   }
 }), 'player');

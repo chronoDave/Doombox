@@ -3,7 +3,7 @@ import { makeStyles } from '../../theme';
 export default makeStyles(theme => ({
   root: {
     height: 4,
-    backgroundColor: theme.palette.fade(theme.palette.primary.main, 0.3),
+    backgroundColor: theme.palette.primary.main,
     width: '100%'
   },
   track: ({ value = 0 }) => ({

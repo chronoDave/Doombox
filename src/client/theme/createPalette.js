@@ -1,18 +1,57 @@
+/* eslint-disable no-bitwise */
 import { THEME as PALETTE } from '@doombox-config';
 
-const hexToRgb = hex => {
-  const int = parseInt(hex.slice(1), 16);
-  // eslint-disable-next-line no-bitwise
-  return `${(int >> 16) & 255},${(int >> 8) & 255},${int & 255}`;
+const opacity = {
+  overlay: 0.07,
+  text: 0.14,
+  hover: 0.24,
+  disabled: 0.54
 };
 
-export default palette => ({
-  ...PALETTE,
-  ...palette,
-  opacity: {
-    inactive: 0.42,
-    hover: 0.14
-  },
-  hexToRgb,
-  fade: (hex, opacity) => `rgba(${hexToRgb(hex)},${opacity})`
-});
+const expandHex = hex => (
+  hex.length === 3 ?
+    hex.split('').map(c => `${c}${c}`).join('') :
+    hex
+);
+
+const hexToRgb = hex => {
+  const int = parseInt(expandHex(hex.slice(1)), 16);
+
+  return [
+    (int >> 16) & 255,
+    (int >> 8) & 255,
+    int & 255
+  ];
+};
+
+const lighten = (hex, n) => `rgb(${hexToRgb(hex)
+  .map(int => Math.floor(int * n))
+  .join(',')})`;
+
+const darken = (hex, n) => `rgb(${hexToRgb(hex)
+  .map(int => Math.floor(255 - int * n))
+  .join(',')})`;
+
+export default palette => {
+  const defaultPalette = {
+    ...PALETTE,
+    ...palette,
+  };
+
+  return ({
+    ...defaultPalette,
+    opacity,
+    text: {
+      primary: defaultPalette.dark ?
+        darken('#fff', opacity.text) :
+        lighten('#000', opacity.text),
+      disabled: defaultPalette.dark ?
+        darken('#fff', opacity.disabled) :
+        lighten('#000', opacity.disabled)
+    },
+    hexToRgb,
+    lighten,
+    darken,
+    overlay: (hex, n) => `rgba(${hexToRgb(hex).join(',')},${n})`
+  });
+};

@@ -5,7 +5,7 @@ import { formatTime } from '@doombox-utils';
 import { IPC } from '@doombox-utils/types';
 
 // Core
-import { Typography, LinearProgress } from '../../components';
+import { Typography, LoaderBar } from '../../components';
 
 // Hooks
 import { useTranslation } from '../../hooks';
@@ -52,7 +52,7 @@ const InterruptView = () => {
         </Typography>
       </div>
       <div className={classes.progress}>
-        <LinearProgress value={value} />
+        <LoaderBar value={value} />
         <Typography className={classes.progressLabel}>
           {`${value}%`}
         </Typography>

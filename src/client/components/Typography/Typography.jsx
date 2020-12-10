@@ -2,6 +2,9 @@ import { createElement, forwardRef } from 'react';
 import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
+// Validation
+import { propTypographyVariants } from '../../validation/propTypes';
+
 // Styles
 import useTypographyStyles from './Typography.styles';
 
@@ -17,6 +20,7 @@ const Typography = forwardRef((props, ref) => {
     clamp,
     ...rest
   } = props;
+
   const classes = useTypographyStyles({
     clamp,
     align,
@@ -24,14 +28,10 @@ const Typography = forwardRef((props, ref) => {
     fontWeight
   });
 
-  const element = (() => ([
-    'body',
-    'subtitle',
-    'caption'
-  ].includes(variant) ? 'p' : variant))();
+  const getElement = () => (['body', 'subtitle', 'caption'].includes(variant) ? 'p' : variant);
 
   return (
-    createElement(element, {
+    createElement(getElement(), {
       className: cx(classes.root, {
         [classes[variant]]: variant,
         [classes.clamp]: clamp,
@@ -50,17 +50,7 @@ Typography.propTypes = {
     'center',
     'right'
   ]),
-  variant: PropTypes.oneOf([
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'body',
-    'subtitle',
-    'caption'
-  ]),
+  variant: propTypographyVariants,
   color: PropTypes.oneOf([
     'inherit',
     'text',

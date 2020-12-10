@@ -9,7 +9,6 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: theme.mixins.player.xs.width,
-    backgroundColor: theme.palette.grey[2],
     [theme.breakpoints.create(
       theme.breakpoints.queries.minWidth,
       theme.breakpoints.values.sm

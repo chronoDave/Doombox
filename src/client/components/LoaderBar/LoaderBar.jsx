@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Styles
-import useLinearProgressStyles from './LinearProgress.styles';
+import useLoaderBarStyles from './LoaderBar.styles';
 
-const LinearProgress = ({ value }) => {
-  const classes = useLinearProgressStyles({ value });
+const LoaderBar = ({ value }) => {
+  const classes = useLoaderBarStyles({ value });
 
   return (
     <div className={classes.root}>
@@ -14,8 +14,8 @@ const LinearProgress = ({ value }) => {
   );
 };
 
-LinearProgress.propTypes = {
+LoaderBar.propTypes = {
   value: PropTypes.number.isRequired
 };
 
-export default LinearProgress;
+export default LoaderBar;

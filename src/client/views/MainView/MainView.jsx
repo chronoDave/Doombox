@@ -6,8 +6,7 @@ import { Route } from '../../components';
 import {
   Player,
   Playlist,
-  LibraryAlbums,
-  LibrarySongs
+  LibraryAlbums
 } from '../../modules';
 
 // Actions
@@ -51,9 +50,6 @@ const MainView = () => {
         <Player />
         <Playlist />
       </div>
-      <Route view={VIEWS.SONG}>
-        <LibrarySongs />
-      </Route>
       <Route view={VIEWS.ALBUM}>
         <LibraryAlbums />
       </Route>

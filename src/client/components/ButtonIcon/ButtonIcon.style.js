@@ -5,15 +5,15 @@ export default makeStyles(theme => ({
     flexShrink: 0,
     borderRadius: theme.spacing(0.5),
     padding: theme.spacing(),
-    color: theme.palette.text,
+    color: theme.palette.text.primary,
     transition: theme.transition.create(
       ['background-color'],
       { duration: theme.transition.duration.shortest }
     ),
     '&:hover': {
-      backgroundColor: theme.palette.fade(
-        theme.palette.text,
-        theme.palette.opacity.hover
+      backgroundColor: theme.palette.overlay(
+        '#fff',
+        theme.palette.opacity.overlay
       )
     }
   },

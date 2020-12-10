@@ -1,6 +1,18 @@
 import { CONFIG } from '@doombox-config';
 import PropTypes from 'prop-types';
 
+export const propTypographyVariants = PropTypes.oneOf([
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'body',
+  'subtitle',
+  'caption'
+]);
+
 export const propKeybinds = PropTypes.shape(
   Object
     .keys(CONFIG.keybinds)

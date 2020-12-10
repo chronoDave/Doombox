@@ -2,7 +2,7 @@ import { makeStyles } from '../../theme';
 
 export default makeStyles(theme => ({
   menu: {
-    backgroundColor: theme.palette.grey[2],
+    backgroundColor: theme.palette.grey[1],
     padding: theme.spacing(0.5),
     display: 'flex',
     flexDirection: 'column',

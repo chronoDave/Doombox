@@ -60,11 +60,11 @@ const ThemeProvider = ({ children }) => {
   useEffect(() => {
     injectGlobal({
       '*::-webkit-scrollbar': {
-        backgroundColor: theme.palette.grey[4],
+        backgroundColor: theme.palette.grey[0],
         width: theme.spacing()
       },
       '*::-webkit-scrollbar-thumb': {
-        backgroundColor: theme.palette.grey[6]
+        backgroundColor: theme.palette.grey[3]
       }
     });
   }, [theme]);

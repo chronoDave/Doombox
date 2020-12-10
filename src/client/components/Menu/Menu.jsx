@@ -5,20 +5,10 @@ import PropTypes from 'prop-types';
 // Core
 import { Popper } from '../Popper';
 
-// Validation
-import { propAnchorEl } from '../../validation/propTypes';
-
 // Styles
 import useMenuStyles from './Menu.styles';
 
-const Menu = props => {
-  const {
-    open,
-    onClose,
-    anchorEl,
-    children,
-    ...rest
-  } = props;
+const Menu = ({ onClose, children, ...rest }) => {
   const classes = useMenuStyles();
 
   useEffect(() => {
@@ -27,26 +17,14 @@ const Menu = props => {
   }, [onClose]);
 
   return (
-    <Popper
-      anchorEl={anchorEl}
-      open={open}
-      className={classes.root}
-      {...rest}
-    >
+    <Popper className={classes.root} {...rest}>
       {Children.map(children, child => cloneElement(child, { onClose }))}
     </Popper>
   );
 };
 
-Menu.defaultProps = {
-  open: false,
-  anchorEl: null
-};
-
 Menu.propTypes = {
-  open: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  anchorEl: propAnchorEl,
   children: PropTypes.node.isRequired
 };
 

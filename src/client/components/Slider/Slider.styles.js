@@ -4,7 +4,10 @@ export default makeStyles(theme => ({
   root: {
     display: 'flex',
     height: 4,
-    backgroundColor: theme.palette.fade(theme.palette.primary.main, 0.3),
+    backgroundColor: theme.palette.overlay(
+      theme.palette.primary.main,
+      theme.palette.opacity.hover
+    ),
     width: '100%'
   },
   rootVertical: {
@@ -27,7 +30,8 @@ export default makeStyles(theme => ({
     flexShrink: 0,
     borderRadius: '50%',
     marginTop: -2,
-    backgroundColor: theme.palette.text
+    zIndex: 100,
+    backgroundColor: theme.palette.text.primary
   },
   thumbVertical: {
     marginTop: 0,

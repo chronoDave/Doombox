@@ -9,25 +9,24 @@ export default makeStyles(theme => ({
   title: {
     display: 'flex',
     justifyContent: 'center',
-    padding: theme.spacing(0.5, 1),
+    padding: theme.spacing(),
+    paddingBottom: theme.spacing(0.5),
+    paddingTop: 0,
     minWidth: 0
   },
   button: {
     padding: theme.spacing(0.5),
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: theme.palette.grey[3],
+    backgroundColor: theme.palette.grey[1],
     transition: theme.transition.create(
       ['color', 'background-color'],
       { duration: theme.transition.duration.shortest }
     ),
     '&:hover': {
-      color: theme.palette.text,
-      backgroundColor: theme.palette.grey[5]
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.grey[2]
     }
-  },
-  buttonAlt: {
-    backgroundColor: theme.palette.grey[4],
   },
   buttonIndex: {
     marginRight: theme.spacing()
@@ -36,7 +35,7 @@ export default makeStyles(theme => ({
     color: theme.palette.primary.contrastText,
     backgroundColor: theme.palette.primary.main,
     '&:hover': {
-      color: theme.palette.text,
+      color: theme.palette.text.primary,
       backgroundColor: theme.palette.primary.dark
     }
   },

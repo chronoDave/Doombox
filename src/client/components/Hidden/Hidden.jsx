@@ -8,16 +8,13 @@ import { useTheme } from '../../hooks';
 const Hidden = ({ children, on }) => {
   const theme = useTheme();
 
-  return Children.map(
-    children,
-    child => cloneElement(child, {
-      className: cx(child.props.className, css({
-        [on(theme.breakpoints)]: {
-          display: 'none'
-        }
-      }))
-    })
-  );
+  return Children.map(children, child => cloneElement(child, {
+    className: cx(child.props.className, css({
+      [on(theme.breakpoints)]: {
+        display: 'none'
+      }
+    }))
+  }));
 };
 
 Hidden.propTypes = {

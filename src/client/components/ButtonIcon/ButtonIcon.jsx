@@ -20,7 +20,9 @@ const ButtonIcon = forwardRef((props, ref) => {
 
   return (
     <ButtonBase
-      className={cx(classes.root, { [classes.small]: small }, className)}
+      className={cx(classes.root, {
+        [classes.small]: small
+      }, className)}
       {...rest}
       ref={ref}
     >

@@ -5,7 +5,7 @@ export default makeStyles(theme => ({
     width: 'fit-content',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.grey[2],
+    backgroundColor: theme.palette.grey[1],
     boxShadow: theme.shadows[4]
   }
 }), 'menu');

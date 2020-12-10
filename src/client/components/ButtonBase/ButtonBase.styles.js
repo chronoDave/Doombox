@@ -6,7 +6,7 @@ export default makeStyles(() => ({
     cursor: 'pointer',
     border: 'none',
     backgroundColor: 'transparent',
-    padding: 0,
+    padding: 0
   },
   holding: {
     marginTop: 1,

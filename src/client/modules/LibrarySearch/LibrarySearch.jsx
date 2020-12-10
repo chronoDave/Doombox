@@ -2,11 +2,12 @@ import React, { Fragment, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { shuffle } from '@doombox-utils';
 import { IPC } from '@doombox-utils/types';
+import PropTypes from 'prop-types';
 
 // Core
 import {
   ButtonIcon,
-  Search,
+  InputSearch,
   Menu,
   MenuItem
 } from '../../components';
@@ -21,6 +22,9 @@ import {
   useTranslation,
   useAudio
 } from '../../hooks';
+
+// Validation
+import { propSong } from '../../validation/propTypes';
 
 // Styles
 import useLibrarySearchStyles from './LibrarySearch.style';
@@ -42,7 +46,7 @@ const LibrarySearch = ({ songs }) => {
     breakpoints.values.sm
   ));
 
-  const handleSearch = (_, value) => ipcFind(IPC.CHANEL.LIBRARY, {
+  const handleSearch = (_, value) => ipcFind(IPC.CHANNEL.LIBRARY, {
     $some: [
       { $stringLoose: { 'metadata.album': value.toString() } },
       { $stringLoose: { 'metadata.albumlocalized': value.toString() } },
@@ -54,10 +58,10 @@ const LibrarySearch = ({ songs }) => {
   return (
     <Fragment>
       <div className={classes.root}>
-        <Search
+        <InputSearch
           onSearch={handleSearch}
           onChange={handleSearch}
-          IconProps={{ small: !isSmall }}
+          className={classes.search}
         />
         <ButtonIcon
           ref={ref}
@@ -115,6 +119,10 @@ const LibrarySearch = ({ songs }) => {
       </Menu>
     </Fragment>
   );
+};
+
+LibrarySearch.propTypes = {
+  songs: PropTypes.arrayOf(propSong).isRequired
 };
 
 const mapStateToProps = state => ({
