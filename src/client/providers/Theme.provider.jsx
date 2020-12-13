@@ -50,11 +50,14 @@ const ThemeProvider = ({ children }) => {
   useEffect(() => {
     injectGlobal({
       '*::-webkit-scrollbar': {
-        backgroundColor: theme.palette.grey[0],
+        backgroundColor: theme.palette.grey[3],
         width: theme.spacing()
       },
       '*::-webkit-scrollbar-thumb': {
-        backgroundColor: theme.palette.grey[3]
+        backgroundColor: theme.palette.overlay(
+          theme.palette.dark ? '#fff' : '#000',
+          theme.palette.opacity.text
+        )
       }
     });
   }, [theme]);

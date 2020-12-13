@@ -39,9 +39,16 @@ export default makeStyles(theme => ({
     '&:hover': {
       color: theme.palette.text.primary,
       backgroundColor: theme.palette.grey[2]
+    },
+    [theme.breakpoints.create(
+      theme.breakpoints.queries.minWidth,
+      theme.breakpoints.values.sm
+    )]: {
+      paddingLeft: theme.spacing(1.5)
     }
   },
   buttonIndex: {
+    minWidth: theme.spacing(4),
     marginRight: theme.spacing()
   },
   buttonActive: {

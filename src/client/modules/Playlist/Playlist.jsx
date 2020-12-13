@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { cx } from 'emotion';
-import { zPad, formatTime } from '@doombox-utils';
+import { formatTime } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -33,13 +33,18 @@ const Playlist = ({ name, songs, current }) => {
   const totalDuration = useMemo(() => songs.reduce((acc, cur) => acc + cur.format.duration, 0), [songs]);
 
   useLayoutEffect(() => {
-    if (ref.current) ref.current.scroll({ top: 0 });
-  }, [songs]);
+    if (ref.current) {
+      const itemIndex = Math.max(songs.findIndex(item => item._id === current), 0);
+
+      ref.current.scroll({ top: itemIndex * (isWidthSm ? 48 : 24) });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, isWidthSm]);
 
   return (
     <div className={classes.root}>
       <div className={classes.title}>
-        <Typography clamp>
+        <Typography clamp fontWeight={(isWidthSm && isHeightXs) ? 500 : 400}>
           {[
             name,
             !(isWidthSm && isHeightXs) && `(${songs.length})`
@@ -50,14 +55,14 @@ const Playlist = ({ name, songs, current }) => {
             {[
               `${songs.length} ${t('common.track', { plural: songs.length !== 1 })}`,
               `${formatTime(totalDuration, { useText: true, displaySeconds: false })}`
-            ].join(' - ')}
+            ].join(' \u2022 ')}
           </Typography>
         )}
       </div>
       <VirtualList
         ref={ref}
         data={songs}
-        itemHeight={isWidthSm ? 40 : 24}
+        itemHeight={isWidthSm ? 48 : 24}
       >
         {({ data, style, index }) => (
           <ButtonBase
@@ -70,7 +75,7 @@ const Playlist = ({ name, songs, current }) => {
           >
             {isWidthSm && (
               <Typography className={classes.buttonIndex}>
-                {`${zPad(index + 1, `${songs.length}`.length)}.`}
+                {`${index + 1}.`}
               </Typography>
             )}
             <div className={classes.buttonMetadata}>
@@ -78,7 +83,7 @@ const Playlist = ({ name, songs, current }) => {
                 {data.metadata.title}
               </Typography>
               {isWidthSm && (
-                <Typography clamp>
+                <Typography clamp color="textSecondary">
                   {data.metadata.artist}
                 </Typography>
               )}

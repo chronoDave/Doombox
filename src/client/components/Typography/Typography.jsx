@@ -32,12 +32,12 @@ const Typography = forwardRef((props, ref) => {
 
   return (
     createElement(getElement(), {
-      className: cx(classes.root, {
+      className: cx({
         [classes[variant]]: variant,
         [classes.clamp]: clamp,
         [classes.noWrap]: noWrap,
         [classes.align]: align,
-      }, className),
+      }, classes.root, className),
       ...rest,
       ref
     }, children)
@@ -53,9 +53,11 @@ Typography.propTypes = {
   variant: propTypographyVariants,
   color: PropTypes.oneOf([
     'inherit',
-    'text',
     'primary',
-    'secondary'
+    'secondary',
+    'textPrimary',
+    'textSecondary',
+    'disabled'
   ]),
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -72,7 +74,7 @@ Typography.propTypes = {
 
 Typography.defaultProps = {
   align: 'left',
-  color: 'text',
+  color: 'textPrimary',
   variant: 'body',
   noWrap: false,
   className: null,

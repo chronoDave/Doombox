@@ -16,6 +16,6 @@ module.exports = {
     nextSong: 'mod+alt+right',
     previousSong: 'mod+alt+left',
     playPause: 'mod+alt+\\',
-    preferences: "mod+p"
+    preferences: 'mod+p'
   }
 };
