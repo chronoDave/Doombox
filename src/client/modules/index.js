@@ -1,7 +1,9 @@
-export * from './App';
-export * from './AppBar';
-export * from './LibraryAlbums';
-export * from './LibrarySearch';
-export * from './Player';
-export * from './PlayerControls';
-export * from './Playlist';
+export { App } from './App';
+export { AppBar } from './AppBar';
+export { Library } from './Library';
+export { LibrarySearch } from './LibrarySearch';
+export { OverlayScan } from './OverlayScan';
+export { OverlaySettings } from './OverlaySettings';
+export { Player } from './Player';
+export { PlayerControls } from './PlayerControls';
+export { Playlist } from './Playlist';

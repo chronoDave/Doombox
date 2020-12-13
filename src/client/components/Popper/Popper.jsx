@@ -4,8 +4,8 @@ import { cx } from 'emotion';
 import { createPopper } from '@popperjs/core';
 import PropTypes from 'prop-types';
 
-// Hooks
-import { useTheme } from '../../hooks';
+// Theme
+import { transitions } from '../../theme';
 
 // Validation
 import { propAnchorEl } from '../../validation/propTypes';
@@ -18,7 +18,6 @@ const Popper = props => {
     children,
     disablePortal,
     anchorEl,
-    fade,
     className,
     open,
     placement,
@@ -26,16 +25,14 @@ const Popper = props => {
     position,
     ...rest
   } = props;
-  const theme = useTheme();
+  const [visible, setVisible] = useState(true);
 
-  const duration = fade || theme.transition.duration.shortest;
+  const duration = transitions.duration.shortest;
   const classes = usePopperStyles({ duration });
 
   const ref = useRef(null);
   const popper = useRef(null);
   const timeout = useRef(null);
-
-  const [visible, setVisible] = useState(true);
 
   const cleanup = () => {
     if (popper.current) {
@@ -91,7 +88,6 @@ const Popper = props => {
 };
 
 Popper.defaultProps = {
-  fade: null,
   disablePortal: false,
   className: null,
   anchorEl: null,
@@ -102,7 +98,6 @@ Popper.defaultProps = {
 };
 
 Popper.propTypes = {
-  fade: PropTypes.number,
   children: PropTypes.node.isRequired,
   disablePortal: PropTypes.bool,
   className: PropTypes.string,

@@ -7,5 +7,28 @@ export default makeStyles(theme => ({
     overflow: 'hidden',
     height: '100vh',
     backgroundColor: theme.palette.grey[0]
+  },
+  body: {
+    display: 'flex',
+    flexGrow: 1,
+    minHeight: 0,
+    position: 'relative'
+  },
+  player: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: theme.mixins.player.xs.width,
+    [theme.breakpoints.create(
+      theme.breakpoints.queries.minWidth,
+      theme.breakpoints.values.sm
+    )]: {
+      width: theme.mixins.player.sm.width,
+    },
+    [theme.breakpoints.create(
+      theme.breakpoints.queries.minWidth,
+      theme.breakpoints.values.md
+    )]: {
+      width: theme.mixins.player.md.width
+    }
   }
 }), 'app');

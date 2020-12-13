@@ -1,14 +1,14 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { cx } from 'emotion';
-import { zPad } from '@doombox-utils';
+import { zPad, formatTime } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
 import { Typography, ButtonBase, VirtualList } from '../../components';
 
 // Hooks
-import { useAudio, useMediaQuery } from '../../hooks';
+import { useAudio, useMediaQuery, useTranslation } from '../../hooks';
 
 // Validation
 import { propSong } from '../../validation/propTypes';
@@ -19,12 +19,18 @@ import usePlaylistStyles from './Playlist.styles';
 const Playlist = ({ name, songs, current }) => {
   const classes = usePlaylistStyles();
   const { skip } = useAudio();
+  const { t } = useTranslation();
 
   const ref = useRef();
-  const isNotSmall = useMediaQuery(breakpoints => breakpoints.create(
+  const isWidthSm = useMediaQuery(breakpoints => breakpoints.create(
     breakpoints.queries.minWidth,
     breakpoints.values.sm
   ));
+  const isHeightXs = useMediaQuery(breakpoints => breakpoints.create(
+    breakpoints.queries.minHeight,
+    breakpoints.values.xs
+  ));
+  const totalDuration = useMemo(() => songs.reduce((acc, cur) => acc + cur.format.duration, 0), [songs]);
 
   useLayoutEffect(() => {
     if (ref.current) ref.current.scroll({ top: 0 });
@@ -34,13 +40,24 @@ const Playlist = ({ name, songs, current }) => {
     <div className={classes.root}>
       <div className={classes.title}>
         <Typography clamp>
-          {name}
+          {[
+            name,
+            !(isWidthSm && isHeightXs) && `(${songs.length})`
+          ].filter(string => string).join(' ')}
         </Typography>
+        {(isWidthSm && isHeightXs) && (
+          <Typography clamp variant="subtitle">
+            {[
+              `${songs.length} ${t('common.track', { plural: songs.length !== 1 })}`,
+              `${formatTime(totalDuration, { useText: true, displaySeconds: false })}`
+            ].join(' - ')}
+          </Typography>
+        )}
       </div>
       <VirtualList
         ref={ref}
         data={songs}
-        itemHeight={isNotSmall ? 40 : 24}
+        itemHeight={isWidthSm ? 40 : 24}
       >
         {({ data, style, index }) => (
           <ButtonBase
@@ -51,7 +68,7 @@ const Playlist = ({ name, songs, current }) => {
               [classes.buttonActive]: current === data._id
             })}
           >
-            {isNotSmall && (
+            {isWidthSm && (
               <Typography className={classes.buttonIndex}>
                 {`${zPad(index + 1, `${songs.length}`.length)}.`}
               </Typography>
@@ -60,7 +77,7 @@ const Playlist = ({ name, songs, current }) => {
               <Typography clamp>
                 {data.metadata.title}
               </Typography>
-              {isNotSmall && (
+              {isWidthSm && (
                 <Typography clamp>
                   {data.metadata.artist}
                 </Typography>

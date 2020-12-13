@@ -5,7 +5,7 @@ export default makeStyles(theme => ({
     height: 4,
     backgroundColor: theme.palette.overlay(
       theme.palette.primary.main,
-      theme.palette.opacity.hover
+      theme.palette.opacity.inactive
     ),
     width: '100%'
   },

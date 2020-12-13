@@ -2,10 +2,11 @@
 import { THEME as PALETTE } from '@doombox-config';
 
 const opacity = {
-  overlay: 0.07,
+  hover: 0.07,
   text: 0.14,
-  hover: 0.24,
-  disabled: 0.54
+  inactive: 0.24,
+  disabled: 0.54,
+  overlay: 0.84
 };
 
 const expandHex = hex => (
@@ -45,6 +46,9 @@ export default palette => {
       primary: defaultPalette.dark ?
         darken('#fff', opacity.text) :
         lighten('#000', opacity.text),
+      inactive: defaultPalette.dark ?
+        darken('#fff', opacity.inactive) :
+        lighten('#000', opacity.inactive),
       disabled: defaultPalette.dark ?
         darken('#fff', opacity.disabled) :
         lighten('#000', opacity.disabled)

@@ -1,6 +1,6 @@
 import { remote } from 'electron';
 
-import { IPC, VIEWS } from '@doombox-utils/types';
+import { IPC, WINDOWS } from '@doombox-utils/types';
 
 import { ipcInsert, ipcDrop } from './ipc.actions';
 
@@ -10,25 +10,17 @@ export const scanFolderNative = () => remote.dialog.showOpenDialog(null, {
 })
   .then(({ cancelled, filePaths }) => {
     if (!cancelled) {
-      ipcInsert(
-        IPC.CHANNEL.LIBRARY,
-        filePaths,
-        { from: VIEWS.INTERRUPT, to: VIEWS.ALBUM }
-      );
+      ipcInsert(IPC.CHANNEL.LIBRARY, filePaths, [WINDOWS.OVERLAY.SCAN, null]);
     }
   })
   .catch(console.error);
 
 export const scanFolder = folders => {
   if (Array.isArray(folders) && folders.length > 0) {
-    ipcInsert(
-      IPC.CHANNEL.LIBRARY,
-      folders,
-      { from: VIEWS.INTERRUPT, to: VIEWS.ALBUM }
-    );
+    ipcInsert(IPC.CHANNEL.LIBRARY, folders, [WINDOWS.OVERLAY.SCAN, null]);
   }
 };
 
 export const deleteLibrary = () => {
-  ipcDrop(IPC.CHANNEL.LIBRARY, { from: VIEWS.INTERRUPT, to: VIEWS.ALBUM });
+  ipcDrop(IPC.CHANNEL.LIBRARY, [WINDOWS.OVERLAY.DELETE, null]);
 };

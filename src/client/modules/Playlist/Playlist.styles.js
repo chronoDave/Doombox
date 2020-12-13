@@ -9,10 +9,23 @@ export default makeStyles(theme => ({
   title: {
     display: 'flex',
     justifyContent: 'center',
-    padding: theme.spacing(),
-    paddingBottom: theme.spacing(0.5),
-    paddingTop: 0,
-    minWidth: 0
+    padding: theme.spacing(0.5, 1),
+    minWidth: 0,
+    [theme.breakpoints.join(
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minWidth,
+        theme.breakpoints.values.sm
+      ),
+      theme.breakpoints.create(
+        theme.breakpoints.queries.minHeight,
+        theme.breakpoints.values.xs
+      )
+    )]: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: theme.spacing()
+    }
   },
   button: {
     padding: theme.spacing(0.5),

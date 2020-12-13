@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { IPC } from '@doombox-utils/types';
 import { formatTime } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -15,10 +16,40 @@ import { LibrarySearch } from '../LibrarySearch';
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
 
-// Styles
-import useLibraryAlbumStyles from './LibraryAlbums.styles';
+// Actions
+import { ipcFind } from '../../actions';
 
-const LibraryAlbums = ({ songMap, labelMap, labels }) => {
+// Styles
+import useLibraryStyles from './Library.styles';
+
+const Library = ({ songMap, labelMap, labels }) => {
+  useEffect(() => {
+    ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['file', '_id'] });
+    ipcFind(IPC.CHANNEL.LIBRARY, {}, {
+      projection: [
+        'file',
+        'metadata.title',
+        'metadata.titlelocalized',
+        'metadata.artist',
+        'metadata.artistlocalized',
+        'metadata.album',
+        'metadata.albumlocalized',
+        'metadata.albumartist',
+        'metadata.albumartistlocalized',
+        'metadata.cdid',
+        'metadata.date',
+        'metadata.disc',
+        'metadata.track',
+        'metadata.year',
+        'format.duration',
+        'covers',
+        '_id',
+        '_albumId',
+        '_labelId'
+      ]
+    });
+  }, []);
+
   const { t } = useTranslation();
   const { set } = useAudio();
   const isSmall = useMediaQuery(breakpoints => breakpoints.create(
@@ -26,7 +57,7 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
     breakpoints.values.sm
   ));
 
-  const classes = useLibraryAlbumStyles();
+  const classes = useLibraryStyles();
 
   return (
     <div className={classes.root}>
@@ -117,7 +148,7 @@ const LibraryAlbums = ({ songMap, labelMap, labels }) => {
   );
 };
 
-LibraryAlbums.propTypes = {
+Library.propTypes = {
   songMap: PropTypes.shape({}).isRequired,
   labelMap: PropTypes.shape({}).isRequired,
   labels: PropTypes.arrayOf(PropTypes.shape({
@@ -191,4 +222,4 @@ export default connect(
       );
     }
   }
-)(LibraryAlbums);
+)(Library);

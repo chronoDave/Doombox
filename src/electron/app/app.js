@@ -9,6 +9,7 @@ const path = require('path');
 
 const { pascalize } = require('@doombox-utils');
 const {
+  WINDOWS,
   STATUS,
   IPC,
   URLS
@@ -44,17 +45,26 @@ module.exports = class App extends Reporter {
     };
 
     ipcMain.on(channel, async (event, payload) => {
-      const handleRouting = data => event.sender.send(IPC.CHANNEL.VIEW, { data, error: null });
-
       try {
-        if (!payload) throw new Error(`No payload found: ${JSON.stringify(payload)}`);
-        if (!routes[payload.action]) throw new Error(`Invalid action: ${JSON.stringify(payload.action)}`);
+        if (!payload) {
+          throw new Error(`No payload found: ${JSON.stringify(payload)}`);
+        }
+        if (!routes[payload.action]) {
+          throw new Error(`Invalid action: ${JSON.stringify(payload.action)}`);
+        }
+        if (payload.overlay && !Array.isArray(payload.overlay)) {
+          throw new Error(`Overlay must be an array: ${payload.overlay}`);
+        }
 
-        if (payload.route && payload.route.from) handleRouting(payload.route.from);
+        if (payload.overlay) {
+          event.sender.send(IPC.CHANNEL.WINDOW, { data: payload.overlay[0], error: null });
+        }
 
         const data = await routes[payload.action](event, payload.data);
 
-        if (payload.route && payload.route.from) handleRouting(payload.route.to);
+        if (payload.overlay) {
+          event.sender.send(IPC.CHANNEL.WINDOW, { data: payload.overlay[1], error: null });
+        }
 
         event.sender.send(channel, { data, error: null });
       } catch (error) {
@@ -204,6 +214,9 @@ module.exports = class App extends Reporter {
           transform: 'pascal'
         }),
         click: () => window.webContents.send(IPC.CHANNEL.KEYBIND, IPC.ACTION.MENU.DELETE_LIBRARY)
+      }, { type: 'separator' }, {
+        label: this.translate('common.preferences', { transform: 'pascal' }),
+        click: () => window.webContents.send(IPC.CHANNEL.OVERLAY, WINDOWS.OVERLAY.SETTINGS)
       }, { type: 'separator' }, { role: 'close' }]
     }, {
       role: 'viewMenu',

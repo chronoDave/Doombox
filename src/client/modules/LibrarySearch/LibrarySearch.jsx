@@ -27,7 +27,7 @@ import {
 import { propSong } from '../../validation/propTypes';
 
 // Styles
-import useLibrarySearchStyles from './LibrarySearch.style';
+import useLibrarySearchStyles from './LibrarySearch.styles';
 
 const LibrarySearch = ({ songs }) => {
   const [open, setOpen] = useState(false);
@@ -68,6 +68,8 @@ const LibrarySearch = ({ songs }) => {
           small={!isSmall}
           icon="dotsVertical"
           onClick={() => setOpen(!open)}
+          onMouseEnter={() => open && onEnter()}
+          onMouseLeave={onLeave}
         />
       </div>
       <Menu
@@ -76,6 +78,7 @@ const LibrarySearch = ({ songs }) => {
         onClose={() => setOpen(false)}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
+        placement="right-start"
       >
         <MenuItem
           primary={t('action.common.play', {

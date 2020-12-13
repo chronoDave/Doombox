@@ -38,13 +38,13 @@ export default {
   h6: {
     fontFamily,
     fontWeight: 400,
-    fontSize: pxToRem(24),
+    fontSize: pxToRem(20),
     letterSpacing: pxToRem(0.25)
   },
   body: {
     fontFamily,
     fontWeight: 400,
-    fontSize: pxToRem(14),
+    fontSize: pxToRem(13),
     letterSpacing: pxToRem(0.5)
   },
   subtitle: {

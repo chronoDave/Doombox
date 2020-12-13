@@ -1,15 +1,11 @@
-import { VIEWS } from '@doombox-utils/types';
-
 import { createReduxSlice } from '../utils';
 
 const initialState = {
-  view: VIEWS.ALBUM,
-  dialog: null
+  overlay: null
 };
 
 const reducers = {
-  setView: (state, view) => ({ ...state, view }),
-  setDialog: (state, dialog) => ({ ...state, dialog })
+  setOverlay: (state, overlay) => ({ ...state, overlay })
 };
 
 export default createReduxSlice('window', initialState, reducers);

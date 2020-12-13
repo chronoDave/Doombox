@@ -16,7 +16,7 @@ import { PlayerControls } from '../PlayerControls';
 import { propCover } from '../../validation/propTypes';
 
 // Styles
-import usePlayerStyles from './Player.style';
+import usePlayerStyles from './Player.styles';
 
 const Player = props => {
   const {

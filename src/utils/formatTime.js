@@ -12,6 +12,6 @@ module.exports = (n, { useText = false, displaySeconds = false } = {}) => {
   const m = Math.floor((n % 3600) / 60);
   const s = Math.floor((n % 3600) % 60);
 
-  if (useText) return `${h > 0 ? `${h} h` : ''}${m} m${displaySeconds ? ` ${s} s` : ''}`;
+  if (useText) return `${h > 0 ? `${h} h` : ''} ${m} min${displaySeconds ? ` ${s} s` : ''}`;
   return `${h > 0 ? `${zPad(h, 2)}:` : ''}${zPad(m, 2)}:${zPad(s, 2)}`;
 };

@@ -1,12 +1,14 @@
 {
   "common": {
-    "album": "album",
-    "album_plural": "albums",
-    "track": "nummer",
-    "track_plural": "nummers",
+    "album": ["album", "albums"],
+    "track": ["nummer", "nummers"],
     "folder": "folder",
-    "library": "library",
-    "github": "GitHub"
+    "library": "bibliotheek",
+    "github": "GitHub",
+    "preferences": "voorkeuren",
+    "general": "algemeen",
+    "file": "bestand",
+    "help": "help"
   },
   "action": {
     "common": {
@@ -16,8 +18,9 @@
       "exit": "sluiten",
       "open": "open {item}",
       "search": "zoeken",
-      "play": "speel {item}",
-      "shuffle": "schuiffel {item}"
+      "play": "speel {item} af",
+      "shuffle": "schud {item}",
+      "add": "voeg {item} toe"
     },
     "menu": {
       "toggle_dev_tools": "shakel developer tools in",
@@ -36,6 +39,6 @@
   },
   "description": {
     "scanning_files": "een moment geduld, dit kan even duren",
-    "playlist_empty": "geen liedjes geselecteerd"
+    "playlist_empty": "geen nummers geselecteerd"
   }
 }

@@ -21,7 +21,7 @@ import {
   setAlbums,
   setLabels,
   setSongs,
-  setView
+  setOverlay
 } from '../redux';
 
 class IpcProvider extends Component {
@@ -36,10 +36,10 @@ class IpcProvider extends Component {
       dispatchLabels,
       dispatchAlbums,
       dispatchSongs,
-      dispatchRoute
+      dispatchOverlay
     } = props;
 
-    ipcRenderer.on(IPC.CHANNEL.VIEW, (event, { data }) => dispatchRoute(data));
+    ipcRenderer.on(IPC.CHANNEL.WINDOW, (event, { data }) => dispatchOverlay(data));
 
     ipcRenderer.on(IPC.CHANNEL.IMAGE, (event, { data }) => dispatchImages(data));
     ipcRenderer.on(IPC.CHANNEL.SONG, (event, { data }) => dispatchSongs(data));
@@ -70,9 +70,8 @@ class IpcProvider extends Component {
       }
     });
 
-    // Config
-    ipcRenderer.once(IPC.CHANNEL.CACHE, (event, { data }) => dispatchCache(data));
-    ipcRenderer.once(IPC.CHANNEL.CONFIG, (event, { data }) => dispatchConfig(data));
+    ipcRenderer.on(IPC.CHANNEL.CACHE, (event, { data }) => dispatchCache(data));
+    ipcRenderer.on(IPC.CHANNEL.CONFIG, (event, { data }) => dispatchConfig(data));
   }
 
   componentDidMount() {
@@ -100,7 +99,7 @@ IpcProvider.propTypes = {
   dispatchLabels: PropTypes.func.isRequired,
   dispatchAlbums: PropTypes.func.isRequired,
   dispatchSongs: PropTypes.func.isRequired,
-  dispatchRoute: PropTypes.func.isRequired
+  dispatchOverlay: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -114,7 +113,7 @@ const mapDispatchToProps = {
   dispatchLabels: setLabels,
   dispatchAlbums: setAlbums,
   dispatchSongs: setSongs,
-  dispatchRoute: setView
+  dispatchOverlay: setOverlay
 };
 
 export default connect(

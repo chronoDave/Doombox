@@ -16,8 +16,8 @@ module.exports = class StorageController {
   }
 
   update(event, { query, update }) {
-    this.storage.set(update, query);
+    const data = this.storage.set(update, query);
 
-    return Promise.resolve();
+    return Promise.resolve(data);
   }
 };

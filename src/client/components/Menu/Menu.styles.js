@@ -6,6 +6,7 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.palette.grey[1],
-    boxShadow: theme.shadows[4]
+    boxShadow: theme.shadows[4],
+    zIndex: theme.zIndex.menu
   }
 }), 'menu');

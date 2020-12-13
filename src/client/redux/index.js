@@ -20,7 +20,7 @@ import { logger } from './middleware';
 // Actions
 export const { setConfig } = configSlice.actions;
 export const { setCache } = cacheSlice.actions;
-export const { setView, setDialog } = windowSlice.actions;
+export const { setOverlay } = windowSlice.actions;
 export const {
   setPlayer,
   setMetadata,

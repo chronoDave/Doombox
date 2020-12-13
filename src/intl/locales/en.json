@@ -1,12 +1,14 @@
 {
   "common": {
-    "album": "album",
-    "album_plural": "albums",
-    "track": "track",
-    "track_plural": "tracks",
+    "album": ["album", "albums"],
+    "track": ["track", "tracks"],
     "folder": "folder",
     "library": "library",
-    "github": "GitHub"
+    "github": "GitHub",
+    "preferences": "preferences",
+    "general": "general",
+    "file": "file",
+    "help": "help"
   },
   "action": {
     "common": {
@@ -17,7 +19,8 @@
       "open": "open {item}",
       "search": "search",
       "play": "play {item}",
-      "shuffle": "shuffle {item}"
+      "shuffle": "shuffle {item}",
+      "add": "add {item}"
     },
     "menu": {
       "toggle_dev_tools": "toggle developer tools",

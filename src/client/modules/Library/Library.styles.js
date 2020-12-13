@@ -5,8 +5,8 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'auto',
-    flexGrow: 1,
-    backgroundColor: theme.palette.grey[1]
+    backgroundColor: theme.palette.grey[1],
+    flexGrow: 1
   },
   itemRoot: {
     display: 'flex',
@@ -29,4 +29,4 @@ export default makeStyles(theme => ({
     width: '100%',
     height: '100%'
   }
-}), 'libraryAlbums');
+}), 'library');

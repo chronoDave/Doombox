@@ -6,7 +6,7 @@ export default makeStyles(theme => ({
     height: 4,
     backgroundColor: theme.palette.overlay(
       theme.palette.primary.main,
-      theme.palette.opacity.hover
+      theme.palette.opacity.inactive
     ),
     width: '100%'
   },
@@ -30,7 +30,7 @@ export default makeStyles(theme => ({
     flexShrink: 0,
     borderRadius: '50%',
     marginTop: -2,
-    zIndex: 100,
+    zIndex: theme.zIndex.thumb,
     backgroundColor: theme.palette.text.primary
   },
   thumbVertical: {

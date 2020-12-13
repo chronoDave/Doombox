@@ -1,5 +1,3 @@
-import { ipcRenderer } from 'electron';
-
 import React, { useState, useEffect } from 'react';
 import { injectGlobal } from 'emotion';
 import PropTypes from 'prop-types';
@@ -8,7 +6,7 @@ import PropTypes from 'prop-types';
 import { IPC } from '@doombox-utils/types';
 
 // Actions
-import { ipcFind } from '../actions';
+import { useIpc } from '../hooks';
 
 // Context
 import { ThemeContext } from '../context';
@@ -23,6 +21,8 @@ import NotoSansJPMedium from '../assets/fonts/NotoSansJP-Medium.otf';
 
 const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(createTheme());
+
+  useIpc(IPC.CHANNEL.THEME, null, payload => setTheme(createTheme(payload.data)));
 
   useEffect(() => {
     [
@@ -45,16 +45,6 @@ const ThemeProvider = ({ children }) => {
         margin: 0
       }
     });
-  }, []);
-
-  useEffect(() => {
-    ipcRenderer.on(IPC.CHANNEL.THEME, (event, payload) => setTheme(createTheme(payload.data)));
-
-    ipcFind(IPC.CHANNEL.THEME, null);
-
-    return () => {
-      ipcRenderer.removeAllListeners(IPC.CHANNEL.THEME);
-    };
   }, []);
 
   useEffect(() => {

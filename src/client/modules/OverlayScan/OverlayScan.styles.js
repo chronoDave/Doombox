@@ -6,27 +6,28 @@ export default makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
-    padding: theme.spacing(2)
+    flexGrow: 1,
+    padding: theme.spacing(2),
+    maxWidth: theme.breakpoints.values.md
   },
   title: {
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: theme.spacing()
+    marginBottom: theme.spacing(0.5)
   },
-  time: {
-    marginTop: theme.spacing()
+  description: {
+    marginBottom: theme.spacing()
   },
   progress: {
     display: 'flex',
     alignItems: 'center',
     width: '100%'
   },
-  description: {
+  file: {
     marginTop: theme.spacing(),
     height: 60
   },
   progressLabel: {
     marginLeft: theme.spacing()
   }
-}), 'interrupt');
+}), 'overlayScan');

@@ -7,7 +7,7 @@ import { ButtonBase } from '../ButtonBase';
 import { Icon, icons } from '../Icon';
 
 // Styles
-import useButtonIconStyles from './ButtonIcon.style';
+import useButtonIconStyles from './ButtonIcon.styles';
 
 const ButtonIcon = forwardRef((props, ref) => {
   const {

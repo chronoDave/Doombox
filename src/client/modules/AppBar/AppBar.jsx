@@ -4,7 +4,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { cx } from 'emotion';
 import { connect } from 'react-redux';
 import { capitalize } from '@doombox-utils';
-import { URLS } from '@doombox-utils/types';
+import { URLS, WINDOWS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
@@ -32,6 +32,9 @@ import {
 // Hooks
 import { useHover, useTranslation } from '../../hooks';
 
+// Redux
+import { setOverlay } from '../../redux';
+
 // Validation
 import { propKeybinds } from '../../validation/propTypes';
 
@@ -44,6 +47,7 @@ const AppBar = props => {
     artist,
     album,
     keybinds,
+    dispatchOverlay,
     folders
   } = props;
   const [open, setOpen] = useState(false);
@@ -80,6 +84,10 @@ const AppBar = props => {
       ),
       divider: true,
       onClick: deleteLibrary
+    }, {
+      primary: t('common.preferences', { transform: 'pascal' }),
+      onClick: () => dispatchOverlay(WINDOWS.OVERLAY.SETTINGS),
+      divider: true
     }, {
       primary: t('action.common.exit', { transform: 'pascal' }),
       onClick: windowClose
@@ -156,7 +164,7 @@ const AppBar = props => {
               })}
             >
               <Typography color="inherit">
-                {capitalize(id)}
+                {t(`common.${id}`, { transform: 'capitalize' })}
               </Typography>
             </ButtonBase>
           ))}
@@ -189,7 +197,7 @@ const AppBar = props => {
         onClose={() => setOpen(false)}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
-        placement="auto-end"
+        placement="bottom-start"
       >
         {appMenu[menu.id].map(({ primary, secondary, ...rest }) => (
           <MenuItem
@@ -207,7 +215,8 @@ const AppBar = props => {
 AppBar.defaultProps = {
   title: '',
   artist: '',
-  album: ''
+  album: '',
+  folders: []
 };
 
 AppBar.propTypes = {
@@ -215,7 +224,8 @@ AppBar.propTypes = {
   artist: PropTypes.string,
   album: PropTypes.string,
   keybinds: propKeybinds.isRequired,
-  folders: PropTypes.arrayOf(PropTypes.string).isRequired
+  dispatchOverlay: PropTypes.func.isRequired,
+  folders: PropTypes.arrayOf(PropTypes.string)
 };
 
 const mapStateToProps = state => ({
@@ -226,6 +236,11 @@ const mapStateToProps = state => ({
   keybinds: state.config.keybinds
 });
 
+const mapDispatchToProps = {
+  dispatchOverlay: setOverlay
+};
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(AppBar);

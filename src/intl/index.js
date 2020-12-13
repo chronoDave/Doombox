@@ -6,13 +6,13 @@ const localeEn = require('./locales/en.json');
 const localeNl = require('./locales/nl.json');
 
 const LANGUAGES = {
-  EN: 'en',
-  NL: 'nl'
+  en: 'English',
+  nl: 'Nederlands'
 };
 
 const LOCALES = {
-  [LANGUAGES.EN]: localeEn,
-  [LANGUAGES.NL]: localeNl
+  en: localeEn,
+  nl: localeNl
 };
 
 /**
@@ -22,6 +22,7 @@ const LOCALES = {
  * @param {object} options
  * @param {boolean} options.plural - Is value plural?
  * @param {string} options.transform - String transform
+ * @param {boolean} options.dots - Should dots be appended to the string?
  * @param {object} options.mixins - Mixins
  */
 const getTranslation = (
@@ -29,32 +30,33 @@ const getTranslation = (
   key,
   {
     plural = false,
-    transform = null,
-    mixins = {}
+    mixins = {},
+    dots = false,
+    transform = null
   } = {}
 ) => {
-  const values = LOCALES[language];
-  let value = objectGet(values, plural ? `${key}_plural` : key);
+  let value = objectGet(LOCALES[language] || LOCALES.en, key);
 
   if (!value) return key;
 
+  // Plural
+  if (Array.isArray(value)) value = value[plural ? 1 : 0];
+
   // Mixins
-  const templates = value.match(/({.[^}]*.)/g); // String templates
+  const templates = value.match(/({.[^}]*.)/g);
   if (templates && templates.length > 0) {
     for (let i = 0; i < templates.length; i += 1) {
       value = value.replace(templates[i], mixins[templates[i].slice(1, -1)]);
     }
   }
 
+  // Dots
+  if (dots) value = `${value}...`;
+
   // Transform
-  switch (transform) {
-    case 'capitalize':
-      return capitalize(value);
-    case 'pascal':
-      return pascalize(value, ' ');
-    default:
-      return value;
-  }
+  if (transform === 'capitalize') return capitalize(value);
+  if (transform === 'pascal') return pascalize(value, ' ');
+  return value;
 };
 
 const getNativeKeybind = (keybind, transform) => {

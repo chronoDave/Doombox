@@ -13,7 +13,7 @@ export default makeStyles(theme => ({
     '&:hover': {
       backgroundColor: theme.palette.overlay(
         '#fff',
-        theme.palette.opacity.overlay
+        theme.palette.opacity.hover
       )
     }
   },

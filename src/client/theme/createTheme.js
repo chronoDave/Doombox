@@ -4,6 +4,7 @@ import breakpoints from './breakpoints';
 import mixins from './mixins';
 import shadows from './shadows';
 import utilities from './utilities';
+import zIndex from './zIndex';
 import createPalette from './createPalette';
 
 export default palette => ({
@@ -13,5 +14,6 @@ export default palette => ({
   typography,
   breakpoints,
   shadows,
+  zIndex,
   ...utilities
 });

@@ -11,8 +11,7 @@ module.exports = {
       CACHE: 'CACHE',
       CONFIG: 'CONFIG',
       KEYBIND: 'KEYBIND',
-      INTERRUPT: 'INTERRUPT',
-      VIEW: 'VIEW'
+      OVERLAY: 'OVERLAY'
     },
     ACTION: {
       INSERT: 'INSERT',
@@ -65,10 +64,12 @@ module.exports = {
       STOPPED: 'STOPPED'
     }
   },
-  VIEWS: {
-    SONG: 'SONG',
-    ALBUM: 'ALBUM',
-    INTERRUPT: 'INTERRUPT'
+  WINDOWS: {
+    OVERLAY: {
+      SCAN: 'OVERLAY_SCAN',
+      DELETE: 'OVERLAY_DELETE',
+      SETTINGS: 'OVERLAY_SETTINGS'
+    }
   },
   URLS: {
     REPO: 'https://github.com/chronoDave/Doombox',

@@ -18,5 +18,7 @@ export {
 } from './library.actions';
 
 export {
-  updateCache
+  updateConfig,
+  updateCache,
+  updateLanguage
 } from './storage.actions';

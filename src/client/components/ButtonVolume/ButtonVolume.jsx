@@ -16,7 +16,7 @@ import { updateCache } from '../../actions';
 import { useAudio, useHover } from '../../hooks';
 
 // Styles
-import useButtonVolumeStyles from './ButtonVolume.style';
+import useButtonVolumeStyles from './ButtonVolume.styles';
 
 const ButtonVolume = props => {
   const {
