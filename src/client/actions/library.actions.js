@@ -22,5 +22,5 @@ export const scanFolder = folders => {
 };
 
 export const deleteLibrary = () => {
-  ipcDrop(IPC.CHANNEL.LIBRARY, [WINDOWS.OVERLAY.DELETE, null]);
+  ipcDrop(IPC.CHANNEL.LIBRARY);
 };

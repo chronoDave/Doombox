@@ -11,7 +11,8 @@ module.exports = {
       CACHE: 'CACHE',
       CONFIG: 'CONFIG',
       KEYBIND: 'KEYBIND',
-      OVERLAY: 'OVERLAY'
+      OVERLAY: 'OVERLAY',
+      SCAN: 'SCAN'
     },
     ACTION: {
       INSERT: 'INSERT',
@@ -67,7 +68,6 @@ module.exports = {
   WINDOWS: {
     OVERLAY: {
       SCAN: 'OVERLAY_SCAN',
-      DELETE: 'OVERLAY_DELETE',
       SETTINGS: 'OVERLAY_SETTINGS'
     }
   },

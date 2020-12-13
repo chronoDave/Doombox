@@ -23,11 +23,11 @@ const OverlayScan = ({ open }) => {
 
   useEffect(() => {
     ipcRenderer.on(
-      IPC.CHANNEL.INTERRUPT,
+      IPC.CHANNEL.SCAN,
       (event, payload) => setProgress(payload.data)
     );
 
-    return () => ipcRenderer.removeAllListeners(IPC.CHANNEL.INTERRUPT);
+    return () => ipcRenderer.removeAllListeners(IPC.CHANNEL.SCAN);
   }, []);
 
   useEffect(() => {

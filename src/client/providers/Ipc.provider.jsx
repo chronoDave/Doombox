@@ -48,6 +48,7 @@ class IpcProvider extends Component {
 
     ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => {
       if (data) {
+        dispatchImages(data.images);
         dispatchSongs(data.songs);
         dispatchAlbums(data.albums);
         dispatchLabels(data.labels);

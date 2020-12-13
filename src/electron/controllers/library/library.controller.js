@@ -151,7 +151,7 @@ module.exports = class LibraryController {
 
         await this.db[TYPES.DATABASE.SONGS].insert({ covers, ...rest });
 
-        event.sender.send(IPC.CHANNEL.INTERRUPT, {
+        event.sender.send(IPC.CHANNEL.SCAN, {
           data: { file: rest.file, index: i + 1, total },
           error: null
         });
@@ -192,7 +192,14 @@ module.exports = class LibraryController {
     this.db[TYPES.DATABASE.SONGS].persist();
     this.db[TYPES.DATABASE.IMAGES].persist();
 
-    return Promise.resolve();
+    const images = await this.db[TYPES.DATABASE.IMAGES].find();
+
+    return Promise.resolve({
+      images,
+      songs,
+      albums,
+      labels
+    });
   }
 
   async find(event, { query, projection }) {
@@ -215,10 +222,10 @@ module.exports = class LibraryController {
   }
 
   async drop() {
+    await this.db[TYPES.DATABASE.IMAGES].drop();
     await this.db[TYPES.DATABASE.SONGS].drop();
     await this.db[TYPES.DATABASE.LABELS].drop();
     await this.db[TYPES.DATABASE.ALBUMS].drop();
-    await this.db[TYPES.DATABASE.IMAGES].drop();
 
     if (this.folder) {
       const files = fs.readdirSync(this.folder);
@@ -227,6 +234,11 @@ module.exports = class LibraryController {
       }
     }
 
-    return Promise.resolve();
+    return Promise.resolve({
+      images: [],
+      songs: [],
+      albums: [],
+      labels: []
+    });
   }
 };
