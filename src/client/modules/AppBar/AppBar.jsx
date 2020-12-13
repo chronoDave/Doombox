@@ -3,7 +3,6 @@ import { shell, remote } from 'electron';
 import React, { Fragment, useState, useEffect } from 'react';
 import { cx } from 'emotion';
 import { connect } from 'react-redux';
-import { capitalize } from '@doombox-utils';
 import { URLS, WINDOWS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
