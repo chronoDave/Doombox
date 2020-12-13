@@ -1,5 +1,7 @@
 name: Lint, Test & Build
 on: [push]
+env:
+  WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 jobs:
   test:
     name: ${{matrix.os}}
@@ -31,3 +33,15 @@ jobs:
         run: yarn test
       - name: Build
         run: yarn build
+      - name: On success
+        if: ${{success()}}
+        run: |
+          wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh
+          chmod +x discord_github.sh
+          ./discord_github.sh success
+      - name: On error
+        if: ${{failure()}}
+        run: |
+          wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh
+          chmod +x discord_github.sh
+          ./discord_github.sh failure
