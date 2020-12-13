@@ -50,7 +50,7 @@ const Library = ({ songMap, labelMap, labels }) => {
     });
   }, []);
 
-  const { t } = useTranslation();
+  const { t, getLocalizedTag } = useTranslation();
   const { set } = useAudio();
   const isSmall = useMediaQuery(breakpoints => breakpoints.create(
     breakpoints.queries.minWidth,
@@ -87,7 +87,7 @@ const Library = ({ songMap, labelMap, labels }) => {
               <ButtonBase
                 className={classes.itemLabel}
                 onClick={() => set({
-                  name: data.label,
+                  name: getLocalizedTag(data, 'label'),
                   collection: labelMap[data._id].songs
                     .map(id => songMap[id])
                     .sort((a, b) => {
@@ -105,7 +105,7 @@ const Library = ({ songMap, labelMap, labels }) => {
                 })}
               >
                 <Typography clamp>
-                  {data.label || ''}
+                  {getLocalizedTag(data, 'label')}
                 </Typography>
                 {!isSmall && (
                   <Typography clamp variant="caption">
@@ -119,7 +119,7 @@ const Library = ({ songMap, labelMap, labels }) => {
                     key={album._id}
                     className={classes.itemButton}
                     onClick={() => set({
-                      name: album.album,
+                      name: getLocalizedTag(album, 'album'),
                       collection: album.songs
                         .map(id => songMap[id])
                         .sort((a, b) => {
@@ -133,7 +133,7 @@ const Library = ({ songMap, labelMap, labels }) => {
                   >
                     <img
                       src={album.cover}
-                      alt={album.album}
+                      alt={getLocalizedTag(album, 'album')}
                       className={classes.itemCover}
                       decoding="async"
                     />

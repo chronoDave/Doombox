@@ -1,5 +1,8 @@
 module.exports = {
   language: 'en',
+  display: {
+    useLocalizedMetadata: true
+  },
   parser: {
     strict: false,
     fileTypes: ['mp3'],

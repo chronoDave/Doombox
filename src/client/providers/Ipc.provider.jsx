@@ -47,12 +47,10 @@ class IpcProvider extends Component {
     ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));
 
     ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => {
-      if (data) {
-        dispatchImages(data.images);
-        dispatchSongs(data.songs);
-        dispatchAlbums(data.albums);
-        dispatchLabels(data.labels);
-      }
+      if (data.images) dispatchImages(data.images);
+      if (data.songs) dispatchSongs(data.songs);
+      if (data.albums) dispatchAlbums(data.albums);
+      if (data.labels) dispatchLabels(data.labels);
     });
 
     ipcRenderer.on(IPC.CHANNEL.KEYBIND, (event, action) => {

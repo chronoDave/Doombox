@@ -165,10 +165,10 @@ module.exports = class LibraryController {
       .entries(groupBy(songs, '_albumId'))
       .map(([album, albumSongs]) => ({
         _id: album,
-        artists: [...new Set(albumSongs
-          .map(({ metadata: { artist } }) => artist)
-          .filter(artist => artist))],
+        artist: albumSongs[0].metadata.artist || null,
+        artistlocalized: albumSongs[0].metadata.artistlocalized || null,
         album: albumSongs[0].metadata.album || null,
+        albumlocalized: albumSongs[0].metadata.albumlocalized || null,
         covers: albumSongs[0].covers,
         year: albumSongs[0].metadata.year || null,
         date: albumSongs[0].metadata.date || null,
@@ -181,6 +181,7 @@ module.exports = class LibraryController {
       .map(([label, labelSongs]) => ({
         _id: label,
         label: labelSongs[0].metadata.albumartist || null,
+        labellocalized: labelSongs[0].metadata.albumartistlocalized || null,
         albums: Object.keys(groupBy(labelSongs, '_albumId')),
         songs: labelSongs.map(({ _id }) => _id),
         duration: labelSongs.reduce((acc, { format: { duration } }) => acc + duration, 0)

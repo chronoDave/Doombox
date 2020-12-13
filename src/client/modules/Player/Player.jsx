@@ -20,14 +20,13 @@ import usePlayerStyles from './Player.styles';
 
 const Player = props => {
   const {
-    title,
-    artist,
+    metadata,
     cover,
     duration,
     position
   } = props;
   const { seek } = useAudio();
-  const { t } = useTranslation();
+  const { t, getLocalizedTag } = useTranslation();
   const classes = usePlayerStyles({ cover });
 
   const throttledSeek = throttle((event, newValue) => seek(newValue), 100);
@@ -37,10 +36,13 @@ const Player = props => {
       <div className={classes.cover}>
         <div className={classes.coverTitle}>
           <Typography clamp={2} align="center">
-            {title || t('description.playlist_empty', { transform: 'capitalize' })}
+            {
+              getLocalizedTag(metadata, 'title') ||
+              t('description.playlist_empty', { transform: 'capitalize' })
+            }
           </Typography>
           <Typography clamp align="center">
-            {artist}
+            {getLocalizedTag(metadata, 'artist')}
           </Typography>
         </div>
         <Hidden on={({ create, values, queries }) => create(queries.maxWidth, values.sm)}>
@@ -70,16 +72,24 @@ const Player = props => {
 };
 
 Player.defaultProps = {
-  title: null,
-  artist: '',
+  metadata: {
+    title: null,
+    titlelocalized: null,
+    artist: '',
+    artistlocalized: '',
+  },
   cover: {
     file: ''
   }
 };
 
 Player.propTypes = {
-  title: PropTypes.string,
-  artist: PropTypes.string,
+  metadata: PropTypes.shape({
+    title: PropTypes.string,
+    titlelocalized: PropTypes.string,
+    artist: PropTypes.string,
+    artistlocalized: PropTypes.string,
+  }),
   cover: propCover,
   position: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired
@@ -89,8 +99,12 @@ const mapStateToProps = state => ({
   cover: state.player.metadata.covers.map(image => (
     state.entities.images.map[image]
   ))[0],
-  title: state.player.metadata.title,
-  artist: state.player.metadata.artist,
+  metadata: {
+    artist: state.player.metadata.artist,
+    artistlocalized: state.player.metadata.artistlocalized,
+    title: state.player.metadata.title,
+    titlelocalized: state.player.metadata.titlelocalized,
+  },
   position: state.player.position,
   duration: state.player.duration
 });

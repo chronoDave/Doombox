@@ -42,9 +42,7 @@ import useAppBarStyles from './AppBar.styles';
 
 const AppBar = props => {
   const {
-    title,
-    artist,
-    album,
+    metadata,
     keybinds,
     dispatchOverlay,
     folders
@@ -53,7 +51,7 @@ const AppBar = props => {
   const [menu, setMenu] = useState({ id: 'file' });
   const [appTitle, setAppTitle] = useState('Doombox');
 
-  const { t, getNativeKeybind } = useTranslation();
+  const { t, getLocalizedTag, getNativeKeybind } = useTranslation();
   const classes = useAppBarStyles();
   const { onEnter, onLeave } = useHover({
     enter: () => setOpen(true),
@@ -130,13 +128,17 @@ const AppBar = props => {
   };
 
   useEffect(() => {
-    if (title || artist || album) {
-      const newAppTitle = `${artist || 'Unknown'} - ${title || 'Unknown'} (${album || 'Unknown'}) - Doombox`;
+    if (metadata.artist || metadata.title || metadata.album) {
+      const artist = getLocalizedTag(metadata, 'artist') || 'Unknown';
+      const title = getLocalizedTag(metadata, 'title') || 'Unknown';
+      const album = getLocalizedTag(metadata, 'album') || 'Unknown';
+
+      const newAppTitle = `${artist} - ${title} (${album}) - Doombox`;
 
       setAppTitle(newAppTitle);
       setWindowTitle(newAppTitle);
     }
-  }, [title, artist, album]);
+  }, [getLocalizedTag, metadata]);
 
   return (
     <Fragment>
@@ -213,25 +215,40 @@ const AppBar = props => {
 };
 
 AppBar.defaultProps = {
-  title: '',
-  artist: '',
-  album: '',
+  metadata: {
+    title: null,
+    titlelocalized: null,
+    artist: null,
+    artistlocalized: null,
+    album: null,
+    albumlocalized: null,
+  },
   folders: []
 };
 
 AppBar.propTypes = {
-  title: PropTypes.string,
-  artist: PropTypes.string,
-  album: PropTypes.string,
+  metadata: PropTypes.shape({
+    title: PropTypes.string,
+    titlelocalized: PropTypes.string,
+    artist: PropTypes.string,
+    artistlocaltitlelocalized: PropTypes.string,
+    album: PropTypes.string,
+    albumlocaltitlelocalized: PropTypes.string,
+  }),
   keybinds: propKeybinds.isRequired,
   dispatchOverlay: PropTypes.func.isRequired,
   folders: PropTypes.arrayOf(PropTypes.string)
 };
 
 const mapStateToProps = state => ({
-  title: state.player.metadata.title,
-  artist: state.player.metadata.artist,
-  album: state.player.metadata.album,
+  metadata: {
+    title: state.player.metadata.title,
+    titlelocalized: state.player.metadata.titlelocalized,
+    artist: state.player.metadata.artist,
+    artistlocalized: state.player.metadata.artistlocalized,
+    album: state.player.metadata.album,
+    albumlocalized: state.player.metadata.albumlocalized,
+  },
   folders: state.cache.folders,
   keybinds: state.config.keybinds
 });

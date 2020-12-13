@@ -86,7 +86,8 @@ class AudioProvider extends Component {
       dispatchMetadata,
       dispatchStatus,
       dispatchVolume,
-      dispatchAutoplay
+      dispatchAutoplay,
+      useLocalizedMetadata
     } = props;
 
     this.audio.on(EVENTS.AUDIO.DURATION, dispatchDuration);
@@ -101,9 +102,9 @@ class AudioProvider extends Component {
 
       // eslint-disable-next-line no-undef
       navigator.mediaSession.metadata = new MediaMetadata({
-        artist: metadata.artist,
-        title: metadata.title,
-        album: metadata.album,
+        artist: useLocalizedMetadata ? metadata.artistlocalized : metadata.artist,
+        title: useLocalizedMetadata ? metadata.titlelocalized : metadata.title,
+        album: useLocalizedMetadata ? metadata.albumlocalized : metadata.album,
       });
 
       const cover = metadata.covers
@@ -119,9 +120,9 @@ class AudioProvider extends Component {
             reader.onloadend = () => {
               // eslint-disable-next-line no-undef
               navigator.mediaSession.metadata = new MediaMetadata({
-                artist: metadata.artist,
-                title: metadata.title,
-                album: metadata.album,
+                artist: useLocalizedMetadata ? metadata.artistlocalized : metadata.artist,
+                title: useLocalizedMetadata ? metadata.titlelocalized : metadata.title,
+                album: useLocalizedMetadata ? metadata.albumlocalized : metadata.album,
                 artwork: [{ src: reader.result, type: `image/${cover.file.split('.').pop()}`, sizes: '192x192' }]
               });
             };
@@ -168,6 +169,7 @@ class AudioProvider extends Component {
 }
 
 AudioProvider.propTypes = {
+  useLocalizedMetadata: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   autoplay: PropTypes.bool.isRequired,
   volume: PropTypes.number.isRequired,
@@ -184,6 +186,7 @@ AudioProvider.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  useLocalizedMetadata: state.config.display.useLocalizedMetadata,
   images: state.entities.images.map,
   autoplay: state.config.player.autoplay,
   muted: state.cache.player.muted,

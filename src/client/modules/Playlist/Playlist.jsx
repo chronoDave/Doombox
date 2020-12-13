@@ -19,7 +19,7 @@ import usePlaylistStyles from './Playlist.styles';
 const Playlist = ({ name, songs, current }) => {
   const classes = usePlaylistStyles();
   const { skip } = useAudio();
-  const { t } = useTranslation();
+  const { t, getLocalizedTag } = useTranslation();
 
   const ref = useRef();
   const isWidthSm = useMediaQuery(breakpoints => breakpoints.create(
@@ -80,11 +80,11 @@ const Playlist = ({ name, songs, current }) => {
             )}
             <div className={classes.buttonMetadata}>
               <Typography clamp>
-                {data.metadata.title}
+                {getLocalizedTag(data.metadata, 'title')}
               </Typography>
               {isWidthSm && (
                 <Typography clamp color="textSecondary">
-                  {data.metadata.artist}
+                  {getLocalizedTag(data.metadata, 'artist')}
                 </Typography>
               )}
             </div>
