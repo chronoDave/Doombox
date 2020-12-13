@@ -15,6 +15,7 @@ module.exports = {
     toggleDevTools: 'mod+shift+i',
     nextSong: 'mod+alt+right',
     previousSong: 'mod+alt+left',
-    playPause: 'mod+alt+\\'
+    playPause: 'mod+alt+\\',
+    preferences: "mod+p"
   }
 };

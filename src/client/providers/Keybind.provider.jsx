@@ -3,6 +3,7 @@ import { webFrame } from 'electron';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
+import { WINDOWS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Hooks
@@ -11,7 +12,16 @@ import { useAudio } from '../hooks';
 // Actions
 import { scanFolder, scanFolderNative } from '../actions';
 
-const KeybindProvider = ({ folders, keybinds, children }) => {
+// Redux
+import { setOverlay } from '../redux';
+
+const KeybindProvider = props => {
+  const {
+    folders,
+    keybinds,
+    children,
+    dispatchOverlay
+  } = props;
   const { pause, next, previous } = useAudio();
 
   useEffect(() => {
@@ -28,12 +38,15 @@ const KeybindProvider = ({ folders, keybinds, children }) => {
     Mousetrap.bind(keybinds.nextSong, next);
     Mousetrap.bind(keybinds.previousSong, previous);
 
+    // Preferences
+    Mousetrap.bind(keybinds.preferences, () => dispatchOverlay(WINDOWS.OVERLAY.SETTINGS));
+
     return () => {
       for (let k = Object.values(keybinds), i = 0; i < k.length; i += 1) {
         Mousetrap.unbind(k[i]);
       }
     };
-  }, [next, previous, pause, keybinds, folders]);
+  }, [next, previous, pause, keybinds, folders, dispatchOverlay]);
 
   return children;
 };
@@ -55,6 +68,11 @@ const mapStateToProps = state => ({
   folders: state.cache.folders
 });
 
+const mapDispatchToProps = {
+  dispatchOverlay: setOverlay
+};
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(KeybindProvider);

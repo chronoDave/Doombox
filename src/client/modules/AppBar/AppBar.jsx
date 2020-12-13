@@ -85,6 +85,7 @@ const AppBar = props => {
       onClick: deleteLibrary
     }, {
       primary: t('common.preferences', { transform: 'pascal' }),
+      secondary: keybinds.preferences,
       onClick: () => dispatchOverlay(WINDOWS.OVERLAY.SETTINGS),
       divider: true
     }, {

@@ -12,13 +12,17 @@
 |:-------------------- | ---------------- |
 | **Ctrl + S**         | Rescan library   |
 | **Ctrl + Shift + S** | Scan folder      |
-| **Ctrl + Shift + I** | Toggle dev tools |
+| **Ctrl + P**         | Open preferences |
 
 | Playlist | |
 | :------------------ | ------------- |
 | **Ctrl + Alt + →**  | Next song     |
 | **Ctrl + Alt + ←**  | Previous song |
 | **Ctrl + Alt + \\** | Play / pause  |
+
+| Help | | 
+| :------------------- | ---------------- |
+| **Ctrl + Shift + I** | Toggle dev tools |
 
 ## Mac
 
@@ -32,10 +36,14 @@
 |:-------------------- | ---------------- |
 | **⌘ + S**           | Rescan library   |
 | **⌘ + ⇧ + S**       | Scan folder      |
-| **⌘ + ⇧ + I**       | Toggle dev tools |
+| **⌘ + P**           | Open preferences |
 
 | Playlist | |
 | :--------------- | ------------- |
 | **⌘ + ⌥ + →**  | Next song     |
 | **⌘ + ⌥ + ←**  | Previous song |
 | **⌘ + ⌥ + \\** | Play / pause  |
+
+| Help | |
+| :------------------- | ---------------- |
+| **⌘ + ⇧ + I**       | Toggle dev tools |
