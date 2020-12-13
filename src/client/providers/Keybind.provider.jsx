@@ -1,13 +1,11 @@
 import { webFrame } from 'electron';
 
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import Mousetrap from 'mousetrap';
 import { WINDOWS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Hooks
-import { useAudio } from '../hooks';
+import { useAudio, useKeybind } from '../hooks';
 
 // Actions
 import { scanFolder, scanFolderNative } from '../actions';
@@ -17,54 +15,65 @@ import { setOverlay } from '../redux';
 
 const KeybindProvider = props => {
   const {
+    dispatchOverlay,
+    keybindMuteUnmute,
+    keybindNextSong,
+    keybindPlayPause,
+    keybindPreferences,
+    keybindPreviousSong,
+    keybindRescan,
+    keybindScanFolder,
     folders,
-    keybinds,
-    children,
-    dispatchOverlay
+    children
   } = props;
-  const { pause, next, previous } = useAudio();
 
-  useEffect(() => {
-    // System
-    Mousetrap.bind('mod+=', () => webFrame.setZoomLevel(webFrame.getZoomLevel() + 0.5));
-    Mousetrap.bind('mod+alt+=', () => webFrame.setZoomFactor(1));
+  const {
+    pause,
+    next,
+    previous,
+    mute
+  } = useAudio();
 
-    // File
-    Mousetrap.bind(keybinds.rescan, () => scanFolder(folders));
-    Mousetrap.bind(keybinds.scanFolder, scanFolderNative);
+  // System
+  useKeybind('mod+=', () => webFrame.setZoomLevel(webFrame.getZoomLevel() + 0.5));
+  useKeybind('mod+alt+=', () => webFrame.setZoomFactor(1));
 
-    // Playlist
-    Mousetrap.bind(keybinds.playPause, pause);
-    Mousetrap.bind(keybinds.nextSong, next);
-    Mousetrap.bind(keybinds.previousSong, previous);
+  // File
+  useKeybind(keybindRescan, () => scanFolder(folders));
+  useKeybind(keybindScanFolder, scanFolderNative);
 
-    // Preferences
-    Mousetrap.bind(keybinds.preferences, () => dispatchOverlay(WINDOWS.OVERLAY.SETTINGS));
+  // Playlist
+  useKeybind(keybindPlayPause, pause);
+  useKeybind(keybindNextSong, next);
+  useKeybind(keybindPreviousSong, previous);
+  useKeybind(keybindMuteUnmute, mute);
 
-    return () => {
-      for (let k = Object.values(keybinds), i = 0; i < k.length; i += 1) {
-        Mousetrap.unbind(k[i]);
-      }
-    };
-  }, [next, previous, pause, keybinds, folders, dispatchOverlay]);
+  // Preferences
+  useKeybind(keybindPreferences, () => dispatchOverlay(WINDOWS.OVERLAY.SETTINGS));
 
   return children;
 };
 
 KeybindProvider.propTypes = {
   folders: PropTypes.arrayOf(PropTypes.string).isRequired,
-  keybinds: PropTypes.shape({
-    rescan: PropTypes.string.isRequired,
-    scanFolder: PropTypes.string.isRequired,
-    nextSong: PropTypes.string.isRequired,
-    previousSong: PropTypes.string.isRequired,
-    playPause: PropTypes.string.isRequired
-  }),
+  keybindMuteUnmute: PropTypes.string.isRequired,
+  keybindNextSong: PropTypes.string.isRequired,
+  keybindPlayPause: PropTypes.string.isRequired,
+  keybindPreferences: PropTypes.string.isRequired,
+  keybindPreviousSong: PropTypes.string.isRequired,
+  keybindRescan: PropTypes.string.isRequired,
+  keybindScanFolder: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired
 };
 
 const mapStateToProps = state => ({
-  keybinds: state.config.keybinds,
+  keybindMuteUnmute: state.config.keybinds.muteUnmute,
+  keybindNextSong: state.config.keybinds.nextSong,
+  keybindPlayPause: state.config.keybinds.playPause,
+  keybindPreferences: state.config.keybinds.preferences,
+  keybindPreviousSong: state.config.keybinds.previousSong,
+  keybindRescan: state.config.keybinds.rescan,
+  keybindScanFolder: state.config.keybinds.scanFolder,
   folders: state.cache.folders
 });
 

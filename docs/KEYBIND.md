@@ -19,6 +19,7 @@
 | **Ctrl + Alt + →**  | Next song     |
 | **Ctrl + Alt + ←**  | Previous song |
 | **Ctrl + Alt + \\** | Play / pause  |
+| **Ctrl + Alt + M**  | Mute / umute  |
 
 | Help | | 
 | :------------------- | ---------------- |
@@ -43,6 +44,7 @@
 | **⌘ + ⌥ + →**  | Next song     |
 | **⌘ + ⌥ + ←**  | Previous song |
 | **⌘ + ⌥ + \\** | Play / pause  |
+| **⌘ + ⌥ + M**  | Mute / umute  |
 
 | Help | |
 | :------------------- | ---------------- |

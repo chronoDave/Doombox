@@ -12,10 +12,10 @@ module.exports = {
   keybinds: {
     rescan: 'mod+s',
     scanFolder: 'mod+shift+s',
-    toggleDevTools: 'mod+shift+i',
     nextSong: 'mod+alt+right',
     previousSong: 'mod+alt+left',
     playPause: 'mod+alt+\\',
+    muteUnmute: 'mod+alt+m',
     preferences: 'mod+p'
   }
 };
