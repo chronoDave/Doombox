@@ -18,9 +18,10 @@ class Audio extends EventEmitter {
     this.muted = false;
 
     this.playlist = {
-      name: '',
+      name: null,
       collection: [],
-      index: 0
+      index: 0,
+      duration: 0
     };
 
     this.play = this.play.bind(this);
@@ -110,7 +111,10 @@ class Audio extends EventEmitter {
     if (!this.playlist) this.playlist = {};
     if (!this.playlist.index) this.playlist.index = 0;
     if (!this.playlist.collection) this.playlist.collection = [];
-    if (!this.playlist.name) this.playlist.name = '';
+    if (!this.playlist.name) this.playlist.name = null;
+
+    this.playlist.duration = this.playlist.collection
+      .reduce((acc, cur) => acc + (cur.format.duration || 0), 0);
 
     this.create();
 
@@ -137,6 +141,8 @@ class Audio extends EventEmitter {
       }
 
       this.create();
+
+      this.emit(EVENTS.AUDIO.INDEX, this.playlist.index);
     }
   }
 
@@ -149,6 +155,8 @@ class Audio extends EventEmitter {
       }
 
       this.create();
+
+      this.emit(EVENTS.AUDIO.INDEX, this.playlist.index);
     }
   }
 
@@ -157,6 +165,8 @@ class Audio extends EventEmitter {
       this.playlist.index = clamp(0, this.playlist.collection.length - 1, n);
 
       this.create();
+
+      this.emit(EVENTS.AUDIO.INDEX, this.playlist.index);
     }
   }
 

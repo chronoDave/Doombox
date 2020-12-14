@@ -1,116 +1,67 @@
 import React, { useRef, useLayoutEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { cx } from 'emotion';
-import { formatTime } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import { Typography, ButtonBase, VirtualList } from '../../components';
+import { VirtualList } from '../../components';
+
+import { PlaylistItem } from '../PlaylistItem';
 
 // Hooks
-import { useAudio, useMediaQuery, useTranslation } from '../../hooks';
+import { useMediaQuery, useTranslation } from '../../hooks';
 
 // Validation
 import { propSong } from '../../validation/propTypes';
 
-// Styles
-import usePlaylistStyles from './Playlist.styles';
-
-const Playlist = ({ name, songs, current }) => {
-  const classes = usePlaylistStyles();
-  const { skip } = useAudio();
-  const { t, getLocalizedTag } = useTranslation();
+const Playlist = ({ songs, current }) => {
+  const { getLocalizedTag } = useTranslation();
 
   const ref = useRef();
-  const isWidthSm = useMediaQuery(breakpoints => breakpoints.create(
-    breakpoints.queries.minWidth,
-    breakpoints.values.sm
-  ));
-  const isHeightXs = useMediaQuery(breakpoints => breakpoints.create(
-    breakpoints.queries.minHeight,
-    breakpoints.values.xs
-  ));
-  const totalDuration = useMemo(() => songs.reduce((acc, cur) => acc + cur.format.duration, 0), [songs]);
+  const isWidthSm = useMediaQuery(({
+    create,
+    queries,
+    values
+  }) => create(queries.minWidth, values.sm));
+  const itemHeight = useMemo(() => (isWidthSm ? 48 : 24), [isWidthSm]);
 
   useLayoutEffect(() => {
     if (ref.current) {
-      const itemIndex = Math.max(songs.findIndex(item => item._id === current), 0);
-
-      ref.current.scroll({ top: itemIndex * (isWidthSm ? 48 : 24) });
+      ref.current.scroll({ top: current * itemHeight });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, isWidthSm]);
+  }, [current, itemHeight]);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.title}>
-        <Typography clamp fontWeight={(isWidthSm && isHeightXs) ? 500 : 400}>
-          {[
-            name,
-            !(isWidthSm && isHeightXs) && `(${songs.length})`
-          ].filter(string => string).join(' ')}
-        </Typography>
-        {(isWidthSm && isHeightXs) && (
-          <Typography clamp variant="subtitle">
-            {[
-              `${songs.length} ${t('common.track', { plural: songs.length !== 1 })}`,
-              `${formatTime(totalDuration, { useText: true, displaySeconds: false })}`
-            ].join(' \u2022 ')}
-          </Typography>
-        )}
-      </div>
-      <VirtualList
-        ref={ref}
-        data={songs}
-        itemHeight={isWidthSm ? 48 : 24}
-      >
-        {({ data, style, index }) => (
-          <ButtonBase
-            style={style}
-            key={data._id}
-            onClick={() => skip(index)}
-            className={cx(classes.button, {
-              [classes.buttonActive]: current === data._id
-            })}
-          >
-            {isWidthSm && (
-              <Typography className={classes.buttonIndex}>
-                {`${index + 1}.`}
-              </Typography>
-            )}
-            <div className={classes.buttonMetadata}>
-              <Typography clamp>
-                {getLocalizedTag(data.metadata, 'title')}
-              </Typography>
-              {isWidthSm && (
-                <Typography clamp color="textSecondary">
-                  {getLocalizedTag(data.metadata, 'artist')}
-                </Typography>
-              )}
-            </div>
-          </ButtonBase>
-        )}
-      </VirtualList>
-    </div>
+    <VirtualList
+      ref={ref}
+      data={songs}
+      itemHeight={itemHeight}
+    >
+      {({ data, style, index }) => (
+        <PlaylistItem
+          key={data._id}
+          active={current === index}
+          primary={getLocalizedTag(data.metadata, 'title')}
+          secondary={getLocalizedTag(data.metadata, 'artist')}
+          style={style}
+          index={index}
+        />
+      )}
+    </VirtualList>
   );
 };
 
 Playlist.defaultProps = {
-  name: 'Playlist',
-  songs: [],
-  current: ''
+  songs: []
 };
 
 Playlist.propTypes = {
-  name: PropTypes.string,
   songs: PropTypes.arrayOf(propSong),
-  current: PropTypes.string
+  current: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => ({
-  name: state.playlist.name,
   songs: state.playlist.collection,
-  current: state.player.metadata._id
+  current: state.playlist.index
 });
 
 export default connect(

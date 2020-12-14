@@ -18,3 +18,10 @@ export const setup = noInstance => {
 
   return audio;
 };
+
+export const mockCollection = [
+  { format: { duration: 3 } },
+  { format: { duration: 6 } },
+  { format: { duration: 9 } },
+  { format: { duration: 12 } }
+];

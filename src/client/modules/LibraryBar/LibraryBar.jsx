@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 // Core
 import {
   ButtonIcon,
-  InputSearch,
+  Search,
   Menu,
   MenuItem
 } from '../../components';
@@ -27,13 +27,13 @@ import {
 import { propSong } from '../../validation/propTypes';
 
 // Styles
-import useLibrarySearchStyles from './LibrarySearch.styles';
+import useLibraryBarStyles from './LibraryBar.styles';
 
-const LibrarySearch = ({ songs }) => {
+const LibraryBar = ({ songs }) => {
   const [open, setOpen] = useState(false);
 
   const ref = useRef();
-  const classes = useLibrarySearchStyles();
+  const classes = useLibraryBarStyles();
 
   const { set } = useAudio();
   const { t } = useTranslation();
@@ -58,7 +58,7 @@ const LibrarySearch = ({ songs }) => {
   return (
     <Fragment>
       <div className={classes.root}>
-        <InputSearch
+        <Search
           onSearch={handleSearch}
           onChange={handleSearch}
           className={classes.search}
@@ -124,7 +124,7 @@ const LibrarySearch = ({ songs }) => {
   );
 };
 
-LibrarySearch.propTypes = {
+LibraryBar.propTypes = {
   songs: PropTypes.arrayOf(propSong).isRequired
 };
 
@@ -134,4 +134,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(LibrarySearch);
+)(LibraryBar);

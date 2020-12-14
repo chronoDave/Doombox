@@ -1,13 +1,6 @@
 import { makeStyles } from '../../theme';
 
 export default makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'auto',
-    backgroundColor: theme.palette.grey[1],
-    flexGrow: 1
-  },
   itemRoot: {
     display: 'flex',
     flexDirection: 'column'

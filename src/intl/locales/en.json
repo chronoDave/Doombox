@@ -8,7 +8,8 @@
     "preferences": "preferences",
     "general": "general",
     "file": "file",
-    "help": "help"
+    "help": "help",
+    "playlist": "playlist"
   },
   "action": {
     "common": {

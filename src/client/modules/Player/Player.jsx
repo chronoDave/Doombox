@@ -42,7 +42,7 @@ const Player = props => {
             }
           </Typography>
           <Typography clamp align="center">
-            {getLocalizedTag(metadata, 'artist')}
+            {getLocalizedTag(metadata, 'artist') || ''}
           </Typography>
         </div>
         <Hidden on={({ create, values, queries }) => create(queries.maxWidth, values.sm)}>

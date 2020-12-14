@@ -20,7 +20,8 @@ import {
   setDuration,
   setMuted,
   setVolume,
-  setPosition
+  setPosition,
+  setPlaylistIndex
 } from '../redux';
 
 // Lib
@@ -87,6 +88,7 @@ class AudioProvider extends Component {
       dispatchStatus,
       dispatchVolume,
       dispatchAutoplay,
+      dispatchPlaylistIndex,
       useLocalizedMetadata
     } = props;
 
@@ -96,6 +98,7 @@ class AudioProvider extends Component {
       updateCache('player.muted', muted);
     });
     this.audio.on(EVENTS.AUDIO.PLAYLIST, dispatchPlaylist);
+    this.audio.on(EVENTS.AUDIO.INDEX, dispatchPlaylistIndex);
     this.audio.on(EVENTS.AUDIO.POSITION, dispatchPosition);
     this.audio.on(EVENTS.AUDIO.METADATA, metadata => {
       dispatchMetadata(metadata);
@@ -188,7 +191,8 @@ AudioProvider.propTypes = {
   dispatchMetadata: PropTypes.func.isRequired,
   dispatchStatus: PropTypes.func.isRequired,
   dispatchVolume: PropTypes.func.isRequired,
-  dispatchAutoplay: PropTypes.func.isRequired
+  dispatchAutoplay: PropTypes.func.isRequired,
+  dispatchPlaylistIndex: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -207,7 +211,8 @@ const mapDispatchToProps = {
   dispatchMetadata: setMetadata,
   dispatchStatus: setStatus,
   dispatchVolume: setVolume,
-  dispatchAutoplay: setAutoplay
+  dispatchAutoplay: setAutoplay,
+  dispatchPlaylistIndex: setPlaylistIndex
 };
 
 export default connect(

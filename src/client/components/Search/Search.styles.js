@@ -12,4 +12,4 @@ export default makeStyles(theme => ({
     display: 'inline-flex',
     height: 'fit-content'
   })
-}), 'inputSearch');
+}), 'search');

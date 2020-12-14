@@ -1,9 +1,10 @@
 export { App } from './App';
 export { AppBar } from './AppBar';
 export { Library } from './Library';
-export { LibrarySearch } from './LibrarySearch';
+export { LibraryBar } from './LibraryBar';
 export { OverlayScan } from './OverlayScan';
 export { OverlaySettings } from './OverlaySettings';
 export { Player } from './Player';
 export { PlayerControls } from './PlayerControls';
 export { Playlist } from './Playlist';
+export { PlaylistTitle } from './PlaylistTitle';

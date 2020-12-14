@@ -10,4 +10,4 @@ export default makeStyles(theme => ({
     padding: theme.spacing(0.5, 1),
     backgroundColor: theme.palette.grey[0],
   },
-}), 'librarySearch');
+}), 'libraryBar');

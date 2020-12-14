@@ -6,7 +6,7 @@ export { Icon } from './Icon';
 export { IconApp } from './IconApp';
 export { Select } from './Select';
 export { SelectLanguage } from './SelectLanguage';
-export { InputSearch } from './InputSearch';
+export { Search } from './Search';
 export { LoaderBar } from './LoaderBar';
 export { Menu } from './Menu';
 export { MenuItem } from './MenuItem';

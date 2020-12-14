@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 import { AppBar } from '../AppBar';
 import { Player } from '../Player';
 import { Playlist } from '../Playlist';
+import { PlaylistTitle } from '../PlaylistTitle';
 import { Library } from '../Library';
+import { LibraryBar } from '../LibraryBar';
 import { OverlayScan } from '../OverlayScan';
 import { OverlaySettings } from '../OverlaySettings';
 
@@ -23,9 +25,15 @@ const App = ({ overlay }) => {
       <div className={classes.body}>
         <div className={classes.player}>
           <Player />
-          <Playlist />
+          <div className={classes.playlist}>
+            <PlaylistTitle />
+            <Playlist />
+          </div>
         </div>
-        <Library />
+        <div className={classes.library}>
+          <LibraryBar />
+          <Library />
+        </div>
         <OverlayScan open={overlay === WINDOWS.OVERLAY.SCAN} />
         <OverlaySettings open={overlay === WINDOWS.OVERLAY.SETTINGS} />
       </div>

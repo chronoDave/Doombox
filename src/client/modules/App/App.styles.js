@@ -30,5 +30,18 @@ export default makeStyles(theme => ({
     )]: {
       width: theme.mixins.player.md.width
     }
+  },
+  playlist: {
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
+    flexGrow: 1
+  },
+  library: {
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
+    backgroundColor: theme.palette.grey[1],
+    flexGrow: 1
   }
 }), 'app');

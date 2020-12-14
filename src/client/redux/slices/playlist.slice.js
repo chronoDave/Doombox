@@ -1,16 +1,16 @@
 import { createReduxSlice } from '../utils';
 
 const initialState = {
-  name: 'Playlist',
+  name: null,
   cover: null,
-  collection: []
+  collection: [],
+  index: 0,
+  duration: 0
 };
 
 const reducers = {
   setPlaylist: (state, payload) => ({ ...state, ...payload }),
-  setName: (state, name) => ({ ...state, name }),
-  setCover: (state, cover) => ({ ...state, cover }),
-  setCollection: (state, collection) => ({ ...state, collection })
+  setPlaylistIndex: (state, index) => ({ ...state, index })
 };
 
 export default createReduxSlice('playlist', initialState, reducers);

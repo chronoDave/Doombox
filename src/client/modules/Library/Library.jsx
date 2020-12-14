@@ -11,8 +11,6 @@ import {
   Typography,
 } from '../../components';
 
-import { LibrarySearch } from '../LibrarySearch';
-
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
 
@@ -60,91 +58,88 @@ const Library = ({ songMap, labelMap, labels }) => {
   const classes = useLibraryStyles();
 
   return (
-    <div className={classes.root}>
-      <LibrarySearch />
-      <VirtualList
-        data={labels}
-        itemHeight={({ data, container: { width } }) => {
-          const rows = Math.floor(width / 75);
-          const columns = Math.ceil(data.albums.length / rows);
+    <VirtualList
+      data={labels}
+      itemHeight={({ data, container: { width } }) => {
+        const rows = Math.floor(width / 75);
+        const columns = Math.ceil(data.albums.length / rows);
 
-          return 35 + columns * 75 + 8;
-        }}
-      >
-        {({ data, style }) => {
-          const labelPrimary = [
-            `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
-            `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
-            formatTime(data.duration || 0)
-          ].join(' \u2022 ');
+        return 35 + columns * 75 + 8;
+      }}
+    >
+      {({ data, style }) => {
+        const labelPrimary = [
+          `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
+          `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
+          formatTime(data.duration || 0)
+        ].join(' \u2022 ');
 
-          return (
-            <div
-              key={data._id}
-              className={classes.itemRoot}
-              style={style}
+        return (
+          <div
+            key={data._id}
+            className={classes.itemRoot}
+            style={style}
+          >
+            <ButtonBase
+              className={classes.itemLabel}
+              onClick={() => set({
+                name: getLocalizedTag(data, 'label'),
+                collection: labelMap[data._id].songs
+                  .map(id => songMap[id])
+                  .sort((a, b) => {
+                    if (a.metadata.date && b.metadata.date) {
+                      if (a.metadata.date < b.metadata.date) return -1;
+                      if (a.metadata.date > b.metadata.date) return 1;
+                    }
+                    if (a.metadata.year < b.metadata.year) return -1;
+                    if (a.metadata.disc.no < b.metadata.disc.no) return -1;
+                    if (a.metadata.disc.no > b.metadata.disc.no) return 1;
+                    if (a.metadata.track.no < b.metadata.track.no) return -1;
+                    if (a.metadata.track.no > b.metadata.track.no) return 1;
+                    return 0;
+                  })
+              })}
             >
-              <ButtonBase
-                className={classes.itemLabel}
-                onClick={() => set({
-                  name: getLocalizedTag(data, 'label'),
-                  collection: labelMap[data._id].songs
-                    .map(id => songMap[id])
-                    .sort((a, b) => {
-                      if (a.metadata.date && b.metadata.date) {
-                        if (a.metadata.date < b.metadata.date) return -1;
-                        if (a.metadata.date > b.metadata.date) return 1;
-                      }
-                      if (a.metadata.year < b.metadata.year) return -1;
-                      if (a.metadata.disc.no < b.metadata.disc.no) return -1;
-                      if (a.metadata.disc.no > b.metadata.disc.no) return 1;
-                      if (a.metadata.track.no < b.metadata.track.no) return -1;
-                      if (a.metadata.track.no > b.metadata.track.no) return 1;
-                      return 0;
-                    })
-                })}
-              >
-                <Typography clamp>
-                  {getLocalizedTag(data, 'label')}
+              <Typography clamp>
+                {getLocalizedTag(data, 'label')}
+              </Typography>
+              {!isSmall && (
+                <Typography clamp variant="caption">
+                  {labelPrimary}
                 </Typography>
-                {!isSmall && (
-                  <Typography clamp variant="caption">
-                    {labelPrimary}
-                  </Typography>
-                )}
-              </ButtonBase>
-              <div className={classes.itemAlbums}>
-                {data.albums.map(album => (
-                  <ButtonBase
-                    key={album._id}
-                    className={classes.itemButton}
-                    onClick={() => set({
-                      name: getLocalizedTag(album, 'album'),
-                      collection: album.songs
-                        .map(id => songMap[id])
-                        .sort((a, b) => {
-                          if (a.metadata.disc.no < b.metadata.disc.no) return -1;
-                          if (a.metadata.disc.no > b.metadata.disc.no) return 1;
-                          if (a.metadata.track.no < b.metadata.track.no) return -1;
-                          if (a.metadata.track.no > b.metadata.track.no) return 1;
-                          return 0;
-                        })
-                    })}
-                  >
-                    <img
-                      src={album.cover}
-                      alt={getLocalizedTag(album, 'album')}
-                      className={classes.itemCover}
-                      decoding="async"
-                    />
-                  </ButtonBase>
-                ))}
-              </div>
+              )}
+            </ButtonBase>
+            <div className={classes.itemAlbums}>
+              {data.albums.map(album => (
+                <ButtonBase
+                  key={album._id}
+                  className={classes.itemButton}
+                  onClick={() => set({
+                    name: getLocalizedTag(album, 'album'),
+                    collection: album.songs
+                      .map(id => songMap[id])
+                      .sort((a, b) => {
+                        if (a.metadata.disc.no < b.metadata.disc.no) return -1;
+                        if (a.metadata.disc.no > b.metadata.disc.no) return 1;
+                        if (a.metadata.track.no < b.metadata.track.no) return -1;
+                        if (a.metadata.track.no > b.metadata.track.no) return 1;
+                        return 0;
+                      })
+                  })}
+                >
+                  <img
+                    src={album.cover}
+                    alt={getLocalizedTag(album, 'album')}
+                    className={classes.itemCover}
+                    decoding="async"
+                  />
+                </ButtonBase>
+              ))}
             </div>
-          );
-        }}
-      </VirtualList>
-    </div>
+          </div>
+        );
+      }}
+    </VirtualList>
   );
 };
 

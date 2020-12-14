@@ -9,9 +9,9 @@ import { useTranslation } from '../../hooks';
 import { propTypographyVariants } from '../../validation/propTypes';
 
 // Styles
-import useInputSearchStyles from './InputSearch.styles';
+import useSearchStyles from './Search.styles';
 
-const InputSearch = props => {
+const Search = props => {
   const {
     onChange,
     onSearch,
@@ -22,7 +22,7 @@ const InputSearch = props => {
   const ref = useRef();
 
   const { t } = useTranslation();
-  const classes = useInputSearchStyles({ variant });
+  const classes = useSearchStyles({ variant });
 
   return (
     <input
@@ -37,17 +37,17 @@ const InputSearch = props => {
   );
 };
 
-InputSearch.defaultProps = {
+Search.defaultProps = {
   onChange: null,
   variant: 'body',
   className: ''
 };
 
-InputSearch.propTypes = {
+Search.propTypes = {
   className: PropTypes.string,
   variant: propTypographyVariants,
   onChange: PropTypes.func,
   onSearch: PropTypes.func.isRequired
 };
 
-export default InputSearch;
+export default Search;

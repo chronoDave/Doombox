@@ -2,32 +2,6 @@ import { makeStyles } from '../../theme';
 
 export default makeStyles(theme => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: 0
-  },
-  title: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: theme.spacing(0.5, 1),
-    minWidth: 0,
-    [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.sm
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.xs
-      )
-    )]: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: theme.spacing()
-    }
-  },
-  button: {
     padding: theme.spacing(0.5),
     display: 'flex',
     alignItems: 'center',
@@ -47,11 +21,7 @@ export default makeStyles(theme => ({
       paddingLeft: theme.spacing(1.5)
     }
   },
-  buttonIndex: {
-    minWidth: theme.spacing(4),
-    marginRight: theme.spacing()
-  },
-  buttonActive: {
+  active: {
     color: theme.palette.primary.contrastText,
     backgroundColor: theme.palette.primary.main,
     '&:hover': {
@@ -59,8 +29,12 @@ export default makeStyles(theme => ({
       backgroundColor: theme.palette.primary.dark
     }
   },
-  buttonMetadata: {
+  index: {
+    minWidth: theme.spacing(4),
+    marginRight: theme.spacing()
+  },
+  metadata: {
     display: 'flex',
     flexDirection: 'column'
   }
-}), 'playlist');
+}), 'playlistItem');

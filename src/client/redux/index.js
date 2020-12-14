@@ -33,9 +33,7 @@ export const {
 } = playerSlice.actions;
 export const {
   setPlaylist,
-  setName,
-  setCover,
-  setCollection
+  setPlaylistIndex
 } = playlistSlice.actions;
 export const {
   setImages,

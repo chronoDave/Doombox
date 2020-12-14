@@ -8,9 +8,11 @@ export default query => {
   const theme = useTheme();
 
   useLayoutEffect(() => {
-    const getMatch = () => setMatches(window
-      .matchMedia(query(theme.breakpoints).replace(/@media/g, ''))
-      .matches);
+    const getMatch = () => setMatches((
+      window
+        .matchMedia(query(theme.breakpoints).replace(/@media/g, ''))
+        .matches
+    ));
 
     getMatch();
     window.addEventListener('resize', getMatch);

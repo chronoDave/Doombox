@@ -13,6 +13,13 @@ export const propTypographyVariants = PropTypes.oneOf([
   'caption'
 ]);
 
+export const propVirtualStyle = PropTypes.shape({
+  position: PropTypes.string.isRequired,
+  top: PropTypes.number.isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.number.isRequired
+});
+
 export const propKeybinds = PropTypes.shape(
   Object
     .keys(CONFIG.keybinds)
