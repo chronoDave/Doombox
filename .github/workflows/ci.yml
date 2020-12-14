@@ -6,6 +6,8 @@ jobs:
   test:
     name: ${{matrix.os}}
     runs-on: ${{matrix.os}}
+    env:
+      WEBHOOK_FOOTER: ${{matrix.os}}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -34,14 +36,14 @@ jobs:
       - name: Build
         run: yarn build
       - name: On success
-        if: ${{success()}}
+        if: success()
         run: |
-          wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh
-          chmod +x discord_github.sh
-          ./discord_github.sh success
+          curl https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh --output webhook.sh
+          chmod +x webhook.sh
+          ./webhook.sh success
       - name: On error
-        if: ${{failure()}}
+        if: failure()
         run: |
-          wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh
+          curl https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh --output webhook.sh
           chmod +x discord_github.sh
-          ./discord_github.sh failure
+          ./webhook.sh failure
