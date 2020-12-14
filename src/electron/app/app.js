@@ -144,7 +144,7 @@ module.exports = class App extends Reporter {
           window.setThumbarButtons([{
             icon: createThumbarIcon('icon_skipPrevious'),
             click: () => event.sender.send(
-              IPC.CHANNEL.WINDOW,
+              IPC.CHANNEL.AUDIO,
               { action: IPC.ACTION.AUDIO.PREVIOUS }
             ),
             tooltip: this.translate('action.audio.previous')
@@ -152,18 +152,17 @@ module.exports = class App extends Reporter {
             icon: payload.data === STATUS.AUDIO.PLAYING ?
               createThumbarIcon('icon_pause') :
               createThumbarIcon('icon_play'),
-            click: () => event.sender.send(IPC.CHANNEL.WINDOW, {
-              action: payload.data === STATUS.AUDIO.PLAYING ?
-                IPC.ACTION.AUDIO.PAUSE :
-                IPC.ACTION.AUDIO.PLAY
-            }),
+            click: () => event.sender.send(
+              IPC.CHANNEL.AUDIO,
+              { action: IPC.ACTION.AUDIO.PAUSE }
+            ),
             tooltip: payload.data === STATUS.AUDIO.PLAYING ?
               this.translate('action.audio.pause') :
               this.translate('action.audio.play')
           }, {
             icon: createThumbarIcon('icon_skipNext'),
             click: () => event.sender.send(
-              IPC.CHANNEL.WINDOW,
+              IPC.CHANNEL.AUDIO,
               { action: IPC.ACTION.AUDIO.NEXT }
             ),
             tooltip: this.translate('action.audio.next')

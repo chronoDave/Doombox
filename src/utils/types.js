@@ -12,7 +12,8 @@ module.exports = {
       CONFIG: 'IPC_CHANNEL_CONFIG',
       KEYBIND: 'IPC_CHANNEL_KEYBIND',
       OVERLAY: 'IPC_CHANNEL_OVERLAY',
-      SCAN: 'IPC_CHANNEL_SCAN'
+      SCAN: 'IPC_CHANNEL_SCAN',
+      AUDIO: 'IPC_CHANNEL_AUDIO'
     },
     ACTION: {
       INSERT: 'IPC_ACTION_INSERT',
@@ -36,7 +37,6 @@ module.exports = {
         SET_THUMBAR: 'IPC_ACTION_WINDOW_THUMBAR'
       },
       AUDIO: {
-        PLAY: 'IPC_ACTION_AUDIO_PLAY',
         PAUSE: 'IPC_ACTION_AUDIO_PAUSE',
         STOP: 'IPC_ACTION_AUDIO_STOP',
         NEXT: 'IPC_ACTION_AUDIO_NEXT',

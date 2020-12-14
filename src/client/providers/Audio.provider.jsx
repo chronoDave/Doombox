@@ -50,19 +50,19 @@ class AudioProvider extends Component {
     };
 
     // Electron
-    ipcRenderer.on(IPC.CHANNEL.WINDOW, (event, payload) => {
+    ipcRenderer.on(IPC.CHANNEL.AUDIO, (event, payload) => {
       switch (payload.action) {
         case IPC.ACTION.AUDIO.PREVIOUS:
           this.audio.previous();
-          break;
-        case IPC.ACTION.AUDIO.PLAY:
-          this.audio.play();
           break;
         case IPC.ACTION.AUDIO.PAUSE:
           this.audio.pause();
           break;
         case IPC.ACTION.AUDIO.NEXT:
           this.audio.next();
+          break;
+        case IPC.ACTION.AUDIO.MUTE:
+          this.audio.mute();
           break;
         default:
           break;

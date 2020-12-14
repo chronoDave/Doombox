@@ -1,12 +1,13 @@
 const chokidar = process.env.NODE_ENV === 'development' ?
   require('chokidar') :
   null;
-const { app } = require('electron');
+const { app, globalShortcut } = require('electron');
 const path = require('path');
 
 const LeafDB = require('leaf-db').default;
 const debounce = require('lodash.debounce');
 
+const { pascalize } = require('@doombox-utils');
 const { TYPES, IPC } = require('@doombox-utils/types');
 const { CACHE, CONFIG, THEME } = require('@doombox-config');
 
@@ -54,6 +55,7 @@ app.on('ready', () => {
     folder: path.resolve(root, 'images')
   }));
 
+  const keybinds = config.get(TYPES.CONFIG.KEYBINDS);
   const window = Doombox.createWindow({
     ...cache.get(TYPES.CACHE.WINDOW),
     darkTheme: theme.get('variant') === 'dark',
@@ -61,7 +63,7 @@ app.on('ready', () => {
   });
 
   if (process.platform === 'darwin') {
-    Doombox.createMenuMac(window, config.get(TYPES.CONFIG.KEYBINDS));
+    Doombox.createMenuMac(window, keybinds);
   } else {
     Doombox.createMenuWindows(window);
   }
@@ -83,9 +85,31 @@ app.on('ready', () => {
 
   window.on('resize', handleResize);
   window.on('move', handleMove);
+
+  // Keybinds
+  const toAccelerator = keybind => pascalize(keybind.replace('mod', 'CommandOrControl'), '+');
+
+  globalShortcut.register(
+    toAccelerator(keybinds.playPause),
+    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.PAUSE })
+  );
+  globalShortcut.register(
+    toAccelerator(keybinds.nextSong),
+    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.NEXT })
+  );
+  globalShortcut.register(
+    toAccelerator(keybinds.previousSong),
+    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.PREVIOUS })
+  );
+  globalShortcut.register(
+    toAccelerator(keybinds.muteUnmute),
+    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.MUTE })
+  );
 });
 
 app.on('window-all-closed', () => {
+  globalShortcut.unregisterAll();
+
   app.removeAllListeners();
   app.quit();
 });
