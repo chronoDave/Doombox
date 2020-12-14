@@ -100,12 +100,20 @@ class AudioProvider extends Component {
     this.audio.on(EVENTS.AUDIO.METADATA, metadata => {
       dispatchMetadata(metadata);
 
+      const mediaMetadata = {
+        artist: useLocalizedMetadata ?
+          (metadata.artistlocalized || metadata.artist) :
+          metadata.artist,
+        title: useLocalizedMetadata ?
+          (metadata.titlelocalized || metadata.title) :
+          metadata.title,
+        album: useLocalizedMetadata ?
+          (metadata.albumlocalized || metadata.album) :
+          metadata.album,
+      };
+
       // eslint-disable-next-line no-undef
-      navigator.mediaSession.metadata = new MediaMetadata({
-        artist: useLocalizedMetadata ? metadata.artistlocalized : metadata.artist,
-        title: useLocalizedMetadata ? metadata.titlelocalized : metadata.title,
-        album: useLocalizedMetadata ? metadata.albumlocalized : metadata.album,
-      });
+      navigator.mediaSession.metadata = new MediaMetadata(mediaMetadata);
 
       const cover = metadata.covers
         .map(id => this.props.images[id])
@@ -120,9 +128,7 @@ class AudioProvider extends Component {
             reader.onloadend = () => {
               // eslint-disable-next-line no-undef
               navigator.mediaSession.metadata = new MediaMetadata({
-                artist: useLocalizedMetadata ? metadata.artistlocalized : metadata.artist,
-                title: useLocalizedMetadata ? metadata.titlelocalized : metadata.title,
-                album: useLocalizedMetadata ? metadata.albumlocalized : metadata.album,
+                ...mediaMetadata,
                 artwork: [{ src: reader.result, type: `image/${cover.file.split('.').pop()}`, sizes: '192x192' }]
               });
             };
