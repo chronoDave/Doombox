@@ -93,7 +93,8 @@ module.exports = class LibraryController {
       file,
       format,
       images: !nativeTags.APIC ? [] : nativeTags.APIC.map(image => ({
-        _id: generateUid(`${joinTags('TPE2', 'TALB', 'TIT2')}${image.type}`),
+        _id: generateUid(`${joinTags('TPE2', 'TALB')}${image.type}`),
+        _songId: generateUid(nativeTags.TIT2 || 'Unknown'),
         ...image,
         format: image.format.split('/').pop() // image/jpg => jpg
       })),
@@ -122,6 +123,7 @@ module.exports = class LibraryController {
   async insertImages(images) {
     if (images.length <= 0 || !this.folder) return Promise.resolve([]);
 
+    const ids = [];
     for (let i = 0; i < images.length; i += 1) {
       const {
         data,
@@ -131,7 +133,15 @@ module.exports = class LibraryController {
       } = images[i];
       const file = path.resolve(this.folder, `${_id}.${image.format}`);
 
-      if (!this.imageCache.some(buffer => buffer.equals(data))) {
+      if (this.imageCache.some(buffer => buffer.equals(data))) {
+        // Existing image
+        const _eId = `${_id}${_songId}`;
+
+        await this.db[TYPES.DATABASE.IMAGES].insert({ _id: _eId, file, ...image });
+
+        ids.push(_eId);
+      } else {
+        // Unique image
         this.imageCache.push(data);
 
         await this.db[TYPES.DATABASE.IMAGES].insert({ _id, file, ...image });
@@ -139,10 +149,12 @@ module.exports = class LibraryController {
           .jpeg({ quality: 90 })
           .resize(300)
           .toFile(file);
+
+        ids.push(_id);
       }
     }
 
-    return Promise.resolve(images.map(({ _id }) => _id));
+    return Promise.resolve(ids);
   }
 
   async insert(event, { payload }) {
