@@ -12,6 +12,7 @@ module.exports = ({ alias, env = {} }) => ({
   name: 'electron',
   target: 'electron-main',
   externals: {
+    sharp: 'commonjs sharp',
     fsevents: 'require("fs-events")'
   },
   mode: 'development',

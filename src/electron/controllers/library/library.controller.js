@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const sharp = require('sharp');
 const groupBy = require('lodash.groupby');
 const { parseFile } = require('music-metadata');
 
@@ -39,14 +40,12 @@ module.exports = class LibraryController {
     this.insert = this.insert.bind(this);
     this.find = this.find.bind(this);
     this.drop = this.drop.bind(this);
+
+    this.imageCache = [];
   }
 
   async parseMetadata(file) {
-    const {
-      format,
-      native,
-      common: { picture }
-    } = await parseFile(file, { skipCovers: this.skipCovers });
+    const { format, native, } = await parseFile(file, { skipCovers: this.skipCovers });
 
     const tagTypes = ['ID3v2.3', 'ID3v2.4'];
     if (!format.tagTypes.some(tagType => tagTypes.includes(tagType))) {
@@ -61,7 +60,9 @@ module.exports = class LibraryController {
         return tags
           .reduce((acc, { id, value }) => ({
             ...acc,
-            [id.toUpperCase()]: value
+            [id.toUpperCase()]: /apic/i.test(id) ?
+              [...(acc[id] || []), value] :
+              value
           }), {});
       })
       .sort()[0];
@@ -91,8 +92,8 @@ module.exports = class LibraryController {
       _labelId: generateUid(joinTags('TPE2')),
       file,
       format,
-      images: !picture ? [] : picture.map(image => ({
-        _id: generateUid(joinTags('TPE2', 'TALB', 'TIT2')),
+      images: !nativeTags.APIC ? [] : nativeTags.APIC.map(image => ({
+        _id: generateUid(`${joinTags('TPE2', 'TALB', 'TIT2')}${image.type}`),
         ...image,
         format: image.format.split('/').pop() // image/jpg => jpg
       })),
@@ -121,22 +122,27 @@ module.exports = class LibraryController {
   async insertImages(images) {
     if (images.length <= 0 || !this.folder) return Promise.resolve([]);
 
-    const ids = [];
     for (let i = 0; i < images.length; i += 1) {
-      const { data, _id, ...rest } = images[i];
-      const file = path.resolve(this.folder, `${_id}.${rest.format}`);
+      const {
+        data,
+        _id,
+        _songId,
+        ...image
+      } = images[i];
+      const file = path.resolve(this.folder, `${_id}.${image.format}`);
 
-      ids.push(_id);
+      if (!this.imageCache.some(buffer => buffer.equals(data))) {
+        this.imageCache.push(data);
 
-      try {
-        await this.db[TYPES.DATABASE.IMAGES].insert({ _id, file, ...rest });
-        fs.writeFileSync(file, data);
-      } catch (err) {
-        if (!err.message.includes('_id')) return Promise.reject(err);
+        await this.db[TYPES.DATABASE.IMAGES].insert({ _id, file, ...image });
+        await sharp(data)
+          .jpeg({ quality: 90 })
+          .resize(300)
+          .toFile(file);
       }
     }
 
-    return Promise.resolve(ids);
+    return Promise.resolve(images.map(({ _id }) => _id));
   }
 
   async insert(event, { payload }) {
@@ -159,6 +165,10 @@ module.exports = class LibraryController {
         if (this.strict) return Promise.reject(err);
       }
     }
+
+    // console.log(this.imageCache);
+
+    this.imageCache = [];
 
     const songs = await this.db[TYPES.DATABASE.SONGS].find();
     const albums = Object

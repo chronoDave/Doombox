@@ -32,7 +32,7 @@ test('[library.controller.insert] should create library', async t => {
     t.true(fs.existsSync(image), 'creates image');
     t.equal(
       fs.readFileSync(image, 'hex').slice(0, 8),
-      '89504e47', // PNG magic number
+      'ffd8ffdb', // JPG magic number
       'creates valid image'
     );
   } catch (err) {
