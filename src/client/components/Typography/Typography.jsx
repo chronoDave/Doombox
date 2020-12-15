@@ -74,10 +74,7 @@ Typography.propTypes = {
     'textSecondary',
     'disabled'
   ]),
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
+  children: PropTypes.node.isRequired,
   fontWeight: PropTypes.oneOf([300, 400, 500]),
   className: PropTypes.string,
   noWrap: PropTypes.bool,

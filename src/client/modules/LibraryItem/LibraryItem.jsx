@@ -43,7 +43,7 @@ const LibraryItem = props => {
         className={classes.header}
         onClick={() => ({
           name: primary,
-          collection: label.songs
+          collection: set(label.songs
             .map(id => songMap[id])
             .sort((a, b) => {
               if (a.metadata.date && b.metadata.date) {
@@ -56,7 +56,7 @@ const LibraryItem = props => {
               if (a.metadata.track.no < b.metadata.track.no) return -1;
               if (a.metadata.track.no > b.metadata.track.no) return 1;
               return 0;
-            })
+            }))
         })}
       >
         <Typography clamp>
