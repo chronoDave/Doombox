@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { css } from 'emotion';
 import { capitalize } from '@doombox-utils';
 
@@ -10,7 +11,8 @@ export default (styles, label) => props => {
   }
 
   const theme = useTheme();
-  return Object
+
+  return useMemo(() => Object
     .entries(styles(theme))
     .reduce((acc, [key, value]) => ({
       ...acc,
@@ -18,5 +20,5 @@ export default (styles, label) => props => {
         ...(typeof value === 'function' ? value(props) : value),
         label: label ? `${label}${capitalize(key)}` : key
       })
-    }), {});
+    }), {}), [theme, props]);
 };

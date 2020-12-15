@@ -33,6 +33,13 @@ export default makeStyles(theme => ({
     alignItems: 'flex-start',
     width: theme.mixins.library.item.xs,
     height: theme.mixins.library.item.xs,
+    transition: theme.transition.create(
+      ['background-color'],
+      { duration: theme.transition.duration.shortest }
+    ),
+    '&:hover': {
+      backgroundColor: theme.palette.grey[2]
+    },
     [theme.breakpoints.join(
       theme.breakpoints.create(
         theme.breakpoints.queries.minWidth,

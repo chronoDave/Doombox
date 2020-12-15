@@ -103,14 +103,21 @@ const VirtualList = forwardRef((props, outerRef) => {
     <div
       ref={ref}
       className={classes.root}
-      onScroll={event => setViewPair(getViewPair({
-        overscroll,
-        height,
-        container: {
-          y: event.currentTarget.scrollTop,
-          height: event.currentTarget.getBoundingClientRect().height
-        }
-      }))}
+      onScroll={event => {
+        const newViewPair = getViewPair({
+          overscroll,
+          height,
+          container: {
+            y: event.currentTarget.scrollTop,
+            height: event.currentTarget.getBoundingClientRect().height
+          }
+        });
+
+        if (
+          newViewPair[0] !== viewPair[0] ||
+          newViewPair[1] !== viewPair[1]
+        ) setViewPair(newViewPair);
+      }}
     >
       <div ref={refContainer} className={classes.container}>
         {data.slice(viewPair[0], viewPair[1]).map((childData, i) => {

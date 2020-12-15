@@ -10,6 +10,7 @@ import useTypographyStyles from './Typography.styles';
 
 const Typography = forwardRef((props, ref) => {
   const {
+    element,
     variant,
     children,
     className,
@@ -22,29 +23,43 @@ const Typography = forwardRef((props, ref) => {
   } = props;
 
   const classes = useTypographyStyles({
+    variant,
     clamp,
     align,
     color,
     fontWeight
   });
 
-  const getElement = () => (['body', 'subtitle', 'caption'].includes(variant) ? 'p' : variant);
+  const getElement = () => (
+    ['body', 'subtitle', 'caption']
+      .includes(variant) ? 'p' : variant
+  );
 
   return (
-    createElement(getElement(), {
-      className: cx({
-        [classes[variant]]: variant,
-        [classes.clamp]: clamp,
-        [classes.noWrap]: noWrap,
-        [classes.align]: align,
-      }, classes.root, className),
-      ...rest,
-      ref
-    }, children)
+    createElement(
+      element || getElement(),
+      {
+        className: cx(
+          classes.root,
+          classes.variant, {
+            [classes.clamp]: clamp,
+            [classes.noWrap]: noWrap
+          }, className
+        ),
+        ...rest,
+        ref
+      },
+      children
+    )
   );
 });
 
+Typography.defaultProps = {
+  element: null
+};
+
 Typography.propTypes = {
+  element: PropTypes.string,
   align: PropTypes.oneOf([
     'left',
     'center',

@@ -9,7 +9,9 @@
     "general": "general",
     "file": "file",
     "help": "help",
-    "playlist": "playlist"
+    "playlist": "playlist",
+    "release": "release",
+    "duration": "duration"
   },
   "action": {
     "common": {

@@ -4,12 +4,7 @@ import { formatTime } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  ButtonBase,
-  Typography,
-  Table,
-  TablePair
-} from '../../components';
+import { ButtonBase, Typography, TablePair } from '../../components';
 
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
@@ -29,7 +24,7 @@ const LibraryItem = props => {
     primary,
     secondary
   } = props;
-  const { getLocalizedTag } = useTranslation();
+  const { t, getLocalizedTag } = useTranslation();
   const { set } = useAudio();
   const classes = useLibraryItemStyles();
   const isLg = useMediaQuery(({
@@ -103,11 +98,23 @@ const LibraryItem = props => {
                 <Typography color="textSecondary" clamp>
                   {getLocalizedTag(album, 'artist')}
                 </Typography>
-                <Table className={classes.table}>
-                  <TablePair variant="subtitle" label="Release" value={album.date || album.year} />
-                  <TablePair variant="subtitle" label="Duration" value={formatTime(album.duration)} />
-                  <TablePair variant="subtitle" label="Tracks" value={album.songs.length} />
-                </Table>
+                <TablePair
+                  className={classes.table}
+                  variant="subtitle"
+                  values={[{
+                    label: t('common.release', { transform: 'capitalize' }),
+                    value: album.date || album.year
+                  }, {
+                    label: t('common.duration', { transform: 'capitalize' }),
+                    value: formatTime(album.duration)
+                  }, {
+                    label: t('common.track', {
+                      transform: 'capitalize',
+                      plural: album.songs.length !== 1
+                    }),
+                    value: album.songs.length
+                  }]}
+                />
               </div>
             )}
           </ButtonBase>

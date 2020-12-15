@@ -9,7 +9,9 @@
     "general": "algemeen",
     "file": "bestand",
     "help": "help",
-    "playlist": "afspeellijst"
+    "playlist": "afspeellijst",
+    "release": "uitgave",
+    "duration": "duur"
   },
   "action": {
     "common": {

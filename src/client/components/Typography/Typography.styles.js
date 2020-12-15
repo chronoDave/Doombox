@@ -9,19 +9,13 @@ export default makeStyles(theme => {
   };
 
   return ({
-    h1: theme.typography.h1,
-    h2: theme.typography.h2,
-    h3: theme.typography.h3,
-    h4: theme.typography.h4,
-    h5: theme.typography.h5,
-    h6: theme.typography.h6,
-    body: theme.typography.body,
-    subtitle: theme.typography.subtitle,
-    caption: theme.typography.caption,
-    align: ({ align }) => ({
-      textAlign: align
-    }),
-    root: ({ fontWeight, color }) => ({
+    variant: ({ variant }) => theme.typography[variant],
+    root: ({
+      align,
+      fontWeight,
+      color,
+    }) => ({
+      textAlign: align,
       color: getColor(color),
       fontWeight: fontWeight || 'initial',
       margin: 0
