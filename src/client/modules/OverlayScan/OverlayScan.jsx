@@ -1,6 +1,11 @@
 import { ipcRenderer } from 'electron';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef
+} from 'react';
 import PropTypes from 'prop-types';
 import { formatTime } from '@doombox-utils';
 import { IPC } from '@doombox-utils/types';
@@ -21,6 +26,8 @@ const OverlayScan = ({ open }) => {
   const classes = useOverlayScanStyles();
   const { t } = useTranslation();
 
+  const counter = useRef();
+
   useEffect(() => {
     ipcRenderer.on(
       IPC.CHANNEL.SCAN,
@@ -31,10 +38,12 @@ const OverlayScan = ({ open }) => {
   }, []);
 
   useEffect(() => {
-    const counter = setInterval(() => setCount(newCount => newCount + 1), 1000);
+    if (open) {
+      counter.current = setInterval(() => setCount(newCount => newCount + 1), 1000);
+    }
 
-    return () => clearInterval(counter);
-  }, []);
+    return () => counter.current && clearInterval(counter.current);
+  }, [open]);
 
   const value = progress.total > 0 ?
     Math.round((progress.index / progress.total) * 100) :

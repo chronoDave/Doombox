@@ -64,3 +64,26 @@ export const propSong = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   _labelId: PropTypes.string.isRequired
 });
+
+export const propAlbum = PropTypes.shape({
+  artist: PropTypes.string,
+  album: PropTypes.string,
+  artistlocalized: PropTypes.string,
+  albumlocalized: PropTypes.string,
+  cdid: PropTypes.string,
+  covers: PropTypes.arrayOf(PropTypes.string),
+  date: PropTypes.string,
+  duration: PropTypes.number,
+  songs: PropTypes.arrayOf(PropTypes.string),
+  year: PropTypes.number,
+  _id: PropTypes.string.isRequired
+});
+
+export const propLabel = PropTypes.shape({
+  albums: PropTypes.arrayOf(PropTypes.string),
+  duration: PropTypes.number,
+  label: PropTypes.string,
+  labellocalized: PropTypes.string,
+  songs: PropTypes.arrayOf(PropTypes.string),
+  _id: PropTypes.string
+});

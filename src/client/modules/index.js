@@ -2,6 +2,7 @@ export { App } from './App';
 export { AppBar } from './AppBar';
 export { Library } from './Library';
 export { LibraryBar } from './LibraryBar';
+export { LibraryItem } from './LibraryItem';
 export { OverlayScan } from './OverlayScan';
 export { OverlaySettings } from './OverlaySettings';
 export { Player } from './Player';

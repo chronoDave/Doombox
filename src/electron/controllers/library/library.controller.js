@@ -178,8 +178,6 @@ module.exports = class LibraryController {
       }
     }
 
-    // console.log(this.imageCache);
-
     this.imageCache = [];
 
     const songs = await this.db[TYPES.DATABASE.SONGS].find();

@@ -15,3 +15,5 @@ export { Popper } from './Popper';
 export { Slider } from './Slider';
 export { Typography } from './Typography';
 export { VirtualList } from './VirtualList';
+export { Table } from './Table';
+export { TablePair } from './TablePair';

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 // Styles
 import useVirtualListStyles from './VirtualList.styles';
 
-const getViewTuple = ({ container, height, overscroll }) => {
+const getViewPair = ({ container, height, overscroll }) => {
   /**
    * Find smallest cumulative height that's larger than the current scroll position,
    * and remove 1, as the previous item is still (partly) visible
@@ -50,7 +50,7 @@ const VirtualList = forwardRef((props, outerRef) => {
     itemHeight,
     children
   } = props;
-  const [viewTuple, setViewTuple] = useState([0, 0]);
+  const [viewPair, setViewPair] = useState([0, 0]);
   const [height, setHeight] = useState({
     children: [],
     cumulative: [],
@@ -88,7 +88,7 @@ const VirtualList = forwardRef((props, outerRef) => {
 
   useEffect(() => {
     if (ref && ref.current) {
-      setViewTuple(getViewTuple({
+      setViewPair(getViewPair({
         overscroll,
         height,
         container: {
@@ -103,7 +103,7 @@ const VirtualList = forwardRef((props, outerRef) => {
     <div
       ref={ref}
       className={classes.root}
-      onScroll={event => setViewTuple(getViewTuple({
+      onScroll={event => setViewPair(getViewPair({
         overscroll,
         height,
         container: {
@@ -113,15 +113,15 @@ const VirtualList = forwardRef((props, outerRef) => {
       }))}
     >
       <div ref={refContainer} className={classes.container}>
-        {data.slice(viewTuple[0], viewTuple[1]).map((childData, i) => {
-          const index = viewTuple[0] + i;
+        {data.slice(viewPair[0], viewPair[1]).map((childData, i) => {
+          const index = viewPair[0] + i;
 
           return children({
             index,
             data: childData,
             style: {
               position: 'absolute',
-              top: height.cumulative[index],
+              top: Number.isFinite(height.cumulative[index]) ? height.cumulative[index] : 0,
               width: '100%',
               height: height.children[index]
             }

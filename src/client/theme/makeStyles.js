@@ -10,7 +10,6 @@ export default (styles, label) => props => {
   }
 
   const theme = useTheme();
-
   return Object
     .entries(styles(theme))
     .reduce((acc, [key, value]) => ({

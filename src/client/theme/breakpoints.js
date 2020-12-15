@@ -2,7 +2,8 @@ const values = {
   xs: 320,
   sm: 480,
   md: 720,
-  lg: 1280
+  lg: 960,
+  xl: 1280
 };
 
 const queries = {

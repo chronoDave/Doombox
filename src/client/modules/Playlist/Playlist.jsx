@@ -10,6 +10,9 @@ import { PlaylistItem } from '../PlaylistItem';
 // Hooks
 import { useMediaQuery, useTranslation } from '../../hooks';
 
+// Theme
+import { mixins } from '../../theme';
+
 // Validation
 import { propSong } from '../../validation/propTypes';
 
@@ -22,7 +25,11 @@ const Playlist = ({ songs, current }) => {
     queries,
     values
   }) => create(queries.minWidth, values.sm));
-  const itemHeight = useMemo(() => (isWidthSm ? 48 : 24), [isWidthSm]);
+  const itemHeight = useMemo(() => (
+    isWidthSm ?
+      mixins.playlist.item.sm :
+      mixins.playlist.item.xs
+  ), [isWidthSm]);
 
   useLayoutEffect(() => {
     if (ref.current) {

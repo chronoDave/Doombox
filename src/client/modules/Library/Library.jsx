@@ -5,22 +5,43 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  VirtualList,
-  ButtonBase,
-  Typography,
-} from '../../components';
+import { VirtualList } from '../../components';
+
+import { LibraryItem } from '../LibraryItem';
 
 // Hooks
-import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
+import { useTranslation, useMediaQuery } from '../../hooks';
 
 // Actions
 import { ipcFind } from '../../actions';
 
-// Styles
-import useLibraryStyles from './Library.styles';
+// Theme
+import { mixins } from '../../theme';
 
-const Library = ({ songMap, labelMap, labels }) => {
+// Validation
+import { propAlbum } from '../../validation/propTypes';
+
+const Library = ({ labelMap, labels }) => {
+  const { t, getLocalizedTag } = useTranslation();
+  const isSm = useMediaQuery(({
+    join,
+    create,
+    queries,
+    values
+  }) => join(
+    create(queries.minWidth, values.sm),
+    create(queries.minHeight, values.sm)
+  ));
+  const isLg = useMediaQuery(({
+    join,
+    create,
+    queries,
+    values
+  }) => join(
+    create(queries.minWidth, values.lg),
+    create(queries.minHeight, values.md)
+  ));
+
   useEffect(() => {
     ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['file', '_id'] });
     ipcFind(IPC.CHANNEL.LIBRARY, {}, {
@@ -48,113 +69,54 @@ const Library = ({ songMap, labelMap, labels }) => {
     });
   }, []);
 
-  const { t, getLocalizedTag } = useTranslation();
-  const { set } = useAudio();
-  const isSmall = useMediaQuery(breakpoints => breakpoints.create(
-    breakpoints.queries.minWidth,
-    breakpoints.values.sm
-  ));
-
-  const classes = useLibraryStyles();
-
   return (
     <VirtualList
       data={labels}
       itemHeight={({ data, container: { width } }) => {
-        const rows = Math.floor(width / 75);
+        const itemHeight = isSm ?
+          mixins.library.item.sm :
+          mixins.library.item.xs;
+        const itemWidth = isLg ?
+          mixins.library.item.lg :
+          itemHeight;
+
+        const rows = Math.floor(width / itemWidth);
         const columns = Math.ceil(data.albums.length / rows);
 
-        return 35 + columns * 75 + 8;
+        return columns * itemHeight + mixins.library.header;
       }}
     >
-      {({ data, style }) => {
-        const labelPrimary = [
-          `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
-          `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
-          formatTime(data.duration || 0)
-        ].join(' \u2022 ');
-
-        return (
-          <div
-            key={data._id}
-            className={classes.itemRoot}
-            style={style}
-          >
-            <ButtonBase
-              className={classes.itemLabel}
-              onClick={() => set({
-                name: getLocalizedTag(data, 'label'),
-                collection: labelMap[data._id].songs
-                  .map(id => songMap[id])
-                  .sort((a, b) => {
-                    if (a.metadata.date && b.metadata.date) {
-                      if (a.metadata.date < b.metadata.date) return -1;
-                      if (a.metadata.date > b.metadata.date) return 1;
-                    }
-                    if (a.metadata.year < b.metadata.year) return -1;
-                    if (a.metadata.disc.no < b.metadata.disc.no) return -1;
-                    if (a.metadata.disc.no > b.metadata.disc.no) return 1;
-                    if (a.metadata.track.no < b.metadata.track.no) return -1;
-                    if (a.metadata.track.no > b.metadata.track.no) return 1;
-                    return 0;
-                  })
-              })}
-            >
-              <Typography clamp>
-                {getLocalizedTag(data, 'label')}
-              </Typography>
-              {!isSmall && (
-                <Typography clamp variant="caption">
-                  {labelPrimary}
-                </Typography>
-              )}
-            </ButtonBase>
-            <div className={classes.itemAlbums}>
-              {data.albums.map(album => (
-                <ButtonBase
-                  key={album._id}
-                  className={classes.itemButton}
-                  onClick={() => set({
-                    name: getLocalizedTag(album, 'album'),
-                    collection: album.songs
-                      .map(id => songMap[id])
-                      .sort((a, b) => {
-                        if (a.metadata.disc.no < b.metadata.disc.no) return -1;
-                        if (a.metadata.disc.no > b.metadata.disc.no) return 1;
-                        if (a.metadata.track.no < b.metadata.track.no) return -1;
-                        if (a.metadata.track.no > b.metadata.track.no) return 1;
-                        return 0;
-                      })
-                  })}
-                >
-                  <img
-                    src={album.cover}
-                    alt={getLocalizedTag(album, 'album')}
-                    className={classes.itemCover}
-                    decoding="async"
-                  />
-                </ButtonBase>
-              ))}
-            </div>
-          </div>
-        );
-      }}
+      {({ data, style }) => (
+        <LibraryItem
+          key={data._id}
+          style={style}
+          label={labelMap[data._id]}
+          albums={data.albums}
+          primary={getLocalizedTag(data, 'label')}
+          secondary={[
+            `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
+            `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
+            formatTime(data.duration || 0)
+          ].join(' \u2022 ')}
+        />
+      )}
     </VirtualList>
   );
 };
 
 Library.propTypes = {
-  songMap: PropTypes.shape({}).isRequired,
   labelMap: PropTypes.shape({}).isRequired,
   labels: PropTypes.arrayOf(PropTypes.shape({
-    albums: PropTypes.arrayOf(PropTypes.shape({
-      cover: PropTypes.string
-    }))
+    duration: PropTypes.number,
+    label: PropTypes.string,
+    labellocalized: PropTypes.string,
+    songs: PropTypes.arrayOf(PropTypes.string),
+    _id: PropTypes.string,
+    albums: PropTypes.arrayOf(propAlbum)
   })).isRequired
 };
 
 const mapStateToProps = state => ({
-  songMap: state.entities.songs.map,
   labelMap: state.entities.labels.map,
   labels: state.entities.labels.list
     .map(({ albums, ...restLabel }) => ({
