@@ -66,4 +66,5 @@ Icon.propTypes = {
   type: PropTypes.oneOf(Object.keys(icons)).isRequired
 };
 
+Icon.displayName = 'Icon';
 export default Icon;

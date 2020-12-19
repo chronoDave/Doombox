@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatTime } from '@doombox-utils';
+import { formatTime, sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -41,22 +41,16 @@ const LibraryItem = props => {
     <div className={classes.root} style={style}>
       <ButtonBase
         className={classes.header}
-        onClick={() => ({
+        onClick={() => set({
           name: primary,
-          collection: set(label.songs
-            .map(id => songMap[id])
-            .sort((a, b) => {
-              if (a.metadata.date && b.metadata.date) {
-                if (a.metadata.date < b.metadata.date) return -1;
-                if (a.metadata.date > b.metadata.date) return 1;
-              }
-              if (a.metadata.year < b.metadata.year) return -1;
-              if (a.metadata.disc.no < b.metadata.disc.no) return -1;
-              if (a.metadata.disc.no > b.metadata.disc.no) return 1;
-              if (a.metadata.track.no < b.metadata.track.no) return -1;
-              if (a.metadata.track.no > b.metadata.track.no) return 1;
-              return 0;
-            }))
+          collection: label.songs
+            .map(songId => songMap[songId])
+            .sort((a, b) => sortMetadata(a, b, [
+              'date',
+              'year',
+              'disc',
+              'track'
+            ]))
         })}
       >
         <Typography clamp>
@@ -74,14 +68,8 @@ const LibraryItem = props => {
             onClick={() => set({
               name: getLocalizedTag(album, 'album'),
               collection: album.songs
-                .map(id => songMap[id])
-                .sort((a, b) => {
-                  if (a.metadata.disc.no < b.metadata.disc.no) return -1;
-                  if (a.metadata.disc.no > b.metadata.disc.no) return 1;
-                  if (a.metadata.track.no < b.metadata.track.no) return -1;
-                  if (a.metadata.track.no > b.metadata.track.no) return 1;
-                  return 0;
-                })
+                .map(songId => songMap[songId])
+                .sort((a, b) => sortMetadata(a, b, ['disc', 'track']))
             })}
           >
             <img
@@ -133,8 +121,9 @@ LibraryItem.propTypes = {
   secondary: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-  songMap: state.entities.songs.map
+const mapStateToProps = (state, props) => ({
+  songMap: state.entities.songs.map,
+  label: state.entities.labels.map[props.id]
 });
 
 export default connect(

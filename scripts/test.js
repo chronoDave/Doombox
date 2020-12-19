@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
-const { walk } = require('../src/utils');
+const walk = require('@chronocide/fs-walk').default;
 
 require('@babel/register')({
   presets: ['@babel/preset-env'],
@@ -18,5 +18,6 @@ require('@babel/register')({
 });
 require('@babel/polyfill');
 
-const files = walk(process.argv[2], process.argv[3]);
-files.forEach(file => require(file));
+walk(process.argv[2])
+  .filter(file => /\.spec\.js$/.test(file))
+  .forEach(file => require(file));

@@ -10,6 +10,6 @@ const alias = {
 };
 
 module.exports = (env, argv) => [
-  createConfigClient({ alias, env, argv }),
-  createConfigElectron(({ alias, env }))
+  createConfigElectron(({ alias, env })),
+  createConfigClient({ alias, env, argv })
 ];

@@ -12,8 +12,8 @@ module.exports = ({ alias, env = {} }) => ({
   name: 'electron',
   target: 'electron-main',
   externals: {
-    sharp: 'commonjs sharp',
-    fsevents: 'require("fs-events")'
+    fsevents: 'require("fs-events")',
+    sharp: 'commonjs2 sharp'
   },
   mode: 'development',
   resolve: {
@@ -50,11 +50,16 @@ module.exports = ({ alias, env = {} }) => ({
       }
     }
   },
+  module: {
+    rules: [{
+      test: /\.node$/,
+      loader: 'node-loader'
+    }]
+  },
   plugins: [
     new FsWebpackPlugin([{
       type: 'delete',
-      root: outputPath,
-      files: null
+      files: 'build/src'
     }], { verbose: true }),
     env.analyze && new BundleAnalyzerPlugin({ analyzerPort: 7777 })
   ].filter(plugin => plugin)

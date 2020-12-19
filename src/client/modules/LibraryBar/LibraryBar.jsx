@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import { shuffle } from '@doombox-utils';
+import { shuffle, sortMetadata } from '@doombox-utils';
 import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
@@ -87,26 +87,13 @@ const LibraryBar = ({ songs }) => {
           })}
           onClick={() => set(({
             name: t('common.library', { transform: 'pascal' }),
-            collection: songs.sort((a, b) => {
-              const aAlbumartist = (a.metadata.albumartist || '').toLowerCase();
-              const bAlbumartist = (b.metadata.albumartist || '').toLowerCase();
-              const aDate = (a.metadata.date || '').toLowerCase();
-              const bDate = (b.metadata.date || '').toLowerCase();
-              const aDisc = (a.metadata.disc.no || 1);
-              const bDisc = (b.metadata.disc.no || 1);
-              const aTrack = (a.metadata.track.no || 1);
-              const bTrack = (b.metadata.track.no || 1);
-
-              if (aAlbumartist < bAlbumartist) return -1;
-              if (aAlbumartist > bAlbumartist) return 1;
-              if (aDate < bDate) return -1;
-              if (aDate > bDate) return 1;
-              if (aDisc < bDisc) return -1;
-              if (aDisc > bDisc) return 1;
-              if (aTrack < bTrack) return -1;
-              if (aTrack > bTrack) return 1;
-              return 0;
-            })
+            collection: songs.sort((a, b) => sortMetadata(a, b, [
+              'albumartist',
+              'year',
+              'date',
+              'disc',
+              'track'
+            ]))
           }))}
         />
         <MenuItem

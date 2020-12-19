@@ -40,8 +40,9 @@ const Typography = forwardRef((props, ref) => {
       element || getElement(),
       {
         className: cx(
+          classes.variant,
           classes.root,
-          classes.variant, {
+          {
             [classes.clamp]: clamp,
             [classes.noWrap]: noWrap
           }, className
@@ -94,4 +95,5 @@ Typography.defaultProps = {
   clamp: null
 };
 
+Typography.displayName = 'Typography';
 export default Typography;

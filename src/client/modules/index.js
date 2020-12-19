@@ -7,5 +7,7 @@ export { OverlayScan } from './OverlayScan';
 export { OverlaySettings } from './OverlaySettings';
 export { Player } from './Player';
 export { PlayerControls } from './PlayerControls';
+export { PlayerSlider } from './PlayerSlider';
+export { PlayerTime } from './PlayerTime';
 export { Playlist } from './Playlist';
 export { PlaylistTitle } from './PlaylistTitle';

@@ -5,8 +5,8 @@ const generateUid = require('./generateUid');
 const getCumulative = require('./getCumulative');
 const pascalize = require('./pascalize');
 const shuffle = require('./shuffle');
+const sortMetadata = require('./sortMetadata');
 const toArray = require('./toArray');
-const walk = require('./walk');
 const zPad = require('./zPad');
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
   getCumulative,
   pascalize,
   shuffle,
+  sortMetadata,
   toArray,
-  walk,
   zPad
 };

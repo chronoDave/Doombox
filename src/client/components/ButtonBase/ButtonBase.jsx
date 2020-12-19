@@ -43,4 +43,5 @@ ButtonBase.propTypes = {
   children: PropTypes.node.isRequired
 };
 
+ButtonBase.displayName = 'ButtonBase';
 export default ButtonBase;

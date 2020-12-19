@@ -1,4 +1,4 @@
-name: Lint, Test & Build
+name: doombox
 on: [push]
 env:
   WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}

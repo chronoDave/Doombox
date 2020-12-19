@@ -140,7 +140,7 @@ const VirtualList = forwardRef((props, outerRef) => {
 });
 
 VirtualList.defaultProps = {
-  overscroll: 1
+  overscroll: 0
 };
 
 VirtualList.propTypes = {
@@ -153,4 +153,5 @@ VirtualList.propTypes = {
   children: PropTypes.func.isRequired
 };
 
+VirtualList.displayName = 'VirtualList';
 export default VirtualList;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { IPC } from '@doombox-utils/types';
-import { formatTime } from '@doombox-utils';
+import { formatTime, sortMetadata } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,7 +21,7 @@ import { mixins } from '../../theme';
 // Validation
 import { propAlbum } from '../../validation/propTypes';
 
-const Library = ({ labelMap, labels }) => {
+const Library = ({ labels }) => {
   const { t, getLocalizedTag } = useTranslation();
   const isSm = useMediaQuery(({
     join,
@@ -90,7 +90,7 @@ const Library = ({ labelMap, labels }) => {
         <LibraryItem
           key={data._id}
           style={style}
-          label={labelMap[data._id]}
+          id={data._id}
           albums={data.albums}
           primary={getLocalizedTag(data, 'label')}
           secondary={[
@@ -105,7 +105,6 @@ const Library = ({ labelMap, labels }) => {
 };
 
 Library.propTypes = {
-  labelMap: PropTypes.shape({}).isRequired,
   labels: PropTypes.arrayOf(PropTypes.shape({
     duration: PropTypes.number,
     label: PropTypes.string,
@@ -117,7 +116,6 @@ Library.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  labelMap: state.entities.labels.map,
   labels: state.entities.labels.list
     .map(({ albums, ...restLabel }) => ({
       albums: albums

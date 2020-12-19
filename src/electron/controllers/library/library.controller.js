@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
+const walk = require('@chronocide/fs-walk').default;
 const sharp = require('sharp');
 const groupBy = require('lodash.groupby');
 const { parseFile } = require('music-metadata');
 
-const { walk, toArray, generateUid } = require('@doombox-utils');
+const { toArray, generateUid } = require('@doombox-utils');
 const { IPC, TYPES } = require('@doombox-utils/types');
 
 module.exports = class LibraryController {
@@ -159,7 +160,9 @@ module.exports = class LibraryController {
 
   async insert(event, { payload }) {
     const files = toArray(payload)
-      .map(folder => walk(folder, this.fileTypes))
+      .map(folder => walk(folder)
+        .filter(file => this.fileTypes
+          .some(fileType => file.includes(fileType))))
       .flat();
 
     for (let i = 0, total = files.length; i < total; i += 1) {

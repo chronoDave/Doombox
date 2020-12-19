@@ -6,11 +6,7 @@ import { makeStyles } from '../../theme';
 import backgroundDefault from '../../assets/images/backgroundDefault.png';
 
 export default makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  cover: ({ cover = {} }) => ({
+  root: ({ cover = {} }) => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundImage: theme.createImage((cover.file ?
@@ -58,7 +54,7 @@ export default makeStyles(theme => ({
       height: theme.mixins.player.md.height
     }
   }),
-  coverTitle: {
+  title: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

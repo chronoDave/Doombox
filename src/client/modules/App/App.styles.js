@@ -14,7 +14,7 @@ export default makeStyles(theme => ({
     minHeight: 0,
     position: 'relative'
   },
-  player: {
+  controller: {
     display: 'flex',
     flexDirection: 'column',
     width: theme.mixins.player.xs.width,
@@ -30,12 +30,6 @@ export default makeStyles(theme => ({
     )]: {
       width: theme.mixins.player.md.width
     }
-  },
-  playlist: {
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'auto',
-    flexGrow: 1
   },
   library: {
     display: 'flex',

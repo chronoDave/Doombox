@@ -17,7 +17,10 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
     extensions: ['.js', '.jsx'],
     alias
   },
-  entry: path.resolve(__dirname, 'src/client/index.jsx'),
+  entry: [
+    argv.mode !== 'production' && 'react-devtools',
+    path.resolve(__dirname, 'src/client/index.jsx'),
+  ].filter(entry => entry),
   output: {
     path: outputPath,
     filename: '[name].bundle.js'
@@ -52,7 +55,7 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
     rules: [{
       test: /\.(js|jsx)$/,
       include: [path.resolve(__dirname, 'src/client')],
-      exclude: [/\.(spec\.js)$/],
+      exclude: [/\.spec\.js$/],
       loader: 'babel-loader',
       options: {
         plugins: [
@@ -80,18 +83,16 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
   plugins: [
     new FsWebpackPlugin([{
       type: 'delete',
-      root: outputPath,
-      files: null
+      files: 'build/client'
     }, {
       type: 'copy',
-      root: __dirname,
-      files: 'src/client/assets/fonts/README.md',
-      to: 'build/client/assets/fonts'
-    }, {
-      type: 'copy',
-      root: __dirname,
-      files: 'src/client/assets/images/README.md',
-      to: 'build/client/assets/images'
+      files: [{
+        from: 'src/client/assets/fonts/README.md',
+        to: 'build/client/assets/fonts'
+      }, {
+        from: 'src/client/assets/images/README.md',
+        to: 'build/client/assets/images'
+      }]
     }], { verbose: true }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/client/index.html'),

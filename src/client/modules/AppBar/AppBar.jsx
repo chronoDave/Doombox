@@ -42,7 +42,12 @@ import useAppBarStyles from './AppBar.styles';
 
 const AppBar = props => {
   const {
-    metadata,
+    title,
+    titlelocalized,
+    artist,
+    artistlocalized,
+    album,
+    albumlocalized,
     keybinds,
     dispatchOverlay,
     folders
@@ -128,17 +133,18 @@ const AppBar = props => {
   };
 
   useEffect(() => {
-    if (metadata.artist || metadata.title || metadata.album) {
-      const artist = getLocalizedTag(metadata, 'artist') || 'Unknown';
-      const title = getLocalizedTag(metadata, 'title') || 'Unknown';
-      const album = getLocalizedTag(metadata, 'album') || 'Unknown';
-
-      const newAppTitle = `${artist} - ${title} (${album}) - Doombox`;
+    if (artist || title || album) {
+      const newAppTitle = [
+        getLocalizedTag({ artistlocalized, artist }, 'artist') || 'Unknown',
+        getLocalizedTag({ titlelocalized, title }, 'title') || 'Unknown',
+        getLocalizedTag({ albumlocalized, album }, 'album') || 'Unknown',
+        'Doombox'
+      ].join(' - ');
 
       setAppTitle(newAppTitle);
       setWindowTitle(newAppTitle);
     }
-  }, [getLocalizedTag, metadata]);
+  }, [album, albumlocalized, artist, artistlocalized, getLocalizedTag, title, titlelocalized]);
 
   return (
     <Fragment>
@@ -215,40 +221,34 @@ const AppBar = props => {
 };
 
 AppBar.defaultProps = {
-  metadata: {
-    title: null,
-    titlelocalized: null,
-    artist: null,
-    artistlocalized: null,
-    album: null,
-    albumlocalized: null,
-  },
+  title: null,
+  titlelocalized: null,
+  artist: null,
+  artistlocalized: null,
+  album: null,
+  albumlocalized: null,
   folders: []
 };
 
 AppBar.propTypes = {
-  metadata: PropTypes.shape({
-    title: PropTypes.string,
-    titlelocalized: PropTypes.string,
-    artist: PropTypes.string,
-    artistlocaltitlelocalized: PropTypes.string,
-    album: PropTypes.string,
-    albumlocaltitlelocalized: PropTypes.string,
-  }),
+  title: PropTypes.string,
+  titlelocalized: PropTypes.string,
+  artist: PropTypes.string,
+  artistlocalized: PropTypes.string,
+  album: PropTypes.string,
+  albumlocalized: PropTypes.string,
   keybinds: propKeybinds.isRequired,
   dispatchOverlay: PropTypes.func.isRequired,
   folders: PropTypes.arrayOf(PropTypes.string)
 };
 
 const mapStateToProps = state => ({
-  metadata: {
-    title: state.player.metadata.title,
-    titlelocalized: state.player.metadata.titlelocalized,
-    artist: state.player.metadata.artist,
-    artistlocalized: state.player.metadata.artistlocalized,
-    album: state.player.metadata.album,
-    albumlocalized: state.player.metadata.albumlocalized,
-  },
+  title: state.player.metadata.title,
+  titlelocalized: state.player.metadata.titlelocalized,
+  artist: state.player.metadata.artist,
+  artistlocalized: state.player.metadata.artistlocalized,
+  album: state.player.metadata.album,
+  albumlocalized: state.player.metadata.albumlocalized,
   folders: state.cache.folders,
   keybinds: state.config.keybinds
 });

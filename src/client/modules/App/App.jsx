@@ -4,8 +4,12 @@ import { WINDOWS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
+import { Hidden } from '../../components';
+
 import { AppBar } from '../AppBar';
 import { Player } from '../Player';
+import { PlayerSlider } from '../PlayerSlider';
+import { PlayerControls } from '../PlayerControls';
 import { Playlist } from '../Playlist';
 import { PlaylistTitle } from '../PlaylistTitle';
 import { Library } from '../Library';
@@ -23,12 +27,14 @@ const App = ({ overlay }) => {
     <div className={classes.root}>
       {process.platform !== 'darwin' && <AppBar />}
       <div className={classes.body}>
-        <div className={classes.player}>
+        <div className={classes.controller}>
           <Player />
-          <div className={classes.playlist}>
-            <PlaylistTitle />
-            <Playlist />
-          </div>
+          <PlayerSlider />
+          <Hidden on={({ create, values, queries }) => create(queries.minWidth, values.sm)}>
+            <PlayerControls />
+          </Hidden>
+          <PlaylistTitle />
+          <Playlist />
         </div>
         <div className={classes.library}>
           <LibraryBar />

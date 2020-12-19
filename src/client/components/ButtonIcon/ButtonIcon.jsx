@@ -42,4 +42,5 @@ ButtonIcon.propTypes = {
   small: PropTypes.bool
 };
 
+ButtonIcon.displayName = 'ButtonIcon';
 export default ButtonIcon;
