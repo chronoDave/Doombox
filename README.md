@@ -2,7 +2,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Version@master](https://img.shields.io/github/package-json/v/chronoDave/Doombox/master?label=Doombox%40master)](https://github.com/chronoDave/Doombox)
-![Lint, Test & Build](https://github.com/chronoDave/Doombox/workflows/Lint,%20Test%20&%20Build/badge.svg?branch=master)
+![doombox](https://github.com/chronoDave/Doombox/workflows/doombox/badge.svg?branch=master)
 
 A music player designed with large music collections in mind.
 
