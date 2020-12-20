@@ -25,7 +25,9 @@ const App = ({ overlay }) => {
 
   return (
     <div className={classes.root}>
-      {process.platform !== 'darwin' && <AppBar />}
+      <Hidden platform="darwin">
+        <AppBar />
+      </Hidden>
       <div className={classes.body}>
         <div className={classes.controller}>
           <Player />

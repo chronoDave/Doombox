@@ -50,7 +50,8 @@ const AppBar = props => {
     albumlocalized,
     keybinds,
     dispatchOverlay,
-    folders
+    folders,
+    className
   } = props;
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState({ id: 'file' });
@@ -148,7 +149,7 @@ const AppBar = props => {
 
   return (
     <Fragment>
-      <div className={classes.root}>
+      <div className={cx(classes.root, className)}>
         <div className={classes.icon}>
           <IconApp />
         </div>
@@ -227,6 +228,7 @@ AppBar.defaultProps = {
   artistlocalized: null,
   album: null,
   albumlocalized: null,
+  className: '',
   folders: []
 };
 
@@ -239,7 +241,8 @@ AppBar.propTypes = {
   albumlocalized: PropTypes.string,
   keybinds: propKeybinds.isRequired,
   dispatchOverlay: PropTypes.func.isRequired,
-  folders: PropTypes.arrayOf(PropTypes.string)
+  folders: PropTypes.arrayOf(PropTypes.string),
+  className: PropTypes.string
 };
 
 const mapStateToProps = state => ({
