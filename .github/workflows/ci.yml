@@ -45,5 +45,5 @@ jobs:
         if: failure()
         run: |
           curl https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh --output webhook.sh
-          chmod +x discord_github.sh
+          chmod +x webhook.sh
           ./webhook.sh failure

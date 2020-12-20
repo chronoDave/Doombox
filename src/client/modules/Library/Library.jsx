@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { IPC } from '@doombox-utils/types';
-import { formatTime, sortMetadata } from '@doombox-utils';
+import { formatTime } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
