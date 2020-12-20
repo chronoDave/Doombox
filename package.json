@@ -23,6 +23,7 @@
     "start:webpack": "webpack -w",
     "start:electron": "nodemon --config .nodemon.json",
     "start:devtools": "react-devtools",
+    "start:client": "yarn start:devtools && yarn start:webpack",
     "build:webpack": "webpack --mode production",
     "build:electron": "yarn clean && electron-builder -p=never -c electron.config.js",
     "build": "yarn build:webpack && yarn build:electron"

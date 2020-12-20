@@ -5,19 +5,20 @@ import PropTypes from 'prop-types';
 // Hooks
 import { useTheme } from '../../hooks';
 
-const Hidden = ({ children, on, platform }) => {
+const Hidden = ({ children, on }) => {
   const theme = useTheme();
 
-  const createBreakpoint = () => typeof on === 'function' && css({
-    [on(theme.breakpoints)]: {
-      display: 'none'
-    }
-  });
-
   return Children.map(children, child => cloneElement(child, {
-    className: cx(child.props.className, {
-      [css({ display: 'none' })]: process.platform === platform,
-    }, createBreakpoint())
+    className: cx(
+      child.props.className,
+      typeof on === 'function' ? css({
+        [on(theme.breakpoints)]: {
+          display: 'none'
+        }
+      }) : ({
+        [css({ display: 'none' })]: on === process.platform
+      })
+    )
   }));
 };
 
@@ -25,7 +26,7 @@ Hidden.propTypes = {
   children: PropTypes.node.isRequired,
   on: PropTypes.oneOfType([
     PropTypes.func,
-    PropTypes.arrayOf([
+    PropTypes.oneOf([
       'aix',
       'darwin',
       'freebsd',

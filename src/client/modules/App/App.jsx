@@ -25,7 +25,7 @@ const App = ({ overlay }) => {
 
   return (
     <div className={classes.root}>
-      <Hidden platform="darwin">
+      <Hidden on="darwin">
         <AppBar />
       </Hidden>
       <div className={classes.body}>
