@@ -23,23 +23,13 @@ import { propAlbum } from '../../validation/propTypes';
 
 const Library = ({ labels }) => {
   const { t, getLocalizedTag } = useTranslation();
-  const isSm = useMediaQuery(({
-    join,
-    create,
-    queries,
-    values
-  }) => join(
-    create(queries.minWidth, values.sm),
-    create(queries.minHeight, values.sm)
+  const isSm = useMediaQuery(({ join, create }) => join(
+    create('minWidth', 'sm'),
+    create('minHeight', 'sm')
   ));
-  const isLg = useMediaQuery(({
-    join,
-    create,
-    queries,
-    values
-  }) => join(
-    create(queries.minWidth, values.lg),
-    create(queries.minHeight, values.md)
+  const isLg = useMediaQuery(({ join, create }) => join(
+    create('minWidth', 'lg'),
+    create('minHeight', 'md')
   ));
 
   useEffect(() => {

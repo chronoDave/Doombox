@@ -41,10 +41,7 @@ const LibraryBar = ({ songs }) => {
     enter: () => setOpen(true),
     leave: () => setOpen(false)
   });
-  const isSmall = useMediaQuery(breakpoints => breakpoints.create(
-    breakpoints.queries.minWidth,
-    breakpoints.values.sm
-  ));
+  const isSmall = useMediaQuery(({ create }) => create('minWidth', 'sm'));
 
   const handleSearch = (_, value) => ipcFind(IPC.CHANNEL.LIBRARY, {
     $some: [

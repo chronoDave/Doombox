@@ -7,14 +7,8 @@ export default makeStyles(theme => ({
     padding: theme.spacing(0.5, 1),
     minWidth: 0,
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.sm
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.xs
-      )
+      theme.breakpoints.create('minWidth', 'sm'),
+      theme.breakpoints.create('minHeight', 'xs')
     )]: {
       display: 'flex',
       flexDirection: 'column',

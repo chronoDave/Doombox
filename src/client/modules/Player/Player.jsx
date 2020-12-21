@@ -27,14 +27,9 @@ const Player = props => {
   } = props;
   const { t, getLocalizedTag } = useTranslation();
   const classes = usePlayerStyles({ cover });
-  const isMd = useMediaQuery(({
-    join,
-    create,
-    queries,
-    values
-  }) => join(
-    create(queries.minWidth, values.sm),
-    create(queries.minHeight, values.sm)
+  const isMd = useMediaQuery(({ join, create }) => join(
+    create('minWidth', 'sm'),
+    create('minHeight', 'sm')
   ));
 
   return (
@@ -55,10 +50,10 @@ const Player = props => {
           {getLocalizedTag({ artistlocalized, artist }, 'artist') || ''}
         </Typography>
       </div>
-      <Hidden on={({ create, values, queries }) => create(queries.maxWidth, values.sm)}>
+      <Hidden on={({ create }) => create('maxWidth', 'sm')}>
         <PlayerControls />
       </Hidden>
-      <Hidden on={({ create, values, queries }) => create(queries.maxHeight, values.xs)}>
+      <Hidden on={({ create }) => create('maxHeight', 'xs')}>
         <PlayerTime />
       </Hidden>
     </div>

@@ -6,8 +6,8 @@ import { capitalize } from '@doombox-utils';
 import { useTheme } from '../hooks';
 
 export default (styles, label) => props => {
-  if (process.env.NODE_ENV && !label) {
-    console.warn('Missing label at', new Error().stack.split('at ')[2].trim());
+  if (process.env.NODE_ENV === 'development' && !label) {
+    console.warn('Missing label at', new Error().stack.match(/\(.*\)/g)[2]);
   }
 
   const theme = useTheme();

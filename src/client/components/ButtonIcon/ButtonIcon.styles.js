@@ -6,9 +6,9 @@ export default makeStyles(theme => ({
     borderRadius: theme.spacing(0.5),
     padding: theme.spacing(),
     color: theme.palette.text.primary,
-    transition: theme.transition.create(
+    transition: theme.transitions.create(
       ['background-color'],
-      { duration: theme.transition.duration.shortest }
+      { duration: 'shortest' }
     ),
     '&:hover': {
       backgroundColor: theme.palette.overlay(

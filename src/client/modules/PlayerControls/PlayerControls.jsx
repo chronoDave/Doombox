@@ -21,15 +21,9 @@ const PlayerControls = ({ status, className }) => {
     previous,
     shuffle
   } = useAudio();
-  const isNotSmall = useMediaQuery(breakpoints => breakpoints.join(
-    breakpoints.create(
-      breakpoints.queries.minWidth,
-      breakpoints.values.sm
-    ),
-    breakpoints.create(
-      breakpoints.queries.minHeight,
-      breakpoints.values.xs
-    )
+  const isNotSmall = useMediaQuery(({ create, join }) => join(
+    create('minWidth', 'sm'),
+    create('minHeight', 'xs')
   ));
   const classes = usePlayerControls();
 

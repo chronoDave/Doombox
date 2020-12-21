@@ -18,7 +18,7 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
     alias
   },
   entry: [
-    argv.mode !== 'production' && 'react-devtools',
+    env.devtools && 'react-devtools',
     path.resolve(__dirname, 'src/client/index.jsx'),
   ].filter(entry => entry),
   output: {
@@ -61,7 +61,7 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
         plugins: [
           ['emotion', {
             sourceMap: argv.mode !== 'production',
-            autoLabel: false,
+            autoLabel: 'never',
             cssPropOptimization: false
           }]
         ],

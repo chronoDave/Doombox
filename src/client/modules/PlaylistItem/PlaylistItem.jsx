@@ -32,7 +32,7 @@ const PlaylistItem = props => {
       onClick={() => skip(index)}
       className={cx(classes.root, { [classes.active]: active })}
     >
-      <Hidden on={({ create, queries, values }) => create(queries.maxWidth, values.sm)}>
+      <Hidden on={({ create }) => create('maxWidth', 'sm')}>
         <Typography className={classes.index}>
           {`${index + 1}.`}
         </Typography>
@@ -41,7 +41,7 @@ const PlaylistItem = props => {
         <Typography clamp>
           {primary}
         </Typography>
-        <Hidden on={({ create, queries, values }) => create(queries.maxWidth, values.sm)}>
+        <Hidden on={({ create }) => create('maxWidth', 'sm')}>
           <Typography clamp color="textSecondary">
             {secondary}
           </Typography>

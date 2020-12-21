@@ -1,13 +1,11 @@
-import { toArray } from '@doombox-utils';
-
-const easing = {
+const easings = {
   easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
   easeOut: 'cubic-bezier(0.0, 0, 0.2, 1)',
   easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
   sharp: 'cubic-bezier(0.4, 0, 0.6, 1)'
 };
 
-const duration = {
+const durations = {
   shortest: 150,
   shorter: 200,
   short: 250,
@@ -18,22 +16,29 @@ const duration = {
 };
 
 export default {
-  easing,
-  duration,
-  create: (props, options = {}) => {
+  easings,
+  durations,
+  create: (props, options) => {
     const {
-      duration: durationOption = duration.standard,
-      easing: easingOption = easing.easeInOut,
+      duration = 'standard',
+      easing = 'easeInOut',
       delay = 0
     } = options;
 
-    return toArray(props)
-      .map(prop => [
-        prop,
-        `${durationOption}ms`,
-        `${easingOption}`,
-        `${delay}ms`
-      ].join(' '))
+    if (process.env.NODE_ENV === 'development') {
+      const createError = (type, expected, actual) => {
+        console.error(
+          `Invalid breakpoint ${type} \`${expected}\`, expected one of: ${Object.keys(actual).join(', ')}`,
+          `\n${new Error().stack.match(/\(.*\)/g)[2]}`
+        );
+      };
+
+      if (!durations[duration]) createError('duration', duration, durations);
+      if (!easings[easing]) createError('value', easing, easings);
+    }
+
+    return props
+      .map(prop => `${prop} ${durations[duration]}ms ${easings[easing]} ${delay}ms`)
       .join(',');
   }
 };

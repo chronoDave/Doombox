@@ -25,14 +25,14 @@ const App = ({ overlay }) => {
 
   return (
     <div className={classes.root}>
-      <Hidden on="darwin">
+      <Hidden platform="darwin">
         <AppBar />
       </Hidden>
       <div className={classes.body}>
         <div className={classes.controller}>
           <Player />
           <PlayerSlider />
-          <Hidden on={({ create, values, queries }) => create(queries.minWidth, values.sm)}>
+          <Hidden on={({ create }) => create('minWidth', 'sm')}>
             <PlayerControls />
           </Hidden>
           <PlaylistTitle />

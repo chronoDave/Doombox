@@ -18,16 +18,10 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: theme.mixins.player.xs.width,
-    [theme.breakpoints.create(
-      theme.breakpoints.queries.minWidth,
-      theme.breakpoints.values.sm
-    )]: {
+    [theme.breakpoints.create('minWidth', 'sm')]: {
       width: theme.mixins.player.sm.width,
     },
-    [theme.breakpoints.create(
-      theme.breakpoints.queries.minWidth,
-      theme.breakpoints.values.md
-    )]: {
+    [theme.breakpoints.create('minWidth', 'md')]: {
       width: theme.mixins.player.md.width
     }
   },

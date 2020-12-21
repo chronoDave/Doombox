@@ -17,8 +17,19 @@ export default {
   values,
   queries,
   create: (query, value) => {
-    const queryValue = value - (query.includes('max') ? 1 : 0);
-    return `@media (${query}: ${queryValue}px)`;
+    if (process.env.NODE_ENV === 'development') {
+      const createError = (type, expected, actual) => {
+        console.error(
+          `Invalid breakpoint ${type} \`${expected}\`, expected one of: ${Object.keys(actual).join(', ')}`,
+          `\n${new Error().stack.match(/\(.*\)/g)[2]}`
+        );
+      };
+
+      if (!queries[query]) createError('query', query, queries);
+      if (!values[value]) createError('value', value, values);
+    }
+
+    return `@media (${queries[query]}: ${values[value] - (query.includes('max') ? 1 : 0)}px)`;
   },
   join: (...args) => `@media ${args
     .map(breakpoint => breakpoint.replace(/@media\s/, ''))

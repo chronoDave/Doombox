@@ -1,10 +1,10 @@
 import { makeStyles } from '../../theme';
 
 export default makeStyles(theme => ({
-  root: ({ duration }) => ({
+  root: {
     opacity: 1,
-    transition: theme.transition.create(['opacity'], { duration })
-  }),
+    transition: theme.transitions.create(['opacity'], { duration: 'shortest' })
+  },
   hidden: {
     opacity: 0
   },

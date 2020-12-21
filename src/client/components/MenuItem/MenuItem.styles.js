@@ -5,9 +5,9 @@ export default makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     padding: theme.spacing(1, 1.5),
-    transition: theme.transition.create(
+    transition: theme.transitions.create(
       ['background-color'],
-      { duration: theme.transition.duration.shortest }
+      { duration: 'shortest' }
     ),
     '&:hover': {
       backgroundColor: theme.palette.primary.main,

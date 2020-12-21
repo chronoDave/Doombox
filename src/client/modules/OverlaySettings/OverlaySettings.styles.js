@@ -28,9 +28,9 @@ export default makeStyles(theme => ({
     color: theme.palette.text.disabled,
     padding: theme.spacing(0, 1),
     margin: theme.spacing(1, 0),
-    transition: theme.transition.create(
+    transition: theme.transitions.create(
       ['color'],
-      { duration: theme.transition.duration.shortest }
+      { duration: 'shortest' }
     ),
     '&:hover': {
       color: theme.palette.text.primary

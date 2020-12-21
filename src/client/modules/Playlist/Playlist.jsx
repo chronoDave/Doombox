@@ -20,11 +20,7 @@ const Playlist = ({ songs, current }) => {
   const { getLocalizedTag } = useTranslation();
 
   const ref = useRef();
-  const isWidthSm = useMediaQuery(({
-    create,
-    queries,
-    values
-  }) => create(queries.minWidth, values.sm));
+  const isWidthSm = useMediaQuery(({ create }) => create('minWidth', 'sm'));
   const itemHeight = useMemo(() => (
     isWidthSm ?
       mixins.playlist.item.sm :

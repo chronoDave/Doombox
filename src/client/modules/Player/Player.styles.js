@@ -18,38 +18,20 @@ export default makeStyles(theme => ({
     padding: theme.spacing(0.5),
     height: 80,
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.xs
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.xs
-      )
+      theme.breakpoints.create('minWidth', 'xs'),
+      theme.breakpoints.create('minHeight', 'xs')
     )]: {
       height: theme.mixins.player.xs.height
     },
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.sm
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.sm
-      )
+      theme.breakpoints.create('minWidth', 'sm'),
+      theme.breakpoints.create('minHeight', 'sm')
     )]: {
       height: theme.mixins.player.sm.height
     },
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.md
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.md
-      )
+      theme.breakpoints.create('minWidth', 'md'),
+      theme.breakpoints.create('minHeight', 'md')
     )]: {
       height: theme.mixins.player.md.height
     }

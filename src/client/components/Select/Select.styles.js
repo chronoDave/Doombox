@@ -9,9 +9,9 @@ export default makeStyles(theme => ({
     borderRadius: 4,
     border: theme.border(theme.palette.text.disabled),
     color: theme.palette.text.primary,
-    transition: theme.transition.create(
+    transition: theme.transitions.create(
       ['border-color'],
-      { duration: theme.transition.duration.shortest }
+      { duration: 'shortest' }
     ),
     '&:hover': {
       borderColor: theme.palette.text.primary

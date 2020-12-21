@@ -27,8 +27,7 @@ const Popper = props => {
   } = props;
   const [visible, setVisible] = useState(true);
 
-  const duration = transitions.duration.shortest;
-  const classes = usePopperStyles({ duration });
+  const classes = usePopperStyles();
 
   const ref = useRef(null);
   const popper = useRef(null);
@@ -56,7 +55,10 @@ const Popper = props => {
 
   useLayoutEffect(() => {
     if (!open) {
-      timeout.current = setTimeout(() => setVisible(false), duration);
+      timeout.current = setTimeout(
+        () => setVisible(false),
+        transitions.durations.shortest
+      );
     } else {
       setVisible(true);
     }
@@ -67,7 +69,7 @@ const Popper = props => {
         timeout.current = null;
       }
     };
-  }, [duration, open]);
+  }, [open]);
 
   if (!anchorEl) return null;
   return createPortal(

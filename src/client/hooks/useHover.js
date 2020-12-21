@@ -11,7 +11,7 @@ export default ({ enter, leave, delay = {} }) => {
   const onEnter = () => {
     refEnter.current = setTimeout(
       enter,
-      delay.enter || theme.transition.duration.enteringScreen
+      delay.enter || theme.transitions.durations.enteringScreen
     );
 
     if (refLeave.current) {
@@ -23,7 +23,7 @@ export default ({ enter, leave, delay = {} }) => {
   const onLeave = () => {
     refLeave.current = setTimeout(
       leave,
-      delay.leave || theme.transition.duration.leavingScreen
+      delay.leave || theme.transitions.durations.leavingScreen
     );
 
     if (refEnter.current) {

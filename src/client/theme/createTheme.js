@@ -1,4 +1,4 @@
-import transition from './transitions';
+import transitions from './transitions';
 import typography from './typography';
 import breakpoints from './breakpoints';
 import mixins from './mixins';
@@ -10,7 +10,7 @@ import createPalette from './createPalette';
 export default palette => ({
   palette: createPalette(palette),
   mixins,
-  transition,
+  transitions,
   typography,
   breakpoints,
   shadows,

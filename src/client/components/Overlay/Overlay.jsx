@@ -11,14 +11,16 @@ import useOverlayStyles from './Overlay.styles';
 const Overlay = ({ open, className, children }) => {
   const [visible, setVisible] = useState(true);
 
-  const duration = transitions.duration.shortest;
-  const classes = useOverlayStyles({ duration });
+  const classes = useOverlayStyles();
 
   const timeout = useRef(null);
 
   useLayoutEffect(() => {
     if (!open) {
-      timeout.current = setTimeout(() => setVisible(false), duration);
+      timeout.current = setTimeout(
+        () => setVisible(false),
+        transitions.durations.shortest
+      );
     } else {
       setVisible(true);
     }
@@ -29,7 +31,7 @@ const Overlay = ({ open, className, children }) => {
         timeout.current = null;
       }
     };
-  }, [duration, open]);
+  }, [open]);
 
   return (
     <div

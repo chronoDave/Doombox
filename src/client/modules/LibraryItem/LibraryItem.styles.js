@@ -12,14 +12,8 @@ export default makeStyles(theme => ({
     padding: theme.spacing(0, 0.5),
     height: theme.mixins.library.header,
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.lg
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.md
-      )
+      theme.breakpoints.create('minWidth', 'lg'),
+      theme.breakpoints.create('minHeight', 'md')
     )]: {
       paddingLeft: theme.spacing(0.75)
     },
@@ -33,35 +27,23 @@ export default makeStyles(theme => ({
     alignItems: 'flex-start',
     width: theme.mixins.library.item.xs,
     height: theme.mixins.library.item.xs,
-    transition: theme.transition.create(
+    transition: theme.transitions.create(
       ['background-color'],
-      { duration: theme.transition.duration.shortest }
+      { duration: 'shortest' }
     ),
     '&:hover': {
       backgroundColor: theme.palette.grey[2]
     },
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.sm
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.sm
-      )
+      theme.breakpoints.create('minWidth', 'sm'),
+      theme.breakpoints.create('minHeight', 'sm')
     )]: {
       width: theme.mixins.library.item.sm,
       height: theme.mixins.library.item.sm,
     },
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.lg
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.md
-      )
+      theme.breakpoints.create('minWidth', 'lg'),
+      theme.breakpoints.create('minHeight', 'md')
     )]: {
       width: theme.mixins.library.item.lg
     },
@@ -78,27 +60,15 @@ export default makeStyles(theme => ({
     width: theme.mixins.library.item.xs,
     height: theme.mixins.library.item.xs,
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.sm
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.sm
-      )
+      theme.breakpoints.create('minWidth', 'sm'),
+      theme.breakpoints.create('minHeight', 'sm')
     )]: {
       width: theme.mixins.library.item.sm,
       height: theme.mixins.library.item.sm,
     },
     [theme.breakpoints.join(
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minWidth,
-        theme.breakpoints.values.lg
-      ),
-      theme.breakpoints.create(
-        theme.breakpoints.queries.minHeight,
-        theme.breakpoints.values.md
-      )
+      theme.breakpoints.create('minWidth', 'lg'),
+      theme.breakpoints.create('minHeight', 'md')
     )]: {
       paddingLeft: 4,
       width: theme.mixins.library.item.sm - 4,

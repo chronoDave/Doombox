@@ -6,18 +6,15 @@ export default makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     backgroundColor: theme.palette.grey[1],
-    transition: theme.transition.create(
+    transition: theme.transitions.create(
       ['color', 'background-color'],
-      { duration: theme.transition.duration.shortest }
+      { duration: 'shortest' }
     ),
     '&:hover': {
       color: theme.palette.text.primary,
       backgroundColor: theme.palette.grey[2]
     },
-    [theme.breakpoints.create(
-      theme.breakpoints.queries.minWidth,
-      theme.breakpoints.values.sm
-    )]: {
+    [theme.breakpoints.create('minWidth', 'sm')]: {
       paddingLeft: theme.spacing(1.5)
     }
   },

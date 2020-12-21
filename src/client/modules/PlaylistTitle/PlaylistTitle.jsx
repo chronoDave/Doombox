@@ -15,14 +15,9 @@ import usePlaylistTitleStyles from './PlaylistTitle.styles';
 const PlaylistTitle = ({ name, duration, size }) => {
   const { t } = useTranslation();
   const classes = usePlaylistTitleStyles();
-  const displaySecondary = useMediaQuery(({
-    join,
-    create,
-    queries,
-    values
-  }) => join(
-    create(queries.minWidth, values.sm),
-    create(queries.minHeight, values.xs)
+  const displaySecondary = useMediaQuery(({ join, create }) => join(
+    create('minWidth', 'sm'),
+    create('minHeight', 'xs')
   ));
 
   return (
