@@ -1,4 +1,8 @@
 export default {
+  slider: {
+    track: 4,
+    thumb: 8
+  },
   player: {
     xs: { width: 164, height: 164 },
     sm: { width: 210, height: 210 },

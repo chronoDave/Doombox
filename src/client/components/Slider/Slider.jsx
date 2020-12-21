@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { cx } from 'emotion';
 import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
@@ -8,107 +7,110 @@ import useSliderStyles from './Slider.styles';
 
 const Slider = props => {
   const {
-    value,
-    vertical,
-    onDrag,
-    onDragEnd,
     min,
     max,
+    value,
+    orientation,
+    onClick,
+    onDrag,
+    onDragEnd,
     ...rest
   } = props;
   const ref = useRef(null);
-  const classes = useSliderStyles({ value: value / ((max - min) / 100) });
+  const classes = useSliderStyles({
+    value: value / ((max - min) / 100),
+    orientation
+  });
 
-  const getValueHorizontal = event => {
-    const container = ref.current.getBoundingClientRect();
-    const containerWidth = container.width - 4; // Adjusted for thumb width
-    const current = clamp(
-      container.x,
-      containerWidth + container.x,
-      event.x
-    ) - container.x;
-
-    return (current / containerWidth) * (max - min);
-  };
-
-  const getValueVertical = event => {
+  const getValue = event => {
     const container = ref.current.getBoundingClientRect();
 
-    const containerHeight = container.height - 4; // Adjusted for thumb width
-    const current = clamp(
-      container.y,
-      containerHeight + container.y,
-      event.y
-    ) - container.y;
+    const valueOffset = orientation === 'vertical' ?
+      container.y :
+      container.x;
+    const valueMax = (orientation === 'vertical' ?
+      container.height :
+      container.width
+    );
+    const valueCurrent = (orientation === 'vertical' ?
+      event.clientY :
+      event.clientX
+    );
 
-    return 1 - (current / containerHeight) * (max - min);
+    const newValue = (clamp(0, valueMax, valueCurrent - valueOffset) / valueMax) * (max - min);
+
+    return orientation === 'vertical' ?
+      1 - newValue :
+      newValue;
   };
 
-  const handleDragMove = event => onDrag(event, vertical ?
-    getValueVertical(event) :
-    getValueHorizontal(event));
+  const handleMouseMove = event => onDrag && onDrag(event, getValue(event));
 
-  const handleDragEnd = event => {
-    if (onDragEnd) {
-      onDragEnd(event, vertical ?
-        getValueVertical(event) :
-        getValueHorizontal(event));
-    }
+  const handleMouseUp = event => {
+    if (onDragEnd) onDragEnd(event, getValue(event));
 
-    window.removeEventListener('mousemove', handleDragMove);
-    window.removeEventListener('mouseup', handleDragEnd);
+    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('mouseup', handleMouseUp);
   };
 
-  const handleDrag = event => {
+  const handleOnMouseDown = event => {
     event.preventDefault();
 
-    window.addEventListener('mousemove', handleDragMove);
-    window.addEventListener('mouseup', handleDragEnd);
-  };
-
-  const handleKeyDown = event => {
-    if (vertical) {
-      if (event.keyCode === 38) onDrag(event, value + ((max - min) * 0.05));
-      if (event.keyCode === 40) onDrag(event, value - ((max - min) * 0.05));
-    } else {
-      if (event.keyCode === 37) onDrag(event, value - ((max - min) * 0.05));
-      if (event.keyCode === 39) onDrag(event, value + ((max - min) * 0.05));
-    }
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
   };
 
   return (
-    <div
-      className={cx(classes.root, { [classes.rootVertical]: vertical })}
-      ref={ref}
-      {...rest}
-    >
-      <div className={cx(classes.track, { [classes.trackVertical]: vertical })} />
+    <div className={classes.root} ref={ref} {...rest}>
       <div
-        role="slider"
-        aria-valuenow={value}
-        aria-valuemin={min}
-        aria-valuemax={max}
+        className={classes.trackActive}
+        onMouseDown={event => onClick && onClick(event, getValue(event))}
+        // Aria
+        role="button"
+        aria-label="SliderTrack"
         tabIndex={0}
-        aria-label="SliderThumb"
-        className={cx(classes.thumb, { [classes.thumbVertical]: vertical })}
-        onMouseDown={handleDrag}
-        onKeyDown={handleKeyDown}
+      >
+        <div
+          className={classes.thumb}
+          onMouseDown={handleOnMouseDown}
+          // Aria
+          role="slider"
+          aria-valuenow={value}
+          aria-valuemin={min}
+          aria-valuemax={max}
+          tabIndex={0}
+          aria-label="SliderThumb"
+        />
+      </div>
+      <div
+        className={classes.trackInactive}
+        onMouseDown={event => onClick && onClick(event, getValue(event))}
+        // Aria
+        role="button"
+        aria-label="SliderTrack"
+        tabIndex={0}
       />
     </div>
   );
 };
 
 Slider.defaultProps = {
-  vertical: false,
+  orientation: 'horizontal',
   min: 0,
   max: 100,
-  onDragEnd: null
+  onDrag: null,
+  onDragEnd: null,
+  onClick: null
 };
 
 Slider.propTypes = {
   value: PropTypes.number.isRequired,
-  vertical: PropTypes.bool,
-  onDrag: PropTypes.func.isRequired,
+  orientation: PropTypes.oneOf([
+    'vertical',
+    'horizontal'
+  ]),
+  onClick: PropTypes.func,
+  onDrag: PropTypes.func,
   onDragEnd: PropTypes.func,
   min: PropTypes.number,
   max: PropTypes.number

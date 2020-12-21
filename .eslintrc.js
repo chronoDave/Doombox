@@ -35,7 +35,9 @@ module.exports = {
       code: 120,
       ignoreComments: true
     }],
-    'no-console': ['error', { allow: ['info', 'warn', 'error', 'group', 'groupEnd'] }],
+    'no-console': ['error', {
+      allow: ['info', 'warn', 'error', 'group', 'groupEnd']
+    }],
     // React
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/jsx-props-no-spreading': 'off', // Spread appropriatly

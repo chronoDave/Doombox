@@ -37,7 +37,7 @@ const ButtonVolume = props => {
   });
 
   const id = 'buttonVolume';
-  const throttledSetVolume = throttle(newVolume => setVolume(newVolume), 100);
+  const throttledSetVolume = throttle(setVolume, 100);
 
   const getIcon = () => {
     if (muted) return 'mute';
@@ -78,9 +78,13 @@ const ButtonVolume = props => {
           <Slider
             value={volume}
             max={1}
-            vertical
+            orientation="vertical"
             onDrag={(_, newVolume) => throttledSetVolume(newVolume)}
-            onDragEnd={(event, newVolume) => updateCache('player.volume', newVolume)}
+            onDragEnd={(_, newVolume) => updateCache('player.volume', newVolume)}
+            onClick={(_, newVolume) => {
+              throttledSetVolume(newVolume);
+              updateCache('player.volume', newVolume);
+            }}
             onWheel={handleWheel}
           />
           <Typography>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 
 // Core
@@ -15,12 +16,15 @@ const PlayerSlider = ({ position, duration }) => {
   const { seek } = useAudio();
   const classes = usePlayerSliderStyles();
 
+  const throttledSeek = throttle(seek, 100);
+
   return (
     <div className={classes.root}>
       <Slider
         value={position}
         max={duration}
-        onDrag={seek}
+        onDrag={(_, newPos) => throttledSeek(newPos)}
+        onClick={(_, newPos) => seek(newPos)}
       />
     </div>
   );
