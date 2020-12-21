@@ -135,12 +135,11 @@ const AppBar = props => {
 
   useEffect(() => {
     if (artist || title || album) {
-      const newAppTitle = [
-        getLocalizedTag({ artistlocalized, artist }, 'artist') || 'Unknown',
-        getLocalizedTag({ titlelocalized, title }, 'title') || 'Unknown',
-        getLocalizedTag({ albumlocalized, album }, 'album') || 'Unknown',
-        'Doombox'
-      ].join(' - ');
+      const localizedArtist = getLocalizedTag({ artistlocalized, artist }, 'artist') || 'Unknown';
+      const localizedTitle = getLocalizedTag({ titlelocalized, title }, 'title') || 'Unknown';
+      const localizedAlbum = getLocalizedTag({ albumlocalized, album }, 'album') || 'Unknown';
+
+      const newAppTitle = `${localizedArtist} - ${localizedTitle} (${localizedAlbum})`;
 
       setAppTitle(newAppTitle);
       setWindowTitle(newAppTitle);
