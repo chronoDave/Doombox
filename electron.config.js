@@ -49,13 +49,13 @@ module.exports = {
       filter: ['index.js']
     }, {
       name: 'detect-libc',
-      filter: ['bin', 'lib']
+      filter: ['lib']
     }, {
       name: 'is-arrayish',
       filter: ['index.js']
     }, {
       name: 'semver',
-      filter: ['bin', 'range.bnf']
+      filter: ['semver.js', 'range.bnf']
     }, {
       name: 'simple-swizzle',
       filter: ['index.js']

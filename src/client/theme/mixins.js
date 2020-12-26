@@ -27,7 +27,7 @@ export default {
     },
     item: {
       xs: { width: 74, height: 74, padding: 1 },
-      sm: { width: 112, height: 112, padding: 2 },
+      sm: { width: 124, height: 124, padding: 1 },
       lg: { width: 336, height: 150, padding: 2 }
     }
   }

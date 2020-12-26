@@ -40,6 +40,9 @@ const OverlayScan = ({ open }) => {
   useEffect(() => {
     if (open) {
       counter.current = setInterval(() => setCount(newCount => newCount + 1), 1000);
+      setProgress({ file: null, index: 0, total: 0 });
+    } else if (counter.current) {
+      clearInterval(counter.current);
     }
 
     return () => counter.current && clearInterval(counter.current);

@@ -35,7 +35,7 @@ const Player = props => {
         <Typography
           clamp={2}
           align="center"
-          fontWeight={500}
+          fontWeight={isMd ? 400 : 500}
           variant={isMd ? 'h6' : 'body'}
         >
           {(

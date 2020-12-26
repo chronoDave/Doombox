@@ -38,7 +38,7 @@ export default {
   h6: {
     fontFamily,
     fontWeight: 400,
-    fontSize: pxToRem(18),
+    fontSize: pxToRem(16),
     letterSpacing: pxToRem(0.25)
   },
   body: {
