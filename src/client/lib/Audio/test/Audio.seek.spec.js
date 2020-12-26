@@ -8,7 +8,7 @@ test('[Audio.seek] should ignore if instance does not exist', t => {
   const audio = setup(true);
 
   audio.seek();
-  t.pass('did not call instance functions');
+  t.pass('does not call instance functions');
 
   t.end();
 });
@@ -20,11 +20,18 @@ test('[Audio.seek] should seek', t => {
   const vSeek = 3;
 
   audio.on(EVENTS.AUDIO.POSITION, pos => {
-    t.equal(pos, vSeek);
+    t.equal(
+      pos,
+      vSeek,
+      'emits position'
+    );
   });
 
   audio.seek(vSeek);
-  t.true(audio.instance.seek.calledOnce, 'called instance.seek()');
+  t.true(
+    audio.instance.seek.calledOnce,
+    'calls seek'
+  );
 
   t.end();
 });

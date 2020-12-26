@@ -1,29 +1,37 @@
 const test = require('tape');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 
-const Reporter = require('../reporter');
-
-const root = path.resolve(__dirname, 'test');
+const { setup, cleanup } = require('./_utils');
 
 test('[reporter.log] should create log file', t => {
+  const { reporter, root } = setup();
+
   const text = 'This is a test';
 
-  const reporter = new Reporter(root);
-
-  reporter.log(text, 'tape', 'TEST');
+  reporter.log(text, 'TEST');
 
   const files = fs.readdirSync(root);
 
-  t.equal(files.length, 1, 'creates file');
-  t.true(files[0].includes('tape'), 'has file name');
-  t.true(files[0].includes('TEST'), 'has log type');
+  t.equal(
+    files.length,
+    1,
+    'creates file'
+  );
+  t.true(
+    files[0].includes('TEST'),
+    'has log type'
+  );
 
   const file = fs.readFileSync(path.resolve(root, files[0]), 'utf-8');
 
-  t.equal(file, text, 'has text');
+  t.equal(
+    file,
+    text,
+    'has text'
+  );
 
-  fs.rmdirSync(root, { recursive: true });
+  cleanup();
 
   t.end();
 });

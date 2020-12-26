@@ -6,7 +6,10 @@ test('[Audio.play] should ignore if instance and playlist do not exist', t => {
   const audio = setup(true);
 
   audio.play();
-  t.true(audio.create.notCalled, 'did not call create()');
+  t.true(
+    audio.create.notCalled,
+    'does not call create'
+  );
 
   t.end();
 });
@@ -16,11 +19,17 @@ test('[Audio.play] should create new song if instance does not exist and playlis
 
   audio.playlist = { collection: [], index: 0 };
   audio.play();
-  t.true(audio.create.notCalled, 'did not call create()');
+  t.true(
+    audio.create.notCalled,
+    'does not call create'
+  );
 
   audio.playlist = { collection: ['song'], index: 0 };
   audio.play();
-  t.true(audio.create.calledOnce, 'called create()');
+  t.true(
+    audio.create.calledOnce,
+    'calls create'
+  );
 
   t.end();
 });
@@ -29,8 +38,14 @@ test('[Audio.play] should resume if instance exists', t => {
   const audio = setup();
 
   audio.play();
-  t.true(audio.instance.play.calledOnce, 'called instance.play()');
-  t.true(audio.create.notCalled, 'did not call create()');
+  t.true(
+    audio.instance.play.calledOnce,
+    'calls play'
+  );
+  t.true(
+    audio.create.notCalled,
+    'does not call create'
+  );
 
   t.end();
 });

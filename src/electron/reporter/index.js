@@ -1,5 +1,1 @@
-const Reporter = require('./reporter');
-
-module.exports = {
-  Reporter
-};
+module.exports = require('./reporter');

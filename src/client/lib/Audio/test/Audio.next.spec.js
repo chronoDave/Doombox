@@ -6,7 +6,10 @@ test('[Audio.next] ignores if collection does not exist', t => {
   const audio = setup();
 
   audio.next();
-  t.true(audio.create.notCalled);
+  t.true(
+    audio.create.notCalled,
+    'does not call create'
+  );
 
   t.end();
 });
@@ -20,8 +23,15 @@ test('[Audio.next] increases index', t => {
   };
 
   audio.next();
-  t.true(audio.create.calledOnce);
-  t.equal(audio.playlist.index, 1);
+  t.true(
+    audio.create.calledOnce,
+    'calls create'
+  );
+  t.equal(
+    audio.playlist.index,
+    1,
+    'increases playlist index'
+  );
 
   t.end();
 });
@@ -35,8 +45,15 @@ test('[Audio.next] handles overflow', t => {
   };
 
   audio.next();
-  t.true(audio.create.calledOnce);
-  t.equal(audio.playlist.index, 0);
+  t.true(
+    audio.create.calledOnce,
+    'calls create'
+  );
+  t.equal(
+    audio.playlist.index,
+    0,
+    'playlist index overflows'
+  );
 
   t.end();
 });

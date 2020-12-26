@@ -1,5 +1,1 @@
-const Storage = require('./storage');
-
-module.exports = {
-  Storage
-};
+module.exports = require('./storage');

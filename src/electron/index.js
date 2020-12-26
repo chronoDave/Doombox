@@ -12,13 +12,13 @@ const { TYPES, IPC } = require('@doombox-utils/types');
 const { CACHE, CONFIG, THEME } = require('@doombox-config');
 
 // Core
-const { App } = require('./app');
+const App = require('./app');
 const {
-  Controller,
+  DatabaseController,
   StorageController,
   LibraryController
 } = require('./controllers');
-const { Storage } = require('./storage');
+const Storage = require('./storage');
 
 const root = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../userData') :
@@ -45,10 +45,10 @@ app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
   Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
-  Doombox.createRouter(IPC.CHANNEL.IMAGE, new Controller(db[TYPES.DATABASE.IMAGES]));
-  Doombox.createRouter(IPC.CHANNEL.SONG, new Controller(db[TYPES.DATABASE.SONGS]));
-  Doombox.createRouter(IPC.CHANNEL.ALBUM, new Controller(db[TYPES.DATABASE.ALBUMS]));
-  Doombox.createRouter(IPC.CHANNEL.LABEL, new Controller(db[TYPES.DATABASE.LABELS]));
+  Doombox.createRouter(IPC.CHANNEL.IMAGE, new DatabaseController(db[TYPES.DATABASE.IMAGES]));
+  Doombox.createRouter(IPC.CHANNEL.SONG, new DatabaseController(db[TYPES.DATABASE.SONGS]));
+  Doombox.createRouter(IPC.CHANNEL.ALBUM, new DatabaseController(db[TYPES.DATABASE.ALBUMS]));
+  Doombox.createRouter(IPC.CHANNEL.LABEL, new DatabaseController(db[TYPES.DATABASE.LABELS]));
 
   Doombox.createRouter(IPC.CHANNEL.LIBRARY, new LibraryController(
     db,

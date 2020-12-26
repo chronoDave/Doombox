@@ -23,21 +23,41 @@ test('[Audio.add] adds songs to playlist collection', t => {
   ];
 
   audio.on(EVENTS.AUDIO.PLAYLIST, ({ collection }) => {
-    t.equal(collection.length, expected[n]);
+    t.equal(
+      collection.length,
+      expected[n],
+      'emits playlist'
+    );
     n += 1;
   });
 
   audio.add();
-  t.equal(audio.playlist.collection.length, mockPlaylist.collection.length);
+  t.equal(
+    audio.playlist.collection.length,
+    mockPlaylist.collection.length,
+    'does not add to playlist'
+  );
 
   audio.add([]);
-  t.equal(audio.playlist.collection.length, mockPlaylist.collection.length);
+  t.equal(
+    audio.playlist.collection.length,
+    mockPlaylist.collection.length,
+    'does not add to playlist'
+  );
 
   audio.add(newSong);
-  t.equal(audio.playlist.collection.length, expected[0]);
+  t.equal(
+    audio.playlist.collection.length,
+    expected[0],
+    'adds to playlist'
+  );
 
   audio.add(newSongs);
-  t.equal(audio.playlist.collection.length, expected[1]);
+  t.equal(
+    audio.playlist.collection.length,
+    expected[1],
+    'adds to playlist'
+  );
 
   t.end();
 });

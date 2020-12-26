@@ -75,7 +75,7 @@ const VirtualList = forwardRef((props, outerRef) => {
 
       setHeight({
         children: heights,
-        cumulative: getCumulative(heights, 0),
+        cumulative: getCumulative(heights),
         total: heights.reduce((acc, cur) => acc + cur, 0)
       });
     };

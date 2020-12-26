@@ -1,9 +1,9 @@
-const Controller = require('./controller');
-const LibraryController = require('./library/library.controller');
-const StorageController = require('./storage.controller');
+const DatabaseController = require('./database');
+const LibraryController = require('./library');
+const StorageController = require('./storage');
 
 module.exports = {
-  Controller,
+  DatabaseController,
   LibraryController,
   StorageController,
 };

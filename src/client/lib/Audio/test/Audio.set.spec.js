@@ -22,12 +22,20 @@ test('[Audio.set] resets playlist with no params', t => {
   };
 
   audio.on(EVENTS.AUDIO.PLAYLIST, actual => {
-    t.deepEqual(actual, expected);
+    t.deepEqual(
+      actual,
+      expected,
+      'emits playlist'
+    );
   });
 
   audio.set();
 
-  t.deepEqual(audio.playlist, expected);
+  t.deepEqual(
+    audio.playlist,
+    expected,
+    'resets playlist'
+  );
 
   t.end();
 });
@@ -42,12 +50,20 @@ test('[Audio.set] sets playlist', t => {
   };
 
   audio.on(EVENTS.AUDIO.PLAYLIST, actual => {
-    t.deepEqual(actual, expected);
+    t.deepEqual(
+      actual,
+      expected,
+      'emits playlist'
+    );
   });
 
   audio.set(expected);
 
-  t.deepEqual(audio.playlist, expected);
+  t.deepEqual(
+    audio.playlist,
+    expected,
+    'sets playlist'
+  );
 
   t.end();
 });
@@ -63,12 +79,20 @@ test('[Audio.set] sets missing fields', t => {
   };
 
   audio.on(EVENTS.AUDIO.PLAYLIST, actual => {
-    t.deepEqual(actual, expected);
+    t.deepEqual(
+      actual,
+      expected,
+      'emits playlist'
+    );
   });
 
   audio.set(incomplete);
 
-  t.deepEqual(audio.playlist, expected);
+  t.deepEqual(
+    audio.playlist,
+    expected,
+    'adds missing fields'
+  );
 
   t.end();
 });

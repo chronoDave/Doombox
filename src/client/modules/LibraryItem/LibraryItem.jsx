@@ -26,7 +26,12 @@ const LibraryItem = props => {
   const classes = useLibraryItemStyles();
 
   const { set } = useAudio();
-  const { t, getLocalizedTag, formatDate, formatTime } = useTranslation();
+  const {
+    t,
+    getLocalizedTag,
+    formatDate,
+    formatTime
+  } = useTranslation();
   const isLg = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'lg'),
     create('minHeight', 'md')

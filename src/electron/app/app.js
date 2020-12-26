@@ -17,7 +17,7 @@ const {
 const { getTranslation } = require('@doombox-intl');
 
 // Core
-const { Reporter } = require('../reporter');
+const Reporter = require('../reporter');
 
 module.exports = class App extends Reporter {
   constructor(root, assets, language) {
@@ -68,7 +68,7 @@ module.exports = class App extends Reporter {
 
         event.sender.send(channel, { data, error: null });
       } catch (error) {
-        this.logError(error, 'createRouter()');
+        this.logError(error);
 
         event.sender.send(channel, { data: null, error });
       }
@@ -169,7 +169,7 @@ module.exports = class App extends Reporter {
           }]);
           break;
         default:
-          this.logError(new Error(`Invalid API action: ${payload.action}`), 'createWindow()');
+          this.logError(new Error(`Invalid API action: ${payload.action}`));
       }
     });
   }

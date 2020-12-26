@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const CACHE = require('../../../config/cache');
+const { CACHE } = require('@doombox-config');
 
 const { setup, cleanup } = require('./_utils');
 

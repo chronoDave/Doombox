@@ -13,25 +13,19 @@ module.exports = class Reporter {
 
   /**
    * @param {string} text - Log content
-   * @param {string} name - File name (default `unknown`)
    * @param {string} type - Log type (default `LOG`)
    */
-  log(text, name = 'unknown', type = 'LOG') {
-    const timestamp = new Date()
-      .toISOString()
-      .replace(/\.|:/g, '_');
-    const file = `[${timestamp}] ${name} (${type}).txt`;
+  log(text, type = 'LOG') {
+    const file = `[${type}] ${new Date().getTime()}.txt`;
 
     fs.writeFileSync(path.join(this.root, file), text);
   }
 
-  logError(err, name = 'unknown') {
-    const text = [
+  logError(err) {
+    this.log([
       `TIME\n${new Date().toLocaleString()} (local time)`,
       `MESSAGE\n${err.message}`,
       `STACK\n${err.stack}`
-    ].join('\n\n');
-
-    this.log(text, name, 'ERROR');
+    ].join('\n\n'), 'ERROR');
   }
 };

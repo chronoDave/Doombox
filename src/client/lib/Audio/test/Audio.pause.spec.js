@@ -9,7 +9,10 @@ test('[Audio.pause] should pause if playing', t => {
   audio.status = STATUS.AUDIO.PLAYING;
 
   audio.pause();
-  t.true(audio.instance.pause.calledOnce, 'called instace.pause()');
+  t.true(
+    audio.instance.pause.calledOnce,
+    'calls pause'
+  );
 
   t.end();
 });
@@ -19,7 +22,10 @@ test('[Audio.pause] should play if paused', t => {
   audio.status = STATUS.AUDIO.PAUSED;
 
   audio.pause();
-  t.true(audio.instance.play.calledOnce, 'called instance.play()');
+  t.true(
+    audio.instance.play.calledOnce,
+    'calls play'
+  );
 
   t.end();
 });
@@ -29,7 +35,7 @@ test('[Audio.pause] should ignore if no instance exists', t => {
   audio.status = STATUS.AUDIO.PAUSED;
 
   audio.pause();
-  t.pass('did not call instance functions');
+  t.pass('does not call instance functions');
 
   t.end();
 });
@@ -39,8 +45,14 @@ test('[Audio.pause] should ignore if status is not playing or paused', t => {
   audio.status = STATUS.AUDIO.STOPPED;
 
   audio.pause();
-  t.true(audio.instance.play.notCalled, 'did not call instance.play()');
-  t.true(audio.instance.pause.notCalled, 'did not call instance.pause()');
+  t.true(
+    audio.instance.play.notCalled,
+    'does not call play'
+  );
+  t.true(
+    audio.instance.pause.notCalled,
+    'does not call pause'
+  );
 
   t.end();
 });
