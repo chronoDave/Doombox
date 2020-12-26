@@ -43,8 +43,8 @@ const Playlist = ({ songs, current }) => {
         <PlaylistItem
           key={data._id}
           active={current === index}
-          primary={getLocalizedTag(data.metadata, 'title')}
-          secondary={getLocalizedTag(data.metadata, 'artist')}
+          primary={getLocalizedTag(data, 'title')}
+          secondary={getLocalizedTag(data, 'artist')}
           style={style}
           index={index}
         />

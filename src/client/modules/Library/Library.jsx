@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { IPC } from '@doombox-utils/types';
-import { formatTime } from '@doombox-utils';
+import { formatTime, sortMetadata } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -19,9 +19,38 @@ import { ipcFind } from '../../actions';
 import { mixins } from '../../theme';
 
 // Validation
-import { propAlbum } from '../../validation/propTypes';
+import { propLabel } from '../../validation/propTypes';
 
 const Library = ({ labels }) => {
+  useEffect(() => {
+    ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['_id', 'files'] });
+    ipcFind(IPC.CHANNEL.LIBRARY, {}, {
+      projection: [
+        '_id',
+        '_albumId',
+        '_labelId',
+        'file',
+        'duration',
+        'images',
+        'title',
+        'titlelocalized',
+        'artist',
+        'artistlocalized',
+        'album',
+        'albumlocalized',
+        'albumartist',
+        'albumartistlocalized',
+        'publisher',
+        'publisherlocalized',
+        'cdid',
+        'date',
+        'disc',
+        'track',
+        'year',
+      ]
+    });
+  }, []);
+
   const { t, getLocalizedTag } = useTranslation();
   const isSm = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
@@ -32,48 +61,25 @@ const Library = ({ labels }) => {
     create('minHeight', 'md')
   ));
 
-  useEffect(() => {
-    ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['file', '_id'] });
-    ipcFind(IPC.CHANNEL.LIBRARY, {}, {
-      projection: [
-        'file',
-        'metadata.title',
-        'metadata.titlelocalized',
-        'metadata.artist',
-        'metadata.artistlocalized',
-        'metadata.album',
-        'metadata.albumlocalized',
-        'metadata.albumartist',
-        'metadata.albumartistlocalized',
-        'metadata.cdid',
-        'metadata.date',
-        'metadata.disc',
-        'metadata.track',
-        'metadata.year',
-        'format.duration',
-        'covers',
-        '_id',
-        '_albumId',
-        '_labelId'
-      ]
-    });
-  }, []);
-
   return (
     <VirtualList
       data={labels}
       itemHeight={({ data, container: { width } }) => {
-        const itemHeight = isSm ?
-          mixins.library.item.sm :
-          mixins.library.item.xs;
-        const itemWidth = isLg ?
-          mixins.library.item.lg :
-          itemHeight;
+        const { item, container, header } = mixins.library;
 
-        const rows = Math.floor(width / itemWidth);
+        const breakpoint = (() => {
+          if (isLg) return 'lg';
+          if (isSm) return 'sm';
+          return 'xs';
+        })();
+
+        const itemWidth = item[breakpoint].width + (item[breakpoint].padding * 2);
+        const itemHeight = item[breakpoint].height + (item[breakpoint].padding * 2);
+
+        const rows = Math.floor((width - (container[breakpoint] * 2)) / itemWidth);
         const columns = Math.ceil(data.albums.length / rows);
 
-        return columns * itemHeight + mixins.library.header;
+        return (columns * itemHeight) + header[breakpoint].height;
       }}
     >
       {({ data, style }) => (
@@ -81,8 +87,7 @@ const Library = ({ labels }) => {
           key={data._id}
           style={style}
           id={data._id}
-          albums={data.albums}
-          primary={getLocalizedTag(data, 'label')}
+          primary={getLocalizedTag(data, 'publisher')}
           secondary={[
             `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
             `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
@@ -95,76 +100,14 @@ const Library = ({ labels }) => {
 };
 
 Library.propTypes = {
-  labels: PropTypes.arrayOf(PropTypes.shape({
-    duration: PropTypes.number,
-    label: PropTypes.string,
-    labellocalized: PropTypes.string,
-    songs: PropTypes.arrayOf(PropTypes.string),
-    _id: PropTypes.string,
-    albums: PropTypes.arrayOf(propAlbum)
-  })).isRequired
+  labels: PropTypes.arrayOf(propLabel).isRequired
 };
 
 const mapStateToProps = state => ({
   labels: state.entities.labels.list
-    .map(({ albums, ...restLabel }) => ({
-      albums: albums
-        .map(albumId => {
-          const album = state.entities.albums.map[albumId];
-
-          if (!album) return null;
-
-          const { covers = [], ...restAlbum } = album;
-
-          return ({
-            cover: covers.map(coverId => {
-              const image = state.entities.images.map[coverId];
-
-              return image ? image.file : null;
-            })[0],
-            ...restAlbum
-          });
-        })
-        .filter(album => album)
-        .sort((a, b) => {
-          if (a.date && b.date) {
-            if (a.date < b.date) return -1;
-            if (a.date > b.date) return 1;
-            return 0;
-          }
-          return a.year - b.year;
-        }),
-      ...restLabel
-    }))
-    .sort((a, b) => {
-      if ((a.label || '').toLowerCase() < (b.label || '').toLowerCase()) return -1;
-      if ((a.label || '').toLowerCase() > (b.label || '').toLowerCase()) return 1;
-      return 0;
-    })
+    .sort(sortMetadata(['publisher'], state.config.display.useLocalizedMetadata))
 });
 
 export default connect(
-  mapStateToProps,
-  null,
-  null,
-  {
-    areStatesEqual: (next, prev) => {
-      const isEntityEqual = entity => {
-        const nextArray = next.entities[entity].list;
-        const prevArray = prev.entities[entity].list;
-
-        if (nextArray.length !== prevArray.length) return false;
-        for (let i = 0; i < nextArray.length; i += 1) {
-          if (nextArray[i]._id !== prevArray[i]._id) return false;
-        }
-        return true;
-      };
-
-      return (
-        isEntityEqual('songs') &&
-        isEntityEqual('albums') &&
-        isEntityEqual('labels')
-      );
-    }
-  }
+  mapStateToProps
 )(Library);

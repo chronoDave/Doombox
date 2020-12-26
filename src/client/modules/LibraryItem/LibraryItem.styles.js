@@ -7,72 +7,92 @@ export default makeStyles(theme => ({
   },
   header: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: theme.spacing(0, 0.5),
-    height: theme.mixins.library.header,
-    [theme.breakpoints.join(
-      theme.breakpoints.create('minWidth', 'lg'),
-      theme.breakpoints.create('minHeight', 'md')
-    )]: {
-      paddingLeft: theme.spacing(0.75)
-    },
-  },
-  albums: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  button: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    width: theme.mixins.library.item.xs,
-    height: theme.mixins.library.item.xs,
-    transition: theme.transitions.create(
-      ['background-color'],
-      { duration: 'shortest' }
-    ),
-    '&:hover': {
-      backgroundColor: theme.palette.grey[2]
-    },
+    alignItems: 'center',
+    padding: `0 ${theme.mixins.library.header.xs.padding}px`,
+    height: theme.mixins.library.header.xs.height,
     [theme.breakpoints.join(
       theme.breakpoints.create('minWidth', 'sm'),
       theme.breakpoints.create('minHeight', 'sm')
     )]: {
-      width: theme.mixins.library.item.sm,
-      height: theme.mixins.library.item.sm,
+      padding: `0 ${theme.mixins.library.header.sm.padding}px`,
+      height: theme.mixins.library.header.sm.height,
     },
     [theme.breakpoints.join(
       theme.breakpoints.create('minWidth', 'lg'),
       theme.breakpoints.create('minHeight', 'md')
     )]: {
-      width: theme.mixins.library.item.lg
+      padding: `0 ${theme.mixins.library.header.lg.padding}px`,
+      height: theme.mixins.library.header.lg.height,
+    }
+  },
+  headerButton: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  headerDivider: {
+    flexGrow: 1,
+    height: 1,
+    marginLeft: theme.spacing(0.75),
+    backgroundColor: theme.palette.grey[3]
+  },
+  albumContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: `0 ${theme.mixins.library.container.xs}px`,
+    [theme.breakpoints.join(
+      theme.breakpoints.create('minWidth', 'sm'),
+      theme.breakpoints.create('minHeight', 'sm')
+    )]: {
+      padding: `0 ${theme.mixins.library.container.sm}px`,
     },
+    [theme.breakpoints.join(
+      theme.breakpoints.create('minWidth', 'lg'),
+      theme.breakpoints.create('minHeight', 'md')
+    )]: {
+      padding: `0 ${theme.mixins.library.container.lg}px`,
+    }
   },
-  metadata: {
-    padding: theme.spacing(0.5, 1),
-    width: '100%',
+  album: {
+    display: 'flex',
+    ...theme.mixins.library.item.xs,
+    [theme.breakpoints.join(
+      theme.breakpoints.create('minWidth', 'sm'),
+      theme.breakpoints.create('minHeight', 'sm')
+    )]: theme.mixins.library.item.sm,
+    [theme.breakpoints.join(
+      theme.breakpoints.create('minWidth', 'lg'),
+      theme.breakpoints.create('minHeight', 'md')
+    )]: theme.mixins.library.item.lg
   },
-  table: {
-    marginTop: theme.spacing(1)
+  albumButton: {
+    display: 'flex'
   },
   cover: {
     objectFit: 'contain',
-    width: theme.mixins.library.item.xs,
-    height: theme.mixins.library.item.xs,
+    width: theme.mixins.library.item.xs.width,
+    height: theme.mixins.library.item.xs.height,
     [theme.breakpoints.join(
       theme.breakpoints.create('minWidth', 'sm'),
       theme.breakpoints.create('minHeight', 'sm')
     )]: {
-      width: theme.mixins.library.item.sm,
-      height: theme.mixins.library.item.sm,
+      width: theme.mixins.library.item.sm.width,
+      height: theme.mixins.library.item.sm.height,
     },
     [theme.breakpoints.join(
       theme.breakpoints.create('minWidth', 'lg'),
       theme.breakpoints.create('minHeight', 'md')
     )]: {
-      paddingLeft: 4,
-      width: theme.mixins.library.item.sm - 4,
-      height: theme.mixins.library.item.sm - 4,
-    },
+      width: theme.mixins.library.item.lg.height,
+      height: theme.mixins.library.item.lg.height,
+    }
+  },
+  metadata: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    padding: theme.spacing(0, 0.75)
+  },
+  table: {
+    marginTop: theme.spacing()
   }
 }), 'libraryItem');

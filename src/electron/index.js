@@ -50,10 +50,11 @@ app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.ALBUM, new Controller(db[TYPES.DATABASE.ALBUMS]));
   Doombox.createRouter(IPC.CHANNEL.LABEL, new Controller(db[TYPES.DATABASE.LABELS]));
 
-  Doombox.createRouter(IPC.CHANNEL.LIBRARY, new LibraryController(db, {
-    ...config.get(TYPES.CONFIG.PARSER),
-    folder: path.resolve(root, 'images')
-  }));
+  Doombox.createRouter(IPC.CHANNEL.LIBRARY, new LibraryController(
+    db,
+    path.resolve(root, 'images'),
+    config.get(TYPES.CONFIG.PARSER)
+  ));
 
   const keybinds = config.get(TYPES.CONFIG.KEYBINDS);
   const window = Doombox.createWindow({

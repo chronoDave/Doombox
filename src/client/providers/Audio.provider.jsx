@@ -118,12 +118,11 @@ class AudioProvider extends Component {
       // eslint-disable-next-line no-undef
       navigator.mediaSession.metadata = new MediaMetadata(mediaMetadata);
 
-      const cover = metadata.covers
-        .map(id => this.props.images[id])
-        .sort()[0];
+      const images = metadata.images
+        .map(id => this.props.images[id]);
 
-      if (cover && cover.file) {
-        fetch(cover.file)
+      if (images[0]) {
+        fetch(images[0].files.thumbnail)
           .then(response => response.blob())
           .then(blob => {
             const reader = new FileReader();
@@ -132,7 +131,11 @@ class AudioProvider extends Component {
               // eslint-disable-next-line no-undef
               navigator.mediaSession.metadata = new MediaMetadata({
                 ...mediaMetadata,
-                artwork: [{ src: reader.result, type: `image/${cover.file.split('.').pop()}`, sizes: '192x192' }]
+                artwork: [{
+                  src: reader.result,
+                  type: `image/${images[0].files.thumbnail.split('.').pop()}`,
+                  sizes: '192x192'
+                }]
               });
             };
             reader.readAsDataURL(blob);

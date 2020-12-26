@@ -29,20 +29,36 @@ export const propKeybinds = PropTypes.shape(
     }), {})
 );
 
-export const propCover = PropTypes.shape({
-  file: PropTypes.string.isRequired
-});
-
 export const propAnchorEl = PropTypes.oneOfType([
   PropTypes.func,
   PropTypes.shape({ current: PropTypes.instanceOf(Element) })
 ]);
 
-export const propMetadata = PropTypes.shape({
+export const propImage = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  files: PropTypes.shape({
+    original: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired
+  }).isRequired,
+  type: PropTypes.string,
+  description: PropTypes.string
+});
+
+export const propSong = PropTypes.shape({
+  file: PropTypes.string.isRequired,
+  images: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(propImage)
+  ]).isRequired,
+  _albumId: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
+  _labelId: PropTypes.string.isRequired,
+  // Metadata
   artist: PropTypes.string,
   title: PropTypes.string,
   album: PropTypes.string,
   albumartist: PropTypes.string,
+  publisher: PropTypes.string,
   track: PropTypes.arrayOf(PropTypes.number),
   disc: PropTypes.arrayOf(PropTypes.number),
   year: PropTypes.number,
@@ -50,40 +66,44 @@ export const propMetadata = PropTypes.shape({
   titlelocalized: PropTypes.string,
   albumlocalized: PropTypes.string,
   albumartistlocalized: PropTypes.string,
+  publisherlocalized: PropTypes.string,
   date: PropTypes.string,
   event: PropTypes.string,
   genre: PropTypes.string,
   cdid: PropTypes.string
 });
 
-export const propSong = PropTypes.shape({
-  file: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string),
-  metadata: propMetadata,
-  _albumId: PropTypes.string.isRequired,
-  _id: PropTypes.string.isRequired,
-  _labelId: PropTypes.string.isRequired
-});
-
 export const propAlbum = PropTypes.shape({
-  artist: PropTypes.string,
+  albumartist: PropTypes.string,
   album: PropTypes.string,
-  artistlocalized: PropTypes.string,
+  albumartistlocalized: PropTypes.string,
   albumlocalized: PropTypes.string,
   cdid: PropTypes.string,
-  covers: PropTypes.arrayOf(PropTypes.string),
+  images: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(propImage)
+  ]).isRequired,
   date: PropTypes.string,
   duration: PropTypes.number,
-  songs: PropTypes.arrayOf(PropTypes.string),
+  songs: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(propSong)
+  ]).isRequired,
   year: PropTypes.number,
   _id: PropTypes.string.isRequired
 });
 
 export const propLabel = PropTypes.shape({
-  albums: PropTypes.arrayOf(PropTypes.string),
+  _id: PropTypes.string.isRequired,
+  albums: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(propAlbum)
+  ]).isRequired,
   duration: PropTypes.number,
-  label: PropTypes.string,
-  labellocalized: PropTypes.string,
-  songs: PropTypes.arrayOf(PropTypes.string),
-  _id: PropTypes.string
+  publisher: PropTypes.string,
+  publisherlocalized: PropTypes.string,
+  songs: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(propSong)
+  ]).isRequired,
 });

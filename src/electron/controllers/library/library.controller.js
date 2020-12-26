@@ -12,66 +12,96 @@ const { IPC, TYPES } = require('@doombox-utils/types');
 module.exports = class LibraryController {
   /**
    * @param {object} db - Database object
+   * @param {string} folder - Image folder
    * @param {object} options
-   * @param {string} options.folder - Image folder (default `null`)
-   * @param {boolean} options.strict - Is strict mode enabled (default `false`)
-   * @param {string[]} options.fileTypes - Allowed file types (default `['mp3']`)
-   * @param {boolean} options.skipCovers - Should parser skip covers (default `false`)
-   * @param {string[]} options.requiredMetadata - Required metadata (default `[]`)
+   * @param {boolean} options.strict - Is strict mode enabled
+   * @param {string[]} options.fileTypes - Allowed file types
+   * @param {boolean} options.skipCovers - Should parser skip covers
+   * @param {string[]} options.requiredMetadata - Required metadata
+   * @param {string[]} options.tagTypes - Mp3 metadata tags
    */
-  constructor(db, {
-    folder = null,
-    strict = false,
-    fileTypes = ['mp3'],
-    skipCovers = false,
-    requiredMetadata = []
+  constructor(db, folder, {
+    strict,
+    fileTypes,
+    skipCovers,
+    requiredMetadata,
+    tagTypes
   } = {}) {
     this.db = db;
-    this.folder = folder;
-
+    this.folder = {};
     this.strict = strict;
     this.fileTypes = fileTypes;
     this.skipCovers = skipCovers;
     this.requiredMetadata = requiredMetadata;
+    this.tagTypes = tagTypes;
 
-    if (this.folder) fs.mkdirSync(this.folder, { recursive: true });
+    if (folder) {
+      this.folder.root = folder;
+      this.folder.original = path.resolve(folder, 'original');
+      this.folder.thumbnail = path.resolve(folder, 'thumbnail');
 
+      fs.mkdirSync(this.folder.original, { recursive: true });
+      fs.mkdirSync(this.folder.thumbnail, { recursive: true });
+    }
+
+    this.getNativeTags = this.getNativeTags.bind(this);
     this.parseMetadata = this.parseMetadata.bind(this);
-    this.insertImages = this.insertImages.bind(this);
+    this.createImages = this.createImages.bind(this);
     this.insert = this.insert.bind(this);
     this.find = this.find.bind(this);
     this.drop = this.drop.bind(this);
 
-    this.imageCache = [];
+    this.cache = [];
+  }
+
+  getNativeTags(native) {
+    for (let i = 0; i < this.tagTypes.length; i += 1) {
+      const nativeTagArray = native[this.tagTypes[i]];
+
+      if (nativeTagArray) {
+        const nativeTags = { APIC: [], COMM: [] };
+
+        for (let j = 0; j < nativeTagArray.length; j += 1) {
+          const nativeTag = nativeTagArray[j];
+          const id = nativeTag.id.toUpperCase();
+
+          if (['APIC', 'COMM'].includes(id)) {
+            nativeTags[id].push(nativeTag.value);
+          } else {
+            nativeTags[id] = nativeTag.value;
+          }
+        }
+
+        return nativeTags;
+      }
+    }
+
+    return null;
   }
 
   async parseMetadata(file) {
-    const { format, native, } = await parseFile(file, { skipCovers: this.skipCovers });
+    const { format, native } = await parseFile(file, { skipCovers: this.skipCovers });
 
-    const tagTypes = ['ID3v2.3', 'ID3v2.4'];
-    if (!format.tagTypes.some(tagType => tagTypes.includes(tagType))) {
-      return Promise.reject(new Error(`File does not contain valid metadata: ${file}`));
+    const nativeTags = this.getNativeTags(native);
+    if (!nativeTags) {
+      return Promise.reject(new Error([
+        'File does not have valid tags',
+        `File: ${file}`,
+        `Expected tags: ${this.tagTypes}`,
+        `Actual tags: ${Object.keys(native)}`
+      ].join('\n')));
     }
-
-    const nativeTags = tagTypes
-      .map(tagType => {
-        const tags = native[tagType];
-
-        if (!tags) return null;
-        return tags
-          .reduce((acc, { id, value }) => ({
-            ...acc,
-            [id.toUpperCase()]: /apic/i.test(id) ?
-              [...(acc[id] || []), value] :
-              value
-          }), {});
-      })
-      .sort()[0];
-
     if (
       this.requiredMetadata.length > 0 &&
       !Object.keys(nativeTags).some(key => this.requiredMetadata.includes(key))
-    ) return Promise.reject(new Error(`Missing metadata: ${this.requiredMetadata}, ${file}`));
+    ) {
+      return Promise.reject(new Error([
+        `File does not have all required metadata: ${file}`,
+        `File: ${file}`,
+        `Expected metadata: ${this.requiredMetadata}`,
+        `Actual metadata: ${Object.keys(nativeTags)}`
+      ].join(', ')));
+    }
 
     const getTagSet = tag => {
       if (!tag) return [-1, -1];
@@ -84,72 +114,76 @@ module.exports = class LibraryController {
       return set;
     };
 
-    const joinTags = (...tags) => tags
-      .map(tag => nativeTags[tag] || 'Unknown')
-      .join();
-
     return Promise.resolve({
-      _albumId: generateUid(joinTags('TPE2', 'TALB')),
-      _labelId: generateUid(joinTags('TPE2')),
+      _id: generateUid(),
+      _albumId: generateUid(`${nativeTags.TPUB || 'Unknown'}${nativeTags.TALB || 'Unknown'}`),
+      _labelId: generateUid(nativeTags.TPUB || 'Unknown'),
       file,
-      format,
-      images: !nativeTags.APIC ? [] : nativeTags.APIC.map(image => ({
-        _id: generateUid(`${joinTags('TPE2', 'TALB')}${image.type}`),
-        _songId: generateUid(nativeTags.TIT2 || 'Unknown'),
-        ...image,
-        format: image.format.split('/').pop() // image/jpg => jpg
+      duration: format.duration,
+      images: nativeTags.APIC.map(image => ({
+        format: image.format.split('/').pop(), // image/jpg => jpg
+        description: image.description || null,
+        type: image.type,
+        data: image.data
       })),
-      metadata: {
-        artist: nativeTags.TPE1 || null,
-        title: nativeTags.TIT2 || null,
-        album: nativeTags.TALB || null,
-        albumartist: nativeTags.TPE2 || null,
-        track: getTagSet(nativeTags.TRCK),
-        disc: getTagSet(nativeTags.TPOS),
-        year: nativeTags.TYER ?
-          parseInt(nativeTags.TYER, 10) :
-          null,
-        artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
-        titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
-        albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
-        albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
-        date: nativeTags.TDAT || null,
-        event: nativeTags['TXXX:EVENT'] || null,
-        genre: nativeTags.TCON || null,
-        cdid: nativeTags['TXXX:CDID'] || nativeTags['TXXX:CATALOGID'] || null
-      }
+      artist: nativeTags.TPE1 || null,
+      title: nativeTags.TIT2 || null,
+      album: nativeTags.TALB || null,
+      albumartist: nativeTags.TPE2 || null,
+      publisher: nativeTags.TPUB || null,
+      track: getTagSet(nativeTags.TRCK),
+      disc: getTagSet(nativeTags.TPOS),
+      year: nativeTags.TYER ?
+        parseInt(nativeTags.TYER, 10) :
+        null,
+      artistlocalized: nativeTags['TXXX:ARTISTLOCALIZED'] || null,
+      titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
+      albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
+      albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
+      publisherlocalized: nativeTags['TXX:PUBLISHERLOCALIZED'] || null,
+      date: nativeTags.TDAT || null,
+      event: nativeTags['TXXX:EVENT'] || null,
+      genre: nativeTags.TCON || null,
+      cdid: nativeTags['TXXX:CDID'] || nativeTags['TXXX:CATALOGID'] || null
     });
   }
 
-  async insertImages(images) {
-    if (images.length <= 0 || !this.folder) return Promise.resolve([]);
-
+  async createImages(images, _id) {
     const ids = [];
+
     for (let i = 0; i < images.length; i += 1) {
-      const {
-        data,
-        _id,
-        _songId,
-        ...image
-      } = images[i];
-      const file = path.resolve(this.folder, `${_id}.${image.format}`);
+      const image = images[i];
 
-      if (this.imageCache.some(buffer => buffer.equals(data))) {
+      const cache = this.cache.find(element => element.data.equals(image.data));
+      if (cache) {
         // Existing image
-        const _eId = `${_id}${_songId}`;
-
-        await this.db[TYPES.DATABASE.IMAGES].insert({ _id: _eId, file, ...image });
-
-        ids.push(_eId);
+        ids.push(cache._id);
       } else {
-        // Unique image
-        this.imageCache.push(data);
+        // New image
+        this.cache.push({ _id, data: image.data });
 
-        await this.db[TYPES.DATABASE.IMAGES].insert({ _id, file, ...image });
-        await sharp(data)
-          .jpeg({ quality: 90 })
-          .resize(300)
-          .toFile(file);
+        const file = `${_id}.${image.format}`;
+        const original = path.resolve(this.folder.original, file);
+        const thumbnail = path.resolve(this.folder.thumbnail, file);
+
+        await Promise.all([
+          this.db[TYPES.DATABASE.IMAGES].insert({
+            _id,
+            files: {
+              original,
+              thumbnail
+            },
+            type: image.type,
+            description: image.description
+          }),
+          sharp(image.data)
+            .jpeg({ progressive: true, quality: 100 })
+            .toFile(original),
+          sharp(image.data)
+            .jpeg({ quality: 90 })
+            .resize(300)
+            .toFile(thumbnail)
+        ]);
 
         ids.push(_id);
       }
@@ -160,54 +194,61 @@ module.exports = class LibraryController {
 
   async insert(event, { payload }) {
     const files = toArray(payload)
-      .map(folder => walk(folder)
-        .filter(file => this.fileTypes
-          .some(fileType => file.includes(fileType))))
-      .flat();
+      .map(walk)
+      .flat()
+      .filter(file => this.fileTypes.some(fileType => file.includes(fileType)));
 
     for (let i = 0, total = files.length; i < total; i += 1) {
       try {
-        const { images, ...rest } = await this.parseMetadata(files[i]);
-        const covers = await this.insertImages(images);
+        const metadata = await this.parseMetadata(files[i]);
 
-        await this.db[TYPES.DATABASE.SONGS].insert({ covers, ...rest });
+        if (metadata.images.length > 0) {
+          metadata.images = await this.createImages(metadata.images, metadata._id);
+        }
+
+        await this.db[TYPES.DATABASE.SONGS].insert(metadata);
 
         event.sender.send(IPC.CHANNEL.SCAN, {
-          data: { file: rest.file, index: i + 1, total },
+          data: { file: metadata.file, index: i + 1, total },
           error: null
         });
       } catch (err) {
+        event.sender.send(IPC.CHANNEL.SCAN, {
+          data: { file: files[i], index: i + 1, total },
+          error: this.strict ? err : null
+        });
+
         if (this.strict) return Promise.reject(err);
       }
     }
 
-    this.imageCache = [];
+    this.cache = [];
 
     const songs = await this.db[TYPES.DATABASE.SONGS].find();
     const albums = Object
       .entries(groupBy(songs, '_albumId'))
       .map(([album, albumSongs]) => ({
         _id: album,
-        artist: albumSongs[0].metadata.artist || null,
-        artistlocalized: albumSongs[0].metadata.artistlocalized || null,
-        album: albumSongs[0].metadata.album || null,
-        albumlocalized: albumSongs[0].metadata.albumlocalized || null,
-        covers: albumSongs[0].covers,
-        year: albumSongs[0].metadata.year || null,
-        date: albumSongs[0].metadata.date || null,
-        cdid: albumSongs[0].metadata.cdid || null,
+        album: albumSongs[0].album || null,
+        albumlocalized: albumSongs[0].albumlocalized || null,
+        albumartist: albumSongs[0].albumartist || null,
+        albumartistlocalized: albumSongs[0].albumartistlocalized || null,
+        images: albumSongs[0].images,
+        year: albumSongs[0].year || null,
+        date: albumSongs[0].date || null,
+        cdid: albumSongs[0].cdid || null,
         songs: albumSongs.map(({ _id }) => _id),
-        duration: albumSongs.reduce((acc, { format: { duration } }) => acc + duration, 0)
+        duration: albumSongs.reduce((acc, { duration }) => acc + duration, 0)
       }));
     const labels = Object
       .entries(groupBy(songs, '_labelId'))
       .map(([label, labelSongs]) => ({
         _id: label,
-        label: labelSongs[0].metadata.albumartist || null,
-        labellocalized: labelSongs[0].metadata.albumartistlocalized || null,
+        publisher: labelSongs[0].publisher || null,
+        publisherlocalized: labelSongs[0].publisherlocalized || null,
         albums: Object.keys(groupBy(labelSongs, '_albumId')),
         songs: labelSongs.map(({ _id }) => _id),
-        duration: labelSongs.reduce((acc, { format: { duration } }) => acc + duration, 0)
+        duration: labelSongs.reduce((acc, { duration }) => acc + duration, 0)
       }));
 
     await this.db[TYPES.DATABASE.ALBUMS].insert(albums, { persist: true });
@@ -251,12 +292,7 @@ module.exports = class LibraryController {
     await this.db[TYPES.DATABASE.LABELS].drop();
     await this.db[TYPES.DATABASE.ALBUMS].drop();
 
-    if (this.folder) {
-      const files = fs.readdirSync(this.folder);
-      for (let i = 0; i < files.length; i += 1) {
-        fs.unlinkSync(path.join(this.folder, files[i]));
-      }
-    }
+    if (this.folder.root) walk(this.folder.root).forEach(fs.unlinkSync);
 
     return Promise.resolve({
       images: [],

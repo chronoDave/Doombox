@@ -7,7 +7,8 @@ module.exports = {
     strict: false,
     fileTypes: ['mp3'],
     skipCovers: false,
-    requiredMetadata: []
+    requiredMetadata: [],
+    tagTypes: ['ID3v2.3']
   },
   player: {
     autoplay: true

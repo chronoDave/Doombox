@@ -20,8 +20,8 @@ export const setup = noInstance => {
 };
 
 export const mockCollection = [
-  { format: { duration: 3 } },
-  { format: { duration: 6 } },
-  { format: { duration: 9 } },
-  { format: { duration: 12 } }
+  { duration: 3 },
+  { duration: 6 },
+  { duration: 9 },
+  { duration: 12 }
 ];

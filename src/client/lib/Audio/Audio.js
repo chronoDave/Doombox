@@ -114,7 +114,7 @@ class Audio extends EventEmitter {
     if (!this.playlist.name) this.playlist.name = null;
 
     this.playlist.duration = this.playlist.collection
-      .reduce((acc, cur) => acc + (cur.format.duration || 0), 0);
+      .reduce((acc, cur) => acc + (cur.duration || 0), 0);
 
     this.create();
 
@@ -185,7 +185,7 @@ class Audio extends EventEmitter {
         mute: this.muted,
         onload: () => {
           this.emit(EVENTS.AUDIO.DURATION, Math.round(this.instance.duration()));
-          this.emit(EVENTS.AUDIO.METADATA, { _id: song._id, covers: song.covers, ...song.metadata });
+          this.emit(EVENTS.AUDIO.METADATA, song);
         },
         onplay: () => {
           this.status = STATUS.AUDIO.PLAYING;

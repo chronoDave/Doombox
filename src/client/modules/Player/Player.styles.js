@@ -6,11 +6,11 @@ import { makeStyles } from '../../theme';
 import backgroundDefault from '../../assets/images/backgroundDefault.png';
 
 export default makeStyles(theme => ({
-  root: ({ cover = {} }) => ({
+  root: ({ image }) => ({
     display: 'flex',
     flexDirection: 'column',
-    backgroundImage: theme.createImage((cover.file ?
-      url.pathToFileURL(cover.file).href :
+    backgroundImage: theme.createImage((image ?
+      url.pathToFileURL(image).href :
       backgroundDefault
     )),
     backgroundSize: 'cover',

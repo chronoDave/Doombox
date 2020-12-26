@@ -11,9 +11,6 @@ import { PlayerTime } from '../PlayerTime';
 // Hooks
 import { useTranslation, useMediaQuery } from '../../hooks';
 
-// Validation
-import { propCover } from '../../validation/propTypes';
-
 // Styles
 import usePlayerStyles from './Player.styles';
 
@@ -23,10 +20,10 @@ const Player = props => {
     titlelocalized,
     artist,
     artistlocalized,
-    cover
+    image
   } = props;
   const { t, getLocalizedTag } = useTranslation();
-  const classes = usePlayerStyles({ cover });
+  const classes = usePlayerStyles({ image });
   const isMd = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
     create('minHeight', 'sm')
@@ -65,9 +62,7 @@ Player.defaultProps = {
   titlelocalized: null,
   artist: '',
   artistlocalized: '',
-  cover: {
-    file: ''
-  }
+  image: ''
 };
 
 Player.propTypes = {
@@ -75,18 +70,23 @@ Player.propTypes = {
   titlelocalized: PropTypes.string,
   artist: PropTypes.string,
   artistlocalized: PropTypes.string,
-  cover: propCover
+  image: PropTypes.string
 };
 
-const mapStateToProps = state => ({
-  cover: state.player.metadata.covers.map(image => (
-    state.entities.images.map[image]
-  ))[0],
-  artist: state.player.metadata.artist,
-  artistlocalized: state.player.metadata.artistlocalized,
-  title: state.player.metadata.title,
-  titlelocalized: state.player.metadata.titlelocalized
-});
+const mapStateToProps = state => {
+  const images = state.player.metadata.images
+    .map(id => state.entities.images.map[id]);
+
+  return ({
+    image: images[0] ?
+      images[0].files.thumbnail :
+      null,
+    artist: state.player.metadata.artist,
+    artistlocalized: state.player.metadata.artistlocalized,
+    title: state.player.metadata.title,
+    titlelocalized: state.player.metadata.titlelocalized
+  });
+};
 
 export default connect(
   mapStateToProps

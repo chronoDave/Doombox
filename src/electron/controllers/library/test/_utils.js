@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LeafDB = require('leaf-db').default;
+const { CONFIG } = require('@doombox-config');
 
 const { TYPES } = require('../../../../utils/types');
 
@@ -15,12 +16,12 @@ const imageFile = path.resolve(__dirname, 'images.txt');
 const songFolder = path.resolve(__dirname, '../../../../../test/songs');
 const imageFolder = path.resolve(__dirname, 'images');
 
-const setup = (options = {}) => new LibraryController({
+const setup = (folder, options = {}) => new LibraryController({
   [TYPES.DATABASE.SONGS]: new LeafDB(TYPES.DATABASE.SONGS, { root: __dirname, strict: !!options.strict }),
   [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root: __dirname, strict: !!options.strict }),
   [TYPES.DATABASE.LABELS]: new LeafDB(TYPES.DATABASE.LABELS, { root: __dirname, strict: !!options.strict }),
   [TYPES.DATABASE.ALBUMS]: new LeafDB(TYPES.DATABASE.ALBUMS, { root: __dirname, strict: !!options.strict })
-}, options);
+}, folder, { ...CONFIG.parser, ...options });
 
 const cleanup = () => {
   fs.unlinkSync(songFile);

@@ -15,11 +15,20 @@ export default {
     }
   },
   library: {
-    header: 48,
+    header: {
+      xs: { height: 44, padding: 2 },
+      sm: { height: 48, padding: 4 },
+      lg: { height: 52, padding: 8 }
+    },
+    container: {
+      xs: 0,
+      sm: 4,
+      lg: 8
+    },
     item: {
-      xs: 72,
-      sm: 144,
-      lg: 320
+      xs: { width: 74, height: 74, padding: 1 },
+      sm: { width: 112, height: 112, padding: 2 },
+      lg: { width: 336, height: 150, padding: 2 }
     }
   }
 };
