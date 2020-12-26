@@ -8,6 +8,7 @@
 
 - `WINDOW` - Window actions (minimize, maximize, etc.)
 - `LIBRARY` - Library controller
+- `SONG` - Song controller
 - `IMAGE` - Image controller
 - `ALBUM` - Album controller
 - `LABEL` - Label controller
@@ -15,8 +16,9 @@
 - `CACHE` - Storage controller (cache)
 - `CONFIG` - Storage controller (config)
 - `KEYBIND` - Keybind actions (play, pause, etc.)
-- `INTERRUPT` - Interrupt data channel
-- `VIEW` - Routing (interrupt, main, etc.)
+- `OVERLAY` - Overlay actions (scan, settings, etc.)
+- `SCAN` - Scan overlay message channel
+- `AUDIO` - Audio actions (next, previous, play, etc.)
 
 ## Protocol
 

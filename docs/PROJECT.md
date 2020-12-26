@@ -11,7 +11,6 @@
  - `scripts` - Helper scripts
     - `clean.js` - Cleans `dist` folder
     - `test.js` - Test runner, uses Babel for transpilation
-    - `watch.js` - Electron watcher, uses Chokidar for file watching. Commands can be chained using `-e`
  - `src` - Source
     - `client` - Client
     - `config` - Config files (theme, cache, user)
