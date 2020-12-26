@@ -11,7 +11,11 @@
     "help": "help",
     "playlist": "afspeellijst",
     "release": "uitgave",
-    "duration": "duur"
+    "duration": "duratie"
+  },
+  "time": {
+    "hour_narrow": "u",
+    "minute_short": "min"
   },
   "action": {
     "common": {
@@ -22,7 +26,7 @@
       "open": "open {item}",
       "search": "zoeken",
       "play": "speel {item} af",
-      "shuffle": "schud {item}",
+      "shuffle": "schuiffel {item}",
       "add": "voeg {item} toe"
     },
     "menu": {

@@ -2,7 +2,7 @@ const test = require('tape');
 
 const { capitalize } = require('../utils');
 
-const { LOCALES, LANGUAGES, getTranslation } = require('./index');
+const { TRANSLATIONS, LANGUAGES, getTranslation } = require('./index');
 
 test('[getTranslation] should return key if value does not exist', t => {
   const key = 'test_key';
@@ -13,7 +13,7 @@ test('[getTranslation] should return key if value does not exist', t => {
 });
 
 test('[getTranslation] should return translation if value exists', t => {
-  const value = LOCALES.en.common.album[0];
+  const value = TRANSLATIONS.en.common.album[0];
   const key = 'common.album';
 
   t.equal(getTranslation(LANGUAGES.en, key), value);
@@ -22,7 +22,7 @@ test('[getTranslation] should return translation if value exists', t => {
 });
 
 test('[getTranslation] should return plural if `plural` is true', t => {
-  const value = LOCALES.en.common.album[1];
+  const value = TRANSLATIONS.en.common.album[1];
   const key = 'common.album';
 
   t.equal(getTranslation(LANGUAGES.en, key, { plural: true }), value);
@@ -48,7 +48,7 @@ test('[getTranslation] should return triple dots if `dots` is true', t => {
 });
 
 test('[getTranslation] should capitalize if `transform` contains `capitalize`', t => {
-  const value = LOCALES.en.common.album[0];
+  const value = TRANSLATIONS.en.common.album[0];
   const key = 'common.album';
 
   t.equal(
@@ -64,7 +64,7 @@ test('[getTranslation] should pascal case if `transform` contains `pascal`', t =
 
   t.equal(
     getTranslation(LANGUAGES.en, key, { transform: 'pascal' }),
-    LOCALES.en.action.menu.toggle_dev_tools
+    TRANSLATIONS.en.action.menu.toggle_dev_tools
       .split(' ')
       .map(capitalize)
       .join(' ')

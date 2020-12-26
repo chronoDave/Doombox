@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatTime } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -13,7 +12,7 @@ import { useMediaQuery, useTranslation } from '../../hooks';
 import usePlaylistTitleStyles from './PlaylistTitle.styles';
 
 const PlaylistTitle = ({ name, duration, size }) => {
-  const { t } = useTranslation();
+  const { t, formatTime } = useTranslation();
   const classes = usePlaylistTitleStyles();
   const displaySecondary = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
@@ -29,7 +28,7 @@ const PlaylistTitle = ({ name, duration, size }) => {
         <Typography>
           {[
             `${size} ${t('common.track', { plural: size !== 1 })}`,
-            formatTime(duration, { useText: true })
+            formatTime(duration, 'text')
           ].join(' \u2022 ')}
         </Typography>
       )}

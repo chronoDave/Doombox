@@ -13,6 +13,10 @@
     "release": "release",
     "duration": "duration"
   },
+  "time": {
+    "hour_narrow": "h",
+    "minute_short": "min"
+  },
   "action": {
     "common": {
       "scan": "scan {item}",

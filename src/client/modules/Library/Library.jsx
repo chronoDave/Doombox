@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { IPC } from '@doombox-utils/types';
-import { formatTime, sortMetadata } from '@doombox-utils';
+import { sortMetadata } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -51,7 +51,7 @@ const Library = ({ labels }) => {
     });
   }, []);
 
-  const { t, getLocalizedTag } = useTranslation();
+  const { t, getLocalizedTag, formatTime } = useTranslation();
   const isSm = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
     create('minHeight', 'sm')

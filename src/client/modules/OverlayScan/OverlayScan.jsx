@@ -7,7 +7,6 @@ import React, {
   useRef
 } from 'react';
 import PropTypes from 'prop-types';
-import { formatTime } from '@doombox-utils';
 import { IPC } from '@doombox-utils/types';
 
 // Core
@@ -24,7 +23,7 @@ const OverlayScan = ({ open }) => {
   const [count, setCount] = useState(0);
 
   const classes = useOverlayScanStyles();
-  const { t } = useTranslation();
+  const { t, formatTime } = useTranslation();
 
   const counter = useRef();
 

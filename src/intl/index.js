@@ -2,17 +2,17 @@ const objectGet = require('lodash.get');
 
 const { capitalize, pascalize } = require('@doombox-utils');
 
-const localeEn = require('./locales/en.json');
-const localeNl = require('./locales/nl.json');
+const translationEn = require('./translations/en.json');
+const translationNl = require('./translations/nl.json');
 
 const LANGUAGES = {
   en: 'English',
   nl: 'Nederlands'
 };
 
-const LOCALES = {
-  en: localeEn,
-  nl: localeNl
+const TRANSLATIONS = {
+  en: translationEn,
+  nl: translationNl
 };
 
 /**
@@ -35,7 +35,7 @@ const getTranslation = (
     transform = null
   } = {}
 ) => {
-  let value = objectGet(LOCALES[language] || LOCALES.en, key);
+  let value = objectGet(TRANSLATIONS[language] || TRANSLATIONS.en, key);
 
   if (!value) return key;
 
@@ -91,7 +91,7 @@ const getNativeKeybind = (keybind, transform) => {
 
 module.exports = {
   LANGUAGES,
-  LOCALES,
+  TRANSLATIONS,
   getTranslation,
   getNativeKeybind
 };

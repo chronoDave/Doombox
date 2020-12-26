@@ -1,16 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatTime } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
 import { Typography } from '../../components';
+
+// Hooks
+import { useTranslation } from '../../hooks';
 
 // Styles
 import usePlayerTimeStyles from './PlayerTime.styles';
 
 const PlayerTime = ({ position, duration }) => {
   const classes = usePlayerTimeStyles();
+  const { formatTime } = useTranslation();
 
   return (
     <div className={classes.root}>

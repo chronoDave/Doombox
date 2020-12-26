@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatTime, sortMetadata } from '@doombox-utils';
+import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -26,7 +26,7 @@ const LibraryItem = props => {
   const classes = useLibraryItemStyles();
 
   const { set } = useAudio();
-  const { t, getLocalizedTag } = useTranslation();
+  const { t, getLocalizedTag, formatDate, formatTime } = useTranslation();
   const isLg = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'lg'),
     create('minHeight', 'md')
@@ -78,10 +78,10 @@ const LibraryItem = props => {
                   variant="subtitle"
                   values={[{
                     label: t('common.release', { transform: 'capitalize' }),
-                    value: album.date || album.year
+                    value: formatDate(album.date || album.year)
                   }, {
                     label: t('common.duration', { transform: 'capitalize' }),
-                    value: formatTime(album.duration, { useText: true })
+                    value: formatTime(album.duration, 'text')
                   }, {
                     label: t('common.track', {
                       transform: 'capitalize',
