@@ -23,7 +23,7 @@ test('[library.controller.insert] should create library', async t => {
   try {
     await controller.insert(mockEvent, { payload });
 
-    t.equal(mockEvent.sender.send.callCount, 1, 'calls interrupt');
+    t.equal(mockEvent.sender.send.callCount, 3, 'calls interrupt');
     t.equal(fs.readFileSync(songFile, 'utf-8').split('\n').length, 1, 'persists song data');
     t.equal(fs.readFileSync(albumFile, 'utf-8').split('\n').length, 1, 'persists album data');
     t.equal(fs.readFileSync(labelFile, 'utf-8').split('\n').length, 1, 'persists label data');
