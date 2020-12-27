@@ -67,7 +67,7 @@ LanguageProvider.propTypes = {
 
 const mapStateToProps = state => ({
   useLocalizedMetadata: state.config.display.useLocalizedMetadata,
-  language: state.config.language
+  language: state.config.display.language
 });
 
 export default connect(

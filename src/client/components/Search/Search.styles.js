@@ -8,7 +8,7 @@ export default makeStyles(theme => ({
     backgroundColor: 'transparent',
     padding: 0,
     width: '100%',
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.primary.text,
     display: 'inline-flex',
     height: 'fit-content'
   })

@@ -19,7 +19,7 @@ export default makeStyles(theme => ({
     }
   },
   active: {
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.primary.text,
     backgroundColor: theme.palette.primary.main,
     '&:hover': {
       color: theme.palette.text.primary,

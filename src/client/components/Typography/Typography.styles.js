@@ -5,7 +5,7 @@ export default makeStyles(theme => {
     if (color === 'inherit') return color;
     if (color === 'disabled') return theme.palette.text.disabled;
     if (color.includes('text')) return theme.palette.text[color.slice(4).toLowerCase()];
-    return theme.palette[color].contrastText;
+    return theme.palette[color].text;
   };
 
   return ({

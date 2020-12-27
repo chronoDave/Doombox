@@ -90,7 +90,7 @@ module.exports = {
       FOLDERS: 'folders'
     },
     CONFIG: {
-      LANGUAGE: 'language',
+      DISPLAY: 'display',
       PARSER: 'parser',
       PLAYER: 'player',
       KEYBINDS: 'keybinds'

@@ -11,3 +11,5 @@ export { PlayerSlider } from './PlayerSlider';
 export { PlayerTime } from './PlayerTime';
 export { Playlist } from './Playlist';
 export { PlaylistTitle } from './PlaylistTitle';
+export { SettingsLanguage } from './SettingsLanguage';
+export { SettingsLibrary } from './SettingsLibrary';

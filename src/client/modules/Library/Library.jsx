@@ -64,7 +64,7 @@ const Library = ({ labels }) => {
   return (
     <VirtualList
       data={labels}
-      itemHeight={({ data, container: { width } }) => {
+      itemHeight={({ data, width }) => {
         const { item, container, header } = mixins.library;
 
         const breakpoint = (() => {

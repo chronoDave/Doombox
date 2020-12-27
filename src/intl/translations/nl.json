@@ -1,7 +1,13 @@
 {
   "common": {
-    "album": ["album", "albums"],
-    "track": ["nummer", "nummers"],
+    "album": [
+      "album",
+      "albums"
+    ],
+    "track": [
+      "nummer",
+      "nummers"
+    ],
     "folder": "folder",
     "library": "bibliotheek",
     "github": "GitHub",
@@ -11,7 +17,8 @@
     "help": "help",
     "playlist": "afspeellijst",
     "release": "uitgave",
-    "duration": "duratie"
+    "duration": "duratie",
+    "language": "taal"
   },
   "time": {
     "hour_narrow": "u",
@@ -42,10 +49,12 @@
     }
   },
   "title": {
-    "scanning_files": "bestanden aan het scannen"
+    "scanning_files": "bestanden aan het scannen",
+    "use_localized_metadata": "gebruik gelokaliseerde metadata"
   },
   "description": {
     "scanning_files": "een moment geduld, dit kan even duren",
-    "playlist_empty": "geen nummers geselecteerd"
+    "playlist_empty": "geen nummers geselecteerd",
+    "display_language": "schermtaal"
   }
 }

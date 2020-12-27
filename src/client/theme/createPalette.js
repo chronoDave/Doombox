@@ -6,7 +6,7 @@ const opacity = {
   text: 0.14,
   inactive: 0.34,
   disabled: 0.54,
-  overlay: 0.84
+  overlay: 0.92
 };
 
 const expandHex = hex => (

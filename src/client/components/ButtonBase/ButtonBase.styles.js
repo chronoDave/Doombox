@@ -9,7 +9,9 @@ export default makeStyles(() => ({
     padding: 0
   },
   holding: {
-    marginTop: 1,
-    marginBottom: -1
+    transform: 'translate(0, 1px)'
+  },
+  disabled: {
+    cursor: 'default'
   }
 }), 'buttonBase');

@@ -9,9 +9,11 @@ import {
   Overlay,
   ButtonIcon,
   ButtonBase,
-  Typography,
-  SelectLanguage
+  Typography
 } from '../../components';
+
+import { SettingsLanguage } from '../SettingsLanguage';
+import { SettingsLibrary } from '../SettingsLibrary';
 
 // Redux
 import { setOverlay } from '../../redux';
@@ -34,36 +36,36 @@ const OverlaySettings = ({ open, dispatchOverlay }) => {
     return () => Mousetrap.unbind('esc');
   }, [dispatchOverlay]);
 
+  const tabs = {
+    general: <div />,
+    language: <SettingsLanguage />,
+    library: <SettingsLibrary />
+  };
+
   return (
     <Overlay open={open} className={classes.overlay}>
       <div className={classes.root}>
         <div className={classes.tabs}>
-          <ButtonBase
-            onClick={() => setTab('general')}
-            className={cx(classes.button, {
-              [classes.buttonActive]: tab === 'general'
-            })}
-          >
-            <Typography color="inherit">
-              {t('common.general', { transform: 'capitalize' })}
-            </Typography>
-          </ButtonBase>
-          <ButtonBase
-            onClick={() => setTab('library')}
-            className={cx(classes.button, {
-              [classes.buttonActive]: tab === 'library'
-            })}
-          >
-            <Typography color="inherit">
-              {t('common.library', { transform: 'capitalize' })}
-            </Typography>
-          </ButtonBase>
+          {Object.keys(tabs).map(key => (
+            <ButtonBase
+              key={key}
+              onClick={() => setTab(key)}
+              className={cx(classes.tab, {
+                [classes.tabActive]: tab === key,
+                [classes.tabHover]: tab !== key
+              })}
+            >
+              <Typography color="inherit">
+                {t(`common.${key}`, { transform: 'capitalize' })}
+              </Typography>
+            </ButtonBase>
+          ))}
         </div>
         <div className={classes.body}>
-          <SelectLanguage />
+          {tabs[tab]}
         </div>
         <div className={classes.close}>
-          <ButtonIcon icon="close" onClick={() => dispatchOverlay(null)} />
+          <ButtonIcon small icon="close" onClick={() => dispatchOverlay(null)} />
           <Typography>
             Esc
           </Typography>

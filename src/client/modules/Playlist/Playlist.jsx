@@ -37,7 +37,7 @@ const Playlist = ({ songs, current }) => {
     <VirtualList
       ref={ref}
       data={songs}
-      itemHeight={itemHeight}
+      itemHeight={() => itemHeight}
     >
       {({ data, style, index }) => (
         <PlaylistItem

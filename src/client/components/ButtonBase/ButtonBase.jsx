@@ -8,6 +8,7 @@ import useButtonBaseStyles from './ButtonBase.styles';
 const ButtonBase = forwardRef((props, ref) => {
   const {
     disableAnimation,
+    disabled,
     className,
     children,
     ...rest
@@ -20,12 +21,14 @@ const ButtonBase = forwardRef((props, ref) => {
     <button
       type="button"
       className={cx(classes.root, {
+        [classes.disabled]: disabled,
         [classes.holding]: !disableAnimation && holding
       }, className)}
-      {...rest}
+      disabled={disabled}
       onMouseDown={() => setHolding(true)}
       onMouseUp={() => setHolding(false)}
       ref={ref}
+      {...rest}
     >
       {children}
     </button>
@@ -34,11 +37,13 @@ const ButtonBase = forwardRef((props, ref) => {
 
 ButtonBase.defaultProps = {
   disableAnimation: false,
+  disabled: false,
   className: null
 };
 
 ButtonBase.propTypes = {
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   disableAnimation: PropTypes.bool,
   children: PropTypes.node.isRequired
 };

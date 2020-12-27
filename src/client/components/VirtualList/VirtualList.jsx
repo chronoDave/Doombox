@@ -2,6 +2,7 @@ import React, {
   forwardRef,
   useState,
   useEffect,
+  useCallback,
   useRef
 } from 'react';
 import { getCumulative } from '@doombox-utils';
@@ -10,47 +11,9 @@ import PropTypes from 'prop-types';
 // Styles
 import useVirtualListStyles from './VirtualList.styles';
 
-const getViewPair = ({ container, height, overscroll }) => {
-  /**
-   * Find smallest cumulative height that's larger than the current scroll position,
-   * and remove 1, as the previous item is still (partly) visible
-   *
-   * Can return -1
-   */
-  const indexStart = height.cumulative
-    .findIndex(cumulativeHeight => cumulativeHeight > container.y) - 1;
-
-  /**
-   * Find smallest cumulative height that's larger than the container height + scroll position,
-   * overflow is desired, so no need to remove 1
-   *
-   * Can return -1
-   */
-  const indexEnd = height.cumulative
-    .findIndex(cumulativeHeight => cumulativeHeight > container.y + container.height);
-
-  /** Start index must always be at least 0 */
-  const normalizedIndexStart = Math.max(0, indexStart - overscroll);
-
-  /**
-   * End index must always be at least 0
-   * If total height is small than container height, return max index
-   * */
-  const normalizedIndexEnd = (indexEnd < 0 || height.total <= container.height) ?
-    Math.max(0, height.cumulative.length - 1) :
-    Math.max(0, Math.min(height.cumulative.length - 1, indexEnd + overscroll));
-
-  return ([normalizedIndexStart, normalizedIndexEnd]);
-};
-
 const VirtualList = forwardRef((props, outerRef) => {
-  const {
-    data,
-    overscroll,
-    itemHeight,
-    children
-  } = props;
-  const [viewPair, setViewPair] = useState([0, 0]);
+  const { data, itemHeight, children } = props;
+  const [view, setView] = useState({ min: 0, max: 0 });
   const [height, setHeight] = useState({
     children: [],
     cumulative: [],
@@ -63,15 +26,26 @@ const VirtualList = forwardRef((props, outerRef) => {
 
   const classes = useVirtualListStyles({ height: height.total });
 
+  const getView = useCallback(container => {
+    // Get smallest / largest cumulative height based on scroll position
+    const indexStart = Math.max(0, height.cumulative
+      .findIndex(item => item > container.y) - 1);
+    const indexEnd = Math.max(0, height.cumulative
+      .findIndex(item => item >= container.y + container.height));
+
+    return ({
+      min: indexStart,
+      max: Math.min(Math.max(0, height.children.length), indexEnd)
+    });
+  }, [height]);
+
   useEffect(() => {
-    const getHeights = () => {
-      const heights = typeof itemHeight === 'number' ?
-        data.map(() => itemHeight) :
-        data.map((childData, index) => itemHeight({
-          data: childData,
-          container: refContainer.current.getBoundingClientRect(),
-          index
-        }));
+    const updateHeight = () => {
+      const heights = data.map((childData, index) => itemHeight({
+        data: childData,
+        width: refContainer.current.getBoundingClientRect().width,
+        index
+      }));
 
       setHeight({
         children: heights,
@@ -80,55 +54,44 @@ const VirtualList = forwardRef((props, outerRef) => {
       });
     };
 
-    getHeights();
-    window.addEventListener('resize', getHeights);
+    updateHeight();
 
-    return () => window.removeEventListener('resize', getHeights);
-  }, [ref, itemHeight, data]);
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, [data, itemHeight]);
 
   useEffect(() => {
-    if (ref && ref.current) {
-      setViewPair(getViewPair({
-        overscroll,
-        height,
-        container: {
-          y: ref.current.scrollTop,
-          height: ref.current.getBoundingClientRect().height
-        }
-      }));
-    }
-  }, [ref, height, overscroll]);
+    setView(getView({
+      y: ref.current.scrollTop,
+      height: ref.current.getBoundingClientRect().height
+    }));
+  }, [ref, height, getView]);
 
   return (
     <div
       ref={ref}
       className={classes.root}
       onScroll={event => {
-        const newViewPair = getViewPair({
-          overscroll,
-          height,
-          container: {
-            y: event.currentTarget.scrollTop,
-            height: event.currentTarget.getBoundingClientRect().height
-          }
+        const newView = getView({
+          y: event.currentTarget.scrollTop,
+          height: event.currentTarget.getBoundingClientRect().height
         });
 
-        if (
-          newViewPair[0] !== viewPair[0] ||
-          newViewPair[1] !== viewPair[1]
-        ) setViewPair(newViewPair);
+        if (newView.min !== view.min || newView.max !== view.max) setView(newView);
       }}
     >
-      <div ref={refContainer} className={classes.container}>
-        {data.slice(viewPair[0], viewPair[1]).map((childData, i) => {
-          const index = viewPair[0] + i;
+      <div ref={refContainer} className={classes.body}>
+        {data.slice(view.min, view.max).map((childData, i) => {
+          const index = view.min + i;
 
           return children({
             index,
             data: childData,
             style: {
               position: 'absolute',
-              top: Number.isFinite(height.cumulative[index]) ? height.cumulative[index] : 0,
+              top: Number.isFinite(height.cumulative[index]) ?
+                height.cumulative[index] :
+                0,
               width: '100%',
               height: height.children[index]
             }
@@ -139,13 +102,8 @@ const VirtualList = forwardRef((props, outerRef) => {
   );
 });
 
-VirtualList.defaultProps = {
-  overscroll: 0
-};
-
 VirtualList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.any).isRequired,
-  overscroll: PropTypes.number,
   itemHeight: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.func

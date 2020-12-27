@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { TYPES } from '@doombox-utils/types';
 import { LANGUAGES } from '@doombox-intl';
 import PropTypes from 'prop-types';
 
@@ -8,7 +9,7 @@ import { Select } from '../Select';
 import { MenuItem } from '../MenuItem';
 
 // Actions
-import { updateLanguage } from '../../actions';
+import { updateConfig } from '../../actions';
 
 const InputLanguage = ({ language }) => (
   <Select label={LANGUAGES[language]}>
@@ -16,14 +17,14 @@ const InputLanguage = ({ language }) => (
       <MenuItem
         key={key}
         primary={primary}
-        onClick={() => updateLanguage(key)}
+        onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, { language: key })}
       />
     ))}
   </Select>
 );
 
 const mapStateToProps = state => ({
-  language: state.config.language
+  language: state.config.display.language
 });
 
 InputLanguage.propTypes = {

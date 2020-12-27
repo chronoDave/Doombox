@@ -3,6 +3,10 @@ export default {
     track: 4,
     thumb: 8
   },
+  toggle: {
+    body: 30,
+    thumb: 12
+  },
   player: {
     xs: { width: 164, height: 164 },
     sm: { width: 210, height: 210 },

@@ -1,7 +1,13 @@
 {
   "common": {
-    "album": ["album", "albums"],
-    "track": ["track", "tracks"],
+    "album": [
+      "album",
+      "albums"
+    ],
+    "track": [
+      "track",
+      "tracks"
+    ],
     "folder": "folder",
     "library": "library",
     "github": "GitHub",
@@ -11,7 +17,8 @@
     "help": "help",
     "playlist": "playlist",
     "release": "release",
-    "duration": "duration"
+    "duration": "duration",
+    "language": "language"
   },
   "time": {
     "hour_narrow": "h",
@@ -42,10 +49,12 @@
     }
   },
   "title": {
-    "scanning_files": "scanning files"
+    "scanning_files": "scanning files",
+    "use_localized_metadata": "use localized metadata"
   },
   "description": {
     "scanning_files": "please be patient, this might take a while",
-    "playlist_empty": "no songs selected"
+    "playlist_empty": "no songs selected",
+    "display_language": "display language"
   }
 }

@@ -4,7 +4,7 @@ export default makeStyles(() => ({
   root: {
     overflow: 'auto'
   },
-  container: ({ height }) => ({
+  body: ({ height }) => ({
     position: 'relative',
     height
   })

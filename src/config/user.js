@@ -1,6 +1,6 @@
 module.exports = {
-  language: 'en',
   display: {
+    language: 'en',
     useLocalizedMetadata: true
   },
   parser: {

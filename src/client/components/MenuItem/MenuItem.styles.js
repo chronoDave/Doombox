@@ -11,7 +11,7 @@ export default makeStyles(theme => ({
     ),
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText
+      color: theme.palette.primary.text
     }
   },
   secondary: {

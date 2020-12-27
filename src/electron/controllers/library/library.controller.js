@@ -140,7 +140,7 @@ module.exports = class LibraryController {
       titlelocalized: nativeTags['TXXX:TITLELOCALIZED'] || null,
       albumlocalized: nativeTags['TXXX:ALBUMLOCALIZED'] || null,
       albumartistlocalized: nativeTags['TXXX:ALBUMARTISTLOCALIZED'] || null,
-      publisherlocalized: nativeTags['TXX:PUBLISHERLOCALIZED'] || null,
+      publisherlocalized: nativeTags['TXXX:PUBLISHERLOCALIZED'] || null,
       date: nativeTags.TDAT || null,
       event: nativeTags['TXXX:EVENT'] || null,
       genre: nativeTags.TCON || null,

@@ -9,10 +9,10 @@ module.exports = {
   primary: {
     dark: '#342841',
     main: '#664d82',
-    contrastText: '#fff'
+    text: '#fff'
   },
   secondary: {
-    contrastText: '#fff'
+    text: '#fff'
   },
   error: {
     main: '#f04747'
