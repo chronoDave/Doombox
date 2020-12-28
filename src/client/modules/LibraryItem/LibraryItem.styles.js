@@ -90,7 +90,7 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    padding: theme.spacing(0, 0.75)
+    padding: theme.spacing(0.5, 1)
   },
   table: {
     marginTop: theme.spacing()

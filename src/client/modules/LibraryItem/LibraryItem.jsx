@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
@@ -135,13 +135,17 @@ const mapStateToProps = (state, props) => ({
             .map(songId => state.entities.songs.map[songId])
             .sort(sortMetadata(['disc', 'track'], state.config.display.useLocalizedMetadata))
         });
-      }).sort(sortMetadata(
-        ['date', 'year'],
-        state.config.display.useLocalizedMetadata
-      )) :
+      }).sort(sortMetadata(['date', 'year'], state.config.display.useLocalizedMetadata)) :
     []
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  null,
+  null,
+  {
+    areStatesEqual: () => false,
+    areStatePropsEqual: () => true,
+    areOwnPropsEqual: (next, prev) => next.id === prev.id
+  }
 )(LibraryItem);

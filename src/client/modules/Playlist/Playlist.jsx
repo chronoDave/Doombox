@@ -33,7 +33,7 @@ const Playlist = ({ songs, current }) => {
       size={songs.length}
       itemSize={itemSize}
     >
-      {({ style, index }) => (
+      {({ style, index }) => songs[index] && (
         <PlaylistItem
           key={songs[index]._id}
           active={current === index}

@@ -106,15 +106,14 @@ class Audio extends EventEmitter {
   }
 
   set(playlist) {
-    this.playlist = playlist;
-
-    if (!this.playlist) this.playlist = {};
-    if (!this.playlist.index) this.playlist.index = 0;
-    if (!this.playlist.collection) this.playlist.collection = [];
-    if (!this.playlist.name) this.playlist.name = null;
-
-    this.playlist.duration = this.playlist.collection
-      .reduce((acc, cur) => acc + (cur.duration || 0), 0);
+    this.playlist = {
+      name: playlist.name || null,
+      collection: playlist.collection || [],
+      index: 0,
+      duration: Array.isArray(playlist.collection) ?
+        playlist.collection.reduce((acc, { duration }) => acc + (duration || 0), 0) :
+        0
+    };
 
     this.create();
 

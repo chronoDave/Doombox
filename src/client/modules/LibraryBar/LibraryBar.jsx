@@ -45,10 +45,10 @@ const LibraryBar = ({ songs }) => {
 
   const handleSearch = (_, value) => ipcFind(IPC.CHANNEL.LIBRARY, {
     $some: [
-      { $stringLoose: { 'metadata.album': value.toString() } },
-      { $stringLoose: { 'metadata.albumlocalized': value.toString() } },
-      { $stringLoose: { 'metadata.albumartist': value.toString() } },
-      { $stringLoose: { 'metadata.albumartistlocalized': value.toString() } }
+      { $stringLoose: { album: value.toString() } },
+      { $stringLoose: { albumlocalized: value.toString() } },
+      { $stringLoose: { albumartist: value.toString() } },
+      { $stringLoose: { albumartistlocalized: value.toString() } }
     ]
   });
 

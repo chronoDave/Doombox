@@ -94,6 +94,7 @@ const Library = ({ labels, useLocalizedMetadata }) => {
       {({ index, style }) => {
         const data = labels[index];
 
+        if (!data) return null;
         return (
           <LibraryItem
             key={data._id}
