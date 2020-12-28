@@ -24,10 +24,10 @@ export default {
       sm: { height: 48, padding: 4 },
       lg: { height: 52, padding: 8 }
     },
-    container: {
-      xs: 0,
-      sm: 4,
-      lg: 8
+    body: {
+      xs: { padding: 0 },
+      sm: { padding: 4 },
+      lg: { padding: 8 }
     },
     item: {
       xs: { width: 74, height: 74, padding: 1 },

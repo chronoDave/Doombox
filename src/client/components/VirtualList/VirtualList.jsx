@@ -2,109 +2,104 @@ import React, {
   forwardRef,
   useState,
   useEffect,
-  useCallback,
-  useRef
+  useRef,
+  useCallback
 } from 'react';
-import { getCumulative } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Styles
 import useVirtualListStyles from './VirtualList.styles';
 
 const VirtualList = forwardRef((props, outerRef) => {
-  const { data, itemHeight, children } = props;
+  const {
+    size,
+    itemSize,
+    children
+  } = props;
+  const [total, setTotal] = useState(0);
+  const [items, setItems] = useState([]);
   const [view, setView] = useState({ min: 0, max: 0 });
-  const [height, setHeight] = useState({
-    children: [],
-    cumulative: [],
-    total: 0
-  });
 
   const innerRef = useRef();
-  const refContainer = useRef();
   const ref = outerRef || innerRef;
 
-  const classes = useVirtualListStyles({ height: height.total });
+  const classes = useVirtualListStyles({ height: total });
 
-  const getView = useCallback(container => {
-    // Get smallest / largest cumulative height based on scroll position
-    const indexStart = Math.max(0, height.cumulative
-      .findIndex(item => item > container.y) - 1);
-    const indexEnd = Math.max(0, height.cumulative
-      .findIndex(item => item >= container.y + container.height));
+  const updateView = useCallback(({ y, height }) => {
+    const max = items.findIndex(item => item.style.top >= y + height);
 
-    return ({
-      min: indexStart,
-      max: Math.min(Math.max(0, height.children.length), indexEnd)
+    setView({
+      min: Math.max(0, items.findIndex(item => item.style.top >= y) - 1),
+      max: max === -1 ?
+        items.length :
+        max
     });
-  }, [height]);
+  }, [items]);
 
-  useEffect(() => {
-    const updateHeight = () => {
-      const heights = data.map((childData, index) => itemHeight({
-        data: childData,
-        width: refContainer.current.getBoundingClientRect().width,
-        index
-      }));
+  const updateItems = useCallback(() => {
+    let newTotal = 0;
+    const newItems = [];
 
-      setHeight({
-        children: heights,
-        cumulative: getCumulative(heights),
-        total: heights.reduce((acc, cur) => acc + cur, 0)
+    for (let i = 0; i < size; i += 1) {
+      const item = typeof itemSize === 'number' ?
+        itemSize :
+        itemSize(i, ref.current.clientWidth);
+
+      newItems.push({
+        index: i,
+        style: {
+          position: 'absolute',
+          top: newTotal,
+          width: '100%',
+          height: item
+        }
       });
-    };
+      newTotal += item;
+    }
 
-    updateHeight();
-
-    window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
-  }, [data, itemHeight]);
+    setItems(newItems);
+    setTotal(newTotal);
+  }, [ref, size, itemSize]);
 
   useEffect(() => {
-    setView(getView({
+    updateItems();
+
+    window.addEventListener('resize', updateItems);
+
+    return () => window.removeEventListener('resize', updateItems);
+  }, [updateItems]);
+
+  useEffect(() => {
+    updateView({
       y: ref.current.scrollTop,
-      height: ref.current.getBoundingClientRect().height
-    }));
-  }, [ref, height, getView]);
+      height: ref.current.clientHeight
+    });
+
+    ref.current.redraw = () => updateView({
+      y: ref.current.scrollTop,
+      height: ref.current.clientHeight
+    });
+  }, [ref, updateView]);
 
   return (
     <div
       ref={ref}
       className={classes.root}
-      onScroll={event => {
-        const newView = getView({
-          y: event.currentTarget.scrollTop,
-          height: event.currentTarget.getBoundingClientRect().height
-        });
-
-        if (newView.min !== view.min || newView.max !== view.max) setView(newView);
-      }}
+      onScroll={event => updateView({
+        y: event.currentTarget.scrollTop,
+        height: event.currentTarget.clientHeight
+      })}
     >
-      <div ref={refContainer} className={classes.body}>
-        {data.slice(view.min, view.max).map((childData, i) => {
-          const index = view.min + i;
-
-          return children({
-            index,
-            data: childData,
-            style: {
-              position: 'absolute',
-              top: Number.isFinite(height.cumulative[index]) ?
-                height.cumulative[index] :
-                0,
-              width: '100%',
-              height: height.children[index]
-            }
-          });
-        })}
+      <div className={classes.body}>
+        {items.slice(view.min, view.max).map(children)}
       </div>
     </div>
   );
 });
 
 VirtualList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
-  itemHeight: PropTypes.oneOfType([
+  size: PropTypes.number.isRequired,
+  itemSize: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.func
   ]).isRequired,

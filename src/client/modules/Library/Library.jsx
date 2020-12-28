@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { IPC } from '@doombox-utils/types';
 import { sortMetadata } from '@doombox-utils';
 import { connect } from 'react-redux';
@@ -21,7 +21,9 @@ import { mixins } from '../../theme';
 // Validation
 import { propLabel } from '../../validation/propTypes';
 
-const Library = ({ labels }) => {
+const Library = ({ labels, useLocalizedMetadata }) => {
+  const ref = useRef();
+
   useEffect(() => {
     ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['_id', 'files'] });
     ipcFind(IPC.CHANNEL.LIBRARY, {}, {
@@ -51,6 +53,10 @@ const Library = ({ labels }) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (ref.current) ref.current.redraw();
+  }, [useLocalizedMetadata]);
+
   const { t, getLocalizedTag, formatTime } = useTranslation();
   const isSm = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
@@ -63,47 +69,56 @@ const Library = ({ labels }) => {
 
   return (
     <VirtualList
-      data={labels}
-      itemHeight={({ data, width }) => {
-        const { item, container, header } = mixins.library;
-
+      ref={ref}
+      size={labels.length}
+      itemSize={(index, width) => {
         const breakpoint = (() => {
           if (isLg) return 'lg';
           if (isSm) return 'sm';
           return 'xs';
         })();
 
-        const itemWidth = item[breakpoint].width + (item[breakpoint].padding * 2);
-        const itemHeight = item[breakpoint].height + (item[breakpoint].padding * 2);
+        const item = mixins.library.item[breakpoint];
+        const body = mixins.library.body[breakpoint];
+        const header = mixins.library.header[breakpoint];
 
-        const rows = Math.floor((width - (container[breakpoint] * 2)) / itemWidth);
-        const columns = Math.ceil(data.albums.length / rows);
+        const itemWidth = item.width + (item.padding * 2);
+        const itemHeight = item.height + (item.padding * 2);
 
-        return (columns * itemHeight) + header[breakpoint].height;
+        const rows = Math.floor((width - (body.padding * 2)) / itemWidth);
+        const columns = Math.ceil(labels[index].albums.length / rows);
+
+        return (columns * itemHeight) + header.height;
       }}
     >
-      {({ data, style }) => (
-        <LibraryItem
-          key={data._id}
-          style={style}
-          id={data._id}
-          primary={getLocalizedTag(data, 'publisher')}
-          secondary={[
-            `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
-            `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
-            formatTime(data.duration || 0)
-          ].join(' \u2022 ')}
-        />
-      )}
+      {({ index, style }) => {
+        const data = labels[index];
+
+        return (
+          <LibraryItem
+            key={data._id}
+            style={style}
+            id={data._id}
+            primary={getLocalizedTag(data, 'publisher')}
+            secondary={[
+              `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
+              `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
+              formatTime(data.duration || 0)
+            ].join(' \u2022 ')}
+          />
+        );
+      }}
     </VirtualList>
   );
 };
 
 Library.propTypes = {
-  labels: PropTypes.arrayOf(propLabel).isRequired
+  labels: PropTypes.arrayOf(propLabel).isRequired,
+  useLocalizedMetadata: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  useLocalizedMetadata: state.config.display.useLocalizedMetadata,
   labels: state.entities.labels.list
     .sort(sortMetadata(['publisher'], state.config.display.useLocalizedMetadata))
 });

@@ -38,18 +38,18 @@ export default makeStyles(theme => ({
   albumContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: `0 ${theme.mixins.library.container.xs}px`,
+    padding: `0 ${theme.mixins.library.body.xs.padding}px`,
     [theme.breakpoints.join(
       theme.breakpoints.create('minWidth', 'sm'),
       theme.breakpoints.create('minHeight', 'sm')
     )]: {
-      padding: `0 ${theme.mixins.library.container.sm}px`,
+      padding: `0 ${theme.mixins.library.body.sm.padding}px`,
     },
     [theme.breakpoints.join(
       theme.breakpoints.create('minWidth', 'lg'),
       theme.breakpoints.create('minHeight', 'md')
     )]: {
-      padding: `0 ${theme.mixins.library.container.lg}px`,
+      padding: `0 ${theme.mixins.library.body.lg.padding}px`,
     }
   },
   album: {

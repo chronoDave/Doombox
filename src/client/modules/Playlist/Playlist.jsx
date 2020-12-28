@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useMemo } from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,30 +21,24 @@ const Playlist = ({ songs, current }) => {
 
   const ref = useRef();
   const isWidthSm = useMediaQuery(({ create }) => create('minWidth', 'sm'));
-  const itemHeight = useMemo(() => (
-    isWidthSm ?
-      mixins.playlist.item.sm :
-      mixins.playlist.item.xs
-  ), [isWidthSm]);
+  const itemSize = mixins.playlist.item[isWidthSm ? 'sm' : 'xs'];
 
   useLayoutEffect(() => {
-    if (ref.current) {
-      ref.current.scroll({ top: current * itemHeight });
-    }
-  }, [current, itemHeight]);
+    if (ref.current) ref.current.scroll({ top: current * itemSize });
+  }, [current, itemSize]);
 
   return (
     <VirtualList
       ref={ref}
-      data={songs}
-      itemHeight={() => itemHeight}
+      size={songs.length}
+      itemSize={itemSize}
     >
-      {({ data, style, index }) => (
+      {({ style, index }) => (
         <PlaylistItem
-          key={data._id}
+          key={songs[index]._id}
           active={current === index}
-          primary={getLocalizedTag(data, 'title')}
-          secondary={getLocalizedTag(data, 'artist')}
+          primary={getLocalizedTag(songs[index], 'title')}
+          secondary={getLocalizedTag(songs[index], 'artist')}
           style={style}
           index={index}
         />
