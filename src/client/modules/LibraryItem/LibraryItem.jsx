@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
