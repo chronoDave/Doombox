@@ -9,7 +9,7 @@ export default makeStyles(theme => ({
     width: '100%',
     height: '100%',
     opacity: 1,
-    transition: theme.transitions.create(['opacity'], { duration: 'shortest' }),
+    transition: theme.transitions.create(['opacity']),
     zIndex: theme.zIndex.overlay,
     backgroundColor: theme.palette.overlay(
       theme.palette.grey[0],

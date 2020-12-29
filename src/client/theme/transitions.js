@@ -18,27 +18,13 @@ const durations = {
 export default {
   easings,
   durations,
-  create: (props, options) => {
-    const {
-      duration = 'standard',
-      easing = 'easeInOut',
-      delay = 0
-    } = options;
-
-    if (process.env.NODE_ENV === 'development') {
-      const createError = (type, expected, actual) => {
-        console.error(
-          `Invalid breakpoint ${type} \`${expected}\`, expected one of: ${Object.keys(actual).join(', ')}`,
-          `\n${new Error().stack.match(/\(.*\)/g)[2]}`
-        );
-      };
-
-      if (!durations[duration]) createError('duration', duration, durations);
-      if (!easings[easing]) createError('value', easing, easings);
-    }
+  create: (props, options = {}) => {
+    const duration = durations[options.duration] || options.duration || durations.shortest;
+    const easing = easings[options.easing] || options.easing || easings.easeInOut;
+    const delay = options.delay || 0;
 
     return props
-      .map(prop => `${prop} ${durations[duration]}ms ${easings[easing]} ${delay}ms`)
+      .map(prop => `${prop} ${duration}ms ${easing} ${delay}ms`)
       .join(',');
   }
 };

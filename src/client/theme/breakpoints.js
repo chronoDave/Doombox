@@ -17,19 +17,10 @@ export default {
   values,
   queries,
   create: (query, value) => {
-    if (process.env.NODE_ENV === 'development') {
-      const createError = (type, expected, actual) => {
-        console.error(
-          `Invalid breakpoint ${type} \`${expected}\`, expected one of: ${Object.keys(actual).join(', ')}`,
-          `\n${new Error().stack.match(/\(.*\)/g)[2]}`
-        );
-      };
+    const _query = queries[query] || query;
+    const _value = values[value] || value;
 
-      if (!queries[query]) createError('query', query, queries);
-      if (!values[value]) createError('value', value, values);
-    }
-
-    return `@media (${queries[query]}: ${values[value] - (query.includes('max') ? 1 : 0)}px)`;
+    return `@media (${_query}: ${_value - (_query.includes('max') ? 1 : 0)}px)`;
   },
   join: (...args) => `@media ${args
     .map(breakpoint => breakpoint.replace(/@media\s/, ''))

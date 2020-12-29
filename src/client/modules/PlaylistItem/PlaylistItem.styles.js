@@ -6,10 +6,7 @@ export default makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     backgroundColor: theme.palette.grey[1],
-    transition: theme.transitions.create(
-      ['color', 'background-color'],
-      { duration: 'shortest' }
-    ),
+    transition: theme.transitions.create(['color', 'background-color']),
     '&:hover': {
       color: theme.palette.text.primary,
       backgroundColor: theme.palette.grey[2]

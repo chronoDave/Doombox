@@ -9,10 +9,7 @@ export default makeStyles(theme => ({
     width: theme.mixins.toggle.body,
     outline: 0,
     flexShrink: 0,
-    transition: theme.transitions.create(
-      ['background-color'],
-      { duration: 'shortest' }
-    )
+    transition: theme.transitions.create(['background-color'])
   },
   active: {
     backgroundColor: theme.palette.primary.main
@@ -22,10 +19,7 @@ export default makeStyles(theme => ({
     borderRadius: '50%',
     width: theme.mixins.toggle.thumb,
     height: theme.mixins.toggle.thumb,
-    transition: theme.transitions.create(
-      ['transform'],
-      { duration: 'shortest' }
-    )
+    transition: theme.transitions.create(['transform'])
   },
   thumbActive: {
     transform: `translateX(${theme.mixins.toggle.body - theme.mixins.toggle.thumb}px)`

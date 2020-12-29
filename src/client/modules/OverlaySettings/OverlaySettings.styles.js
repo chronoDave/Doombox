@@ -46,10 +46,7 @@ export default makeStyles(theme => ({
     color: theme.palette.primary.text
   },
   tabHover: {
-    transition: theme.transitions.create(
-      ['color', 'background-color'],
-      { duration: 'shortest' }
-    ),
+    transition: theme.transitions.create(['color', 'background-color']),
     '&:hover': {
       backgroundColor: theme.palette.overlay(
         theme.palette.primary.main,
