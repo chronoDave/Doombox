@@ -21,7 +21,9 @@ const LibraryItem = props => {
     primary,
     secondary,
     labelSongs,
-    albums
+    onContextMenu,
+    albums,
+    ...rest
   } = props;
   const classes = useLibraryItemStyles();
 
@@ -62,6 +64,8 @@ const LibraryItem = props => {
                 name: getLocalizedTag(album, 'album'),
                 collection: album.songs
               })}
+              onContextMenu={event => onContextMenu(event, album)}
+              {...rest}
             >
               <img
                 src={album.images[0] ? album.images[0].files.thumbnail : null}
@@ -109,7 +113,8 @@ LibraryItem.propTypes = {
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string.isRequired,
   labelSongs: PropTypes.arrayOf(propSong).isRequired,
-  albums: PropTypes.arrayOf(propAlbum).isRequired
+  albums: PropTypes.arrayOf(propAlbum).isRequired,
+  onContextMenu: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => ({
@@ -146,6 +151,6 @@ export default connect(
   {
     areStatesEqual: () => false,
     areStatePropsEqual: () => true,
-    areOwnPropsEqual: (next, prev) => next.id === prev.id
+    areOwnPropsEqual: (next, prev) => next.id === prev.id && next.style.height === prev.style.height
   }
 )(LibraryItem);

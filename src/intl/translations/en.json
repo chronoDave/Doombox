@@ -34,7 +34,8 @@
       "search": "search",
       "play": "play {item}",
       "shuffle": "shuffle {item}",
-      "add": "add {item}"
+      "add": "add {item}",
+      "add_to": "add to {item}"
     },
     "menu": {
       "toggle_dev_tools": "toggle developer tools",
