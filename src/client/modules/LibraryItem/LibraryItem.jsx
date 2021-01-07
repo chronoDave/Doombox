@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -9,8 +8,11 @@ import { ButtonBase, Typography, TablePair } from '../../components';
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
 
+// Redux
+import { populateLabel } from '../../redux';
+
 // Validation
-import { propSong, propAlbum, propVirtualStyle } from '../../validation/propTypes';
+import { propLabel, propVirtualStyle } from '../../validation/propTypes';
 
 // Styles
 import useLibraryItemStyles from './LibraryItem.styles';
@@ -20,11 +22,9 @@ const LibraryItem = props => {
     style,
     primary,
     secondary,
-    labelSongs,
-    onContextMenu,
-    albums,
-    dispatch,
-    ...rest
+    onMouseLeave,
+    label,
+    onContextMenu
   } = props;
   const classes = useLibraryItemStyles();
 
@@ -45,7 +45,7 @@ const LibraryItem = props => {
       <div className={classes.header}>
         <ButtonBase
           className={classes.headerButton}
-          onClick={() => set({ name: primary, collection: labelSongs })}
+          onClick={() => set({ name: primary, collection: label.songs })}
         >
           <Typography clamp>
             {primary}
@@ -57,7 +57,7 @@ const LibraryItem = props => {
         <div className={classes.headerDivider} />
       </div>
       <div className={classes.albumContainer}>
-        {albums.map(album => (
+        {label.albums.map(album => (
           <div className={classes.album} key={album._id}>
             <ButtonBase
               className={classes.albumButton}
@@ -66,7 +66,7 @@ const LibraryItem = props => {
                 collection: album.songs
               })}
               onContextMenu={event => onContextMenu(event, album)}
-              {...rest}
+              onMouseLeave={onMouseLeave}
             >
               <img
                 src={album.images[0] ? album.images[0].files.thumbnail : null}
@@ -110,49 +110,18 @@ const LibraryItem = props => {
 };
 
 LibraryItem.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   style: propVirtualStyle.isRequired,
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string.isRequired,
-  labelSongs: PropTypes.arrayOf(propSong).isRequired,
-  albums: PropTypes.arrayOf(propAlbum).isRequired,
+  label: propLabel.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
   onContextMenu: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => ({
-  labelSongs: state.entities.labels.map[props.id] ?
-    state.entities.labels.map[props.id].songs
-      .map(id => state.entities.songs.map[id])
-      .sort(sortMetadata(
-        ['date', 'year', 'disc', 'track'],
-        state.config.display.useLocalizedMetadata
-      )) :
-    [],
-  albums: state.entities.labels.map[props.id] ?
-    state.entities.labels.map[props.id].albums
-      .map(id => {
-        const album = state.entities.albums.map[id];
-
-        if (!album) return ({ images: [], songs: [] });
-        return ({
-          ...album,
-          images: album.images
-            .map(imageId => state.entities.images.map[imageId]),
-          songs: album.songs
-            .map(songId => state.entities.songs.map[songId])
-            .sort(sortMetadata(['disc', 'track'], state.config.display.useLocalizedMetadata))
-        });
-      }).sort(sortMetadata(['date', 'year'], state.config.display.useLocalizedMetadata)) :
-    []
+  label: populateLabel(state, props)
 });
 
 export default connect(
-  mapStateToProps,
-  null,
-  null,
-  {
-    areStatesEqual: () => false,
-    areStatePropsEqual: () => true,
-    areOwnPropsEqual: (next, prev) => next.id === prev.id && next.style.height === prev.style.height
-  }
+  mapStateToProps
 )(LibraryItem);

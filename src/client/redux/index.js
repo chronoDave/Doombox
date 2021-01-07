@@ -17,6 +17,9 @@ import {
 // Middleware
 import { logger } from './middleware';
 
+// Selectors
+export { populateLabel } from './selectors';
+
 // Actions
 export const { setConfig } = configSlice.actions;
 export const { setCache } = cacheSlice.actions;
