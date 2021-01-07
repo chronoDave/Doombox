@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron';
 
 import { IPC } from '@doombox-utils/types';
 
-export const setWindowTitle = title => ipcRenderer.send(
+export const setAppTitle = title => ipcRenderer.send(
   IPC.CHANNEL.WINDOW,
   { action: IPC.ACTION.WINDOW.SET_TITLE, data: title }
 );

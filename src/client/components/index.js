@@ -3,7 +3,6 @@ export { ButtonIcon } from './ButtonIcon';
 export { ButtonVolume } from './ButtonVolume';
 export { Hidden } from './Hidden';
 export { Icon } from './Icon';
-export { IconApp } from './IconApp';
 export { LabelSelect } from './LabelSelect';
 export { LabelToggle } from './LabelToggle';
 export { Select } from './Select';

@@ -1,5 +1,5 @@
 export {
-  setWindowTitle,
+  setAppTitle,
   setThumbar,
   windowClose,
   windowMaximize,

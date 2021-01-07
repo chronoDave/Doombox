@@ -8,6 +8,9 @@ export default makeStyles(theme => ({
     height: '100vh',
     backgroundColor: theme.palette.grey[0]
   },
+  window: {
+    display: 'flex'
+  },
   body: {
     display: 'flex',
     flexGrow: 1,

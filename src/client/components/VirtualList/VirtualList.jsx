@@ -44,6 +44,7 @@ const VirtualList = forwardRef((props, outerRef) => {
       const item = typeof itemSize === 'number' ?
         itemSize :
         itemSize(i, ref.current.clientWidth);
+      const itemValue = Number.isFinite(item) ? item : 0;
 
       newItems.push({
         index: i,
@@ -51,10 +52,10 @@ const VirtualList = forwardRef((props, outerRef) => {
           position: 'absolute',
           top: newTotal,
           width: '100%',
-          height: item
+          height: itemValue
         }
       });
-      newTotal += item;
+      newTotal += itemValue;
     }
 
     setItems(newItems);

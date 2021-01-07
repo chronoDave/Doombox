@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 // Core
 import { Hidden } from '../../components';
 
-import { AppBar } from '../AppBar';
 import { Player } from '../Player';
 import { PlayerSlider } from '../PlayerSlider';
 import { PlayerControls } from '../PlayerControls';
@@ -16,6 +15,10 @@ import { Library } from '../Library';
 import { LibraryBar } from '../LibraryBar';
 import { OverlayScan } from '../OverlayScan';
 import { OverlaySettings } from '../OverlaySettings';
+import { WindowButtons } from '../WindowButtons';
+import { WindowIcon } from '../WindowIcon';
+import { WindowMenu } from '../WindowMenu';
+import { WindowTitle } from '../WindowTitle';
 
 // Styles
 import useAppStyles from './App.styles';
@@ -26,7 +29,12 @@ const App = ({ overlay }) => {
   return (
     <div className={classes.root}>
       <Hidden platform="darwin">
-        <AppBar />
+        <div className={classes.window}>
+          <WindowIcon />
+          <WindowMenu />
+          <WindowTitle />
+          <WindowButtons />
+        </div>
       </Hidden>
       <div className={classes.body}>
         <div className={classes.controller}>

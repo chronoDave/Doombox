@@ -141,10 +141,6 @@ const Library = ({ labels, useLocalizedMetadata }) => {
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         placement="right"
-        modifiers={[{
-          name: 'offset',
-          options: { offset: [0, isSm ? 8 : 0] }
-        }]}
       >
         <MenuItem
           primary={t('action.common.add_to', {
