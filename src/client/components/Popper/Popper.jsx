@@ -12,6 +12,7 @@ import usePopperStyles from './Popper.styles';
 const Popper = props => {
   const {
     open,
+    arrow,
     className,
     children,
     ...rest
@@ -20,7 +21,10 @@ const Popper = props => {
 
   return (
     <Fade visible={open}>
-      <PopperBase {...rest}>
+      <PopperBase
+        arrow={arrow && <div className={cx(classes.root, classes.arrow)} />}
+        {...rest}
+      >
         <div className={cx(classes.root, className)}>
           {children}
         </div>
@@ -31,11 +35,13 @@ const Popper = props => {
 
 Popper.defaultProps = {
   open: false,
+  arrow: false,
   className: null
 };
 
 Popper.propTypes = {
   open: PropTypes.bool,
+  arrow: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node.isRequired
 };

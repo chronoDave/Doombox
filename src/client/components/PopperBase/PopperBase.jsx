@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createPopper } from '@popperjs/core';
 import { cx } from 'emotion';
@@ -14,24 +14,42 @@ const PopperBase = props => {
   const {
     anchorEl,
     placement,
+    arrow,
     className,
     children,
     ...rest
   } = props;
-  const classes = usePopperBaseStyles();
+  const [arrowPlacement, setArrowPlacement] = useState('left');
+
+  const classes = usePopperBaseStyles({ placement: arrowPlacement });
 
   const ref = useRef();
+  const refArrow = useRef();
   const popper = useRef();
 
   useEffect(() => {
     if (anchorEl) {
       popper.current = createPopper(anchorEl, ref.current, {
-        placement
+        placement,
+        modifiers: [{
+          name: 'offset',
+          enabled: !!arrow,
+          options: {
+            offset: [0, 8]
+          }
+        }, {
+          name: 'arrow',
+          enabled: !!arrow,
+          options: {
+            element: refArrow.current
+          }
+        }],
+        onFirstUpdate: state => setArrowPlacement(state.placement)
       });
     }
 
     return () => popper.current && popper.current.destroy();
-  }, [placement, anchorEl]);
+  }, [placement, arrow, anchorEl]);
 
   return createPortal(
     <div
@@ -39,6 +57,11 @@ const PopperBase = props => {
       className={cx(classes.root, className)}
       {...rest}
     >
+      {!!arrow && (
+        <div ref={refArrow} className={classes.arrow}>
+          {arrow}
+        </div>
+      )}
       {children}
     </div>,
     document.body
@@ -46,12 +69,14 @@ const PopperBase = props => {
 };
 
 PopperBase.defaultProps = {
+  arrow: null,
   anchorEl: null,
   className: null,
   placement: 'auto'
 };
 
 PopperBase.propTypes = {
+  arrow: PropTypes.node,
   anchorEl: propAnchorEl,
   className: PropTypes.string,
   placement: propPopperPlacement,

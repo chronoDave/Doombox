@@ -56,7 +56,8 @@ const Typography = forwardRef((props, ref) => {
 });
 
 Typography.defaultProps = {
-  element: null
+  element: null,
+  children: null
 };
 
 Typography.propTypes = {
@@ -75,7 +76,7 @@ Typography.propTypes = {
     'textSecondary',
     'disabled'
   ]),
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   fontWeight: PropTypes.oneOf([300, 400, 500]),
   className: PropTypes.string,
   noWrap: PropTypes.bool,
