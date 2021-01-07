@@ -6,6 +6,7 @@ export default makeStyles(theme => ({
     justifyContent: 'space-between',
     padding: theme.spacing(1, 1.5),
     transition: theme.transitions.create(['background-color']),
+    width: '100%',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.primary.text

@@ -1,4 +1,4 @@
 export default {
   overlay: 1000,
-  menu: 1100
+  popper: 1100
 };

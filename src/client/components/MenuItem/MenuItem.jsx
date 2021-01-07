@@ -15,7 +15,6 @@ const MenuItem = props => {
     secondary,
     divider,
     onClick,
-    onClose
   } = props;
   const classes = useMenuItemStyles();
 
@@ -23,10 +22,7 @@ const MenuItem = props => {
     <ButtonBase
       className={cx(classes.root, { [classes.divider]: divider })}
       disableAnimation
-      onClick={event => {
-        onClick(event);
-        onClose(event);
-      }}
+      onClick={onClick}
     >
       <Typography>
         {primary}
@@ -42,15 +38,13 @@ const MenuItem = props => {
 
 MenuItem.defaultProps = {
   divider: false,
-  secondary: null,
-  onClose: null
+  secondary: null
 };
 
 MenuItem.propTypes = {
   divider: PropTypes.bool,
   primary: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  onClose: PropTypes.func,
   secondary: PropTypes.string
 };
 

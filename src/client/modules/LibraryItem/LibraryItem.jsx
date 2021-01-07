@@ -23,6 +23,7 @@ const LibraryItem = props => {
     labelSongs,
     onContextMenu,
     albums,
+    dispatch,
     ...rest
   } = props;
   const classes = useLibraryItemStyles();
@@ -109,6 +110,7 @@ const LibraryItem = props => {
 };
 
 LibraryItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   style: propVirtualStyle.isRequired,
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string.isRequired,

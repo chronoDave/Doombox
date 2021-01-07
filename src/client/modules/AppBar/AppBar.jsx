@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 // Core
 import {
-  Menu,
+  Popper,
   MenuItem,
   Icon,
   IconApp,
@@ -29,7 +29,7 @@ import {
 } from '../../actions';
 
 // Hooks
-import { useHover, useTranslation } from '../../hooks';
+import { useTimeoutOpen, useTranslation } from '../../hooks';
 
 // Redux
 import { setOverlay } from '../../redux';
@@ -53,16 +53,17 @@ const AppBar = props => {
     folders,
     className
   } = props;
-  const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState({ id: 'file' });
   const [appTitle, setAppTitle] = useState('Doombox');
 
   const { t, getLocalizedTag, getNativeKeybind } = useTranslation();
+  const {
+    open,
+    setOpen,
+    handleEnter,
+    handleLeave
+  } = useTimeoutOpen();
   const classes = useAppBarStyles();
-  const { onEnter, onLeave } = useHover({
-    enter: () => setOpen(true),
-    leave: () => setOpen(false)
-  });
 
   const appMenu = {
     file: [{
@@ -163,10 +164,10 @@ const AppBar = props => {
               onMouseEnter={event => {
                 if (open) {
                   setMenu({ id, anchorEl: event.currentTarget });
-                  onEnter();
+                  handleEnter();
                 }
               }}
-              onMouseLeave={onLeave}
+              onMouseLeave={handleLeave}
               className={cx(classes.menuButton, {
                 [classes.menuButtonActive]: menu.id === id && open
               })}
@@ -199,23 +200,31 @@ const AppBar = props => {
           </ButtonBase>
         </div>
       </div>
-      <Menu
+      <Popper
         open={open}
         anchorEl={menu.anchorEl}
-        onClose={() => setOpen(false)}
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
         placement="bottom-start"
       >
-        {appMenu[menu.id].map(({ primary, secondary, ...rest }) => (
+        {appMenu[menu.id].map(({
+          primary,
+          secondary,
+          onClick,
+          divider
+        }) => (
           <MenuItem
             key={primary}
             primary={primary}
             secondary={secondary && getNativeKeybind(secondary, 'pascal')}
-            {...rest}
+            onClick={event => {
+              setOpen(false);
+              onClick(event);
+            }}
+            divider={divider}
           />
         ))}
-      </Menu>
+      </Popper>
     </Fragment>
   );
 };

@@ -1,38 +1,42 @@
-import React, { Fragment, useState } from 'react';
+import React, {
+  Fragment,
+  Children,
+  cloneElement,
+  useRef
+} from 'react';
 import PropTypes from 'prop-types';
 
 // Core
 import { ButtonBase } from '../ButtonBase';
 import { Typography } from '../Typography';
 import { Icon } from '../Icon';
-import { Menu } from '../Menu';
+import { Popper } from '../Popper';
 
 // Hooks
-import { useHover } from '../../hooks';
+import { useTimeoutOpen } from '../../hooks';
 
 // Styles
 import useSelectStyles from './Select.styles';
 
 const Select = ({ label, children }) => {
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-
+  const {
+    open,
+    setOpen,
+    handleEnter,
+    handleLeave
+  } = useTimeoutOpen();
   const classes = useSelectStyles();
-  const { onEnter, onLeave } = useHover({
-    enter: () => setOpen(true),
-    leave: () => setOpen(false)
-  });
+
+  const ref = useRef();
 
   return (
     <Fragment>
       <ButtonBase
-        onClick={event => {
-          setAnchorEl(event.currentTarget);
-          setOpen(!open);
-        }}
-        onMouseEnter={() => open && onEnter()}
-        onMouseLeave={onLeave}
+        onClick={() => setOpen(!open)}
+        onMouseEnter={() => open && handleEnter()}
+        onMouseLeave={handleLeave}
         className={classes.root}
+        ref={ref}
         disableAnimation
       >
         <Typography color="inherit" className={classes.label}>
@@ -40,19 +44,20 @@ const Select = ({ label, children }) => {
         </Typography>
         <Icon type={open ? 'menuUp' : 'menuDown'} className={classes.icon} />
       </ButtonBase>
-      <Menu
-        anchorEl={anchorEl}
+      <Popper
+        anchorEl={ref.current}
         open={open}
-        onClose={() => {
-          setOpen(false);
-          setAnchorEl(null);
-        }}
         placement="bottom-start"
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
       >
-        {children}
-      </Menu>
+        {Children.map(children, child => cloneElement(child, {
+          onClick: event => {
+            setOpen(false);
+            child.props.onClick(event);
+          }
+        }))}
+      </Popper>
     </Fragment>
   );
 };

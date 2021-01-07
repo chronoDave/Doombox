@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
@@ -13,7 +13,7 @@ import { Typography } from '../Typography';
 import { updateCache } from '../../actions';
 
 // Hooks
-import { useAudio, useHover } from '../../hooks';
+import { useAudio, useTimeoutOpen } from '../../hooks';
 
 // Styles
 import useButtonVolumeStyles from './ButtonVolume.styles';
@@ -25,18 +25,12 @@ const ButtonVolume = props => {
     dispatch,
     ...rest
   } = props;
-  const [open, setOpen] = useState(false);
-
   const ref = useRef(null);
 
-  const classes = useButtonVolumeStyles();
   const { mute, setVolume } = useAudio();
-  const { onEnter, onLeave } = useHover({
-    enter: () => setOpen(true),
-    leave: () => setOpen(false)
-  });
+  const { open, handleEnter, handleLeave } = useTimeoutOpen();
+  const classes = useButtonVolumeStyles();
 
-  const id = 'buttonVolume';
   const throttledSetVolume = throttle(setVolume, 100);
 
   const getIcon = () => {
@@ -57,40 +51,35 @@ const ButtonVolume = props => {
       <ButtonIcon
         {...rest}
         icon={getIcon()}
-        aria-describedby={id}
         ref={ref}
         onClick={mute}
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
         onWheel={handleWheel}
       />
       <Popper
-        id={id}
         open={open}
         anchorEl={ref.current}
         placement="top-start"
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        className={classes.popper}
       >
-        <div
-          className={classes.menu}
-          onMouseEnter={onEnter}
-          onMouseLeave={onLeave}
-        >
-          <Slider
-            value={volume}
-            max={1}
-            orientation="vertical"
-            onDrag={(_, newVolume) => throttledSetVolume(newVolume)}
-            onDragEnd={(_, newVolume) => updateCache('player.volume', newVolume)}
-            onClick={(_, newVolume) => {
-              throttledSetVolume(newVolume);
-              updateCache('player.volume', newVolume);
-            }}
-            onWheel={handleWheel}
-          />
-          <Typography>
-            {Math.round(volume * 100)}
-          </Typography>
-        </div>
+        <Slider
+          value={volume}
+          max={1}
+          orientation="vertical"
+          onDrag={(_, newVolume) => throttledSetVolume(newVolume)}
+          onDragEnd={(_, newVolume) => updateCache('player.volume', newVolume)}
+          onClick={(_, newVolume) => {
+            throttledSetVolume(newVolume);
+            updateCache('player.volume', newVolume);
+          }}
+          onWheel={handleWheel}
+        />
+        <Typography>
+          {Math.round(volume * 100)}
+        </Typography>
       </Popper>
     </Fragment>
   );

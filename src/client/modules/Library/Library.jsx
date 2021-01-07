@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { VirtualList, Menu, MenuItem } from '../../components';
+import { VirtualList, Popper, MenuItem } from '../../components';
 
 import { LibraryItem } from '../LibraryItem';
 
@@ -18,7 +18,7 @@ import { LibraryItem } from '../LibraryItem';
 import {
   useTranslation,
   useMediaQuery,
-  useHover,
+  useTimeoutOpen,
   useAudio
 } from '../../hooks';
 
@@ -32,13 +32,15 @@ import { mixins } from '../../theme';
 import { propLabel } from '../../validation/propTypes';
 
 const Library = ({ labels, useLocalizedMetadata }) => {
-  const [contextMenu, setContextMenu] = useState({
-    anchorEl: null,
-    open: null,
-    album: {}
-  });
+  const [menu, setMenu] = useState({ anchorEl: null, album: {} });
 
   const { add } = useAudio();
+  const {
+    open,
+    setOpen,
+    handleEnter,
+    handleLeave
+  } = useTimeoutOpen();
   const ref = useRef();
 
   useEffect(() => {
@@ -83,10 +85,6 @@ const Library = ({ labels, useLocalizedMetadata }) => {
     create('minWidth', 'lg'),
     create('minHeight', 'md')
   ));
-  const { onEnter, onLeave } = useHover({
-    enter: () => setContextMenu({ ...contextMenu, open: true }),
-    leave: () => setContextMenu({ ...contextMenu, open: false })
-  });
 
   return (
     <Fragment>
@@ -123,13 +121,11 @@ const Library = ({ labels, useLocalizedMetadata }) => {
               style={style}
               id={data._id}
               primary={getLocalizedTag(data, 'publisher')}
-              onContextMenu={(event, album) => setContextMenu({
-                anchorEl: event.currentTarget,
-                album,
-                open: true
-              })}
-              onMouseEnter={onEnter}
-              onMouseLeave={onLeave}
+              onContextMenu={(event, album) => {
+                setMenu({ anchorEl: event.currentTarget, album });
+                setOpen(!open);
+              }}
+              onMouseLeave={handleLeave}
               secondary={[
                 `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
                 `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
@@ -139,12 +135,11 @@ const Library = ({ labels, useLocalizedMetadata }) => {
           );
         }}
       </VirtualList>
-      <Menu
-        open={contextMenu.open}
-        anchorEl={contextMenu.anchorEl}
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
-        onClose={() => setContextMenu({ ...contextMenu, open: false })}
+      <Popper
+        open={open}
+        anchorEl={menu.anchorEl}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
         placement="right"
         modifiers={[{
           name: 'offset',
@@ -156,9 +151,12 @@ const Library = ({ labels, useLocalizedMetadata }) => {
             transform: 'capitalize',
             mixins: { item: t('common.playlist') }
           })}
-          onClick={() => add(contextMenu.album.songs)}
+          onClick={() => {
+            setOpen(false);
+            add(menu.album.songs);
+          }}
         />
-      </Menu>
+      </Popper>
     </Fragment>
   );
 };
