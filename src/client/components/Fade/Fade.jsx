@@ -5,6 +5,7 @@ import {
   useEffect
 } from 'react';
 import { cx } from 'emotion';
+import PropTypes from 'prop-types';
 
 // Hooks
 import { useTimeout } from '../../hooks';
@@ -43,7 +44,14 @@ const Fade = ({ visible, delay, children }) => {
 };
 
 Fade.defaultProps = {
+  visible: false,
   delay: transitions.durations.shortest
+};
+
+Fade.propTypes = {
+  visible: PropTypes.bool,
+  delay: PropTypes.number,
+  children: PropTypes.node.isRequired
 };
 
 export default Fade;

@@ -3,6 +3,7 @@ import { makeStyles } from '../../theme';
 export default makeStyles(theme => ({
   root: {
     display: 'flex',
+    height: '100%',
     flexGrow: 1,
     minWidth: 0,
     maxWidth: theme.breakpoints.values.md,

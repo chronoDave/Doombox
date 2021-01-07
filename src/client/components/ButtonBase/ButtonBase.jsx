@@ -9,6 +9,8 @@ const ButtonBase = forwardRef((props, ref) => {
   const {
     disableAnimation,
     disabled,
+    onMouseUp,
+    onMouseDown,
     className,
     children,
     ...rest
@@ -25,8 +27,14 @@ const ButtonBase = forwardRef((props, ref) => {
         [classes.holding]: !disableAnimation && holding
       }, className)}
       disabled={disabled}
-      onMouseDown={() => setHolding(true)}
-      onMouseUp={() => setHolding(false)}
+      onMouseUp={event => {
+        setHolding(true);
+        if (onMouseUp) onMouseUp(event);
+      }}
+      onMouseDown={event => {
+        setHolding(false);
+        if (onMouseDown) onMouseDown(event);
+      }}
       ref={ref}
       {...rest}
     >
@@ -37,6 +45,8 @@ const ButtonBase = forwardRef((props, ref) => {
 
 ButtonBase.defaultProps = {
   disableAnimation: false,
+  onMouseUp: null,
+  onMouseDown: null,
   disabled: false,
   className: null
 };
@@ -45,6 +55,8 @@ ButtonBase.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   disableAnimation: PropTypes.bool,
+  onMouseUp: PropTypes.func,
+  onMouseDown: PropTypes.func,
   children: PropTypes.node.isRequired
 };
 

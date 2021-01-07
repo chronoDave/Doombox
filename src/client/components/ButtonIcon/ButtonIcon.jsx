@@ -23,8 +23,8 @@ const ButtonIcon = forwardRef((props, ref) => {
       className={cx(classes.root, {
         [classes.small]: small
       }, className)}
-      {...rest}
       ref={ref}
+      {...rest}
     >
       <Icon type={icon} small={small} />
     </ButtonBase>
@@ -33,7 +33,7 @@ const ButtonIcon = forwardRef((props, ref) => {
 
 ButtonIcon.defaultProps = {
   small: false,
-  className: '',
+  className: null,
 };
 
 ButtonIcon.propTypes = {

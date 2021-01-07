@@ -1,59 +1,31 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
-import { cx } from 'emotion';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-// Theme
-import { transitions } from '../../theme';
+// Core
+import { Fade } from '../Fade';
 
 // Styles
 import useOverlayStyles from './Overlay.styles';
 
-const Overlay = ({ open, className, children }) => {
-  const [visible, setVisible] = useState(true);
-
+const Overlay = ({ open, children }) => {
   const classes = useOverlayStyles();
 
-  const timeout = useRef(null);
-
-  useLayoutEffect(() => {
-    if (!open) {
-      timeout.current = setTimeout(
-        () => setVisible(false),
-        transitions.durations.shortest
-      );
-    } else {
-      setVisible(true);
-    }
-
-    return () => {
-      if (timeout.current) {
-        clearTimeout(timeout.current);
-        timeout.current = null;
-      }
-    };
-  }, [open]);
-
   return (
-    <div
-      className={cx(classes.root, {
-        [classes.hidden]: !open,
-        [classes.disabled]: !visible && !open
-      }, className)}
-    >
-      {children}
-    </div>
+    <Fade visible={open}>
+      <div className={classes.root}>
+        {children}
+      </div>
+    </Fade>
   );
 };
 
 Overlay.defaultProps = {
-  open: false,
-  className: ''
+  open: false
 };
 
 Overlay.propTypes = {
-  children: PropTypes.node.isRequired,
   open: PropTypes.bool,
-  className: PropTypes.string
+  children: PropTypes.node.isRequired
 };
 
 export default Overlay;

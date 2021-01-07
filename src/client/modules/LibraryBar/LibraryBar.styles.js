@@ -9,5 +9,6 @@ export default makeStyles(theme => ({
     margin: theme.spacing(0.5),
     padding: theme.spacing(0.5, 1),
     backgroundColor: theme.palette.grey[0],
+    width: '100%'
   },
 }), 'libraryBar');

@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
+// Core
+import { Typography } from '../Typography';
+
 // Hooks
 import { useTranslation } from '../../hooks';
-
-// Validation
-import { propTypographyVariants } from '../../validation/propTypes';
 
 // Styles
 import useSearchStyles from './Search.styles';
@@ -15,17 +15,17 @@ const Search = props => {
   const {
     onChange,
     onSearch,
-    variant,
     className,
     ...rest
   } = props;
   const ref = useRef();
 
   const { t } = useTranslation();
-  const classes = useSearchStyles({ variant });
+  const classes = useSearchStyles();
 
   return (
-    <input
+    <Typography
+      element="input"
       ref={ref}
       type="text"
       className={cx(classes.root, className)}
@@ -39,13 +39,11 @@ const Search = props => {
 
 Search.defaultProps = {
   onChange: null,
-  variant: 'body',
   className: ''
 };
 
 Search.propTypes = {
   className: PropTypes.string,
-  variant: propTypographyVariants,
   onChange: PropTypes.func,
   onSearch: PropTypes.func.isRequired
 };

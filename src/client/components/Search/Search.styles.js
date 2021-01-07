@@ -1,15 +1,8 @@
 import { makeStyles } from '../../theme';
 
-export default makeStyles(theme => ({
-  root: ({ variant }) => ({
-    ...theme.typography[variant],
+export default makeStyles(() => ({
+  root: {
     outline: 0,
-    border: 'none',
-    backgroundColor: 'transparent',
-    padding: 0,
-    width: '100%',
-    color: theme.palette.primary.text,
-    display: 'inline-flex',
-    height: 'fit-content'
-  })
+    border: 'none'
+  }
 }), 'search');

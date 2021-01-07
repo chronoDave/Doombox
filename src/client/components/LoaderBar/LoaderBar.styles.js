@@ -2,7 +2,7 @@ import { makeStyles } from '../../theme';
 
 export default makeStyles(theme => ({
   root: {
-    height: 4,
+    height: theme.spacing(0.5),
     backgroundColor: theme.palette.overlay(
       theme.palette.primary.main,
       theme.palette.opacity.inactive
@@ -14,4 +14,4 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     width: `${value}%`
   })
-}), 'linearProgress');
+}), 'loaderBar');

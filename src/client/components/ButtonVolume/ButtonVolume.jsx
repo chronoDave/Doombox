@@ -1,6 +1,7 @@
 import React, { Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
+import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -18,14 +19,8 @@ import { useAudio, useTimeoutOpen } from '../../hooks';
 // Styles
 import useButtonVolumeStyles from './ButtonVolume.styles';
 
-const ButtonVolume = props => {
-  const {
-    volume,
-    muted,
-    dispatch,
-    ...rest
-  } = props;
-  const ref = useRef(null);
+const ButtonVolume = ({ volume, muted, small }) => {
+  const ref = useRef();
 
   const { mute, setVolume } = useAudio();
   const { open, handleEnter, handleLeave } = useTimeoutOpen();
@@ -40,22 +35,26 @@ const ButtonVolume = props => {
     return 'volumeMedium';
   };
 
-  const handleWheel = event => throttledSetVolume(
-    event.deltaY > 0 ?
-      volume - 0.03 :
-      volume + 0.03
-  );
+  const handleWheel = event => {
+    const value = event.shiftKey ? 0.01 : 0.05;
+    const newValue = event.deltaY > 0 ?
+      volume - value :
+      volume + value;
+    const newVolume = clamp(0, 1, newValue);
+
+    if (volume !== newVolume) throttledSetVolume(newVolume);
+  };
 
   return (
     <Fragment>
       <ButtonIcon
-        {...rest}
         icon={getIcon()}
         ref={ref}
         onClick={mute}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         onWheel={handleWheel}
+        small={small}
       />
       <Popper
         open={open}
@@ -85,10 +84,14 @@ const ButtonVolume = props => {
   );
 };
 
+ButtonVolume.defaultProps = {
+  small: false
+};
+
 ButtonVolume.propTypes = {
   muted: PropTypes.bool.isRequired,
   volume: PropTypes.number.isRequired,
-  dispatch: PropTypes.func.isRequired
+  small: PropTypes.bool
 };
 
 const mapStateToProps = state => ({

@@ -22,7 +22,7 @@ import NotoSansJPMedium from '../assets/fonts/NotoSansJP-Medium.otf';
 const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(createTheme());
 
-  useIpc(IPC.CHANNEL.THEME, null, payload => setTheme(createTheme(payload.data)));
+  useIpc({ channel: IPC.CHANNEL.THEME }, payload => setTheme(createTheme(payload.data)));
 
   useEffect(() => {
     [

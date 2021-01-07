@@ -5,14 +5,19 @@ import { useEffect } from 'react';
 // Actions
 import { ipcFind } from '../actions';
 
-export default (channel, query, fn) => {
+export default ({
+  channel,
+  query,
+  projection,
+  overlay
+}, cb) => {
   useEffect(() => {
-    ipcRenderer.on(channel, (event, payload) => fn(payload));
+    ipcRenderer.on(channel, (event, payload) => cb(payload));
 
     return () => ipcRenderer.removeAllListeners(channel);
-  }, [channel, fn]);
+  }, [channel, cb]);
 
   useEffect(() => {
-    ipcFind(channel, query);
-  }, [channel, query]);
+    ipcFind(channel, query, { projection, overlay });
+  }, [channel, query, projection, overlay]);
 };
