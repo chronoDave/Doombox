@@ -4,6 +4,14 @@ module.exports = {
     language: 'en',
     useLocalizedMetadata: true
   },
+  search: {
+    artist: true,
+    title: true,
+    album: true,
+    albumartist: true,
+    publisher: true,
+    cdid: false
+  },
   parser: {
     strict: false,
     fileTypes: ['mp3'],

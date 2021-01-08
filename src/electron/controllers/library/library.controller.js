@@ -267,21 +267,32 @@ module.exports = class LibraryController {
     });
   }
 
-  async find(event, { query, projection }) {
-    const songs = await this.db[TYPES.DATABASE.SONGS].find(query, projection);
-
-    if (query && Object.keys(query).length !== 0) {
-      const albumIds = [...new Set(songs.map(({ _albumId }) => _albumId))];
-      const labelIds = [...new Set(songs.map(({ _labelId }) => _labelId))];
-
-      const albums = await this.db[TYPES.DATABASE.ALBUMS].findById(albumIds);
-      const labels = await this.db[TYPES.DATABASE.LABELS].findById(labelIds);
-
-      return Promise.resolve({ songs, albums, labels });
-    }
-
-    const albums = await this.db[TYPES.DATABASE.ALBUMS].find();
-    const labels = await this.db[TYPES.DATABASE.LABELS].find();
+  async find(event, { query }) {
+    const songs = await this.db[TYPES.DATABASE.SONGS].find(query, [
+      '_id',
+      '_albumId',
+      '_labelId',
+      'file',
+      'duration',
+      'images',
+      'title',
+      'titlelocalized',
+      'artist',
+      'artistlocalized',
+      'album',
+      'albumlocalized',
+      'albumartist',
+      'albumartistlocalized',
+      'publisher',
+      'publisherlocalized',
+      'cdid',
+      'date',
+      'disc',
+      'track',
+      'year',
+    ]);
+    const albums = await this.db[TYPES.DATABASE.ALBUMS].find(query);
+    const labels = await this.db[TYPES.DATABASE.LABELS].find(query);
 
     return Promise.resolve({ songs, albums, labels });
   }

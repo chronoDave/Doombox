@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 // Core
 import { Select } from '../Select';
 import { LabelSelect } from '../LabelSelect';
-import { MenuItem } from '../MenuItem';
 
 // Actions
 import { updateConfig } from '../../actions';
@@ -20,15 +19,17 @@ const SelectTheme = ({ theme }) => {
 
   return (
     <LabelSelect label={t('description.select_theme', { transform: 'capitalize' })}>
-      <Select label={t(`common.${theme}`, { transform: 'capitalize' })}>
-        {Object.keys(THEME).map(key => (
-          <MenuItem
-            key={key}
-            primary={t(`common.${key}`, { transform: 'capitalize' })}
-            onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, { theme: key })}
-          />
-        ))}
-      </Select>
+      <Select
+        active={theme}
+        values={Object.keys(THEME).reduce((acc, key) => ({
+          ...acc,
+          [key]: {
+            value: key,
+            primary: t(`common.${key}`, { transform: 'capitalize' })
+          }
+        }), {})}
+        onChange={(_, value) => updateConfig(TYPES.CONFIG.DISPLAY, { theme: value })}
+      />
     </LabelSelect>
   );
 };

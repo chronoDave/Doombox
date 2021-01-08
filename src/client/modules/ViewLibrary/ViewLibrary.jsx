@@ -31,7 +31,7 @@ import { mixins } from '../../theme';
 // Validation
 import { propLabel } from '../../validation/propTypes';
 
-const Library = ({ labels, useLocalizedMetadata }) => {
+const ViewLibrary = ({ labels, useLocalizedMetadata, className }) => {
   const [menu, setMenu] = useState({ anchorEl: null, album: {} });
 
   const { add } = useAudio();
@@ -45,31 +45,7 @@ const Library = ({ labels, useLocalizedMetadata }) => {
 
   useEffect(() => {
     ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['_id', 'files'] });
-    ipcFind(IPC.CHANNEL.LIBRARY, {}, {
-      projection: [
-        '_id',
-        '_albumId',
-        '_labelId',
-        'file',
-        'duration',
-        'images',
-        'title',
-        'titlelocalized',
-        'artist',
-        'artistlocalized',
-        'album',
-        'albumlocalized',
-        'albumartist',
-        'albumartistlocalized',
-        'publisher',
-        'publisherlocalized',
-        'cdid',
-        'date',
-        'disc',
-        'track',
-        'year',
-      ]
-    });
+    ipcFind(IPC.CHANNEL.LIBRARY, {});
   }, []);
 
   useEffect(() => {
@@ -110,6 +86,7 @@ const Library = ({ labels, useLocalizedMetadata }) => {
 
           return (columns * itemHeight) + header.height;
         }}
+        className={className}
       >
         {({ index, style }) => {
           const data = labels[index];
@@ -157,9 +134,14 @@ const Library = ({ labels, useLocalizedMetadata }) => {
   );
 };
 
-Library.propTypes = {
+ViewLibrary.defaultProps = {
+  className: null
+};
+
+ViewLibrary.propTypes = {
   labels: PropTypes.arrayOf(propLabel).isRequired,
-  useLocalizedMetadata: PropTypes.bool.isRequired
+  useLocalizedMetadata: PropTypes.bool.isRequired,
+  className: PropTypes.string
 };
 
 const mapStateToProps = state => ({
@@ -170,4 +152,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(Library);
+)(ViewLibrary);

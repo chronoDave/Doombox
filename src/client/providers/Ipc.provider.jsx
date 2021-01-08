@@ -21,6 +21,7 @@ import {
   setAlbums,
   setLabels,
   setSongs,
+  setLibrary,
   setOverlay
 } from '../redux';
 
@@ -30,6 +31,7 @@ class IpcProvider extends Component {
 
     const {
       folders,
+      dispatchLibrary,
       dispatchCache,
       dispatchConfig,
       dispatchImages,
@@ -45,17 +47,12 @@ class IpcProvider extends Component {
     ipcRenderer.on(IPC.CHANNEL.SONG, (event, { data }) => dispatchSongs(data));
     ipcRenderer.on(IPC.CHANNEL.ALBUM, (event, { data }) => dispatchAlbums(data));
     ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));
-
-    ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => {
-      if (data.images) dispatchImages(data.images);
-      if (data.songs) dispatchSongs(data.songs);
-      if (data.albums) dispatchAlbums(data.albums);
-      if (data.labels) dispatchLabels(data.labels);
-    });
+    ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => dispatchLibrary(data));
 
     ipcRenderer.on(IPC.CHANNEL.KEYBIND, (event, action) => {
       switch (action) {
         case IPC.ACTION.MENU.RESCAN:
+          // TODO: This does not work
           scanFolder(folders);
           break;
         case IPC.ACTION.MENU.SCAN_FOLDER:
@@ -98,6 +95,7 @@ IpcProvider.propTypes = {
   dispatchLabels: PropTypes.func.isRequired,
   dispatchAlbums: PropTypes.func.isRequired,
   dispatchSongs: PropTypes.func.isRequired,
+  dispatchLibrary: PropTypes.func.isRequired,
   dispatchOverlay: PropTypes.func.isRequired
 };
 
@@ -112,6 +110,7 @@ const mapDispatchToProps = {
   dispatchLabels: setLabels,
   dispatchAlbums: setAlbums,
   dispatchSongs: setSongs,
+  dispatchLibrary: setLibrary,
   dispatchOverlay: setOverlay
 };
 

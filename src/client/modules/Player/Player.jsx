@@ -74,20 +74,15 @@ Player.propTypes = {
   image: PropTypes.string
 };
 
-const mapStateToProps = state => {
-  const images = state.player.metadata.images
-    .map(id => state.entities.images.map[id]);
-
-  return ({
-    image: images[0] ?
-      images[0].files.thumbnail :
-      null,
-    artist: state.player.metadata.artist,
-    artistlocalized: state.player.metadata.artistlocalized,
-    title: state.player.metadata.title,
-    titlelocalized: state.player.metadata.titlelocalized
-  });
-};
+const mapStateToProps = state => ({
+  image: state.player.metadata.images[0] && state.player.metadata.images[0].files ?
+    state.player.metadata.images[0].files.thumbnail :
+    null,
+  artist: state.player.metadata.artist,
+  artistlocalized: state.player.metadata.artistlocalized,
+  title: state.player.metadata.title,
+  titlelocalized: state.player.metadata.titlelocalized
+});
 
 export default connect(
   mapStateToProps

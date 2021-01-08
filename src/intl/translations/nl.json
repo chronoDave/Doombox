@@ -21,7 +21,20 @@
     "language": "taal",
     "appearance": "weergave",
     "dark": "donker",
-    "light": "licht"
+    "light": "licht",
+    "artist": "artiest",
+    "albumartist": "album artiest",
+    "cdid": "cd-id",
+    "publisher": "uitgever",
+    "title": "titel",
+    "song": [
+      "nummer",
+      "nummers"
+    ],
+    "label": [
+      "label",
+      "labels"
+    ]
   },
   "time": {
     "hour_narrow": "u",

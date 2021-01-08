@@ -18,6 +18,9 @@ export default {
       sm: 48
     }
   },
+  search: {
+    item: 44
+  },
   library: {
     header: {
       xs: { height: 44, padding: 2 },

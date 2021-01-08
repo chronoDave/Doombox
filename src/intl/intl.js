@@ -54,6 +54,7 @@ const getTranslation = (
   if (dots) value = `${value}...`;
 
   // Transform
+  if (transform === 'uppercase') return value.toUpperCase();
   if (transform === 'capitalize') return capitalize(value);
   if (transform === 'pascal') return pascalize(value);
   return value;

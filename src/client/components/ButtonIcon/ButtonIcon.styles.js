@@ -9,10 +9,15 @@ export default makeStyles(theme => ({
     borderRadius: theme.spacing(0.5),
     padding: theme.spacing(),
     color: theme.palette.text.primary,
-    transition: theme.transitions.create(['background-color']),
+    transition: theme.transitions.create(['background-color'])
+  },
+  hover: {
     '&:hover': {
       backgroundColor: theme.palette.actions.hover
     }
+  },
+  disabled: {
+    color: theme.palette.text.disabled
   },
   small: {
     width: theme.spacing(4),

@@ -1,9 +1,4 @@
-import React, {
-  Fragment,
-  Children,
-  cloneElement,
-  useRef
-} from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Core
@@ -11,6 +6,7 @@ import { ButtonBase } from '../ButtonBase';
 import { Typography } from '../Typography';
 import { Icon } from '../Icon';
 import { Popper } from '../Popper';
+import { MenuItem } from '../MenuItem';
 
 // Hooks
 import { useTimeoutOpen } from '../../hooks';
@@ -18,8 +14,8 @@ import { useTimeoutOpen } from '../../hooks';
 // Styles
 import useSelectStyles from './Select.styles';
 
-const Select = ({ label, children }) => {
-  const ref = useRef();
+const Select = ({ active, values, onChange }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const {
     open,
@@ -28,48 +24,57 @@ const Select = ({ label, children }) => {
     handleLeave
   } = useTimeoutOpen();
   const classes = useSelectStyles({
-    width: ref.current ?
-      ref.current.getBoundingClientRect().width :
+    width: anchorEl ?
+      anchorEl.getBoundingClientRect().width :
       0
   });
 
   return (
     <Fragment>
       <ButtonBase
-        onClick={() => setOpen(!open)}
+        onClick={event => {
+          setOpen(!open);
+          setAnchorEl(event.currentTarget);
+        }}
         onMouseEnter={() => open && handleEnter()}
         onMouseLeave={handleLeave}
         className={classes.root}
-        ref={ref}
         disableAnimation
       >
         <Typography color="inherit" className={classes.label}>
-          {label}
+          {values[active].primary || values[active]}
         </Typography>
         <Icon type={open ? 'menuUp' : 'menuDown'} className={classes.icon} />
       </ButtonBase>
       <Popper
-        anchorEl={ref.current}
+        anchorEl={anchorEl}
         open={open}
         placement="bottom-start"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         className={classes.popper}
       >
-        {Children.map(children, child => cloneElement(child, {
-          onClick: event => {
-            setOpen(false);
-            child.props.onClick(event);
-          }
-        }))}
+        {Object.entries(values).map(([key, value]) => (
+          <MenuItem
+            key={key}
+            primary={value.primary || value}
+            secondary={value.secondary}
+            divider={value.divider}
+            onClick={event => {
+              setOpen(false);
+              onChange(event, value.value || key, values[key]);
+            }}
+          />
+        ))}
       </Popper>
     </Fragment>
   );
 };
 
 Select.propTypes = {
-  children: PropTypes.node.isRequired,
-  label: PropTypes.string.isRequired
+  active: PropTypes.string.isRequired,
+  values: PropTypes.shape({}).isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default Select;

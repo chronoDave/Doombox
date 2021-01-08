@@ -2,7 +2,7 @@ import { shell, remote } from 'electron';
 
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { URLS, WINDOWS } from '@doombox-utils/types';
+import { URLS, WINDOW } from '@doombox-utils/types';
 import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
@@ -29,7 +29,7 @@ import { useTimeoutOpen, useTranslation } from '../../hooks';
 import { setOverlay } from '../../redux';
 
 // Validation
-import { propKeybinds } from '../../validation/propTypes';
+import { propConfigKeybinds } from '../../validation/propTypes';
 
 // Styles
 import useWindowMenuStyles from './WindowMenu.styles';
@@ -72,7 +72,7 @@ const WindowMenu = ({ keybinds, folders, dispatchOverlay }) => {
     }, {
       primary: t('common.preferences', { transform: 'pascal' }),
       secondary: keybinds.preferences,
-      onClick: () => dispatchOverlay(WINDOWS.OVERLAY.SETTINGS),
+      onClick: () => dispatchOverlay(WINDOW.OVERLAY.SETTINGS),
       divider: true
     }, {
       primary: t('action.common.exit', { transform: 'pascal' }),
@@ -167,7 +167,7 @@ const WindowMenu = ({ keybinds, folders, dispatchOverlay }) => {
 };
 
 WindowMenu.propTypes = {
-  keybinds: propKeybinds.isRequired,
+  keybinds: propConfigKeybinds.isRequired,
   dispatchOverlay: PropTypes.func.isRequired,
   folders: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

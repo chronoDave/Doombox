@@ -13,6 +13,7 @@ const ButtonIcon = forwardRef((props, ref) => {
   const {
     icon,
     small,
+    disabled,
     className,
     ...rest
   } = props;
@@ -21,9 +22,12 @@ const ButtonIcon = forwardRef((props, ref) => {
   return (
     <ButtonBase
       className={cx(classes.root, {
-        [classes.small]: small
+        [classes.small]: small,
+        [classes.hover]: !disabled,
+        [classes.disabled]: disabled
       }, className)}
       ref={ref}
+      disabled={disabled}
       {...rest}
     >
       <Icon type={icon} small={small} />
@@ -33,11 +37,13 @@ const ButtonIcon = forwardRef((props, ref) => {
 
 ButtonIcon.defaultProps = {
   small: false,
+  disabled: false,
   className: null,
 };
 
 ButtonIcon.propTypes = {
   icon: PropTypes.oneOf(Object.keys(icons)).isRequired,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
   small: PropTypes.bool
 };

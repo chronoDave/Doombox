@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 // Theme
 import { transitions } from '../theme';
@@ -11,6 +11,8 @@ export default (fn, delay = transitions.durations.shortest) => {
     destroy();
     timeout.current = setTimeout(fn, delay);
   };
+
+  useEffect(() => () => destroy(), []);
 
   return [create, destroy];
 };

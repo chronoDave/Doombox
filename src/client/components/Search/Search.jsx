@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef, forwardRef } from 'react';
 import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
 // Core
 import { Typography } from '../Typography';
+import { ButtonBase } from '../ButtonBase';
+import { Icon } from '../Icon';
 
 // Hooks
 import { useTranslation } from '../../hooks';
@@ -11,41 +13,83 @@ import { useTranslation } from '../../hooks';
 // Styles
 import useSearchStyles from './Search.styles';
 
-const Search = props => {
+const Search = forwardRef((props, ref) => {
   const {
     onChange,
-    onSearch,
+    onSubmit,
+    onClear,
     className,
     ...rest
   } = props;
-  const ref = useRef();
+  const [value, setValue] = useState(null);
+
+  const input = useRef();
 
   const { t } = useTranslation();
   const classes = useSearchStyles();
 
+  const getIconType = () => {
+    if (!value || value === '') return 'search';
+    return 'close';
+  };
+
+  const handleChange = event => {
+    setValue(event.currentTarget.value);
+
+    if (typeof onChange === 'function') onChange(event, event.currentTarget.value);
+  };
+
+  const handleSubmit = event => {
+    if (event.keyCode === 13 && typeof onSubmit === 'function') onSubmit(event, value);
+  };
+
+  const handleClear = event => {
+    input.current.value = '';
+    setValue(null);
+
+    if (typeof onClear === 'function') onClear(event, '');
+  };
+
   return (
-    <Typography
-      element="input"
+    <div
       ref={ref}
-      type="text"
-      className={cx(classes.root, className)}
-      placeholder={t('action.common.search', { transform: 'capitalize' })}
-      onChange={event => typeof onChange === 'function' && onChange(event, event.currentTarget.value)}
-      onKeyDown={event => event.keyCode === 13 && onSearch(event, ref.current.value)}
+      className={cx(classes.root, {
+        [classes.active]: value && value.length > 0
+      }, className)}
       {...rest}
-    />
+    >
+      <Typography
+        element="input"
+        ref={input}
+        type="text"
+        className={classes.input}
+        placeholder={t('action.common.search', { transform: 'capitalize', dots: true })}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+      />
+      <ButtonBase
+        className={classes.button}
+        onClick={handleClear}
+      >
+        <Icon type={getIconType()} small />
+      </ButtonBase>
+    </div>
   );
-};
+});
 
 Search.defaultProps = {
   onChange: null,
-  className: ''
+  onSubmit: null,
+  onClear: null,
+  className: null
 };
 
 Search.propTypes = {
-  className: PropTypes.string,
   onChange: PropTypes.func,
-  onSearch: PropTypes.func.isRequired
+  onSubmit: PropTypes.func,
+  onClear: PropTypes.func,
+  className: PropTypes.string
 };
 
+Search.displayName = 'search';
 export default Search;

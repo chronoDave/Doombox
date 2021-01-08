@@ -16,6 +16,9 @@ export default makeStyles(theme => ({
       theme.palette.grey[0] :
       theme.palette.grey[6]
   },
+  controls: {
+    color: theme.palette.text.primary
+  },
   body: {
     display: 'flex',
     flexGrow: 1,
@@ -41,5 +44,10 @@ export default makeStyles(theme => ({
       theme.palette.grey[1] :
       theme.palette.white,
     flexGrow: 1
+  },
+  libraryHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0.5)
   }
 }), 'app');

@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 // Core
 import { Select } from '../Select';
 import { LabelSelect } from '../LabelSelect';
-import { MenuItem } from '../MenuItem';
 
 // Actions
 import { updateConfig } from '../../actions';
@@ -20,15 +19,17 @@ const SelectLanguage = ({ language }) => {
 
   return (
     <LabelSelect label={t('description.display_language', { transform: 'capitalize' })}>
-      <Select label={LANGUAGES[language]}>
-        {Object.entries(LANGUAGES).map(([key, primary]) => (
-          <MenuItem
-            key={key}
-            primary={primary}
-            onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, { language: key })}
-          />
-        ))}
-      </Select>
+      <Select
+        active={language}
+        values={Object.keys(LANGUAGES).reduce((acc, key) => ({
+          ...acc,
+          [key]: {
+            value: LANGUAGES[key],
+            primary: LANGUAGES[key],
+          }
+        }), {})}
+        onChange={(_, value) => updateConfig(TYPES.CONFIG.DISPLAY, { language: value })}
+      />
     </LabelSelect>
   );
 };

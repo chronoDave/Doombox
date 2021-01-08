@@ -11,19 +11,34 @@ import {
   playerSlice,
   playlistSlice,
   entitySlice,
-  windowSlice
+  windowSlice,
+  searchSlice
 } from './slices';
 
 // Middleware
 import { logger } from './middleware';
 
 // Selectors
-export { populateLabel } from './selectors';
+export {
+  populateLabel,
+  populateSearchLabels,
+  populateSearchAlbums,
+  populateSearchSongs
+} from './selectors';
 
 // Actions
+export const {
+  setQuery,
+  setSongs,
+  setAlbums,
+  setLabels
+} = searchSlice.actions;
 export const { setConfig } = configSlice.actions;
 export const { setCache } = cacheSlice.actions;
-export const { setOverlay } = windowSlice.actions;
+export const {
+  setOverlay,
+  setView
+} = windowSlice.actions;
 export const {
   setPlayer,
   setMetadata,
@@ -38,12 +53,7 @@ export const {
   setPlaylist,
   setPlaylistIndex
 } = playlistSlice.actions;
-export const {
-  setImages,
-  setSongs,
-  setAlbums,
-  setLabels
-} = entitySlice.actions;
+export const { setImages, setLibrary } = entitySlice.actions;
 
 export const store = createStore(
   combineReducers({
@@ -52,7 +62,8 @@ export const store = createStore(
     [playerSlice.name]: playerSlice.reducer,
     [playlistSlice.name]: playlistSlice.reducer,
     [entitySlice.name]: entitySlice.reducer,
-    [windowSlice.name]: windowSlice.reducer
+    [windowSlice.name]: windowSlice.reducer,
+    [searchSlice.name]: searchSlice.reducer
   }),
   applyMiddleware(logger)
 );

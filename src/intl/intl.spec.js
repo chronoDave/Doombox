@@ -66,6 +66,19 @@ test('[getTranslation] should return triple dots if `dots` is true', t => {
   t.end();
 });
 
+test('[getTranslation] should capitalize if `transform` contains `uppercase`', t => {
+  const value = TRANSLATIONS.en.common.album[0];
+  const key = 'common.album';
+
+  t.equal(
+    getTranslation(LANGUAGES.en, key, { transform: 'uppercase' }),
+    value.toUpperCase(),
+    'capitalizes string'
+  );
+
+  t.end();
+});
+
 test('[getTranslation] should capitalize if `transform` contains `capitalize`', t => {
   const value = TRANSLATIONS.en.common.album[0];
   const key = 'common.album';

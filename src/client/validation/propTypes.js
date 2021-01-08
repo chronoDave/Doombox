@@ -1,6 +1,15 @@
 import { CONFIG } from '@doombox-config';
 import PropTypes from 'prop-types';
 
+const createConfigShape = (key, type) => PropTypes.shape(
+  Object
+    .keys(CONFIG[key])
+    .reduce((acc, property) => ({
+      ...acc,
+      [property]: type
+    }), {})
+);
+
 export const propTypographyVariants = PropTypes.oneOf([
   'h1',
   'h2',
@@ -20,6 +29,9 @@ export const propVirtualStyle = PropTypes.shape({
   height: PropTypes.number.isRequired
 });
 
+export const propConfigSearch = createConfigShape('search', PropTypes.bool);
+export const propConfigKeybinds = createConfigShape('keybinds', PropTypes.string);
+
 export const propPopperPlacement = PropTypes.oneOf([
   'auto',
   'auto-start',
@@ -37,15 +49,6 @@ export const propPopperPlacement = PropTypes.oneOf([
   'left-start',
   'left-end'
 ]);
-
-export const propKeybinds = PropTypes.shape(
-  Object
-    .keys(CONFIG.keybinds)
-    .reduce((acc, key) => ({
-      ...acc,
-      [key]: PropTypes.string
-    }), {})
-);
 
 export const propAnchorEl = PropTypes.oneOfType([
   PropTypes.func,

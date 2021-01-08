@@ -1,15 +1,15 @@
-import { createReduxSlice } from '../utils';
+import { createReduxSlice, normalize } from '../utils';
 
 const initialState = {
+  songs: {
+    map: {},
+    list: []
+  },
   albums: {
     map: {},
     list: []
   },
   labels: {
-    map: {},
-    list: []
-  },
-  songs: {
     map: {},
     list: []
   },
@@ -19,24 +19,14 @@ const initialState = {
   }
 };
 
-const normalize = (collection = []) => ({
-  list: collection,
-  map: (() => {
-    const object = {};
-
-    for (let i = 0; i < collection.length; i += 1) {
-      object[collection[i]._id] = collection[i];
-    }
-
-    return object;
-  })()
-});
-
 const reducers = {
-  setImages: (state, payload) => ({ ...state, images: normalize(payload) }),
-  setAlbums: (state, payload) => ({ ...state, albums: normalize(payload) }),
-  setLabels: (state, payload) => ({ ...state, labels: normalize(payload) }),
-  setSongs: (state, payload) => ({ ...state, songs: normalize(payload) })
+  setLibrary: (state, payload) => ({
+    ...state,
+    songs: normalize(payload.songs),
+    albums: normalize(payload.albums),
+    labels: normalize(payload.labels)
+  }),
+  setImages: (state, payload) => ({ ...state, images: normalize(payload) })
 };
 
 export default createReduxSlice('entities', initialState, reducers);

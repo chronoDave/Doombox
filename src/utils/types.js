@@ -66,7 +66,11 @@ module.exports = {
       STOPPED: 'STATUS_AUDIO_STOPPED'
     }
   },
-  WINDOWS: {
+  WINDOW: {
+    VIEW: {
+      LIBRARY: 'WINDOW_VIEW_LIBRARY',
+      SEARCH: 'WINDOW_VIEW_SEARCH'
+    },
     OVERLAY: {
       SCAN: 'WINDOW_OVERLAY_SCAN',
       SETTINGS: 'WINDOW_OVERLAY_SETTINGS'
@@ -93,7 +97,8 @@ module.exports = {
       DISPLAY: 'display',
       PARSER: 'parser',
       PLAYER: 'player',
-      KEYBINDS: 'keybinds'
+      KEYBINDS: 'keybinds',
+      SEARCH: 'search'
     }
   }
 };

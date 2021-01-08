@@ -1,7 +1,7 @@
 import { webFrame } from 'electron';
 
 import { connect } from 'react-redux';
-import { WINDOWS } from '@doombox-utils/types';
+import { WINDOW } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Hooks
@@ -49,7 +49,7 @@ const KeybindProvider = props => {
   useKeybind(keybindMuteUnmute, mute);
 
   // Preferences
-  useKeybind(keybindPreferences, () => dispatchOverlay(WINDOWS.OVERLAY.SETTINGS));
+  useKeybind(keybindPreferences, () => dispatchOverlay(WINDOW.OVERLAY.SETTINGS));
 
   return children;
 };

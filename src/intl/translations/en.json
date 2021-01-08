@@ -21,7 +21,20 @@
     "language": "language",
     "appearance": "appearance",
     "dark": "dark",
-    "light": "light"
+    "light": "light",
+    "artist": "artist",
+    "albumartist": "album artist",
+    "cdid": "cd-id",
+    "publisher": "publisher",
+    "title": "title",
+    "song": [
+      "song",
+      "songs"
+    ],
+    "label": [
+      "label",
+      "labels"
+    ]
   },
   "time": {
     "hour_narrow": "h",

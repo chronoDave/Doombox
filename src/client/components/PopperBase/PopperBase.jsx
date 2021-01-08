@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createPopper } from '@popperjs/core';
 import { cx } from 'emotion';
@@ -27,7 +27,7 @@ const PopperBase = props => {
   const refArrow = useRef();
   const popper = useRef();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (anchorEl) {
       popper.current = createPopper(anchorEl, ref.current, {
         placement,
@@ -44,7 +44,7 @@ const PopperBase = props => {
             element: refArrow.current
           }
         }],
-        onFirstUpdate: state => setArrowPlacement(state.placement)
+        onFirstUpdate: state => !!arrow && setArrowPlacement(state.placement)
       });
     }
 

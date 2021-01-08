@@ -1,19 +1,10 @@
 import React, { Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
 import { shuffle, sortMetadata } from '@doombox-utils';
-import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  ButtonIcon,
-  Search,
-  Popper,
-  MenuItem
-} from '../../components';
-
-// Actions
-import { ipcFind } from '../../actions';
+import { ButtonIcon, Popper, MenuItem } from '../../components';
 
 // Hooks
 import {
@@ -26,12 +17,8 @@ import {
 // Validation
 import { propSong } from '../../validation/propTypes';
 
-// Styles
-import useLibraryBarStyles from './LibraryBar.styles';
-
-const LibraryBar = ({ songs }) => {
+const LibraryMenu = ({ songs }) => {
   const ref = useRef();
-  const classes = useLibraryBarStyles();
 
   const { set } = useAudio();
   const { t } = useTranslation();
@@ -44,32 +31,16 @@ const LibraryBar = ({ songs }) => {
     handleLeave
   } = useTimeoutOpen();
 
-  const handleSearch = (_, value) => ipcFind(IPC.CHANNEL.LIBRARY, {
-    $some: [
-      { $stringLoose: { album: value.toString() } },
-      { $stringLoose: { albumlocalized: value.toString() } },
-      { $stringLoose: { albumartist: value.toString() } },
-      { $stringLoose: { albumartistlocalized: value.toString() } }
-    ]
-  });
-
   return (
     <Fragment>
-      <div className={classes.root}>
-        <Search
-          onSearch={handleSearch}
-          onChange={handleSearch}
-          className={classes.search}
-        />
-        <ButtonIcon
-          ref={ref}
-          small={!isSmall}
-          icon="dotsVertical"
-          onClick={() => setOpen(!open)}
-          onMouseEnter={() => open && handleEnter()}
-          onMouseLeave={handleLeave}
-        />
-      </div>
+      <ButtonIcon
+        ref={ref}
+        small={!isSmall}
+        icon="dotsVertical"
+        onClick={() => setOpen(!open)}
+        onMouseEnter={() => open && handleEnter()}
+        onMouseLeave={handleLeave}
+      />
       <Popper
         open={open}
         anchorEl={ref.current}
@@ -114,7 +85,7 @@ const LibraryBar = ({ songs }) => {
   );
 };
 
-LibraryBar.propTypes = {
+LibraryMenu.propTypes = {
   songs: PropTypes.arrayOf(propSong).isRequired
 };
 
@@ -124,4 +95,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps
-)(LibraryBar);
+)(LibraryMenu);

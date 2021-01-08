@@ -9,7 +9,7 @@ const path = require('path');
 
 const { pascalize } = require('@doombox-utils');
 const {
-  WINDOWS,
+  WINDOW,
   STATUS,
   IPC,
   URLS
@@ -215,7 +215,7 @@ module.exports = class App extends Reporter {
         click: () => window.webContents.send(IPC.CHANNEL.KEYBIND, IPC.ACTION.MENU.DELETE_LIBRARY)
       }, { type: 'separator' }, {
         label: this.translate('common.preferences', { transform: 'pascal' }),
-        click: () => window.webContents.send(IPC.CHANNEL.OVERLAY, WINDOWS.OVERLAY.SETTINGS)
+        click: () => window.webContents.send(IPC.CHANNEL.OVERLAY, WINDOW.OVERLAY.SETTINGS)
       }, { type: 'separator' }, { role: 'close' }]
     }, {
       role: 'viewMenu',
