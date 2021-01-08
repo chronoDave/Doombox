@@ -37,18 +37,19 @@ const Player = props => {
           align="center"
           fontWeight={isMd ? 400 : 500}
           variant={isMd ? 'h6' : 'body'}
+          color="inherit"
         >
           {(
             getLocalizedTag({ titlelocalized, title }, 'title') ||
             t('description.playlist_empty', { transform: 'capitalize' })
           )}
         </Typography>
-        <Typography clamp align="center">
+        <Typography clamp align="center" color="inherit">
           {getLocalizedTag({ artistlocalized, artist }, 'artist') || ''}
         </Typography>
       </div>
       <Hidden on={({ create }) => create('maxWidth', 'sm')}>
-        <PlayerControls />
+        <PlayerControls className={classes.buttons} />
       </Hidden>
       <Hidden on={({ create }) => create('maxHeight', 'xs')}>
         <PlayerTime />

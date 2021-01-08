@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { injectGlobal } from 'emotion';
+import { css, injectGlobal } from 'emotion';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-// Types
-import { IPC } from '@doombox-utils/types';
-
-// Actions
-import { useIpc } from '../hooks';
 
 // Context
 import { ThemeContext } from '../context';
@@ -19,10 +14,12 @@ import NotoSansJPLight from '../assets/fonts/NotoSansJP-Light.otf';
 import NotoSansJPRegular from '../assets/fonts/NotoSansJP-Regular.otf';
 import NotoSansJPMedium from '../assets/fonts/NotoSansJP-Medium.otf';
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ children, themeName }) => {
   const [theme, setTheme] = useState(createTheme());
 
-  useIpc({ channel: IPC.CHANNEL.THEME }, payload => setTheme(createTheme(payload.data)));
+  useEffect(() => {
+    setTheme(createTheme(themeName));
+  }, [themeName]);
 
   useEffect(() => {
     [
@@ -47,30 +44,41 @@ const ThemeProvider = ({ children }) => {
     });
   }, []);
 
-  useEffect(() => {
-    injectGlobal({
-      '*::-webkit-scrollbar': {
-        backgroundColor: theme.palette.grey[3],
-        width: theme.spacing()
-      },
-      '*::-webkit-scrollbar-thumb': {
-        backgroundColor: theme.palette.overlay(
-          theme.palette.dark ? '#fff' : '#000',
-          theme.palette.opacity.text
-        )
-      }
-    });
-  }, [theme]);
-
   return (
     <ThemeContext.Provider value={theme}>
-      {children}
+      <div
+        className={css({
+          '& *': {
+            '*::-webkit-scrollbar': {
+              backgroundColor: theme.palette.dark ?
+                theme.palette.grey[2] :
+                theme.palette.grey[5],
+              width: theme.spacing()
+            },
+            '*::-webkit-scrollbar-thumb': {
+              backgroundColor: theme.palette.dark ?
+                theme.palette.grey[3] :
+                theme.palette.grey[6]
+            }
+          },
+          label: 'cssBaseline'
+        })}
+      >
+        {children}
+      </div>
     </ThemeContext.Provider>
   );
 };
 
 ThemeProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  themeName: PropTypes.string.isRequired
 };
 
-export default ThemeProvider;
+const mapStateToProps = state => ({
+  themeName: state.config.display.theme
+});
+
+export default connect(
+  mapStateToProps
+)(ThemeProvider);

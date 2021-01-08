@@ -19,15 +19,19 @@ import { useTimeoutOpen } from '../../hooks';
 import useSelectStyles from './Select.styles';
 
 const Select = ({ label, children }) => {
+  const ref = useRef();
+
   const {
     open,
     setOpen,
     handleEnter,
     handleLeave
   } = useTimeoutOpen();
-  const classes = useSelectStyles();
-
-  const ref = useRef();
+  const classes = useSelectStyles({
+    width: ref.current ?
+      ref.current.getBoundingClientRect().width :
+      0
+  });
 
   return (
     <Fragment>
@@ -50,6 +54,7 @@ const Select = ({ label, children }) => {
         placement="bottom-start"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
+        className={classes.popper}
       >
         {Children.map(children, child => cloneElement(child, {
           onClick: event => {

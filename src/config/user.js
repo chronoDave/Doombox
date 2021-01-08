@@ -1,5 +1,6 @@
 module.exports = {
   display: {
+    theme: 'dark',
     language: 'en',
     useLocalizedMetadata: true
   },

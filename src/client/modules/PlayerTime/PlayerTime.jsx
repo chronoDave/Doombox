@@ -17,10 +17,10 @@ const PlayerTime = ({ position, duration }) => {
 
   return (
     <div className={classes.root}>
-      <Typography>
+      <Typography color="inherit">
         {formatTime(position)}
       </Typography>
-      <Typography>
+      <Typography color="inherit">
         {`-${formatTime(duration - position)}`}
       </Typography>
     </div>

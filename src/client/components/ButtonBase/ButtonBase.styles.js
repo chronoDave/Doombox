@@ -9,7 +9,7 @@ export default makeStyles(() => ({
     padding: 0
   },
   holding: {
-    transform: 'translate(0, -1px)'
+    transform: 'translate(0, 1px)'
   },
   disabled: {
     cursor: 'default'

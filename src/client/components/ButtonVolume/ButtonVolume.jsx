@@ -19,7 +19,13 @@ import { useAudio, useTimeoutOpen } from '../../hooks';
 // Styles
 import useButtonVolumeStyles from './ButtonVolume.styles';
 
-const ButtonVolume = ({ volume, muted, small }) => {
+const ButtonVolume = props => {
+  const {
+    volume,
+    muted,
+    small,
+    className
+  } = props;
   const ref = useRef();
 
   const { mute, setVolume } = useAudio();
@@ -55,6 +61,7 @@ const ButtonVolume = ({ volume, muted, small }) => {
         onMouseLeave={handleLeave}
         onWheel={handleWheel}
         small={small}
+        className={className}
       />
       <Popper
         open={open}
@@ -85,13 +92,15 @@ const ButtonVolume = ({ volume, muted, small }) => {
 };
 
 ButtonVolume.defaultProps = {
-  small: false
+  small: false,
+  className: null
 };
 
 ButtonVolume.propTypes = {
   muted: PropTypes.bool.isRequired,
   volume: PropTypes.number.isRequired,
-  small: PropTypes.bool
+  small: PropTypes.bool,
+  className: PropTypes.string
 };
 
 const mapStateToProps = state => ({

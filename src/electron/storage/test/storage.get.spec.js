@@ -9,7 +9,7 @@ test('[storage.get] should return all data if no key is provided', t => {
 
   t.equal(
     Object.keys(storage.get()).length,
-    Object.keys(THEME).length,
+    Object.keys(THEME.dark).length,
     'returns all data'
   );
 
@@ -23,7 +23,7 @@ test('[storage.get] should return data based on query', t => {
 
   t.equal(
     storage.get('grey.1'),
-    THEME.grey[1],
+    THEME.dark.grey[1],
     'returns query data'
   );
 

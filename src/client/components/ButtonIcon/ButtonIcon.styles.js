@@ -11,10 +11,7 @@ export default makeStyles(theme => ({
     color: theme.palette.text.primary,
     transition: theme.transitions.create(['background-color']),
     '&:hover': {
-      backgroundColor: theme.palette.overlay(
-        '#fff',
-        theme.palette.opacity.hover
-      )
+      backgroundColor: theme.palette.actions.hover
     }
   },
   small: {

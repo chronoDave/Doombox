@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { TYPES } from '@doombox-utils/types';
-import { LANGUAGES } from '@doombox-intl';
+import { THEME } from '@doombox-config';
 import PropTypes from 'prop-types';
 
 // Core
@@ -15,17 +15,17 @@ import { updateConfig } from '../../actions';
 // Hooks
 import { useTranslation } from '../../hooks';
 
-const SelectLanguage = ({ language }) => {
+const SelectTheme = ({ theme }) => {
   const { t } = useTranslation();
 
   return (
-    <LabelSelect label={t('description.display_language', { transform: 'capitalize' })}>
-      <Select label={LANGUAGES[language]}>
-        {Object.entries(LANGUAGES).map(([key, primary]) => (
+    <LabelSelect label={t('description.select_theme', { transform: 'capitalize' })}>
+      <Select label={t(`common.${theme}`, { transform: 'capitalize' })}>
+        {Object.keys(THEME).map(key => (
           <MenuItem
             key={key}
-            primary={primary}
-            onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, { language: key })}
+            primary={t(`common.${key}`, { transform: 'capitalize' })}
+            onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, { theme: key })}
           />
         ))}
       </Select>
@@ -34,13 +34,13 @@ const SelectLanguage = ({ language }) => {
 };
 
 const mapStateToProps = state => ({
-  language: state.config.display.language
+  theme: state.config.display.theme
 });
 
-SelectLanguage.propTypes = {
-  language: PropTypes.oneOf(Object.keys(LANGUAGES)).isRequired
+SelectTheme.propTypes = {
+  theme: PropTypes.oneOf(Object.keys(THEME)).isRequired
 };
 
 export default connect(
   mapStateToProps
-)(SelectLanguage);
+)(SelectTheme);

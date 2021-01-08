@@ -33,7 +33,7 @@ export default makeStyles(theme => ({
     flexGrow: 1,
     height: 1,
     marginLeft: theme.spacing(0.75),
-    backgroundColor: theme.palette.grey[3]
+    backgroundColor: theme.palette.grey[2]
   },
   albumContainer: {
     display: 'flex',

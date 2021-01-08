@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { TYPES } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
 import {
-  LabelSelect,
   LabelToggle,
   SelectLanguage,
   Toggle
@@ -21,19 +20,15 @@ const SettingsLanguage = ({ useLocalizedMetadata }) => {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <LabelSelect label={t('description.display_language', { transform: 'capitalize' })}>
-        <SelectLanguage />
-      </LabelSelect>
-      <LabelToggle
-        label={t('title.use_localized_metadata', { transform: 'capitalize' })}
-      >
+    <Fragment>
+      <SelectLanguage />
+      <LabelToggle label={t('title.use_localized_metadata', { transform: 'capitalize' })}>
         <Toggle
           value={useLocalizedMetadata}
           onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, { useLocalizedMetadata: !useLocalizedMetadata })}
         />
       </LabelToggle>
-    </div>
+    </Fragment>
   );
 };
 

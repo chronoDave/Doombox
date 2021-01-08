@@ -14,6 +14,7 @@ import {
 
 import { SettingsLanguage } from '../SettingsLanguage';
 import { SettingsLibrary } from '../SettingsLibrary';
+import { SettingsAppearance } from '../SettingsAppearance';
 
 // Redux
 import { setOverlay } from '../../redux';
@@ -38,6 +39,7 @@ const OverlaySettings = ({ open, dispatchOverlay }) => {
 
   const tabs = {
     general: <div />,
+    appearance: <SettingsAppearance />,
     language: <SettingsLanguage />,
     library: <SettingsLibrary />
   };

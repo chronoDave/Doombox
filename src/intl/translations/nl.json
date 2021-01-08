@@ -18,7 +18,10 @@
     "playlist": "afspeellijst",
     "release": "uitgave",
     "duration": "duratie",
-    "language": "taal"
+    "language": "taal",
+    "appearance": "weergave",
+    "dark": "donker",
+    "light": "licht"
   },
   "time": {
     "hour_narrow": "u",
@@ -56,6 +59,7 @@
   "description": {
     "scanning_files": "een moment geduld, dit kan even duren",
     "playlist_empty": "geen nummers geselecteerd",
-    "display_language": "schermtaal"
+    "display_language": "schermtaal",
+    "select_theme": "selecteer thema"
   }
 }

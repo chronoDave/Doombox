@@ -9,7 +9,7 @@ test('[storage] should read config file', t => {
 
   t.equal(
     storage.data.grey[1],
-    THEME.grey[1],
+    THEME.dark.grey[1],
     'reads config file'
   );
   t.true(

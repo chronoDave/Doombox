@@ -45,7 +45,8 @@ const Typography = forwardRef((props, ref) => {
           {
             [classes.clamp]: clamp,
             [classes.noWrap]: noWrap
-          }, className
+          },
+          className
         ),
         ...rest,
         ref

@@ -24,7 +24,7 @@ const MenuItem = props => {
       disableAnimation
       onClick={onClick}
     >
-      <Typography>
+      <Typography color="inherit">
         {primary}
       </Typography>
       {secondary && (

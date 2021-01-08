@@ -2,7 +2,7 @@ import { makeStyles } from '../../theme';
 
 export default makeStyles(theme => ({
   popper: {
-    backgroundColor: theme.palette.grey[1],
+    backgroundColor: theme.palette.grey[0],
     padding: theme.spacing(0.5),
     display: 'flex',
     flexDirection: 'column',

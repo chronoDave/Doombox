@@ -3,7 +3,7 @@ import { makeStyles } from '../../theme';
 export default makeStyles(theme => ({
   root: {
     cursor: 'pointer',
-    backgroundColor: theme.palette.grey[3],
+    backgroundColor: theme.palette.grey[2],
     borderRadius: theme.spacing(),
     padding: theme.spacing(0.5),
     width: theme.mixins.toggle.body,
@@ -12,10 +12,14 @@ export default makeStyles(theme => ({
     transition: theme.transitions.create(['background-color'])
   },
   active: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary
   },
   thumb: {
-    backgroundColor: theme.palette.text.primary,
+    backgroundColor: theme.palette.autoContrast(
+      theme.palette.text.primary,
+      theme.palette.grey[0],
+      theme.palette.grey[6]
+    ),
     borderRadius: '50%',
     width: theme.mixins.toggle.thumb,
     height: theme.mixins.toggle.thumb,

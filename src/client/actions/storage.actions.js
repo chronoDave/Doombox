@@ -9,3 +9,7 @@ export const updateCache = (key, value) => {
 export const updateConfig = (key, value) => {
   ipcUpdate(IPC.CHANNEL.CONFIG, key, value);
 };
+
+export const updateTheme = (key, value) => {
+  ipcUpdate(IPC.CHANNEL.THEME, key, value);
+};

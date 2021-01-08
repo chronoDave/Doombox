@@ -8,7 +8,7 @@ const configFile = path.resolve(__dirname, 'config.json');
 const Storage = require('../storage');
 
 const setup = () => {
-  fs.writeFileSync(configFile, JSON.stringify(THEME));
+  fs.writeFileSync(configFile, JSON.stringify(THEME.dark));
 
   return new Storage(__dirname, 'config', { dark: false });
 };

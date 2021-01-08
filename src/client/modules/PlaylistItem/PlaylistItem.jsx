@@ -33,16 +33,30 @@ const PlaylistItem = props => {
       className={cx(classes.root, { [classes.active]: active })}
     >
       <Hidden on={({ create }) => create('maxWidth', 'sm')}>
-        <Typography className={classes.index}>
+        <Typography
+          className={cx(classes.index, classes.secondary, {
+            [classes.secondaryActive]: active
+          })}
+        >
           {`${index + 1}.`}
         </Typography>
       </Hidden>
       <div className={classes.metadata}>
-        <Typography clamp>
+        <Typography
+          clamp
+          className={cx(classes.primary, {
+            [classes.primaryActive]: active
+          })}
+        >
           {primary}
         </Typography>
         <Hidden on={({ create }) => create('maxWidth', 'sm')}>
-          <Typography clamp color="textSecondary">
+          <Typography
+            clamp
+            className={cx(classes.secondary, {
+              [classes.secondaryActive]: active
+            })}
+          >
             {secondary}
           </Typography>
         </Hidden>

@@ -18,7 +18,10 @@
     "playlist": "playlist",
     "release": "release",
     "duration": "duration",
-    "language": "language"
+    "language": "language",
+    "appearance": "appearance",
+    "dark": "dark",
+    "light": "light"
   },
   "time": {
     "hour_narrow": "h",
@@ -56,6 +59,7 @@
   "description": {
     "scanning_files": "please be patient, this might take a while",
     "playlist_empty": "no songs selected",
-    "display_language": "display language"
+    "display_language": "display language",
+    "select_theme": "select theme"
   }
 }

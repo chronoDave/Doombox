@@ -6,10 +6,15 @@ export default makeStyles(theme => ({
     flexDirection: 'column',
     overflow: 'hidden',
     height: '100vh',
-    backgroundColor: theme.palette.grey[0]
+    backgroundColor: theme.palette.dark ?
+      theme.palette.grey[1] :
+      theme.palette.grey[6]
   },
   window: {
-    display: 'flex'
+    display: 'flex',
+    backgroundColor: theme.palette.dark ?
+      theme.palette.grey[0] :
+      theme.palette.grey[6]
   },
   body: {
     display: 'flex',
@@ -32,7 +37,9 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'auto',
-    backgroundColor: theme.palette.grey[1],
+    backgroundColor: theme.palette.dark ?
+      theme.palette.grey[1] :
+      theme.palette.white,
     flexGrow: 1
   }
 }), 'app');

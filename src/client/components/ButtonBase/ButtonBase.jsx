@@ -28,11 +28,11 @@ const ButtonBase = forwardRef((props, ref) => {
       }, className)}
       disabled={disabled}
       onMouseUp={event => {
-        setHolding(true);
+        setHolding(false);
         if (onMouseUp) onMouseUp(event);
       }}
       onMouseDown={event => {
-        setHolding(false);
+        setHolding(true);
         if (onMouseDown) onMouseDown(event);
       }}
       ref={ref}

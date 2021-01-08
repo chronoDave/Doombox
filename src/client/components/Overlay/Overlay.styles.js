@@ -9,8 +9,10 @@ export default makeStyles(theme => ({
     width: '100%',
     height: '100%',
     zIndex: theme.zIndex.overlay,
-    backgroundColor: theme.palette.overlay(
-      theme.palette.grey[0],
+    backgroundColor: theme.palette.alpha(
+      theme.palette.dark ?
+        theme.palette.grey[0] :
+        theme.palette.grey[6],
       theme.palette.opacity.overlay
     ),
     overflowY: 'auto'

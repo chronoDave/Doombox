@@ -29,26 +29,30 @@ const PlayerControls = ({ status, className }) => {
 
   return (
     <div className={cx(classes.root, className)}>
-      <ButtonVolume small={!isNotSmall} />
+      <ButtonVolume small={!isNotSmall} className={classes.button} />
       <ButtonIcon
         icon="previous"
         small={!isNotSmall}
         onClick={previous}
+        className={classes.button}
       />
       <ButtonIcon
         icon={status === STATUS.AUDIO.PLAYING ? 'pause' : 'play'}
         small={!isNotSmall}
         onClick={status === STATUS.AUDIO.PLAYING ? pause : play}
+        className={classes.button}
       />
       <ButtonIcon
         icon="next"
         small={!isNotSmall}
         onClick={next}
+        className={classes.button}
       />
       <ButtonIcon
         icon="shuffle"
         small={!isNotSmall}
         onClick={shuffle}
+        className={classes.button}
       />
     </div>
   );

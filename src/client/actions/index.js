@@ -19,5 +19,6 @@ export {
 
 export {
   updateConfig,
-  updateCache
+  updateCache,
+  updateTheme
 } from './storage.actions';

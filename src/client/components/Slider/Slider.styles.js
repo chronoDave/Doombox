@@ -37,7 +37,7 @@ export default makeStyles(theme => ({
     return ({
       display: 'flex',
       alignItems: 'center',
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.primary,
       flexShrink: 0,
       outline: 0,
       ...track[orientation]
@@ -47,8 +47,8 @@ export default makeStyles(theme => ({
     width: '100%',
     height: '100%',
     outline: 0,
-    backgroundColor: theme.palette.overlay(
-      theme.palette.primary.main,
+    backgroundColor: theme.palette.alpha(
+      theme.palette.primary,
       theme.palette.opacity.inactive
     )
   },
@@ -68,7 +68,11 @@ export default makeStyles(theme => ({
       height: theme.mixins.slider.thumb,
       flexShrink: 0,
       borderRadius: '50%',
-      backgroundColor: theme.palette.text.primary,
+      backgroundColor: theme.palette.autoContrast(
+        theme.palette.text.primary,
+        theme.palette.grey[2],
+        theme.palette.grey[4]
+      ),
       outline: 0,
       ...thumb[orientation]
     });

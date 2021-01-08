@@ -11,5 +11,8 @@ export default makeStyles(theme => ({
     )]: {
       marginBottom: 0
     }
+  },
+  button: {
+    color: 'inherit'
   }
 }), 'playerControls');

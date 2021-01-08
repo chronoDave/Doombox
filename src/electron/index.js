@@ -29,7 +29,8 @@ const assets = process.env.NODE_ENV === 'development' ?
 
 const cache = new Storage(root, 'cache', CACHE);
 const config = new Storage(root, 'config', CONFIG);
-const theme = new Storage(root, 'theme', THEME);
+
+const configDisplay = config.get(TYPES.CONFIG.DISPLAY);
 
 const db = {
   [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root }),
@@ -43,7 +44,6 @@ const Doombox = new App(root, assets, config.get(TYPES.CONFIG.LANGUAGE));
 app.on('ready', () => {
   Doombox.createRouter(IPC.CHANNEL.CACHE, new StorageController(cache));
   Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
-  Doombox.createRouter(IPC.CHANNEL.THEME, new StorageController(theme));
 
   Doombox.createRouter(IPC.CHANNEL.IMAGE, new DatabaseController(db[TYPES.DATABASE.IMAGES]));
   Doombox.createRouter(IPC.CHANNEL.SONG, new DatabaseController(db[TYPES.DATABASE.SONGS]));
@@ -59,8 +59,10 @@ app.on('ready', () => {
   const keybinds = config.get(TYPES.CONFIG.KEYBINDS);
   const window = Doombox.createWindow({
     ...cache.get(TYPES.CACHE.WINDOW),
-    darkTheme: theme.get('variant') === 'dark',
-    backgroundColor: theme.get('grey')[1]
+    darkTheme: THEME[configDisplay.theme].dark,
+    backgroundColor: THEME[configDisplay.theme].dark ?
+      THEME[configDisplay.theme].grey[1] :
+      THEME[configDisplay.theme].grey[5]
   });
 
   if (process.platform === 'darwin') {

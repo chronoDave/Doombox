@@ -7,20 +7,21 @@ export default makeStyles(theme => ({
     justifyContent: 'flex-end'
   },
   button: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     minWidth: theme.spacing(5),
     padding: theme.spacing(0, 1),
     color: theme.palette.text.disabled,
     transition: theme.transitions.create(['color', 'background-color']),
-    display: 'flex',
-    alignItems: 'center',
     '&:hover': {
       color: theme.palette.text.primary,
-      backgroundColor: theme.palette.grey[1]
+      backgroundColor: theme.palette.actions.hover
     }
   },
   close: {
     '&:hover': {
-      backgroundColor: theme.palette.error.main,
+      backgroundColor: theme.palette.error,
     }
   }
 }), 'windowButtons');

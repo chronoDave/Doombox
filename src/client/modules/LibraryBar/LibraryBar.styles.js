@@ -8,7 +8,9 @@ export default makeStyles(theme => ({
   search: {
     margin: theme.spacing(0.5),
     padding: theme.spacing(0.5, 1),
-    backgroundColor: theme.palette.grey[0],
+    backgroundColor: theme.palette.dark ?
+      theme.palette.grey[0] :
+      theme.palette.grey[6],
     width: '100%'
   },
 }), 'libraryBar');

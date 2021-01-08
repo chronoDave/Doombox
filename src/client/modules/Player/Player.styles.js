@@ -36,18 +36,22 @@ export default makeStyles(theme => ({
       height: theme.mixins.player.md.height
     }
   }),
+  buttons: {
+    color: theme.palette.grey[6]
+  },
   title: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    flexGrow: 1
+    flexGrow: 1,
+    color: theme.palette.grey[6]
   },
   duration: {
     display: 'flex',
     justifyContent: 'space-between'
   },
   controls: {
-    backgroundColor: theme.palette.grey[0]
+    backgroundColor: 'red'
   }
 }), 'player');
