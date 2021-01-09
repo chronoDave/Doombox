@@ -2,6 +2,9 @@ import { createElement, forwardRef } from 'react';
 import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
+// Hooks
+import { useTheme } from '../../hooks';
+
 // Validation
 import { propTypographyVariants } from '../../validation/propTypes';
 
@@ -19,35 +22,57 @@ const Typography = forwardRef((props, ref) => {
     fontWeight,
     align,
     clamp,
+    style,
     ...rest
   } = props;
 
-  const classes = useTypographyStyles({
-    variant,
-    clamp,
-    align,
-    color,
-    fontWeight
-  });
+  const classes = useTypographyStyles();
+  const theme = useTheme();
 
-  const getElement = () => (
-    ['body', 'subtitle', 'caption']
-      .includes(variant) ? 'p' : variant
-  );
+  const getElement = () => {
+    if (element) return element;
+    if (['body', 'subtitle', 'caption'].includes(variant)) return 'p';
+    return variant;
+  };
+
+  const getColor = () => {
+    if (color === 'inherit') return color;
+    if (color === 'disabled') return theme.palette.text.disabled;
+    if (color.includes('text')) return theme.palette.text[color.slice(4).toLowerCase()];
+    return theme.palette[color];
+  };
+
+  const getClamp = () => {
+    if (!clamp) return {};
+    return ({
+      display: '-webkit-box',
+      WebkitLineClamp: typeof clamp === 'number' ?
+        clamp :
+        1,
+      WebkitBoxOrient: 'vertical',
+      overflow: 'hidden'
+    });
+  };
 
   return (
     createElement(
-      element || getElement(),
+      getElement(),
       {
         className: cx(
-          classes.variant,
+          classes[variant],
           classes.root,
           {
-            [classes.clamp]: clamp,
             [classes.noWrap]: noWrap
           },
           className
         ),
+        style: {
+          ...(style || {}),
+          color: getColor(),
+          textAlign: align,
+          fontWeight,
+          ...getClamp()
+        },
         ...rest,
         ref
       },
@@ -58,7 +83,14 @@ const Typography = forwardRef((props, ref) => {
 
 Typography.defaultProps = {
   element: null,
-  children: null
+  children: null,
+  align: 'left',
+  color: 'textPrimary',
+  variant: 'body',
+  noWrap: false,
+  className: null,
+  fontWeight: 'initial',
+  clamp: null
 };
 
 Typography.propTypes = {
@@ -78,23 +110,13 @@ Typography.propTypes = {
     'disabled'
   ]),
   children: PropTypes.node,
-  fontWeight: PropTypes.oneOf([300, 400, 500]),
+  fontWeight: PropTypes.oneOf(['initial', 300, 400, 500]),
   className: PropTypes.string,
   noWrap: PropTypes.bool,
   clamp: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.bool
   ])
-};
-
-Typography.defaultProps = {
-  align: 'left',
-  color: 'textPrimary',
-  variant: 'body',
-  noWrap: false,
-  className: null,
-  fontWeight: null,
-  clamp: null
 };
 
 Typography.displayName = 'Typography';

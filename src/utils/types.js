@@ -90,7 +90,8 @@ module.exports = {
     },
     CACHE: {
       WINDOW: 'window',
-      VOLUME: 'volume',
+      PLAYER: 'player',
+      SEARCH: 'search',
       FOLDERS: 'folders'
     },
     CONFIG: {

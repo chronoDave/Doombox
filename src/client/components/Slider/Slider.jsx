@@ -2,6 +2,9 @@ import React, { useRef } from 'react';
 import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
+// Theme
+import { mixins } from '../../theme';
+
 // Styles
 import useSliderStyles from './Slider.styles';
 
@@ -17,11 +20,9 @@ const Slider = props => {
     ...rest
   } = props;
   const ref = useRef(null);
-  const classes = useSliderStyles({
-    value: value / ((max - min) / 100),
-    orientation
-  });
+  const classes = useSliderStyles();
 
+  const percentage = value / ((max - min) / 100);
   const getValue = event => {
     const container = ref.current.getBoundingClientRect();
 
@@ -61,9 +62,31 @@ const Slider = props => {
   };
 
   return (
-    <div className={classes.root} ref={ref} {...rest}>
+    <div
+      className={classes.root}
+      style={orientation === 'horizontal' ? ({
+        width: '100%',
+        height: mixins.slider.track
+      }) : ({
+        width: mixins.slider.track,
+        height: '100%',
+        flexDirection: 'column-reverse'
+      })}
+      ref={ref}
+      {...rest}
+    >
       <div
         className={classes.trackActive}
+        style={orientation === 'horizontal' ? ({
+          width: `${percentage}%`,
+          height: '100%',
+          justifyContent: 'flex-end'
+        }) : ({
+          width: '100%',
+          height: `${percentage}%`,
+          justifyContent: 'flex-start',
+          flexDirection: 'column'
+        })}
         onMouseDown={event => onClick && onClick(event, getValue(event))}
         // Aria
         role="button"
@@ -72,6 +95,11 @@ const Slider = props => {
       >
         <div
           className={classes.thumb}
+          style={orientation === 'horizontal' ? ({
+            left: `${mixins.slider.thumb * (1 - (percentage / 100))}px`,
+          }) : ({
+            bottom: `${mixins.slider.thumb * (1 - (percentage / 100))}px`,
+          })}
           onMouseDown={handleOnMouseDown}
           // Aria
           role="slider"

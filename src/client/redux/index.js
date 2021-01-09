@@ -20,21 +20,24 @@ import { logger } from './middleware';
 
 // Selectors
 export {
-  populateLabels,
-  populateAlbums,
-  populateSongs,
-  populateImages,
-  populateLabel
+  populateSearchLabels,
+  populateSearchAlbums,
+  populateSearchSongs,
+  populateLibrary
 } from './selectors';
 
 // Actions
 export const {
+  setQuery,
   setSongs,
   setAlbums,
   setLabels
 } = searchSlice.actions;
 export const { setConfig } = configSlice.actions;
-export const { setCache } = cacheSlice.actions;
+export const {
+  setCache,
+  setTab
+} = cacheSlice.actions;
 export const {
   setOverlay,
   setView

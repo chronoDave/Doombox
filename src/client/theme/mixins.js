@@ -12,20 +12,11 @@ export default {
     sm: { width: 210, height: 210 },
     md: { width: 300, height: 300 }
   },
-  playlist: {
-    item: {
-      xs: 24,
-      sm: 48
-    }
-  },
-  songs: {
-    item: 44
+  virtual: {
+    item: 24
   },
   albums: {
     item: 44
-  },
-  labels: {
-    item: 22
   },
   library: {
     header: {

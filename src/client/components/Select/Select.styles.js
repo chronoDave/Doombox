@@ -19,8 +19,5 @@ export default makeStyles(theme => ({
   },
   icon: {
     marginLeft: theme.spacing()
-  },
-  popper: ({ width }) => ({
-    width
-  })
+  }
 }), 'select');

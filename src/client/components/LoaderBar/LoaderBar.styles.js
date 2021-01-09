@@ -9,9 +9,8 @@ export default makeStyles(theme => ({
     ),
     width: '100%'
   },
-  track: ({ value = 0 }) => ({
+  track: {
     height: '100%',
-    backgroundColor: theme.palette.primary,
-    width: `${value}%`
-  })
+    backgroundColor: theme.palette.primary
+  }
 }), 'loaderBar');

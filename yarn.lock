@@ -5686,10 +5686,10 @@ lazy-val@^1.0.4:
   resolved "https://registry.yarnpkg.com/lazy-val/-/lazy-val-1.0.4.tgz#882636a7245c2cfe6e0a4e3ba6c5d68a137e5c65"
   integrity sha512-u93kb2fPbIrfzBuLjZE+w+fJbUUMhNDXxNmMfaqNgpfQf1CO5ZSe2LfsnBqVAk7i/2NF48OSoRj+Xe2VT+lE8Q==
 
-leaf-db@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/leaf-db/-/leaf-db-3.4.0.tgz#b64b3523478d5cb963f424d2c3bf6511b56f7db4"
-  integrity sha512-fNkfpBHychjwf55+oldf38UDg5WcNkpaAg5DjY0JXvaU3brDhuSK8WudHmlBT9R4DSVnZYcPRBpCCuDeWqwfKQ==
+leaf-db@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/leaf-db/-/leaf-db-3.5.0.tgz#5f4693428507f5e342e0443941ab8afdb165f95c"
+  integrity sha512-4DmR3wwmF52jL7tvQpDpoQ64k/Ucg7OypZari1+gC2zXFPePcu1PH1zAZ9ef0nbvkd5OSAZkeUO1MRMPpRJiUw==
   dependencies:
     fast-deep-equal "^3.1.3"
     lodash.get "^4.4.2"
@@ -5880,6 +5880,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+mapsort@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/mapsort/-/mapsort-1.0.3.tgz#b638416f88a0378ed7e43c5edbe6b13653dd31e9"
+  integrity sha512-cTd20WBA9vx2TAbdEovBIvGsQ4YteYgtTBVsSkNd7TNO7SO6vBmCh2SYSXAjoZ2DIthCA4JQ86G+O/29ZYETCw==
 
 matcher@^3.0.0:
   version "3.0.0"
@@ -7082,11 +7087,6 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7, rc@^1.2.8:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
-
-re-reselect@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/re-reselect/-/re-reselect-4.0.0.tgz#9ddec4c72c4d952f68caa5aa4b76a9ed38b75cac"
-  integrity sha512-wuygyq8TXUlSdVXv2kigXxQNOgdb9m7LbIjwfTNGSpaY1riLd5e+VeQjlQMyUtrk0oiyhi1AqIVynworl3qxHA==
 
 react-devtools-core@4.10.1:
   version "4.10.1"

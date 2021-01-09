@@ -6,9 +6,9 @@ export default makeStyles(theme => ({
     width: '1em',
     height: '1em',
     fill: 'currentColor',
-    fontSize: theme.typography.pxToRem(24)
+    fontSize: theme.pxToRem(24)
   },
   small: {
-    fontSize: theme.typography.pxToRem(20)
+    fontSize: theme.pxToRem(20)
   }
 }), 'icon');

@@ -5,8 +5,7 @@ export default makeStyles(() => ({
     flexGrow: 1,
     overflow: 'auto'
   },
-  body: ({ height }) => ({
-    position: 'relative',
-    height
-  })
+  body: {
+    position: 'relative'
+  }
 }), 'virtualList');

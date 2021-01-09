@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { IPC, TYPES, WINDOW } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import { Search, Popper, Checkbox } from '../../components';
 import { updateConfig, ipcFind } from '../../actions';
 
 // Redux
-import { setView } from '../../redux';
+import { setView, setQuery } from '../../redux';
 
 // Hooks
 import { useTranslation, useTimeoutOpen } from '../../hooks';
@@ -21,7 +21,13 @@ import { propConfigSearch } from '../../validation/propTypes';
 // Styles
 import useSearchLibrary from './SearchLibrary.styles';
 
-const SearchLibrary = ({ fields, dispatchView }) => {
+const SearchLibrary = props => {
+  const {
+    query,
+    fields,
+    dispatchView,
+    dispatchQuery
+  } = props;
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { t } = useTranslation();
@@ -33,39 +39,37 @@ const SearchLibrary = ({ fields, dispatchView }) => {
   } = useTimeoutOpen();
   const classes = useSearchLibrary();
 
-  const handleSearch = query => {
-    const search = (channel, tags) => ipcFind(channel, {
-      $some: tags.map(tag => ({
-        $stringLoose: {
-          [tag]: query.toString()
-        }
-      }))
-    }, { projection: ['_id'] });
+  useEffect(() => {
+    if (query && query.length > 0) {
+      const search = (channel, tags) => ipcFind(channel, {
+        $some: tags.map(tag => ({
+          $string: {
+            [tag]: query.toString()
+          }
+        }))
+      }, { projection: ['_id'] });
 
-    if (fields.artist || fields.title) {
       search(IPC.CHANNEL.SONG, [
-        'artist',
-        'artistlocalized',
-        'title',
-        'titlelocalize'
-      ]);
-    }
-    if (fields.album || fields.albumartist || fields.cdid) {
+        fields.artist && 'artist',
+        fields.artist && 'artistlocalized',
+        fields.title && 'title',
+        fields.title && 'titlelocalize'
+      ].filter(tag => tag));
+
       search(IPC.CHANNEL.ALBUM, [
-        'album',
-        'albumlocalized',
-        'albumartist',
-        'albumartistlocalized',
-        'cdid'
-      ]);
-    }
-    if (fields.publisher) {
+        fields.album && 'album',
+        fields.album && 'albumlocalized',
+        fields.albumartist && 'albumartist',
+        fields.albumartist && 'albumartistlocalized',
+        fields.cdid && 'cdid'
+      ].filter(tag => tag));
+
       search(IPC.CHANNEL.LABEL, [
         'publisher',
         'publisherlocalized'
       ]);
     }
-  };
+  }, [query, fields]);
 
   return (
     <Fragment>
@@ -75,12 +79,12 @@ const SearchLibrary = ({ fields, dispatchView }) => {
           setOpen(!open);
         }}
         onClear={() => dispatchView(WINDOW.VIEW.LIBRARY)}
-        onChange={(_, query) => {
-          if (!query || query === '') {
+        onChange={(_, newQuery) => {
+          if (!newQuery || newQuery === '') {
             dispatchView(WINDOW.VIEW.LIBRARY);
           } else {
             dispatchView(WINDOW.VIEW.SEARCH);
-            handleSearch(query);
+            dispatchQuery(newQuery);
           }
         }}
         onMouseLeave={handleLeave}
@@ -115,16 +119,20 @@ const SearchLibrary = ({ fields, dispatchView }) => {
 };
 
 SearchLibrary.propTypes = {
+  query: PropTypes.string.isRequired,
   fields: propConfigSearch.isRequired,
-  dispatchView: PropTypes.func.isRequired
+  dispatchView: PropTypes.func.isRequired,
+  dispatchQuery: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  fields: state.config.search
+  fields: state.config.search,
+  query: state.search.query
 });
 
 const mapDispatchToProps = {
-  dispatchView: setView
+  dispatchView: setView,
+  dispatchQuery: setQuery
 };
 
 export default connect(

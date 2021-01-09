@@ -1,9 +1,6 @@
 import { makeStyles } from '../../theme';
 
-export default makeStyles(theme => ({
-  root: ({ delay }) => ({
-    transition: theme.transitions.create(['opacity'], delay)
-  }),
+export default makeStyles(() => ({
   invisible: {
     opacity: 0
   },

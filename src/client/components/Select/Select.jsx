@@ -23,11 +23,7 @@ const Select = ({ active, values, onChange }) => {
     handleEnter,
     handleLeave
   } = useTimeoutOpen();
-  const classes = useSelectStyles({
-    width: anchorEl ?
-      anchorEl.getBoundingClientRect().width :
-      0
-  });
+  const classes = useSelectStyles();
 
   return (
     <Fragment>
@@ -52,7 +48,11 @@ const Select = ({ active, values, onChange }) => {
         placement="bottom-start"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        className={classes.popper}
+        style={{
+          width: anchorEl ?
+            anchorEl.getBoundingClientRect().width :
+            0
+        }}
       >
         {Object.entries(values).map(([key, value]) => (
           <MenuItem

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ const PlayerSlider = ({ position, duration }) => {
   const { seek } = useAudio();
   const classes = usePlayerSliderStyles();
 
-  const throttledSeek = throttle(seek, 100);
+  const throttledSeek = useCallback(() => throttle(seek, 100), [seek]);
 
   return (
     <div className={classes.root}>

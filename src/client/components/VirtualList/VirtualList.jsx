@@ -20,7 +20,7 @@ const VirtualList = props => {
   const [view, setView] = useState([]);
 
   const ref = useRef();
-  const classes = useVirtualListStyles({ height: virtual.total });
+  const classes = useVirtualListStyles();
 
   const virtualize = useCallback(() => {
     const { scrollTop, clientHeight } = ref.current;
@@ -81,7 +81,7 @@ const VirtualList = props => {
       className={classes.root}
       onScroll={virtualize}
     >
-      <div className={classes.body}>
+      <div className={classes.body} style={{ height: virtual.total }}>
         {view.map(children)}
       </div>
     </div>

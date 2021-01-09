@@ -8,7 +8,7 @@ import { VirtualList } from '../../components';
 import { VirtualAlbumsItem } from '../VirtualAlbumsItem';
 
 // Redux
-import { populateAlbums } from '../../redux';
+import { populateSearchAlbums } from '../../redux';
 
 // Hooks
 import { useTranslation, useAudio } from '../../hooks';
@@ -54,7 +54,7 @@ VirtualAlbums.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  albums: populateAlbums(state, state.search.albums),
+  albums: populateSearchAlbums(state),
 });
 
 export default connect(

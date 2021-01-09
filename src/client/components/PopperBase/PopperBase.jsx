@@ -44,7 +44,7 @@ const PopperBase = props => {
             element: refArrow.current
           }
         }],
-        onFirstUpdate: state => !!arrow && setArrowPlacement(state.placement)
+        onFirstUpdate: state => !!arrow && setArrowPlacement(state.placement.split('-')[0])
       });
     }
 
@@ -58,7 +58,15 @@ const PopperBase = props => {
       {...rest}
     >
       {!!arrow && (
-        <div ref={refArrow} className={classes.arrow}>
+        <div
+          ref={refArrow}
+          className={cx(classes.arrow, {
+            [classes.arrowTop]: arrowPlacement === 'top',
+            [classes.arrowBottom]: arrowPlacement === 'bottom',
+            [classes.arrowLeft]: arrowPlacement === 'left',
+            [classes.arrowRight]: arrowPlacement === 'right',
+          })}
+        >
           {arrow}
         </div>
       )}

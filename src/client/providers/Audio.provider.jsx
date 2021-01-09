@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron';
 
 import React, { Component } from 'react';
-import { IPC, EVENTS } from '@doombox-utils/types';
+import { IPC, EVENTS, TYPES } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -95,7 +95,7 @@ class AudioProvider extends Component {
     this.audio.on(EVENTS.AUDIO.DURATION, dispatchDuration);
     this.audio.on(EVENTS.AUDIO.MUTED, muted => {
       dispatchMuted(muted);
-      updateCache('player.muted', muted);
+      updateCache(TYPES.CACHE.PLAYER, { muted });
     });
     this.audio.on(EVENTS.AUDIO.PLAYLIST, dispatchPlaylist);
     this.audio.on(EVENTS.AUDIO.INDEX, dispatchPlaylistIndex);
@@ -142,7 +142,10 @@ class AudioProvider extends Component {
           });
       }
     });
-    this.audio.on(EVENTS.AUDIO.VOLUME, dispatchVolume);
+    this.audio.on(EVENTS.AUDIO.VOLUME, volume => {
+      updateCache(TYPES.CACHE.PLAYER, { volume });
+      dispatchVolume(volume);
+    });
     this.audio.on(EVENTS.AUDIO.AUTOPLAY, dispatchAutoplay);
     this.audio.on(EVENTS.AUDIO.STATUS, status => {
       dispatchStatus(status);

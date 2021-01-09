@@ -66,6 +66,10 @@ const Search = forwardRef((props, ref) => {
         placeholder={t('action.common.search', { transform: 'capitalize', dots: true })}
         onChange={handleChange}
         onKeyDown={handleSubmit}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck="false"
       />
       <ButtonBase
         className={classes.button}

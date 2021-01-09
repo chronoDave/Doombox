@@ -48,6 +48,6 @@ export default makeStyles(theme => ({
   header: {
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0.5)
+    padding: theme.spacing(0, 0.5)
   }
 }), 'app');

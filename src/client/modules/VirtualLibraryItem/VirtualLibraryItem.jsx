@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -7,9 +7,6 @@ import { ButtonBase, Typography, TablePair } from '../../components';
 
 // Hooks
 import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
-
-// Redux
-import { populateLabel } from '../../redux';
 
 // Validation
 import { propLabel, propVirtualStyle } from '../../validation/propTypes';
@@ -45,7 +42,11 @@ const VirtualLibraryItem = props => {
       <div className={classes.header}>
         <ButtonBase
           className={classes.headerButton}
-          onClick={() => set({ name: primary, collection: label.songs })}
+          onClick={() => set({
+            name: primary,
+            collection: label.songs
+              .sort(sortMetadata(['date', 'year', 'disc', 'track']))
+          })}
         >
           <Typography clamp>
             {primary}
@@ -57,53 +58,60 @@ const VirtualLibraryItem = props => {
         <div className={classes.headerDivider} />
       </div>
       <div className={classes.albumContainer}>
-        {label.albums.map(album => (
-          <div className={classes.album} key={album._id}>
-            <ButtonBase
-              className={classes.albumButton}
-              onClick={() => set({
-                name: getLocalizedTag(album, 'album'),
-                collection: album.songs
-              })}
-              onContextMenu={event => onContextMenu(event, album)}
-              onMouseLeave={onMouseLeave}
-            >
-              <img
-                src={album.images[0] ? album.images[0].files.thumbnail : null}
-                alt={getLocalizedTag(album, 'album')}
-                decoding="async"
-                className={classes.cover}
-              />
-            </ButtonBase>
-            {isLg && (
-              <div className={classes.metadata}>
-                <Typography fontWeight={500} clamp={2}>
-                  {getLocalizedTag(album, 'album')}
-                </Typography>
-                <Typography color="textSecondary" clamp>
-                  {getLocalizedTag(album, 'albumartist')}
-                </Typography>
-                <TablePair
-                  className={classes.table}
-                  variant="subtitle"
-                  values={[{
-                    label: t('common.release', { transform: 'capitalize' }),
-                    value: formatDate(album.date || album.year)
-                  }, {
-                    label: t('common.duration', { transform: 'capitalize' }),
-                    value: formatTime(album.duration, 'text')
-                  }, {
-                    label: t('common.track', {
-                      transform: 'capitalize',
-                      plural: album.songs.length !== 1
-                    }),
-                    value: album.songs.length
-                  }]}
+        {label.albums
+          .sort(sortMetadata(['date', 'year']))
+          .map(album => (
+            <div className={classes.album} key={album._id}>
+              <ButtonBase
+                className={classes.albumButton}
+                onClick={() => set({
+                  name: getLocalizedTag(album, 'album'),
+                  collection: album.songs
+                    .sort(sortMetadata(['disc', 'track']))
+                })}
+                onContextMenu={event => onContextMenu(event, {
+                  ...album,
+                  songs: album.songs
+                    .sort(sortMetadata(['disc', 'track']))
+                })}
+                onMouseLeave={onMouseLeave}
+              >
+                <img
+                  src={album.images[0] ? album.images[0].files.thumbnail : null}
+                  alt={getLocalizedTag(album, 'album')}
+                  decoding="async"
+                  className={classes.cover}
                 />
-              </div>
-            )}
-          </div>
-        ))}
+              </ButtonBase>
+              {isLg && (
+                <div className={classes.metadata}>
+                  <Typography fontWeight={500} clamp={2}>
+                    {getLocalizedTag(album, 'album')}
+                  </Typography>
+                  <Typography color="textSecondary" clamp>
+                    {getLocalizedTag(album, 'albumartist')}
+                  </Typography>
+                  <TablePair
+                    className={classes.table}
+                    variant="subtitle"
+                    values={[{
+                      label: t('common.release', { transform: 'capitalize' }),
+                      value: formatDate(album.date || album.year)
+                    }, {
+                      label: t('common.duration', { transform: 'capitalize' }),
+                      value: formatTime(album.duration, 'text')
+                    }, {
+                      label: t('common.track', {
+                        transform: 'capitalize',
+                        plural: album.songs.length !== 1
+                      }),
+                      value: album.songs.length
+                    }]}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
       </div>
     </div>
   );
@@ -118,10 +126,4 @@ VirtualLibraryItem.propTypes = {
   onContextMenu: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, props) => ({
-  label: populateLabel(state, props)
-});
-
-export default connect(
-  mapStateToProps
-)(VirtualLibraryItem);
+export default VirtualLibraryItem;

@@ -1,47 +1,15 @@
 import { makeStyles } from '../../theme';
 
 export default makeStyles(theme => ({
-  root: ({ orientation }) => {
-    const root = {
-      horizontal: {
-        width: '100%',
-        height: theme.mixins.slider.track
-      },
-      vertical: {
-        width: theme.mixins.slider.track,
-        height: '100%',
-        flexDirection: 'column-reverse'
-      }
-    };
-
-    return ({
-      display: 'flex',
-      ...root[orientation]
-    });
+  root: {
+    display: 'flex'
   },
-  trackActive: ({ orientation, value }) => {
-    const track = {
-      horizontal: {
-        width: `${value}%`,
-        height: '100%',
-        justifyContent: 'flex-end'
-      },
-      vertical: {
-        width: '100%',
-        height: `${value}%`,
-        justifyContent: 'flex-start',
-        flexDirection: 'column'
-      }
-    };
-
-    return ({
-      display: 'flex',
-      alignItems: 'center',
-      backgroundColor: theme.palette.primary,
-      flexShrink: 0,
-      outline: 0,
-      ...track[orientation]
-    });
+  trackActive: {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: theme.palette.primary,
+    flexShrink: 0,
+    outline: 0,
   },
   trackInactive: {
     width: '100%',
@@ -52,29 +20,17 @@ export default makeStyles(theme => ({
       theme.palette.opacity.inactive
     )
   },
-  thumb: ({ orientation, value }) => {
-    const thumb = {
-      horizontal: {
-        left: `${theme.mixins.slider.thumb * (1 - (value / 100))}px`,
-      },
-      vertical: {
-        bottom: `${theme.mixins.slider.thumb * (1 - (value / 100))}px`,
-      }
-    };
-
-    return ({
-      position: 'relative',
-      width: theme.mixins.slider.thumb,
-      height: theme.mixins.slider.thumb,
-      flexShrink: 0,
-      borderRadius: '50%',
-      backgroundColor: theme.palette.autoContrast(
-        theme.palette.text.primary,
-        theme.palette.grey[2],
-        theme.palette.grey[4]
-      ),
-      outline: 0,
-      ...thumb[orientation]
-    });
+  thumb: {
+    position: 'relative',
+    width: theme.mixins.slider.thumb,
+    height: theme.mixins.slider.thumb,
+    flexShrink: 0,
+    borderRadius: '50%',
+    backgroundColor: theme.palette.autoContrast(
+      theme.palette.primary,
+      theme.palette.grey[0],
+      theme.palette.grey[6]
+    ),
+    outline: 0
   }
 }), 'slider');

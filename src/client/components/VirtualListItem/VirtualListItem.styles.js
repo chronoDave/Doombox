@@ -18,7 +18,7 @@ export default makeStyles(theme => ({
         theme.palette.grey[5]
     },
     [theme.breakpoints.create('minWidth', 'sm')]: {
-      paddingLeft: theme.spacing(1.5)
+      padding: theme.spacing(0.5, 1)
     }
   },
   active: {
@@ -30,18 +30,12 @@ export default makeStyles(theme => ({
       )
     }
   },
-  primary: {
-    color: theme.palette.text.primary,
-  },
   primaryActive: {
     color: theme.palette.autoContrast(
       theme.palette.primary,
       theme.palette.grey[6],
       theme.palette.grey[0]
     )
-  },
-  secondary: {
-    color: theme.palette.text.secondary
   },
   secondaryActive: {
     color: theme.palette.autoContrast(
@@ -54,8 +48,8 @@ export default makeStyles(theme => ({
     minWidth: theme.spacing(4),
     marginRight: theme.spacing()
   },
-  metadata: {
+  label: {
     display: 'flex',
     flexDirection: 'column'
   }
-}), 'playlistItem');
+}), 'virtualListItem');

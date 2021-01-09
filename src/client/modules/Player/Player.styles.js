@@ -1,18 +1,9 @@
-import url from 'url';
-
 import { makeStyles } from '../../theme';
 
-// Assets
-import backgroundDefault from '../../assets/images/backgroundDefault.png';
-
 export default makeStyles(theme => ({
-  root: ({ image }) => ({
+  root: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundImage: theme.createImage((image ?
-      url.pathToFileURL(image).href :
-      backgroundDefault
-    )),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     padding: theme.spacing(0.5),
@@ -35,7 +26,7 @@ export default makeStyles(theme => ({
     )]: {
       height: theme.mixins.player.md.height
     }
-  }),
+  },
   buttons: {
     color: theme.palette.grey[6]
   },

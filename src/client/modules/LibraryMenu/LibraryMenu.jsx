@@ -57,7 +57,8 @@ const LibraryMenu = ({ collection }) => {
             setOpen(false);
             set(({
               name: t('common.library', { transform: 'pascal' }),
-              collection
+              collection: collection
+                .sort(sortMetadata(['albumartist', 'year', 'date', 'disc', 'track']))
             }));
           }}
         />
@@ -85,7 +86,6 @@ LibraryMenu.propTypes = {
 
 const mapStateToProps = state => ({
   collection: state.entities.songs.list
-    .sort(sortMetadata(['albumartist', 'year', 'date', 'disc', 'track']))
 });
 
 export default connect(

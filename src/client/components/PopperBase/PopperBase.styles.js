@@ -5,17 +5,19 @@ export default makeStyles(theme => ({
     zIndex: theme.zIndex.popper,
     position: 'fixed'
   },
-  arrow: ({ placement }) => {
-    const offset = {
-      top: { bottom: -4 },
-      bottom: { top: -4 },
-      left: { right: -4 },
-      right: { left: -4 }
-    };
-
-    return ({
-      zIndex: -1,
-      ...offset[placement.split('-')[0]]
-    });
+  arrow: {
+    zIndex: -1,
+  },
+  arrowTop: {
+    bottom: -4
+  },
+  arrowBottom: {
+    top: -4
+  },
+  arrowLeft: {
+    right: -4
+  },
+  arrowRight: {
+    left: -4
   }
 }), 'popperBase');

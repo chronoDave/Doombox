@@ -21,3 +21,4 @@ export { Toggle } from './Toggle';
 export { Fade } from './Fade';
 export { SelectTheme } from './SelectTheme';
 export { Checkbox } from './Checkbox';
+export { VirtualListItem } from './VirtualListItem';

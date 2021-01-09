@@ -5,7 +5,7 @@ import { capitalize } from '@doombox-utils';
 // Hooks
 import { useTheme } from '../hooks';
 
-export default (styles, label) => props => {
+export default (styles, label) => () => {
   if (process.env.NODE_ENV === 'development' && !label) {
     console.warn('Missing label at', new Error().stack.match(/\(.*\)/g)[2]);
   }
@@ -17,8 +17,10 @@ export default (styles, label) => props => {
     .reduce((acc, [key, value]) => ({
       ...acc,
       [key]: css({
-        ...(typeof value === 'function' ? value(props) : value),
-        label: label ? `${label}${capitalize(key)}` : key
+        ...value,
+        label: label ?
+          `${label}${capitalize(key)}` :
+          key
       })
-    }), {}), [theme, props]);
+    }), {}), [theme]);
 };

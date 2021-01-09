@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { VirtualList } from '../../components';
-
-import { PlaylistItem } from '../PlaylistItem';
+import { VirtualList, VirtualListItem } from '../../components';
 
 // Hooks
-import { useMediaQuery, useTranslation } from '../../hooks';
+import { useMediaQuery, useTranslation, useAudio } from '../../hooks';
 
 // Theme
 import { mixins } from '../../theme';
@@ -18,27 +16,34 @@ import { propSong } from '../../validation/propTypes';
 
 const Playlist = ({ songs, current }) => {
   const { getLocalizedTag } = useTranslation();
+  const { skip } = useAudio();
   const isWidthSm = useMediaQuery(({ create }) => create('minWidth', 'sm'));
 
   return (
     <VirtualList
       length={songs.length}
       size={(isWidthSm ?
-        mixins.playlist.item.sm :
-        mixins.playlist.item.xs
+        mixins.virtual.item * 2 :
+        mixins.virtual.item
       )}
       scrollTo={current}
     >
-      {({ style, index }) => (
-        <PlaylistItem
-          key={songs[index]._id}
-          active={current === index}
-          primary={getLocalizedTag(songs[index], 'title')}
-          secondary={getLocalizedTag(songs[index], 'artist')}
-          style={style}
-          index={index}
-        />
-      )}
+      {({ style, index }) => {
+        const song = songs[index];
+
+        if (!song) return null;
+        return (
+          <VirtualListItem
+            key={song._id}
+            active={current === index}
+            primary={getLocalizedTag(song, 'title')}
+            secondary={isWidthSm && getLocalizedTag(song, 'artist')}
+            onClick={() => skip(index)}
+            style={style}
+            index={isWidthSm && index}
+          />
+        );
+      }}
     </VirtualList>
   );
 };

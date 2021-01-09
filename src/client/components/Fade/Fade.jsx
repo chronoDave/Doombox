@@ -32,9 +32,12 @@ const Fade = ({ visible, delay, children }) => {
   }, [visible, hide, cancelHide]);
 
   return Children.map(children, child => cloneElement(child, {
+    style: {
+      ...(child.props.style || {}),
+      transition: transitions.create(['opacity'], delay)
+    },
     className: cx(
       child.props.className,
-      classes.root,
       {
         [classes.invisible]: !visible,
         [classes.hidden]: hidden

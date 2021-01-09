@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { VirtualList } from '../../components';
-
-import { VirtualLabelsItem } from '../VirtualLabelsItem';
+import { VirtualList, VirtualListItem } from '../../components';
 
 // Redux
-import { populateLabels } from '../../redux';
+import { populateSearchLabels } from '../../redux';
 
 // Hooks
 import { useTranslation, useAudio } from '../../hooks';
@@ -19,24 +17,30 @@ import { mixins } from '../../theme';
 // Validation
 import { propLabel } from '../../validation/propTypes';
 
-const VirtualLabels = ({ labels }) => {
+const VirtualLabels = ({ labels, current }) => {
   const { set } = useAudio();
-  const { getLocalizedTag } = useTranslation();
+  const { t, formatTime, getLocalizedTag } = useTranslation();
 
   return (
     <VirtualList
       length={labels.length}
-      size={mixins.labels.item}
+      size={mixins.virtual.item * 2}
     >
       {({ style, index }) => {
         const label = labels[index];
 
         if (!label) return null;
         return (
-          <VirtualLabelsItem
+          <VirtualListItem
             key={label._id}
             style={style}
+            active={label._id === current}
             primary={getLocalizedTag(label, 'publisher')}
+            secondary={[
+              `${label.albums.length} ${t('common.album', { plural: label.albums.length !== 1 })}`,
+              `${label.songs.length} ${t('common.track', { plural: label.songs.length !== 1 })}`,
+              formatTime(label.duration || 0)
+            ].join(' \u2022 ')}
             onClick={() => set({
               name: getLocalizedTag(label, 'publisher'),
               collection: label.songs
@@ -48,12 +52,18 @@ const VirtualLabels = ({ labels }) => {
   );
 };
 
+VirtualLabels.defaultProps = {
+  current: null
+};
+
 VirtualLabels.propTypes = {
+  current: PropTypes.string,
   labels: PropTypes.arrayOf(propLabel).isRequired
 };
 
 const mapStateToProps = state => ({
-  labels: populateLabels(state, state.search.labels),
+  current: state.player.metadata._labelId,
+  labels: populateSearchLabels(state)
 });
 
 export default connect(

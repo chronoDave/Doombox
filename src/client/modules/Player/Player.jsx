@@ -1,3 +1,5 @@
+import url from 'url';
+
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,10 +11,10 @@ import { PlayerControls } from '../PlayerControls';
 import { PlayerTime } from '../PlayerTime';
 
 // Hooks
-import { useTranslation, useMediaQuery } from '../../hooks';
+import { useTranslation, useMediaQuery, useTheme } from '../../hooks';
 
-// Redux
-import { populateImages } from '../../redux';
+// Assets
+import backgroundDefault from '../../assets/images/backgroundDefault.png';
 
 // Validation
 import { propImage } from '../../validation/propTypes';
@@ -28,6 +30,7 @@ const Player = props => {
     artistlocalized,
     image
   } = props;
+  const theme = useTheme();
   const { t, getLocalizedTag } = useTranslation();
   const classes = usePlayerStyles({
     image: image ?
@@ -40,7 +43,15 @@ const Player = props => {
   ));
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      style={{
+        backgroundImage: theme.createImage((image ?
+          url.pathToFileURL(image.files.thumbnail).href :
+          backgroundDefault
+        ))
+      }}
+    >
       <div className={classes.title}>
         <Typography
           clamp={2}
@@ -85,7 +96,7 @@ Player.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  image: populateImages(state, [state.player.metadata.images[0]])[0],
+  image: state.player.metadata.images[0],
   artist: state.player.metadata.artist,
   artistlocalized: state.player.metadata.artistlocalized,
   title: state.player.metadata.title,

@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { sortMetadata } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,6 +6,9 @@ import PropTypes from 'prop-types';
 import { VirtualList, Popper, MenuItem } from '../../components';
 
 import { VirtualLibraryItem } from '../VirtualLibraryItem';
+
+// Redux
+import { populateLibrary } from '../../redux';
 
 // Hooks
 import {
@@ -75,6 +77,7 @@ const VirtualLibrary = ({ library }) => {
               key={item._id}
               style={style}
               id={item._id}
+              label={item}
               primary={getLocalizedTag(item, 'publisher')}
               secondary={[
                 `${item.albums.length} ${t('common.album', { plural: item.albums.length !== 1 })}`,
@@ -117,8 +120,7 @@ VirtualLibrary.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  library: state.entities.labels.list
-    .sort(sortMetadata(['publisher'], state.config.display.useLocalizedMetadata))
+  library: populateLibrary(state),
 });
 
 export default connect(

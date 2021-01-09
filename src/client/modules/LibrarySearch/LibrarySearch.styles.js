@@ -6,11 +6,13 @@ export default makeStyles(theme => ({
     flexDirection: 'column',
     minHeight: 0
   },
-  icon: {
-    margin: theme.spacing(0.5)
-  },
   icons: {
-    display: 'flex'
+    display: 'flex',
+    margin: theme.spacing(0.25),
+    marginTop: 0
+  },
+  icon: {
+    margin: theme.spacing(0, 0.25),
   },
   active: {
     backgroundColor: theme.palette.primary,
@@ -24,4 +26,4 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column'
   }
-}), 'viewSearch');
+}), 'librarySearch');

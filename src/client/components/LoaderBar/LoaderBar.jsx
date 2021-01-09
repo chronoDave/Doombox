@@ -9,7 +9,10 @@ const LoaderBar = ({ value }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.track} />
+      <div
+        className={classes.track}
+        style={{ width: `${value}%` }}
+      />
     </div>
   );
 };
