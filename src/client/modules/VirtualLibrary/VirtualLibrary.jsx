@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useState,
-  useEffect,
-  useRef
-} from 'react';
-import { IPC } from '@doombox-utils/types';
+import React, { Fragment, useState } from 'react';
 import { sortMetadata } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,7 +6,7 @@ import PropTypes from 'prop-types';
 // Core
 import { VirtualList, Popper, MenuItem } from '../../components';
 
-import { LibraryItem } from '../LibraryItem';
+import { VirtualLibraryItem } from '../VirtualLibraryItem';
 
 // Hooks
 import {
@@ -22,16 +16,13 @@ import {
   useAudio
 } from '../../hooks';
 
-// Actions
-import { ipcFind } from '../../actions';
-
 // Theme
 import { mixins } from '../../theme';
 
 // Validation
 import { propLabel } from '../../validation/propTypes';
 
-const ViewLibrary = ({ labels, useLocalizedMetadata, className }) => {
+const VirtualLibrary = ({ library }) => {
   const [menu, setMenu] = useState({ anchorEl: null, album: {} });
 
   const { add } = useAudio();
@@ -41,17 +32,6 @@ const ViewLibrary = ({ labels, useLocalizedMetadata, className }) => {
     handleEnter,
     handleLeave
   } = useTimeoutOpen();
-  const ref = useRef();
-
-  useEffect(() => {
-    ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['_id', 'files'] });
-    ipcFind(IPC.CHANNEL.LIBRARY, {});
-  }, []);
-
-  useEffect(() => {
-    if (ref.current) ref.current.redraw();
-  }, [useLocalizedMetadata]);
-
   const { t, getLocalizedTag, formatTime } = useTranslation();
   const isSm = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
@@ -65,9 +45,8 @@ const ViewLibrary = ({ labels, useLocalizedMetadata, className }) => {
   return (
     <Fragment>
       <VirtualList
-        ref={ref}
-        size={labels.length}
-        itemSize={(index, width) => {
+        length={library.length}
+        size={(index, width) => {
           const breakpoint = (() => {
             if (isLg) return 'lg';
             if (isSm) return 'sm';
@@ -82,32 +61,31 @@ const ViewLibrary = ({ labels, useLocalizedMetadata, className }) => {
           const itemHeight = item.height + (item.padding * 2);
 
           const rows = Math.floor((width - (body.padding * 2)) / itemWidth);
-          const columns = Math.ceil(labels[index].albums.length / rows);
+          const columns = Math.ceil(library[index].albums.length / rows);
 
           return (columns * itemHeight) + header.height;
         }}
-        className={className}
       >
         {({ index, style }) => {
-          const data = labels[index];
+          const item = library[index];
 
-          if (!data) return null;
+          if (!item) return null;
           return (
-            <LibraryItem
-              key={data._id}
+            <VirtualLibraryItem
+              key={item._id}
               style={style}
-              id={data._id}
-              primary={getLocalizedTag(data, 'publisher')}
-              onContextMenu={(event, album) => {
-                setMenu({ anchorEl: event.currentTarget, album });
+              id={item._id}
+              primary={getLocalizedTag(item, 'publisher')}
+              secondary={[
+                `${item.albums.length} ${t('common.album', { plural: item.albums.length !== 1 })}`,
+                `${item.songs.length} ${t('common.track', { plural: item.songs.length !== 1 })}`,
+                formatTime(item.duration || 0)
+              ].join(' \u2022 ')}
+              onContextMenu={(event, data) => {
+                setMenu({ anchorEl: event.currentTarget, data });
                 setOpen(!open);
               }}
               onMouseLeave={handleLeave}
-              secondary={[
-                `${data.albums.length} ${t('common.album', { plural: data.albums.length !== 1 })}`,
-                `${data.songs.length} ${t('common.track', { plural: data.songs.length !== 1 })}`,
-                formatTime(data.duration || 0)
-              ].join(' \u2022 ')}
             />
           );
         }}
@@ -126,7 +104,7 @@ const ViewLibrary = ({ labels, useLocalizedMetadata, className }) => {
           })}
           onClick={() => {
             setOpen(false);
-            add(menu.album.songs);
+            add(menu.data.songs);
           }}
         />
       </Popper>
@@ -134,22 +112,15 @@ const ViewLibrary = ({ labels, useLocalizedMetadata, className }) => {
   );
 };
 
-ViewLibrary.defaultProps = {
-  className: null
-};
-
-ViewLibrary.propTypes = {
-  labels: PropTypes.arrayOf(propLabel).isRequired,
-  useLocalizedMetadata: PropTypes.bool.isRequired,
-  className: PropTypes.string
+VirtualLibrary.propTypes = {
+  library: PropTypes.arrayOf(propLabel).isRequired
 };
 
 const mapStateToProps = state => ({
-  useLocalizedMetadata: state.config.display.useLocalizedMetadata,
-  labels: state.entities.labels.list
+  library: state.entities.labels.list
     .sort(sortMetadata(['publisher'], state.config.display.useLocalizedMetadata))
 });
 
 export default connect(
   mapStateToProps
-)(ViewLibrary);
+)(VirtualLibrary);

@@ -15,9 +15,9 @@ import { populateLabel } from '../../redux';
 import { propLabel, propVirtualStyle } from '../../validation/propTypes';
 
 // Styles
-import useLibraryItemStyles from './LibraryItem.styles';
+import useVirtualLibraryItemStyles from './VirtualLibraryItem.styles';
 
-const LibraryItem = props => {
+const VirtualLibraryItem = props => {
   const {
     style,
     primary,
@@ -26,7 +26,7 @@ const LibraryItem = props => {
     label,
     onContextMenu
   } = props;
-  const classes = useLibraryItemStyles();
+  const classes = useVirtualLibraryItemStyles();
 
   const { set } = useAudio();
   const {
@@ -109,7 +109,7 @@ const LibraryItem = props => {
   );
 };
 
-LibraryItem.propTypes = {
+VirtualLibraryItem.propTypes = {
   style: propVirtualStyle.isRequired,
   primary: PropTypes.string.isRequired,
   secondary: PropTypes.string.isRequired,
@@ -124,4 +124,4 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps
-)(LibraryItem);
+)(VirtualLibraryItem);

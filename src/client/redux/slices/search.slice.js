@@ -1,26 +1,17 @@
-import { createReduxSlice, normalize } from '../utils';
+import { createReduxSlice } from '../utils';
+
+const normalize = payload => payload.map(({ _id }) => _id);
 
 const initialState = {
-  query: '',
-  songs: {
-    map: {},
-    list: []
-  },
-  albums: {
-    map: {},
-    list: []
-  },
-  labels: {
-    map: {},
-    list: []
-  }
+  songs: [],
+  albums: [],
+  labels: []
 };
 
 const reducers = {
-  setQuery: (state, query) => ({ ...state, query }),
-  setSongs: (state, payload) => ({ ...state, songs: normalize(payload) }),
-  setAlbums: (state, payload) => ({ ...state, albums: normalize(payload) }),
-  setLabels: (state, payload) => ({ ...state, labels: normalize(payload) }),
+  setSongs: (state, data) => ({ ...state, songs: normalize(data) }),
+  setAlbums: (state, data) => ({ ...state, albums: normalize(data) }),
+  setLabels: (state, data) => ({ ...state, labels: normalize(data) }),
 };
 
 export default createReduxSlice('search', initialState, reducers);

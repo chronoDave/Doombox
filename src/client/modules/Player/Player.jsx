@@ -11,6 +11,12 @@ import { PlayerTime } from '../PlayerTime';
 // Hooks
 import { useTranslation, useMediaQuery } from '../../hooks';
 
+// Redux
+import { populateImages } from '../../redux';
+
+// Validation
+import { propImage } from '../../validation/propTypes';
+
 // Styles
 import usePlayerStyles from './Player.styles';
 
@@ -23,7 +29,11 @@ const Player = props => {
     image
   } = props;
   const { t, getLocalizedTag } = useTranslation();
-  const classes = usePlayerStyles({ image });
+  const classes = usePlayerStyles({
+    image: image ?
+      image.files.thumbnail :
+      null
+  });
   const isMd = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
     create('minHeight', 'sm')
@@ -63,7 +73,7 @@ Player.defaultProps = {
   titlelocalized: null,
   artist: '',
   artistlocalized: '',
-  image: ''
+  image: null
 };
 
 Player.propTypes = {
@@ -71,13 +81,11 @@ Player.propTypes = {
   titlelocalized: PropTypes.string,
   artist: PropTypes.string,
   artistlocalized: PropTypes.string,
-  image: PropTypes.string
+  image: propImage
 };
 
 const mapStateToProps = state => ({
-  image: state.player.metadata.images[0] && state.player.metadata.images[0].files ?
-    state.player.metadata.images[0].files.thumbnail :
-    null,
+  image: populateImages(state, [state.player.metadata.images[0]])[0],
   artist: state.player.metadata.artist,
   artistlocalized: state.player.metadata.artistlocalized,
   title: state.player.metadata.title,

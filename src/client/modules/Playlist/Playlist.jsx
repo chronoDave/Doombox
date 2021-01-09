@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,22 +18,18 @@ import { propSong } from '../../validation/propTypes';
 
 const Playlist = ({ songs, current }) => {
   const { getLocalizedTag } = useTranslation();
-
-  const ref = useRef();
   const isWidthSm = useMediaQuery(({ create }) => create('minWidth', 'sm'));
-  const itemSize = mixins.playlist.item[isWidthSm ? 'sm' : 'xs'];
-
-  useLayoutEffect(() => {
-    if (ref.current) ref.current.scroll({ top: current * itemSize });
-  }, [current, itemSize]);
 
   return (
     <VirtualList
-      ref={ref}
-      size={songs.length}
-      itemSize={itemSize}
+      length={songs.length}
+      size={(isWidthSm ?
+        mixins.playlist.item.sm :
+        mixins.playlist.item.xs
+      )}
+      scrollTo={current}
     >
-      {({ style, index }) => songs[index] && (
+      {({ style, index }) => (
         <PlaylistItem
           key={songs[index]._id}
           active={current === index}

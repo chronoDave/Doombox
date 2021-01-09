@@ -11,16 +11,16 @@ import { PlayerSlider } from '../PlayerSlider';
 import { PlayerControls } from '../PlayerControls';
 import { Playlist } from '../Playlist';
 import { PlaylistTitle } from '../PlaylistTitle';
-import { ViewLibrary } from '../ViewLibrary';
 import { LibraryMenu } from '../LibraryMenu';
-import { LibrarySearch } from '../LibrarySearch';
+import { SearchLibrary } from '../SearchLibrary';
 import { OverlayScan } from '../OverlayScan';
 import { OverlaySettings } from '../OverlaySettings';
 import { WindowButtons } from '../WindowButtons';
 import { WindowIcon } from '../WindowIcon';
-import { WindowMenu } from '../WindowMenu';
+import { WindowNavigation } from '../WindowNavigation';
 import { WindowTitle } from '../WindowTitle';
-import { ViewSearch } from '../ViewSearch';
+import { VirtualLibrary } from '../VirtualLibrary';
+import { LibrarySearch } from '../LibrarySearch';
 
 // Styles
 import useAppStyles from './App.styles';
@@ -33,7 +33,7 @@ const App = ({ overlay, view }) => {
       <Hidden platform="darwin">
         <div className={classes.window}>
           <WindowIcon />
-          <WindowMenu />
+          <WindowNavigation />
           <WindowTitle />
           <WindowButtons />
         </div>
@@ -49,12 +49,12 @@ const App = ({ overlay, view }) => {
           <Playlist />
         </div>
         <div className={classes.library}>
-          <div className={classes.libraryHeader}>
-            <LibrarySearch />
+          <div className={classes.header}>
+            <SearchLibrary />
             <LibraryMenu />
           </div>
-          {view === WINDOW.VIEW.LIBRARY && <ViewLibrary />}
-          {view === WINDOW.VIEW.SEARCH && <ViewSearch />}
+          {view === WINDOW.VIEW.LIBRARY && <VirtualLibrary />}
+          {view === WINDOW.VIEW.SEARCH && <LibrarySearch />}
         </div>
         <OverlayScan open={overlay === WINDOW.OVERLAY.SCAN} />
         <OverlaySettings open={overlay === WINDOW.OVERLAY.SETTINGS} />

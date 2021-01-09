@@ -1,5 +1,4 @@
 import React, {
-  forwardRef,
   useState,
   useEffect,
   useRef,
@@ -10,102 +9,97 @@ import PropTypes from 'prop-types';
 // Styles
 import useVirtualListStyles from './VirtualList.styles';
 
-const VirtualList = forwardRef((props, outerRef) => {
+const VirtualList = props => {
   const {
+    length,
     size,
-    itemSize,
+    scrollTo,
     children
   } = props;
-  const [total, setTotal] = useState(0);
-  const [items, setItems] = useState([]);
-  const [view, setView] = useState({ min: 0, max: 0 });
+  const [virtual, setVirtual] = useState({ total: 0, items: [] });
+  const [view, setView] = useState([]);
 
-  const innerRef = useRef();
-  const ref = outerRef || innerRef;
+  const ref = useRef();
+  const classes = useVirtualListStyles({ height: virtual.total });
 
-  const classes = useVirtualListStyles({ height: total });
+  const virtualize = useCallback(() => {
+    const { scrollTop, clientHeight } = ref.current;
 
-  const updateView = useCallback(({ y, height }) => {
-    const max = items.findIndex(item => item.style.top >= y + height);
+    const min = virtual.items.findIndex(item => item.style.top >= scrollTop);
+    const max = virtual.items.findIndex(item => item.style.top >= scrollTop + clientHeight);
 
-    setView({
-      min: Math.max(0, items.findIndex(item => item.style.top >= y) - 1),
-      max: max === -1 ?
-        items.length :
+    setView(virtual.items.slice(
+      Math.max(0, min - 1),
+      max === -1 ?
+        virtual.items.length :
         max
-    });
-  }, [items]);
+    ));
+  }, [virtual.items]);
 
-  const updateItems = useCallback(() => {
-    let newTotal = 0;
-    const newItems = [];
+  const getItems = useCallback(() => {
+    const items = [];
+    let top = 0;
 
-    for (let i = 0; i < size; i += 1) {
-      const item = typeof itemSize === 'number' ?
-        itemSize :
-        itemSize(i, ref.current.clientWidth);
-      const itemValue = Number.isFinite(item) ? item : 0;
+    for (let index = 0; index < length; index += 1) {
+      const height = typeof size === 'function' ?
+        size(index, ref.current.clientWidth) :
+        size;
 
-      newItems.push({
-        index: i,
+      items.push({
+        index,
         style: {
           position: 'absolute',
-          top: newTotal,
           width: '100%',
-          height: itemValue
+          top,
+          height
         }
       });
-      newTotal += itemValue;
+      top += height;
     }
 
-    setItems(newItems);
-    setTotal(newTotal);
-  }, [ref, size, itemSize]);
+    setVirtual({ total: top, items });
+  }, [length, size]);
 
   useEffect(() => {
-    updateItems();
+    getItems();
+    window.addEventListener('resize', getItems);
 
-    window.addEventListener('resize', updateItems);
-
-    return () => window.removeEventListener('resize', updateItems);
-  }, [updateItems]);
+    return () => window.removeEventListener('resize', getItems);
+  }, [getItems]);
 
   useEffect(() => {
-    updateView({
-      y: ref.current.scrollTop,
-      height: ref.current.clientHeight
-    });
+    virtualize();
+  }, [virtualize]);
 
-    ref.current.redraw = () => updateView({
-      y: ref.current.scrollTop,
-      height: ref.current.clientHeight
-    });
-  }, [ref, updateView]);
+  useEffect(() => {
+    if (scrollTo) ref.current.scrollTo({ top: virtual.items[scrollTo].style.top });
+  }, [scrollTo, virtual.items]);
 
   return (
     <div
       ref={ref}
       className={classes.root}
-      onScroll={event => updateView({
-        y: event.currentTarget.scrollTop,
-        height: event.currentTarget.clientHeight
-      })}
+      onScroll={virtualize}
     >
       <div className={classes.body}>
-        {items.slice(view.min, view.max).map(children)}
+        {view.map(children)}
       </div>
     </div>
   );
-});
+};
+
+VirtualList.defaultProps = {
+  scrollTo: null
+};
 
 VirtualList.propTypes = {
-  size: PropTypes.number.isRequired,
-  itemSize: PropTypes.oneOfType([
+  length: PropTypes.number.isRequired,
+  scrollTo: PropTypes.number,
+  size: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.func
   ]).isRequired,
   children: PropTypes.func.isRequired
 };
 
-VirtualList.displayName = 'VirtualList';
 export default VirtualList;

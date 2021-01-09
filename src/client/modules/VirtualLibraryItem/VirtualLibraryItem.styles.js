@@ -95,4 +95,4 @@ export default makeStyles(theme => ({
   table: {
     marginTop: theme.spacing()
   }
-}), 'libraryItem');
+}), 'virtualLibraryItem');

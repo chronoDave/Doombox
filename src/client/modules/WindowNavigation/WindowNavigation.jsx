@@ -32,9 +32,9 @@ import { setOverlay } from '../../redux';
 import { propConfigKeybinds } from '../../validation/propTypes';
 
 // Styles
-import useWindowMenuStyles from './WindowMenu.styles';
+import useWindowNavigationStyles from './WindowNavigation.styles';
 
-const WindowMenu = ({ keybinds, folders, dispatchOverlay }) => {
+const WindowNavigation = ({ keybinds, folders, dispatchOverlay }) => {
   const [menu, setMenu] = useState({ id: 'file', anchorEl: null });
 
   const { t, getNativeKeybind } = useTranslation();
@@ -44,7 +44,7 @@ const WindowMenu = ({ keybinds, folders, dispatchOverlay }) => {
     handleEnter,
     handleLeave
   } = useTimeoutOpen();
-  const classes = useWindowMenuStyles();
+  const classes = useWindowNavigationStyles();
 
   const items = {
     file: [{
@@ -166,7 +166,7 @@ const WindowMenu = ({ keybinds, folders, dispatchOverlay }) => {
   );
 };
 
-WindowMenu.propTypes = {
+WindowNavigation.propTypes = {
   keybinds: propConfigKeybinds.isRequired,
   dispatchOverlay: PropTypes.func.isRequired,
   folders: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -184,4 +184,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(WindowMenu);
+)(WindowNavigation);

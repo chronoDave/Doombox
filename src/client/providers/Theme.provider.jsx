@@ -14,12 +14,12 @@ import NotoSansJPLight from '../assets/fonts/NotoSansJP-Light.otf';
 import NotoSansJPRegular from '../assets/fonts/NotoSansJP-Regular.otf';
 import NotoSansJPMedium from '../assets/fonts/NotoSansJP-Medium.otf';
 
-const ThemeProvider = ({ children, themeName }) => {
+const ThemeProvider = ({ children, name }) => {
   const [theme, setTheme] = useState(createTheme());
 
   useEffect(() => {
-    setTheme(createTheme(themeName));
-  }, [themeName]);
+    setTheme(createTheme(name));
+  }, [name]);
 
   useEffect(() => {
     [
@@ -72,11 +72,11 @@ const ThemeProvider = ({ children, themeName }) => {
 
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  themeName: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  themeName: state.config.display.theme
+  name: state.config.display.theme
 });
 
 export default connect(

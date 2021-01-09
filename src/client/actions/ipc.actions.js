@@ -27,7 +27,7 @@ export const ipcUpdate = (
 
 export const ipcFind = (
   channel,
-  query = {},
+  query,
   {
     projection = null,
     overlay = null

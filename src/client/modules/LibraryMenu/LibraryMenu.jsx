@@ -17,7 +17,7 @@ import {
 // Validation
 import { propSong } from '../../validation/propTypes';
 
-const LibraryMenu = ({ songs }) => {
+const LibraryMenu = ({ collection }) => {
   const ref = useRef();
 
   const { set } = useAudio();
@@ -57,13 +57,7 @@ const LibraryMenu = ({ songs }) => {
             setOpen(false);
             set(({
               name: t('common.library', { transform: 'pascal' }),
-              collection: songs.sort((a, b) => sortMetadata(a, b, [
-                'albumartist',
-                'year',
-                'date',
-                'disc',
-                'track'
-              ]))
+              collection
             }));
           }}
         />
@@ -76,7 +70,7 @@ const LibraryMenu = ({ songs }) => {
             setOpen(false);
             set(({
               name: t('common.library', { transform: 'pascal' }),
-              collection: shuffle(songs)
+              collection: shuffle(collection)
             }));
           }}
         />
@@ -86,11 +80,12 @@ const LibraryMenu = ({ songs }) => {
 };
 
 LibraryMenu.propTypes = {
-  songs: PropTypes.arrayOf(propSong).isRequired
+  collection: PropTypes.arrayOf(propSong).isRequired
 };
 
 const mapStateToProps = state => ({
-  songs: state.entities.songs.list
+  collection: state.entities.songs.list
+    .sort(sortMetadata(['albumartist', 'year', 'date', 'disc', 'track']))
 });
 
 export default connect(

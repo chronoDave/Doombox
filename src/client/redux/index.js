@@ -20,15 +20,15 @@ import { logger } from './middleware';
 
 // Selectors
 export {
-  populateLabel,
-  populateSearchLabels,
-  populateSearchAlbums,
-  populateSearchSongs
+  populateLabels,
+  populateAlbums,
+  populateSongs,
+  populateImages,
+  populateLabel
 } from './selectors';
 
 // Actions
 export const {
-  setQuery,
   setSongs,
   setAlbums,
   setLabels

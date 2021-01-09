@@ -1,112 +1,51 @@
-import React, { Fragment, useState } from 'react';
-import { connect } from 'react-redux';
-import { TYPES, WINDOW } from '@doombox-utils/types';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { cx } from 'emotion';
 
 // Core
-import { Search, Popper, Checkbox } from '../../components';
+import { ButtonIcon } from '../../components';
 
-// Actions
-import { updateConfig } from '../../actions';
-
-// Redux
-import { setView, setQuery } from '../../redux';
-
-// Hooks
-import { useTranslation, useTimeoutOpen } from '../../hooks';
-
-// Validation
-import { propConfigSearch } from '../../validation/propTypes';
+import { VirtualSongs } from '../VirtualSongs';
+import { VirtualAlbums } from '../VirtualAlbums';
+import { VirtualLabels } from '../VirtualLabels';
 
 // Styles
 import useLibrarySearchStyles from './LibrarySearch.styles';
 
-const LibrarySearch = ({ search, dispatchView, dispatchQuery }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const { t } = useTranslation();
-  const {
-    open,
-    setOpen,
-    handleEnter,
-    handleLeave,
-  } = useTimeoutOpen();
+const LibrarySearch = () => {
+  const [tab, setTab] = useState('song');
   const classes = useLibrarySearchStyles();
 
+  const tabs = {
+    song: {
+      icon: 'artist',
+      component: <VirtualSongs />,
+    },
+    album: {
+      icon: 'minidisc',
+      component: <VirtualAlbums />,
+    },
+    label: {
+      icon: 'record',
+      component: <VirtualLabels />
+    }
+  };
+
   return (
-    <Fragment>
-      <Search
-        onContextMenu={event => {
-          setAnchorEl(event.currentTarget);
-          setOpen(!open);
-        }}
-        onClear={() => {
-          dispatchView(WINDOW.VIEW.LIBRARY);
-          dispatchQuery('');
-        }}
-        onChange={(_, query) => {
-          if (!query || query === '') {
-            dispatchView(WINDOW.VIEW.LIBRARY);
-            dispatchQuery('');
-          } else {
-            dispatchView(WINDOW.VIEW.SEARCH);
-            dispatchQuery(query);
-          }
-        }}
-        onMouseLeave={handleLeave}
-      />
-      <Popper
-        anchorEl={anchorEl}
-        open={open}
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
-        placement="bottom-start"
-        className={classes.popper}
-      >
-        {[
-          'artist',
-          'title',
-          'album',
-          'albumartist',
-          'publisher',
-          'cdid',
-        ].map(key => (
-          <Checkbox
+    <div className={classes.root}>
+      <div className={classes.icons}>
+        {Object.entries(tabs).map(([key, { icon }]) => (
+          <ButtonIcon
             key={key}
-            label={t(`common.${key}`, {
-              transform: key === 'cdid' ?
-                'uppercase' :
-                'capitalize'
-            })}
-            checked={search[key]}
-            className={classes.checkbox}
-            onChange={event => updateConfig(
-              TYPES.CONFIG.SEARCH,
-              { [key]: event.currentTarget.checked }
-            )}
+            icon={icon}
+            small
+            className={cx(classes.icon, { [classes.active]: key === tab })}
+            onClick={() => setTab(key)}
           />
         ))}
-      </Popper>
-    </Fragment>
+      </div>
+      {tabs[tab].component}
+    </div>
   );
 };
 
-LibrarySearch.propTypes = {
-  search: propConfigSearch.isRequired,
-  dispatchView: PropTypes.func.isRequired,
-  dispatchQuery: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-  search: state.config.search
-});
-
-const mapDispatchToProps = {
-  dispatchView: setView,
-  dispatchQuery: setQuery
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LibrarySearch);
+export default LibrarySearch;

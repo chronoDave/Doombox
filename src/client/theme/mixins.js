@@ -18,8 +18,14 @@ export default {
       sm: 48
     }
   },
-  search: {
+  songs: {
     item: 44
+  },
+  albums: {
+    item: 44
+  },
+  labels: {
+    item: 22
   },
   library: {
     header: {

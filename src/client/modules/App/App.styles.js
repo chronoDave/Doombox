@@ -45,7 +45,7 @@ export default makeStyles(theme => ({
       theme.palette.white,
     flexGrow: 1
   },
-  libraryHeader: {
+  header: {
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0.5)

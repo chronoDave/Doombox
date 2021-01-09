@@ -16,7 +16,7 @@ export default makeStyles(theme => ({
   },
   thumb: {
     backgroundColor: theme.palette.autoContrast(
-      theme.palette.text.primary,
+      theme.palette.primary,
       theme.palette.grey[0],
       theme.palette.grey[6]
     ),
