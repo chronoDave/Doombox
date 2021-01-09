@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getLevenshteinDistance, localizeTag } from '@doombox-utils';
-import mapSort from 'mapsort';
 import PropTypes from 'prop-types';
 
 // Core

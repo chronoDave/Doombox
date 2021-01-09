@@ -67,7 +67,7 @@ const Typography = forwardRef((props, ref) => {
           className
         ),
         style: {
-          ...(style || {}),
+          ...style,
           color: getColor(),
           textAlign: align,
           fontWeight,
@@ -90,7 +90,8 @@ Typography.defaultProps = {
   noWrap: false,
   className: null,
   fontWeight: 'initial',
-  clamp: null
+  clamp: null,
+  style: {}
 };
 
 Typography.propTypes = {
@@ -100,6 +101,7 @@ Typography.propTypes = {
     'center',
     'right'
   ]),
+  style: PropTypes.shape({}),
   variant: propTypographyVariants,
   color: PropTypes.oneOf([
     'inherit',
