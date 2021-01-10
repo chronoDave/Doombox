@@ -42,8 +42,7 @@ const reducers = {
         ])
       }
     });
-  },
-  setTab: (state, tab) => ({ ...state, tab })
+  }
 };
 
 export default createReduxSlice('cache', initialState, reducers);

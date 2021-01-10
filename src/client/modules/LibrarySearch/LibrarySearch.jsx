@@ -2,7 +2,6 @@ import React from 'react';
 import { TYPES, WINDOW } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import { cx } from 'emotion';
-import PropTypes from 'prop-types';
 
 // Core
 import { ButtonIcon } from '../../components';
@@ -10,9 +9,6 @@ import { ButtonIcon } from '../../components';
 import { VirtualSongs } from '../VirtualSongs';
 import { VirtualAlbums } from '../VirtualAlbums';
 import { VirtualLabels } from '../VirtualLabels';
-
-// Redux
-import { setTab } from '../../redux';
 
 // Actions
 import { updateCache } from '../../actions';
@@ -23,7 +19,7 @@ import { propTabSearch } from '../../validation/propTypes';
 // Styles
 import useLibrarySearchStyles from './LibrarySearch.styles';
 
-const LibrarySearch = ({ tab, dispatchTab }) => {
+const LibrarySearch = ({ tab }) => {
   const classes = useLibrarySearchStyles();
 
   const tabs = {
@@ -51,8 +47,7 @@ const LibrarySearch = ({ tab, dispatchTab }) => {
             small
             className={cx(classes.icon, { [classes.active]: key === tab })}
             onClick={() => {
-              updateCache(TYPES.CACHE.SEARCH, { tab: key });
-              dispatchTab(key);
+              updateCache(TYPES.CACHE.TABS, { search: key });
             }}
           />
         ))}
@@ -63,19 +58,13 @@ const LibrarySearch = ({ tab, dispatchTab }) => {
 };
 
 LibrarySearch.propTypes = {
-  tab: propTabSearch.isRequired,
-  dispatchTab: PropTypes.func.isRequired
+  tab: propTabSearch.isRequired
 };
 
 const mapStateToProps = state => ({
-  tab: state.cache.search.tab
+  tab: state.cache.tabs.search
 });
 
-const mapDispatchToProps = {
-  dispatchTab: setTab
-};
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(LibrarySearch);

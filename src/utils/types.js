@@ -103,8 +103,8 @@ module.exports = {
     CACHE: {
       WINDOW: 'window',
       PLAYER: 'player',
-      SEARCH: 'search',
-      FOLDERS: 'folders'
+      FOLDERS: 'folders',
+      TABS: 'tabs'
     },
     CONFIG: {
       DISPLAY: 'display',
