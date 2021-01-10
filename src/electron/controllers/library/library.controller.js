@@ -15,14 +15,14 @@ module.exports = class LibraryController {
    * @param {string} folder - Image folder
    * @param {object} options
    * @param {boolean} options.strict - Is strict mode enabled
-   * @param {string[]} options.fileTypes - Allowed file types
+   * @param {string[]} options.fileType - Allowed file type
    * @param {boolean} options.skipCovers - Should parser skip covers
    * @param {string[]} options.requiredMetadata - Required metadata
    * @param {string[]} options.tagTypes - Mp3 metadata tags
    */
   constructor(db, folder, {
     strict,
-    fileTypes,
+    fileType,
     skipCovers,
     requiredMetadata,
     tagTypes
@@ -30,7 +30,7 @@ module.exports = class LibraryController {
     this.db = db;
     this.folder = {};
     this.strict = strict;
-    this.fileTypes = fileTypes;
+    this.fileType = fileType;
     this.skipCovers = skipCovers;
     this.requiredMetadata = requiredMetadata;
     this.tagTypes = tagTypes;
@@ -196,7 +196,7 @@ module.exports = class LibraryController {
     const files = toArray(payload)
       .map(walk)
       .flat()
-      .filter(file => this.fileTypes.some(fileType => file.includes(fileType)));
+      .filter(file => file === this.fileType);
 
     for (let i = 0, total = files.length; i < total; i += 1) {
       try {

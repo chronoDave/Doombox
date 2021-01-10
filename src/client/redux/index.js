@@ -23,7 +23,8 @@ export {
   populateSearchLabels,
   populateSearchAlbums,
   populateSearchSongs,
-  populateLibrary
+  populateLibrary,
+  populateLibraryMenu
 } from './selectors';
 
 // Actions

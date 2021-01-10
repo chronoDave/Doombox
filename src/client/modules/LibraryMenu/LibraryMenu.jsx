@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 // Core
 import { ButtonIcon, Popper, MenuItem } from '../../components';
 
+// Redux
+import { populateLibraryMenu } from '../../redux';
+
 // Hooks
 import {
   useMediaQuery,
@@ -57,8 +60,7 @@ const LibraryMenu = ({ collection }) => {
             setOpen(false);
             set(({
               name: t('common.library', { transform: 'pascal' }),
-              collection: collection
-                .sort(sortMetadata(['albumartist', 'year', 'date', 'disc', 'track']))
+              collection
             }));
           }}
         />
@@ -85,7 +87,7 @@ LibraryMenu.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  collection: state.entities.songs.list
+  collection: populateLibraryMenu(state)
 });
 
 export default connect(

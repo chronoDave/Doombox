@@ -1,5 +1,5 @@
 import React from 'react';
-import { TYPES } from '@doombox-utils/types';
+import { TYPES, WINDOW } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import { cx } from 'emotion';
 import PropTypes from 'prop-types';
@@ -17,6 +17,9 @@ import { setTab } from '../../redux';
 // Actions
 import { updateCache } from '../../actions';
 
+// Validation
+import { propTabSearch } from '../../validation/propTypes';
+
 // Styles
 import useLibrarySearchStyles from './LibrarySearch.styles';
 
@@ -24,15 +27,15 @@ const LibrarySearch = ({ tab, dispatchTab }) => {
   const classes = useLibrarySearchStyles();
 
   const tabs = {
-    song: {
+    [WINDOW.TABS.SONGS]: {
       icon: 'artist',
       component: <VirtualSongs />,
     },
-    album: {
+    [WINDOW.TABS.ALBUMS]: {
       icon: 'minidisc',
       component: <VirtualAlbums />,
     },
-    label: {
+    [WINDOW.TABS.LABELS]: {
       icon: 'record',
       component: <VirtualLabels />
     }
@@ -60,7 +63,7 @@ const LibrarySearch = ({ tab, dispatchTab }) => {
 };
 
 LibrarySearch.propTypes = {
-  tab: PropTypes.oneOf(['song', 'album', 'label']).isRequired,
+  tab: propTabSearch.isRequired,
   dispatchTab: PropTypes.func.isRequired
 };
 

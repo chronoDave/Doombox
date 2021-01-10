@@ -25,7 +25,7 @@ export const createReduxSlice = (name, initialState, reducers) => {
  * @param {object[]} collection
  * @param {string} key
  */
-export const normalize = (collection = [], key = '_id') => ({
+export const normalizeCollection = (collection = [], key = '_id') => ({
   list: collection,
   map: (() => {
     const object = {};

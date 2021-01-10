@@ -1,4 +1,5 @@
 import { CONFIG } from '@doombox-config';
+import { WINDOW } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 const createConfigShape = (key, type) => PropTypes.shape(
@@ -28,6 +29,12 @@ export const propVirtualStyle = PropTypes.shape({
   width: PropTypes.string.isRequired,
   height: PropTypes.number.isRequired
 });
+
+export const propTabSearch = PropTypes.oneOf([
+  WINDOW.TABS.SONGS,
+  WINDOW.TABS.ALBUMS,
+  WINDOW.TABS.LABELS
+]);
 
 export const propConfigSearch = createConfigShape('search', PropTypes.bool);
 export const propConfigKeybinds = createConfigShape('keybinds', PropTypes.string);

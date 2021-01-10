@@ -74,6 +74,11 @@ module.exports = {
     OVERLAY: {
       SCAN: 'WINDOW_OVERLAY_SCAN',
       SETTINGS: 'WINDOW_OVERLAY_SETTINGS'
+    },
+    TABS: {
+      SONGS: 'song',
+      ALBUMS: 'album',
+      LABELS: 'label'
     }
   },
   URLS: {
@@ -81,6 +86,13 @@ module.exports = {
     KEYBINDS: 'https://github.com/chronoDave/Doombox/tree/master/docs/KEYBIND.md',
     REPORT_ISSUE: 'https://github.com/chronoDave/Doombox/issues/new'
   },
+  TAGS: [
+    'ID3v1',
+    'ID3v1.1',
+    'ID3v2.2',
+    'ID3v2.3',
+    'ID3v2.4'
+  ],
   TYPES: {
     DATABASE: {
       SONGS: 'songs',

@@ -7,5 +7,8 @@ module.exports = {
     muted: false,
     volume: 1
   },
-  folders: []
+  folders: [],
+  tabs: {
+    search: 'song'
+  }
 };

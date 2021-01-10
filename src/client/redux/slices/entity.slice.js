@@ -1,4 +1,4 @@
-import { createReduxSlice, normalize } from '../utils';
+import { createReduxSlice, normalizeCollection } from '../utils';
 
 const initialState = {
   songs: {
@@ -22,11 +22,11 @@ const initialState = {
 const reducers = {
   setLibrary: (state, payload) => ({
     ...state,
-    songs: normalize(payload.songs),
-    albums: normalize(payload.albums),
-    labels: normalize(payload.labels)
+    songs: normalizeCollection(payload.songs),
+    albums: normalizeCollection(payload.albums),
+    labels: normalizeCollection(payload.labels)
   }),
-  setImages: (state, payload) => ({ ...state, images: normalize(payload) })
+  setImages: (state, payload) => ({ ...state, images: normalizeCollection(payload) })
 };
 
 export default createReduxSlice('entities', initialState, reducers);

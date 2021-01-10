@@ -103,6 +103,18 @@ export const populateLibrary = createSelector(
     .sort(sortMetadata(['publisher'], useLocalizedMetadata))
 );
 
+export const populateLibraryMenu = createSelector(
+  state => state.entities.songs.list,
+  state => state.entities.songs.map,
+  state => state.entities.images.map,
+  (
+    ids,
+    songMap,
+    imageMap
+  ) => getSongs(ids, songMap, imageMap)
+    .sort(sortMetadata(['albumartist', 'year', 'date', 'disc', 'track']))
+);
+
 export const populateSearchSongs = createSelector(
   state => state.search.songs,
   state => state.search.query,
