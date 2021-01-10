@@ -21,14 +21,14 @@ const SelectLanguage = ({ language }) => {
     <LabelSelect label={t('description.display_language', { transform: 'capitalize' })}>
       <Select
         active={language}
-        values={Object.keys(LANGUAGES).reduce((acc, key) => ({
+        values={Object.entries(LANGUAGES).reduce((acc, [key, value]) => ({
           ...acc,
           [key]: {
-            value: LANGUAGES[key],
-            primary: LANGUAGES[key],
+            value: key,
+            primary: value
           }
         }), {})}
-        onChange={(_, value) => updateConfig(TYPES.CONFIG.DISPLAY, { language: value })}
+        onChange={(_, key) => updateConfig(TYPES.CONFIG.DISPLAY, { language: key })}
       />
     </LabelSelect>
   );
