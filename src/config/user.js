@@ -13,10 +13,10 @@ module.exports = {
   },
   parser: {
     strict: false,
-    fileTypes: ['mp3'],
+    fileType: 'mp3',
+    tagType: 'ID3v2.3',
     skipCovers: false,
     requiredMetadata: [],
-    tagType: 'ID3v2.3'
   },
   player: {
     autoplay: true

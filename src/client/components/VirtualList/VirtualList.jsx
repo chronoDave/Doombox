@@ -72,7 +72,10 @@ const VirtualList = props => {
   }, [virtualize]);
 
   useEffect(() => {
-    if (scrollTo) ref.current.scrollTo({ top: virtual.items[scrollTo].style.top });
+    if (
+      typeof scrollTo === 'number' &&
+      virtual.items[scrollTo]
+    ) ref.current.scrollTo({ top: virtual.items[scrollTo].style.top });
   }, [scrollTo, virtual.items]);
 
   return (

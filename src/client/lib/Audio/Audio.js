@@ -28,7 +28,7 @@ class Audio extends EventEmitter {
     this.pause = this.pause.bind(this);
     this.stop = this.stop.bind(this);
     this.seek = this.seek.bind(this);
-    this.step = this.step.bind(this);
+    this.position = this.position.bind(this);
     this.next = this.next.bind(this);
     this.previous = this.previous.bind(this);
     this.skip = this.skip.bind(this);
@@ -43,16 +43,12 @@ class Audio extends EventEmitter {
   seek(pos) {
     if (this.instance) {
       this.instance.seek(pos);
-      this.step(pos);
     }
   }
 
-  step(pos = null) {
+  position() {
     if (this.instance) {
-      const newPos = Math.round(pos || this.instance.seek());
-
-      if (!Number.isNaN(newPos)) this.emit(EVENTS.AUDIO.POSITION, newPos);
-      if (this.status === STATUS.AUDIO.PLAYING) requestAnimationFrame(() => this.step());
+      this.emit(EVENTS.AUDIO.POSITION, this.instance.seek());
     }
   }
 
@@ -191,8 +187,7 @@ class Audio extends EventEmitter {
           this.status = STATUS.AUDIO.PLAYING;
 
           this.emit(EVENTS.AUDIO.STATUS, this.status);
-
-          requestAnimationFrame(() => this.step());
+          this.position();
         },
         onpause: () => {
           this.status = STATUS.AUDIO.PAUSED;

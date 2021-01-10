@@ -73,7 +73,7 @@ const reducers = {
       },
       parser: {
         strict: normalizeBool('parser', 'strict'),
-        fileTypes: normalizeStringArray('parser', 'fileTypes'),
+        fileType: normalizeString('parser', 'fileType'),
         skipCovers: normalizeBool('parser', 'skipCovers'),
         requiredMetadata: normalizeStringArray('parser', 'requiredMetadata'),
         tagTypes: normalizeTagType()

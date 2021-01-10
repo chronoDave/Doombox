@@ -151,7 +151,7 @@ module.exports = class App extends Reporter {
           }, {
             icon: payload.data === STATUS.AUDIO.PLAYING ?
               createThumbarIcon('icon_pause') :
-              createThumbarIcon('icon_play'),
+              createThumbarIcon('icon_playArrow'),
             click: () => event.sender.send(
               IPC.CHANNEL.AUDIO,
               { action: IPC.ACTION.AUDIO.PAUSE }

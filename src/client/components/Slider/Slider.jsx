@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
@@ -16,13 +16,18 @@ const Slider = props => {
     orientation,
     onClick,
     onDrag,
+    onDragStart,
     onDragEnd,
     ...rest
   } = props;
+  const [sliding, setSliding] = useState({ enabled: false, value: 0 });
+
   const ref = useRef(null);
   const classes = useSliderStyles();
 
-  const percentage = value / ((max - min) / 100);
+  const innerValue = sliding.enabled ? sliding.value : value;
+  const percentage = innerValue / ((max - min) / 100);
+
   const getValue = event => {
     const container = ref.current.getBoundingClientRect();
 
@@ -45,9 +50,13 @@ const Slider = props => {
       newValue;
   };
 
-  const handleMouseMove = event => onDrag && onDrag(event, getValue(event));
+  const handleMouseMove = event => {
+    setSliding({ enabled: true, value: getValue(event) });
+    if (onDrag) onDrag(event, getValue(event));
+  };
 
   const handleMouseUp = event => {
+    setSliding({ enabled: false, value: getValue(event) });
     if (onDragEnd) onDragEnd(event, getValue(event));
 
     window.removeEventListener('mousemove', handleMouseMove);
@@ -56,6 +65,8 @@ const Slider = props => {
 
   const handleOnMouseDown = event => {
     event.preventDefault();
+    setSliding({ enabled: true, value: getValue(event) });
+    if (onDragStart) onDragStart(event, getValue(event));
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
@@ -103,7 +114,7 @@ const Slider = props => {
           onMouseDown={handleOnMouseDown}
           // Aria
           role="slider"
-          aria-valuenow={value}
+          aria-valuenow={innerValue}
           aria-valuemin={min}
           aria-valuemax={max}
           tabIndex={0}
@@ -127,6 +138,7 @@ Slider.defaultProps = {
   min: 0,
   max: 100,
   onDrag: null,
+  onDragStart: null,
   onDragEnd: null,
   onClick: null
 };
@@ -139,6 +151,7 @@ Slider.propTypes = {
   ]),
   onClick: PropTypes.func,
   onDrag: PropTypes.func,
+  onDragStart: PropTypes.func,
   onDragEnd: PropTypes.func,
   min: PropTypes.number,
   max: PropTypes.number

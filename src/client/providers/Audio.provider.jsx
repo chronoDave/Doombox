@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 
 import React, { Component } from 'react';
+import debounce from 'lodash.debounce';
 import { IPC, EVENTS, TYPES } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -38,6 +39,7 @@ class AudioProvider extends Component {
       pause: this.audio.pause,
       stop: this.audio.stop,
       seek: this.audio.seek,
+      getPosition: this.audio.position,
       setVolume: this.audio.setVolume,
       mute: this.audio.mute,
       add: this.audio.add,
@@ -91,11 +93,19 @@ class AudioProvider extends Component {
       dispatchPlaylistIndex,
       useLocalizedMetadata
     } = props;
+    const updateCacheMuted = debounce(
+      muted => updateCache(TYPES.CACHE.PLAYER, { muted }),
+      500
+    );
+    const updateCacheVolume = debounce(
+      volume => updateCache(TYPES.CACHE.PLAYER, { volume }),
+      500
+    );
 
     this.audio.on(EVENTS.AUDIO.DURATION, dispatchDuration);
     this.audio.on(EVENTS.AUDIO.MUTED, muted => {
+      updateCacheMuted(muted);
       dispatchMuted(muted);
-      updateCache(TYPES.CACHE.PLAYER, { muted });
     });
     this.audio.on(EVENTS.AUDIO.PLAYLIST, dispatchPlaylist);
     this.audio.on(EVENTS.AUDIO.INDEX, dispatchPlaylistIndex);
@@ -143,7 +153,7 @@ class AudioProvider extends Component {
       }
     });
     this.audio.on(EVENTS.AUDIO.VOLUME, volume => {
-      updateCache(TYPES.CACHE.PLAYER, { volume });
+      updateCacheVolume(volume);
       dispatchVolume(volume);
     });
     this.audio.on(EVENTS.AUDIO.AUTOPLAY, dispatchAutoplay);

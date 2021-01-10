@@ -15,17 +15,17 @@ module.exports = class LibraryController {
    * @param {string} folder - Image folder
    * @param {object} options
    * @param {boolean} options.strict - Is strict mode enabled
-   * @param {string[]} options.fileType - Allowed file type
+   * @param {string} options.fileType
+   * @param {string} options.tagType
    * @param {boolean} options.skipCovers - Should parser skip covers
    * @param {string[]} options.requiredMetadata - Required metadata
-   * @param {string[]} options.tagTypes - Mp3 metadata tags
    */
   constructor(db, folder, {
     strict,
     fileType,
     skipCovers,
     requiredMetadata,
-    tagTypes
+    tagType
   } = {}) {
     this.db = db;
     this.folder = {};
@@ -33,7 +33,7 @@ module.exports = class LibraryController {
     this.fileType = fileType;
     this.skipCovers = skipCovers;
     this.requiredMetadata = requiredMetadata;
-    this.tagTypes = tagTypes;
+    this.tagType = tagType;
 
     if (folder) {
       this.folder.root = folder;
@@ -55,25 +55,23 @@ module.exports = class LibraryController {
   }
 
   getNativeTags(native) {
-    for (let i = 0; i < this.tagTypes.length; i += 1) {
-      const nativeTagArray = native[this.tagTypes[i]];
+    const nativeTagArray = native[this.tagType];
 
-      if (nativeTagArray) {
-        const nativeTags = { APIC: [], COMM: [] };
+    if (nativeTagArray) {
+      const nativeTags = { APIC: [], COMM: [] };
 
-        for (let j = 0; j < nativeTagArray.length; j += 1) {
-          const nativeTag = nativeTagArray[j];
-          const id = nativeTag.id.toUpperCase();
+      for (let j = 0; j < nativeTagArray.length; j += 1) {
+        const nativeTag = nativeTagArray[j];
+        const id = nativeTag.id.toUpperCase();
 
-          if (['APIC', 'COMM'].includes(id)) {
-            nativeTags[id].push(nativeTag.value);
-          } else {
-            nativeTags[id] = nativeTag.value;
-          }
+        if (['APIC', 'COMM'].includes(id)) {
+          nativeTags[id].push(nativeTag.value);
+        } else {
+          nativeTags[id] = nativeTag.value;
         }
-
-        return nativeTags;
       }
+
+      return nativeTags;
     }
 
     return null;
@@ -196,7 +194,7 @@ module.exports = class LibraryController {
     const files = toArray(payload)
       .map(walk)
       .flat()
-      .filter(file => file === this.fileType);
+      .filter(file => file.split('.').pop() === this.fileType);
 
     for (let i = 0, total = files.length; i < total; i += 1) {
       try {

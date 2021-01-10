@@ -10,7 +10,8 @@ const initialState = {
   duration: 0,
   muted: false,
   volume: 1,
-  position: 0
+  position: 0,
+  sliding: false
 };
 
 const reducers = {
@@ -21,7 +22,8 @@ const reducers = {
   setDuration: (state, duration) => ({ ...state, duration }),
   setMuted: (state, muted) => ({ ...state, muted }),
   setVolume: (state, volume) => ({ ...state, volume }),
-  setPosition: (state, position) => ({ ...state, position })
+  setPosition: (state, position) => ({ ...state, position }),
+  setSliding: (state, sliding) => ({ ...state, sliding })
 };
 
 export default createReduxSlice('player', initialState, reducers);

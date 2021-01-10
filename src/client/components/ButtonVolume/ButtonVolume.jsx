@@ -1,6 +1,5 @@
 import React, { Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
-import throttle from 'lodash.throttle';
 import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
@@ -9,9 +8,6 @@ import { ButtonIcon } from '../ButtonIcon';
 import { Popper } from '../Popper';
 import { Slider } from '../Slider';
 import { Typography } from '../Typography';
-
-// Actions
-import { updateCache } from '../../actions';
 
 // Hooks
 import { useAudio, useTimeoutOpen } from '../../hooks';
@@ -32,8 +28,6 @@ const ButtonVolume = props => {
   const { open, handleEnter, handleLeave } = useTimeoutOpen();
   const classes = useButtonVolumeStyles();
 
-  const throttledSetVolume = throttle(setVolume, 100);
-
   const getIcon = () => {
     if (muted) return 'mute';
     if (volume === 0) return 'volumeLow';
@@ -41,6 +35,7 @@ const ButtonVolume = props => {
     return 'volumeMedium';
   };
 
+  const handleVolume = newVolume => newVolume !== volume && setVolume(newVolume);
   const handleWheel = event => {
     const value = event.shiftKey ? 0.01 : 0.05;
     const newValue = event.deltaY > 0 ?
@@ -48,7 +43,7 @@ const ButtonVolume = props => {
       volume + value;
     const newVolume = clamp(0, 1, newValue);
 
-    if (volume !== newVolume) throttledSetVolume(newVolume);
+    handleVolume(newVolume);
   };
 
   return (
@@ -75,12 +70,8 @@ const ButtonVolume = props => {
           value={volume}
           max={1}
           orientation="vertical"
-          onDrag={(_, newVolume) => throttledSetVolume(newVolume)}
-          onDragEnd={(_, newVolume) => updateCache('player.volume', newVolume)}
-          onClick={(_, newVolume) => {
-            throttledSetVolume(newVolume);
-            updateCache('player.volume', newVolume);
-          }}
+          onDragEnd={(_, newVolume) => handleVolume(newVolume)}
+          onClick={(_, newVolume) => handleVolume(newVolume)}
           onWheel={handleWheel}
         />
         <Typography>

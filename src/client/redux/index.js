@@ -44,6 +44,7 @@ export const {
   setView
 } = windowSlice.actions;
 export const {
+  setSliding,
   setPlayer,
   setMetadata,
   setStatus,
