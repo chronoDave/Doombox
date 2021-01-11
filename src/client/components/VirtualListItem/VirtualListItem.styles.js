@@ -50,6 +50,7 @@ export default makeStyles(theme => ({
   },
   label: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    minWidth: 0
   }
 }), 'virtualListItem');

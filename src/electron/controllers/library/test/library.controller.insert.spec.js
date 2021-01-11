@@ -21,8 +21,12 @@ test('[library.controller.insert] should create library', async t => {
   const mockEvent = createMockElectronEvent();
 
   try {
-    await controller.insert(mockEvent, { payload });
+    const data = await controller.insert(mockEvent, { payload });
 
+    t.equal(data.images.length, 1, 'has images');
+    t.equal(data.songs.length, 1, 'has images');
+    t.equal(data.albums.length, 1, 'has images');
+    t.equal(data.labels.length, 1, 'has images');
     t.equal(
       mockEvent.sender.send.callCount,
       3,

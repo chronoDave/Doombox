@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 // Core
 import { Typography } from '../Typography';
 
+// Validation
+import { propTablePairs } from '../../validation/propTypes';
+
 // Styles
 import useTablePairStyles from './TablePair.styles';
 
@@ -38,14 +41,7 @@ TablePair.defaultProps = {
 };
 
 TablePair.propTypes = {
-  values: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    label: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]).isRequired
-  })).isRequired,
+  values: propTablePairs.isRequired,
   className: PropTypes.string
 };
 

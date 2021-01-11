@@ -11,7 +11,7 @@ import { VirtualAlbumsItem } from '../VirtualAlbumsItem';
 import { populateSearchAlbums } from '../../redux';
 
 // Hooks
-import { useTranslation, useAudio } from '../../hooks';
+import { useTranslation, useAudio, useMediaQuery } from '../../hooks';
 
 // Theme
 import { mixins } from '../../theme';
@@ -21,12 +21,38 @@ import { propAlbum } from '../../validation/propTypes';
 
 const VirtualAlbums = ({ albums }) => {
   const { set } = useAudio();
-  const { getLocalizedTag } = useTranslation();
+  const {
+    t,
+    formatDate,
+    formatTime,
+    getLocalizedTag
+  } = useTranslation();
+  const isSm = useMediaQuery(({ join, create }) => join(
+    create('minWidth', 'sm'),
+    create('minHeight', 'sm')
+  ));
+  const isLg = useMediaQuery(({ join, create }) => join(
+    create('minWidth', 'lg'),
+    create('minHeight', 'md')
+  ));
+
+  const getBreakpoint = () => {
+    if (isLg) return 'lg';
+    if (isSm) return 'sm';
+    return 'xs';
+  };
 
   return (
     <VirtualList
       length={albums.length}
-      size={mixins.albums.item}
+      size={() => {
+        const breakpoint = getBreakpoint();
+
+        return (
+          mixins.albums.item[breakpoint].height +
+          mixins.albums.item[breakpoint].padding * 2
+        );
+      }}
     >
       {({ style, index }) => {
         const album = albums[index];
@@ -36,8 +62,22 @@ const VirtualAlbums = ({ albums }) => {
           <VirtualAlbumsItem
             key={album._id}
             style={style}
+            cover={album.images[0] ? album.images[0].files.thumbnail : null}
             primary={getLocalizedTag(album, 'album')}
             secondary={getLocalizedTag(album, 'albumartist')}
+            details={[{
+              label: t('common.release', { transform: 'capitalize' }),
+              value: formatDate(album.date || album.year)
+            }, isLg && {
+              label: t('common.duration', { transform: 'capitalize' }),
+              value: formatTime(album.duration, 'text')
+            }, {
+              label: t('common.track', {
+                transform: 'capitalize',
+                plural: album.songs.length !== 1
+              }),
+              value: album.songs.length
+            }].filter(detail => detail)}
             onClick={() => set({
               name: getLocalizedTag(album, 'album'),
               collection: album.songs

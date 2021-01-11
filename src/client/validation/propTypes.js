@@ -23,6 +23,15 @@ export const propTypographyVariants = PropTypes.oneOf([
   'caption'
 ]);
 
+export const propTablePairs = PropTypes.arrayOf(PropTypes.shape({
+  key: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired
+}));
+
 export const propVirtualStyle = PropTypes.shape({
   position: PropTypes.string.isRequired,
   top: PropTypes.number.isRequired,

@@ -3,7 +3,6 @@ import { makeStyles } from '../../theme';
 export default makeStyles(theme => ({
   root: {
     display: 'flex',
-    height: '100%',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',

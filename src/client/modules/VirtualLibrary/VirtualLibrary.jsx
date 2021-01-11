@@ -44,16 +44,18 @@ const VirtualLibrary = ({ library }) => {
     create('minHeight', 'md')
   ));
 
+  const getBreakpoint = () => {
+    if (isLg) return 'lg';
+    if (isSm) return 'sm';
+    return 'xs';
+  };
+
   return (
     <Fragment>
       <VirtualList
         length={library.length}
         size={(index, width) => {
-          const breakpoint = (() => {
-            if (isLg) return 'lg';
-            if (isSm) return 'sm';
-            return 'xs';
-          })();
+          const breakpoint = getBreakpoint();
 
           const item = mixins.library.item[breakpoint];
           const body = mixins.library.body[breakpoint];

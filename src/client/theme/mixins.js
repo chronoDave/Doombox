@@ -16,7 +16,11 @@ export default {
     item: 24
   },
   albums: {
-    item: 44
+    item: {
+      xs: { width: 128, height: 48, padding: 1 },
+      sm: { width: 128, height: 96, padding: 2 },
+      lg: { width: 128, height: 128, padding: 4 }
+    }
   },
   library: {
     header: {

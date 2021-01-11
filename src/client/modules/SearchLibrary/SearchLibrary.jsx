@@ -61,13 +61,15 @@ const SearchLibrary = props => {
         fields.album && 'albumlocalized',
         fields.albumartist && 'albumartist',
         fields.albumartist && 'albumartistlocalized',
-        fields.cdid && 'cdid'
+        fields.cdid && 'cdid',
+        fields.publisher && 'publisher',
+        fields.publisher && 'publisherlocalized'
       ].filter(tag => tag));
 
       search(IPC.CHANNEL.LABEL, [
-        'publisher',
-        'publisherlocalized'
-      ]);
+        fields.publisher && 'publisher',
+        fields.publisher && 'publisherlocalized'
+      ].filter(tag => tag));
     }
   }, [query, fields]);
 

@@ -68,7 +68,6 @@ const reducers = {
         artist: normalizeBool('search', 'artist'),
         title: normalizeBool('search', 'title'),
         album: normalizeBool('search', 'album'),
-        albumartist: normalizeBool('search', 'albumartist'),
         publisher: normalizeBool('search', 'publisher')
       },
       parser: {

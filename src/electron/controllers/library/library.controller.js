@@ -231,7 +231,10 @@ module.exports = class LibraryController {
         albumlocalized: albumSongs[0].albumlocalized || null,
         albumartist: albumSongs[0].albumartist || null,
         albumartistlocalized: albumSongs[0].albumartistlocalized || null,
-        images: albumSongs[0].images,
+        publisher: albumSongs[0].publisher || null,
+        publisherlocalized: albumSongs[0].publisherlocalized || null,
+        images: albumSongs
+          .sort((a, b) => a.track[0] - b.track[0])[0].images,
         year: albumSongs[0].year || null,
         date: albumSongs[0].date || null,
         cdid: albumSongs[0].cdid || null,

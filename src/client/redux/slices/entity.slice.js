@@ -22,6 +22,9 @@ const initialState = {
 const reducers = {
   setLibrary: (state, payload) => ({
     ...state,
+    images: payload.images ?
+      normalizeCollection(payload.images) :
+      state.images,
     songs: normalizeCollection(payload.songs),
     albums: normalizeCollection(payload.albums),
     labels: normalizeCollection(payload.labels)
