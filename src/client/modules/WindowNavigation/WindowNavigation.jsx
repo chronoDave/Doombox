@@ -34,7 +34,7 @@ import { propConfigKeybinds } from '../../validation/propTypes';
 // Styles
 import useWindowNavigationStyles from './WindowNavigation.styles';
 
-const WindowNavigation = ({ keybinds, folders, dispatchOverlay }) => {
+const WindowNavigation = ({ keybinds, dispatchOverlay }) => {
   const [menu, setMenu] = useState({ id: 'file', anchorEl: null });
 
   const { t, getNativeKeybind } = useTranslation();
@@ -54,7 +54,7 @@ const WindowNavigation = ({ keybinds, folders, dispatchOverlay }) => {
       ),
       secondary: keybinds.rescan,
       divider: true,
-      onClick: () => scanFolder(folders)
+      onClick: () => scanFolder()
     }, {
       primary: t(
         'action.common.scan',
@@ -168,12 +168,10 @@ const WindowNavigation = ({ keybinds, folders, dispatchOverlay }) => {
 
 WindowNavigation.propTypes = {
   keybinds: propConfigKeybinds.isRequired,
-  dispatchOverlay: PropTypes.func.isRequired,
-  folders: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dispatchOverlay: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  folders: state.cache.folders,
   keybinds: state.config.keybinds
 });
 

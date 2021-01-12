@@ -2,7 +2,6 @@ import { createReduxSlice } from '../utils';
 
 const initialState = {
   name: null,
-  cover: null,
   collection: [],
   index: 0,
   duration: 0

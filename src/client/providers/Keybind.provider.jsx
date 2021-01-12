@@ -23,7 +23,6 @@ const KeybindProvider = props => {
     keybindPreviousSong,
     keybindRescan,
     keybindScanFolder,
-    folders,
     children
   } = props;
 
@@ -39,7 +38,7 @@ const KeybindProvider = props => {
   useKeybind('mod+alt+=', () => webFrame.setZoomFactor(1));
 
   // File
-  useKeybind(keybindRescan, () => scanFolder(folders));
+  useKeybind(keybindRescan, () => scanFolder());
   useKeybind(keybindScanFolder, scanFolderNative);
 
   // Playlist
@@ -55,7 +54,6 @@ const KeybindProvider = props => {
 };
 
 KeybindProvider.propTypes = {
-  folders: PropTypes.arrayOf(PropTypes.string).isRequired,
   keybindMuteUnmute: PropTypes.string.isRequired,
   keybindNextSong: PropTypes.string.isRequired,
   keybindPlayPause: PropTypes.string.isRequired,
@@ -73,8 +71,7 @@ const mapStateToProps = state => ({
   keybindPreferences: state.config.keybinds.preferences,
   keybindPreviousSong: state.config.keybinds.previousSong,
   keybindRescan: state.config.keybinds.rescan,
-  keybindScanFolder: state.config.keybinds.scanFolder,
-  folders: state.cache.folders
+  keybindScanFolder: state.config.keybinds.scanFolder
 });
 
 const mapDispatchToProps = {

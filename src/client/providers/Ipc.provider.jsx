@@ -6,12 +6,7 @@ import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Actions
-import {
-  ipcFind,
-  scanFolder,
-  scanFolderNative,
-  deleteLibrary
-} from '../actions';
+import { ipcFind } from '../actions';
 
 // Redux
 import {
@@ -30,7 +25,6 @@ class IpcProvider extends Component {
     super(props);
 
     const {
-      folders,
       dispatchLibrary,
       dispatchCache,
       dispatchConfig,
@@ -42,30 +36,11 @@ class IpcProvider extends Component {
     } = props;
 
     ipcRenderer.on(IPC.CHANNEL.WINDOW, (event, { data }) => dispatchOverlay(data));
-
     ipcRenderer.on(IPC.CHANNEL.IMAGE, (event, { data }) => dispatchImages(data));
     ipcRenderer.on(IPC.CHANNEL.SONG, (event, { data }) => dispatchSongs(data));
     ipcRenderer.on(IPC.CHANNEL.ALBUM, (event, { data }) => dispatchAlbums(data));
     ipcRenderer.on(IPC.CHANNEL.LABEL, (event, { data }) => dispatchLabels(data));
     ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, { data }) => dispatchLibrary(data));
-
-    ipcRenderer.on(IPC.CHANNEL.KEYBIND, (event, action) => {
-      switch (action) {
-        case IPC.ACTION.MENU.RESCAN:
-          // TODO: This does not work
-          scanFolder(folders);
-          break;
-        case IPC.ACTION.MENU.SCAN_FOLDER:
-          scanFolderNative();
-          break;
-        case IPC.ACTION.MENU.DELETE_LIBRARY:
-          deleteLibrary();
-          break;
-        default:
-          console.error(`Unhandeled keybind action: ${action}`);
-      }
-    });
-
     ipcRenderer.on(IPC.CHANNEL.CACHE, (event, { data }) => dispatchCache(data));
     ipcRenderer.on(IPC.CHANNEL.CONFIG, (event, { data }) => dispatchConfig(data));
   }
@@ -90,7 +65,6 @@ class IpcProvider extends Component {
 
 IpcProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  folders: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatchCache: PropTypes.func.isRequired,
   dispatchConfig: PropTypes.func.isRequired,
   dispatchImages: PropTypes.func.isRequired,
@@ -100,10 +74,6 @@ IpcProvider.propTypes = {
   dispatchLibrary: PropTypes.func.isRequired,
   dispatchOverlay: PropTypes.func.isRequired
 };
-
-const mapStateToProps = state => ({
-  folders: state.cache.folders
-});
 
 const mapDispatchToProps = {
   dispatchCache: setCache,
@@ -117,6 +87,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(IpcProvider);

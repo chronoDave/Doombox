@@ -9,7 +9,7 @@ const debounce = require('lodash.debounce');
 
 const { pascalize } = require('@doombox-utils');
 const { TYPES, IPC } = require('@doombox-utils/types');
-const { CACHE, CONFIG, THEME } = require('@doombox-config');
+const { THEME } = require('@doombox-config');
 
 // Core
 const App = require('./app');
@@ -18,7 +18,7 @@ const {
   StorageController,
   LibraryController
 } = require('./controllers');
-const Storage = require('./storage');
+const { Cache, Config } = require('./storage');
 
 const root = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../userData') :
@@ -27,10 +27,8 @@ const assets = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../build') :
   app.getAppPath();
 
-const cache = new Storage(root, 'cache', CACHE);
-const config = new Storage(root, 'config', CONFIG);
-
-const configDisplay = config.get(TYPES.CONFIG.DISPLAY);
+const cache = new Cache(root);
+const config = new Config(root);
 
 const db = {
   [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root }),
@@ -59,10 +57,10 @@ app.on('ready', () => {
   const keybinds = config.get(TYPES.CONFIG.KEYBINDS);
   const window = Doombox.createWindow({
     ...cache.get(TYPES.CACHE.WINDOW),
-    darkTheme: THEME[configDisplay.theme].dark,
-    backgroundColor: THEME[configDisplay.theme].dark ?
-      THEME[configDisplay.theme].grey[1] :
-      THEME[configDisplay.theme].grey[5]
+    darkTheme: config.get(TYPES.CONFIG.DISPLAY).theme === 'dark',
+    backgroundColor: config.get(TYPES.CONFIG.DISPLAY).theme === 'dark' ?
+      THEME[config.get(TYPES.CONFIG.DISPLAY).theme].grey[1] :
+      THEME[config.get(TYPES.CONFIG.DISPLAY).theme].grey[5]
   });
 
   if (process.platform === 'darwin') {
