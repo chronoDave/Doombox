@@ -1,14 +1,14 @@
-import { webFrame } from 'electron';
+import { remote, webFrame } from 'electron';
 
 import { connect } from 'react-redux';
-import { WINDOW } from '@doombox-utils/types';
+import { WINDOW, IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Hooks
-import { useAudio, useKeybind } from '../hooks';
+import { useAudio, useKeybind, useTranslation } from '../hooks';
 
 // Actions
-import { scanFolder, scanFolderNative } from '../actions';
+import { ipcInsert } from '../actions';
 
 // Redux
 import { setOverlay } from '../redux';
@@ -32,14 +32,25 @@ const KeybindProvider = props => {
     previous,
     mute
   } = useAudio();
+  const { t } = useTranslation();
 
   // System
   useKeybind('mod+=', () => webFrame.setZoomLevel(webFrame.getZoomLevel() + 0.5));
   useKeybind('mod+alt+=', () => webFrame.setZoomFactor(1));
 
   // File
-  useKeybind(keybindRescan, () => scanFolder());
-  useKeybind(keybindScanFolder, scanFolderNative);
+  useKeybind(keybindRescan, () => null);
+  useKeybind(keybindScanFolder, () => {
+    const folders = remote.dialog.showOpenDialogSync(null, {
+      title: t('action.common.scan', { mixins: { item: t('common.folder') } }),
+      properties: ['openDirectory', 'multiSelections']
+    });
+
+    if (folders) {
+      dispatchOverlay(WINDOW.OVERLAY.SCAN);
+      ipcInsert(IPC.CHANNEL.LIBRARY, folders);
+    }
+  });
 
   // Playlist
   useKeybind(keybindPlayPause, pause);

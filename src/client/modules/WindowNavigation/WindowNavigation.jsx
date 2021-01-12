@@ -2,7 +2,7 @@ import { shell, remote } from 'electron';
 
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { URLS, WINDOW } from '@doombox-utils/types';
+import { URLS, WINDOW, IPC } from '@doombox-utils/types';
 import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
@@ -15,12 +15,7 @@ import {
 } from '../../components';
 
 // Actions
-import {
-  windowClose,
-  scanFolder,
-  scanFolderNative,
-  deleteLibrary
-} from '../../actions';
+import { windowClose, ipcInsert, ipcDrop } from '../../actions';
 
 // Hooks
 import { useTimeoutOpen, useTranslation } from '../../hooks';
@@ -54,21 +49,31 @@ const WindowNavigation = ({ keybinds, dispatchOverlay }) => {
       ),
       secondary: keybinds.rescan,
       divider: true,
-      onClick: () => scanFolder()
+      onClick: () => null
     }, {
       primary: t(
         'action.common.scan',
         { mixins: { item: t('common.folder') }, transform: 'pascal' }
       ),
       secondary: keybinds.scanFolder,
-      onClick: scanFolderNative
+      onClick: () => {
+        const folders = remote.dialog.showOpenDialogSync(null, {
+          title: t('action.common.scan', { mixins: { item: t('common.folder') } }),
+          properties: ['openDirectory', 'multiSelections']
+        });
+
+        if (folders) {
+          dispatchOverlay(WINDOW.OVERLAY.SCAN);
+          ipcInsert(IPC.CHANNEL.LIBRARY, folders);
+        }
+      }
     }, {
       primary: t(
         'action.common.delete',
         { mixins: { item: t('common.library') }, transform: 'pascal' }
       ),
       divider: true,
-      onClick: deleteLibrary
+      onClick: () => ipcDrop(IPC.CHANNEL.LIBRARY)
     }, {
       primary: t('common.preferences', { transform: 'pascal' }),
       secondary: keybinds.preferences,

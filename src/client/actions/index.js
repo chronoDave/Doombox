@@ -8,14 +8,10 @@ export {
 
 export {
   ipcInsert,
-  ipcFind
+  ipcUpdate,
+  ipcFind,
+  ipcDrop
 } from './ipc.actions';
-
-export {
-  scanFolder,
-  scanFolderNative,
-  deleteLibrary
-} from './library.actions';
 
 export {
   updateConfig,

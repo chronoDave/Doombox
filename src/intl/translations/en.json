@@ -8,7 +8,10 @@
       "track",
       "tracks"
     ],
-    "folder": "folder",
+    "folder": [
+      "folder",
+      "folders"
+    ],
     "library": "library",
     "github": "GitHub",
     "preferences": "preferences",
