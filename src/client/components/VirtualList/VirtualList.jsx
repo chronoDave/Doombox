@@ -1,6 +1,6 @@
 import React, {
   useState,
-  useEffect,
+  useLayoutEffect,
   useRef,
   useCallback
 } from 'react';
@@ -60,18 +60,18 @@ const VirtualList = props => {
     setVirtual({ total: top, items });
   }, [length, size]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getItems();
     window.addEventListener('resize', getItems);
 
     return () => window.removeEventListener('resize', getItems);
   }, [getItems]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     virtualize();
   }, [virtualize]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       typeof scrollTo === 'number' &&
       virtual.items[scrollTo]

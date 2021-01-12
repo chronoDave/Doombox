@@ -37,10 +37,10 @@ const Playlist = ({ songs, current }) => {
             key={song._id}
             active={current === index}
             primary={getLocalizedTag(song, 'title')}
-            secondary={isWidthSm && getLocalizedTag(song, 'artist')}
+            secondary={isWidthSm ? getLocalizedTag(song, 'artist') : null}
             onClick={() => skip(index)}
             style={style}
-            index={isWidthSm && index}
+            index={isWidthSm ? index : null}
           />
         );
       }}

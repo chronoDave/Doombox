@@ -1,23 +1,18 @@
-const chokidar = process.env.NODE_ENV === 'development' ?
-  require('chokidar') :
-  null;
 const { app, globalShortcut } = require('electron');
 const path = require('path');
 
 const LeafDB = require('leaf-db').default;
-const debounce = require('lodash.debounce');
-
-const { pascalize } = require('@doombox-utils');
 const { TYPES, IPC } = require('@doombox-utils/types');
 const { THEME } = require('@doombox-config');
 
 // Core
-const App = require('./app');
 const {
   DatabaseController,
   StorageController,
   LibraryController
 } = require('./controllers');
+const Router = require('./router');
+const Window = require('./window');
 const { Cache, Config } = require('./storage');
 
 const root = process.env.NODE_ENV === 'development' ?
@@ -29,7 +24,8 @@ const assets = process.env.NODE_ENV === 'development' ?
 
 const cache = new Cache(root);
 const config = new Config(root);
-
+const router = new Router(root);
+const window = new Window(root, assets, cache, config.get(TYPES.CONFIG.KEYBINDS));
 const db = {
   [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root }),
   [TYPES.DATABASE.SONGS]: new LeafDB(TYPES.DATABASE.SONGS, { root }),
@@ -37,74 +33,24 @@ const db = {
   [TYPES.DATABASE.LABELS]: new LeafDB(TYPES.DATABASE.LABELS, { root })
 };
 
-const Doombox = new App(root, assets, config.get(TYPES.CONFIG.LANGUAGE));
-
 app.on('ready', () => {
-  Doombox.createRouter(IPC.CHANNEL.CACHE, new StorageController(cache));
-  Doombox.createRouter(IPC.CHANNEL.CONFIG, new StorageController(config));
-
-  Doombox.createRouter(IPC.CHANNEL.IMAGE, new DatabaseController(db[TYPES.DATABASE.IMAGES]));
-  Doombox.createRouter(IPC.CHANNEL.SONG, new DatabaseController(db[TYPES.DATABASE.SONGS]));
-  Doombox.createRouter(IPC.CHANNEL.ALBUM, new DatabaseController(db[TYPES.DATABASE.ALBUMS]));
-  Doombox.createRouter(IPC.CHANNEL.LABEL, new DatabaseController(db[TYPES.DATABASE.LABELS]));
-
-  Doombox.createRouter(IPC.CHANNEL.LIBRARY, new LibraryController(
+  router.bind(IPC.CHANNEL.CACHE, new StorageController(cache));
+  router.bind(IPC.CHANNEL.CONFIG, new StorageController(config));
+  router.bind(IPC.CHANNEL.IMAGE, new DatabaseController(db[TYPES.DATABASE.IMAGES]));
+  router.bind(IPC.CHANNEL.SONG, new DatabaseController(db[TYPES.DATABASE.SONGS]));
+  router.bind(IPC.CHANNEL.ALBUM, new DatabaseController(db[TYPES.DATABASE.ALBUMS]));
+  router.bind(IPC.CHANNEL.LABEL, new DatabaseController(db[TYPES.DATABASE.LABELS]));
+  router.bind(IPC.CHANNEL.LIBRARY, new LibraryController(
     db,
     path.resolve(root, 'images'),
     config.get(TYPES.CONFIG.PARSER)
   ));
 
-  const keybinds = config.get(TYPES.CONFIG.KEYBINDS);
-  const window = Doombox.createWindow({
-    ...cache.get(TYPES.CACHE.WINDOW),
-    darkTheme: config.get(TYPES.CONFIG.DISPLAY).theme === 'dark',
-    backgroundColor: config.get(TYPES.CONFIG.DISPLAY).theme === 'dark' ?
+  window.create(
+    config.get(TYPES.CONFIG.DISPLAY).theme === 'dark',
+    config.get(TYPES.CONFIG.DISPLAY).theme === 'dark' ?
       THEME[config.get(TYPES.CONFIG.DISPLAY).theme].grey[1] :
       THEME[config.get(TYPES.CONFIG.DISPLAY).theme].grey[5]
-  });
-
-  if (process.platform === 'darwin') {
-    Doombox.createMenuMac(window, keybinds);
-  } else {
-    Doombox.createMenuWindows(window);
-  }
-
-  if (chokidar) {
-    chokidar
-      .watch(`${assets}/client/**/*`)
-      .on('change', () => window.reload());
-  }
-
-  const handleResize = debounce(() => {
-    const { width, height } = window.getBounds();
-    cache.set({ width, height }, TYPES.CACHE.WINDOW);
-  }, 100);
-  const handleMove = debounce(() => {
-    const [x, y] = window.getPosition();
-    cache.set({ x, y }, TYPES.CACHE.WINDOW);
-  }, 100);
-
-  window.on('resize', handleResize);
-  window.on('move', handleMove);
-
-  // Keybinds
-  const toAccelerator = keybind => pascalize(keybind.replace('mod', 'CommandOrControl'), '+');
-
-  globalShortcut.register(
-    toAccelerator(keybinds.playPause),
-    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.PAUSE })
-  );
-  globalShortcut.register(
-    toAccelerator(keybinds.nextSong),
-    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.NEXT })
-  );
-  globalShortcut.register(
-    toAccelerator(keybinds.previousSong),
-    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.PREVIOUS })
-  );
-  globalShortcut.register(
-    toAccelerator(keybinds.muteUnmute),
-    () => window.webContents.send(IPC.CHANNEL.AUDIO, { action: IPC.ACTION.AUDIO.MUTE })
   );
 });
 

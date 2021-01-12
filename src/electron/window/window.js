@@ -1,100 +1,66 @@
+const path = require('path');
 const {
   BrowserWindow,
   Menu,
   ipcMain,
+  nativeImage,
   shell,
-  nativeImage
+  globalShortcut
 } = require('electron');
-const path = require('path');
 
 const { pascalize } = require('@doombox-utils');
 const {
-  WINDOW,
   STATUS,
+  TYPES,
   IPC,
+  WINDOW,
   URLS
 } = require('@doombox-utils/types');
 const { getTranslation } = require('@doombox-intl');
+const debounce = require('lodash.debounce');
 
 // Core
 const Reporter = require('../reporter');
 
-module.exports = class App extends Reporter {
-  constructor(root, assets, language) {
+module.exports = class Window extends Reporter {
+  constructor(root, assets, cache, keybinds) {
     super(path.resolve(root, 'logs'));
 
-    this.name = 'Doombox';
     this.assets = assets;
-    this.language = language;
+    this.cache = cache;
+    this.keybinds = keybinds;
+
+    this.window = null;
+
+    this.handleResize = debounce(() => {
+      const { width, height } = this.window.getBounds();
+      cache.set({ width, height }, TYPES.CACHE.WINDOW);
+    }, 100);
+    this.handleMove = debounce(() => {
+      const [x, y] = this.window.getPosition();
+      cache.set({ x, y }, TYPES.CACHE.WINDOW);
+    }, 100);
+
+    this.create = this.create.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+    this.handleMove = this.handleMove.bind(this);
+    this.registerKeybind = this.registerKeybind.bind(this);
   }
 
   translate(id, options) {
     return getTranslation(this.language, id, options);
   }
 
-  createRouter(channel, Controller) {
-    const routes = {
-      [IPC.ACTION.INSERT]: Controller.insert,
-      [IPC.ACTION.FIND]: Controller.find,
-      [IPC.ACTION.FIND_BY_ID]: Controller.findById,
-      [IPC.ACTION.UPDATE]: Controller.update,
-      [IPC.ACTION.UPDATE_BY_ID]: Controller.updateById,
-      [IPC.ACTION.DELETE]: Controller.delete,
-      [IPC.ACTION.DELETE_BY_ID]: Controller.deleteById,
-      [IPC.ACTION.DROP]: Controller.drop
-    };
+  create(darkTheme, backgroundColor) {
+    const {
+      x,
+      y,
+      width,
+      height
+    } = this.cache.get(TYPES.CACHE.WINDOW);
 
-    ipcMain.on(channel, async (event, payload) => {
-      try {
-        if (!payload) {
-          throw new Error(`No payload found: ${JSON.stringify(payload)}`);
-        }
-        if (!routes[payload.action]) {
-          throw new Error(`Invalid action: ${JSON.stringify(payload.action)}`);
-        }
-        if (payload.overlay && !Array.isArray(payload.overlay)) {
-          throw new Error(`Overlay must be an array: ${payload.overlay}`);
-        }
-
-        if (payload.overlay) {
-          event.sender.send(IPC.CHANNEL.WINDOW, { data: payload.overlay[0], error: null });
-        }
-
-        const data = await routes[payload.action](event, payload.data);
-
-        if (payload.overlay) {
-          event.sender.send(IPC.CHANNEL.WINDOW, { data: payload.overlay[1], error: null });
-        }
-
-        event.sender.send(channel, { data, error: null });
-      } catch (error) {
-        this.logError(error);
-
-        event.sender.send(channel, { data: null, error });
-      }
-    });
-  }
-
-  /**
-   * @param {string} root
-   * @param {object} options
-   * @param {number} options.x - (default `0`)
-   * @param {number} options.y - (default `0`)
-   * @param {number} options.width - (default `0`)
-   * @param {number} options.height - (default `0`)
-   * @param {boolean} options.darkTheme - (default `false`)
-   * @param {string} options.backgroundColor - (default `#fff`)
-   */
-  createWindow({
-    x = 0,
-    y = 0,
-    width = 0,
-    height = 0,
-    darkTheme = false,
-    backgroundColor = '#fff'
-  }) {
     const window = new BrowserWindow({
-      title: this.name,
+      title: 'Doombox',
       icon: path.resolve(this.assets, 'icons/app.ico'),
       minWidth: 320,
       minHeight: 240,
@@ -113,35 +79,64 @@ module.exports = class App extends Reporter {
       },
     });
 
+    if (process.platform === 'darwin') {
+      this.createMenuMac();
+    } else {
+      this.createMenuWindows();
+    }
+
+    window.on('resize', this.handleResize);
+    window.on('move', this.handleMove);
+
+    this.registerKeybind(this.keybinds.playPause, IPC.CHANNEL.AUDIO, IPC.ACTION.AUDIO.PAUSE);
+    this.registerKeybind(this.keybinds.nextSong, IPC.CHANNEL.AUDIO, IPC.ACTION.AUDIO.NEXT);
+    this.registerKeybind(this.keybinds.previousSong, IPC.CHANNEL.AUDIO, IPC.ACTION.AUDIO.PREVIOUS);
+    this.registerKeybind(this.keybinds.muteUnmute, IPC.CHANNEL.AUDIO, IPC.ACTION.AUDIO.MUTE);
+
     window.loadFile(path.resolve(this.assets, 'client/index.html'));
 
-    return window;
+    // Development
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line global-require
+      require('chokidar')
+        .watch(`${this.assets}/client/**/*`)
+        .on('change', () => this.window.reload());
+    }
+
+    this.window = window;
   }
 
-  createMenuWindows(window) {
+  registerKeybind(keybind, channel, action) {
+    globalShortcut.register(
+      pascalize(keybind.replace('mod', 'CommandOrControl'), '+'),
+      () => this.window.webContents.send(channel, { action })
+    );
+  }
+
+  createMenuWindows() {
     const createThumbarIcon = id => nativeImage
       .createFromPath(path.resolve(this.assets, `icons/mui/${id}.png`));
 
     ipcMain.on(IPC.CHANNEL.WINDOW, (event, payload) => {
       switch (payload.action) {
         case IPC.ACTION.WINDOW.SET_TITLE:
-          window.setTitle(payload.data);
+          this.window.setTitle(payload.data);
           break;
         case IPC.ACTION.WINDOW.CLOSE:
-          window.close();
+          this.window.close();
           break;
         case IPC.ACTION.WINDOW.MINIMIZE:
-          window.minimize();
+          this.window.minimize();
           break;
         case IPC.ACTION.WINDOW.MAXIMIZE:
-          if (window.isMaximized()) {
-            window.unmaximize();
+          if (this.window.isMaximized()) {
+            this.window.unmaximize();
           } else {
-            window.maximize();
+            this.window.maximize();
           }
           break;
         case IPC.ACTION.WINDOW.SET_THUMBAR:
-          window.setThumbarButtons([{
+          this.window.setThumbarButtons([{
             icon: createThumbarIcon('icon_skipPrevious'),
             click: () => event.sender.send(
               IPC.CHANNEL.AUDIO,
@@ -174,7 +169,7 @@ module.exports = class App extends Reporter {
     });
   }
 
-  createMenuMac(window, keybinds) {
+  createMenuMac() {
     const createAccelerator = keybind => pascalize(keybind.replace('mod', 'Command'));
 
     Menu.setApplicationMenu(Menu.buildFromTemplate([{
@@ -198,14 +193,14 @@ module.exports = class App extends Reporter {
           mixins: { item: this.translate('common.folder') },
           transform: 'pascal'
         }),
-        accelerator: createAccelerator(keybinds.rescan),
+        accelerator: createAccelerator(this.keybinds.rescan),
         click: () => window.webContents.send(IPC.CHANNEL.KEYBIND, IPC.ACTION.MENU.RESCAN)
       }, { type: 'separator' }, {
         label: this.translate('action.common.scan', {
           mixins: { item: this.translate('common.folder') },
           transform: 'pascal'
         }),
-        accelerator: createAccelerator(keybinds.scanFolder),
+        accelerator: createAccelerator(this.keybinds.scanFolder),
         click: () => window.webContents.send(IPC.CHANNEL.KEYBIND, IPC.ACTION.MENU.SCAN_FOLDER)
       }, {
         label: this.translate('action.common.delete', {

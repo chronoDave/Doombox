@@ -64,7 +64,7 @@ const VirtualLibrary = ({ library }) => {
           const itemWidth = item.width + (item.padding * 2);
           const itemHeight = item.height + (item.padding * 2);
 
-          const rows = Math.floor((width - (body.padding * 2)) / itemWidth);
+          const rows = Math.max(1, Math.floor((width - (body.padding * 2)) / itemWidth));
           const columns = Math.ceil(library[index].albums.length / rows);
 
           return (columns * itemHeight) + header.height;
