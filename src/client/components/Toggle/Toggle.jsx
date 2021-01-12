@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 // Styles
 import useToggleStyles from './Toggle.styles';
 
-const Toggle = props => {
-  const { value, ...rest } = props;
-
+const Toggle = ({ value, ...rest }) => {
   const classes = useToggleStyles();
 
   return (

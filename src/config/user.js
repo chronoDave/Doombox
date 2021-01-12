@@ -27,6 +27,7 @@ module.exports = {
     previousSong: 'mod+alt+left',
     playPause: 'mod+alt+\\',
     muteUnmute: 'mod+alt+m',
-    preferences: 'mod+p'
+    preferences: 'mod+p',
+    search: 'mod+f'
   }
 };

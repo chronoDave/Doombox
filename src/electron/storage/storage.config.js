@@ -42,6 +42,7 @@ module.exports = class Cache extends Storage {
         playPause: this.normalizeString(payload, 'keybinds.playPause'),
         muteUnmute: this.normalizeString(payload, 'keybinds.muteUnmute'),
         preferences: this.normalizeString(payload, 'keybinds.preferences'),
+        search: this.normalizeString(payload, 'keybinds.search'),
       }
     };
   }

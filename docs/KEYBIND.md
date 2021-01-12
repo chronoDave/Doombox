@@ -14,6 +14,10 @@
 | **Ctrl + Shift + S** | Scan folder      |
 | **Ctrl + P**         | Open preferences |
 
+| Library | |
+|:------------ | -------------- |
+| **Ctrl + F** | Search library |
+
 | Playlist | |
 | :------------------ | ------------- |
 | **Ctrl + Alt + →**  | Next song     |
@@ -38,6 +42,10 @@
 | **⌘ + S**           | Rescan library   |
 | **⌘ + ⇧ + S**       | Scan folder      |
 | **⌘ + P**           | Open preferences |
+
+| Library | |
+|:---------- | -------------- |
+| **⌘ + F** | Search library |
 
 | Playlist | |
 | :--------------- | ------------- |

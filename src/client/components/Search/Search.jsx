@@ -1,5 +1,6 @@
 import React, { useState, useRef, forwardRef } from 'react';
 import { cx } from 'emotion';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
@@ -8,7 +9,7 @@ import { ButtonBase } from '../ButtonBase';
 import { Icon } from '../Icon';
 
 // Hooks
-import { useTranslation } from '../../hooks';
+import { useTranslation, useKeybind } from '../../hooks';
 
 // Styles
 import useSearchStyles from './Search.styles';
@@ -18,12 +19,15 @@ const Search = forwardRef((props, ref) => {
     onChange,
     onSubmit,
     onClear,
+    disableFocus,
+    keybindSearch,
     className,
     ...rest
   } = props;
   const [value, setValue] = useState(null);
 
   const input = useRef();
+  useKeybind(keybindSearch, () => !disableFocus && input.current.focus());
 
   const { t } = useTranslation();
   const classes = useSearchStyles();
@@ -85,15 +89,29 @@ Search.defaultProps = {
   onChange: null,
   onSubmit: null,
   onClear: null,
-  className: null
+  className: null,
+  disableFocus: false
 };
 
 Search.propTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   onClear: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  keybindSearch: PropTypes.string.isRequired,
+  disableFocus: PropTypes.bool
 };
 
+const mapStateToProps = state => ({
+  keybindSearch: state.config.keybinds.search
+});
+
 Search.displayName = 'search';
-export default Search;
+export default connect(
+  mapStateToProps,
+  null,
+  (stateProps, _, ownProps) => ({
+    ...stateProps,
+    ...ownProps
+  })
+)(Search);
