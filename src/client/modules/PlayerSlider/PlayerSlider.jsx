@@ -23,7 +23,7 @@ const PlayerSlider = props => {
     dispatchSliding
   } = props;
   const { seek, getPosition } = useAudio();
-  const [current, create, destroy] = useTimer(position);
+  const [current, { create, update, destroy }] = useTimer();
   const classes = usePlayerSliderStyles();
 
   useEffect(() => {
@@ -33,6 +33,10 @@ const PlayerSlider = props => {
       destroy();
     }
   }, [status, create, destroy]);
+
+  useEffect(() => {
+    update(position);
+  }, [update, position]);
 
   return (
     <div className={classes.root}>

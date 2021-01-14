@@ -167,9 +167,7 @@ class Audio extends EventEmitter {
   }
 
   create(song = this.playlist.collection[this.playlist.index]) {
-    // Make sure there's never multiple instances
     if (this.instance) this.instance.unload();
-    // Only create valid song
     if (song) {
       this.emit(EVENTS.AUDIO.STATUS, STATUS.AUDIO.STOPPED);
 
@@ -189,7 +187,7 @@ class Audio extends EventEmitter {
           this.status = STATUS.AUDIO.PLAYING;
 
           this.emit(EVENTS.AUDIO.STATUS, this.status);
-          this.position();
+          this.emit(EVENTS.AUDIO.POSITION, this.instance.seek());
         },
         onpause: () => {
           this.status = STATUS.AUDIO.PAUSED;

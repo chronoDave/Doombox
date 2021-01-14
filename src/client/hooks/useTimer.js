@@ -5,7 +5,7 @@ import {
   useEffect
 } from 'react';
 
-export default position => {
+export default () => {
   const [current, setCurrent] = useState(0);
 
   const ms = useRef(0);
@@ -19,13 +19,12 @@ export default position => {
       setCurrent(ms.current);
     }, 1000);
   }, [destroy]);
-
-  useEffect(() => {
+  const update = useCallback(position => {
     ms.current = Math.round(position);
-    setCurrent(ms.current);
-  }, [position]);
+    setCurrent(position);
+  }, []);
 
   useEffect(() => destroy, [destroy]);
 
-  return [current, create, destroy];
+  return [current, { create, update, destroy }];
 };

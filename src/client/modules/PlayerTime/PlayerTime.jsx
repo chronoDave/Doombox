@@ -19,17 +19,21 @@ const PlayerTime = props => {
     sliding,
     status
   } = props;
-  const [current, create, destroy] = useTimer(position);
+  const [current, { create, update, destroy }] = useTimer(position);
   const { formatTime } = useTranslation();
   const classes = usePlayerTimeStyles();
 
   useEffect(() => {
-    if (status === STATUS.AUDIO.PLAYING && !sliding) {
+    if (!sliding && status === STATUS.AUDIO.PLAYING) {
       create();
     } else {
       destroy();
     }
   }, [sliding, status, create, destroy]);
+
+  useEffect(() => {
+    update(position);
+  }, [update, position]);
 
   return (
     <div className={classes.root}>
