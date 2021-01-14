@@ -18,7 +18,6 @@ import {
   setStatus,
   setAutoplay,
   setPlaylist,
-  setDuration,
   setMuted,
   setVolume,
   setPosition,
@@ -82,7 +81,6 @@ class AudioProvider extends Component {
 
     // Events
     const {
-      dispatchDuration,
       dispatchMuted,
       dispatchPlaylist,
       dispatchPosition,
@@ -102,7 +100,6 @@ class AudioProvider extends Component {
       500
     );
 
-    this.audio.on(EVENTS.AUDIO.DURATION, dispatchDuration);
     this.audio.on(EVENTS.AUDIO.MUTED, muted => {
       updateCacheMuted(muted);
       dispatchMuted(muted);
@@ -200,7 +197,6 @@ AudioProvider.propTypes = {
   volume: PropTypes.number.isRequired,
   muted: PropTypes.bool.isRequired,
   images: PropTypes.shape({}).isRequired,
-  dispatchDuration: PropTypes.func.isRequired,
   dispatchMuted: PropTypes.func.isRequired,
   dispatchPlaylist: PropTypes.func.isRequired,
   dispatchPosition: PropTypes.func.isRequired,
@@ -220,7 +216,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  dispatchDuration: setDuration,
   dispatchMuted: setMuted,
   dispatchPlaylist: setPlaylist,
   dispatchPosition: setPosition,

@@ -37,18 +37,11 @@ const PlayerTime = props => {
         {formatTime(current)}
       </Typography>
       <Typography color="inherit">
-        {`-${formatTime(duration - current)}`}
+        {`-${formatTime(Math.max(0, duration - current))}`}
       </Typography>
     </div>
   );
 };
-
-const mapStateToProps = state => ({
-  status: state.player.status,
-  position: state.player.position,
-  duration: state.player.duration,
-  sliding: state.player.sliding
-});
 
 PlayerTime.propTypes = {
   status: PropTypes.oneOf(Object.values(STATUS.AUDIO)).isRequired,
@@ -56,6 +49,13 @@ PlayerTime.propTypes = {
   duration: PropTypes.number.isRequired,
   sliding: PropTypes.bool.isRequired
 };
+
+const mapStateToProps = state => ({
+  status: state.player.status,
+  position: state.player.position,
+  duration: state.player.metadata.duration,
+  sliding: state.player.sliding
+});
 
 export default connect(
   mapStateToProps

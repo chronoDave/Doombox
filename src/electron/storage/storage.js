@@ -18,7 +18,11 @@ module.exports = class Storage {
 
   /** Read file data */
   read() {
-    return JSON.parse(fs.readFileSync(this.file));
+    try {
+      return JSON.parse(fs.readFileSync(this.file));
+    } catch (err) {
+      return {};
+    }
   }
 
   /**

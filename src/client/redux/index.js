@@ -46,7 +46,6 @@ export const {
   setMetadata,
   setStatus,
   setAutoplay,
-  setDuration,
   setMuted,
   setVolume,
   setPosition

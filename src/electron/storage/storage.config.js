@@ -18,6 +18,7 @@ module.exports = class Cache extends Storage {
         artist: this.normalizeBool(payload, 'search.artist'),
         title: this.normalizeBool(payload, 'search.title'),
         album: this.normalizeBool(payload, 'search.album'),
+        albumartist: this.normalizeBool(payload, 'search.albumartist'),
         publisher: this.normalizeBool(payload, 'search.publisher'),
       },
       parser: {

@@ -8,6 +8,7 @@ module.exports = {
     artist: true,
     title: true,
     album: true,
+    albumartist: true,
     publisher: true
   },
   parser: {

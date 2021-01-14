@@ -64,7 +64,7 @@ PlayerSlider.propTypes = {
 const mapStateToProps = state => ({
   status: state.player.status,
   position: state.player.position,
-  duration: state.player.duration
+  duration: state.player.metadata.duration
 });
 
 const mapDispatchToProps = {
