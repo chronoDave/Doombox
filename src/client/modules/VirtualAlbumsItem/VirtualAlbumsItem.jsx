@@ -20,7 +20,7 @@ const VirtualAlbumsItem = props => {
     primary,
     secondary,
     details,
-    onClick
+    ...rest
   } = props;
   const classes = useVirtualAlbumsItemStyles();
   const isSm = useMediaQuery(({ join, create }) => join(
@@ -30,7 +30,7 @@ const VirtualAlbumsItem = props => {
 
   return (
     <div style={style} className={classes.root}>
-      <ButtonBase onClick={onClick} className={classes.button}>
+      <ButtonBase className={classes.button} {...rest}>
         <img
           src={cover}
           className={classes.cover}
@@ -65,8 +65,7 @@ VirtualAlbumsItem.propTypes = {
   details: propTablePairs.isRequired,
   style: propVirtualStyle.isRequired,
   primary: PropTypes.string.isRequired,
-  secondary: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  secondary: PropTypes.string.isRequired
 };
 
 export default VirtualAlbumsItem;

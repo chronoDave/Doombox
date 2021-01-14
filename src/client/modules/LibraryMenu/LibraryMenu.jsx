@@ -58,10 +58,10 @@ const LibraryMenu = ({ collection }) => {
           })}
           onClick={() => {
             setOpen(false);
-            set(({
+            set({
               name: t('common.library', { transform: 'pascal' }),
               collection
-            }));
+            });
           }}
         />
         <MenuItem
@@ -71,10 +71,10 @@ const LibraryMenu = ({ collection }) => {
           })}
           onClick={() => {
             setOpen(false);
-            set(({
+            set({
               name: t('common.library', { transform: 'pascal' }),
               collection: shuffle(collection)
-            }));
+            });
           }}
         />
       </Popper>

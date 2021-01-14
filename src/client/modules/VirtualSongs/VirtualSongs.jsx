@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { VirtualList, VirtualListItem } from '../../components';
+import {
+  VirtualList,
+  VirtualListItem,
+  Popper,
+  MenuItem
+} from '../../components';
 
 // Redux
 import { populateSearchSongs } from '../../redux';
 
 // Hooks
-import { useTranslation, useAudio } from '../../hooks';
+import {
+  useTranslation,
+  useAudio,
+  useTimeoutOpen
+} from '../../hooks';
 
 // Theme
 import { mixins } from '../../theme';
@@ -18,33 +27,67 @@ import { mixins } from '../../theme';
 import { propSong } from '../../validation/propTypes';
 
 const VirtualSongs = ({ songs, current }) => {
-  const { create } = useAudio();
-  const { getLocalizedTag } = useTranslation();
+  const [menu, setMenu] = useState({ anchorEl: null, song: null });
+
+  const {
+    open,
+    setOpen,
+    handleEnter,
+    handleLeave
+  } = useTimeoutOpen();
+  const { create, add } = useAudio();
+  const { t, getLocalizedTag } = useTranslation();
 
   return (
-    <VirtualList
-      length={songs.length}
-      size={mixins.virtual.item * 2}
-    >
-      {({ style, index }) => {
-        const song = songs[index];
+    <Fragment>
+      <VirtualList
+        length={songs.length}
+        size={mixins.virtual.item * 2}
+      >
+        {({ style, index }) => {
+          const song = songs[index];
 
-        if (!song) return null;
-        return (
-          <VirtualListItem
-            key={song._id}
-            style={style}
-            active={song._id === current}
-            primary={getLocalizedTag(song, 'title')}
-            secondary={[
-              getLocalizedTag(song, 'artist'),
-              getLocalizedTag(song, 'album')
-            ].join(' \u2022 ')}
-            onClick={() => create(song)}
-          />
-        );
-      }}
-    </VirtualList>
+          if (!song) return null;
+          return (
+            <VirtualListItem
+              key={song._id}
+              style={style}
+              active={song._id === current}
+              primary={getLocalizedTag(song, 'title')}
+              secondary={[
+                getLocalizedTag(song, 'artist'),
+                getLocalizedTag(song, 'album')
+              ].join(' \u2022 ')}
+              onClick={() => create(song)}
+              onContextMenu={event => {
+                setMenu({ anchorEl: event.currentTarget, song });
+                setOpen(true);
+              }}
+              onMouseEnter={() => open && handleEnter()}
+              onMouseLeave={handleLeave}
+            />
+          );
+        }}
+      </VirtualList>
+      <Popper
+        open={open}
+        anchorEl={menu.anchorEl}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        placement="left"
+      >
+        <MenuItem
+          primary={t('action.common.add_to', {
+            mixins: { item: t('common.playlist') },
+            transform: 'pascal'
+          })}
+          onClick={() => {
+            setOpen(false);
+            add(menu.song);
+          }}
+        />
+      </Popper>
+    </Fragment>
   );
 };
 
