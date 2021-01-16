@@ -5,7 +5,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FsWebpackPlugin = require('fs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const outputPath = path.resolve(__dirname, 'build/client');
 
@@ -97,7 +96,6 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/client/index.html'),
       filename: 'index.html'
-    }),
-    env.analyze && new BundleAnalyzerPlugin({ analyzerPort: 3600 })
-  ].filter(plugin => plugin)
+    })
+  ]
 });

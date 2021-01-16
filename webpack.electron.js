@@ -4,11 +4,10 @@ const path = require('path');
 // Plugins
 const FsWebpackPlugin = require('fs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const outputPath = path.resolve(__dirname, 'build/src');
 
-module.exports = ({ alias, env = {} }) => ({
+module.exports = ({ alias }) => ({
   name: 'electron',
   target: 'electron-main',
   externals: {
@@ -60,7 +59,6 @@ module.exports = ({ alias, env = {} }) => ({
     new FsWebpackPlugin([{
       type: 'delete',
       files: 'build/src'
-    }], { verbose: true }),
-    env.analyze && new BundleAnalyzerPlugin({ analyzerPort: 7777 })
-  ].filter(plugin => plugin)
+    }], { verbose: true })
+  ]
 });
