@@ -61,7 +61,9 @@ module.exports = class Window extends Reporter {
 
     const window = new BrowserWindow({
       title: 'Doombox',
-      icon: path.resolve(this.assets, 'icons/app.ico'),
+      icon: process.platform === 'win32' ?
+        path.resolve(this.assets, 'icons/app.ico') :
+        path.resolve(this.assets, 'icons/app.png'),
       minWidth: 320,
       minHeight: 240,
       x,

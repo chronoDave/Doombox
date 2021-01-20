@@ -70,6 +70,9 @@ const getNativeKeybind = (keybind, transform) => {
       shift: '\u21e7',
       option: '\u03b1',
       alt: '\u03b1'
+    },
+    linux: {
+      mod: 'ctrl'
     }
   };
 

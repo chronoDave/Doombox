@@ -24,6 +24,18 @@ A music player designed with large music collections in mind.
 
  - [0.7.0-alpha (Win + Mac)](https://github.com/chronoDave/Doombox/releases/tag/v0.7.0-alpha)
 
+## Linux
+
+### Install
+
+Run `chmod a+x <AppImage>`, then simply double-click the AppImage file to run.
+
+### Errors
+
+`Error: libvips-cpp.so.42: cannot open shared object file: No such file or directory`
+
+Run `sudo apt-get install -y libvips-dev --no-install-recommends`
+
 ## License
 
 Licensed under the [GNU General Public License v3.0](./LICENSE).

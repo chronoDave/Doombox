@@ -6,7 +6,10 @@
     "type": "git",
     "url": "https://github.com/chronoDave/Doombox.git"
   },
-  "author": "Chronocide",
+  "author": {
+    "name": "Chronocide",
+    "email": "davidwolters6758@gmail.com"
+  },
   "private": true,
   "license": "GPL-3.0",
   "engines": {
@@ -47,7 +50,7 @@
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
     "reselect": "^4.0.0",
-    "sharp": "^0.26.3"
+    "sharp": "^0.27.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",

@@ -94,5 +94,11 @@ module.exports = {
     icon: path.resolve(__dirname, 'build/icons/app.png'),
     darkModeSupport: true,
     type: 'distribution'
+  },
+
+  // Linux (Debian)
+  linux: {
+    target: 'AppImage',
+    category: 'Audio'
   }
 };
