@@ -7,8 +7,6 @@ import PropTypes from 'prop-types';
 import { Hidden } from '../../components';
 
 import { Player } from '../Player';
-import { PlayerSlider } from '../PlayerSlider';
-import { PlayerControls } from '../PlayerControls';
 import { Playlist } from '../Playlist';
 import { PlaylistTitle } from '../PlaylistTitle';
 import { LibraryMenu } from '../LibraryMenu';
@@ -41,10 +39,6 @@ const App = ({ overlay, view }) => {
       <div className={classes.body}>
         <div className={classes.controller}>
           <Player />
-          <PlayerSlider />
-          <Hidden on={({ create }) => create('minWidth', 'sm')}>
-            <PlayerControls className={classes.controls} />
-          </Hidden>
           <PlaylistTitle />
           <Playlist />
         </div>

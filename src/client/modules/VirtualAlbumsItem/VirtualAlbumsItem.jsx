@@ -11,7 +11,7 @@ import { useMediaQuery } from '../../hooks';
 import { propVirtualStyle, propTablePairs } from '../../validation/propTypes';
 
 // Styles
-import useVirtualAlbumsItemStyles from './VirtualAlbumsItem.style';
+import useVirtualAlbumsItemStyles from './VirtualAlbumsItem.styles';
 
 const VirtualAlbumsItem = props => {
   const {

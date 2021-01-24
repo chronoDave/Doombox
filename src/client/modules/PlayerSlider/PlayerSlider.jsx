@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { STATUS } from '@doombox-utils/types';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Slider } from '../../components';
 
 // Hooks
-import { useAudio, useTimer } from '../../hooks';
+import { useAudio } from '../../hooks';
 
 // Redux
 import { setSliding } from '../../redux';
@@ -15,28 +14,9 @@ import { setSliding } from '../../redux';
 // Styles
 import usePlayerSliderStyles from './PlayerSlider.styles';
 
-const PlayerSlider = props => {
-  const {
-    position,
-    duration,
-    status,
-    dispatchSliding
-  } = props;
+const PlayerSlider = ({ current, duration, dispatchSliding }) => {
   const { seek, getPosition } = useAudio();
-  const [current, { create, update, destroy }] = useTimer();
   const classes = usePlayerSliderStyles();
-
-  useEffect(() => {
-    if (status === STATUS.AUDIO.PLAYING) {
-      create();
-    } else {
-      destroy();
-    }
-  }, [status, create, destroy]);
-
-  useEffect(() => {
-    update(position);
-  }, [update, position]);
 
   return (
     <div className={classes.root}>
@@ -59,8 +39,7 @@ const PlayerSlider = props => {
 };
 
 PlayerSlider.propTypes = {
-  status: PropTypes.oneOf(Object.values(STATUS.AUDIO)).isRequired,
-  position: PropTypes.number.isRequired,
+  current: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
   dispatchSliding: PropTypes.func.isRequired
 };

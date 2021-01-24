@@ -16,9 +16,6 @@ export default makeStyles(theme => ({
       theme.palette.grey[0] :
       theme.palette.grey[6]
   },
-  controls: {
-    color: theme.palette.text.primary
-  },
   body: {
     display: 'flex',
     flexGrow: 1,

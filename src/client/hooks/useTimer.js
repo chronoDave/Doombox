@@ -11,7 +11,11 @@ export default () => {
   const ms = useRef(0);
   const timer = useRef();
 
-  const destroy = useCallback(() => timer.current && clearInterval(timer.current), []);
+  const destroy = useCallback(() => {
+    ms.current = 0;
+    if (timer.current) clearInterval(timer.current);
+  }, []);
+
   const create = useCallback(() => {
     destroy();
     timer.current = setInterval(() => {
@@ -19,6 +23,7 @@ export default () => {
       setCurrent(ms.current);
     }, 1000);
   }, [destroy]);
+
   const update = useCallback(position => {
     ms.current = Math.round(position);
     setCurrent(position);
