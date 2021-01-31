@@ -34,7 +34,11 @@ Run `chmod a+x <AppImage>`, then simply double-click the AppImage file to run.
 
 `Error: libvips-cpp.so.42: cannot open shared object file: No such file or directory`
 
-Run `sudo apt-get install -y libvips-dev --no-install-recommends`
+Run `sudo apt-get install -y libvips`
+
+`Error: GLib-GObject:ERROR:../../../gobject/gbinding.c:574:g_binding_constructed: assertion failed: (binding->source != NULL)`
+
+Delete `node_modules/sharp/vendor`
 
 ## License
 

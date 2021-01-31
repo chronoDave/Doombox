@@ -26,6 +26,8 @@ module.exports = {
     scanFolder: 'mod+shift+s',
     nextSong: 'mod+alt+right',
     previousSong: 'mod+alt+left',
+    volumeUp: 'mod+alt+up',
+    volumeDown: 'mod+alt+down',
     playPause: 'mod+alt+\\',
     muteUnmute: 'mod+alt+m',
     preferences: 'mod+p',

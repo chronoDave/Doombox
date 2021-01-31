@@ -1,6 +1,6 @@
 # Doombox - Keybinds
 
-## Windows
+## Windows / Linux
 
 | System (non-configurable) |  |
 |:------------------ | ---------- |
@@ -18,12 +18,14 @@
 |:------------ | -------------- |
 | **Ctrl + F** | Search library |
 
-| Playlist | |
+| Player | |
 | :------------------ | ------------- |
 | **Ctrl + Alt + →**  | Next song     |
 | **Ctrl + Alt + ←**  | Previous song |
 | **Ctrl + Alt + \\** | Play / pause  |
 | **Ctrl + Alt + M**  | Mute / umute  |
+| **Ctrl + Alt + ↑**  | Volume up     |
+| **Ctrl + Alt + ↓**  | Volume down   |
 
 | Help | | 
 | :------------------- | ---------------- |
@@ -47,12 +49,14 @@
 |:---------- | -------------- |
 | **⌘ + F** | Search library |
 
-| Playlist | |
+| Player | |
 | :--------------- | ------------- |
 | **⌘ + ⌥ + →**  | Next song     |
 | **⌘ + ⌥ + ←**  | Previous song |
 | **⌘ + ⌥ + \\** | Play / pause  |
 | **⌘ + ⌥ + M**  | Mute / umute  |
+| **⌘ + ⌥ + ↑**  | Volume up     |
+| **⌘ + ⌥ + ↓**  | Volume down   |
 
 | Help | |
 | :------------------- | ---------------- |

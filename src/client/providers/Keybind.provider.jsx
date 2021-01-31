@@ -23,6 +23,8 @@ const KeybindProvider = props => {
     keybindPreviousSong,
     keybindRescan,
     keybindScanFolder,
+    keybindVolumeUp,
+    keybindVolumeDown,
     children
   } = props;
 
@@ -30,7 +32,9 @@ const KeybindProvider = props => {
     pause,
     next,
     previous,
-    mute
+    mute,
+    volumeUp,
+    volumeDown
   } = useAudio();
   const { t } = useTranslation();
 
@@ -52,11 +56,13 @@ const KeybindProvider = props => {
     }
   });
 
-  // Playlist
+  // Player
   useKeybind(keybindPlayPause, pause);
   useKeybind(keybindNextSong, next);
   useKeybind(keybindPreviousSong, previous);
   useKeybind(keybindMuteUnmute, mute);
+  useKeybind(keybindVolumeUp, volumeUp);
+  useKeybind(keybindVolumeDown, volumeDown);
 
   // Preferences
   useKeybind(keybindPreferences, () => dispatchOverlay(WINDOW.OVERLAY.SETTINGS));
@@ -72,6 +78,8 @@ KeybindProvider.propTypes = {
   keybindPreviousSong: PropTypes.string.isRequired,
   keybindRescan: PropTypes.string.isRequired,
   keybindScanFolder: PropTypes.string.isRequired,
+  keybindVolumeUp: PropTypes.string.isRequired,
+  keybindVolumeDown: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired
 };
 
@@ -82,7 +90,9 @@ const mapStateToProps = state => ({
   keybindPreferences: state.config.keybinds.preferences,
   keybindPreviousSong: state.config.keybinds.previousSong,
   keybindRescan: state.config.keybinds.rescan,
-  keybindScanFolder: state.config.keybinds.scanFolder
+  keybindScanFolder: state.config.keybinds.scanFolder,
+  keybindVolumeUp: state.config.keybinds.volumeUp,
+  keybindVolumeDown: state.config.keybinds.volumeDown
 });
 
 const mapDispatchToProps = {
