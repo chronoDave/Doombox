@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { shuffle } from '@doombox-utils';
+import { shuffle, sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -23,7 +23,7 @@ import { mixins } from '../../theme';
 // Validation
 import { propLabel } from '../../validation/propTypes';
 
-const VirtualLabels = ({ labels, current }) => {
+const VirtualLabels = ({ labels, current, useLocalizedMetadata }) => {
   const [menu, setMenu] = useState({ anchorEl: null, label: null });
 
   const { set, add } = useAudio();
@@ -58,7 +58,10 @@ const VirtualLabels = ({ labels, current }) => {
               ].join(' \u2022 ')}
               onClick={() => set({
                 name: getLocalizedTag(label, 'publisher'),
-                collection: label.songs
+                collection: label.songs.sort(sortMetadata(
+                  ['year', 'date', 'disc', 'track'],
+                  useLocalizedMetadata
+                ))
               })}
               onContextMenu={event => {
                 setMenu({ anchorEl: event.currentTarget, label });
@@ -84,7 +87,10 @@ const VirtualLabels = ({ labels, current }) => {
           })}
           onClick={() => {
             setOpen(false);
-            add(menu.label.songs);
+            add(menu.label.songs.sort(sortMetadata(
+              ['year', 'date', 'disc', 'track'],
+              useLocalizedMetadata
+            )));
           }}
         />
         <MenuItem
@@ -96,7 +102,10 @@ const VirtualLabels = ({ labels, current }) => {
             setOpen(false);
             set({
               name: getLocalizedTag(menu.label, 'publisher'),
-              collection: shuffle(menu.label.songs)
+              collection: shuffle(menu.label.songs.sort(sortMetadata(
+                ['year', 'date', 'disc', 'track'],
+                useLocalizedMetadata
+              )))
             });
           }}
         />
@@ -111,11 +120,13 @@ VirtualLabels.defaultProps = {
 
 VirtualLabels.propTypes = {
   current: PropTypes.string,
+  useLocalizedMetadata: PropTypes.bool.isRequired,
   labels: PropTypes.arrayOf(propLabel).isRequired
 };
 
 const mapStateToProps = state => ({
   current: state.player.metadata._labelId,
+  useLocalizedMetadata: state.config.display.useLocalizedMetadata,
   labels: populateSearchLabels(state)
 });
 
