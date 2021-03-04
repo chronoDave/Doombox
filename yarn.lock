@@ -4267,10 +4267,10 @@ lazy-val@^1.0.4:
   resolved "https://registry.yarnpkg.com/lazy-val/-/lazy-val-1.0.4.tgz#882636a7245c2cfe6e0a4e3ba6c5d68a137e5c65"
   integrity sha512-u93kb2fPbIrfzBuLjZE+w+fJbUUMhNDXxNmMfaqNgpfQf1CO5ZSe2LfsnBqVAk7i/2NF48OSoRj+Xe2VT+lE8Q==
 
-leaf-db@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/leaf-db/-/leaf-db-3.5.0.tgz#5f4693428507f5e342e0443941ab8afdb165f95c"
-  integrity sha512-4DmR3wwmF52jL7tvQpDpoQ64k/Ucg7OypZari1+gC2zXFPePcu1PH1zAZ9ef0nbvkd5OSAZkeUO1MRMPpRJiUw==
+leaf-db@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/leaf-db/-/leaf-db-3.5.2.tgz#21898d59bd96dd24ce835a6723cb146801462bd2"
+  integrity sha512-YGK5/O/14568dQ0si5EtJZdfIqZcUWq5jngp8nBtObxLUDzpIV6dxXCwEFH6oJhvkA+ApUSEJj6YfAVb/MuiLA==
   dependencies:
     fast-deep-equal "^3.1.3"
     lodash.get "^4.4.2"

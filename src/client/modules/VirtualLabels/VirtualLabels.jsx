@@ -11,6 +11,9 @@ import {
   MenuItem
 } from '../../components';
 
+// Actions
+import { createPlaylist } from '../../actions';
+
 // Redux
 import { populateSearchLabels } from '../../redux';
 
@@ -107,6 +110,20 @@ const VirtualLabels = ({ labels, current, useLocalizedMetadata }) => {
                 useLocalizedMetadata
               )))
             });
+          }}
+          divider
+        />
+        <MenuItem
+          primary={t('action.common.create', {
+            mixins: { item: t('common.playlist') },
+            transform: 'pascal'
+          })}
+          onClick={() => {
+            setOpen(false);
+            createPlaylist(
+              getLocalizedTag(menu.label, 'publisher'),
+              menu.label.songs
+            );
           }}
         />
       </Popper>

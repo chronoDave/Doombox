@@ -1,6 +1,8 @@
-const toPx = (n = 1) => `${n * 8}px`;
+const unit = (n = 1) => n * 8;
+const toPx = (n = 1) => `${unit(n)}px`;
 
 export default ({
+  unit: (n = 1) => n * 8,
   toPx,
   pxToRem: px => `${px / 16}rem`,
   spacing: (...args) => (args.length === 0 ? toPx() : args.map(toPx).join(' ')),

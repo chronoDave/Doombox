@@ -47,6 +47,12 @@ const VirtualLibraryItem = props => {
             collection: label.songs
               .sort(sortMetadata(['date', 'year', 'disc', 'track']))
           })}
+          onContextMenu={event => onContextMenu(event, {
+            ...label,
+            name: primary,
+            songs: label.songs
+              .sort(sortMetadata(['date', 'year', 'disc', 'track']))
+          })}
         >
           <Typography clamp>
             {primary}
@@ -71,6 +77,7 @@ const VirtualLibraryItem = props => {
                 })}
                 onContextMenu={event => onContextMenu(event, {
                   ...album,
+                  name: getLocalizedTag(album, 'album'),
                   songs: album.songs
                     .sort(sortMetadata(['disc', 'track']))
                 })}

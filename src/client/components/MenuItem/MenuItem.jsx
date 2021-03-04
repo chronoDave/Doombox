@@ -14,17 +14,20 @@ const MenuItem = props => {
     primary,
     secondary,
     divider,
+    className,
     ...rest
   } = props;
   const classes = useMenuItemStyles();
 
   return (
     <ButtonBase
-      className={cx(classes.root, { [classes.divider]: divider })}
+      className={cx(classes.root, {
+        [classes.divider]: divider
+      }, className)}
       disableAnimation
       {...rest}
     >
-      <Typography color="inherit">
+      <Typography color="inherit" noWrap>
         {primary}
       </Typography>
       {secondary && (
@@ -38,12 +41,14 @@ const MenuItem = props => {
 
 MenuItem.defaultProps = {
   divider: false,
-  secondary: null
+  secondary: null,
+  className: null
 };
 
 MenuItem.propTypes = {
   divider: PropTypes.bool,
   primary: PropTypes.string.isRequired,
+  className: PropTypes.string,
   secondary: PropTypes.string
 };
 

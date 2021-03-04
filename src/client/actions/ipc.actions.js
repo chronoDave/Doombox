@@ -39,6 +39,17 @@ export const ipcFind = (
     data: { query, projection }
   });
 
+export const ipcDeleteById = (
+  channel,
+  _id,
+  overlay = null
+) => ipcRenderer
+  .send(channel, {
+    action: IPC.ACTION.DELETE_BY_ID,
+    overlay,
+    data: { _id }
+  });
+
 export const ipcDrop = (
   channel,
   overlay = null

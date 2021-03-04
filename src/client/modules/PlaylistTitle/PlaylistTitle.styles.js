@@ -15,5 +15,9 @@ export default makeStyles(theme => ({
       alignItems: 'center',
       padding: theme.spacing()
     }
+  },
+  popper: {
+    display: 'flex',
+    alignItems: 'center'
   }
 }), 'playlistTitle');

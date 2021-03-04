@@ -15,7 +15,12 @@ import {
 } from '../../components';
 
 // Actions
-import { windowClose, ipcInsert, ipcDrop } from '../../actions';
+import {
+  windowClose,
+  ipcInsert,
+  ipcDrop,
+  ipcDeleteById
+} from '../../actions';
 
 // Hooks
 import { useTimeoutOpen, useTranslation, useAudio } from '../../hooks';
@@ -86,7 +91,8 @@ const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
     }],
     playlist: playlists.map(playlist => ({
       primary: playlist.name,
-      onClick: () => set(playlist)
+      onClick: () => set(playlist),
+      onContextMenu: () => ipcDeleteById(IPC.CHANNEL.PLAYLIST, playlist._id)
     })),
     help: [{
       primary: t('action.menu.display_keybinds', { transform: 'pascal' }),
@@ -159,18 +165,24 @@ const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
         onMouseLeave={handleLeave}
         placement="bottom-start"
       >
-        {items[menu.id].map(item => (
-          <MenuItem
-            key={item.primary}
-            primary={item.primary}
-            secondary={item.secondary && getNativeKeybind(item.secondary, 'pascal')}
-            onClick={event => {
-              setOpen(false);
-              item.onClick(event);
-            }}
-            divider={item.divider}
-          />
-        ))}
+        <div className={classes.menuRoot}>
+          {items[menu.id].map(item => (
+            <MenuItem
+              key={item.primary}
+              primary={item.primary}
+              secondary={item.secondary && getNativeKeybind(item.secondary, 'pascal')}
+              onClick={event => {
+                setOpen(false);
+                item.onClick(event);
+              }}
+              onContextMenu={event => {
+                item.onContextMenu(event);
+              }}
+              divider={item.divider}
+              className={classes.menuItem}
+            />
+          ))}
+        </div>
       </Popper>
     </Fragment>
   );

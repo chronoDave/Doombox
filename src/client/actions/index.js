@@ -10,7 +10,8 @@ export {
   ipcInsert,
   ipcUpdate,
   ipcFind,
-  ipcDrop
+  ipcDeleteById,
+  ipcDrop,
 } from './ipc.actions';
 
 export {
@@ -18,3 +19,5 @@ export {
   updateCache,
   updateTheme
 } from './storage.actions';
+
+export { createPlaylist } from './playlist.actions';

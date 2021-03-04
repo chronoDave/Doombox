@@ -17,6 +17,7 @@ const PopperBase = props => {
     arrow,
     className,
     children,
+    modifiers,
     ...rest
   } = props;
   const [arrowPlacement, setArrowPlacement] = useState('left');

@@ -28,7 +28,7 @@ import { mixins } from '../../theme';
 // Validation
 import { propLabel } from '../../validation/propTypes';
 
-const VirtualLibrary = ({ library, useLocalizedMetadata }) => {
+const VirtualLibrary = ({ library }) => {
   const [menu, setMenu] = useState({ anchorEl: null, album: {} });
 
   const { add } = useAudio();
@@ -124,9 +124,7 @@ const VirtualLibrary = ({ library, useLocalizedMetadata }) => {
           onClick={() => {
             setOpen(false);
             ipcInsert(IPC.CHANNEL.PLAYLIST, {
-              name: useLocalizedMetadata ?
-                menu.data.albumlocalized :
-                menu.data.album,
+              name: menu.data.name,
               collection: menu.data.songs.map(({ _id }) => _id)
             });
           }}
@@ -137,12 +135,10 @@ const VirtualLibrary = ({ library, useLocalizedMetadata }) => {
 };
 
 VirtualLibrary.propTypes = {
-  useLocalizedMetadata: PropTypes.bool.isRequired,
   library: PropTypes.arrayOf(propLabel).isRequired
 };
 
 const mapStateToProps = state => ({
-  useLocalizedMetadata: state.config.display.useLocalizedMetadata,
   library: populateLibrary(state),
 });
 

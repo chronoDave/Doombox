@@ -12,6 +12,9 @@ import {
 
 import { VirtualAlbumsItem } from '../VirtualAlbumsItem';
 
+// Actions
+import { createPlaylist } from '../../actions';
+
 // Redux
 import { populateSearchAlbums } from '../../redux';
 
@@ -139,6 +142,20 @@ const VirtualAlbums = ({ albums }) => {
               name: getLocalizedTag(menu.album, 'album'),
               collection: shuffle(menu.album.songs)
             });
+          }}
+          divider
+        />
+        <MenuItem
+          primary={t('action.common.create', {
+            mixins: { item: t('common.playlist') },
+            transform: 'pascal'
+          })}
+          onClick={() => {
+            setOpen(false);
+            createPlaylist(
+              getLocalizedTag(menu.label, 'publisher'),
+              menu.label.songs
+            );
           }}
         />
       </Popper>
