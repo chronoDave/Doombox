@@ -16,6 +16,10 @@ A music player designed with large music collections in mind.
 
 ## Downloads
 
+**2.x.x**
+
+ - [2.0.0 (Win)](https://github.com/chronoDave/Doombox/releases/tag/2.0.0)
+
 **1.x.x**
 
  - [1.1.0-beta (Win)](https://github.com/chronoDave/Doombox/releases/tag/1.1.0-beta)
