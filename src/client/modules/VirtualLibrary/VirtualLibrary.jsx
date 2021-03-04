@@ -1,11 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
+import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
 import { VirtualList, Popper, MenuItem } from '../../components';
 
 import { VirtualLibraryItem } from '../VirtualLibraryItem';
+
+// Actions
+import { ipcInsert } from '../../actions';
 
 // Redux
 import { populateLibrary } from '../../redux';
@@ -24,7 +28,7 @@ import { mixins } from '../../theme';
 // Validation
 import { propLabel } from '../../validation/propTypes';
 
-const VirtualLibrary = ({ library }) => {
+const VirtualLibrary = ({ library, useLocalizedMetadata }) => {
   const [menu, setMenu] = useState({ anchorEl: null, album: {} });
 
   const { add } = useAudio();
@@ -112,16 +116,33 @@ const VirtualLibrary = ({ library }) => {
             add(menu.data.songs);
           }}
         />
+        <MenuItem
+          primary={t('action.common.create', {
+            transform: 'capitalize',
+            mixins: { item: t('common.playlist') }
+          })}
+          onClick={() => {
+            setOpen(false);
+            ipcInsert(IPC.CHANNEL.PLAYLIST, {
+              name: useLocalizedMetadata ?
+                menu.data.albumlocalized :
+                menu.data.album,
+              collection: menu.data.songs.map(({ _id }) => _id)
+            });
+          }}
+        />
       </Popper>
     </Fragment>
   );
 };
 
 VirtualLibrary.propTypes = {
+  useLocalizedMetadata: PropTypes.bool.isRequired,
   library: PropTypes.arrayOf(propLabel).isRequired
 };
 
 const mapStateToProps = state => ({
+  useLocalizedMetadata: state.config.display.useLocalizedMetadata,
   library: populateLibrary(state),
 });
 

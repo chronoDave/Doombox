@@ -7,6 +7,7 @@ module.exports = {
       SONG: 'IPC_CHANNEL_SONG',
       ALBUM: 'IPC_CHANNEL_ALBUM',
       LABEL: 'IPC_CHANNEL_LABEL',
+      PLAYLIST: 'IPC_CHANNEL_PLAYLIST',
       THEME: 'IPC_CHANNEL_THEME',
       CACHE: 'IPC_CHANNEL_CACHE',
       CONFIG: 'IPC_CHANNEL_CONFIG',
@@ -98,7 +99,8 @@ module.exports = {
       SONGS: 'songs',
       LABELS: 'labels',
       ALBUMS: 'albums',
-      IMAGES: 'images'
+      IMAGES: 'images',
+      PLAYLISTS: 'playlists'
     },
     CACHE: {
       WINDOW: 'window',

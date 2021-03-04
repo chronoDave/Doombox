@@ -144,3 +144,12 @@ export const propLabel = PropTypes.shape({
     PropTypes.arrayOf(propSong)
   ]).isRequired,
 });
+
+export const propPlaylist = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  collection: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(propSong)
+  ]).isRequired,
+});

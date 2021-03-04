@@ -51,7 +51,8 @@
       "play": "speel {item} af",
       "shuffle": "schuiffel {item}",
       "add": "voeg {item} toe",
-      "add_to": "voeg toe aan {item}"
+      "add_to": "voeg toe aan {item}",
+      "create": "creëer {item}"
     },
     "menu": {
       "toggle_dev_tools": "shakel developer tools in",

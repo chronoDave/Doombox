@@ -17,7 +17,8 @@ import {
   setLabels,
   setSongs,
   setLibrary,
-  setOverlay
+  setOverlay,
+  setPlaylists
 } from '../redux';
 
 class IpcProvider extends Component {
@@ -32,7 +33,8 @@ class IpcProvider extends Component {
       dispatchLabels,
       dispatchAlbums,
       dispatchSongs,
-      dispatchOverlay
+      dispatchOverlay,
+      dispatchPlaylists
     } = props;
 
     ipcRenderer.on(IPC.CHANNEL.WINDOW, (event, data) => dispatchOverlay(data));
@@ -40,6 +42,7 @@ class IpcProvider extends Component {
     ipcRenderer.on(IPC.CHANNEL.SONG, (event, data) => dispatchSongs(data));
     ipcRenderer.on(IPC.CHANNEL.ALBUM, (event, data) => dispatchAlbums(data));
     ipcRenderer.on(IPC.CHANNEL.LABEL, (event, data) => dispatchLabels(data));
+    ipcRenderer.on(IPC.CHANNEL.PLAYLIST, (event, data) => dispatchPlaylists(data));
     ipcRenderer.on(IPC.CHANNEL.LIBRARY, (event, data) => {
       dispatchLibrary(data);
       dispatchOverlay(null);
@@ -52,6 +55,7 @@ class IpcProvider extends Component {
     ipcFind(IPC.CHANNEL.CONFIG);
     ipcFind(IPC.CHANNEL.CACHE);
     ipcFind(IPC.CHANNEL.IMAGE, {}, { projection: ['_id', 'files'] });
+    ipcFind(IPC.CHANNEL.PLAYLIST);
     ipcFind(IPC.CHANNEL.LIBRARY);
   }
 
@@ -75,7 +79,8 @@ IpcProvider.propTypes = {
   dispatchAlbums: PropTypes.func.isRequired,
   dispatchSongs: PropTypes.func.isRequired,
   dispatchLibrary: PropTypes.func.isRequired,
-  dispatchOverlay: PropTypes.func.isRequired
+  dispatchOverlay: PropTypes.func.isRequired,
+  dispatchPlaylists: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
@@ -86,7 +91,8 @@ const mapDispatchToProps = {
   dispatchAlbums: setAlbums,
   dispatchSongs: setSongs,
   dispatchLibrary: setLibrary,
-  dispatchOverlay: setOverlay
+  dispatchOverlay: setOverlay,
+  dispatchPlaylists: setPlaylists
 };
 
 export default connect(

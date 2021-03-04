@@ -54,7 +54,8 @@
       "play": "play {item}",
       "shuffle": "shuffle {item}",
       "add": "add {item}",
-      "add_to": "add to {item}"
+      "add_to": "add to {item}",
+      "create": "create {item}"
     },
     "menu": {
       "toggle_dev_tools": "toggle developer tools",

@@ -197,3 +197,14 @@ export const populateSearchLabels = createSelector(
     (a, b) => a - b
   ))
 );
+
+export const populatePlaylists = createSelector(
+  state => state.entities.playlists.list,
+  state => state.entities.songs.map,
+  state => state.entities.images.map,
+  (playlists, songMap, imageMap) => playlists
+    .map(({ collection, ...rest }) => ({
+      collection: getSongs(collection, songMap, imageMap),
+      ...rest
+    }))
+);

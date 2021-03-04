@@ -24,7 +24,8 @@ export {
   populateSearchAlbums,
   populateSearchSongs,
   populateLibrary,
-  populateLibraryMenu
+  populateLibraryMenu,
+  populatePlaylists
 } from './selectors';
 
 // Actions
@@ -54,7 +55,11 @@ export const {
   setPlaylist,
   setPlaylistIndex
 } = playlistSlice.actions;
-export const { setImages, setLibrary } = entitySlice.actions;
+export const {
+  setImages,
+  setPlaylists,
+  setLibrary
+} = entitySlice.actions;
 
 export const store = createStore(
   combineReducers({

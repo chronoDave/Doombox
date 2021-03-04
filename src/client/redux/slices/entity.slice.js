@@ -13,6 +13,10 @@ const initialState = {
     map: {},
     list: []
   },
+  playlists: {
+    map: {},
+    list: []
+  },
   images: {
     map: {},
     list: []
@@ -29,6 +33,7 @@ const reducers = {
     albums: normalizeCollection(payload.albums),
     labels: normalizeCollection(payload.labels)
   }),
+  setPlaylists: (state, payload) => ({ ...state, playlists: normalizeCollection(payload) }),
   setImages: (state, payload) => ({ ...state, images: normalizeCollection(payload) })
 };
 

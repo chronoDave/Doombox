@@ -18,18 +18,18 @@ import {
 import { windowClose, ipcInsert, ipcDrop } from '../../actions';
 
 // Hooks
-import { useTimeoutOpen, useTranslation } from '../../hooks';
+import { useTimeoutOpen, useTranslation, useAudio } from '../../hooks';
 
 // Redux
-import { setOverlay } from '../../redux';
+import { setOverlay, populatePlaylists } from '../../redux';
 
 // Validation
-import { propConfigKeybinds } from '../../validation/propTypes';
+import { propConfigKeybinds, propPlaylist } from '../../validation/propTypes';
 
 // Styles
 import useWindowNavigationStyles from './WindowNavigation.styles';
 
-const WindowNavigation = ({ keybinds, dispatchOverlay }) => {
+const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
   const [menu, setMenu] = useState({ id: 'file', anchorEl: null });
 
   const { t, getNativeKeybind } = useTranslation();
@@ -39,6 +39,7 @@ const WindowNavigation = ({ keybinds, dispatchOverlay }) => {
     handleEnter,
     handleLeave
   } = useTimeoutOpen();
+  const { set } = useAudio();
   const classes = useWindowNavigationStyles();
 
   const items = {
@@ -83,6 +84,10 @@ const WindowNavigation = ({ keybinds, dispatchOverlay }) => {
       primary: t('action.common.exit', { transform: 'pascal' }),
       onClick: windowClose
     }],
+    playlist: playlists.map(playlist => ({
+      primary: playlist.name,
+      onClick: () => set(playlist)
+    })),
     help: [{
       primary: t('action.menu.display_keybinds', { transform: 'pascal' }),
       onClick: event => {
@@ -173,11 +178,13 @@ const WindowNavigation = ({ keybinds, dispatchOverlay }) => {
 
 WindowNavigation.propTypes = {
   keybinds: propConfigKeybinds.isRequired,
+  playlists: PropTypes.arrayOf(propPlaylist).isRequired,
   dispatchOverlay: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  keybinds: state.config.keybinds
+  keybinds: state.config.keybinds,
+  playlists: populatePlaylists(state)
 });
 
 const mapDispatchToProps = {

@@ -30,7 +30,8 @@ const db = {
   [TYPES.DATABASE.IMAGES]: new LeafDB(TYPES.DATABASE.IMAGES, { root }),
   [TYPES.DATABASE.SONGS]: new LeafDB(TYPES.DATABASE.SONGS, { root }),
   [TYPES.DATABASE.ALBUMS]: new LeafDB(TYPES.DATABASE.ALBUMS, { root }),
-  [TYPES.DATABASE.LABELS]: new LeafDB(TYPES.DATABASE.LABELS, { root })
+  [TYPES.DATABASE.LABELS]: new LeafDB(TYPES.DATABASE.LABELS, { root }),
+  [TYPES.DATABASE.PLAYLISTS]: new LeafDB(TYPES.DATABASE.PLAYLISTS, { root })
 };
 
 app.on('ready', () => {
@@ -40,6 +41,7 @@ app.on('ready', () => {
   router.bind(IPC.CHANNEL.SONG, new DatabaseController(db[TYPES.DATABASE.SONGS]));
   router.bind(IPC.CHANNEL.ALBUM, new DatabaseController(db[TYPES.DATABASE.ALBUMS]));
   router.bind(IPC.CHANNEL.LABEL, new DatabaseController(db[TYPES.DATABASE.LABELS]));
+  router.bind(IPC.CHANNEL.PLAYLIST, new DatabaseController(db[TYPES.DATABASE.PLAYLISTS]));
   router.bind(IPC.CHANNEL.LIBRARY, new LibraryController(
     db,
     path.resolve(root, 'images'),
