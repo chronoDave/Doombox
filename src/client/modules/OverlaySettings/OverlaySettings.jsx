@@ -26,7 +26,7 @@ import { useTranslation } from '../../hooks';
 import useOverlaySettingsStyles from './OverlaySettings.styles';
 
 const OverlaySettings = ({ open, dispatchOverlay }) => {
-  const [tab, setTab] = useState('general');
+  const [tab, setTab] = useState('appearance');
 
   const { t } = useTranslation();
   const classes = useOverlaySettingsStyles();
@@ -38,7 +38,6 @@ const OverlaySettings = ({ open, dispatchOverlay }) => {
   }, [dispatchOverlay]);
 
   const tabs = {
-    general: <div />,
     appearance: <SettingsAppearance />,
     language: <SettingsLanguage />,
     library: <SettingsLibrary />

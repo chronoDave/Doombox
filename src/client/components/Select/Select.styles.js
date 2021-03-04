@@ -19,5 +19,9 @@ export default makeStyles(theme => ({
   },
   icon: {
     marginLeft: theme.spacing()
+  },
+  menu: {
+    maxHeight: theme.spacing(12),
+    overflow: 'auto'
   }
 }), 'select');

@@ -71,12 +71,17 @@
   },
   "title": {
     "scanning_files": "scanning files",
-    "use_localized_metadata": "use localized metadata"
+    "display_language": "display language",
+    "use_localized_metadata": "use localized metadata",
+    "parser_strict": "use strict parsing",
+    "skip_covers": "ignore album covers",
+    "tag_type": "MP3 tag type",
+    "player_autoplay": "autoplay"
   },
   "description": {
     "scanning_files": "please be patient, this might take a while",
     "playlist_empty": "no songs selected",
-    "display_language": "display language",
-    "select_theme": "select theme"
+    "select_theme": "select theme",
+    "parser_strict": "quit parsing when an invalid file is found"
   }
 }

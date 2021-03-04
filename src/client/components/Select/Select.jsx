@@ -54,18 +54,20 @@ const Select = ({ active, values, onChange }) => {
             0
         }}
       >
-        {Object.entries(values).map(([key, value]) => (
-          <MenuItem
-            key={key}
-            primary={value.primary || value}
-            secondary={value.secondary}
-            divider={value.divider}
-            onClick={event => {
-              setOpen(false);
-              onChange(event, value.value || key, values[key]);
-            }}
-          />
-        ))}
+        <div className={classes.menu}>
+          {Object.entries(values).map(([key, value]) => (
+            <MenuItem
+              key={key}
+              primary={value.primary || value}
+              secondary={value.secondary}
+              divider={value.divider}
+              onClick={event => {
+                setOpen(false);
+                onChange(event, value.value || key, values[key]);
+              }}
+            />
+          ))}
+        </div>
       </Popper>
     </Fragment>
   );

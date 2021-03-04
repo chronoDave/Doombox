@@ -18,7 +18,7 @@ const SelectLanguage = ({ language }) => {
   const { t } = useTranslation();
 
   return (
-    <LabelSelect label={t('description.display_language', { transform: 'capitalize' })}>
+    <LabelSelect label={t('title.display_language', { transform: 'capitalize' })}>
       <Select
         active={language}
         values={Object.entries(LANGUAGES).reduce((acc, [key, value]) => ({
