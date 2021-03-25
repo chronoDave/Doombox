@@ -10,9 +10,17 @@ A music player designed with large music collections in mind.
 
 ## Documentation
 
+**2.x.x**
+
  - [Keybinds](./docs/KEYBIND.md)
  - [Project](./docs/PROJECT.md)
  - [IPC](./docs/IPC.md)
+
+**1.x.x**
+
+ - [README](https://github.com/chronoDave/Doombox/tree/v1.x.x)
+ - [Front-end](https://github.com/chronoDave/Doombox/tree/v1.x.x/packages/doombox-react)
+ - [Back-end](https://github.com/chronoDave/Doombox/tree/v1.x.x/packages/doombox-electron)
 
 ## Downloads
 
