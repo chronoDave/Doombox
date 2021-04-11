@@ -1,27 +1,19 @@
 module.exports = {
-  env: {
-    es6: true,
-    browser: true,
-    node: true
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: ['airbnb-typescript'],
+  parserOptions: {
+    project: './tsconfig.json'
   },
-  extends: ['airbnb', 'airbnb/hooks'],
   settings: {
-    'import/resolver': {
-      node: {},
-      webpack: {
-        config: 'webpack.config.js'
-      }
-    },
     'import/core-modules': [
-      '@babel/register',
-      '@babel/polyfill',
-      'electron',
-      'tape',
-      'sinon',
-      'chokidar'
+      'electron'
     ]
   },
   rules: {
+    // Typescript
+    '@typescript-eslint/comma-dangle': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     // General
     'operator-linebreak': ['error', 'after'],
     'linebreak-style': 'off',
@@ -38,6 +30,7 @@ module.exports = {
     'no-console': ['error', {
       allow: ['info', 'warn', 'error', 'group', 'groupEnd']
     }],
+    'class-methods-use-this': 'off',
     // React
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/jsx-props-no-spreading': 'off', // Spread appropriatly

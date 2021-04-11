@@ -4,5 +4,5 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "exec": "electron build/src/main.bundle.js"
+  "exec": "electron build/src/main.js"
 }

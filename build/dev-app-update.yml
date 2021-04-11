@@ -1,0 +1,4 @@
+provider: github
+repo: Doombox
+owner: chronoDave
+vPrefixedTagName: false
