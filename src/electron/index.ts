@@ -10,6 +10,13 @@ app.on('ready', () => {
   const window = new BrowserWindow();
 
   window.loadFile(path.resolve(assets, 'client/index.html'));
+
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line global-require
+    require('chokidar')
+      .watch(`${assets}/client/**/*`)
+      .on('change', () => window.reload());
+  }
 });
 
 app.on('window-all-closed', () => {

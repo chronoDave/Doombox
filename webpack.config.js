@@ -3,11 +3,17 @@ const path = require('path');
 // Plugins
 const FsWebpackPlugin = require('fs-webpack-plugin');
 
+const alias = {
+  '@doombox-config': path.resolve(__dirname, 'src/config'),
+  '@doombox-utils': path.resolve(__dirname, 'src/utils.ts')
+};
+
 module.exports = [{
   name: 'client',
   target: 'electron-renderer',
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx'],
+    alias
   },
   entry: path.resolve(__dirname, 'src/client/index.tsx'),
   output: {
@@ -17,7 +23,10 @@ module.exports = [{
   module: {
     rules: [{
       test: /.(ts|tsx)$/,
-      include: path.resolve(__dirname, 'src/client'),
+      include: [
+        path.resolve(__dirname, 'src/client'),
+        path.resolve(__dirname, 'src/utils.ts')
+      ],
       loader: 'ts-loader'
     }]
   },
@@ -31,7 +40,8 @@ module.exports = [{
   name: 'electron',
   target: 'electron-main',
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts'],
+    alias
   },
   entry: path.resolve(__dirname, 'src/electron/index.ts'),
   output: {
@@ -41,7 +51,10 @@ module.exports = [{
   module: {
     rules: [{
       test: /.(ts|tsx)$/,
-      include: path.resolve(__dirname, 'src/electron'),
+      include: [
+        path.resolve(__dirname, 'src/electron'),
+        path.resolve(__dirname, 'src/utils.ts')
+      ],
       loader: 'ts-loader'
     }]
   },

@@ -4,6 +4,7 @@
     "lib": ["esnext", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
 
     "jsx": "react",
     "allowJs": true,
@@ -17,7 +18,12 @@
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
 
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@doombox-config": ["./src/config"],
+      "@doombox-config/*": ["./src/config/*"],
+      "@doombox-utils": ["./src/utils.ts"]
+    }
   },
   "include": [
     "src",

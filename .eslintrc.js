@@ -1,10 +1,14 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
-  extends: ['airbnb-typescript'],
+  extends: [
+    'airbnb-typescript',
+    'airbnb/hooks'
+  ],
   settings: {
     'import/core-modules': [
-      'electron'
+      'electron',
+      'chokidar'
     ]
   },
   parserOptions: {
@@ -33,7 +37,7 @@ module.exports = {
     // React
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/jsx-props-no-spreading': 'off', // Spread appropriatly
-    'react/destructuring-assignment': 'off',
+    'react/prop-types': 'off', // TypeScript
     // Import
     'import/prefer-default-export': 'off',
     'import/order': ['error', {
