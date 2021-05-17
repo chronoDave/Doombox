@@ -1,27 +1,19 @@
 module.exports = {
-  env: {
-    es6: true,
-    browser: true,
-    node: true
-  },
-  extends: ['airbnb', 'airbnb/hooks'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: ['airbnb-typescript'],
   settings: {
-    'import/resolver': {
-      node: {},
-      webpack: {
-        config: 'webpack.config.js'
-      }
-    },
     'import/core-modules': [
-      '@babel/register',
-      '@babel/polyfill',
-      'electron',
-      'tape',
-      'sinon',
-      'chokidar'
+      'electron'
     ]
   },
+  parserOptions: {
+    project: './tsconfig.json'
+  },
   rules: {
+    // TypeScript
+    '@typescript-eslint/comma-dangle': 'off',
+    '@typescript-eslint/lines-between-class-members': 'off',
     // General
     'operator-linebreak': ['error', 'after'],
     'linebreak-style': 'off',

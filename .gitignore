@@ -2,6 +2,7 @@ node_modules
 .DS_Store
 .bundle.json
 /userData
+
 /build/client
-/build/src
+/build/electron
 /dist

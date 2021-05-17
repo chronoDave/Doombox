@@ -1,15 +1,60 @@
 const path = require('path');
 
-const createConfigClient = require('./webpack.client');
-const createConfigElectron = require('./webpack.electron');
+// Plugins
+const FsWebpackPlugin = require('fs-webpack-plugin');
 
-const alias = {
-  '@doombox-utils': path.resolve(__dirname, 'src/utils'),
-  '@doombox-config': path.resolve(__dirname, 'src/config'),
-  '@doombox-intl': path.resolve(__dirname, 'src/intl')
-};
-
-module.exports = (env, argv) => [
-  createConfigElectron(({ alias, env })),
-  createConfigClient({ alias, env, argv })
-];
+module.exports = [{
+  name: 'client',
+  target: 'electron-renderer',
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx']
+  },
+  entry: path.resolve(__dirname, 'src/client/index.tsx'),
+  output: {
+    path: path.resolve(__dirname, 'build/client'),
+    filename: 'index.js'
+  },
+  module: {
+    rules: [{
+      test: /.(ts|tsx)$/,
+      include: path.resolve(__dirname, 'src/client'),
+      loader: 'ts-loader'
+    }]
+  },
+  plugins: [
+    new FsWebpackPlugin([{
+      type: 'delete',
+      files: 'build/client'
+    }], { verbose: true })
+  ]
+}, {
+  name: 'electron',
+  target: 'electron-main',
+  resolve: {
+    extensions: ['.js', '.ts']
+  },
+  entry: path.resolve(__dirname, 'src/electron/index.ts'),
+  output: {
+    path: path.resolve(__dirname, 'build/electron'),
+    filename: 'index.js'
+  },
+  module: {
+    rules: [{
+      test: /.(ts|tsx)$/,
+      include: path.resolve(__dirname, 'src/electron'),
+      loader: 'ts-loader'
+    }]
+  },
+  plugins: [
+    new FsWebpackPlugin([{
+      type: 'delete',
+      files: 'build/electron'
+    }, {
+      type: 'copy',
+      files: [{
+        from: 'src/client/index.html',
+        to: 'build/client'
+      }]
+    }], { verbose: true })
+  ]
+}];
