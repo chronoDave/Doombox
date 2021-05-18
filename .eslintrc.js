@@ -23,6 +23,7 @@ module.exports = {
     'linebreak-style': 'off',
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
+    'class-methods-use-this': 'off',
     'arrow-parens': ['error', 'as-needed'],
     'no-await-in-loop': 'off',
     'no-underscore-dangle': 'off', // Leaf-DB

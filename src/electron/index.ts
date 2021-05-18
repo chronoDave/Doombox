@@ -1,27 +1,19 @@
 import path from 'path';
 
-import { app, BrowserWindow } from 'electron';
+import { app } from 'electron';
 
-const assets = process.env.NODE_ENV === 'development' ?
+import createWindow from './window';
+
+const DIR_ROOT = process.env.NODE_ENV === 'development' ?
+  path.resolve(__dirname, '../../userData') :
+  app.getPath('userData');
+const DIR_ASSETS = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../build') :
   app.getAppPath();
+const DIR_LOG = path.resolve(DIR_ROOT, 'assets');
 
 app.on('ready', () => {
-  const window = new BrowserWindow({
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    }
-  });
-
-  window.loadFile(path.resolve(assets, 'client/index.html'));
-
-  if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line global-require
-    require('chokidar')
-      .watch(`${assets}/client/**/*`)
-      .on('change', () => window.reload());
-  }
+  const window = createWindow(DIR_ASSETS);
 });
 
 app.on('window-all-closed', () => {
