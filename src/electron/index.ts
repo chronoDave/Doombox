@@ -7,7 +7,12 @@ const assets = process.env.NODE_ENV === 'development' ?
   app.getAppPath();
 
 app.on('ready', () => {
-  const window = new BrowserWindow();
+  const window = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
+  });
 
   window.loadFile(path.resolve(assets, 'client/index.html'));
 

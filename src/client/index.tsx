@@ -5,13 +5,15 @@ import { render } from 'react-dom';
 import { ThemeProvider } from './providers/Theme.provider';
 
 // Modules
-import { App } from './modules/App/App';
+import { Window, App } from './modules';
 
 render(
   <ThemeProvider>
-    <App>
-      Doombox
-    </App>
+    <Window>
+      <App>
+        Doombox
+      </App>
+    </Window>
   </ThemeProvider>,
   document.getElementById('root')
 );

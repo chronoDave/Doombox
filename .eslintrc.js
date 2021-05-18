@@ -27,6 +27,7 @@ module.exports = {
     'no-await-in-loop': 'off',
     'no-underscore-dangle': 'off', // Leaf-DB
     'no-bitwise': 'warn',
+    'consistent-return': 'off',
     'max-len': ['error', {
       code: 120,
       ignoreComments: true

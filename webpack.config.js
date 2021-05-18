@@ -5,7 +5,8 @@ const FsWebpackPlugin = require('fs-webpack-plugin');
 
 const alias = {
   '@doombox-config': path.resolve(__dirname, 'src/config'),
-  '@doombox-utils': path.resolve(__dirname, 'src/utils.ts')
+  '@doombox-utils': path.resolve(__dirname, 'src/utils.ts'),
+  '@doombox-types': path.resolve(__dirname, 'src/types.ts')
 };
 
 module.exports = [{
@@ -28,6 +29,14 @@ module.exports = [{
         path.resolve(__dirname, 'src/utils.ts')
       ],
       loader: 'ts-loader'
+    }, {
+      test: /.scss$/,
+      include: path.resolve(__dirname, 'src/client'),
+      use: [
+        'style-loader',
+        'css-loader',
+        'sass-loader'
+      ]
     }]
   },
   plugins: [
@@ -39,6 +48,9 @@ module.exports = [{
 }, {
   name: 'electron',
   target: 'electron-main',
+  externals: {
+    fsevents: 'require("fs-events")'
+  },
   resolve: {
     extensions: ['.js', '.ts'],
     alias
@@ -67,7 +79,8 @@ module.exports = [{
       files: [{
         from: 'src/client/index.html',
         to: 'build/client'
-      }]
+      }],
+      hooks: ['beforeRun', 'watchRun']
     }], { verbose: true })
   ]
 }];
