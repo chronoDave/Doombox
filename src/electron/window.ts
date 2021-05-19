@@ -1,9 +1,9 @@
 import path from 'path';
-
 import { BrowserWindow } from 'electron';
 
-export default (assets: string) => {
+export default <T extends Record<string, any>>(assets: string, cache: T) => {
   const window = new BrowserWindow({
+    ...cache,
     title: 'Doombox',
     icon: process.platform === 'win32' ?
       path.resolve(assets, 'icons/app.ico') :
