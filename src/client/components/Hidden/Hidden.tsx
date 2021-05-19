@@ -1,32 +1,21 @@
-import os from 'os';
+import { css, cx } from '@emotion/css';
+import { Children, cloneElement } from 'react';
 
-import React, { Children, cloneElement } from 'react';
-import { cx } from '@doombox-utils';
-
-import { Breakpoint } from '../../theme/breakpoints';
-
-import useMediaQuery from '../../hooks/useMediaQuery';
-
-import './Hidden.scss';
+import { theme } from '../../theme';
+import { Queries, Keys } from '../../theme/breakpoints';
 
 export interface HiddenProps {
   children: React.ReactElement,
-  on?: {
-    query: Breakpoint.Queries,
-    value: Breakpoint.Keys
-  },
-  platform?: 'Darwin'
+  on?: [Queries, Keys],
+  platform?: NodeJS.Platform
 }
 
-export const Hidden = ({ children, on, platform }: HiddenProps) => {
-  const isMatch = useMediaQuery(on?.query, on?.value);
-
-  return (
-    Children.only(children) && cloneElement(children, {
-      className: cx(
-        children.props.className,
-        (isMatch || platform === os.type()) && 'Hidden'
-      )
-    })
-  );
-};
+export const Hidden = ({ children, on, platform }: HiddenProps) => (
+  Children.only(children) && cloneElement(children, {
+    className: cx(
+      children.props.className,
+      on && css({ [theme.breakpoints.on(...on)]: { display: 'none' } }),
+      platform === process.platform && css({ display: 'none' })
+    )
+  })
+);

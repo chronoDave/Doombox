@@ -29,14 +29,6 @@ module.exports = [{
         path.resolve(__dirname, 'src/utils.ts')
       ],
       loader: 'ts-loader'
-    }, {
-      test: /.scss$/,
-      include: path.resolve(__dirname, 'src/client'),
-      use: [
-        'style-loader',
-        'css-loader',
-        'sass-loader'
-      ]
     }]
   },
   plugins: [

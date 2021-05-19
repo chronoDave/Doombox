@@ -1,12 +1,10 @@
-import { ValueOf } from '@doombox-types';
+import { ValueOf } from '../../types';
 
-export namespace Breakpoint {
-  export type Keys = keyof typeof breakpoints;
-  export type Values = ValueOf<typeof breakpoints>;
-  export type Queries = 'min-width' | 'min-height' | 'max-width' | 'max-height';
-}
+export type Queries = 'min-width' | 'min-height' | 'max-width' | 'max-height';
+export type Keys = keyof typeof values;
+export type Values = ValueOf<typeof values>;
 
-export const breakpoints = {
+const values = {
   xs: 320,
   sm: 480,
   md: 720,
@@ -14,9 +12,12 @@ export const breakpoints = {
   xl: 1280
 } as const;
 
-export const getMediaQuery = (
-  query: Breakpoint.Queries,
-  key: Breakpoint.Keys
-) => window
-  .matchMedia(`(${query}: ${breakpoints[key] - (query.includes('max') ? 1 : 0)}px)`)
-  .matches;
+const createQuery = (query: Queries, value: Values) => `(${query}: ${value - (query.includes('max') ? 1 : 0)}px)`;
+
+export default {
+  values,
+  on: (query: Queries, key: Keys) => `@media ${createQuery(query, values[key])}`,
+  match: (query: Queries, key: Keys) => window
+    .matchMedia(createQuery(query, values[key]))
+    .matches
+};

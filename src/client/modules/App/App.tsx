@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './App.scss';
-
 export interface AppProps {
   children: React.ReactNode
 }
