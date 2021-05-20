@@ -1,13 +1,12 @@
 import path from 'path';
 import fs from 'fs';
+import produce, { Draft } from 'immer';
 import { AnyObjectSchema } from 'yup';
-
-import { ValueOf, KeyOfString } from '../../types';
 
 export default class Storage<T> {
   private file: string;
   private schema: AnyObjectSchema;
-  private data: Record<string, any>;
+  data: T;
 
   constructor(root: string, name: string, schema: AnyObjectSchema) {
     this.file = path.join(root, `${name}.json`);
@@ -30,12 +29,15 @@ export default class Storage<T> {
     }
   }
 
-  get(key: KeyOfString<T>): ValueOf<T> {
-    return this.data[key];
-  }
+  write(key: keyof Draft<T>, payload: any) {
+    this.data = produce(this.data, draft => {
+      if (typeof draft[key] === 'object') {
+        Object.assign(draft[key], payload);
+      } else {
+        draft[key] = payload;
+      }
+    });
 
-  set(key: KeyOfString<T>, payload: Record<string, unknown>) {
-    Object.assign(this.data[key], payload);
     fs.writeFileSync(this.file, JSON.stringify(this.data, null, '\t'));
   }
 }

@@ -14,8 +14,14 @@ export const Hidden = ({ children, on, platform }: HiddenProps) => (
   Children.only(children) && cloneElement(children, {
     className: cx(
       children.props.className,
-      on && css({ [theme.breakpoints.on(...on)]: { display: 'none' } }),
-      platform === process.platform && css({ display: 'none' })
+      on && css({
+        [theme.breakpoints.on(...on)]: { display: 'none' },
+        label: 'Hidden'
+      }),
+      platform === process.platform && css({
+        display: 'none',
+        label: 'Hidden'
+      }),
     )
   })
 );

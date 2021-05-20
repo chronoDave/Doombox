@@ -1,4 +1,4 @@
-import { ValueOf } from '../../types';
+import { ValueOf } from '@doombox-types';
 
 export type Queries = 'min-width' | 'min-height' | 'max-width' | 'max-height';
 export type Keys = keyof typeof values;

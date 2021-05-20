@@ -1,2 +1,17 @@
 export type ValueOf<T> = T[keyof T];
-export type KeyOfString<T> = Extract<keyof T, string>;
+
+export interface Cache {
+  window: {
+    x?: number
+    y?: number
+    width?: number
+    height?: number
+  },
+  test: {
+    value: string
+  }
+}
+
+export interface UserTheme {
+  dark: boolean
+}

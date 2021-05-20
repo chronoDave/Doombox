@@ -1,19 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-// Providers
-import { ThemeProvider } from './providers/Theme.provider';
-
 // Modules
-import { Window, App } from './modules';
+import { App, Window } from './modules';
 
 render(
-  <ThemeProvider>
+  <App>
     <Window>
-      <App>
-        Doombox
-      </App>
+      Doombox
     </Window>
-  </ThemeProvider>,
+  </App>,
   document.getElementById('root')
 );

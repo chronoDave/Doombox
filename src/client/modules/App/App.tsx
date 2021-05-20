@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { injectGlobal } from '@emotion/css';
+
+import store from '../../redux';
 
 export interface AppProps {
-  children: React.ReactNode
+  children: React.ReactElement
 }
 
-export const App: React.FC<AppProps> = ({ children }) => (
-  <div className="App">
-    {children}
-  </div>
-);
+export default ({ children }: AppProps) => {
+  useEffect(() => {
+    injectGlobal({
+      body: {
+        margin: 0
+      }
+    });
+  }, []);
+
+  return (
+    <Provider store={store}>
+      {children}
+    </Provider>
+  );
+};

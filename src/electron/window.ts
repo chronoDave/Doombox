@@ -1,7 +1,8 @@
 import path from 'path';
 import { BrowserWindow } from 'electron';
+import { Cache } from '@doombox-types';
 
-export default <T extends Record<string, any>>(assets: string, cache: T) => {
+export default (assets: string, cache: Cache['window'], darkTheme: boolean) => {
   const window = new BrowserWindow({
     ...cache,
     title: 'Doombox',
@@ -11,6 +12,7 @@ export default <T extends Record<string, any>>(assets: string, cache: T) => {
     minWidth: 320,
     minHeight: 240,
     frame: process.platform === 'darwin',
+    darkTheme,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false

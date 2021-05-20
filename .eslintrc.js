@@ -21,6 +21,10 @@ module.exports = {
     // General
     'operator-linebreak': ['error', 'after'],
     'linebreak-style': 'off',
+    'no-param-reassign': ['error', {
+      props: true,
+      ignorePropertyModificationsFor: ['draft']
+    }], // Immer
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
     'class-methods-use-this': 'off',

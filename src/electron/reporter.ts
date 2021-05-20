@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { getTimestamp } from '../utils';
+import { getTimestampDate } from '@doombox-utils';
 
 export const createLog = (root: string) => {
   fs.mkdirSync(root, { recursive: true });
@@ -11,7 +11,7 @@ export const createLog = (root: string) => {
     title: string,
     type: 'log' | 'error' = 'log'
   ) => fs.writeFileSync(
-    path.join(root, `[${getTimestamp()}] ${title} (${type})`),
+    path.join(root, `[${getTimestampDate()}] ${title} (${type})`),
     text
   );
 };

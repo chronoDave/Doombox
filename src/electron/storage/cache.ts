@@ -1,15 +1,7 @@
 import * as yup from 'yup';
+import { Cache } from '@doombox-types';
 
 import Storage from './storage';
-
-export interface Cache {
-  window: {
-    x?: number
-    y?: number
-    width?: number
-    height?: number
-  }
-}
 
 const schema = yup.object({
   window: yup.object({
