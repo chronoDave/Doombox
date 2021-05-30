@@ -20,19 +20,19 @@ const theme = createTheme(DIR_ROOT);
 app.on('ready', () => {
   const window = createWindow(
     DIR_ASSETS,
-    cache.data.window,
-    theme.data.dark
+    cache.get('window'),
+    theme.get('dark')
   );
 
   const handleResize = debounce(100, () => {
     const { width, height } = window.getBounds();
 
-    cache.write('window', { width, height });
+    cache.set('window', { width, height });
   });
 
   const handleMove = debounce(100, () => {
     const [x, y] = window.getPosition();
-    cache.write('window', { x, y });
+    cache.set('window', { x, y });
   });
 
   window.on('move', handleMove);

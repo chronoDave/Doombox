@@ -2,11 +2,12 @@ import path from 'path';
 import fs from 'fs';
 import produce, { Draft } from 'immer';
 import { AnyObjectSchema } from 'yup';
+import { JSON } from '@doombox-types';
 
 export default class Storage<T> {
   private file: string;
   private schema: AnyObjectSchema;
-  data: T;
+  private data: T;
 
   constructor(root: string, name: string, schema: AnyObjectSchema) {
     this.file = path.join(root, `${name}.json`);
@@ -17,11 +18,9 @@ export default class Storage<T> {
     fs.mkdirSync(root, { recursive: true });
   }
 
-  read() {
-    let payload;
-
+  private read() {
     try {
-      payload = JSON.parse(fs.readFileSync(this.file, 'utf-8'));
+      const payload = JSON.parse(fs.readFileSync(this.file, 'utf-8'));
       this.schema.validateSync(payload);
       return payload;
     } catch (err) {
@@ -29,12 +28,17 @@ export default class Storage<T> {
     }
   }
 
-  write(key: keyof Draft<T>, payload: any) {
+  get<K extends keyof T>(key: K) {
+    // if (!key) return this.data as T;
+    return this.data[key];
+  }
+
+  set<K extends keyof Draft<T>>(key: K, payload: JSON) {
     this.data = produce(this.data, draft => {
       if (typeof draft[key] === 'object') {
         Object.assign(draft[key], payload);
       } else {
-        draft[key] = payload;
+        draft[key] = payload as any;
       }
     });
 
