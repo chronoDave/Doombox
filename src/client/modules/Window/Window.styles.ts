@@ -1,5 +1,7 @@
-import { css } from '@emotion/css';
+import { useStyles } from '../../hooks';
 
-export default {
-  root: css({ backgroundColor: 'red' })
-};
+export default () => useStyles('Window', theme => ({
+  root: {
+    backgroundColor: theme.breakpoints.values.lg
+  }
+}));

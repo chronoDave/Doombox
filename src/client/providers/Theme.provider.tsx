@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { injectGlobal } from '@emotion/css';
 
+import { theme, ThemeContext } from '../theme';
+
 export interface ThemeProviderProps {
   children: React.ReactElement
 }
@@ -14,5 +16,9 @@ export default ({ children }: ThemeProviderProps) => {
     });
   }, []);
 
-  return children;
+  return (
+    <ThemeContext.Provider value={theme}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };

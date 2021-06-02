@@ -5,7 +5,7 @@ import { Hidden } from '../../components';
 
 import { themeActions } from '../../redux';
 
-// import classes from './Window.styles';
+import withClasses from './Window.styles';
 
 export interface WindowProps {
   children: React.ReactNode
@@ -13,9 +13,10 @@ export interface WindowProps {
 
 export const Window = ({ children }: WindowProps) => {
   const dispatch = useDispatch();
+  const classes = withClasses();
 
   return (
-    <div>
+    <div className={classes.root}>
       <Hidden on={['min-width', 'sm']}>
         <div>Eee</div>
       </Hidden>
