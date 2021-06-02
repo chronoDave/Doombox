@@ -12,7 +12,7 @@ const DIR_ROOT = process.env.NODE_ENV === 'development' ?
 const DIR_ASSETS = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../build') :
   app.getAppPath();
-const DIR_LOG = path.resolve(DIR_ROOT, 'assets');
+// const DIR_LOG = path.resolve(DIR_ROOT, 'assets');
 
 const cache = createCache(DIR_ROOT);
 const theme = createTheme(DIR_ROOT);

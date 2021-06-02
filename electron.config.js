@@ -22,7 +22,8 @@ module.exports = {
     'LICENSE',
     'package.json',
     { from: 'build/client', to: 'client' },
-    { from: 'build/electron', to: 'electron' }
+    { from: 'build/electron', to: 'electron' },
+    { from: 'build/fonts', to: 'fonts' }
   ],
 
   npmRebuild: false,

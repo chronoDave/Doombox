@@ -31,6 +31,10 @@ module.exports = [{
         path.resolve(__dirname, 'src/theme.ts')
       ],
       loader: 'ts-loader'
+    }, {
+      test: /\.otf$/,
+      include: path.resolve(__dirname, 'build/fonts'),
+      type: 'asset/inline'
     }]
   },
   plugins: [
