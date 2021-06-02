@@ -7,12 +7,5 @@ export interface Cache {
     y?: number
     width?: number
     height?: number
-  },
-  test: {
-    value: string
   }
-}
-
-export interface UserTheme {
-  dark: boolean
 }

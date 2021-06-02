@@ -23,7 +23,8 @@
       "@doombox-config": ["./src/config"],
       "@doombox-config/*": ["./src/config/*"],
       "@doombox-utils": ["./src/utils.ts"],
-      "@doombox-types": ["./src/types.ts"]
+      "@doombox-types": ["./src/types.ts"],
+      "@doombox-theme": ["./src/theme.ts"]
     }
   },
   "include": [

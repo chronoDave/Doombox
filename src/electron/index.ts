@@ -3,8 +3,8 @@ import { app } from 'electron';
 import { debounce } from 'throttle-debounce';
 
 import createWindow from './window';
-import createCache from './storage/cache';
-import createTheme from './storage/theme';
+import createCache from './storage/cache.storage';
+import createTheme from './storage/theme.storage';
 
 const DIR_ROOT = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../userData') :

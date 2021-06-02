@@ -1,14 +1,9 @@
-import { UserTheme } from '@doombox-types';
-
 import { createReduxSlice } from '../utils';
+import { theme } from '../../theme';
 
-const initialState: UserTheme = {
-  dark: false
-};
-
-const { actions, ...rest } = createReduxSlice('userTheme', {
+const { actions, ...rest } = createReduxSlice('Theme', {
   setDark: (draft, payload) => { draft.dark = payload; }
-}, initialState);
+}, theme);
 
 export default actions;
 export const { reducer, name } = rest;

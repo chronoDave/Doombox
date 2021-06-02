@@ -1,15 +1,15 @@
 import path from 'path';
 import fs from 'fs';
 import produce, { Draft } from 'immer';
-import { AnyObjectSchema } from 'yup';
+import { SchemaOf } from 'yup';
 import { JSON } from '@doombox-types';
 
 export default class Storage<T> {
   private file: string;
-  private schema: AnyObjectSchema;
+  private schema: SchemaOf<T>;
   private data: T;
 
-  constructor(root: string, name: string, schema: AnyObjectSchema) {
+  constructor(root: string, name: string, schema: SchemaOf<T>) {
     this.file = path.join(root, `${name}.json`);
     this.schema = schema;
 

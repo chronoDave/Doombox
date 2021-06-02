@@ -6,7 +6,8 @@ const FsWebpackPlugin = require('fs-webpack-plugin');
 const alias = {
   '@doombox-config': path.resolve(__dirname, 'src/config'),
   '@doombox-utils': path.resolve(__dirname, 'src/utils.ts'),
-  '@doombox-types': path.resolve(__dirname, 'src/types.ts')
+  '@doombox-types': path.resolve(__dirname, 'src/types.ts'),
+  '@doombox-theme': path.resolve(__dirname, 'src/theme.ts')
 };
 
 module.exports = [{
@@ -26,7 +27,8 @@ module.exports = [{
       test: /.(ts|tsx)$/,
       include: [
         path.resolve(__dirname, 'src/client'),
-        path.resolve(__dirname, 'src/utils.ts')
+        path.resolve(__dirname, 'src/utils.ts'),
+        path.resolve(__dirname, 'src/theme.ts')
       ],
       loader: 'ts-loader'
     }]
@@ -57,7 +59,8 @@ module.exports = [{
       test: /.(ts|tsx)$/,
       include: [
         path.resolve(__dirname, 'src/electron'),
-        path.resolve(__dirname, 'src/utils.ts')
+        path.resolve(__dirname, 'src/utils.ts'),
+        path.resolve(__dirname, 'src/theme.ts')
       ],
       loader: 'ts-loader'
     }]
