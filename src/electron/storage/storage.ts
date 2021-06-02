@@ -21,7 +21,8 @@ export default class Storage<T> {
   private read() {
     try {
       const payload = JSON.parse(fs.readFileSync(this.file, 'utf-8'));
-      this.schema.validateSync(payload);
+      this.schema.validateSync(payload, { strict: true });
+
       return payload;
     } catch (err) {
       return this.schema.getDefault();
@@ -29,7 +30,6 @@ export default class Storage<T> {
   }
 
   get<K extends keyof T>(key: K) {
-    // if (!key) return this.data as T;
     return this.data[key];
   }
 

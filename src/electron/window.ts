@@ -1,10 +1,17 @@
 import path from 'path';
 import { BrowserWindow } from 'electron';
 import { Cache } from '@doombox-types';
+import { Theme } from '@doombox-theme';
 
-export default (assets: string, cache: Cache['window'], darkTheme: boolean) => {
+interface WindowTheme {
+  darkTheme: Theme['dark'],
+  backgroundColor: Theme['palette']['background']
+}
+
+export default (assets: string, cache: Cache['window'], theme: WindowTheme) => {
   const window = new BrowserWindow({
     ...cache,
+    ...theme,
     title: 'Doombox',
     icon: process.platform === 'win32' ?
       path.resolve(assets, 'icons/app.ico') :
@@ -12,7 +19,6 @@ export default (assets: string, cache: Cache['window'], darkTheme: boolean) => {
     minWidth: 320,
     minHeight: 240,
     frame: process.platform === 'darwin',
-    darkTheme,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false

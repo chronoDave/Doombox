@@ -18,11 +18,10 @@ const cache = createCache(DIR_ROOT);
 const theme = createTheme(DIR_ROOT);
 
 app.on('ready', () => {
-  const window = createWindow(
-    DIR_ASSETS,
-    cache.get('window'),
-    theme.get('dark')
-  );
+  const window = createWindow(DIR_ASSETS, cache.get('window'), {
+    darkTheme: theme.get('dark'),
+    backgroundColor: theme.get('palette').background
+  });
 
   const handleResize = debounce(100, () => {
     const { width, height } = window.getBounds();
