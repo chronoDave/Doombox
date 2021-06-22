@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { injectGlobal } from '@emotion/css';
+import theme from '@doombox-theme';
 
-import { theme, ThemeContext } from '../theme';
+export const ThemeContext = createContext(theme);
 
 export interface ThemeProviderProps {
   children: React.ReactElement
@@ -23,9 +24,10 @@ export default ({ children }: ThemeProviderProps) => {
 
     injectGlobal({
       body: {
-        margin: 0,
-        fontFamily: 'NotoSansJP',
-        color: 'white'
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        margin: 0
       }
     });
   }, []);

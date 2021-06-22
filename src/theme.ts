@@ -8,7 +8,7 @@ export interface Theme {
   }
 }
 
-export const theme: Readonly<Theme> = {
+const theme: Readonly<Theme> = {
   dark: true,
   palette: {
     primary: '#664d82',
@@ -17,3 +17,5 @@ export const theme: Readonly<Theme> = {
     background: '#202225'
   }
 };
+
+export default theme;

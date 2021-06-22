@@ -1,27 +1,19 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
-import { Hidden } from '../../components';
-
-import { themeActions } from '../../redux';
-
-import withClasses from './Window.styles';
+import useClasses from './Window.styles';
 
 export interface WindowProps {
   children: React.ReactNode
 }
 
-export const Window = ({ children }: WindowProps) => {
-  const dispatch = useDispatch();
-  const classes = withClasses();
+export const Window = () => {
+  const classes = useClasses();
 
   return (
     <div className={classes.root}>
-      <Hidden on={['min-width', 'sm']}>
-        <div>Eee</div>
-      </Hidden>
-      <button onClick={() => dispatch(themeActions.setDark(true))}>A</button>
-      {children}
+      <div className={classes.logo}>Logo</div>
+      <div className={classes.title}>Title</div>
+      <div className={classes.buttons}>Buttons</div>
     </div>
   );
 };

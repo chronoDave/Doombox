@@ -26,6 +26,7 @@ module.exports = {
       ignorePropertyModificationsFor: ['draft']
     }], // Immer
     'comma-dangle': 'off',
+    'no-confusing-arrow': 'off',
     'arrow-body-style': 'warn',
     'class-methods-use-this': 'off',
     'arrow-parens': ['error', 'as-needed'],

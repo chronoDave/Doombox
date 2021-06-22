@@ -1,16 +1,15 @@
 import { css } from '@emotion/css';
+import { Theme } from '@doombox-theme';
 
 import { useTheme } from './useContext';
-import { Theme } from '../theme';
 
 export type Style = string | number | { [key: string]: Style };
 export type Styles = Record<string, Record<string, Style>>;
 
-export default <T extends Styles>(label: string, createStyles: (theme: Theme) => T) => {
+export default <T extends Styles>(label: string, styles: T | ((theme: Theme) => T)) => {
   const theme = useTheme();
-  const styles = createStyles(theme);
 
-  return Object.entries(styles)
+  return Object.entries(typeof styles === 'function' ? styles(theme) : styles)
     .reduce((acc, [key, value]) => ({
       ...acc,
       [key]: css(value, { label })

@@ -1,12 +1,12 @@
 import { css, cx } from '@emotion/css';
 import { Children, cloneElement } from 'react';
 
-import { theme } from '../../theme';
-import { Queries, Keys } from '../../theme/breakpoints';
+import { breakpoints } from '../../theme';
+import { Query, Key } from '../../theme/breakpoints';
 
 export interface HiddenProps {
   children: React.ReactElement,
-  on?: [Queries, Keys],
+  on?: [Query, Key],
   platform?: NodeJS.Platform
 }
 
@@ -15,7 +15,7 @@ export const Hidden = ({ children, on, platform }: HiddenProps) => (
     className: cx(
       children.props.className,
       on && css({
-        [theme.breakpoints.on(...on)]: { display: 'none' },
+        [breakpoints.on(...on)]: { display: 'none' },
         label: 'Hidden'
       }),
       platform === process.platform && css({

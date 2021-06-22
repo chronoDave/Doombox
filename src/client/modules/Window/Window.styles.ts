@@ -1,7 +1,16 @@
 import { useStyles } from '../../hooks';
 
-export default () => useStyles('Window', theme => ({
+export default () => useStyles('Window', {
   root: {
-    backgroundColor: theme.breakpoints.values.lg
+    display: 'flex'
+  },
+  logo: {
+
+  },
+  title: {
+
+  },
+  buttons: {
+
   }
-}));
+});

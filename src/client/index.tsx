@@ -6,16 +6,16 @@ import { render } from 'react-dom';
 import ThemeProvider from './providers/Theme.provider';
 
 // Modules
-import { Window } from './modules';
+import { App } from './modules';
 
 import store from './redux';
 
 render(
   <ReduxProvider store={store}>
     <ThemeProvider>
-      <Window>
+      <App>
         Doombox
-      </Window>
+      </App>
     </ThemeProvider>
   </ReduxProvider>,
   document.getElementById('root')

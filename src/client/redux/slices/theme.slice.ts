@@ -1,5 +1,6 @@
+import theme from '@doombox-theme';
+
 import { createReduxSlice } from '../utils';
-import { theme } from '../../theme';
 
 const { actions, ...rest } = createReduxSlice('Theme', {
   setDark: (draft, payload) => { draft.dark = payload; }

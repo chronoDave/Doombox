@@ -14,8 +14,6 @@
     
     "strict": true,
     "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
 
     "outDir": "dist",
