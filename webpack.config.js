@@ -2,6 +2,7 @@ const path = require('path');
 
 // Plugins
 const FsWebpackPlugin = require('fs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const alias = {
   '@doombox-config': path.resolve(__dirname, 'src/config'),
@@ -32,12 +33,23 @@ module.exports = [{
       ],
       loader: 'ts-loader'
     }, {
+      test: /\.scss$/,
+      include: path.resolve(__dirname, 'src/client'),
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'sass-loader'
+      ]
+    }, {
       test: /\.otf$/,
       include: path.resolve(__dirname, 'build/fonts'),
       type: 'asset/inline'
     }]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'index.css'
+    }),
     new FsWebpackPlugin([{
       type: 'delete',
       files: 'build/client'

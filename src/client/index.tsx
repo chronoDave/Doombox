@@ -2,21 +2,15 @@ import React from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { render } from 'react-dom';
 
-// Providers
-import ThemeProvider from './providers/Theme.provider';
-
-// Modules
-import { App } from './modules';
+import { App } from './modules/App';
 
 import store from './redux';
 
+import './scss/index.scss';
+
 render(
   <ReduxProvider store={store}>
-    <ThemeProvider>
-      <App>
-        Doombox
-      </App>
-    </ThemeProvider>
+    <App />
   </ReduxProvider>,
   document.getElementById('root')
 );
