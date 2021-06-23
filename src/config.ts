@@ -11,7 +11,16 @@ export interface Theme {
   }
 }
 
-const theme: Readonly<Theme> = {
+export interface Cache {
+  window: {
+    x?: number
+    y?: number
+    width?: number
+    height?: number
+  }
+}
+
+export const theme: Readonly<Theme> = {
   dark: true,
   palette: {
     primary: {
@@ -23,5 +32,3 @@ const theme: Readonly<Theme> = {
     background: '#202225'
   }
 };
-
-export default theme;

@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import theme, { Theme } from '@doombox-theme';
+import { theme, Theme } from '@doombox-config';
 
 import Storage from './storage';
 

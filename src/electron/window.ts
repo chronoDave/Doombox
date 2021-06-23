@@ -1,7 +1,6 @@
 import path from 'path';
 import { BrowserWindow } from 'electron';
-import { Cache } from '@doombox-types';
-import { Theme } from '@doombox-theme';
+import { Cache, Theme } from '@doombox-config';
 
 interface WindowTheme {
   darkTheme: Theme['dark'],
