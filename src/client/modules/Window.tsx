@@ -7,7 +7,7 @@ export interface WindowProps {
 export const Window = () => (
   <div className="Window">
     <div>Logo</div>
-    <div>Title</div>
+    <div className="title">Title</div>
     <div>Buttons</div>
   </div>
 );

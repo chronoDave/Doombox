@@ -6,7 +6,10 @@ import Storage from './storage';
 export default (root: string) => new Storage<Theme>(root, 'theme', yup.object().shape({
   dark: yup.boolean().required().default(theme.dark),
   palette: yup.object().shape({
-    primary: yup.string().required().default(theme.palette.primary),
+    primary: yup.object().shape({
+      main: yup.string().required().default(theme.palette.primary.main),
+      text: yup.string().required().default(theme.palette.primary.text),
+    }).default(theme.palette.primary),
     black: yup.string().required().default(theme.palette.black),
     white: yup.string().required().default(theme.palette.white),
     background: yup.string().required().default(theme.palette.background)
