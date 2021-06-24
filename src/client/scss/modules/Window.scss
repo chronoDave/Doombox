@@ -1,8 +1,43 @@
 .Window {
   display: flex;
+  background-color: rgb(var(--grey-100));
+  
+  > .icon {
+    -webkit-app-region: drag;
+    width: 32px;
+    height: 32px;
+  }
 
   > .title {
-    flex-grow: 1;
     -webkit-app-region: drag;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  > .buttons {
+    display: flex;
+    align-items: center;
+
+    > button {
+      height: 100%;
+      width: unit(6);
+      padding: unit(0, 1);
+      color: rgba(var(--primary-text), $palette-disabled);
+      transition:
+        color $transition-shortest,
+        background-color $transition-shortest;
+
+      @include active {
+        color: rgb(var(--primary-text));
+        background-color: rgba(var(--grey-300), $palette-hover);
+
+        &:last-child {
+          color: rgb(var(--error-text));
+          background-color: rgb(var(--error-main));
+        }
+      }
+    }
   }
 }

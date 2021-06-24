@@ -1,6 +1,5 @@
-@mixin typography($fontSize, $letterSpacing) {
-  font-family: 'NotoSansJP', sans-serif;
-  font-weight: 400;
-  font-size: $fontSize;
-  letter-spacing: $letterSpacing;
+@mixin active {
+  &:hover, &:active {
+    @content
+  }
 }

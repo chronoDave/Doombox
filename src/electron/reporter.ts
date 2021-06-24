@@ -1,23 +1,37 @@
 import fs from 'fs';
 import path from 'path';
 
-import { getTimestampDate } from '@doombox-utils';
+export default class Reporter {
+  private root: string;
 
-export const createLog = (root: string) => {
-  fs.mkdirSync(root, { recursive: true });
+  constructor(root: string) {
+    this.root = root;
 
-  return (
-    text: string,
-    title: string,
-    type: 'log' | 'error' = 'log'
-  ) => fs.writeFileSync(
-    path.join(root, `[${getTimestampDate()}] ${title} (${type})`),
-    text
-  );
-};
+    fs.mkdirSync(root, { recursive: true });
+  }
 
-export const createLogErr = (root: string) => (err: Error, title: string) => createLog(root)([
-  `TIME\n${new Date().toLocaleDateString()} (local time)`,
-  `MESSAGE\n${err.message}`,
-  `STACK\n${err.stack}`
-].join('\n\n'), title, 'error');
+  private getTimestamp() {
+    const now = new Date();
+
+    const y = now.getFullYear();
+    const m = `${now.getUTCMonth() + 1}`.padStart(2, '0');
+    const d = now.getUTCDate();
+
+    return `${y}-${m}-${d}`;
+  }
+
+  log(text: string, title: string, type: 'log' | 'error' = 'log') {
+    fs.writeFileSync(
+      path.join(this.root, `[${this.getTimestamp()}] ${title} (${type})`),
+      text
+    );
+  }
+
+  logError(error: Error, title: string) {
+    this.log([
+      `TIME\n${new Date().toLocaleDateString()} (local time)`,
+      `MESSAGE\n${error.message}`,
+      `STACK\n${error.stack}`
+    ].join('\n\n'), title, 'error');
+  }
+}

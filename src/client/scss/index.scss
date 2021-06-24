@@ -1,6 +1,12 @@
+@import "variables.scss";
+@import "utils.scss";
 @import "mixins.scss";
 @import "reset.scss";
-@import "typography.scss";
+
+// Components
+@import "components/Icon.scss";
+@import "components/Typography.scss";
+@import "components/Button.scss";
 
 // Modules
 @import "modules/App.scss";

@@ -5,9 +5,17 @@ export interface Theme {
       main: string
       text: string
     }
+    error: {
+      main: string
+      text: string
+    }
     black: string
     white: string
-    background: string
+    grey: {
+      100: string
+      200: string,
+      300: string
+    }
   }
 }
 
@@ -27,8 +35,16 @@ export const theme: Readonly<Theme> = {
       main: '#664d82',
       text: '#f6f6f7',
     },
+    error: {
+      main: '#f04747',
+      text: '#f6f6f7'
+    },
     black: '#040405',
     white: '#f6f6f7',
-    background: '#202225'
+    grey: {
+      100: '#18191c',
+      200: '#202225',
+      300: '#36393f'
+    }
   }
 };

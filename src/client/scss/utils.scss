@@ -1,0 +1,23 @@
+@use "sass:list";
+@use "sass:math";
+
+@function unit($units...) {
+  @if list.length($units) == 0 {
+    @return $baseUnit;
+  }
+
+  @if list.length($units) == 1 {
+    @return list.nth($units, 1) * $baseUnit;
+  }
+ 
+  $n: null;
+  @each $unit in $units {
+    $n: unquote("#{$n} ") + unquote("#{$unit * $baseUnit}");
+  }
+
+  @return $n;
+}
+
+@function pxToRem($px) {
+  @return unquote("#{math.div($px, 16)}rem");
+}

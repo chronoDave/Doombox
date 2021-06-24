@@ -1,0 +1,13 @@
+h1, h2, h3, h4, h5, h6, p {
+  font-family: 'NotoSansJP', sans-serif;
+  font-weight: 400;
+  color: rgb(var(--primary-text));
+  margin: 0;
+}
+
+p {
+  &.body {
+    font-size: pxToRem(14);
+    letter-spacing: pxToRem(0.25);
+  }
+}

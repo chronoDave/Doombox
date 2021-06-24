@@ -4,7 +4,7 @@ import { Cache, Theme } from '@doombox-config';
 
 interface WindowTheme {
   darkTheme: Theme['dark'],
-  backgroundColor: Theme['palette']['background']
+  backgroundColor: Theme['palette']['grey']['200']
 }
 
 export default (assets: string, cache: Cache['window'], theme: WindowTheme) => {

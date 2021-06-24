@@ -20,7 +20,7 @@ const theme = createTheme(DIR_ROOT);
 app.on('ready', () => {
   const window = createWindow(DIR_ASSETS, cache.get('window'), {
     darkTheme: theme.get('dark'),
-    backgroundColor: theme.get('palette').background
+    backgroundColor: theme.get('palette').grey[200]
   });
 
   const handleResize = debounce(100, () => {

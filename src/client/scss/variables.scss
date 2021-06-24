@@ -1,0 +1,14 @@
+@use "sass:color";
+
+// Spacing
+$baseUnit: 8px;
+
+// Palette
+$palette-disabled: 0.43;
+$palette-unfocused: 0.67;
+$palette-hover: 0.43;
+
+// Transition
+$easeInOut: cubic-bezier(0.4, 0, 0.2, 1);
+
+$transition-shortest: 150ms $easeInOut;

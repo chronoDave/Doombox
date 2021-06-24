@@ -5,7 +5,6 @@ const FsWebpackPlugin = require('fs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const alias = {
-  '@doombox-utils': path.resolve(__dirname, 'src/utils.ts'),
   '@doombox-types': path.resolve(__dirname, 'src/types.ts'),
   '@doombox-config': path.resolve(__dirname, 'src/config.ts')
 };
@@ -27,7 +26,6 @@ module.exports = [{
       test: /.(ts|tsx)$/,
       include: [
         path.resolve(__dirname, 'src/client'),
-        path.resolve(__dirname, 'src/utils.ts'),
         path.resolve(__dirname, 'src/config.ts')
       ],
       loader: 'ts-loader'
@@ -74,7 +72,6 @@ module.exports = [{
       test: /.(ts|tsx)$/,
       include: [
         path.resolve(__dirname, 'src/electron'),
-        path.resolve(__dirname, 'src/utils.ts'),
         path.resolve(__dirname, 'src/config.ts')
       ],
       loader: 'ts-loader'

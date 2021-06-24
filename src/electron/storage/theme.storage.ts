@@ -10,8 +10,16 @@ export default (root: string) => new Storage<Theme>(root, 'theme', yup.object().
       main: yup.string().required().default(theme.palette.primary.main),
       text: yup.string().required().default(theme.palette.primary.text),
     }).default(theme.palette.primary),
+    error: yup.object().shape({
+      main: yup.string().required().default(theme.palette.error.main),
+      text: yup.string().required().default(theme.palette.error.text),
+    }).default(theme.palette.error),
+    grey: yup.object().shape({
+      100: yup.string().required().default(theme.palette.grey[100]),
+      200: yup.string().required().default(theme.palette.grey[200]),
+      300: yup.string().required().default(theme.palette.grey[300])
+    }).default(theme.palette.grey),
     black: yup.string().required().default(theme.palette.black),
     white: yup.string().required().default(theme.palette.white),
-    background: yup.string().required().default(theme.palette.background)
   }).required().default(theme.palette)
 }));

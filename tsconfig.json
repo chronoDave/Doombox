@@ -18,7 +18,6 @@
 
     "outDir": "dist",
     "paths": {
-      "@doombox-utils": ["./src/utils.ts"],
       "@doombox-types": ["./src/types.ts"],
       "@doombox-config": ["./src/config.ts"]
     }
