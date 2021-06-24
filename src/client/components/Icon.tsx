@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 import React from 'react';
 
+import { cx } from '../theme';
+
 /** @license Apache-2.0
  * All svg icons used in this application are obtained from https://materialdesignicons.com/
  * */
@@ -30,15 +32,16 @@ const icons = {
 
 export interface IconProps {
   id: keyof typeof icons
+  small?: boolean
 }
 
-export const Icon = ({ id }: IconProps) => (
+export const Icon = ({ id, small }: IconProps) => (
   <svg
     focusable="false"
     viewBox="0 0 24 24"
     color="inherit"
     aria-hidden
-    className="Icon"
+    className={cx('Icon', small && 'small')}
   >
     <path d={icons[id]} />
   </svg>

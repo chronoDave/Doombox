@@ -1,5 +1,12 @@
 @use "sass:color";
 
+// Breakpoints
+$xs: 320px;
+$sm: 480px;
+$md: 720px;
+$lg: 960px;
+$xl: 1280px;
+
 // Spacing
 $baseUnit: 8px;
 

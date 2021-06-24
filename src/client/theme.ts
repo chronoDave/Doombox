@@ -17,6 +17,10 @@ export const getTheme = (key: ThemeKey) => getComputedStyle(document.documentEle
 export const setTheme = (key: ThemeKey, value: unknown) => document.documentElement.style
   .setProperty(key, `${value}`);
 
+export const cx = (...args: Array<string | unknown>) => args
+  .filter(className => className)
+  .join(' ');
+
 const normalizeHex = (hex: string) => {
   if (hex[0] !== '#') throw new Error(`Is not hex: ${hex}`);
   if (!(hex.length === 4 || hex.length === 7)) throw new Error(`Invalid hex: ${hex}`);

@@ -19,11 +19,11 @@
   > .buttons {
     display: flex;
     align-items: center;
+    gap: unit(1);
 
     > button {
       height: 100%;
-      width: unit(6);
-      padding: unit(0, 1);
+      width: unit(4.5);
       color: rgba(var(--primary-text), $palette-disabled);
       transition:
         color $transition-shortest,
@@ -37,6 +37,10 @@
           color: rgb(var(--error-text));
           background-color: rgb(var(--error-main));
         }
+      }
+
+      @media (min-width: $sm) {
+        width: unit(5.5);
       }
     }
   }

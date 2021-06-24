@@ -23,13 +23,13 @@ export const Window = () => (
     </div>
     <div className="buttons">
       <button type="button">
-        <Icon id="minimize" />
+        <Icon id="minimize" small />
       </button>
       <button type="button">
-        <Icon id="maximize" />
+        <Icon id="maximize" small />
       </button>
       <button type="button">
-        <Icon id="close" />
+        <Icon id="close" small />
       </button>
     </div>
   </div>
