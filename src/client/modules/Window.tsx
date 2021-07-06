@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 
 import { getTheme } from '../theme';
@@ -22,15 +23,15 @@ export const Window = () => (
       <p className="body">Doombox</p>
     </div>
     <div className="buttons">
-      <button type="button">
+      <Button title="Minimize">
         <Icon id="minimize" small />
-      </button>
-      <button type="button">
+      </Button>
+      <Button title="Maximize">
         <Icon id="maximize" small />
-      </button>
-      <button type="button">
+      </Button>
+      <Button title="Close">
         <Icon id="close" small />
-      </button>
+      </Button>
     </div>
   </div>
 );
