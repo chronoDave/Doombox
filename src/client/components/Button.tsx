@@ -5,21 +5,22 @@ import { cx } from '../theme';
 export interface ButtonProps {
   children: React.ReactNode
   title: string
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
   className?: string
 }
 
 export const Button = (props: ButtonProps) => {
   const {
+    onClick,
     title,
     className,
     children,
-    ...rest
   } = props;
 
   return (
     <button
-      {...rest}
       type="button"
+      onClick={onClick}
       className={cx('Button', className)}
       title={title}
     >

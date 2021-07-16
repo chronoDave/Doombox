@@ -14,6 +14,7 @@ type ThemeKey =
 
 export const getTheme = (key: ThemeKey) => getComputedStyle(document.documentElement)
   .getPropertyValue(key);
+
 export const setTheme = (key: ThemeKey, value: unknown) => document.documentElement.style
   .setProperty(key, `${value}`);
 

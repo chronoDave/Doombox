@@ -8,6 +8,7 @@ import initTheme from './theme';
 import './scss/index.scss';
 
 initTheme();
+
 render(
   <App />,
   document.getElementById('root')

@@ -26,7 +26,8 @@ module.exports = [{
       test: /.(ts|tsx)$/,
       include: [
         path.resolve(__dirname, 'src/client'),
-        path.resolve(__dirname, 'src/config.ts')
+        path.resolve(__dirname, 'src/config.ts'),
+        path.resolve(__dirname, 'src/types.ts')
       ],
       loader: 'ts-loader'
     }, {
@@ -72,7 +73,8 @@ module.exports = [{
       test: /.(ts|tsx)$/,
       include: [
         path.resolve(__dirname, 'src/electron'),
-        path.resolve(__dirname, 'src/config.ts')
+        path.resolve(__dirname, 'src/config.ts'),
+        path.resolve(__dirname, 'src/types.ts')
       ],
       loader: 'ts-loader'
     }]

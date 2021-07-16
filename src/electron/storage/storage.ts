@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs';
 import produce, { Draft } from 'immer';
 import { SchemaOf } from 'yup';
-import { JSON } from '@doombox-types';
 
 import Reporter from '../reporter';
 import { DIR_ROOT } from '../const';
@@ -39,12 +38,12 @@ export default class Storage<T> {
     return this.data[key];
   }
 
-  set<K extends keyof Draft<T>>(key: K, payload: JSON) {
+  set<K extends keyof Draft<T>>(key: K, payload: any) {
     this.data = produce(this.data, draft => {
       if (typeof draft[key] === 'object') {
         Object.assign(draft[key], payload);
       } else {
-        draft[key] = payload as any;
+        draft[key] = payload;
       }
     });
 
