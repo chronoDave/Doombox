@@ -1,37 +1,45 @@
 import fs from 'fs';
 import path from 'path';
 
+import { DIR_LOG } from './const';
+
+type Type = 'log' | 'warning' | 'error';
+
 export default class Reporter {
-  private root: string;
-
-  constructor(root: string) {
-    this.root = root;
-
-    fs.mkdirSync(root, { recursive: true });
-  }
-
-  private getTimestamp() {
+  private static getTimestamp() {
     const now = new Date();
 
-    const y = now.getFullYear();
-    const m = `${now.getUTCMonth() + 1}`.padStart(2, '0');
-    const d = now.getUTCDate();
+    const dy = now.getFullYear();
+    const dm = `${now.getUTCMonth() + 1}`.padStart(2, '0');
+    const dd = now.getUTCDate();
+    const th = `${now.getHours()}`.padStart(2, '0');
+    const tm = `${now.getMinutes()}`.padStart(2, '0');
+    const ts = `${now.getSeconds()}`.padStart(2, '0');
 
-    return `${y}-${m}-${d}`;
+    return `${dy}-${dm}-${dd}_${th}-${tm}-${ts}`;
   }
 
-  log(text: string, title: string, type: 'log' | 'error' = 'log') {
+  private static formatError(error: Error, description?: string) {
+    return [
+      `TIME\n${new Date().toLocaleString()} (local time)`,
+      description && `DESCRIPTION\n${description}`,
+      `MESSAGE\n${error.message}`,
+      `STACK\n${error.stack}`
+    ].filter(x => x).join('\n\n');
+  }
+
+  static log(title: string, text: string, type: Type = 'log') {
     fs.writeFileSync(
-      path.join(this.root, `[${this.getTimestamp()}] ${title} (${type})`),
+      path.join(DIR_LOG, `${this.getTimestamp()} - ${type.toUpperCase()} - ${title}.txt`),
       text
     );
   }
 
-  logError(error: Error, title: string) {
-    this.log([
-      `TIME\n${new Date().toLocaleDateString()} (local time)`,
-      `MESSAGE\n${error.message}`,
-      `STACK\n${error.stack}`
-    ].join('\n\n'), title, 'error');
+  static warn(title: string, error: Error, description?: string) {
+    this.log(title, this.formatError(error, description), 'warning');
+  }
+
+  static error(title: string, error: Error, description?: string) {
+    this.log(title, this.formatError(error, description), 'error');
   }
 }

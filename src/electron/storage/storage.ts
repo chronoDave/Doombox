@@ -4,18 +4,21 @@ import produce, { Draft } from 'immer';
 import { SchemaOf } from 'yup';
 import { JSON } from '@doombox-types';
 
+import Reporter from '../reporter';
+import { DIR_ROOT } from '../const';
+
 export default class Storage<T> {
+  private name: string;
   private file: string;
   private schema: SchemaOf<T>;
   private data: T;
 
-  constructor(root: string, name: string, schema: SchemaOf<T>) {
-    this.file = path.join(root, `${name}.json`);
+  constructor(name: string, schema: SchemaOf<T>) {
+    this.name = name;
+    this.file = path.join(DIR_ROOT, `${this.name}.json`);
     this.schema = schema;
 
     this.data = this.read();
-
-    fs.mkdirSync(root, { recursive: true });
   }
 
   private read() {
@@ -25,6 +28,9 @@ export default class Storage<T> {
 
       return payload;
     } catch (err) {
+      if (err.code !== 'ENOENT') {
+        Reporter.warn(this.name, err, `Failed to load: "${this.file}", falling back to default`);
+      }
       return this.schema.getDefault();
     }
   }

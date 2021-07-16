@@ -3,7 +3,7 @@ import { theme, Theme } from '@doombox-config';
 
 import Storage from './storage';
 
-export default (root: string) => new Storage<Theme>(root, 'theme', yup.object().shape({
+export default new Storage<Theme>('theme', yup.object().shape({
   dark: yup.boolean().required().default(theme.dark),
   palette: yup.object().shape({
     primary: yup.object().shape({

@@ -1,24 +1,17 @@
-import path from 'path';
+import fs from 'fs';
 import { app } from 'electron';
 import { debounce } from 'throttle-debounce';
 
+import cache from './storage/cache.storage';
+import theme from './storage/theme.storage';
+
+import { DIR_LOG } from './const';
 import createWindow from './window';
-import createCache from './storage/cache.storage';
-import createTheme from './storage/theme.storage';
-
-const DIR_ROOT = process.env.NODE_ENV === 'development' ?
-  path.resolve(__dirname, '../../userData') :
-  app.getPath('userData');
-const DIR_ASSETS = process.env.NODE_ENV === 'development' ?
-  path.resolve(__dirname, '../../build') :
-  app.getAppPath();
-// const DIR_LOG = path.resolve(DIR_ROOT, 'assets');
-
-const cache = createCache(DIR_ROOT);
-const theme = createTheme(DIR_ROOT);
 
 app.on('ready', () => {
-  const window = createWindow(DIR_ASSETS, cache.get('window'), {
+  fs.mkdirSync(DIR_LOG, { recursive: true });
+
+  const window = createWindow(cache.get('window'), {
     darkTheme: theme.get('dark'),
     backgroundColor: theme.get('palette').grey[200]
   });

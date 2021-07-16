@@ -12,4 +12,4 @@ const schema = yup.object({
   }).required()
 });
 
-export default (root: string) => new Storage<Cache>(root, 'cache', schema);
+export default new Storage<Cache>('cache', schema);
