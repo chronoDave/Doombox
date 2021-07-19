@@ -1,7 +1,6 @@
-/* eslint-disable max-len */
 import React from 'react';
 
-import { cx } from '../theme';
+import { cx } from '../utils';
 
 /** @license Apache-2.0
  * All svg icons used in this application are obtained from https://materialdesignicons.com/

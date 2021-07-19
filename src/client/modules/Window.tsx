@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 
-import { getTheme } from '../theme';
+import Theme from '../theme';
 import { minimize, maximize, close } from '../ipc/window.ipc';
 
 export interface WindowProps {
@@ -14,7 +14,7 @@ export const Window = () => (
   <div className="Window">
     <div className="icon">
       <img
-        src={`../icons/icon_${getTheme('--dark') ? 'dark' : 'light'}.png`}
+        src={`../icons/icon_${Theme.get('--dark') ? 'dark' : 'light'}.png`}
         alt="Doombox icon"
         width={32}
         height={32}

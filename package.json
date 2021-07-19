@@ -15,7 +15,7 @@
   "scripts": {
     "clean": "node scripts/clean.js",
     "start:webpack": "webpack --mode development -w",
-    "start:electron": "nodemon --config .nodemon.json",
+    "start:electron": "node scripts/watch.js",
     "build:webpack": "webpack --mode production",
     "build:electron": "npm run clean && electron-builder -p=never -c electron.config.js",
     "build": "npm run build:webpack && npm run build:electron"
@@ -47,7 +47,6 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "fs-webpack-plugin": "^3.1.2",
     "mini-css-extract-plugin": "^1.6.0",
-    "nodemon": "^2.0.7",
     "sass": "^1.35.1",
     "sass-loader": "^12.1.0",
     "ts-loader": "^9.1.2",

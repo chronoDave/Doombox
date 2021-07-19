@@ -38,6 +38,7 @@ export default class Storage<T> {
     return this.data[key];
   }
 
+  // TODO: Refactor => Storage should implement its own getters and setters
   set<K extends keyof Draft<T>>(key: K, payload: any) {
     this.data = produce(this.data, draft => {
       if (typeof draft[key] === 'object') {

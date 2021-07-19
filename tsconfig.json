@@ -18,12 +18,12 @@
 
     "outDir": "dist",
     "paths": {
-      "@doombox-types": ["./src/types.ts"],
-      "@doombox-config": ["./src/config.ts"]
+      "@doombox/*": ["./src/lib/*"],
     }
   },
   "include": [
     "src",
+    "scripts",
     ".eslintrc.js",
     "webpack.config.js",
     "electron.config.js"

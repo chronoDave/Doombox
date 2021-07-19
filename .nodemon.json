@@ -1,8 +1,0 @@
-{
-  "watch": ["build/electron/**"],
-  "ext": "js",
-  "env": {
-    "NODE_ENV": "development"
-  },
-  "exec": "electron build/electron/index.js"
-}

@@ -1,6 +1,6 @@
 import path from 'path';
 import { BrowserWindow } from 'electron';
-import { Cache, Theme } from '@doombox-config';
+import { Cache, Theme } from '@doombox/config';
 
 import { DIR_ASSETS } from './const';
 

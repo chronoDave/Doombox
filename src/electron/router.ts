@@ -1,53 +1,18 @@
-import { IpcChannel, IpcPayload, IPC_ACTIONS } from '@doombox-types';
+import Ipc, { IpcChannel, IpcController } from '@doombox/ipc';
 import { ipcMain } from 'electron';
 
-import { IpcController } from './controller/controller';
-import Reporter from './reporter';
-
-export default class IpcRouter {
-  private static instances: Record<string, IpcRouter> = {};
-
-  static register(channel: IpcChannel, controller: IpcController) {
-    if (!(channel in IpcRouter.instances)) {
-      IpcRouter.instances[channel] = new IpcRouter(channel, controller);
-    }
-  }
+export default class Router {
+  private static instances: string[] = [];
 
   static unregisterAll() {
-    Object.keys(this.instances)
-      .forEach(channel => ipcMain.removeHandler(channel));
+    this.instances.forEach(instance => ipcMain.removeAllListeners(instance));
   }
 
-  private isObject(x: unknown): x is Partial<IpcPayload> {
-    return x !== null && !Array.isArray(x) && typeof x === 'object';
-  }
-
-  private isIpcPayload(x: Partial<IpcPayload>): x is IpcPayload {
-    return !!x.action && IPC_ACTIONS.includes(x.action);
-  }
-
-  private route(controller: IpcController, payload: unknown): Promise<unknown> {
-    try {
-      if (!this.isObject(payload)) {
-        throw new Error(`Payload must be an object: ${JSON.stringify(payload)}`);
-      }
-      if (!this.isIpcPayload(payload)) {
-        throw new Error(`Invalid payload action: ${JSON.stringify(payload.action)}`);
-      }
-
-      const handler = controller[payload.action];
-      if (!handler) {
-        throw new Error(`Missing handler: ${payload.action}`);
-      }
-
-      return handler(payload);
-    } catch (err) {
-      Reporter.error('Router', err);
-      return Promise.reject(err);
+  static register<T extends IpcController<unknown>>(channel: IpcChannel, controller: T) {
+    if (!this.instances.includes(channel)) {
+      this.instances.push(channel);
+      ipcMain.on(channel, (event, payload) => Ipc.route(controller, payload));
+      ipcMain.handle(channel, (event, payload) => Ipc.route(controller, payload));
     }
-  }
-
-  constructor(channel: IpcChannel, controller: IpcController) {
-    ipcMain.handle(channel, (event, payload) => this.route(controller, payload));
   }
 }

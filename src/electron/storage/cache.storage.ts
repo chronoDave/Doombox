@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { Cache } from '@doombox-config';
+import { Cache } from '@doombox/config';
 
 import Storage from './storage';
 

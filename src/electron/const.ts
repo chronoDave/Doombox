@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import { app } from 'electron';
 
@@ -9,3 +10,5 @@ export const DIR_ASSETS = process.env.NODE_ENV === 'development' ?
   app.getAppPath();
 
 export const DIR_LOG = path.resolve(DIR_ROOT, 'log');
+
+fs.mkdirSync(DIR_LOG, { recursive: true });

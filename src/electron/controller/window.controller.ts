@@ -1,25 +1,12 @@
 import { BrowserWindow } from 'electron';
+import { IpcController } from '@doombox/ipc';
 
-import { IpcController } from './controller';
-
-export default (window: BrowserWindow): IpcController => ({
-  MINIMIZE: () => {
-    window.minimize();
-
-    return Promise.resolve();
-  },
-  MAXIMIZE: () => {
-    if (window.isMaximized()) {
-      window.unmaximize();
-    } else {
-      window.maximize();
-    }
-
-    return Promise.resolve();
-  },
-  CLOSE: () => {
-    window.close();
-
-    return Promise.resolve();
-  }
+export default (window: BrowserWindow): IpcController<void> => ({
+  CLOSE: () => Promise.resolve(window.close()),
+  MINIMIZE: () => Promise.resolve(window.minimize()),
+  MAXIMIZE: () => Promise.resolve(
+    window.isMaximized() ?
+      window.unmaximize() :
+      window.maximize()
+  )
 });

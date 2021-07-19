@@ -3,11 +3,11 @@ import { render } from 'react-dom';
 
 import { App } from './modules/App';
 
-import initTheme from './theme';
+import Theme from './theme';
 
 import './scss/index.scss';
 
-initTheme();
+Theme.initialize();
 
 render(
   <App />,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { cx } from '../theme';
+import { cx } from '../utils';
 
 export interface ButtonProps {
   children: React.ReactNode

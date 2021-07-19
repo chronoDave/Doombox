@@ -26,6 +26,12 @@ module.exports = {
       ignorePropertyModificationsFor: ['draft']
     }], // Immer
     'comma-dangle': 'off',
+    'max-len': ['error', {
+      code: 120,
+      ignoreComments: true,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true
+    }],
     'no-confusing-arrow': 'off',
     'arrow-body-style': 'warn',
     'class-methods-use-this': 'off',
@@ -34,16 +40,11 @@ module.exports = {
     'no-underscore-dangle': 'off', // Leaf-DB
     'no-bitwise': 'warn',
     'consistent-return': 'off',
-    'max-len': ['error', {
-      code: 120,
-      ignoreComments: true
-    }],
     'no-console': ['error', {
       allow: ['info', 'warn', 'error', 'group', 'groupEnd']
     }],
     // React
     'react/jsx-fragments': 'off', // Prefer verbose syntax
-    'react/jsx-props-no-spreading': 'off', // Spread appropriatly
     'react/prop-types': 'off', // TypeScript
     // Import
     'import/prefer-default-export': 'off',

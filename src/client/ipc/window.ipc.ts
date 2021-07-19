@@ -1,5 +1,5 @@
-import { ipcInvoke } from './ipc';
+import { ipcSend } from './ipc';
 
-export const minimize = () => ipcInvoke('WINDOW', { action: 'MINIMIZE' });
-export const maximize = () => ipcInvoke('WINDOW', { action: 'MAXIMIZE' });
-export const close = () => ipcInvoke('WINDOW', { action: 'CLOSE' });
+export const minimize = () => ipcSend('WINDOW', { action: 'MINIMIZE' });
+export const maximize = () => ipcSend('WINDOW', { action: 'MAXIMIZE' });
+export const close = () => ipcSend('WINDOW', { action: 'CLOSE' });
