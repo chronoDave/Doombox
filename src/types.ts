@@ -11,15 +11,15 @@ export const IPC_ACTIONS = [
   'MINIMIZE',
   'MAXIMIZE',
   'CLOSE'
-];
+] as const;
 
 export type IpcChannel =
   'WINDOW' |
   'THEME';
 export type IpcAction = typeof IPC_ACTIONS[number];
 
-export interface IpcPayload {
+export interface IpcPayload<T = unknown> {
   action: IpcAction
-  data?: unknown
+  data?: T
   error?: Error
 }

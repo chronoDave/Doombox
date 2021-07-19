@@ -5,8 +5,8 @@ import Storage from './storage';
 
 const schema = yup.object({
   window: yup.object({
-    x: yup.number().positive(),
-    y: yup.number().positive(),
+    x: yup.number(),
+    y: yup.number(),
     width: yup.number().min(320).default(320),
     height: yup.number().min(240).default(240)
   }).required()

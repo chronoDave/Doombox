@@ -18,7 +18,7 @@ app.on('ready', () => {
     backgroundColor: theme.get('palette').grey[200]
   })
     .on('will-move', debounce(100, (_, { x, y }) => cache.set('window', { x, y })))
-    .on('will-resize', debounce(100, (_, { width, height }) => cache.set('window', { width, height })));
+    .on('will-resize', debounce(100, (_, { width, height }) => cache.set('window', { width, height })))
 
   Router.register('WINDOW', createWindowController(window));
 });

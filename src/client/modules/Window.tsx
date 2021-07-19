@@ -4,7 +4,7 @@ import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 
 import { getTheme } from '../theme';
-import fetch from '../ipc';
+import { minimize, maximize, close } from '../ipc/window.ipc';
 
 export interface WindowProps {
   children: React.ReactNode
@@ -24,13 +24,13 @@ export const Window = () => (
       <p className="body">Doombox</p>
     </div>
     <div className="buttons">
-      <Button title="Minimize" onClick={() => fetch('WINDOW', { action: 'MINIMIZE' })}>
+      <Button title="Minimize" onClick={minimize}>
         <Icon id="minimize" small />
       </Button>
-      <Button title="Maximize" onClick={() => null}>
+      <Button title="Maximize" onClick={maximize}>
         <Icon id="maximize" small />
       </Button>
-      <Button title="Close" onClick={() => null}>
+      <Button title="Close" onClick={close}>
         <Icon id="close" small />
       </Button>
     </div>

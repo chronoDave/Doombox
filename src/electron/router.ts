@@ -27,8 +27,6 @@ export default class IpcRouter {
   }
 
   private route(controller: IpcController, payload: unknown): Promise<unknown> {
-    console.log(payload);
-
     try {
       if (!this.isObject(payload)) {
         throw new Error(`Payload must be an object: ${JSON.stringify(payload)}`);
