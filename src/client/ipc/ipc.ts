@@ -1,12 +1,14 @@
 import { ipcRenderer } from 'electron';
-import { IpcChannel, IpcPayload } from '@doombox/ipc';
+import { IpcAction, IpcChannel, IpcPayload } from '@doombox/ipc';
 
-export const ipcSend = (
+export const ipcSend = <T>(
   channel: IpcChannel,
-  payload: IpcPayload
-) => ipcRenderer.send(channel, payload);
+  action: IpcAction,
+  data?: T
+) => ipcRenderer.send(channel, { action, data });
 
 export const ipcInvoke = <T>(
   channel: IpcChannel,
-  payload: IpcPayload
-): Promise<IpcPayload<T>> => ipcRenderer.invoke(channel, payload);
+  action: IpcAction,
+  data?: T
+): Promise<IpcPayload<T>> => ipcRenderer.invoke(channel, { action, data });

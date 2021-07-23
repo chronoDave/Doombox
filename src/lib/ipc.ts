@@ -1,29 +1,31 @@
-export const IPC_ACTIONS = [
-  'ERROR',
-  'INSERT',
-  'FIND',
-  'FIND_BY_ID',
-  'UPDATE',
-  'UPDATE_BY_ID',
-  'DELETE',
-  'DELETE_BY_ID',
-  'DROP',
-  'MINIMIZE',
-  'MAXIMIZE',
-  'CLOSE'
-] as const;
+export type IpcAction = keyof typeof IpcActions;
+export enum IpcActions {
+  'GET' = 'GET',
+  'SET' = 'SET',
+  'ERROR' = 'ERROR',
+  'INSERT' = 'INSERT',
+  'FIND' = 'FIND',
+  'FIND_BY_ID' = 'FIND_BY_ID',
+  'UPDATE' = 'UPDATE',
+  'UPDATE_BY_ID' = 'UPDATE_BY_ID',
+  'DELETE' = 'DELETE',
+  'DELETE_BY_ID' = 'DELETE_BY_ID',
+  'DROP' = 'DROP',
+  'MINIMIZE' = 'MINIMIZE',
+  'MAXIMIZE' = 'MAXIMIZE',
+  'CLOSE' = 'CLOSE'
+}
 
-export const IPC_CHANNELS = [
-  'WINDOW',
-  'THEME'
-] as const;
+export type IpcChannel = keyof typeof IpcChannels;
+export enum IpcChannels {
+  'WINDOW' = 'WINDOW',
+  'THEME' = 'THEME'
+}
 
-export type IpcAction = typeof IPC_ACTIONS[number];
-export type IpcChannel = typeof IPC_CHANNELS[number];
-export type IpcController<T> = Partial<Record<IpcAction, (payload: IpcPayload) => Promise<T>>>;
+export type IpcController<T = unknown> = Partial<Record<IpcAction, (payload: IpcPayload) => Promise<T>>>;
 export type IpcPayload<T = unknown> = {
   action: IpcAction,
-  data?: T,
+  data: T,
   error?: Error
 };
 
@@ -33,10 +35,14 @@ export default class Ipc {
   }
 
   private static isPayload(x: Partial<IpcPayload>): x is IpcPayload {
-    return !!x.action && IPC_ACTIONS.includes(x.action);
+    return !!x.action && x.action in IpcActions;
   }
 
-  static route<T>(controller: IpcController<T>, payload: unknown): Promise<T> {
+  static validate<T = unknown>(x: unknown): x is IpcPayload<T> {
+    return this.isObject(x) && this.isPayload(x);
+  }
+
+  static route(controller: IpcController, payload: unknown): Promise<unknown> {
     try {
       if (!this.isObject(payload)) {
         return Promise.reject(new Error(`Payload must be an object: ${JSON.stringify(payload)}`));

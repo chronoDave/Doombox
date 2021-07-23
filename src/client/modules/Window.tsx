@@ -14,7 +14,7 @@ export const Window = () => (
   <div className="Window">
     <div className="icon">
       <img
-        src={`../icons/icon_${Theme.get('--dark') ? 'dark' : 'light'}.png`}
+        src={`../icons/icon_${Theme.dark ? 'dark' : 'light'}.png`}
         alt="Doombox icon"
         width={32}
         height={32}

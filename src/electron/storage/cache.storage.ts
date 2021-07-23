@@ -3,7 +3,7 @@ import { Cache } from '@doombox/config';
 
 import Storage from './storage';
 
-export default new class CacheStorage extends Storage<Cache> {
+export default new class extends Storage<Cache> {
   constructor() {
     super('cache', yup.object({
       window: yup.object({
@@ -13,6 +13,15 @@ export default new class CacheStorage extends Storage<Cache> {
         height: yup.number().min(240).default(240)
       }).required()
     }));
+  }
+
+  get() {
+    return this.data;
+  }
+
+  set(data: Cache) {
+    this.data = data;
+    this.write();
   }
 
   get window() {

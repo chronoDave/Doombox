@@ -1,12 +1,12 @@
 import * as yup from 'yup';
-import { theme, Theme } from '@doombox/config';
+import theme, { Theme } from '@doombox/theme';
 
 import Storage from './storage';
 
-export default new class ThemeStorage extends Storage<Theme> {
+export default new class extends Storage<Theme> {
   constructor() {
     super('theme', yup.object().shape({
-      dark: yup.boolean().required().default(theme.dark),
+      type: yup.string().required().default(theme.type),
       palette: yup.object().shape({
         primary: yup.object().shape({
           main: yup.string().required().default(theme.palette.primary.main),
@@ -27,8 +27,17 @@ export default new class ThemeStorage extends Storage<Theme> {
     }));
   }
 
+  get() {
+    return this.data;
+  }
+
+  set(data: Theme) {
+    this.data = data;
+    this.write();
+  }
+
   get dark() {
-    return this.data.dark;
+    return this.data.type === 'dark';
   }
 
   get palette() {

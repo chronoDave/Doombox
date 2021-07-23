@@ -1,38 +1,58 @@
-import { theme } from '@doombox/config';
+import { Theme } from '@doombox/theme';
 
 import { hexToRgb } from './utils';
+import { ipcInvoke } from './ipc/ipc';
 
-type ThemeValue = {
-  '--dark': boolean
-  '--grey-100': string
-  '--grey-200': string
-  '--grey-300': string
-  '--black': string
-  '--white': string
-  '--primary-main': string
-  '--primary-text': string
-  '--error-main': string
-  '--error-text': string
-};
+type Palette =
+  '--primary-main' |
+  '--primary-text' |
+  '--error-main' |
+  '--error-text' |
+  '--black' |
+  '--white' |
+  '--grey-100' |
+  '--grey-200' |
+  '--grey-300';
 
-export default class Theme {
-  static get(key: keyof ThemeValue) {
+export default new class {
+  constructor() {
+    ipcInvoke<Theme>('THEME', 'GET')
+      .then(({ data }) => this.update(data));
+  }
+
+  private get(key: string) {
     return getComputedStyle(document.documentElement)
       .getPropertyValue(key);
   }
 
-  static set<T extends keyof ThemeValue>(key: T, value: ThemeValue[T]) {
-    document.documentElement.style.setProperty(key, `${value}`);
+  private set(key: string, value: string) {
+    document.documentElement.style.setProperty(key, value);
   }
 
-  static initialize() {
-    this.set('--dark', theme.dark);
-    this.set('--grey-100', hexToRgb(theme.palette.grey[100]));
-    this.set('--grey-200', hexToRgb(theme.palette.grey[200]));
-    this.set('--grey-300', hexToRgb(theme.palette.grey[300]));
-    this.set('--primary-main', hexToRgb(theme.palette.primary.main));
-    this.set('--primary-text', hexToRgb(theme.palette.primary.text));
-    this.set('--error-main', hexToRgb(theme.palette.error.main));
-    this.set('--error-text', hexToRgb(theme.palette.error.text));
+  private setPalette(key: Palette, hex: string) {
+    this.set(key, hexToRgb(hex));
   }
-}
+
+  private update(theme: Theme) {
+    this.set('--type', theme.type);
+    this.setPalette('--primary-main', theme.palette.primary.main);
+    this.setPalette('--primary-text', theme.palette.primary.text);
+    this.setPalette('--error-main', theme.palette.error.main);
+    this.setPalette('--error-text', theme.palette.error.text);
+    this.setPalette('--black', theme.palette.black);
+    this.setPalette('--white', theme.palette.white);
+    this.setPalette('--grey-100', theme.palette.grey[100]);
+    this.setPalette('--grey-200', theme.palette.grey[200]);
+    this.setPalette('--grey-300', theme.palette.grey[300]);
+  }
+
+  get dark() {
+    const type = this.get('--type');
+    if (!type) return true;
+    return type === 'dark';
+  }
+
+  set dark(value: boolean) {
+    this.set('--type', value ? 'dark' : 'light');
+  }
+}();

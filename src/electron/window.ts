@@ -1,15 +1,14 @@
 import path from 'path';
 import { BrowserWindow } from 'electron';
-import { Cache, Theme } from '@doombox/config';
+import { Cache } from '@doombox/config';
+import { Theme } from '@doombox/theme';
 
 import { DIR_ASSETS } from './const';
 
-interface WindowTheme {
-  darkTheme: Theme['dark'],
+export default (cache: Cache['window'], theme: {
+  darkTheme: boolean,
   backgroundColor: Theme['palette']['grey']['200']
-}
-
-export default (cache: Cache['window'], theme: WindowTheme) => {
+}) => {
   const window = new BrowserWindow({
     ...cache,
     ...theme,

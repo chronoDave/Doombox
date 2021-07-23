@@ -12,7 +12,10 @@ export default class Router {
     if (!this.instances.includes(channel)) {
       this.instances.push(channel);
       ipcMain.on(channel, (event, payload) => Ipc.route(controller, payload));
-      ipcMain.handle(channel, (event, payload) => Ipc.route(controller, payload));
+      ipcMain.handle(channel, async (event, payload) => {
+        const data = await Ipc.route(controller, payload);
+        return ({ action: payload.action, data });
+      });
     }
   }
 }

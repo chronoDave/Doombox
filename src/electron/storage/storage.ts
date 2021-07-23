@@ -5,7 +5,7 @@ import { SchemaOf } from 'yup';
 import Reporter from '../reporter';
 import { DIR_ROOT } from '../const';
 
-export default class Storage<T> {
+export default abstract class Storage<T> {
   private name: string;
   private file: string;
   private schema: SchemaOf<T>;
@@ -18,6 +18,9 @@ export default class Storage<T> {
 
     this.data = this.read();
   }
+
+  abstract get(): T;
+  abstract set(x: T): void;
 
   protected read() {
     try {
@@ -34,8 +37,6 @@ export default class Storage<T> {
   }
 
   protected write() {
-    console.log(this.data);
-
     fs.writeFileSync(this.file, JSON.stringify(this.data, null, '\t'));
   }
 }
