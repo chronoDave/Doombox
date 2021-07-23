@@ -7,6 +7,7 @@ let child = null;
 const spawn = () => {
   if (child) child.kill();
   child = childProcess.spawn(electron, ['build/electron/index.js'], {
+    stdio: 'inherit',
     env: {
       ...process.env,
       NODE_ENV: 'development'

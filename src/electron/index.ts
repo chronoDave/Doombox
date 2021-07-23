@@ -9,12 +9,12 @@ import createWindow from './window';
 import createWindowController from './controller/window.controller';
 
 app.on('ready', () => {
-  const window = createWindow(cache.get('window'), {
-    darkTheme: theme.get('dark'),
-    backgroundColor: theme.get('palette').grey[200]
+  const window = createWindow(cache.window, {
+    darkTheme: theme.dark,
+    backgroundColor: theme.palette.grey[200]
   })
-    .on('will-move', debounce(100, (_, { x, y }) => cache.set('window', { x, y })))
-    .on('will-resize', debounce(100, (_, { width, height }) => cache.set('window', { width, height })));
+    .on('will-move', debounce(100, (_, position) => { cache.position = position; }))
+    .on('will-resize', debounce(100, (_, dimensions) => { cache.dimensions = dimensions; }));
 
   Router.register('WINDOW', createWindowController(window));
 });

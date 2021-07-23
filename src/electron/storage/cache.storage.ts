@@ -3,13 +3,33 @@ import { Cache } from '@doombox/config';
 
 import Storage from './storage';
 
-const schema = yup.object({
-  window: yup.object({
-    x: yup.number(),
-    y: yup.number(),
-    width: yup.number().min(320).default(320),
-    height: yup.number().min(240).default(240)
-  }).required()
-});
+export default new class CacheStorage extends Storage<Cache> {
+  constructor() {
+    super('cache', yup.object({
+      window: yup.object({
+        x: yup.number(),
+        y: yup.number(),
+        width: yup.number().min(320).default(320),
+        height: yup.number().min(240).default(240)
+      }).required()
+    }));
+  }
 
-export default new Storage<Cache>('cache', schema);
+  get window() {
+    return this.data.window;
+  }
+
+  set position(position: { x: number, y: number }) {
+    this.window.x = position.x;
+    this.window.y = position.y;
+
+    this.write();
+  }
+
+  set dimensions(dimensions: { width: number, height: number }) {
+    this.window.width = dimensions.width;
+    this.window.height = dimensions.height;
+
+    this.write();
+  }
+}();

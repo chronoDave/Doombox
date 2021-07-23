@@ -47,4 +47,4 @@ export const theme: Readonly<Theme> = {
       300: '#36393f'
     }
   }
-};
+} as const;

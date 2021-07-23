@@ -1,6 +1,5 @@
 import path from 'path';
 import fs from 'fs';
-import produce, { Draft } from 'immer';
 import { SchemaOf } from 'yup';
 
 import Reporter from '../reporter';
@@ -10,7 +9,7 @@ export default class Storage<T> {
   private name: string;
   private file: string;
   private schema: SchemaOf<T>;
-  private data: T;
+  protected data: T;
 
   constructor(name: string, schema: SchemaOf<T>) {
     this.name = name;
@@ -20,7 +19,7 @@ export default class Storage<T> {
     this.data = this.read();
   }
 
-  private read() {
+  protected read() {
     try {
       const payload = JSON.parse(fs.readFileSync(this.file, 'utf-8'));
       this.schema.validateSync(payload, { strict: true });
@@ -34,19 +33,8 @@ export default class Storage<T> {
     }
   }
 
-  get<K extends keyof T>(key: K) {
-    return this.data[key];
-  }
-
-  // TODO: Refactor => Storage should implement its own getters and setters
-  set<K extends keyof Draft<T>>(key: K, payload: any) {
-    this.data = produce(this.data, draft => {
-      if (typeof draft[key] === 'object') {
-        Object.assign(draft[key], payload);
-      } else {
-        draft[key] = payload;
-      }
-    });
+  protected write() {
+    console.log(this.data);
 
     fs.writeFileSync(this.file, JSON.stringify(this.data, null, '\t'));
   }
