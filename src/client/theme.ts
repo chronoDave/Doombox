@@ -1,58 +1,41 @@
 import { Theme } from '@doombox/theme';
 
-import { hexToRgb } from './utils';
 import { ipcInvoke } from './ipc/ipc';
+import { hexToRgb } from './utils';
 
-type Palette =
-  '--primary-main' |
-  '--primary-text' |
-  '--error-main' |
-  '--error-text' |
-  '--black' |
-  '--white' |
-  '--grey-100' |
-  '--grey-200' |
-  '--grey-300';
-
-export default new class {
-  constructor() {
-    ipcInvoke<Theme>('THEME', 'GET')
-      .then(({ data }) => this.update(data));
-  }
-
-  private get(key: string) {
+export default class {
+  private static get(key: string) {
     return getComputedStyle(document.documentElement)
       .getPropertyValue(key);
   }
 
-  private set(key: string, value: string) {
+  private static set(key: string, value: string) {
     document.documentElement.style.setProperty(key, value);
   }
 
-  private setPalette(key: Palette, hex: string) {
-    this.set(key, hexToRgb(hex));
+  static fetch() {
+    ipcInvoke<'THEME', Theme>('THEME', 'GET')
+      .then(({ data }) => {
+        this.set('--type', data.type);
+        this.set('--primary-main', hexToRgb(data.palette.primary.main));
+        this.set('--primary-text', hexToRgb(data.palette.primary.text));
+        this.set('--error-main', hexToRgb(data.palette.error.main));
+        this.set('--error-text', hexToRgb(data.palette.error.text));
+        this.set('--black', hexToRgb(data.palette.black));
+        this.set('--white', hexToRgb(data.palette.white));
+        this.set('--grey-100', hexToRgb(data.palette.grey[100]));
+        this.set('--grey-200', hexToRgb(data.palette.grey[200]));
+        this.set('--grey-300', hexToRgb(data.palette.grey[300]));
+      });
   }
 
-  private update(theme: Theme) {
-    this.set('--type', theme.type);
-    this.setPalette('--primary-main', theme.palette.primary.main);
-    this.setPalette('--primary-text', theme.palette.primary.text);
-    this.setPalette('--error-main', theme.palette.error.main);
-    this.setPalette('--error-text', theme.palette.error.text);
-    this.setPalette('--black', theme.palette.black);
-    this.setPalette('--white', theme.palette.white);
-    this.setPalette('--grey-100', theme.palette.grey[100]);
-    this.setPalette('--grey-200', theme.palette.grey[200]);
-    this.setPalette('--grey-300', theme.palette.grey[300]);
-  }
-
-  get dark() {
+  static get dark() {
     const type = this.get('--type');
     if (!type) return true;
     return type === 'dark';
   }
 
-  set dark(value: boolean) {
+  static set dark(value: boolean) {
     this.set('--type', value ? 'dark' : 'light');
   }
-}();
+}

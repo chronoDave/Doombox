@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron';
 import { IpcController } from '@doombox/ipc';
 
-export default (window: BrowserWindow): IpcController<void> => ({
+export default (window: BrowserWindow): IpcController<'WINDOW'> => ({
   CLOSE: () => Promise.resolve(window.close()),
   MINIMIZE: () => Promise.resolve(window.minimize()),
   MAXIMIZE: () => Promise.resolve(

@@ -1,51 +1,60 @@
-export const IPC_ACTIONS = [
-  'GET',
-  'SET',
-  'ERROR',
-  'INSERT',
-  'FIND',
-  'FIND_BY_ID',
-  'UPDATE',
-  'UPDATE_BY_ID',
-  'DELETE',
-  'DELETE_BY_ID',
-  'DROP',
-  'MINIMIZE',
-  'MAXIMIZE',
-  'CLOSE',
-] as const;
-export type IpcAction = typeof IPC_ACTIONS[number];
+export const IPC_ACTIONS = {
+  CRUD: [
+    'INSERT',
+    'FIND',
+    'FIND_BY_ID',
+    'UPDATE',
+    'UPDATE_BY_ID',
+    'DELETE',
+    'DELETE_BY_ID',
+    'DROP',
+  ],
+  THEME: [
+    'GET',
+  ],
+  WINDOW: [
+    'MINIMIZE',
+    'MAXIMIZE',
+    'CLOSE',
+  ],
+  REPORTER: [
+    'ERROR',
+    'WARN',
+    'LOG',
+  ]
+} as const;
 
-export type IpcChannel =
-  'WINDOW' |
-  'THEME';
+export type IpcChannel = keyof typeof IPC_ACTIONS;
+export type IpcAction<T extends IpcChannel> = typeof IPC_ACTIONS[T][number];
 
-export type IpcController<T = unknown> = Partial<Record<IpcAction, (payload: IpcPayload) => Promise<T>>>;
-export type IpcPayload<T = unknown> = {
-  action: IpcAction,
-  data: T,
+export type IpcPayload<T extends IpcChannel, P = unknown> = {
+  action: IpcAction<T>,
+  data: P,
   error?: Error
 };
 
+export type IpcController<T extends IpcChannel> =
+  Record<IpcAction<T>, (payload: IpcPayload<T>) => Promise<unknown>>;
+
 export default class Ipc {
-  private static isObject(x: unknown): x is Partial<IpcPayload> {
+  private static isObject<T extends IpcChannel>(x: unknown): x is Partial<IpcPayload<T>> {
     return x !== null && !Array.isArray(x) && typeof x === 'object';
   }
 
-  private static isPayload(x: Partial<IpcPayload>): x is IpcPayload {
-    return !!x.action && IPC_ACTIONS.includes(x.action);
+  private static isPayload<T extends IpcChannel>(x: Partial<IpcPayload<T>>): x is IpcPayload<T> {
+    return !!x.action;
   }
 
-  static validate<T = unknown>(x: unknown): x is IpcPayload<T> {
+  static isValid<T extends IpcChannel, P = unknown>(x: unknown): x is IpcPayload<T, P> {
     return this.isObject(x) && this.isPayload(x);
   }
 
-  static route(controller: IpcController, payload: unknown): Promise<unknown> {
+  static route<T extends IpcChannel>(controller: IpcController<T>, payload: unknown): Promise<unknown> {
     try {
-      if (!this.isObject(payload)) {
+      if (!this.isObject<T>(payload)) {
         return Promise.reject(new Error(`Payload must be an object: ${JSON.stringify(payload)}`));
       }
-      if (!this.isPayload(payload)) {
+      if (!this.isPayload<T>(payload)) {
         return Promise.reject(new Error(`Invalid payload action: ${JSON.stringify(payload.action)}`));
       }
 

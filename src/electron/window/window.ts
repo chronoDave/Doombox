@@ -1,17 +1,18 @@
 import path from 'path';
 import { BrowserWindow } from 'electron';
-import { Cache } from '@doombox/config';
-import { Theme } from '@doombox/theme';
 
-import { DIR_ASSETS } from './const';
+import { DIR_ASSETS } from '../const';
 
-export default (cache: Cache['window'], theme: {
+export default (options: {
+  x?: number,
+  y?: number,
+  width?: number,
+  height?: number,
   darkTheme: boolean,
-  backgroundColor: Theme['palette']['grey']['200']
+  backgroundColor: string
 }) => {
   const window = new BrowserWindow({
-    ...cache,
-    ...theme,
+    ...options,
     title: 'Doombox',
     icon: process.platform === 'win32' ?
       path.resolve(DIR_ASSETS, 'icons/app.ico') :

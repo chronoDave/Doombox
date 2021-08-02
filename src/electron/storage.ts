@@ -2,10 +2,10 @@ import path from 'path';
 import fs from 'fs';
 import { SchemaOf } from 'yup';
 
-import Reporter from '../reporter';
-import { DIR_ROOT } from '../const';
+import Reporter from './reporter/reporter';
+import { DIR_ROOT } from './const';
 
-export default abstract class Storage<T> {
+export default class <T> {
   private name: string;
   private file: string;
   private schema: SchemaOf<T>;
@@ -18,9 +18,6 @@ export default abstract class Storage<T> {
 
     this.data = this.read();
   }
-
-  abstract get(): T;
-  abstract set(x: T): void;
 
   protected read() {
     try {

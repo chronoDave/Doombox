@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { DIR_LOG } from './const';
+import { DIR_LOG } from '../const';
 
 type Type = 'log' | 'warning' | 'error';
 

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import theme, { Theme } from '@doombox/theme';
 
-import Storage from './storage';
+import Storage from '../storage';
 
 export default new class extends Storage<Theme> {
   constructor() {
@@ -29,11 +29,6 @@ export default new class extends Storage<Theme> {
 
   get() {
     return this.data;
-  }
-
-  set(data: Theme) {
-    this.data = data;
-    this.write();
   }
 
   get dark() {
