@@ -1,8 +1,6 @@
-import React from 'react';
-import { render } from 'react-dom';
+import { render } from 'inferno';
 
 import { App } from './modules/App';
-
 import Theme from './theme';
 
 import './scss/index.scss';

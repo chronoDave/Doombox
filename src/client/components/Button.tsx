@@ -1,11 +1,11 @@
-import React from 'react';
+import Inferno from 'inferno';
 
 import { cx } from '../utils';
 
 export interface ButtonProps {
-  children: React.ReactNode
+  children: Inferno.InfernoChild
   title: string
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  onClick: Inferno.MouseEventHandler<HTMLButtonElement>,
   className?: string
 }
 
@@ -23,6 +23,7 @@ export const Button = (props: ButtonProps) => {
       onClick={onClick}
       className={cx('Button', className)}
       title={title}
+      $HasVNodeChildren
     >
       {children}
     </button>

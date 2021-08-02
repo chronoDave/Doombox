@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { cx } from '../utils';
 
 /** @license Apache-2.0

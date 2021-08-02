@@ -44,6 +44,7 @@ module.exports = {
       allow: ['info', 'warn', 'error', 'group', 'groupEnd']
     }],
     // React
+    'react/react-in-jsx-scope': 'off', // Inferno
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/prop-types': 'off', // TypeScript
     // Import

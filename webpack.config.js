@@ -27,7 +27,15 @@ module.exports = [{
         path.resolve(__dirname, 'src/client'),
         path.resolve(__dirname, 'src/lib'),
       ],
-      loader: 'ts-loader'
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-typescript'],
+          plugins: [
+            ['babel-plugin-inferno', { imports: true }]
+          ]
+        }
+      }
     }, {
       test: /\.scss$/,
       include: path.resolve(__dirname, 'src/client'),
@@ -73,7 +81,12 @@ module.exports = [{
         path.resolve(__dirname, 'src/electron'),
         path.resolve(__dirname, 'src/lib'),
       ],
-      loader: 'ts-loader'
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-typescript']
+        }
+      }
     }]
   },
   plugins: [
