@@ -12,3 +12,9 @@ export const ipcInvoke = <T extends IpcChannel, P>(
   action: IpcAction<T>,
   data?: unknown
 ): Promise<IpcPayload<T, P>> => ipcRenderer.invoke(channel, { action, data });
+
+export const ipcError = (title: string, error: Error, description?: string) => ipcSend('REPORTER', 'ERROR', {
+  title,
+  error,
+  description
+});
