@@ -9,6 +9,11 @@ export const IPC_ACTIONS = {
     'DELETE_BY_ID',
     'DROP',
   ],
+  CACHE: [
+    'GET',
+    'MUTE',
+    'VOLUME'
+  ],
   THEME: [
     'GET',
   ],

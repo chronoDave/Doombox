@@ -4,5 +4,9 @@ export interface Cache {
     y?: number
     width?: number
     height?: number
+  },
+  player: {
+    muted: boolean,
+    volume: number
   }
 }

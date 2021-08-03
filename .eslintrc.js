@@ -47,6 +47,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off', // Inferno
     'react/jsx-fragments': 'off', // Prefer verbose syntax
     'react/prop-types': 'off', // TypeScript
+    'react/destructuring-assignment': 'off',
     // Import
     'import/prefer-default-export': 'off',
     'import/order': ['error', {

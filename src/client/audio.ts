@@ -1,27 +1,29 @@
 import fs from 'fs';
-import EventEmitter from 'events';
+import { Cache } from '@doombox/config';
 
-import { ipcError } from './ipc/ipc';
+import { ipcError, ipcInvoke, ipcSend } from './ipc/ipc';
+import store, { setMuted, setVolume } from './redux';
 
-const AUDIO_EVENTS = {
-  MUTE: 'MUTE',
-  VOLUME: 'VOLUME'
-} as const;
-
-export type AudioEvent = keyof typeof AUDIO_EVENTS;
-
-export default new class extends EventEmitter {
+export default new class {
   private context = new window.AudioContext();
   private nodeGain: GainNode;
 
-  private _volume = 0;
-  private _muted = false;
+  private state = {
+    volume: 0,
+    muted: false
+  };
 
   constructor() {
-    super();
-
     this.nodeGain = this.context.createGain();
     this.nodeGain.connect(this.context.destination);
+
+    ipcInvoke<'CACHE', Cache['player']>('CACHE', 'GET')
+      .then(payload => {
+        this.state = payload.data;
+
+        store.dispatch(setMuted(this.muted));
+        store.dispatch(setVolume(this.volume));
+      });
   }
 
   async load(src: string) {
@@ -42,25 +44,32 @@ export default new class extends EventEmitter {
     }
   }
 
-  mute(muted: boolean) {
-    this._muted = muted;
+  get muted() {
+    return this.state.muted;
+  }
 
-    if (this._muted) {
+  set muted(muted: boolean) {
+    this.state.muted = muted;
+
+    if (this.state.muted) {
       this.nodeGain.gain.setValueAtTime(0, this.context.currentTime);
     } else {
       this.nodeGain.gain.setValueAtTime(this.volume, this.context.currentTime);
     }
 
-    this.emit(AUDIO_EVENTS.MUTE, this._muted);
+    store.dispatch(setMuted(this.muted));
+    ipcSend('CACHE', 'MUTE', this.muted);
   }
 
   get volume() {
-    return this._volume;
+    return this.state.volume;
   }
 
   set volume(volume: number) {
-    this._volume = volume;
+    this.state.volume = volume;
     this.nodeGain.gain.setValueAtTime(0, this.context.currentTime);
-    this.emit(AUDIO_EVENTS.VOLUME, this._volume);
+
+    store.dispatch(setVolume(this.volume));
+    ipcSend('CACHE', 'MUTE', this.volume);
   }
 }();

@@ -21,7 +21,10 @@
     "build": "npm run build:webpack && npm run build:electron"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
     "inferno": "^7.4.8",
+    "inferno-redux": "^7.4.8",
+    "redux": "^4.1.0",
     "throttle-debounce": "^3.0.1",
     "yup": "^0.32.9"
   },

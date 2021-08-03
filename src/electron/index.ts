@@ -7,6 +7,7 @@ import createWindow from './window/window';
 import windowController from './window/window.controller';
 
 import Cache from './cache/cache.storage';
+import CacheController from './cache/cache.controller';
 
 import Theme from './theme/theme.storage';
 import ThemeController from './theme/theme.controller';
@@ -24,6 +25,7 @@ app.on('ready', () => {
 
   Router.register('WINDOW', windowController(window));
   Router.register('THEME', ThemeController);
+  Router.register('CACHE', CacheController);
   Router.register('REPORTER', ReporterController);
 });
 

@@ -9,7 +9,7 @@ export interface ButtonProps {
   className?: string
 }
 
-export const Button = (props: ButtonProps) => {
+export default (props: ButtonProps) => {
   const {
     onClick,
     title,

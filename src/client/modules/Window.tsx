@@ -1,10 +1,10 @@
-import { Button } from '../components/Button';
-import { Icon } from '../components/Icon';
+import Button from '../components/Button';
+import Icon from '../components/Icon';
 
 import Theme from '../theme';
 import { minimize, maximize, close } from '../ipc/window.ipc';
 
-export const Window = () => (
+export default () => (
   <div className="Window">
     <div className="icon">
       <img

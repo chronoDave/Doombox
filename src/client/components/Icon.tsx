@@ -32,7 +32,7 @@ export interface IconProps {
   small?: boolean
 }
 
-export const Icon = ({ id, small }: IconProps) => (
+export default ({ id, small }: IconProps) => (
   <svg
     focusable="false"
     viewBox="0 0 24 24"

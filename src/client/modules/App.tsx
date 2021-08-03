@@ -1,10 +1,15 @@
-import { Window } from './Window';
+import VolumeIcon from '../components/Volume/VolumeIcon';
+import Window from './Window';
+import Audio from '../audio';
+import PlayerControls from './Player/PlayerControls';
 
-export const App = () => (
+export default () => (
   <div className="App">
     <Window />
     <div className="root">
-      Content
+      <div className="Player">
+        <PlayerControls />
+      </div>
     </div>
   </div>
 );
