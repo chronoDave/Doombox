@@ -38,7 +38,7 @@
     "babel-plugin-inferno": "^6.3.0",
     "chokidar": "^3.5.1",
     "css-loader": "^5.2.6",
-    "electron": "^12.0.7",
+    "electron": "^12.1.0",
     "electron-builder": "^22.10.5",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
