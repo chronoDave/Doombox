@@ -12,12 +12,6 @@ import {
   Typography
 } from '../../components';
 
-import {
-  SettingsLanguage,
-  SettingsLibrary,
-  SettingsAppearance,
-} from '..';
-
 // Redux
 import { setOverlay } from '../../redux';
 
@@ -26,6 +20,10 @@ import { useTranslation } from '../../hooks';
 
 // Styles
 import useOverlaySettingsStyles from './OverlaySettings.styles';
+
+import SettingsLanguage from './components/SettingsLanguage';
+import SettingsLibrary from './components/SettingsLibrary';
+import SettingsAppearance from './components/SettingsAppearance';
 
 const OverlaySettings = ({ open, dispatchOverlay }) => {
   const [tab, setTab] = useState('appearance');

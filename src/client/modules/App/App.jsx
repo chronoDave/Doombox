@@ -4,20 +4,14 @@ import { WINDOW } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
-import { Hidden } from '../../components';
-
 import {
+  WindowBar,
   Player,
   Playlist,
-  PlaylistTitle,
   LibraryMenu,
   SearchLibrary,
   OverlayScan,
   OverlaySettings,
-  WindowButtons,
-  WindowIcon,
-  WindowNavigation,
-  WindowTitle,
   VirtualLibrary,
   LibrarySearch,
 } from '..';
@@ -30,18 +24,10 @@ const App = ({ overlay, view }) => {
 
   return (
     <div className={classes.root}>
-      <Hidden platform="darwin">
-        <div className={classes.window}>
-          <WindowIcon />
-          <WindowNavigation />
-          <WindowTitle />
-          <WindowButtons />
-        </div>
-      </Hidden>
+      <WindowBar />
       <div className={classes.body}>
         <div className={classes.controller}>
           <Player />
-          <PlaylistTitle />
           <Playlist />
         </div>
         <div className={classes.library}>

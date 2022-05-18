@@ -10,8 +10,6 @@ import {
   VirtualList
 } from '../../components';
 
-import { VirtualAlbumsItem } from '..';
-
 // Actions
 import { createPlaylist } from '../../actions';
 
@@ -31,6 +29,8 @@ import { mixins } from '../../theme';
 
 // Validation
 import { propAlbum } from '../../validation/propTypes';
+
+import VirtualAlbumsItem from './components/VirtualAlbumsItem/VirtualAlbumsItem';
 
 const VirtualAlbums = ({ albums }) => {
   const [menu, setMenu] = useState({ anchorEl: null, album: null });

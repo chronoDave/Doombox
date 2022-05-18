@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 // Core
 import { VirtualList, Popper, MenuItem } from '../../components';
 
-import { VirtualLibraryItem } from '..';
-
 // Actions
 import { ipcInsert } from '../../actions';
 
@@ -27,6 +25,8 @@ import { mixins } from '../../theme';
 
 // Validation
 import { propLabel } from '../../validation/propTypes';
+
+import VirtualLibraryItem from './components/VirtualLibraryItem/VirtualLibraryItem';
 
 const VirtualLibrary = ({ library }) => {
   const [menu, setMenu] = useState({ anchorEl: null, album: {} });

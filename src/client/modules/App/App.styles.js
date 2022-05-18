@@ -10,12 +10,6 @@ export default makeStyles(theme => ({
       theme.palette.grey[1] :
       theme.palette.grey[6]
   },
-  window: {
-    display: 'flex',
-    backgroundColor: theme.palette.dark ?
-      theme.palette.grey[0] :
-      theme.palette.grey[6]
-  },
   body: {
     display: 'flex',
     flexGrow: 1,

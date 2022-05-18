@@ -8,12 +8,6 @@ import PropTypes from 'prop-types';
 // Core
 import { Typography, Hidden } from '../../components';
 
-import {
-  PlayerControls,
-  PlayerTime,
-  PlayerSlider,
-} from '..';
-
 // Hooks
 import {
   useTranslation,
@@ -30,6 +24,10 @@ import { propImage } from '../../validation/propTypes';
 
 // Styles
 import usePlayerStyles from './Player.styles';
+
+import PlayerControls from './components/PlayerControls/PlayerControls';
+import PlayerTime from './components/PlayerTime/PlayerTime';
+import PlayerSlider from './components/PlayerSlider/PlayerSlider';
 
 const Player = props => {
   const {
