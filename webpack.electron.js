@@ -2,7 +2,6 @@
 const path = require('path');
 
 // Plugins
-const FsWebpackPlugin = require('fs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, 'build/src');
@@ -21,7 +20,8 @@ module.exports = ({ alias }) => ({
   entry: path.resolve(__dirname, 'src/electron/index.js'),
   output: {
     path: outputPath,
-    filename: '[name].bundle.js'
+    filename: '[name].bundle.js',
+    clean: true
   },
   optimization: {
     minimizer: [
@@ -54,11 +54,5 @@ module.exports = ({ alias }) => ({
       test: /\.node$/,
       loader: 'node-loader'
     }]
-  },
-  plugins: [
-    new FsWebpackPlugin([{
-      type: 'delete',
-      files: 'build/src'
-    }], { verbose: true })
-  ]
+  }
 });

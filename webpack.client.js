@@ -2,9 +2,8 @@
 const path = require('path');
 
 // Plugins
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FsWebpackPlugin = require('fs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, 'build/client');
 
@@ -22,7 +21,8 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
   ].filter(entry => entry),
   output: {
     path: outputPath,
-    filename: '[name].bundle.js'
+    filename: '[name].bundle.js',
+    clean: true
   },
   optimization: {
     minimizer: [
@@ -80,22 +80,16 @@ module.exports = ({ alias, env = {}, argv = {} }) => ({
     }]
   },
   plugins: [
-    new FsWebpackPlugin([{
-      type: 'delete',
-      files: 'build/client'
-    }, {
-      type: 'copy',
-      files: [{
+    new CopyPlugin({
+      patterns: [{
         from: 'src/client/assets/fonts/README.md',
-        to: 'build/client/assets/fonts'
+        to: 'assets/fonts'
       }, {
         from: 'src/client/assets/images/README.md',
-        to: 'build/client/assets/images'
+        to: 'assets/images'
+      }, {
+        from: 'src/client/index.html'
       }]
-    }], { verbose: true }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/client/index.html'),
-      filename: 'index.html'
     })
   ]
 });
