@@ -8,7 +8,6 @@ const pascalize = require('./pascalize');
 const shuffle = require('./shuffle');
 const sortMetadata = require('./sortMetadata');
 const toArray = require('./toArray');
-const zPad = require('./zPad');
 
 module.exports = {
   capitalize,
@@ -20,6 +19,5 @@ module.exports = {
   pascalize,
   shuffle,
   sortMetadata,
-  toArray,
-  zPad
+  toArray
 };

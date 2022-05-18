@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { zPad } from '@doombox-utils';
 import { getTranslation, getNativeKeybind } from '@doombox-intl';
 import PropTypes from 'prop-types';
 
@@ -36,9 +35,9 @@ const LanguageProvider = props => {
       switch (format) {
         case 'number':
           return [
-            h > 0 && zPad(h, 2),
-            zPad(m, 2),
-            zPad(s, 2)
+            h > 0 && `${h}`.padStart(2, 0),
+            `${m}`.padStart(2, 0),
+            `${s}`.padStart(2, 0)
           ].filter(n => n).join(':');
         case 'text':
           return [
