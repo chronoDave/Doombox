@@ -28,8 +28,8 @@
     "start:electron": "nodemon --config .nodemon.json",
     "start:devtools": "react-devtools",
     "build:webpack": "webpack --mode production",
-    "build:electron": "yarn clean && electron-builder -p=never -c electron.config.js",
-    "build": "yarn build:webpack && yarn build:electron"
+    "build:electron": "npm run clean && electron-builder -p=never -c electron.config.js",
+    "build": "npm run build:webpack && npm run build:electron"
   },
   "dependencies": {
     "@chronocide/fs-walk": "1.0.0",
