@@ -9,7 +9,6 @@ module.exports = {
   extraMetadata: {
     main: 'src/main.bundle.js'
   },
-
   directories: {
     output: path.resolve(__dirname, 'dist')
   },
@@ -69,9 +68,7 @@ module.exports = {
       ]
     }))
   ],
-
   npmRebuild: false,
-
   // Windows
   nsis: {
     oneClick: false,
@@ -87,7 +84,6 @@ module.exports = {
     icon: path.resolve(__dirname, 'build/icons/app.ico'),
     publisherName: 'Chronocide'
   },
-
   // Mac
   mac: {
     category: 'public.app-category.music',
@@ -95,7 +91,6 @@ module.exports = {
     darkModeSupport: true,
     type: 'distribution'
   },
-
   // Linux (Debian)
   linux: {
     target: 'AppImage',
