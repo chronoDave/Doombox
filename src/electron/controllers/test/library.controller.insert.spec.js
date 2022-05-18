@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const { TYPES } = require('@doombox-utils/types');
 
-const { createMockElectronEvent } = require('../../../../../test/mock');
+const { createMockElectronEvent } = require('../../../../test/mock');
 
 const {
   setup,

@@ -20,7 +20,7 @@ const { getTranslation } = require('@doombox-intl');
 const debounce = require('lodash.debounce');
 
 // Core
-const Reporter = require('../reporter');
+const Reporter = require('./reporter/reporter');
 
 module.exports = class Window extends Reporter {
   constructor(root, assets, cache, keybinds) {

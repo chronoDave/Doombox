@@ -6,19 +6,21 @@ import PropTypes from 'prop-types';
 // Core
 import { Hidden } from '../../components';
 
-import { Player } from '../Player';
-import { Playlist } from '../Playlist';
-import { PlaylistTitle } from '../PlaylistTitle';
-import { LibraryMenu } from '../LibraryMenu';
-import { SearchLibrary } from '../SearchLibrary';
-import { OverlayScan } from '../OverlayScan';
-import { OverlaySettings } from '../OverlaySettings';
-import { WindowButtons } from '../WindowButtons';
-import { WindowIcon } from '../WindowIcon';
-import { WindowNavigation } from '../WindowNavigation';
-import { WindowTitle } from '../WindowTitle';
-import { VirtualLibrary } from '../VirtualLibrary';
-import { LibrarySearch } from '../LibrarySearch';
+import {
+  Player,
+  Playlist,
+  PlaylistTitle,
+  LibraryMenu,
+  SearchLibrary,
+  OverlayScan,
+  OverlaySettings,
+  WindowButtons,
+  WindowIcon,
+  WindowNavigation,
+  WindowTitle,
+  VirtualLibrary,
+  LibrarySearch,
+} from '..';
 
 // Styles
 import useAppStyles from './App.styles';

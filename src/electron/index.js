@@ -6,14 +6,13 @@ const { TYPES, IPC } = require('@doombox-utils/types');
 const { THEME } = require('@doombox-config');
 
 // Core
-const {
-  DatabaseController,
-  StorageController,
-  LibraryController
-} = require('./controllers');
+const DatabaseController = require('./controllers/database.controller');
+const StorageController = require('./controllers/storage.controller');
+const LibraryController = require('./controllers/library.controller');
 const Router = require('./router');
 const Window = require('./window');
-const { Cache, Config } = require('./storage');
+const Cache = require('./storage/storage.cache');
+const Config = require('./storage/storage.config');
 
 const root = process.env.NODE_ENV === 'development' ?
   path.resolve(__dirname, '../../userData') :

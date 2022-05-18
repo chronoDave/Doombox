@@ -3,8 +3,8 @@ import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase } from '../ButtonBase';
-import { Icon, icons } from '../Icon';
+import { ButtonBase, Icon } from '..';
+import { icons } from '../Icon/Icon';
 
 // Styles
 import useButtonIconStyles from './ButtonIcon.styles';

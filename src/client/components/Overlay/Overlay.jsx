@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { Fade } from '../Fade';
+import { Fade } from '..';
 
 // Styles
 import useOverlayStyles from './Overlay.styles';

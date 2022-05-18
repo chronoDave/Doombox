@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { Typography } from '../Typography';
-import { ButtonBase } from '../ButtonBase';
-import { Icon } from '../Icon';
+import {
+  Typography,
+  ButtonBase,
+  Icon
+} from '..';
 
 // Hooks
 import { useTranslation, useKeybind } from '../../hooks';

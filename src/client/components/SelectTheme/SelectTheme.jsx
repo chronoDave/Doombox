@@ -5,8 +5,7 @@ import { THEME } from '@doombox-config';
 import PropTypes from 'prop-types';
 
 // Core
-import { Select } from '../Select';
-import { LabelSelect } from '../LabelSelect';
+import { Select, LabelSelect } from '..';
 
 // Actions
 import { updateConfig } from '../../actions';

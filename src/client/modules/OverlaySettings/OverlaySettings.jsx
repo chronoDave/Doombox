@@ -12,9 +12,11 @@ import {
   Typography
 } from '../../components';
 
-import { SettingsLanguage } from '../SettingsLanguage';
-import { SettingsLibrary } from '../SettingsLibrary';
-import { SettingsAppearance } from '../SettingsAppearance';
+import {
+  SettingsLanguage,
+  SettingsLibrary,
+  SettingsAppearance,
+} from '..';
 
 // Redux
 import { setOverlay } from '../../redux';

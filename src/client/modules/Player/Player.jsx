@@ -8,9 +8,11 @@ import PropTypes from 'prop-types';
 // Core
 import { Typography, Hidden } from '../../components';
 
-import { PlayerControls } from '../PlayerControls';
-import { PlayerTime } from '../PlayerTime';
-import { PlayerSlider } from '../PlayerSlider';
+import {
+  PlayerControls,
+  PlayerTime,
+  PlayerSlider,
+} from '..';
 
 // Hooks
 import {

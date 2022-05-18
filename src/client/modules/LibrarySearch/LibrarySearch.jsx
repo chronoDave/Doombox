@@ -6,9 +6,11 @@ import { cx } from 'emotion';
 // Core
 import { ButtonIcon } from '../../components';
 
-import { VirtualSongs } from '../VirtualSongs';
-import { VirtualAlbums } from '../VirtualAlbums';
-import { VirtualLabels } from '../VirtualLabels';
+import {
+  VirtualSongs,
+  VirtualAlbums,
+  VirtualLabels
+} from '..';
 
 // Actions
 import { updateCache } from '../../actions';

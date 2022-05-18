@@ -4,7 +4,7 @@ const path = require('path');
 const LeafDB = require('leaf-db').default;
 const { CONFIG } = require('@doombox-config');
 
-const { TYPES } = require('../../../../utils/types');
+const { TYPES } = require('../../../utils/types');
 
 const LibraryController = require('../library.controller');
 

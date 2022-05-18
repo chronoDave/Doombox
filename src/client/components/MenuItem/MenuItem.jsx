@@ -3,8 +3,7 @@ import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase } from '../ButtonBase';
-import { Typography } from '../Typography';
+import { ButtonBase, Typography } from '..';
 
 // Styles
 import useMenuItemStyles from './MenuItem.styles';

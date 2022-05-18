@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { Typography } from '../Typography';
+import { Typography } from '..';
 
 // Styles
 import useLabelToggleStyles from './LabelToggle.styles';

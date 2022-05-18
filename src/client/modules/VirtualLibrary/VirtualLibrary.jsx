@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // Core
 import { VirtualList, Popper, MenuItem } from '../../components';
 
-import { VirtualLibraryItem } from '../VirtualLibraryItem';
+import { VirtualLibraryItem } from '..';
 
 // Actions
 import { ipcInsert } from '../../actions';

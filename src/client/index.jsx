@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import { App } from './modules/App';
+import { App } from './modules';
 
 // Providers
 import {

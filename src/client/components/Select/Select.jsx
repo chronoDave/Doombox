@@ -2,11 +2,13 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase } from '../ButtonBase';
-import { Typography } from '../Typography';
-import { Icon } from '../Icon';
-import { Popper } from '../Popper';
-import { MenuItem } from '../MenuItem';
+import {
+  ButtonBase,
+  Typography,
+  Icon,
+  Popper,
+  MenuItem
+} from '..';
 
 // Hooks
 import { useTimeoutOpen } from '../../hooks';

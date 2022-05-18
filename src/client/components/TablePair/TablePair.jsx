@@ -3,7 +3,7 @@ import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
 // Core
-import { Typography } from '../Typography';
+import { Typography } from '..';
 
 // Validation
 import { propTablePairs } from '../../validation/propTypes';

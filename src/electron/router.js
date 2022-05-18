@@ -4,7 +4,7 @@ const { ipcMain } = require('electron');
 const { IPC } = require('@doombox-utils/types');
 
 // Core
-const Reporter = require('../reporter');
+const Reporter = require('./reporter/reporter');
 
 module.exports = class Router extends Reporter {
   constructor(root) {

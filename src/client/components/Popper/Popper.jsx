@@ -3,8 +3,7 @@ import { cx } from 'emotion';
 import PropTypes from 'prop-types';
 
 // Core
-import { PopperBase } from '../PopperBase';
-import { Fade } from '../Fade';
+import { PopperBase, Fade } from '..';
 
 // Styles
 import usePopperStyles from './Popper.styles';

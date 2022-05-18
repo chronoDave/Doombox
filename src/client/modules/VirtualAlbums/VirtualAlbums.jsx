@@ -10,7 +10,7 @@ import {
   VirtualList
 } from '../../components';
 
-import { VirtualAlbumsItem } from '../VirtualAlbumsItem';
+import { VirtualAlbumsItem } from '..';
 
 // Actions
 import { createPlaylist } from '../../actions';
