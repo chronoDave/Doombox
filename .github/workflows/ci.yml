@@ -31,12 +31,12 @@ jobs:
       - name: Build
         run: npm run build
       - name: Discord Webhook (Success)
-        if: ${{success()}}
+        if: ${{success() && matrix.os != 'windows-latest' }}
         run: |
           wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/github_discord.js
           node ./github_discord.js ${{secrets.WEBHOOK_URL}} success
       - name: Discord Webhook (Failure)
-        if: ${{failure()}}
+        if: ${{failure() && matrix.os != 'windows-latest' }}
         run: |
           wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/github_discord.js
           node ./github_discord.js ${{secrets.WEBHOOK_URL}} error
