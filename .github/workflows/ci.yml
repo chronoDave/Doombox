@@ -35,15 +35,13 @@ jobs:
         run: yarn test
       - name: Build
         run: yarn build
-      - name: On success
-        if: success()
+      - name: Discord Webhook (Success)
+        if: ${{success()}}
         run: |
-          curl https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh --output webhook.sh
-          chmod +x ./webhook.sh
-          ./webhook.sh success
-      - name: On error
-        if: failure()
+          wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/github_discord.js
+          node ./github_discord.js ${{secrets.WEBHOOK_URL}} success
+      - name: Discord Webhook (Failure)
+        if: ${{failure()}}
         run: |
-          curl https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/discord_github.sh --output webhook.sh
-          chmod +x ./webhook.sh
-          ./webhook.sh failure
+          wget https://raw.githubusercontent.com/chronoDave/user-scripts/master/webhooks/github_discord.js
+          node ./github_discord.js ${{secrets.WEBHOOK_URL}} error
