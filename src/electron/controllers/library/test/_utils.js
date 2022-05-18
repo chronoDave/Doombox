@@ -28,7 +28,7 @@ const cleanup = () => {
   fs.unlinkSync(albumFile);
   fs.unlinkSync(labelFile);
   fs.unlinkSync(imageFile);
-  fs.rmdirSync(imageFolder, { recursive: true });
+  fs.rmSync(imageFolder, { recursive: true, force: true });
 };
 
 module.exports = {

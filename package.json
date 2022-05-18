@@ -32,7 +32,7 @@
     "build": "yarn build:webpack && yarn build:electron"
   },
   "dependencies": {
-    "@chronocide/fs-walk": "^1.0.0",
+    "@chronocide/fs-walk": "1.0.0",
     "@popperjs/core": "^2.5.3",
     "emotion": "^10.0.27",
     "howler": "^2.2.0",

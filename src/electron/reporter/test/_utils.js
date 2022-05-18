@@ -10,7 +10,7 @@ const setup = () => ({
   reporter: new Reporter(root)
 });
 
-const cleanup = () => fs.rmdirSync(root, { recursive: true });
+const cleanup = () => fs.rmSync(root, { recursive: true, force: true });
 
 module.exports = {
   setup,
