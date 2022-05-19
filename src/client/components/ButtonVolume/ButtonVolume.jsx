@@ -7,15 +7,13 @@ import PropTypes from 'prop-types';
 import {
   ButtonIcon,
   Popper,
-  Slider,
-  Typography
+  Slider
 } from '..';
 
 // Hooks
 import { useAudio, useTimeoutOpen } from '../../hooks';
 
-// Styles
-import useButtonVolumeStyles from './ButtonVolume.styles';
+import './ButtonVolume.scss';
 
 const ButtonVolume = props => {
   const {
@@ -28,7 +26,6 @@ const ButtonVolume = props => {
 
   const { mute, setVolume } = useAudio();
   const { open, handleEnter, handleLeave } = useTimeoutOpen();
-  const classes = useButtonVolumeStyles();
 
   const getIcon = () => {
     if (muted) return 'mute';
@@ -66,7 +63,7 @@ const ButtonVolume = props => {
         placement="top-start"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        className={classes.popper}
+        className="ButtonVolume"
       >
         <Slider
           value={volume}
@@ -76,9 +73,7 @@ const ButtonVolume = props => {
           onClick={(_, newVolume) => handleVolume(newVolume)}
           onWheel={handleWheel}
         />
-        <Typography>
-          {Math.round(volume * 100)}
-        </Typography>
+        <p>{Math.round(volume * 100)}</p>
       </Popper>
     </Fragment>
   );
