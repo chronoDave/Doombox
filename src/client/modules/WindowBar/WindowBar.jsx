@@ -8,22 +8,17 @@ import WindowNavigation from './components/WindowNavigation/WindowNavigation';
 import WindowTitle from './components/WindowTitle/WindowTitle';
 import WindowIcon from './components/WindowIcon/WindowIcon';
 
-// Styles
-import useWindowBarStyles from './WindowBar.styles';
+import './WindowBar.scss';
 
-const WindowBar = () => {
-  const classes = useWindowBarStyles();
-
-  return (
-    <Hidden platform="darwin">
-      <div className={classes.root}>
-        <WindowIcon />
-        <WindowNavigation />
-        <WindowTitle />
-        <WindowButtons />
-      </div>
-    </Hidden>
-  );
-};
+const WindowBar = () => (
+  <Hidden platform="darwin">
+    <div className="WindowBar">
+      <WindowIcon />
+      <WindowNavigation />
+      <WindowTitle />
+      <WindowButtons />
+    </div>
+  </Hidden>
+);
 
 export default WindowBar;

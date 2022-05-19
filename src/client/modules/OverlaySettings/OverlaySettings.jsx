@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
 import PropTypes from 'prop-types';
@@ -8,8 +8,7 @@ import PropTypes from 'prop-types';
 import {
   Overlay,
   ButtonIcon,
-  ButtonBase,
-  Typography
+  ButtonBase
 } from '../../components';
 
 // Redux
@@ -18,18 +17,16 @@ import { setOverlay } from '../../redux';
 // Hooks
 import { useTranslation } from '../../hooks';
 
-// Styles
-import useOverlaySettingsStyles from './OverlaySettings.styles';
-
 import SettingsLanguage from './components/SettingsLanguage';
 import SettingsLibrary from './components/SettingsLibrary';
 import SettingsAppearance from './components/SettingsAppearance';
+
+import './OverlaySettings.scss';
 
 const OverlaySettings = ({ open, dispatchOverlay }) => {
   const [tab, setTab] = useState('appearance');
 
   const { t } = useTranslation();
-  const classes = useOverlaySettingsStyles();
 
   useEffect(() => {
     Mousetrap.bind('esc', () => dispatchOverlay(null));
@@ -44,32 +41,23 @@ const OverlaySettings = ({ open, dispatchOverlay }) => {
   };
 
   return (
-    <Overlay open={open} className={classes.overlay}>
-      <div className={classes.root}>
-        <div className={classes.tabs}>
+    <Overlay open={open} className="OverlaySettings">
+      <div className="overlay">
+        <div className="tabs">
           {Object.keys(tabs).map(key => (
             <ButtonBase
               key={key}
               onClick={() => setTab(key)}
-              className={cx(classes.tab, {
-                [classes.tabActive]: tab === key,
-                [classes.tabHover]: tab !== key
-              })}
+              className={cx(tab === key && 'active')}
             >
-              <Typography color="inherit">
-                {t(`common.${key}`, { transform: 'capitalize' })}
-              </Typography>
+              {t(`common.${key}`, { transform: 'capitalize' })}
             </ButtonBase>
           ))}
         </div>
-        <div className={classes.body}>
-          {tabs[tab]}
-        </div>
-        <div className={classes.close}>
+        <div className="body">{tabs[tab]}</div>
+        <div className="close">
           <ButtonIcon small icon="close" onClick={() => dispatchOverlay(null)} />
-          <Typography>
-            Esc
-          </Typography>
+          <p>Esc</p>
         </div>
       </div>
     </Overlay>

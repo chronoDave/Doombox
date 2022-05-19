@@ -19,7 +19,11 @@ const ButtonIcon = forwardRef((props, ref) => {
 
   return (
     <ButtonBase
-      className={cx('ButtonIcon', className)}
+      className={cx(
+        'ButtonIcon',
+        small && 'small',
+        className
+      )}
       ref={ref}
       disabled={disabled}
       {...rest}

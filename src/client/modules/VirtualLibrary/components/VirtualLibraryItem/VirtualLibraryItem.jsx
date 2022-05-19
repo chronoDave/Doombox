@@ -3,16 +3,15 @@ import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase, Typography, TablePair } from '../../../../components';
+import { ButtonBase, TablePair } from '../../../../components';
 
 // Hooks
-import { useTranslation, useAudio, useMediaQuery } from '../../../../hooks';
+import { useTranslation, useAudio } from '../../../../hooks';
 
 // Validation
 import { propLabel, propVirtualStyle } from '../../../../validation/propTypes';
 
-// Styles
-import useVirtualLibraryItemStyles from './VirtualLibraryItem.styles';
+import './VirtualLibraryItem.scss';
 
 const VirtualLibraryItem = props => {
   const {
@@ -23,7 +22,6 @@ const VirtualLibraryItem = props => {
     label,
     onContextMenu
   } = props;
-  const classes = useVirtualLibraryItemStyles();
 
   const { set } = useAudio();
   const {
@@ -32,16 +30,11 @@ const VirtualLibraryItem = props => {
     formatDate,
     formatTime
   } = useTranslation();
-  const isLg = useMediaQuery(({ join, create }) => join(
-    create('minWidth', 'lg'),
-    create('minHeight', 'md')
-  ));
 
   return (
-    <div className={classes.root} style={style}>
-      <div className={classes.header}>
+    <div className="VirtualLibraryItem" style={style}>
+      <div className="header">
         <ButtonBase
-          className={classes.headerButton}
           onClick={() => set({
             name: primary,
             collection: label.songs
@@ -54,22 +47,17 @@ const VirtualLibraryItem = props => {
               .sort(sortMetadata(['date', 'year', 'disc', 'track']))
           })}
         >
-          <Typography clamp>
-            {primary}
-          </Typography>
-          <Typography clamp variant="subtitle" color="textSecondary">
-            {secondary}
-          </Typography>
+          <p>{primary}</p>
+          <p className="subtitle">{secondary}</p>
         </ButtonBase>
-        <div className={classes.headerDivider} />
+        <div className="divider" />
       </div>
-      <div className={classes.albumContainer}>
+      <div className="albums">
         {label.albums
           .sort(sortMetadata(['date', 'year']))
           .map(album => (
-            <div className={classes.album} key={album._id}>
+            <div className="album" key={album._id}>
               <ButtonBase
-                className={classes.albumButton}
                 onClick={() => set({
                   name: getLocalizedTag(album, 'album'),
                   collection: album.songs
@@ -87,36 +75,28 @@ const VirtualLibraryItem = props => {
                   src={album.images[0] ? album.images[0].files.thumbnail : null}
                   alt={getLocalizedTag(album, 'album')}
                   decoding="async"
-                  className={classes.cover}
                 />
               </ButtonBase>
-              {isLg && (
-                <div className={classes.metadata}>
-                  <Typography fontWeight={500} clamp={2}>
-                    {getLocalizedTag(album, 'album')}
-                  </Typography>
-                  <Typography color="textSecondary" clamp>
-                    {getLocalizedTag(album, 'albumartist')}
-                  </Typography>
-                  <TablePair
-                    className={classes.table}
-                    variant="subtitle"
-                    values={[{
-                      label: t('common.release', { transform: 'capitalize' }),
-                      value: formatDate(album.date || album.year)
-                    }, {
-                      label: t('common.duration', { transform: 'capitalize' }),
-                      value: formatTime(album.duration, 'text')
-                    }, {
-                      label: t('common.track', {
-                        transform: 'capitalize',
-                        plural: album.songs.length !== 1
-                      }),
-                      value: album.songs.length
-                    }]}
-                  />
-                </div>
-              )}
+              <div className="metadata">
+                <p className="primary">{getLocalizedTag(album, 'album')}</p>
+                <p className="secondary">{getLocalizedTag(album, 'albumartist')}</p>
+                <TablePair
+                  variant="subtitle"
+                  values={[{
+                    label: t('common.release', { transform: 'capitalize' }),
+                    value: formatDate(album.date || album.year)
+                  }, {
+                    label: t('common.duration', { transform: 'capitalize' }),
+                    value: formatTime(album.duration, 'text')
+                  }, {
+                    label: t('common.track', {
+                      transform: 'capitalize',
+                      plural: album.songs.length !== 1
+                    }),
+                    value: album.songs.length
+                  }]}
+                />
+              </div>
             </div>
           ))}
       </div>

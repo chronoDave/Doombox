@@ -7,15 +7,13 @@ import { useTheme } from '../../../../hooks';
 import iconDark from '../../../../assets/icons/icon_dark.png';
 import iconLight from '../../../../assets/icons/icon_light.png';
 
-// Styles
-import useWindowIconStyles from './WindowIcon.styles';
+import './WindowIcon.scss';
 
 const WindowIcon = () => {
   const theme = useTheme();
-  const classes = useWindowIconStyles();
 
   return (
-    <div className={classes.root}>
+    <div className="WindowIcon">
       <img
         src={theme.palette.dark ? iconDark : iconLight}
         alt="Doombox App icon"

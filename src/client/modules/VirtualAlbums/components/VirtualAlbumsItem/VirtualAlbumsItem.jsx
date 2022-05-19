@@ -2,16 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase, Typography, TablePair } from '../../../../components';
-
-// Hooks
-import { useMediaQuery } from '../../../../hooks';
+import { ButtonBase, TablePair } from '../../../../components';
 
 // Validation
 import { propVirtualStyle, propTablePairs } from '../../../../validation/propTypes';
 
-// Styles
-import useVirtualAlbumsItemStyles from './VirtualAlbumsItem.styles';
+import './VirtualAlbumsItem.scss';
 
 const VirtualAlbumsItem = props => {
   const {
@@ -22,35 +18,16 @@ const VirtualAlbumsItem = props => {
     details,
     ...rest
   } = props;
-  const classes = useVirtualAlbumsItemStyles();
-  const isSm = useMediaQuery(({ join, create }) => join(
-    create('minWidth', 'sm'),
-    create('minHeight', 'sm')
-  ));
 
   return (
-    <div style={style} className={classes.root}>
-      <ButtonBase className={classes.button} {...rest}>
-        <img
-          src={cover}
-          className={classes.cover}
-          alt={`${secondary} - ${primary}`}
-        />
+    <div style={style} className="VirtualAlbumsItem">
+      <ButtonBase {...rest}>
+        <img src={cover} alt={`${secondary} - ${primary}`} />
       </ButtonBase>
-      <div className={classes.label}>
-        <Typography clamp={isSm ? 2 : 1}>
-          {primary}
-        </Typography>
-        <Typography clamp color="textSecondary">
-          {secondary}
-        </Typography>
-        {isSm && (
-          <TablePair
-            className={classes.details}
-            variant="subtitle"
-            values={details}
-          />
-        )}
+      <div className="label">
+        <p className="primary">{primary}</p>
+        <p className="secondary">{secondary}</p>
+        <TablePair variant="subtitle" values={details} />
       </div>
     </div>
   );

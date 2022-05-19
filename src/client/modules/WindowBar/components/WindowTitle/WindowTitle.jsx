@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import { Hidden, Typography } from '../../../../components';
+import { Hidden } from '../../../../components';
 
 // Actions
 import { setAppTitle } from '../../../../actions';
@@ -11,13 +11,11 @@ import { setAppTitle } from '../../../../actions';
 // Hooks
 import { useTranslation } from '../../../../hooks';
 
-// Styles
-import useWindowTitleStyles from './WindowTitle.styles';
+import './WindowTitle.scss';
 
 const WindowTitle = ({ metadata }) => {
   const [title, setTitle] = useState('Doombox');
   const { getLocalizedTag } = useTranslation();
-  const classes = useWindowTitleStyles();
 
   useEffect(() => {
     if (metadata.artist || metadata.title || metadata.album) {
@@ -34,11 +32,9 @@ const WindowTitle = ({ metadata }) => {
   }, [metadata, getLocalizedTag]);
 
   return (
-    <div className={classes.root}>
+    <div className="WindowTitle">
       <Hidden on={({ create }) => create('maxWidth', 'sm')}>
-        <Typography noWrap align="center">
-          {title}
-        </Typography>
+        <p className='nowrap'>{title}</p>
       </Hidden>
     </div>
   );

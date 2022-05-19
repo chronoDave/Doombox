@@ -11,15 +11,13 @@ import { useAudio } from '../../../../hooks';
 // Redux
 import { setSliding } from '../../../../redux';
 
-// Styles
-import usePlayerSliderStyles from './PlayerSlider.styles';
+import './PlayerSlider.scss';
 
 const PlayerSlider = ({ current, duration, dispatchSliding }) => {
   const { seek, getPosition } = useAudio();
-  const classes = usePlayerSliderStyles();
 
   return (
-    <div className={classes.root}>
+    <div className="PlayerSlider">
       <Slider
         value={current}
         max={duration}

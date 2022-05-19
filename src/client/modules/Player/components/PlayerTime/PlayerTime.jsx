@@ -2,27 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Core
-import { Typography } from '../../../../components';
-
 // Hooks
 import { useTranslation } from '../../../../hooks';
 
-// Styles
-import usePlayerTimeStyles from './PlayerTime.styles';
+import './PlayerTime.scss';
 
 const PlayerTime = ({ duration, current }) => {
   const { formatTime } = useTranslation();
-  const classes = usePlayerTimeStyles();
 
   return (
-    <div className={classes.root}>
-      <Typography color="inherit">
-        {formatTime(current)}
-      </Typography>
-      <Typography color="inherit">
-        {`-${formatTime(duration - current)}`}
-      </Typography>
+    <div className="PlayerTime">
+      <p>{formatTime(current)}</p>
+      <p>{`-${formatTime(duration - current)}`}</p>
     </div>
   );
 };

@@ -1,0 +1,11 @@
+@import '~/src/client/scss/utils.scss';
+
+.PlayerControls {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: -4px;
+
+  @media (min-width: $sm) and (min-height: $xs) {
+    margin-bottom: 0;
+  }
+}

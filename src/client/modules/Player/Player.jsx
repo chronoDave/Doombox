@@ -3,10 +3,11 @@ import url from 'url';
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { STATUS } from '@doombox-utils/types';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import { Typography, Hidden } from '../../components';
+import { Hidden } from '../../components';
 
 // Hooks
 import {
@@ -22,12 +23,11 @@ import backgroundDefault from '../../assets/images/backgroundDefault.png';
 // Validation
 import { propImage } from '../../validation/propTypes';
 
-// Styles
-import usePlayerStyles from './Player.styles';
-
 import PlayerControls from './components/PlayerControls/PlayerControls';
 import PlayerTime from './components/PlayerTime/PlayerTime';
 import PlayerSlider from './components/PlayerSlider/PlayerSlider';
+
+import './Player.scss';
 
 const Player = props => {
   const {
@@ -43,7 +43,6 @@ const Player = props => {
   const theme = useTheme();
   const [current, { create, update, destroy }] = useTimer();
   const { t, getLocalizedTag } = useTranslation();
-  const classes = usePlayerStyles();
   const isMd = useMediaQuery(breakpoints => breakpoints.join(
     breakpoints.create('minWidth', 'sm'),
     breakpoints.create('minHeight', 'sm')
@@ -70,7 +69,7 @@ const Player = props => {
   return (
     <Fragment>
       <div
-        className={classes.root}
+        className="Player"
         style={{
           backgroundImage: theme.createImage((image ?
             url.pathToFileURL(image.files.thumbnail).href :
@@ -78,25 +77,19 @@ const Player = props => {
           ))
         }}
       >
-        <div className={classes.title}>
-          <Typography
-            clamp={2}
-            align="center"
-            fontWeight={isMd ? 400 : 500}
-            variant={isMd ? 'h6' : 'body'}
-            color="inherit"
-          >
+        <div className="text">
+          <p className={cx(isMd && 'h6')}>
             {(
               getLocalizedTag({ titlelocalized, title }, 'title') ||
               t('description.playlist_empty', { transform: 'capitalize' })
             )}
-          </Typography>
-          <Typography clamp align="center" color="inherit">
+          </p>
+          <p className="artist">
             {getLocalizedTag({ artistlocalized, artist }, 'artist') || ''}
-          </Typography>
+          </p>
         </div>
         <Hidden on={breakpoints => breakpoints.create('maxWidth', 'sm')}>
-          <PlayerControls className={classes.buttons} />
+          <PlayerControls />
         </Hidden>
         <Hidden on={breakpoints => breakpoints.create('maxHeight', 'xs')}>
           <PlayerTime current={current} />
@@ -104,7 +97,7 @@ const Player = props => {
       </div>
       <PlayerSlider current={current} />
       <Hidden on={breakpoints => breakpoints.create('minWidth', 'sm')}>
-        <PlayerControls className={classes.buttons} />
+        <PlayerControls />
       </Hidden>
     </Fragment>
   );

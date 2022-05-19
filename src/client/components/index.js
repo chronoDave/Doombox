@@ -14,7 +14,6 @@ export { default as MenuItem } from './MenuItem/MenuItem';
 export { default as Overlay } from './Overlay/Overlay';
 export { default as PopperBase } from './PopperBase/PopperBase';
 export { default as Slider } from './Slider/Slider';
-export { default as Typography } from './Typography/Typography';
 export { default as VirtualList } from './VirtualList/VirtualList';
 export { default as TablePair } from './TablePair/TablePair';
 export { default as Toggle } from './Toggle/Toggle';

@@ -3,14 +3,13 @@ import { shell, remote } from 'electron';
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { URLS, WINDOW, IPC } from '@doombox-utils/types';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
 import {
   Popper,
   MenuItem,
-  Typography,
   ButtonBase
 } from '../../../../components';
 
@@ -31,8 +30,7 @@ import { setOverlay, populatePlaylists } from '../../../../redux';
 // Validation
 import { propConfigKeybinds, propPlaylist } from '../../../../validation/propTypes';
 
-// Styles
-import useWindowNavigationStyles from './WindowNavigation.styles';
+import './WindowNavigation.scss';
 
 const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
   const [menu, setMenu] = useState({ id: 'file', anchorEl: null });
@@ -45,7 +43,6 @@ const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
     handleLeave
   } = useTimeoutOpen();
   const { set } = useAudio();
-  const classes = useWindowNavigationStyles();
 
   const items = {
     file: [{
@@ -133,7 +130,7 @@ const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
 
   return (
     <Fragment>
-      <div className={classes.root}>
+      <div className="WindowNavigation root">
         {Object.keys(items).map(id => (
           <ButtonBase
             key={id}
@@ -148,13 +145,9 @@ const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
               }
             }}
             onMouseLeave={handleLeave}
-            className={cx(classes.button, {
-              [classes.active]: menu.id === id && open
-            })}
+            className={cx((menu.id === id && open) && 'active')}
           >
-            <Typography color="inherit">
-              {t(`common.${id}`, { transform: 'capitalize' })}
-            </Typography>
+            {t(`common.${id}`, { transform: 'capitalize' })}
           </ButtonBase>
         ))}
       </div>
@@ -164,8 +157,9 @@ const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         placement="bottom-start"
+        className="WindowNavigation"
       >
-        <div className={classes.menuRoot}>
+        <div className="menu">
           {items[menu.id].map(item => (
             <MenuItem
               key={item.primary}
@@ -179,7 +173,6 @@ const WindowNavigation = ({ keybinds, playlists, dispatchOverlay }) => {
                 item.onContextMenu(event);
               }}
               divider={item.divider}
-              className={classes.menuItem}
             />
           ))}
         </div>

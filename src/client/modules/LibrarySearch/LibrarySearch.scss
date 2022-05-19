@@ -1,0 +1,20 @@
+.LibrarySearch {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  > .icons {
+    display: flex;
+    margin: 2px;
+    margin-top: 0;
+
+    > button {
+      margin: 0 2px;
+
+      &.active {
+        background-color: var(--primary);
+        color: var(--primary-contrast);
+      }
+    }
+  }
+}

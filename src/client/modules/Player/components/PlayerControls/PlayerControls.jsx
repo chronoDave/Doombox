@@ -1,5 +1,5 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import { connect } from 'react-redux';
 import { STATUS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
@@ -10,8 +10,7 @@ import { ButtonIcon, ButtonVolume } from '../../../../components';
 // Hooks
 import { useAudio, useMediaQuery } from '../../../../hooks';
 
-// Styles
-import usePlayerControls from './PlayerControls.styles';
+import './PlayerControls.scss';
 
 const PlayerControls = ({ status, className }) => {
   const {
@@ -25,34 +24,29 @@ const PlayerControls = ({ status, className }) => {
     create('minWidth', 'sm'),
     create('minHeight', 'xs')
   ));
-  const classes = usePlayerControls();
 
   return (
-    <div className={cx(classes.root, className)}>
-      <ButtonVolume small={!isNotSmall} className={classes.button} />
+    <div className={cx('PlayerControls', className)}>
+      <ButtonVolume small={!isNotSmall} />
       <ButtonIcon
         icon="previous"
         small={!isNotSmall}
         onClick={previous}
-        className={classes.button}
       />
       <ButtonIcon
         icon={status === STATUS.AUDIO.PLAYING ? 'pause' : 'play'}
         small={!isNotSmall}
         onClick={status === STATUS.AUDIO.PLAYING ? pause : play}
-        className={classes.button}
       />
       <ButtonIcon
         icon="next"
         small={!isNotSmall}
         onClick={next}
-        className={classes.button}
       />
       <ButtonIcon
         icon="shuffle"
         small={!isNotSmall}
         onClick={shuffle}
-        className={classes.button}
       />
     </div>
   );

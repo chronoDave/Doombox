@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { IPC } from '@doombox-utils/types';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
 import {
-  Typography,
   Popper,
   ButtonIcon,
   InputText
@@ -17,8 +17,7 @@ import { ipcInsert } from '../../../../actions';
 // Hooks
 import { useMediaQuery, useTranslation, useTimeoutOpen } from '../../../../hooks';
 
-// Styles
-import usePlaylistTitleStyles from './PlaylistTitle.styles';
+import './PlaylistTitle.scss';
 
 const PlaylistTitle = props => {
   const {
@@ -31,7 +30,6 @@ const PlaylistTitle = props => {
   const input = useRef();
 
   const { t, formatTime } = useTranslation();
-  const classes = usePlaylistTitleStyles();
   const displaySecondary = useMediaQuery(({ join, create }) => join(
     create('minWidth', 'sm'),
     create('minHeight', 'xs')
@@ -57,7 +55,7 @@ const PlaylistTitle = props => {
   return (
     <Fragment>
       <div
-        className={classes.root}
+        className="PlaylistTitle root"
         onContextMenu={event => {
           if (size > 0) {
             setAnchorEl(event.currentTarget);
@@ -66,16 +64,16 @@ const PlaylistTitle = props => {
         }}
         onMouseLeave={handleLeave}
       >
-        <Typography clamp fontWeight={displaySecondary ? 500 : 400}>
+        <p className={cx('primary', displaySecondary && 'hasSecondary')}>
           {`${name || t('common.playlist', { transform: 'capitalize' })}${!displaySecondary ? ` (${size})` : ''}`}
-        </Typography>
+        </p>
         {displaySecondary && (
-          <Typography>
+          <p>
             {[
               `${size} ${t('common.track', { plural: size !== 1 })}`,
               formatTime(duration, 'text')
             ].join(' \u2022 ')}
-          </Typography>
+          </p>
         )}
       </div>
       <Popper
@@ -84,7 +82,7 @@ const PlaylistTitle = props => {
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         placement="bottom"
-        className={classes.popper}
+        className="PlaylistTitle"
       >
         <InputText ref={input} />
         <ButtonIcon

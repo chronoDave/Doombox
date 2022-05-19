@@ -2,6 +2,7 @@
 
 body.light {
   --primary: #{$primary};
+  --primary-active: #{$primary}#{$opacitySecondary};
   --primary-inactive: #{$primary}#{$opacityInactive};
   --primary-contrast: #{$grey6};
   --primary-contrast-secondary: #{$grey5};
@@ -18,4 +19,8 @@ body.light {
   --toggle: #{$grey2};
   --list-item: #{$white}#{$opacityPrimary};
   --list-item-hover: #{$grey5};
+  --app: #{$grey6};
+  --library: #{$white};
+  --error: #{$error};
+  --window: #{$grey6};
 }

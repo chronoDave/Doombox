@@ -19,4 +19,8 @@ body.dark {
   --toggle: #{$grey2};
   --list-item: #{$grey2}#{$opacityPrimary};
   --list-item-hover: #{$grey2};
+  --app: #{$grey1};
+  --library: #{$grey1};
+  --error: #{$error};
+  --window: #{$grey0};
 }

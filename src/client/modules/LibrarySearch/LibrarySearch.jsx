@@ -1,7 +1,7 @@
 import React from 'react';
 import { TYPES, WINDOW } from '@doombox-utils/types';
 import { connect } from 'react-redux';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 
 // Core
 import { ButtonIcon } from '../../components';
@@ -18,12 +18,9 @@ import { updateCache } from '../../actions';
 // Validation
 import { propTabSearch } from '../../validation/propTypes';
 
-// Styles
-import useLibrarySearchStyles from './LibrarySearch.styles';
+import './LibrarySearch.scss';
 
 const LibrarySearch = ({ tab }) => {
-  const classes = useLibrarySearchStyles();
-
   const tabs = {
     [WINDOW.TABS.SONGS]: {
       icon: 'artist',
@@ -40,14 +37,14 @@ const LibrarySearch = ({ tab }) => {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.icons}>
+    <div className="LibrarySearch">
+      <div className="icons">
         {Object.entries(tabs).map(([key, { icon }]) => (
           <ButtonIcon
             key={key}
             icon={icon}
             small
-            className={cx(classes.icon, { [classes.active]: key === tab })}
+            className={cx(key === tab && 'active')}
             onClick={() => {
               updateCache(TYPES.CACHE.TABS, { search: key });
             }}

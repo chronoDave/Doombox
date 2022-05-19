@@ -10,19 +10,17 @@ import PropTypes from 'prop-types';
 import { IPC } from '@doombox-utils/types';
 
 // Core
-import { Overlay, Typography, LoaderBar } from '../../components';
+import { Overlay, LoaderBar } from '../../components';
 
 // Hooks
 import { useTranslation } from '../../hooks';
 
-// Styles
-import useOverlayScanStyles from './OverlayScan.styles';
+import './OverlayScan.scss';
 
 const OverlayScan = ({ open }) => {
   const [progress, setProgress] = useState({ file: null, index: 0, total: 0 });
   const [count, setCount] = useState(0);
 
-  const classes = useOverlayScanStyles();
   const { t, formatTime } = useTranslation();
 
   const counter = useRef();
@@ -60,33 +58,17 @@ const OverlayScan = ({ open }) => {
 
   return (
     <Overlay open={open}>
-      <div className={classes.root}>
-        <div className={classes.title}>
-          <Typography align="center" variant="h6">
-            {t('title.scanning_files', { transform: 'capitalize' })}
-          </Typography>
-          <Typography align="center" className={classes.description}>
-            {t('description.scanning_files', { transform: 'capitalize' })}
-          </Typography>
-          <Typography align="center">
-            {`${formatTime(count)} / ${estimate}`}
-          </Typography>
+      <div className="OverlayScan">
+        <div className="title">
+          <h6>{t('title.scanning_files', { transform: 'capitalize' })}</h6>
+          <p className="description">{t('description.scanning_files', { transform: 'capitalize' })}</p>
+          <p>{`${formatTime(count)} / ${estimate}`}</p>
         </div>
-        <div className={classes.progress}>
+        <div className="progress">
           <LoaderBar value={value} />
-          <Typography className={classes.progressLabel}>
-            {`${value}%`}
-          </Typography>
+          <p className="label">{`${value}%`}</p>
         </div>
-        {progress.file && (
-          <Typography
-            variant="caption"
-            clamp={4}
-            className={classes.file}
-          >
-            {progress.file}
-          </Typography>
-        )}
+        {progress.file && <caption>{progress.file}</caption>}
       </div>
     </Overlay>
   );

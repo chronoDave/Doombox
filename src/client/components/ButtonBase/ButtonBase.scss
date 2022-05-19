@@ -1,4 +1,7 @@
+@import '~/src/client/scss/utils.scss';
+
 .ButtonBase {
+  @extend %typography-base;
   outline: 0;
   cursor: pointer;
   border: none;

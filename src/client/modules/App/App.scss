@@ -1,0 +1,44 @@
+@import '~/src/client/scss/utils.scss';
+
+.App {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+  background-color: var(--app);
+
+  > .body {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    min-height: 0;
+
+    > .controller {
+      display: flex;
+      flex-direction: column;
+      width: 164px;
+
+      @media (min-width: $sm) {
+        width: 210px;
+      }
+
+      @media (min-width: $md) {
+        width: 300px;
+      }
+    }
+
+    > .library {
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      background-color: var(--library);
+      flex-grow: 1;
+
+      > .header {
+        display: flex;
+        align-items: center;
+        padding: 0 4px;
+      }
+    }
+  }
+}

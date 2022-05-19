@@ -18,8 +18,7 @@ import { useTranslation, useTimeoutOpen } from '../../hooks';
 // Validation
 import { propConfigSearch } from '../../validation/propTypes';
 
-// Styles
-import useSearchLibrary from './SearchLibrary.styles';
+import './SearchLibrary.scss';
 
 const SearchLibrary = props => {
   const {
@@ -37,7 +36,6 @@ const SearchLibrary = props => {
     handleEnter,
     handleLeave,
   } = useTimeoutOpen();
-  const classes = useSearchLibrary();
 
   useEffect(() => {
     if (query && query.length > 0) {
@@ -97,7 +95,7 @@ const SearchLibrary = props => {
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         placement="bottom-start"
-        className={classes.popper}
+        className="SearchLibrary"
       >
         {Object.keys(fields).map(key => (
           <Checkbox
@@ -108,7 +106,6 @@ const SearchLibrary = props => {
                 'capitalize'
             })}
             checked={fields[key]}
-            className={classes.checkbox}
             onChange={event => updateConfig(
               TYPES.CONFIG.SEARCH,
               { [key]: event.currentTarget.checked }

@@ -16,34 +16,29 @@ import {
   LibrarySearch,
 } from '..';
 
-// Styles
-import useAppStyles from './App.styles';
+import './App.scss';
 
-const App = ({ overlay, view }) => {
-  const classes = useAppStyles();
-
-  return (
-    <div className={classes.root}>
-      <WindowBar />
-      <div className={classes.body}>
-        <div className={classes.controller}>
-          <Player />
-          <Playlist />
-        </div>
-        <div className={classes.library}>
-          <div className={classes.header}>
-            <SearchLibrary />
-            <LibraryMenu />
-          </div>
-          {view === WINDOW.VIEW.LIBRARY && <VirtualLibrary />}
-          {view === WINDOW.VIEW.SEARCH && <LibrarySearch />}
-        </div>
-        <OverlayScan open={overlay === WINDOW.OVERLAY.SCAN} />
-        <OverlaySettings open={overlay === WINDOW.OVERLAY.SETTINGS} />
+const App = ({ overlay, view }) => (
+  <div className="App">
+    <WindowBar />
+    <div className="body">
+      <div className="controller">
+        <Player />
+        <Playlist />
       </div>
+      <div className="library">
+        <div className="header">
+          <SearchLibrary />
+          <LibraryMenu />
+        </div>
+        {view === WINDOW.VIEW.LIBRARY && <VirtualLibrary />}
+        {view === WINDOW.VIEW.SEARCH && <LibrarySearch />}
+      </div>
+      <OverlayScan open={overlay === WINDOW.OVERLAY.SCAN} />
+      <OverlaySettings open={overlay === WINDOW.OVERLAY.SETTINGS} />
     </div>
-  );
-};
+  </div>
+);
 
 App.defaultProps = {
   overlay: null

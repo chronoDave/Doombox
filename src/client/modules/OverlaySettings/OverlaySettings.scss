@@ -1,0 +1,60 @@
+@import '~/src/client/scss/utils.scss';
+
+.OverlaySettings {
+  align-items: flex-start;
+
+  > .overlay {
+    display: flex;
+    height: 100%;
+    flex-grow: 1;
+    min-width: 0;
+    max-width: $md;
+  
+    @media (min-width: $sm) {
+      padding: 0 8px;
+    }
+  
+    @media (min-height: $sm) {
+      padding: 8px 0;
+    }
+
+    > .tabs {
+      display: flex;
+      flex-direction: column;
+      padding: 8px;
+
+      > button {
+        display: flex;
+        justify-content: center;
+        color: var(--text-disabled);
+        padding: 8px 12px;
+        border-radius: 4px;
+        margin-bottom: 4px;
+        transition: color $transitionShortest, background-color $transitionShortest;
+
+        &:hover {
+          color: var(--text-primary);
+          background-color: var(--primary-inactive);
+        }
+
+        &.active {
+          background-color: var(--primary);
+          color: var(--primary-contrast);
+        }
+      }
+    }
+
+    > .body {
+      padding: 8px;
+      flex-grow: 1;
+    }
+
+    > .close {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px;
+      color: var(--text-primary);
+    }
+  }
+}
