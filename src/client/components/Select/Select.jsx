@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 // Core
 import {
   ButtonBase,
-  Typography,
   Icon,
   Popper,
   MenuItem
@@ -13,8 +12,7 @@ import {
 // Hooks
 import { useTimeoutOpen } from '../../hooks';
 
-// Styles
-import useSelectStyles from './Select.styles';
+import './Select.scss';
 
 const Select = ({ active, values, onChange }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,7 +23,6 @@ const Select = ({ active, values, onChange }) => {
     handleEnter,
     handleLeave
   } = useTimeoutOpen();
-  const classes = useSelectStyles();
 
   return (
     <Fragment>
@@ -36,13 +33,11 @@ const Select = ({ active, values, onChange }) => {
         }}
         onMouseEnter={() => open && handleEnter()}
         onMouseLeave={handleLeave}
-        className={classes.root}
+        className="Select button"
         disableAnimation
       >
-        <Typography color="inherit" className={classes.label}>
-          {values[active].primary || values[active]}
-        </Typography>
-        <Icon type={open ? 'menuUp' : 'menuDown'} className={classes.icon} />
+        <p className="label">{values[active].primary || values[active]}</p>
+        <Icon type={open ? 'menuUp' : 'menuDown'} />
       </ButtonBase>
       <Popper
         anchorEl={anchorEl}
@@ -50,13 +45,14 @@ const Select = ({ active, values, onChange }) => {
         placement="bottom-start"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
+        className='Select menu'
         style={{
           width: anchorEl ?
             anchorEl.getBoundingClientRect().width :
             0
         }}
       >
-        <div className={classes.menu}>
+        <div className="body">
           {Object.entries(values).map(([key, value]) => (
             <MenuItem
               key={key}

@@ -2,6 +2,8 @@ const path = require('path');
 
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const alias = {
   '@doombox-utils': path.resolve(__dirname, 'src/utils'),
@@ -12,7 +14,7 @@ const alias = {
 const outputElectron = path.resolve(__dirname, 'build/src');
 const outputReact = path.resolve(__dirname, 'build/client');
 
-module.exports = (env, argv) => [{
+module.exports = env => [{
   name: 'electron',
   target: 'electron-main',
   externals: {
@@ -74,12 +76,15 @@ module.exports = (env, argv) => [{
     path.resolve(__dirname, 'src/client/index.jsx'),
   ].filter(entry => entry),
   output: {
-    path: outputReact,
     filename: '[name].bundle.js',
+    chunkFilename: '[name].[contenthash].js',
+    path: outputReact,
     clean: true
   },
   optimization: {
     minimizer: [
+      '...',
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         terserOptions: {
           output: {
@@ -107,25 +112,23 @@ module.exports = (env, argv) => [{
   module: {
     rules: [{
       test: /\.(js|jsx)$/,
-      include: [path.resolve(__dirname, 'src/client')],
+      include: path.resolve(__dirname, 'src/client'),
       exclude: [/\.spec\.js$/],
-      loader: 'babel-loader',
+      loader: 'ts-loader',
       options: {
-        plugins: [
-          ['emotion', {
-            sourceMap: argv.mode !== 'production',
-            autoLabel: 'never',
-            cssPropOptimization: false
-          }]
-        ],
-        presets: [
-          '@babel/preset-env',
-          '@babel/preset-react'
-        ]
+        transpileOnly: true
       }
     }, {
-      test: /\.(otf|ttf|png|jpe?g|gif)$/,
-      include: [path.resolve(__dirname, 'src/client/assets')],
+      test: /\.scss$/,
+      include: path.resolve(__dirname, 'src/client'),
+      use: [
+        MiniCssExtractPlugin.loader,
+        { loader: 'css-loader', options: { sourceMap: true, url: false } },
+        { loader: 'sass-loader', options: { sourceMap: true } },
+      ]
+    }, {
+      test: /\.(png|jpe?g|gif)$/,
+      include: path.resolve(__dirname, 'src/client/assets'),
       loader: 'file-loader',
       options: {
         outputPath: 'assets',
@@ -134,9 +137,13 @@ module.exports = (env, argv) => [{
     }]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[name].[contenthash].css'
+    }),
     new CopyPlugin({
       patterns: [{
-        from: 'src/client/assets/fonts/README.md',
+        from: 'src/client/assets/fonts',
         to: 'assets/fonts'
       }, {
         from: 'src/client/assets/images/README.md',

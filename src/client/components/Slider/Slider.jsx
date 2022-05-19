@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 // Theme
 import { mixins } from '../../theme';
 
-// Styles
-import useSliderStyles from './Slider.styles';
+import './Slider.scss';
 
 const Slider = props => {
   const {
@@ -23,7 +22,6 @@ const Slider = props => {
   const [sliding, setSliding] = useState({ enabled: false, value: 0 });
 
   const ref = useRef(null);
-  const classes = useSliderStyles();
 
   const innerValue = sliding.enabled ? sliding.value : value;
   const percentage = innerValue / ((max - min) / 100);
@@ -74,7 +72,7 @@ const Slider = props => {
 
   return (
     <div
-      className={classes.root}
+      className="Slider"
       style={orientation === 'horizontal' ? ({
         width: '100%',
         height: mixins.slider.track
@@ -87,7 +85,7 @@ const Slider = props => {
       {...rest}
     >
       <div
-        className={classes.trackActive}
+        className="trackActive"
         style={orientation === 'horizontal' ? ({
           width: `${percentage}%`,
           height: '100%',
@@ -105,7 +103,7 @@ const Slider = props => {
         tabIndex={0}
       >
         <div
-          className={classes.thumb}
+          className="thumb"
           style={orientation === 'horizontal' ? ({
             left: `${mixins.slider.thumb * (1 - (percentage / 100))}px`,
           }) : ({
@@ -122,7 +120,7 @@ const Slider = props => {
         />
       </div>
       <div
-        className={classes.trackInactive}
+        className="trackInactive"
         onMouseDown={event => onClick && onClick(event, getValue(event))}
         // Aria
         role="button"

@@ -1,0 +1,12 @@
+@import '~/src/client/scss/utils.scss';
+
+.Popper {
+  background-color: var(--popper);
+  box-shadow: $shadow3;
+
+  > .arrow {
+    transform: rotate(45deg);
+    width: 8px;
+    height: 8px;
+  }
+}

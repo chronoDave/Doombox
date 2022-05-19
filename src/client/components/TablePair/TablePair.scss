@@ -1,0 +1,15 @@
+@import '~/src/client/scss/utils.scss';
+
+.TablePair {
+  margin: 0;
+  border-spacing: 0;
+
+  > tbody > tr > td {
+    color: var(--text-primary);
+
+    &.label {
+      padding: 0;
+      padding-right: 16px;
+    }
+  }
+}

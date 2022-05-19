@@ -6,8 +6,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-// Styles
-import useVirtualListStyles from './VirtualList.styles';
+import './VirtualList.scss';
 
 const VirtualList = props => {
   const {
@@ -20,7 +19,6 @@ const VirtualList = props => {
   const [view, setView] = useState([]);
 
   const ref = useRef();
-  const classes = useVirtualListStyles();
 
   const virtualize = useCallback(() => {
     const { scrollTop, clientHeight } = ref.current;
@@ -81,10 +79,10 @@ const VirtualList = props => {
   return (
     <div
       ref={ref}
-      className={classes.root}
+      className="VirtualList"
       onScroll={virtualize}
     >
-      <div className={classes.body} style={{ height: virtual.total }}>
+      <div className="body" style={{ height: virtual.total }}>
         {view.map(children)}
       </div>
     </div>

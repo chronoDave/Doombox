@@ -4,11 +4,11 @@
  * */
 
 import React, { forwardRef } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Styles
-import useIconStyles from './Icon.styles';
+import './Icon.scss';
 
 export const icons = {
   minimize: 'm6,11l12,0l0,2l-12,0l0,-2z',
@@ -41,7 +41,6 @@ const Icon = forwardRef((props, ref) => {
     className,
     ...rest
   } = props;
-  const classes = useIconStyles();
 
   return (
     <svg
@@ -49,9 +48,11 @@ const Icon = forwardRef((props, ref) => {
       viewBox="0 0 24 24"
       color="inherit"
       aria-hidden
-      className={cx(classes.root, {
-        [classes.small]: small
-      }, className)}
+      className={cx(
+        'Icon',
+        small && 'small',
+        className
+      )}
       {...rest}
       ref={ref}
     >

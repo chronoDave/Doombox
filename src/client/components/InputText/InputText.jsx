@@ -1,28 +1,19 @@
 import React, { forwardRef } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
-import { Typography } from '..';
+import './InputText.scss';
 
-// Styles
-import useSearchStyles from './InputText.styles';
-
-const InputText = forwardRef(({ className, ...rest }, ref) => {
-  const classes = useSearchStyles();
-
-  return (
-    <Typography
-      element="input"
-      ref={ref}
-      type="text"
-      autoCapitalize="off"
-      spellCheck="false"
-      className={cx(classes.input, classes.root, className)}
-      {...rest}
-    />
-  );
-});
+const InputText = forwardRef(({ className, ...rest }, ref) => (
+  <input
+    {...rest}
+    ref={ref}
+    type="text"
+    autoCapitalize="off"
+    spellCheck={false}
+    className={cx('InputText', className)}
+  />
+));
 
 InputText.propTypes = {
   className: PropTypes.string

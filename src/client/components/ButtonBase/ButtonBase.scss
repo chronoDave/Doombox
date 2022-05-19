@@ -1,0 +1,16 @@
+.ButtonBase {
+  outline: 0;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &.holding {
+    transform: translate(0, 1px);
+  }
+}

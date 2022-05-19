@@ -4,20 +4,15 @@ import PropTypes from 'prop-types';
 // Core
 import { Fade } from '..';
 
-// Styles
-import useOverlayStyles from './Overlay.styles';
+import './Overlay.scss';
 
-const Overlay = ({ open, children }) => {
-  const classes = useOverlayStyles();
-
-  return (
-    <Fade visible={open}>
-      <div className={classes.root}>
-        {children}
-      </div>
-    </Fade>
-  );
-};
+const Overlay = ({ open, children }) => (
+  <Fade visible={open}>
+    <div className="Overlay">
+      {children}
+    </div>
+  </Fade>
+);
 
 Overlay.defaultProps = {
   open: false

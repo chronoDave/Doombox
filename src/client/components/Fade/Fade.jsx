@@ -4,7 +4,7 @@ import {
   useState,
   useEffect
 } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Hooks
@@ -13,14 +13,12 @@ import { useTimeout } from '../../hooks';
 // Theme
 import { transitions } from '../../theme';
 
-// Styles
-import useFadeStyles from './Fade.styles';
+import './Fade.scss';
 
 const Fade = ({ visible, delay, children }) => {
   const [hidden, setHidden] = useState(false);
 
   const [hide, cancelHide] = useTimeout(() => setHidden(true), delay);
-  const classes = useFadeStyles({ delay });
 
   useEffect(() => {
     if (visible) {
@@ -37,11 +35,10 @@ const Fade = ({ visible, delay, children }) => {
       transition: transitions.create(['opacity'], delay)
     },
     className: cx(
-      child.props.className,
-      {
-        [classes.invisible]: !visible,
-        [classes.hidden]: hidden
-      }
+      'Fade',
+      !visible && 'invisible',
+      hidden && 'hidden',
+      child.props.className
     )
   }));
 };

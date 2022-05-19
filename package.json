@@ -32,6 +32,7 @@
     "build": "npm run build:webpack && npm run build:electron"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.17.12",
     "@chronocide/fs-walk": "1.0.0",
     "@popperjs/core": "^2.5.3",
     "emotion": "^10.0.27",
@@ -55,14 +56,13 @@
   "devDependencies": {
     "@babel/core": "^7.12.0",
     "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.12.0",
-    "@babel/preset-react": "^7.10.4",
     "@babel/register": "^7.12.1",
-    "babel-loader": "^8.1.0",
     "babel-plugin-emotion": "^10.0.33",
     "babel-plugin-module-resolver": "^4.0.0",
     "chokidar": "^3.4.3",
     "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^3.4.1",
     "electron": "11.1.0",
     "electron-builder": "^22.9.1",
     "eslint": "^7.7.0",
@@ -73,12 +73,18 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
     "file-loader": "^6.1.1",
+    "fork-ts-checker-webpack-plugin": "^7.2.11",
+    "mini-css-extract-plugin": "^2.6.0",
     "node-loader": "^1.0.2",
     "nodemon": "^2.0.6",
     "react-devtools": "^4.10.1",
+    "sass": "^1.51.0",
+    "sass-loader": "^13.0.0",
     "sinon": "^9.2.0",
     "tape": "^5.0.1",
     "terser-webpack-plugin": "^5.0.0",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.6.4",
     "webpack": "^5.1.1",
     "webpack-cli": "^4.0.0"
   }

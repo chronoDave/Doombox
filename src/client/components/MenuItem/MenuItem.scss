@@ -1,0 +1,23 @@
+@import '~/src/client/scss/utils.scss';
+
+.MenuItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  transition: background-color $transitionShortest, color $transitionShortest;
+  color: var(--text-primary);
+  width: 100%;
+
+  &.divider {
+    border-bottom: 1px solid var(--border);
+  }
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--primary-contrast);
+  }
+
+  > .secondary {
+    margin-left: 24px;
+  }
+}

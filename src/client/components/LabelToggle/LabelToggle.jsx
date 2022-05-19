@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Core
-import { Typography } from '..';
-
-// Styles
-import useLabelToggleStyles from './LabelToggle.styles';
+import './LabelToggle.scss';
 
 const LabelToggle = props => {
   const {
@@ -14,18 +10,17 @@ const LabelToggle = props => {
     children,
     ...rest
   } = props;
-  const classes = useLabelToggleStyles();
 
   return (
-    <div className={classes.root} {...rest}>
-      <div className={classes.text}>
-        <Typography variant="subtitle">
+    <div className="LabelToggle" {...rest}>
+      <div className="text">
+        <p className="subtitle">
           {label}
-        </Typography>
+        </p>
         {description && (
-          <Typography variant="subtitle" color="textSecondary">
+          <p className="description subtitle" color="textSecondary">
             {description}
-          </Typography>
+          </p>
         )}
       </div>
       {children}

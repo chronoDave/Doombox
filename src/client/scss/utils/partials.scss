@@ -1,0 +1,24 @@
+%typography-base {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  color: inherit;
+
+  &.nowrap {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+%input-base {
+  outline: 0;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  min-width: 0;
+
+  &::placeholder {
+    color: var(--text-disabled);
+  }
+}

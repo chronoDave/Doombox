@@ -1,0 +1,10 @@
+.LoaderBar {
+  height: 4px;
+  width: 100%;
+  background-color: var(--primary-inactive);
+
+  > .track {
+    height: 100%;
+    background-color: var(--primary);
+  }
+}

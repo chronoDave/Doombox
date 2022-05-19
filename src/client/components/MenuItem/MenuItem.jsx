@@ -1,12 +1,11 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase, Typography } from '..';
+import { ButtonBase } from '..';
 
-// Styles
-import useMenuItemStyles from './MenuItem.styles';
+import './MenuItem.scss';
 
 const MenuItem = props => {
   const {
@@ -16,24 +15,19 @@ const MenuItem = props => {
     className,
     ...rest
   } = props;
-  const classes = useMenuItemStyles();
 
   return (
     <ButtonBase
-      className={cx(classes.root, {
-        [classes.divider]: divider
-      }, className)}
+      className={cx(
+        'MenuItem',
+        divider && 'divider',
+        className
+      )}
       disableAnimation
       {...rest}
     >
-      <Typography color="inherit" noWrap>
-        {primary}
-      </Typography>
-      {secondary && (
-        <Typography className={classes.secondary}>
-          {secondary}
-        </Typography>
-      )}
+      <p className='nowrap'>{primary}</p>
+      {secondary && <p className='secondary'>{secondary}</p>}
     </ButtonBase>
   );
 };

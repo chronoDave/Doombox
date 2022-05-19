@@ -1,36 +1,23 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
 import { Typography } from '..';
 
-// Styles
-import useCheckboxStyles from './Checkbox.styles';
+import './Checkbox.scss';
 
-const Checkbox = props => {
-  const {
-    checked,
-    label,
-    className,
-    ...rest
-  } = props;
-  const classes = useCheckboxStyles();
-
-  return (
-    <div className={cx(classes.root, className)}>
-      <input
-        type="checkbox"
-        checked={checked}
-        className={classes.input}
-        {...rest}
-      />
-      <Typography>
-        {label}
-      </Typography>
-    </div>
-  );
-};
+const Checkbox = ({ label, className, ...rest }) => (
+  <div className={cx('Checkbox', className)}>
+    <input
+      type="checkbox"
+      {...rest}
+    />
+    <Typography>
+      {label}
+    </Typography>
+  </div>
+);
 
 Checkbox.defaultProps = {
   checked: false,

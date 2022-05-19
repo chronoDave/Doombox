@@ -1,13 +1,12 @@
 import React, { forwardRef } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
 import { ButtonBase, Icon } from '..';
 import { icons } from '../Icon/Icon';
 
-// Styles
-import useButtonIconStyles from './ButtonIcon.styles';
+import './ButtonIcon.scss';
 
 const ButtonIcon = forwardRef((props, ref) => {
   const {
@@ -17,15 +16,10 @@ const ButtonIcon = forwardRef((props, ref) => {
     className,
     ...rest
   } = props;
-  const classes = useButtonIconStyles();
 
   return (
     <ButtonBase
-      className={cx(classes.root, {
-        [classes.small]: small,
-        [classes.hover]: !disabled,
-        [classes.disabled]: disabled
-      }, className)}
+      className={cx('ButtonIcon', className)}
       ref={ref}
       disabled={disabled}
       {...rest}

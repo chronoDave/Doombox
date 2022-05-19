@@ -1,0 +1,9 @@
+.Fade {
+  &.invisible {
+    opacity: 0;
+  }
+
+  &.hidden {
+    visibility: hidden;
+  }
+}

@@ -1,21 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Styles
-import useLoaderBarStyles from './LoaderBar.styles';
+import './LoaderBar.scss';
 
-const LoaderBar = ({ value }) => {
-  const classes = useLoaderBarStyles({ value });
-
-  return (
-    <div className={classes.root}>
-      <div
-        className={classes.track}
-        style={{ width: `${value}%` }}
-      />
-    </div>
-  );
-};
+const LoaderBar = ({ value }) => (
+  <div className="LoaderBar">
+    <div
+      className="track"
+      style={{ width: `${value}%` }}
+    />
+  </div>
+);
 
 LoaderBar.propTypes = {
   value: PropTypes.number.isRequired

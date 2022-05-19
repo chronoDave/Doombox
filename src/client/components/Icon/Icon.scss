@@ -1,0 +1,11 @@
+.Icon {
+  user-select: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
+  font-size: 1.5rem;
+
+  &.small {
+    font-size: 1.25rem;
+  };
+}

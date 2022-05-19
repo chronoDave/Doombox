@@ -1,20 +1,15 @@
 import React, { useState, useRef, forwardRef } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  Typography,
-  ButtonBase,
-  Icon
-} from '..';
+import { ButtonBase, Icon } from '..';
 
 // Hooks
 import { useTranslation, useKeybind } from '../../hooks';
 
-// Styles
-import useSearchStyles from './Search.styles';
+import './Search.scss';
 
 const Search = forwardRef((props, ref) => {
   const {
@@ -32,7 +27,6 @@ const Search = forwardRef((props, ref) => {
   useKeybind(keybindSearch, () => !disableFocus && input.current.focus());
 
   const { t } = useTranslation();
-  const classes = useSearchStyles();
 
   const getIconType = () => {
     if (!value || value === '') return 'search';
@@ -59,16 +53,16 @@ const Search = forwardRef((props, ref) => {
   return (
     <div
       ref={ref}
-      className={cx(classes.root, {
-        [classes.active]: value && value.length > 0
-      }, className)}
+      className={cx(
+        'Search',
+        (value && value.length > 0) && 'active',
+        className
+      )}
       {...rest}
     >
-      <Typography
-        element="input"
+      <input
         ref={input}
         type="text"
-        className={classes.input}
         placeholder={t('action.common.search', { transform: 'capitalize', dots: true })}
         onChange={handleChange}
         onKeyDown={handleSubmit}
@@ -77,10 +71,7 @@ const Search = forwardRef((props, ref) => {
         autoCapitalize="off"
         spellCheck="false"
       />
-      <ButtonBase
-        className={classes.button}
-        onClick={handleClear}
-      >
+      <ButtonBase onClick={handleClear}>
         <Icon type={getIconType()} small />
       </ButtonBase>
     </div>

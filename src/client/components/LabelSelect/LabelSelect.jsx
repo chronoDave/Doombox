@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Core
-import { Typography } from '..';
-
-// Styles
-import useLabelSelectStyles from './LabelSelect.styles';
+import './LabelSelect.scss';
 
 const InputLabel = props => {
   const {
@@ -13,22 +9,12 @@ const InputLabel = props => {
     description,
     children
   } = props;
-  const classes = useLabelSelectStyles();
 
   return (
-    <div className={classes.root}>
-      <Typography
-        variant="subtitle"
-        className={classes.label}
-      >
-        {label}
-      </Typography>
+    <div className="LabelSelect">
+      <p className="label subtitle">{label}</p>
       {children}
-      {description && (
-        <Typography>
-          {description}
-        </Typography>
-      )}
+      {description && <p>{description}</p>}
     </div>
   );
 };

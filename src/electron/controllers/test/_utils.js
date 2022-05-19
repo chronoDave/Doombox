@@ -13,7 +13,7 @@ const labelFile = path.resolve(__dirname, 'labels.txt');
 const albumFile = path.resolve(__dirname, 'albums.txt');
 const imageFile = path.resolve(__dirname, 'images.txt');
 
-const songFolder = path.resolve(__dirname, '../../../../../test/songs');
+const songFolder = path.resolve(__dirname, '../../../../test/songs');
 const imageFolder = path.resolve(__dirname, 'images');
 
 const setup = (folder, options = {}) => new LibraryController({

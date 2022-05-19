@@ -1,15 +1,14 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import { ButtonBase, Typography } from '..';
+import { ButtonBase } from '..';
 
 // Validation
 import { propVirtualStyle } from '../../validation/propTypes';
 
-// Styles
-import useVirtualListItemStyles from './VirtualListItem.styles';
+import './VirtualListItem.scss';
 
 const VirtualListItem = props => {
   const {
@@ -21,41 +20,21 @@ const VirtualListItem = props => {
     className,
     ...rest
   } = props;
-  const classes = useVirtualListItemStyles();
 
   return (
     <ButtonBase
       style={style}
-      className={cx(classes.root, {
-        [classes.active]: active
-      }, className)}
+      className={cx(
+        'VirtualListItem',
+        active && 'active',
+        className
+      )}
       {...rest}
     >
-      {typeof index === 'number' && (
-        <Typography
-          className={cx(classes.index, { [classes.secondaryActive]: active })}
-          color="textSecondary"
-        >
-          {`${index + 1}.`}
-        </Typography>
-      )}
-      <div className={classes.label}>
-        <Typography
-          clamp
-          className={cx({ [classes.primaryActive]: active })}
-          color="textPrimary"
-        >
-          {primary}
-        </Typography>
-        {secondary && (
-          <Typography
-            clamp
-            className={cx({ [classes.secondaryActive]: active })}
-            color="textSecondary"
-          >
-            {secondary}
-          </Typography>
-        )}
+      {typeof index === 'number' && <p className="index">{`${index + 1}.`}</p>}
+      <div className="label">
+        <p className='primary'>{primary}</p>
+        {secondary && <p className='secondary'>{secondary}</p>}
       </div>
     </ButtonBase>
   );

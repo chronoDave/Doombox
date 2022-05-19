@@ -1,0 +1,12 @@
+@import '~/src/client/scss/utils.scss';
+
+.InputText {
+  @extend %input-base;
+  display: flex;
+  align-items: center;
+  height: fit-content;
+  min-width: 0;
+  padding: 4px 8px;
+  color: var(--text-disabled);
+  background-color: var(--input-text);
+}

@@ -1,0 +1,39 @@
+$xs: 320;
+$sm: 480;
+$md: 720;
+$lg: 960;
+$xl: 1280;
+
+$opacityHover: 17; // 9%
+$opacityInactive: 57; // 34%
+$opacityOverlay: EB; // 92%
+$opacityPrimary: 54; // 33%
+$opacitySecondary: A9; // 66%
+
+$transitionShortest: cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+$transitionShorter: cubic-bezier(0.4, 0, 0.2, 1) 200ms;
+$transitionShort: cubic-bezier(0.4, 0, 0.2, 1) 250ms;
+$transitionStandard: cubic-bezier(0.4, 0, 0.2, 1) 300ms;
+$transitionComplex: cubic-bezier(0.4, 0, 0.2, 1) 375ms;
+$transitionEnteringScreen: cubic-bezier(0.4, 0, 0.2, 1) 225ms;
+$transitionLeavingScreen: cubic-bezier(0.4, 0, 0.2, 1) 195ms;
+
+$zOverlay: 1000;
+$zPopper: 1100;
+
+$black: #060607;
+$white: #f8f9f9;
+$primary: #664d82;
+$error: #f04747;
+$grey0: #18191c;
+$grey1: #202225;
+$grey2: #36393f;
+$grey3: #4f545c;
+$grey4: #72767d;
+$grey5: #b9bbbe;
+$grey6: #dcddde;
+
+$shadow3:
+  0px 3px 3px -2px rgba(0,0,0,0.2), 
+  0px 3px 4px 0px rgba(0,0,0,0.14),
+  0px 1px 8px 0px rgba(0,0,0,0.12);

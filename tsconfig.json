@@ -1,7 +1,16 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "allowSyntheticDefaultImports": false,
+    "lib": ["es2019", "dom"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+
+    "jsx": "react",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+
     "baseUrl": "./",
     "paths": {
       "@doombox-utils": ["./src/utils"],
@@ -10,10 +19,13 @@
       "@doombox-config/*": ["./src/config/*"],
       "@doombox-intl": ["./src/intl"],
       "@doombox-intl/*": ["./src/intl/*"]
-    },
-    "module": "commonjs"
+    }
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src",
+    ".eslintrc.js",
+    "webpack.config.js"
+  ],
   "exclude": [
     "node_modules",
     "build",

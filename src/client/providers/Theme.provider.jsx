@@ -9,31 +9,17 @@ import { ThemeContext } from '../context';
 // Utils
 import { createTheme } from '../theme';
 
-// Assets
-import NotoSansJPLight from '../assets/fonts/NotoSansJP-Light.otf';
-import NotoSansJPRegular from '../assets/fonts/NotoSansJP-Regular.otf';
-import NotoSansJPMedium from '../assets/fonts/NotoSansJP-Medium.otf';
-
 const ThemeProvider = ({ children, name }) => {
   const [theme, setTheme] = useState(createTheme());
 
   useEffect(() => {
     setTheme(createTheme(name));
+
+    document.body.classList.toggle('dark', name !== 'light');
+    document.body.classList.toggle('light', name !== 'dark');
   }, [name]);
 
   useEffect(() => {
-    [
-      { src: NotoSansJPLight, weight: 300 },
-      { src: NotoSansJPRegular, weight: 400 },
-      { src: NotoSansJPMedium, weight: 500 }
-    ].map(fontFace => injectGlobal({
-      '@font-face': {
-        fontFamily: 'NotoSansJP',
-        src: `url(${fontFace.src}) format('truetype')`,
-        fontWeight: fontFace.weight
-      }
-    }));
-
     injectGlobal({
       body: {
         width: '100%',

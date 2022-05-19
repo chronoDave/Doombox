@@ -1,12 +1,11 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
 import { PopperBase, Fade } from '..';
 
-// Styles
-import usePopperStyles from './Popper.styles';
+import './Popper.scss';
 
 const Popper = props => {
   const {
@@ -16,17 +15,15 @@ const Popper = props => {
     children,
     ...rest
   } = props;
-  const classes = usePopperStyles();
 
   return (
     <Fade visible={open}>
       <PopperBase
-        arrow={arrow && <div className={cx(classes.root, classes.arrow)} />}
+        className={cx('Popper', className)}
+        arrow={arrow && <div />}
         {...rest}
       >
-        <div className={cx(classes.root, className)}>
-          {children}
-        </div>
+        {children}
       </PopperBase>
     </Fade>
   );

@@ -8,8 +8,10 @@ const pascalize = require('./pascalize');
 const shuffle = require('./shuffle');
 const sortMetadata = require('./sortMetadata');
 const toArray = require('./toArray');
+const cx = require('./cx');
 
 module.exports = {
+  cx,
   capitalize,
   clamp,
   generateUid,

@@ -1,9 +1,8 @@
 import React, { forwardRef, useState } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Styles
-import useButtonBaseStyles from './ButtonBase.styles';
+import './ButtonBase.scss';
 
 const ButtonBase = forwardRef((props, ref) => {
   const {
@@ -17,15 +16,14 @@ const ButtonBase = forwardRef((props, ref) => {
   } = props;
   const [holding, setHolding] = useState(false);
 
-  const classes = useButtonBaseStyles();
-
   return (
     <button
       type="button"
-      className={cx(classes.root, {
-        [classes.disabled]: disabled,
-        [classes.holding]: !disableAnimation && holding
-      }, className)}
+      className={cx(
+        'ButtonBase',
+        (!disableAnimation && holding) && 'holding',
+        className
+      )}
       disabled={disabled}
       onMouseUp={event => {
         setHolding(false);

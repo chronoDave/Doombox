@@ -16,7 +16,7 @@ const WindowBar = () => {
 
   return (
     <Hidden platform="darwin">
-      <div className={classes.window}>
+      <div className={classes.root}>
         <WindowIcon />
         <WindowNavigation />
         <WindowTitle />

@@ -1,0 +1,55 @@
+@import '../utils.scss';
+
+h1, .h1 {
+  @extend %typography-base;
+  font-size: 7rem;
+  letter-spacing: -0.09375rem;
+}
+
+h2, .h2 {
+  @extend %typography-base;
+  font-size: 4.5rem;
+  letter-spacing: -0.03125rem;
+}
+
+h3, .h3 {
+  @extend %typography-base;
+  font-size: 3.5rem;
+  letter-spacing: 0;
+}
+
+h4, .h4 {
+  @extend %typography-base;
+  font-size: 2.5rem;
+  letter-spacing: 0.015625rem;
+}
+
+h5, .h5 {
+  @extend %typography-base;
+  font-size: 1.75rem;
+  letter-spacing: 0;
+}
+
+h6, .h6 {
+  @extend %typography-base;
+  font-size: 1rem;
+  letter-spacing: 0.015625rem;
+}
+
+p, .p {
+  @extend %typography-base;
+  font-size: 0.8125rem;
+  letter-spacing: 0.03125rem;
+}
+
+.subtitle {
+  @extend %typography-base;
+  font-size: 0.75rem;
+  letter-spacing: 0.015625rem;
+}
+
+caption, .caption {
+  @extend %typography-base;
+  font-size: 0.625rem;
+  letter-spacing: 0.03125rem;
+}

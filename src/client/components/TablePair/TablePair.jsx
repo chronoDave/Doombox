@@ -1,40 +1,27 @@
 import React from 'react';
-import { cx } from 'emotion';
+import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
-
-// Core
-import { Typography } from '..';
 
 // Validation
 import { propTablePairs } from '../../validation/propTypes';
 
-// Styles
-import useTablePairStyles from './TablePair.styles';
+import './TablePair.scss';
 
-const TablePair = ({ values, className, ...rest }) => {
-  const classes = useTablePairStyles();
-
-  return (
-    <Typography
-      element="table"
-      className={cx(classes.root, className)}
-      {...rest}
-    >
-      <tbody>
-        {values.map(({ key, label, value }) => (
-          <tr key={key || label}>
-            <td className={classes.label}>
-              {label}
-            </td>
-            <td>
-              {value}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Typography>
-  );
-};
+const TablePair = ({ values, className, ...rest }) => (
+  <table
+    className={cx('TablePair', className)}
+    {...rest}
+  >
+    <tbody>
+      {values.map(({ key, label, value }) => (
+        <tr key={key || label}>
+          <td className="subtitle label">{label}</td>
+          <td className='subtitle'>{value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+);
 
 TablePair.defaultProps = {
   className: ''

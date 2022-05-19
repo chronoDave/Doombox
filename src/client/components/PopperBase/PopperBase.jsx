@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { propAnchorEl, propPopperPlacement } from '../../validation/propTypes';
 
 // Styles
-import usePopperBaseStyles from './PopperBase.styles';
+import './PopperBase.scss';
 
 const PopperBase = props => {
   const {
@@ -21,8 +21,6 @@ const PopperBase = props => {
     ...rest
   } = props;
   const [arrowPlacement, setArrowPlacement] = useState('left');
-
-  const classes = usePopperBaseStyles({ placement: arrowPlacement });
 
   const ref = useRef();
   const refArrow = useRef();
@@ -52,21 +50,24 @@ const PopperBase = props => {
     return () => popper.current && popper.current.destroy();
   }, [placement, arrow, anchorEl]);
 
+  const arrowStyle = {
+    top: 'bottom: -4px',
+    bottom: 'top: -4px',
+    left: 'right: -4px',
+    right: 'left: -4px'
+  }
+
   return createPortal(
     <div
       ref={ref}
-      className={cx(classes.root, className)}
+      className={cx("PopperBase", className)}
       {...rest}
     >
       {!!arrow && (
         <div
           ref={refArrow}
-          className={cx(classes.arrow, {
-            [classes.arrowTop]: arrowPlacement === 'top',
-            [classes.arrowBottom]: arrowPlacement === 'bottom',
-            [classes.arrowLeft]: arrowPlacement === 'left',
-            [classes.arrowRight]: arrowPlacement === 'right',
-          })}
+          style={arrowPlacement && arrowStyle[arrowPlacement]}
+          className="arrow"
         >
           {arrow}
         </div>

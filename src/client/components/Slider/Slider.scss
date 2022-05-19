@@ -1,0 +1,28 @@
+.Slider {
+  display: flex;
+
+  > .trackActive {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary);
+    flex-shrink: 0;
+    outline: 0;
+
+    > .thumb {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background-color: var(--primary-contrast);
+      outline: 0;
+    }
+  }
+
+  > .trackInactive {
+    width: 100%;
+    height: 100%;
+    outline: 0;
+    background-color: var(--primary-inactive);
+  }
+}
