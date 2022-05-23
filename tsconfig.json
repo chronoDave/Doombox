@@ -12,6 +12,7 @@
     "downlevelIteration": true,
 
     "baseUrl": "./",
+    "outDir": "./build",
     "paths": {
       "@doombox-utils": ["./src/utils"],
       "@doombox-utils/*": ["./src/utils/*"],

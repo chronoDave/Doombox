@@ -1,10 +1,13 @@
 module.exports = {
-  env: {
-    es6: true,
-    browser: true,
-    node: true
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'airbnb',
+    'airbnb-typescript'
+  ],
+  parserOptions: {
+    project: './tsconfig.json'
   },
-  extends: ['airbnb', 'airbnb/hooks'],
   settings: {
     'import/resolver': {
       node: {},
@@ -22,37 +25,73 @@ module.exports = {
     ]
   },
   rules: {
+    // TypeScript
+    '@typescript-eslint/await-thenable': 'error',
+    '@typescript-eslint/comma-dangle': ['error', 'never'],
+    '@typescript-eslint/lines-between-class-members': 'off',
+    '@typescript-eslint/prefer-readonly': ['error'],
+    '@typescript-eslint/prefer-reduce-type-parameter': ['error'],
+    '@typescript-eslint/naming-convention': ['error', {
+      // Enforce camelCase
+      selector: 'variableLike',
+      format: ['camelCase', 'UPPER_CASE'],
+      leadingUnderscore: 'allow'
+    }, {
+      // Ignore imports
+      selector: 'variable',
+      format: ['PascalCase', 'camelCase', 'UPPER_CASE'],
+      modifiers: ['global']
+    }, {
+      // Enforce underscore on private members
+      selector: 'memberLike',
+      modifiers: ['private'],
+      format: ['camelCase'],
+      leadingUnderscore: 'require'
+    }, {
+      // Enforce sensible boolean prefixes
+      selector: 'variable',
+      types: ['boolean'],
+      format: ['PascalCase'],
+      prefix: ['is', 'has']
+    }, {
+      // Enforce PascalCase on types / interfaces
+      selector: 'typeLike',
+      format: ['PascalCase']
+    }],
+    '@typescript-eslint/indent': ['error', 2, {
+      SwitchCase: 1,
+      ignoredNodes: ['TSTypeParameterInstantiation']
+    }],
     // General
     'operator-linebreak': ['error', 'after'],
     'linebreak-style': 'off',
+    'no-confusing-arrow': 'off',
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
-    'arrow-parens': ['error', 'as-needed'],
-    'no-await-in-loop': 'off',
-    'no-underscore-dangle': 'off', // Leaf-DB
-    'no-bitwise': 'warn',
     'max-len': ['error', {
-      code: 120,
+      code: 100,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
       ignoreComments: true
     }],
-    'no-console': ['error', {
-      allow: ['info', 'warn', 'error', 'group', 'groupEnd']
+    'arrow-parens': ['error', 'as-needed'],
+    'implicit-arrow-linebreak': 'off',
+    'no-underscore-dangle': 'off',
+    'no-await-in-loop': 'off',
+    'object-curly-newline': ['warn', {
+      ObjectPattern: { minProperties: 4 },
+      ImportDeclaration: { minProperties: 4 }
     }],
-    // React
-    'react/jsx-fragments': 'off', // Prefer verbose syntax
-    'react/jsx-props-no-spreading': 'off', // Spread appropriatly
-    'react/destructuring-assignment': 'off',
     // Import
     'import/prefer-default-export': 'off',
     'import/order': ['error', {
+      'newlines-between': 'always',
       groups: [
-        'builtin',
-        ['external', 'internal'],
-        'parent',
-        'sibling',
+        ['builtin', 'external'],
+        'internal',
+        ['parent', 'sibling'],
         'index'
-      ],
-      'newlines-between': 'always-and-inside-groups'
+      ]
     }]
   }
 };

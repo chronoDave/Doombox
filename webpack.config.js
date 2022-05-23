@@ -71,10 +71,7 @@ module.exports = env => [{
     extensions: ['.js', '.jsx'],
     alias
   },
-  entry: [
-    env.devtools && 'react-devtools',
-    path.resolve(__dirname, 'src/client/index.jsx'),
-  ].filter(entry => entry),
+  entry: path.resolve(__dirname, 'src/client/index.jsx'),
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].[contenthash].js',
