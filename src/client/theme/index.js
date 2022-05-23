@@ -5,4 +5,3 @@ export { default as transitions } from './transitions';
 export { default as utilities } from './utilities';
 export { default as zIndex } from './zIndex';
 export { default as createTheme } from './createTheme';
-export { default as makeStyles } from './makeStyles';
