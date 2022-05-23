@@ -1,8 +1,9 @@
 import React, { useState, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { createPopper } from '@popperjs/core';
-import { cx } from 'emotion';
 import PropTypes from 'prop-types';
+
+import { cx } from '@doombox-utils';
 
 // Validation
 import { propAnchorEl, propPopperPlacement } from '../../validation/propTypes';
@@ -55,12 +56,12 @@ const PopperBase = props => {
     bottom: 'top: -4px',
     left: 'right: -4px',
     right: 'left: -4px'
-  }
+  };
 
   return createPortal(
     <div
       ref={ref}
-      className={cx("PopperBase", className)}
+      className={cx('PopperBase', className)}
       {...rest}
     >
       {!!arrow && (
