@@ -1,26 +1,31 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
-import { Fade } from '..';
+import { cx } from '@doombox-utils';
 
+// Core
 import './Overlay.scss';
 
 const Overlay = ({ open, children, className }) => (
-  <Fade visible={open}>
-    <div className={cx("Overlay", className)}>
-      {children}
-    </div>
-  </Fade>
+  <div
+    className={cx(
+      'Overlay',
+      open && 'open',
+      className
+    )}
+  >
+    {children}
+  </div>
 );
 
 Overlay.defaultProps = {
-  open: false
+  open: false,
+  className: null
 };
 
 Overlay.propTypes = {
   open: PropTypes.bool,
+  className: PropTypes.string,
   children: PropTypes.node.isRequired
 };
 

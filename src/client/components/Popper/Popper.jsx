@@ -1,9 +1,10 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
+import { cx } from '@doombox-utils';
+
 // Core
-import { PopperBase, Fade } from '..';
+import { PopperBase } from '..';
 
 import './Popper.scss';
 
@@ -17,15 +18,17 @@ const Popper = props => {
   } = props;
 
   return (
-    <Fade visible={open}>
-      <PopperBase
-        className={cx('Popper', className)}
-        arrow={arrow && <div />}
-        {...rest}
-      >
-        {children}
-      </PopperBase>
-    </Fade>
+    <PopperBase
+      className={cx(
+        'Popper',
+        open && 'open',
+        className
+      )}
+      arrow={arrow && <div />}
+      {...rest}
+    >
+      {children}
+    </PopperBase>
   );
 };
 

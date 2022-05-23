@@ -16,7 +16,6 @@ export { default as Slider } from './Slider/Slider';
 export { default as VirtualList } from './VirtualList/VirtualList';
 export { default as TablePair } from './TablePair/TablePair';
 export { default as Toggle } from './Toggle/Toggle';
-export { default as Fade } from './Fade/Fade';
 export { default as SelectTheme } from './SelectTheme/SelectTheme';
 export { default as Checkbox } from './Checkbox/Checkbox';
 export { default as VirtualListItem } from './VirtualListItem/VirtualListItem';
