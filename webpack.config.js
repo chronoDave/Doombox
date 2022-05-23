@@ -1,5 +1,4 @@
 const path = require('path');
-
 const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -14,7 +13,7 @@ const alias = {
 const outputElectron = path.resolve(__dirname, 'build/src');
 const outputReact = path.resolve(__dirname, 'build/client');
 
-module.exports = env => [{
+module.exports = () => [{
   name: 'electron',
   target: 'electron-main',
   externals: {
@@ -121,15 +120,21 @@ module.exports = env => [{
       use: [
         MiniCssExtractPlugin.loader,
         { loader: 'css-loader', options: { sourceMap: true, url: false } },
-        { loader: 'sass-loader', options: { sourceMap: true } },
+        { loader: 'sass-loader', options: { sourceMap: true } }
       ]
     }, {
       test: /\.(png|jpe?g|gif)$/,
-      include: path.resolve(__dirname, 'src/client/assets'),
-      loader: 'file-loader',
-      options: {
-        outputPath: 'assets',
-        name: '[folder]/[name].[ext]'
+      include: path.resolve(__dirname, 'src/client/assets/icons'),
+      type: 'asset/resource',
+      generator: {
+        filename: 'assets/icons/[name][ext]'
+      }
+    }, {
+      test: /\.(png|jpe?g|gif)$/,
+      include: path.resolve(__dirname, 'src/client/assets/images'),
+      type: 'asset/resource',
+      generator: {
+        filename: 'assets/images/[name][ext]'
       }
     }]
   },
