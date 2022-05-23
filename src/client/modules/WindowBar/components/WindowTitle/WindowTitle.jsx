@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Core
-import { Hidden } from '../../../../components';
-
-// Actions
 import { setAppTitle } from '../../../../actions';
-
-// Hooks
 import { useTranslation } from '../../../../hooks';
 
 import './WindowTitle.scss';
@@ -33,9 +27,7 @@ const WindowTitle = ({ metadata }) => {
 
   return (
     <div className="WindowTitle">
-      <Hidden on={({ create }) => create('maxWidth', 'sm')}>
-        <p className='nowrap'>{title}</p>
-      </Hidden>
+      <p className="nowrap">{title}</p>
     </div>
   );
 };
@@ -51,7 +43,7 @@ WindowTitle.propTypes = {
     artist: PropTypes.string,
     artistlocalized: PropTypes.string,
     album: PropTypes.string,
-    albumlocalized: PropTypes.string,
+    albumlocalized: PropTypes.string
   })
 };
 
@@ -62,7 +54,7 @@ const mapStateToProps = state => ({
     artist: state.player.metadata.artist,
     artistlocalized: state.player.metadata.artistlocalized,
     album: state.player.metadata.album,
-    albumlocalized: state.player.metadata.albumlocalized,
+    albumlocalized: state.player.metadata.albumlocalized
   }
 });
 

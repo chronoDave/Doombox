@@ -25,6 +25,12 @@
       @media (min-width: $md) {
         width: 300px;
       }
+
+      > .PlayerControls {
+        @media (min-width: $sm) {
+          display: none;
+        }
+      }
     }
 
     > .library {

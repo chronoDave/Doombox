@@ -1,26 +1,13 @@
 import url from 'url';
-
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { STATUS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Core
-import { Hidden } from '../../components';
+import { STATUS } from '@doombox-utils/types';
 
-// Hooks
-import {
-  useTranslation,
-  useTheme,
-  useTimer
-} from '../../hooks';
-
-// Assets
+import { useTranslation, useTheme, useTimer } from '../../hooks';
 import backgroundDefault from '../../assets/images/backgroundDefault.png';
-
-// Validation
 import { propImage } from '../../validation/propTypes';
-
 import PlayerControls from './components/PlayerControls/PlayerControls';
 import PlayerTime from './components/PlayerTime/PlayerTime';
 import PlayerSlider from './components/PlayerSlider/PlayerSlider';
@@ -82,17 +69,11 @@ const Player = props => {
             {getLocalizedTag({ artistlocalized, artist }, 'artist') || ''}
           </p>
         </div>
-        <Hidden on={breakpoints => breakpoints.create('maxWidth', 'sm')}>
-          <PlayerControls />
-        </Hidden>
-        <Hidden on={breakpoints => breakpoints.create('maxHeight', 'xs')}>
-          <PlayerTime current={current} />
-        </Hidden>
+        <PlayerControls />
+        <PlayerTime current={current} />
       </div>
       <PlayerSlider current={current} />
-      <Hidden on={breakpoints => breakpoints.create('minWidth', 'sm')}>
-        <PlayerControls />
-      </Hidden>
+      <PlayerControls />
     </Fragment>
   );
 };

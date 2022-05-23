@@ -1,7 +1,6 @@
 import React from 'react';
 
-// Core
-import { Hidden } from '../../components';
+import { cx } from '@doombox-utils';
 
 import WindowButtons from './components/WindowButtons/WindowButtons';
 import WindowNavigation from './components/WindowNavigation/WindowNavigation';
@@ -11,14 +10,12 @@ import WindowIcon from './components/WindowIcon/WindowIcon';
 import './WindowBar.scss';
 
 const WindowBar = () => (
-  <Hidden platform="darwin">
-    <div className="WindowBar">
-      <WindowIcon />
-      <WindowNavigation />
-      <WindowTitle />
-      <WindowButtons />
-    </div>
-  </Hidden>
+  <div className={cx('WindowBar', process.platform === 'darwin' && 'hidden')}>
+    <WindowIcon />
+    <WindowNavigation />
+    <WindowTitle />
+    <WindowButtons />
+  </div>
 );
 
 export default WindowBar;

@@ -3,8 +3,6 @@ import { render } from 'react-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { App } from './modules';
-
-// Providers
 import {
   LanguaugeProvider,
   IpcProvider,
@@ -12,8 +10,6 @@ import {
   ThemeProvider,
   KeybindProvider
 } from './providers';
-
-// Redux
 import { store } from './redux';
 
 import './scss/themes/theme.light.scss';

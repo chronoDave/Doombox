@@ -51,5 +51,15 @@
 
   > .PlayerControls {
     color: $grey6;
+
+    @media (max-width: $sm) {
+      display: none;
+    }
+  }
+
+  > .PlayerTime {
+    @media (max-height: $xs) {
+      display: none;
+    }
   }
 }

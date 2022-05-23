@@ -1,7 +1,6 @@
 export { default as ButtonBase } from './ButtonBase/ButtonBase';
 export { default as ButtonIcon } from './ButtonIcon/ButtonIcon';
 export { default as ButtonVolume } from './ButtonVolume/ButtonVolume';
-export { default as Hidden } from './Hidden/Hidden';
 export { default as Icon } from './Icon/Icon';
 export { default as LabelSelect } from './LabelSelect/LabelSelect';
 export { default as LabelToggle } from './LabelToggle/LabelToggle';

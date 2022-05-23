@@ -25,6 +25,9 @@ module.exports = {
     ]
   },
   rules: {
+    // TEMPORARY OVERRIDES
+    'react/function-component-definition': 'off',
+    'react/jsx-fragments': 'off',
     // TypeScript
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/comma-dangle': ['error', 'never'],

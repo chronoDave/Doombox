@@ -1,3 +1,5 @@
+@import '~/src/client/scss/utils.scss';
+
 .WindowTitle {
   display: flex;
   align-items: center;
@@ -7,4 +9,10 @@
   flex-grow: 1;
   -webkit-app-region: drag;
   color: var(--text-primary);
+
+  > p {
+    @media (max-width: $sm) {
+      display: none;
+    }
+  }
 }
