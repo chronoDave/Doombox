@@ -3,7 +3,6 @@ import url from 'url';
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { STATUS } from '@doombox-utils/types';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -12,7 +11,6 @@ import { Hidden } from '../../components';
 // Hooks
 import {
   useTranslation,
-  useMediaQuery,
   useTheme,
   useTimer
 } from '../../hooks';
@@ -43,10 +41,6 @@ const Player = props => {
   const theme = useTheme();
   const [current, { create, update, destroy }] = useTimer();
   const { t, getLocalizedTag } = useTranslation();
-  const isMd = useMediaQuery(breakpoints => breakpoints.join(
-    breakpoints.create('minWidth', 'sm'),
-    breakpoints.create('minHeight', 'sm')
-  ));
 
   useEffect(() => {
     if (!sliding && status === STATUS.AUDIO.PLAYING) {
@@ -78,7 +72,7 @@ const Player = props => {
         }}
       >
         <div className="text">
-          <p className={cx(isMd && 'h6')}>
+          <p className='title'>
             {(
               getLocalizedTag({ titlelocalized, title }, 'title') ||
               t('description.playlist_empty', { transform: 'capitalize' })

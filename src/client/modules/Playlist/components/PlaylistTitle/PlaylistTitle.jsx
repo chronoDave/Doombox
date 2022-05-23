@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { IPC } from '@doombox-utils/types';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
@@ -15,7 +14,7 @@ import {
 import { ipcInsert } from '../../../../actions';
 
 // Hooks
-import { useMediaQuery, useTranslation, useTimeoutOpen } from '../../../../hooks';
+import { useTranslation, useTimeoutOpen } from '../../../../hooks';
 
 import './PlaylistTitle.scss';
 
@@ -30,10 +29,6 @@ const PlaylistTitle = props => {
   const input = useRef();
 
   const { t, formatTime } = useTranslation();
-  const displaySecondary = useMediaQuery(({ join, create }) => join(
-    create('minWidth', 'sm'),
-    create('minHeight', 'xs')
-  ));
   const {
     open,
     setOpen,
@@ -64,17 +59,16 @@ const PlaylistTitle = props => {
         }}
         onMouseLeave={handleLeave}
       >
-        <p className={cx('primary', displaySecondary && 'hasSecondary')}>
-          {`${name || t('common.playlist', { transform: 'capitalize' })}${!displaySecondary ? ` (${size})` : ''}`}
+        <p className='primary'>
+          {name || t('common.playlist', { transform: 'capitalize' })}
+          <span>({size})</span>
         </p>
-        {displaySecondary && (
-          <p>
-            {[
-              `${size} ${t('common.track', { plural: size !== 1 })}`,
-              formatTime(duration, 'text')
-            ].join(' \u2022 ')}
-          </p>
-        )}
+        <p className='secondary'>
+          {[
+            `${size} ${t('common.track', { plural: size !== 1 })}`,
+            formatTime(duration, 'text')
+          ].join(' \u2022 ')}
+        </p>
       </div>
       <Popper
         open={open}

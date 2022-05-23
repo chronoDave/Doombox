@@ -21,8 +21,24 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
 
-      &.hasSecondary {
+      > span {
+        margin-left: 4px;
+      }
+
+      @media (min-width: $sm) and (min-height: $xs) {
         font-weight: 500;
+
+        > span {
+          display: none;
+        }
+      }
+    }
+
+    > .secondary {
+      display: none;
+
+      @media (min-width: $sm) and (min-height: $xs) {
+        display: block;
       }
     }
   }
