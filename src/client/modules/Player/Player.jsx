@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { STATUS } from '@doombox-utils/types';
 
-import { useTranslation, useTheme, useTimer } from '../../hooks';
+import { useTranslation, useTimer } from '../../hooks';
 import backgroundDefault from '../../assets/images/backgroundDefault.png';
 import { propImage } from '../../validation/propTypes';
 import PlayerControls from './components/PlayerControls/PlayerControls';
@@ -25,7 +25,6 @@ const Player = props => {
     sliding,
     status
   } = props;
-  const theme = useTheme();
   const [current, { create, update, destroy }] = useTimer();
   const { t, getLocalizedTag } = useTranslation();
 
@@ -47,19 +46,23 @@ const Player = props => {
     update(position);
   }, [update, position]);
 
+  const imagePath = image ?
+    url.pathToFileURL(image.files.thumbnail).href :
+    backgroundDefault;
+
   return (
     <Fragment>
       <div
         className="Player"
         style={{
-          backgroundImage: theme.createImage((image ?
-            url.pathToFileURL(image.files.thumbnail).href :
-            backgroundDefault
-          ))
+          backgroundImage: [
+            'linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42))',
+            `url("${imagePath}")`
+          ]
         }}
       >
         <div className="text">
-          <p className='title'>
+          <p className="title">
             {(
               getLocalizedTag({ titlelocalized, title }, 'title') ||
               t('description.playlist_empty', { transform: 'capitalize' })
