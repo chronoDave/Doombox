@@ -4,7 +4,7 @@ import { Howler, Howl } from 'howler';
 import { clamp, shuffle, toArray } from '@doombox-utils';
 import { EVENTS, STATUS } from '@doombox-utils/types';
 
-class Audio extends EventEmitter {
+export default class Audio extends EventEmitter {
   constructor({ autoplay = true, volume = 1 } = {}) {
     super();
 
@@ -205,5 +205,3 @@ class Audio extends EventEmitter {
     }
   }
 }
-
-export default Audio;

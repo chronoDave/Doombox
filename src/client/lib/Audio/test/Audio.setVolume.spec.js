@@ -1,7 +1,8 @@
-import test from 'tape';
-import { EVENTS } from '@doombox-utils/types';
+const test = require('tape');
 
-import { setup } from './_utils';
+const { EVENTS } = require('../../../../utils/types');
+
+const setup = require('./_utils');
 
 test('[Audio.setVolume] sets volume', t => {
   const audio = setup();

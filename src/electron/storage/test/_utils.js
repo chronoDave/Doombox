@@ -1,10 +1,18 @@
 const fs = require('fs');
 const path = require('path');
-const { THEME } = require('@doombox-config');
 
 const configFile = path.resolve(__dirname, 'config.json');
 
-const Storage = require('../storage');
+const { THEME } = require('../../../config');
+
+require('esbuild').buildSync({
+  entryPoints: [path.resolve(__dirname, '../storage.js')],
+  bundle: true,
+  platform: 'node',
+  outfile: path.resolve(__dirname, 'build.js')
+});
+
+const Storage = require('./build');
 
 const setup = () => {
   fs.writeFileSync(configFile, JSON.stringify(THEME.dark));

@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const { generateUid } = require('..');
+const { generateUid } = require('./build');
 
 test('[generateUid] generates unique ID\'s', t => {
   const limit = 10000;

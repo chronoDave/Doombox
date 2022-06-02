@@ -1,8 +1,8 @@
-node_modules
 .DS_Store
 .bundle.json
-/userData
-/build/client
-/build/src
-/dist
-/build/sharp
+build.js
+
+userData
+node_modules
+build
+dist

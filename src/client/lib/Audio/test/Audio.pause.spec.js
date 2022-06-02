@@ -1,7 +1,8 @@
-import test from 'tape';
-import { STATUS } from '@doombox-utils/types';
+const test = require('tape');
 
-import { setup } from './_utils';
+const { STATUS } = require('../../../../utils/types');
+
+const setup = require('./_utils');
 
 test('[Audio.pause] should pause if playing', t => {
   const audio = setup();

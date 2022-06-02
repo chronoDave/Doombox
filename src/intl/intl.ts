@@ -7,12 +7,12 @@ const translationNl = require('./translations/nl.json');
 const LANGUAGES = {
   en: 'English',
   nl: 'Nederlands'
-};
+} as const;
 
 const TRANSLATIONS = {
   en: translationEn,
   nl: translationNl
-};
+} as const;
 
 /**
  * Get translation string
@@ -25,42 +25,42 @@ const TRANSLATIONS = {
  * @param {object} options.mixins - Mixins
  */
 const getTranslation = (
-  language,
-  key,
-  {
-    plural = false,
-    mixins = {},
-    dots = false,
-    transform = null
-  } = {}
+  language: keyof typeof LANGUAGES,
+  key: typeof TRANSLATIONS[keyof typeof LANGUAGES],
+  options?: {
+    plural?: boolean
+    mixins: Record<string, unknown>,
+    dots: boolean,
+    transform: 'uppercase' | 'capitalize' | 'pascal'
+  }
 ) => {
   let value = objectGet(TRANSLATIONS[language] || TRANSLATIONS.en, key);
 
   if (!value) return key;
 
   // Plural
-  if (Array.isArray(value)) value = value[plural ? 1 : 0];
+  if (Array.isArray(value)) value = value[options?.plural ? 1 : 0];
 
   // Mixins
   const templates = value.match(/({.[^}]*.)/g);
   if (templates && templates.length > 0) {
     for (let i = 0; i < templates.length; i += 1) {
-      value = value.replace(templates[i], mixins[templates[i].slice(1, -1)]);
+      value = value.replace(templates[i], options?.mixins[templates[i].slice(1, -1)]);
     }
   }
 
   // Dots
-  if (dots) value = `${value}...`;
+  if (options?.dots) value = `${value}...`;
 
   // Transform
-  if (transform === 'uppercase') return value.toUpperCase();
-  if (transform === 'capitalize') return capitalize(value);
-  if (transform === 'pascal') return pascalize(value);
+  if (options?.transform === 'uppercase') return value.toUpperCase();
+  if (options?.transform === 'capitalize') return capitalize(value);
+  if (options?.transform === 'pascal') return pascalize(value);
   return value;
 };
 
-const getNativeKeybind = (keybind, transform) => {
-  const nativeKeybinds = {
+const getNativeKeybind = (keybind: string, transform?: 'capitalize' | 'pascal') => {
+  const nativeKeybinds: Record<NodeJS.Platform, Record<string, string>> = {
     win32: {
       mod: 'ctrl'
     },
@@ -72,7 +72,14 @@ const getNativeKeybind = (keybind, transform) => {
     },
     linux: {
       mod: 'ctrl'
-    }
+    },
+    aix: {},
+    android: {},
+    freebsd: {},
+    openbsd: {},
+    sunos: {},
+    cygwin: {},
+    netbsd: {}
   };
 
   let nativeKeybind = keybind;
@@ -92,7 +99,11 @@ const getNativeKeybind = (keybind, transform) => {
   }
 };
 
-const localize = (metadata, tag, useLocalizedMetadata) => (useLocalizedMetadata ?
+const localize = (
+  metadata: Record<string, string>,
+  tag: string,
+  useLocalizedMetadata: boolean
+) => (useLocalizedMetadata ?
   (metadata[`${tag}localized`] || metadata[tag] || '').toLowerCase() :
   (metadata[tag] || '').toLowerCase());
 

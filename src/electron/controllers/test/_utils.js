@@ -1,10 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 const LeafDB = require('leaf-db').default;
-const { CONFIG } = require('@doombox-config');
 
+require('esbuild').buildSync({
+  entryPoints: [path.resolve(__dirname, '../library.controller.js')],
+  bundle: true,
+  platform: 'node',
+  external: ['sharp'],
+  outfile: path.resolve(__dirname, 'build.js')
+});
+
+const { CONFIG } = require('../../../config');
 const { TYPES } = require('../../../utils/types');
-const LibraryController = require('../library.controller');
+
+const LibraryController = require('./build');
 
 const songFile = path.resolve(__dirname, 'songs.txt');
 const labelFile = path.resolve(__dirname, 'labels.txt');

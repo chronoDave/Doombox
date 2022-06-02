@@ -1,8 +1,8 @@
-import sinon from 'sinon';
+const sinon = require('sinon');
 
-import Audio from '../Audio';
+const Audio = require('./build').default;
 
-export const setup = noInstance => {
+module.exports = noInstance => {
   const audio = new Audio();
 
   sinon.replace(audio, 'create', sinon.fake());
@@ -18,10 +18,3 @@ export const setup = noInstance => {
 
   return audio;
 };
-
-export const mockCollection = [
-  { duration: 3 },
-  { duration: 6 },
-  { duration: 9 },
-  { duration: 12 }
-];

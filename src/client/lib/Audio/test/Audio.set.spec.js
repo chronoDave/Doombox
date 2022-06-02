@@ -1,7 +1,15 @@
-import test from 'tape';
-import { EVENTS } from '@doombox-utils/types';
+const test = require('tape');
 
-import { setup, mockCollection } from './_utils';
+const { EVENTS } = require('../../../../utils/types');
+
+const setup = require('./_utils');
+
+const mockCollection = [
+  { duration: 3 },
+  { duration: 6 },
+  { duration: 9 },
+  { duration: 12 }
+];
 
 test('[Audio.set] resets playlist with no params', t => {
   const audio = setup();

@@ -10,16 +10,16 @@ module.exports = class Router extends Reporter {
     super(path.resolve(root, 'logs'));
   }
 
-  bind(channel, Controller) {
+  bind(channel, controller) {
     const routes = {
-      [IPC.ACTION.INSERT]: Controller.insert,
-      [IPC.ACTION.FIND]: Controller.find,
-      [IPC.ACTION.FIND_BY_ID]: Controller.findById,
-      [IPC.ACTION.UPDATE]: Controller.update,
-      [IPC.ACTION.UPDATE_BY_ID]: Controller.updateById,
-      [IPC.ACTION.DELETE]: Controller.delete,
-      [IPC.ACTION.DELETE_BY_ID]: Controller.deleteById,
-      [IPC.ACTION.DROP]: Controller.drop
+      [IPC.ACTION.INSERT]: controller.insert,
+      [IPC.ACTION.FIND]: controller.find,
+      [IPC.ACTION.FIND_BY_ID]: controller.findById,
+      [IPC.ACTION.UPDATE]: controller.update,
+      [IPC.ACTION.UPDATE_BY_ID]: controller.updateById,
+      [IPC.ACTION.DELETE]: controller.delete,
+      [IPC.ACTION.DELETE_BY_ID]: controller.deleteById,
+      [IPC.ACTION.DROP]: controller.drop
     };
 
     ipcMain.on(channel, async (event, payload) => {

@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const { capitalize } = require('..');
+const { capitalize } = require('./build');
 
 test('[capitalize] shoud capitalize string', t => {
   const original = 'test';

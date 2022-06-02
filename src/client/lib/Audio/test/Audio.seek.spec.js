@@ -1,6 +1,6 @@
-import test from 'tape';
+const test = require('tape');
 
-import { setup } from './_utils';
+const setup = require('./_utils');
 
 test('[Audio.seek] should ignore if instance does not exist', t => {
   const audio = setup(true);

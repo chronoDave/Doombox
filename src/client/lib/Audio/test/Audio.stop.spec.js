@@ -1,6 +1,6 @@
-import test from 'tape';
+const test = require('tape');
 
-import { setup } from './_utils';
+const setup = require('./_utils');
 
 test('[Audio.stop] should stop', t => {
   const audio = setup();

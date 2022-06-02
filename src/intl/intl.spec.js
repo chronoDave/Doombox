@@ -1,8 +1,14 @@
 const test = require('tape');
+const path = require('path');
 
-const { capitalize } = require('../utils');
+require('esbuild').buildSync({
+  entryPoints: [path.resolve(__dirname, 'intl.ts')],
+  bundle: true,
+  platform: 'node',
+  outfile: path.resolve(__dirname, 'build.js')
+});
 
-const { TRANSLATIONS, LANGUAGES, getTranslation } = require('./intl');
+const { TRANSLATIONS, LANGUAGES, getTranslation } = require('./build');
 
 test('[getTranslation] should return key if value does not exist', t => {
   const key = 'test_key';
@@ -84,8 +90,8 @@ test('[getTranslation] should capitalize if `transform` contains `capitalize`', 
   const key = 'common.album';
 
   t.equal(
-    getTranslation(LANGUAGES.en, key, { transform: 'capitalize' }),
-    capitalize(value),
+    getTranslation(LANGUAGES.en, key, { transform: 'capitalize' })[0],
+    value[0].toUpperCase(),
     'capitalizes string'
   );
 
@@ -94,15 +100,15 @@ test('[getTranslation] should capitalize if `transform` contains `capitalize`', 
 
 test('[getTranslation] should pascal case if `transform` contains `pascal`', t => {
   const key = 'action.menu.toggle_dev_tools';
+  const expected = TRANSLATIONS.en.action.menu.toggle_dev_tools.split(' ');
 
-  t.equal(
-    getTranslation(LANGUAGES.en, key, { transform: 'pascal' }),
-    TRANSLATIONS.en.action.menu.toggle_dev_tools
-      .split(' ')
-      .map(capitalize)
-      .join(' '),
-    'pascalizes string'
-  );
+  getTranslation(LANGUAGES.en, key, { transform: 'pascal' })
+    .split(' ')
+    .forEach((word, i) => t.equal(
+      word[0],
+      expected[i][0].toUpperCase(),
+      'pascalizes words'
+    ));
 
   t.end();
 });

@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const { clamp } = require('..');
+const { clamp } = require('./build');
 
 test('[clamp] should return `min` value if value is smaller than `min`', t => {
   const min = -5;

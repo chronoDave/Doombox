@@ -21,6 +21,7 @@ module.exports = {
     'import/core-modules': [
       '@babel/register',
       '@babel/polyfill',
+      'esbuild',
       'electron',
       'tape',
       'sinon',
