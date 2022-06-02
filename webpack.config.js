@@ -8,7 +8,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const alias = {
   '@doombox-utils': path.resolve(__dirname, 'src/utils'),
   '@doombox-config': path.resolve(__dirname, 'src/config'),
-  '@doombox-intl': path.resolve(__dirname, 'src/intl')
+  '@doombox-intl': path.resolve(__dirname, 'src/intl/intl')
 };
 
 const outputElectron = path.resolve(__dirname, 'build/src');
@@ -45,6 +45,7 @@ module.exports = () => [{
     filename: '[name].bundle.js',
     clean: true
   },
+  plugins: [new ForkTsCheckerWebpackPlugin()],
   optimization: {
     minimizer: [
       new TerserPlugin({
@@ -61,7 +62,6 @@ module.exports = () => [{
         }
       })
     ],
-    plugins: [new ForkTsCheckerWebpackPlugin()],
     splitChunks: {
       cacheGroups: {
         vendors: {

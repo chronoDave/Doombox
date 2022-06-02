@@ -11,7 +11,7 @@ require('@babel/register')({
       alias: {
         '@doombox-utils': './src/utils',
         '@doombox-config': './src/config',
-        '@doombox-intl': './src/intl'
+        '@doombox-intl': './src/intl/intl'
       }
     }]
   ]
