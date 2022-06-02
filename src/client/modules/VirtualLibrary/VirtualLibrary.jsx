@@ -3,27 +3,16 @@ import { connect } from 'react-redux';
 import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Core
 import { VirtualList, Popper, MenuItem } from '../../components';
-
-// Actions
 import { ipcInsert } from '../../actions';
-
-// Redux
 import { populateLibrary } from '../../redux';
-
-// Hooks
 import {
   useTranslation,
   useMediaQuery,
   useTimeoutOpen,
   useAudio
 } from '../../hooks';
-
-// Theme
 import { mixins } from '../../theme';
-
-// Validation
 import { propLabel } from '../../validation/propTypes';
 
 import VirtualLibraryItem from './components/VirtualLibraryItem/VirtualLibraryItem';

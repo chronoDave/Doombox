@@ -4,13 +4,8 @@ import { TYPES } from '@doombox-utils/types';
 import { THEME } from '@doombox-config';
 import PropTypes from 'prop-types';
 
-// Core
 import { Select, LabelSelect } from '..';
-
-// Actions
 import { updateConfig } from '../../actions';
-
-// Hooks
 import { useTranslation } from '../../hooks';
 
 const SelectTheme = ({ theme }) => {

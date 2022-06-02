@@ -3,19 +3,10 @@ import { connect } from 'react-redux';
 import { IPC, TYPES, WINDOW } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Core
 import { Search, Popper, Checkbox } from '../../components';
-
-// Actions
 import { updateConfig, ipcFind } from '../../actions';
-
-// Redux
 import { setView, setQuery } from '../../redux';
-
-// Hooks
 import { useTranslation, useTimeoutOpen } from '../../hooks';
-
-// Validation
 import { propConfigSearch } from '../../validation/propTypes';
 
 import './SearchLibrary.scss';

@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Core
 import { ButtonBase, TablePair } from '../../../../components';
-
-// Validation
 import { propVirtualStyle, propTablePairs } from '../../../../validation/propTypes';
 
 import './VirtualAlbumsItem.scss';

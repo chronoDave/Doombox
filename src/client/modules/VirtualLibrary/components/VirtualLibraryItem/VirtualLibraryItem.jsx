@@ -2,13 +2,8 @@ import React from 'react';
 import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
 import { ButtonBase, TablePair } from '../../../../components';
-
-// Hooks
 import { useTranslation, useAudio } from '../../../../hooks';
-
-// Validation
 import { propLabel, propVirtualStyle } from '../../../../validation/propTypes';
 
 import './VirtualLibraryItem.scss';

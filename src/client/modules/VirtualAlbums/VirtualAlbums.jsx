@@ -3,29 +3,16 @@ import { connect } from 'react-redux';
 import { shuffle } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
-import { Popper,
-  MenuItem,
-  VirtualList } from '../../components';
-
-// Actions
+import { Popper, MenuItem, VirtualList } from '../../components';
 import { createPlaylist } from '../../actions';
-
-// Redux
 import { populateSearchAlbums } from '../../redux';
-
-// Hooks
 import {
   useTranslation,
   useAudio,
   useMediaQuery,
   useTimeoutOpen
 } from '../../hooks';
-
-// Theme
 import { mixins } from '../../theme';
-
-// Validation
 import { propAlbum } from '../../validation/propTypes';
 
 import VirtualAlbumsItem from './components/VirtualAlbumsItem/VirtualAlbumsItem';

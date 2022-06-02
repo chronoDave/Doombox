@@ -3,27 +3,16 @@ import { connect } from 'react-redux';
 import { shuffle, sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
 import {
   VirtualList,
   VirtualListItem,
   Popper,
   MenuItem
 } from '../../components';
-
-// Actions
 import { createPlaylist } from '../../actions';
-
-// Redux
 import { populateSearchLabels } from '../../redux';
-
-// Hooks
 import { useTranslation, useAudio, useTimeoutOpen } from '../../hooks';
-
-// Theme
 import { mixins } from '../../theme';
-
-// Validation
 import { propLabel } from '../../validation/propTypes';
 
 const VirtualLabels = ({ labels, current, useLocalizedMetadata }) => {

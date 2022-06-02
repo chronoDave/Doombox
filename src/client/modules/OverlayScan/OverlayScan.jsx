@@ -8,10 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { IPC } from '@doombox-utils/types';
 
-// Core
 import { Overlay, LoaderBar } from '../../components';
-
-// Hooks
 import { useTranslation } from '../../hooks';
 
 import './OverlayScan.scss';
@@ -52,7 +49,6 @@ const OverlayScan = ({ open }) => {
   const estimate = useMemo(() => {
     if (value === 0) return '\u221e';
     return formatTime(count / (value / 100));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count]);
 
   return (

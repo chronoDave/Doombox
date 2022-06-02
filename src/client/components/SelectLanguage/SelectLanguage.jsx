@@ -4,13 +4,8 @@ import { TYPES } from '@doombox-utils/types';
 import { LANGUAGES } from '@doombox-intl';
 import PropTypes from 'prop-types';
 
-// Core
 import { Select, LabelSelect } from '..';
-
-// Actions
 import { updateConfig } from '../../actions';
-
-// Hooks
 import { useTranslation } from '../../hooks';
 
 const SelectLanguage = ({ language }) => {

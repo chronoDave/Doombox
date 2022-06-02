@@ -2,16 +2,9 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Core
 import { VirtualList, VirtualListItem } from '../../components';
-
-// Hooks
 import { useMediaQuery, useTranslation, useAudio } from '../../hooks';
-
-// Theme
 import { mixins } from '../../theme';
-
-// Validation
 import { propSong } from '../../validation/propTypes';
 
 import PlaylistTitle from './components/PlaylistTitle/PlaylistTitle';

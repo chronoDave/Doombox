@@ -3,15 +3,8 @@ import { connect } from 'react-redux';
 import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Core
-import { Popper,
-  ButtonIcon,
-  InputText } from '../../../../components';
-
-// Actions
+import { Popper, ButtonIcon, InputText } from '../../../../components';
 import { ipcInsert } from '../../../../actions';
-
-// Hooks
 import { useTranslation, useTimeoutOpen } from '../../../../hooks';
 
 import './PlaylistTitle.scss';

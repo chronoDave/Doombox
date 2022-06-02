@@ -3,13 +3,8 @@ import { connect } from 'react-redux';
 import { WINDOW, IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Hooks
 import { useAudio, useKeybind, useTranslation } from '../hooks';
-
-// Actions
 import { ipcInsert } from '../actions';
-
-// Redux
 import { setOverlay } from '../redux';
 
 const KeybindProvider = props => {

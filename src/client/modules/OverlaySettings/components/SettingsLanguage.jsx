@@ -4,14 +4,8 @@ import { TYPES } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
-import { LabelToggle,
-  SelectLanguage,
-  Toggle } from '../../../components';
-
-// Actions
+import { LabelToggle, SelectLanguage, Toggle } from '../../../components';
 import { updateConfig } from '../../../actions';
-
-// Hooks
 import { useTranslation } from '../../../hooks';
 
 const SettingsLanguage = ({ useLocalizedMetadata }) => {
@@ -23,7 +17,9 @@ const SettingsLanguage = ({ useLocalizedMetadata }) => {
       <LabelToggle label={t('title.use_localized_metadata', { transform: 'capitalize' })}>
         <Toggle
           value={useLocalizedMetadata}
-          onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, { useLocalizedMetadata: !useLocalizedMetadata })}
+          onClick={() => updateConfig(TYPES.CONFIG.DISPLAY, {
+            useLocalizedMetadata: !useLocalizedMetadata
+          })}
         />
       </LabelToggle>
     </Fragment>

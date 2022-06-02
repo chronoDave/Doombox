@@ -8,6 +8,9 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json'
   },
+  env: {
+    browser: true
+  },
   settings: {
     'import/resolver': {
       node: {},
@@ -32,6 +35,7 @@ module.exports = {
     'react/no-unused-prop-types': 'off',
     'react/require-default-props': 'off',
     'react/prop-types': 'off',
+    'react/destructuring-assignment': 'off',
     // TypeScript
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/comma-dangle': ['error', 'never'],

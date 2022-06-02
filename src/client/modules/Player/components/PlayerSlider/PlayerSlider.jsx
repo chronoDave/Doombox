@@ -2,13 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Core
 import { Slider } from '../../../../components';
-
-// Hooks
 import { useAudio } from '../../../../hooks';
-
-// Redux
 import { setSliding } from '../../../../redux';
 
 import './PlayerSlider.scss';

@@ -5,13 +5,8 @@ import { IPC, EVENTS, TYPES } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Context
 import { AudioContext } from '../context';
-
-// Actions
 import { updateCache, setThumbar } from '../actions';
-
-// Redux
 import {
   setMetadata,
   setStatus,
@@ -22,8 +17,6 @@ import {
   setPosition,
   setPlaylistIndex
 } from '../redux';
-
-// Lib
 import { Audio } from '../lib';
 
 class AudioProvider extends Component {

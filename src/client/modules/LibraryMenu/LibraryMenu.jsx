@@ -3,21 +3,14 @@ import { connect } from 'react-redux';
 import { shuffle } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
 import { ButtonIcon, Popper, MenuItem } from '../../components';
-
-// Redux
 import { populateLibraryMenu } from '../../redux';
-
-// Hooks
 import {
   useMediaQuery,
   useTimeoutOpen,
   useTranslation,
   useAudio
 } from '../../hooks';
-
-// Validation
 import { propSong } from '../../validation/propTypes';
 
 const LibraryMenu = ({ collection }) => {

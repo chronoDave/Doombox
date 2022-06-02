@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Actions
 import { ipcFind } from '../actions';
-
-// Redux
 import {
   setCache,
   setConfig,

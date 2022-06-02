@@ -3,18 +3,13 @@ import { connect } from 'react-redux';
 import { TYPES, TAGS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Core
 import {
   LabelToggle,
   Toggle,
   LabelSelect,
   Select
 } from '../../../components';
-
-// Actions
 import { updateConfig } from '../../../actions';
-
-// Hooks
 import { useTranslation } from '../../../hooks';
 
 const SettingsLibrary = props => {

@@ -3,12 +3,7 @@ import { connect } from 'react-redux';
 import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
-import { ButtonIcon,
-  Popper,
-  Slider } from '..';
-
-// Hooks
+import { ButtonIcon, Popper, Slider } from '..';
 import { useAudio, useTimeoutOpen } from '../../hooks';
 
 import './ButtonVolume.scss';

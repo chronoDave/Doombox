@@ -9,19 +9,9 @@ import {
   Popper,
   MenuItem
 } from '../../components';
-
-// Redux
 import { populateSearchSongs } from '../../redux';
-
-// Hooks
-import { useTranslation,
-  useAudio,
-  useTimeoutOpen } from '../../hooks';
-
-// Theme
+import { useTranslation, useAudio, useTimeoutOpen } from '../../hooks';
 import { mixins } from '../../theme';
-
-// Validation
 import { propSong } from '../../validation/propTypes';
 
 const VirtualSongs = ({ songs, current }) => {

@@ -1,15 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 
-// Core
 import {
   ButtonBase,
   Icon,
   Popper,
   MenuItem
 } from '..';
-
-// Hooks
 import { useTimeoutOpen } from '../../hooks';
 
 import './Select.scss';
