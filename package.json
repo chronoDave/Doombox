@@ -30,7 +30,6 @@
     "build:webpack": "webpack --mode production",
     "build:electron": "npm run clean && npm run build:sharp && electron-builder -p=never -c electron.config.js",
     "build": "npm run build:webpack && npm run build:electron",
-    "build:ts": "esbuild src/utils/index.ts --bundle --platform=node --outfile=src/utils/index.js",
     "build:sharp": "esbuild node_modules/sharp/lib/index.js --bundle --platform=node --outfile=build/sharp/lib/index.js --minify"
   },
   "dependencies": {

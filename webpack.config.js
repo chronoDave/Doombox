@@ -32,7 +32,7 @@ module.exports = () => [{
       loader: 'node-loader'
     }, {
       test: /\.(js|jsx|ts|tsx)$/,
-      include: path.resolve(__dirname, 'src/electron'),
+      include: path.resolve(__dirname, 'src'),
       exclude: [/\.spec\.js$/],
       loader: 'ts-loader',
       options: {
@@ -118,7 +118,7 @@ module.exports = () => [{
   module: {
     rules: [{
       test: /\.(js|jsx|ts|tsx)$/,
-      include: path.resolve(__dirname, 'src/client'),
+      include: path.resolve(__dirname, 'src'),
       exclude: [/\.spec\.js$/],
       loader: 'ts-loader',
       options: {
