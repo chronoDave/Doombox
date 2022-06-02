@@ -92,9 +92,14 @@ const getNativeKeybind = (keybind, transform) => {
   }
 };
 
+const localize = (metadata, tag, useLocalizedMetadata) => (useLocalizedMetadata ?
+  (metadata[`${tag}localized`] || metadata[tag] || '').toLowerCase() :
+  (metadata[tag] || '').toLowerCase());
+
 module.exports = {
   LANGUAGES,
   TRANSLATIONS,
   getTranslation,
-  getNativeKeybind
+  getNativeKeybind,
+  localize
 };

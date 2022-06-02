@@ -7,11 +7,9 @@ import PropTypes from 'prop-types';
 import { LanguageContext } from '../context';
 
 const LanguageProvider = props => {
-  const {
-    useLocalizedMetadata,
+  const { useLocalizedMetadata,
     language,
-    children
-  } = props;
+    children } = props;
 
   const t = (id, options) => getTranslation(language, id, options);
   const value = {

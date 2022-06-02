@@ -45,7 +45,7 @@ const Select = ({ active, values, onChange }) => {
         placement="bottom-start"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        className='Select menu'
+        className="Select menu"
         style={{
           width: anchorEl ?
             anchorEl.getBoundingClientRect().width :

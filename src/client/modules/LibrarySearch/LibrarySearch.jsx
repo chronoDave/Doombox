@@ -1,21 +1,11 @@
 import React from 'react';
 import { TYPES, WINDOW } from '@doombox-utils/types';
 import { connect } from 'react-redux';
-import { cx } from '@doombox-utils';
 
-// Core
+import { cx } from '../../utils';
 import { ButtonIcon } from '../../components';
-
-import {
-  VirtualSongs,
-  VirtualAlbums,
-  VirtualLabels
-} from '..';
-
-// Actions
+import { VirtualSongs, VirtualAlbums, VirtualLabels } from '..';
 import { updateCache } from '../../actions';
-
-// Validation
 import { propTabSearch } from '../../validation/propTypes';
 
 import './LibrarySearch.scss';
@@ -24,11 +14,11 @@ const LibrarySearch = ({ tab }) => {
   const tabs = {
     [WINDOW.TABS.SONGS]: {
       icon: 'artist',
-      component: <VirtualSongs />,
+      component: <VirtualSongs />
     },
     [WINDOW.TABS.ALBUMS]: {
       icon: 'minidisc',
-      component: <VirtualAlbums />,
+      component: <VirtualAlbums />
     },
     [WINDOW.TABS.LABELS]: {
       icon: 'record',

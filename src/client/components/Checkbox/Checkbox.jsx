@@ -1,6 +1,7 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
+
+import { cx } from '../../utils';
 
 import './Checkbox.scss';
 

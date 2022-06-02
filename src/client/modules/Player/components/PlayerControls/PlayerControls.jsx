@@ -1,13 +1,10 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import { connect } from 'react-redux';
 import { STATUS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Core
+import { cx } from '../../../../utils';
 import { ButtonIcon, ButtonVolume } from '../../../../components';
-
-// Hooks
 import { useAudio, useMediaQuery } from '../../../../hooks';
 
 import './PlayerControls.scss';

@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { cx } from '@doombox-utils';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
 import PropTypes from 'prop-types';
 
-// Core
-import {
-  Overlay,
-  ButtonIcon,
-  ButtonBase
-} from '../../components';
-
-// Redux
+import { cx } from '../../utils';
+import { Overlay, ButtonIcon, ButtonBase } from '../../components';
 import { setOverlay } from '../../redux';
-
-// Hooks
 import { useTranslation } from '../../hooks';
 
 import SettingsLanguage from './components/SettingsLanguage';
 import SettingsLibrary from './components/SettingsLibrary';
 import SettingsAppearance from './components/SettingsAppearance';
-
 import './OverlaySettings.scss';
 
 const OverlaySettings = ({ open, dispatchOverlay }) => {

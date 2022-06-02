@@ -1,12 +1,9 @@
 import React, { useState, useRef, forwardRef } from 'react';
-import { cx } from '@doombox-utils';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Core
+import { cx } from '../../utils';
 import { ButtonBase, Icon } from '..';
-
-// Hooks
 import { useTranslation, useKeybind } from '../../hooks';
 
 import './Search.scss';

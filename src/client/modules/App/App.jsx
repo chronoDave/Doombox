@@ -13,7 +13,7 @@ import {
   OverlayScan,
   OverlaySettings,
   VirtualLibrary,
-  LibrarySearch,
+  LibrarySearch
 } from '..';
 
 import './App.scss';

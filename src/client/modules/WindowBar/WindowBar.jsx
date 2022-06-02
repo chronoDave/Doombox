@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { cx } from '@doombox-utils';
+import { cx } from '../../utils';
 
 import WindowButtons from './components/WindowButtons/WindowButtons';
 import WindowNavigation from './components/WindowNavigation/WindowNavigation';
 import WindowTitle from './components/WindowTitle/WindowTitle';
 import WindowIcon from './components/WindowIcon/WindowIcon';
-
 import './WindowBar.scss';
 
 const WindowBar = () => (

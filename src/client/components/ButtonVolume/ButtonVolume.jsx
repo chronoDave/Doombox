@@ -4,11 +4,9 @@ import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  ButtonIcon,
+import { ButtonIcon,
   Popper,
-  Slider
-} from '..';
+  Slider } from '..';
 
 // Hooks
 import { useAudio, useTimeoutOpen } from '../../hooks';

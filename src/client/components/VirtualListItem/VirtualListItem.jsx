@@ -1,11 +1,8 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
+import { cx } from '../../utils';
 import { ButtonBase } from '..';
-
-// Validation
 import { propVirtualStyle } from '../../validation/propTypes';
 
 import './VirtualListItem.scss';
@@ -33,8 +30,8 @@ const VirtualListItem = props => {
     >
       {typeof index === 'number' && <p className="index">{`${index + 1}.`}</p>}
       <div className="label">
-        <p className='primary'>{primary}</p>
-        {secondary && <p className='secondary'>{secondary}</p>}
+        <p className="primary">{primary}</p>
+        {secondary && <p className="secondary">{secondary}</p>}
       </div>
     </ButtonBase>
   );
@@ -53,7 +50,7 @@ VirtualListItem.propTypes = {
   style: propVirtualStyle.isRequired,
   active: PropTypes.bool,
   primary: PropTypes.string.isRequired,
-  secondary: PropTypes.string,
+  secondary: PropTypes.string
 };
 
 export default VirtualListItem;

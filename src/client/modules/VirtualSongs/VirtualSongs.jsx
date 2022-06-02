@@ -14,11 +14,9 @@ import {
 import { populateSearchSongs } from '../../redux';
 
 // Hooks
-import {
-  useTranslation,
+import { useTranslation,
   useAudio,
-  useTimeoutOpen
-} from '../../hooks';
+  useTimeoutOpen } from '../../hooks';
 
 // Theme
 import { mixins } from '../../theme';

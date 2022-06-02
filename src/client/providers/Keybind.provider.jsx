@@ -1,5 +1,4 @@
 import { remote, webFrame } from 'electron';
-
 import { connect } from 'react-redux';
 import { WINDOW, IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Styles
+import { cx } from '../../utils';
+
 import './Toggle.scss';
 
 const Toggle = ({ value, ...rest }) => (

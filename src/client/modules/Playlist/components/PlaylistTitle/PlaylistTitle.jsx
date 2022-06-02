@@ -4,11 +4,9 @@ import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  Popper,
+import { Popper,
   ButtonIcon,
-  InputText
-} from '../../../../components';
+  InputText } from '../../../../components';
 
 // Actions
 import { ipcInsert } from '../../../../actions';
@@ -59,11 +57,15 @@ const PlaylistTitle = props => {
         }}
         onMouseLeave={handleLeave}
       >
-        <p className='primary'>
+        <p className="primary">
           {name || t('common.playlist', { transform: 'capitalize' })}
-          <span>({size})</span>
+          <span>
+            (
+            {size}
+            )
+          </span>
         </p>
-        <p className='secondary'>
+        <p className="secondary">
           {[
             `${size} ${t('common.track', { plural: size !== 1 })}`,
             formatTime(duration, 'text')
@@ -106,7 +108,7 @@ const mapStateToProps = state => ({
   name: state.playlist.name,
   duration: state.playlist.duration,
   size: state.playlist.collection.length,
-  collection: state.playlist.collection,
+  collection: state.playlist.collection
 });
 
 export default connect(

@@ -4,11 +4,9 @@ import React from 'react';
 import { ButtonBase, Icon } from '../../../../components';
 
 // Actions
-import {
-  windowClose,
+import { windowClose,
   windowMaximize,
-  windowMinimize
-} from '../../../../actions';
+  windowMinimize } from '../../../../actions';
 
 import './WindowButtons.scss';
 

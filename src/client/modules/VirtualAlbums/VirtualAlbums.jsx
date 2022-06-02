@@ -4,11 +4,9 @@ import { shuffle } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  Popper,
+import { Popper,
   MenuItem,
-  VirtualList
-} from '../../components';
+  VirtualList } from '../../components';
 
 // Actions
 import { createPlaylist } from '../../actions';
@@ -168,7 +166,7 @@ VirtualAlbums.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  albums: populateSearchAlbums(state),
+  albums: populateSearchAlbums(state)
 });
 
 export default connect(

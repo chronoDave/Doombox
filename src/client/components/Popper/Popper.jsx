@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { cx } from '@doombox-utils';
-
-// Core
+import { cx } from '../../utils';
 import { PopperBase } from '..';
 
 import './Popper.scss';

@@ -34,7 +34,7 @@ const VirtualAlbumsItem = props => {
 };
 
 VirtualAlbumsItem.defaultProps = {
-  cover: null,
+  cover: null
 };
 
 VirtualAlbumsItem.propTypes = {

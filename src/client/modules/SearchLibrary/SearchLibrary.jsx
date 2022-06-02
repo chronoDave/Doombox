@@ -34,7 +34,7 @@ const SearchLibrary = props => {
     open,
     setOpen,
     handleEnter,
-    handleLeave,
+    handleLeave
   } = useTimeoutOpen();
 
   useEffect(() => {

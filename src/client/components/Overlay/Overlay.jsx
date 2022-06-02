@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { cx } from '@doombox-utils';
+import { cx } from '../../utils';
 
 // Core
 import './Overlay.scss';

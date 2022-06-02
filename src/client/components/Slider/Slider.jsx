@@ -105,9 +105,9 @@ const Slider = props => {
         <div
           className="thumb"
           style={orientation === 'horizontal' ? ({
-            left: `${mixins.slider.thumb * (1 - (percentage / 100))}px`,
+            left: `${mixins.slider.thumb * (1 - (percentage / 100))}px`
           }) : ({
-            bottom: `${mixins.slider.thumb * (1 - (percentage / 100))}px`,
+            bottom: `${mixins.slider.thumb * (1 - (percentage / 100))}px`
           })}
           onMouseDown={handleOnMouseDown}
           // Aria

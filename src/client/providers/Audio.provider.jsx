@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron';
-
 import React, { Component } from 'react';
 import debounce from 'lodash.debounce';
 import { IPC, EVENTS, TYPES } from '@doombox-utils/types';
@@ -121,7 +120,7 @@ class AudioProvider extends Component {
           metadata.title,
         album: useLocalizedMetadata ?
           (metadata.albumlocalized || metadata.album) :
-          metadata.album,
+          metadata.album
       };
 
       // eslint-disable-next-line no-undef

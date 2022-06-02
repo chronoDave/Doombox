@@ -4,11 +4,9 @@ import { TYPES } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
 // Core
-import {
-  LabelToggle,
+import { LabelToggle,
   SelectLanguage,
-  Toggle
-} from '../../../components';
+  Toggle } from '../../../components';
 
 // Actions
 import { updateConfig } from '../../../actions';

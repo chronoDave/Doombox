@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import './LabelSelect.scss';
 
 const InputLabel = props => {
-  const {
-    label,
+  const { label,
     description,
-    children
-  } = props;
+    children } = props;
 
   return (
     <div className="LabelSelect">

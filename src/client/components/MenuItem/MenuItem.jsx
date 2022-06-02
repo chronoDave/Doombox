@@ -1,8 +1,7 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
+import { cx } from '../../utils';
 import { ButtonBase } from '..';
 
 import './MenuItem.scss';
@@ -26,8 +25,8 @@ const MenuItem = props => {
       disableAnimation
       {...rest}
     >
-      <p className='nowrap'>{primary}</p>
-      {secondary && <p className='secondary'>{secondary}</p>}
+      <p className="nowrap">{primary}</p>
+      {secondary && <p className="secondary">{secondary}</p>}
     </ButtonBase>
   );
 };

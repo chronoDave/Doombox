@@ -139,7 +139,7 @@ VirtualLibrary.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  library: populateLibrary(state),
+  library: populateLibrary(state)
 });
 
 export default connect(

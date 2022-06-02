@@ -1,33 +1,19 @@
 import { shell, remote } from 'electron';
-
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { URLS, WINDOW, IPC } from '@doombox-utils/types';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
-import {
-  Popper,
-  MenuItem,
-  ButtonBase
-} from '../../../../components';
-
-// Actions
+import { cx } from '../../../../utils';
+import { Popper, MenuItem, ButtonBase } from '../../../../components';
 import {
   windowClose,
   ipcInsert,
   ipcDrop,
   ipcDeleteById
 } from '../../../../actions';
-
-// Hooks
 import { useTimeoutOpen, useTranslation, useAudio } from '../../../../hooks';
-
-// Redux
 import { setOverlay, populatePlaylists } from '../../../../redux';
-
-// Validation
 import { propConfigKeybinds, propPlaylist } from '../../../../validation/propTypes';
 
 import './WindowNavigation.scss';

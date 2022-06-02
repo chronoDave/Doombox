@@ -1,8 +1,7 @@
 import React from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Validation
+import { cx } from '../../utils';
 import { propTablePairs } from '../../validation/propTypes';
 
 import './TablePair.scss';
@@ -16,7 +15,7 @@ const TablePair = ({ values, className, ...rest }) => (
       {values.map(({ key, label, value }) => (
         <tr key={key || label}>
           <td className="subtitle label">{label}</td>
-          <td className='subtitle'>{value}</td>
+          <td className="subtitle">{value}</td>
         </tr>
       ))}
     </tbody>

@@ -3,9 +3,7 @@ import { createPortal } from 'react-dom';
 import { createPopper } from '@popperjs/core';
 import PropTypes from 'prop-types';
 
-import { cx } from '@doombox-utils';
-
-// Validation
+import { cx } from '../../utils';
 import { propAnchorEl, propPopperPlacement } from '../../validation/propTypes';
 
 // Styles

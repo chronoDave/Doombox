@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import mapSort from 'mapsort';
-import { getLevenshteinDistance, localizeTag, sortMetadata } from '@doombox-utils';
+import { getLevenshteinDistance, sortMetadata } from '@doombox-utils';
+import { localize } from '@doombox-intl';
 
 export const getImages = (ids, imageMap) => {
   const images = [];
@@ -127,7 +128,7 @@ export const populateSearchSongs = createSelector(
     imageMap
   ) => (mapSort(
     getSongs(ids, songMap, imageMap),
-    song => getLevenshteinDistance(query, localizeTag(
+    song => getLevenshteinDistance(query, localize(
       song,
       isSearchTitle ?
         'title' :
@@ -156,7 +157,7 @@ export const populateSearchAlbums = createSelector(
     imageMap
   ) => (mapSort(
     getAlbums(ids, songMap, albumMap, imageMap),
-    album => getLevenshteinDistance(query, localizeTag(
+    album => getLevenshteinDistance(query, localize(
       album,
       isSearchAlbum ?
         'album' :
@@ -185,7 +186,7 @@ export const populateSearchLabels = createSelector(
     imageMap
   ) => (mapSort(
     getLabels(ids, songMap, albumMap, labelMap, imageMap),
-    label => getLevenshteinDistance(query, localizeTag(
+    label => getLevenshteinDistance(query, localize(
       label,
       'publisher',
       useLocalizedMetadata

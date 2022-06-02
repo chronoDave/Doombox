@@ -1,8 +1,7 @@
 import React, { forwardRef } from 'react';
-import { cx } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Core
+import { cx } from '../../utils';
 import { ButtonBase, Icon } from '..';
 import { icons } from '../Icon/Icon';
 
@@ -36,7 +35,7 @@ const ButtonIcon = forwardRef((props, ref) => {
 ButtonIcon.defaultProps = {
   small: false,
   disabled: false,
-  className: null,
+  className: null
 };
 
 ButtonIcon.propTypes = {

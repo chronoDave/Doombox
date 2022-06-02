@@ -11,7 +11,6 @@ import {
   KeybindProvider
 } from './providers';
 import { store } from './redux';
-
 import './scss/themes/theme.light.scss';
 import './scss/themes/theme.dark.scss';
 import './scss/core.scss';

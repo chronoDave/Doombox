@@ -18,11 +18,9 @@ import { updateConfig } from '../../../actions';
 import { useTranslation } from '../../../hooks';
 
 const SettingsLibrary = props => {
-  const {
-    strict,
+  const { strict,
     skipCovers,
-    tagType
-  } = props;
+    tagType } = props;
 
   const { t } = useTranslation();
 

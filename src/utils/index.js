@@ -50,9 +50,7 @@ const getLevenshteinDistance = (a, b) => {
 
   return matrix[l1][l2];
 };
-const localizeTag = (metadata, tag, useLocalizedMetadata) => (useLocalizedMetadata ?
-  (metadata[`${tag}localized`] || metadata[tag] || '').toLowerCase() :
-  (metadata[tag] || '').toLowerCase());
+
 const pascalize = (string, separator = ' ') => string
   .split(separator)
   .map(capitalize)
@@ -95,18 +93,13 @@ const sortMetadata = (tags, useLocalizedMetadata) => (a, b) => {
   return 0;
 };
 const toArray = x => (Array.isArray(x) ? x : [x]);
-const cx = (...args) => args
-  .filter(x => typeof x === 'string' && x.length > 0)
-  .join(' ');
 
 module.exports = {
-  cx,
   capitalize,
   clamp,
   generateUid,
   getCumulative,
   getLevenshteinDistance,
-  localizeTag,
   pascalize,
   shuffle,
   sortMetadata,

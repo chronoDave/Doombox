@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron';
-
 import React, {
   useState,
   useEffect,
