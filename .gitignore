@@ -5,3 +5,4 @@ node_modules
 /build/client
 /build/src
 /dist
+/build/sharp
