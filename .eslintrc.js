@@ -29,6 +29,9 @@ module.exports = {
     'react/function-component-definition': 'off',
     'react/jsx-fragments': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'react/no-unused-prop-types': 'off',
+    'react/require-default-props': 'off',
+    'react/prop-types': 'off',
     // TypeScript
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/comma-dangle': ['error', 'never'],
@@ -51,12 +54,6 @@ module.exports = {
       modifiers: ['private'],
       format: ['camelCase'],
       leadingUnderscore: 'require'
-    }, {
-      // Enforce sensible boolean prefixes
-      selector: 'variable',
-      types: ['boolean'],
-      format: ['PascalCase'],
-      prefix: ['is', 'has']
     }, {
       // Enforce PascalCase on types / interfaces
       selector: 'typeLike',
@@ -90,10 +87,11 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/order': ['error', {
       'newlines-between': 'always',
+      warnOnUnassignedImports: true,
       groups: [
-        ['builtin', 'external'],
-        'internal',
-        ['parent', 'sibling'],
+        ['builtin', 'external', 'internal'],
+        'parent',
+        'sibling',
         'index'
       ]
     }]

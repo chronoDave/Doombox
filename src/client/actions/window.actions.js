@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron';
-
 import { IPC } from '@doombox-utils/types';
 
 export const setAppTitle = title => ipcRenderer.send(

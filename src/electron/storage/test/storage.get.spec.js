@@ -1,5 +1,4 @@
 const test = require('tape');
-
 const { THEME } = require('@doombox-config');
 
 const { setup, cleanup } = require('./_utils');

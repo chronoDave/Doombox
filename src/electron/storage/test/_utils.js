@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-
 const { THEME } = require('@doombox-config');
 
 const configFile = path.resolve(__dirname, 'config.json');

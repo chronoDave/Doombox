@@ -1,6 +1,5 @@
 const { app, globalShortcut } = require('electron');
 const path = require('path');
-
 const LeafDB = require('leaf-db').default;
 const { TYPES, IPC } = require('@doombox-utils/types');
 const { THEME } = require('@doombox-config');

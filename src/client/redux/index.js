@@ -1,10 +1,5 @@
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware
-} from 'redux';
+import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
 
-// Slices
 import {
   configSlice,
   cacheSlice,
@@ -14,11 +9,8 @@ import {
   windowSlice,
   searchSlice
 } from './slices';
-
-// Middleware
 import { logger } from './middleware';
 
-// Selectors
 export {
   populateSearchLabels,
   populateSearchAlbums,
@@ -37,10 +29,7 @@ export const {
 } = searchSlice.actions;
 export const { setConfig } = configSlice.actions;
 export const { setCache } = cacheSlice.actions;
-export const {
-  setOverlay,
-  setView
-} = windowSlice.actions;
+export const { setOverlay, setView } = windowSlice.actions;
 export const {
   setSliding,
   setPlayer,
@@ -51,15 +40,8 @@ export const {
   setVolume,
   setPosition
 } = playerSlice.actions;
-export const {
-  setPlaylist,
-  setPlaylistIndex
-} = playlistSlice.actions;
-export const {
-  setImages,
-  setPlaylists,
-  setLibrary
-} = entitySlice.actions;
+export const { setPlaylist, setPlaylistIndex } = playlistSlice.actions;
+export const { setImages, setPlaylists, setLibrary } = entitySlice.actions;
 
 export const store = createStore(
   combineReducers({

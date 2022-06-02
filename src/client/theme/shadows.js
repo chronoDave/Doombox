@@ -88,5 +88,5 @@ export default Object
   .map(key => [
     `${umbraMap[key]} rgba(0,0,0,0.2)`,
     `${penumbraMap[key]} rgba(0,0,0,0.14)`,
-    `${ambientMap[key]} rgba(0,0,0,0.12)`,
+    `${ambientMap[key]} rgba(0,0,0,0.12)`
   ].join(','));

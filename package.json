@@ -16,7 +16,8 @@
     "node": ">=12.10.0"
   },
   "scripts": {
-    "lint": "eslint src --ext .js --ext .jsx",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "test:electron": "node ./scripts/test.js src/electron",
     "test:client": "node ./scripts/test.js src/client",
     "test:intl": "node ./scripts/test.js src/intl",
@@ -55,6 +56,8 @@
     "@babel/core": "^7.12.0",
     "@babel/polyfill": "^7.12.1",
     "@babel/register": "^7.12.1",
+    "@types/react": "^18.0.10",
+    "@types/react-dom": "^18.0.5",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
     "babel-plugin-module-resolver": "^4.0.0",

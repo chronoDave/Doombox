@@ -1,5 +1,4 @@
 import test from 'tape';
-
 import { EVENTS } from '@doombox-utils/types';
 
 import { setup, mockCollection } from './_utils';

@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const alias = {
   '@doombox-utils': path.resolve(__dirname, 'src/utils'),
@@ -25,6 +26,20 @@ module.exports = () => [{
     alias
   },
   entry: path.resolve(__dirname, 'src/electron/index.js'),
+  module: {
+    rules: [{
+      test: /\.node$/,
+      loader: 'node-loader'
+    }, {
+      test: /\.(js|jsx|ts|tsx)$/,
+      include: path.resolve(__dirname, 'src/electron'),
+      exclude: [/\.spec\.js$/],
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true
+      }
+    }]
+  },
   output: {
     path: outputElectron,
     filename: '[name].bundle.js',
@@ -46,6 +61,7 @@ module.exports = () => [{
         }
       })
     ],
+    plugins: [new ForkTsCheckerWebpackPlugin()],
     splitChunks: {
       cacheGroups: {
         vendors: {
@@ -55,19 +71,13 @@ module.exports = () => [{
         }
       }
     }
-  },
-  module: {
-    rules: [{
-      test: /\.node$/,
-      loader: 'node-loader'
-    }]
   }
 }, {
   name: 'client',
   target: 'electron-renderer',
   mode: 'development',
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias
   },
   entry: path.resolve(__dirname, 'src/client/index.jsx'),
@@ -107,7 +117,7 @@ module.exports = () => [{
   },
   module: {
     rules: [{
-      test: /\.(js|jsx)$/,
+      test: /\.(js|jsx|ts|tsx)$/,
       include: path.resolve(__dirname, 'src/client'),
       exclude: [/\.spec\.js$/],
       loader: 'ts-loader',
@@ -139,6 +149,7 @@ module.exports = () => [{
     }]
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name].[contenthash].css'

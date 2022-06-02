@@ -3,7 +3,7 @@ export {
   setThumbar,
   windowClose,
   windowMaximize,
-  windowMinimize,
+  windowMinimize
 } from './window.actions';
 
 export {
@@ -11,7 +11,7 @@ export {
   ipcUpdate,
   ipcFind,
   ipcDeleteById,
-  ipcDrop,
+  ipcDrop
 } from './ipc.actions';
 
 export {

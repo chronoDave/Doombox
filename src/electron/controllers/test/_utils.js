@@ -1,11 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-
 const LeafDB = require('leaf-db').default;
 const { CONFIG } = require('@doombox-config');
 
 const { TYPES } = require('../../../utils/types');
-
 const LibraryController = require('../library.controller');
 
 const songFile = path.resolve(__dirname, 'songs.txt');
@@ -13,7 +11,7 @@ const labelFile = path.resolve(__dirname, 'labels.txt');
 const albumFile = path.resolve(__dirname, 'albums.txt');
 const imageFile = path.resolve(__dirname, 'images.txt');
 
-const songFolder = path.resolve(__dirname, '../../../../test/songs');
+const songFolder = path.resolve(__dirname, 'songs');
 const imageFolder = path.resolve(__dirname, 'images');
 
 const setup = (folder, options = {}) => new LibraryController({

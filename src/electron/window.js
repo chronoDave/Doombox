@@ -7,7 +7,6 @@ const {
   shell,
   globalShortcut
 } = require('electron');
-
 const { pascalize } = require('@doombox-utils');
 const {
   STATUS,
@@ -78,7 +77,7 @@ module.exports = class Window extends Reporter {
         nodeIntegration: true,
         enableRemoteModule: true,
         webSecurity: false
-      },
+      }
     });
 
     if (process.platform === 'darwin') {

@@ -12,7 +12,7 @@ const durations = {
   standard: 300,
   complex: 375,
   enteringScreen: 225,
-  leavingScreen: 195,
+  leavingScreen: 195
 };
 
 export default {

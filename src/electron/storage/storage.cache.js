@@ -13,7 +13,7 @@ module.exports = class Cache extends Storage {
         x: this.normalizeInt(payload, 'window.x', { min: 0 }),
         y: this.normalizeInt(payload, 'window.y', { min: 0 }),
         width: this.normalizeInt(payload, 'window.width', { min: 0 }),
-        height: this.normalizeInt(payload, 'window.height', { min: 0 }),
+        height: this.normalizeInt(payload, 'window.height', { min: 0 })
       },
       player: {
         muted: this.normalizeBool(payload, 'player.muted'),

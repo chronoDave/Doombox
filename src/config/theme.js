@@ -8,7 +8,7 @@ module.exports = {
       3: '#4f545c',
       4: '#72767d',
       5: '#b9bbbe',
-      6: '#dcddde',
+      6: '#dcddde'
     },
     black: '#040405',
     white: '#f6f6f7',
@@ -24,7 +24,7 @@ module.exports = {
       3: '#747f8d',
       4: '#9099a4',
       5: '#c7ccd1',
-      6: '#e3e5e8',
+      6: '#e3e5e8'
     },
     black: '#060607',
     white: '#f8f9f9',

@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron';
-
 import { IPC } from '@doombox-utils/types';
 
 export const ipcInsert = (
@@ -28,10 +27,7 @@ export const ipcUpdate = (
 export const ipcFind = (
   channel,
   query,
-  {
-    projection = null,
-    overlay = null
-  } = {}
+  { projection = null, overlay = null } = {}
 ) => ipcRenderer
   .send(channel, {
     action: IPC.ACTION.FIND,

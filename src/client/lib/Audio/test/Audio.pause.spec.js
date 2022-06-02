@@ -1,5 +1,4 @@
 import test from 'tape';
-
 import { STATUS } from '@doombox-utils/types';
 
 import { setup } from './_utils';

@@ -1,8 +1,6 @@
 import EventEmitter from 'events';
 import url from 'url';
-
 import { Howler, Howl } from 'howler';
-
 import { clamp, shuffle, toArray } from '@doombox-utils';
 import { EVENTS, STATUS } from '@doombox-utils/types';
 

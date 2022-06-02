@@ -5,9 +5,9 @@
  * @param {object[]} reducers - Array of reducers
  */
 export const createReduxSlice = (name, initialState, reducers) => {
-  const reducer = (state = initialState, action) => {
-    if (!reducers[action.type]) return state;
-    return reducers[action.type](state, action.payload);
+  const reducer = (state, action) => {
+    if (!reducers[action.type]) return state ?? initialState;
+    return reducers[action.type](state ?? initialState, action.payload);
   };
 
   const actions = Object

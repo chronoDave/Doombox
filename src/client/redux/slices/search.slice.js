@@ -13,7 +13,7 @@ const reducers = {
   setQuery: (state, query) => ({ ...state, query: query.toString() }),
   setSongs: (state, data) => ({ ...state, songs: normalize(data) }),
   setAlbums: (state, data) => ({ ...state, albums: normalize(data) }),
-  setLabels: (state, data) => ({ ...state, labels: normalize(data) }),
+  setLabels: (state, data) => ({ ...state, labels: normalize(data) })
 };
 
 export default createReduxSlice('search', initialState, reducers);

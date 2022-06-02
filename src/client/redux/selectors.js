@@ -1,10 +1,6 @@
 import { createSelector } from 'reselect';
 import mapSort from 'mapsort';
-import {
-  getLevenshteinDistance,
-  localizeTag,
-  sortMetadata
-} from '@doombox-utils';
+import { getLevenshteinDistance, localizeTag, sortMetadata } from '@doombox-utils';
 
 export const getImages = (ids, imageMap) => {
   const images = [];

@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-
 const objectGet = require('lodash.get');
 const objectSet = require('lodash.set');
 

@@ -1,11 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-
 const walk = require('@chronocide/fs-walk').default;
 const sharp = require('sharp');
 const groupBy = require('lodash.groupby');
 const { parseFile } = require('music-metadata');
-
 const { toArray, generateUid } = require('@doombox-utils');
 const { IPC, TYPES } = require('@doombox-utils/types');
 
@@ -290,7 +288,7 @@ module.exports = class LibraryController {
       'date',
       'disc',
       'track',
-      'year',
+      'year'
     ]);
     const albums = await this.db[TYPES.DATABASE.ALBUMS].find(query);
     const labels = await this.db[TYPES.DATABASE.LABELS].find(query);

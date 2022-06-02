@@ -16,7 +16,7 @@ module.exports = {
     fileType: 'mp3',
     tagType: 'ID3v2.3',
     skipCovers: false,
-    requiredMetadata: [],
+    requiredMetadata: []
   },
   player: {
     autoplay: true

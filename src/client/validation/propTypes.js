@@ -142,7 +142,7 @@ export const propLabel = PropTypes.shape({
   songs: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(propSong)
-  ]).isRequired,
+  ]).isRequired
 });
 
 export const propPlaylist = PropTypes.shape({
@@ -151,5 +151,5 @@ export const propPlaylist = PropTypes.shape({
   collection: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(propSong)
-  ]).isRequired,
+  ]).isRequired
 });

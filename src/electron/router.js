@@ -1,6 +1,5 @@
 const path = require('path');
 const { ipcMain } = require('electron');
-
 const { IPC } = require('@doombox-utils/types');
 
 // Core
