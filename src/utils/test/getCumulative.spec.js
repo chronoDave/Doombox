@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const getCumulative = require('../getCumulative');
+const { getCumulative } = require('..');
 
 test('[getCumulative] returns cumulative value', t => {
   const array = [1, 2, 3, 4, 5];

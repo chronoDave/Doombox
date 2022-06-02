@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const toArray = require('../toArray');
+const { toArray } = require('..');
 
 test('[toArray] casts value to array', t => {
   const values = [

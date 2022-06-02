@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const shuffle = require('../shuffle');
+const { shuffle } = require('..');
 
 test('[shuffle] shuffles array', t => {
   const limit = 100;

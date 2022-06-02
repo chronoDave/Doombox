@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const pascalize = require('../pascalize');
+const { pascalize } = require('..');
 
 test('[pascalize] should pascalize string', t => {
   const original = 'original string';
