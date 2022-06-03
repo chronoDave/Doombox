@@ -1,0 +1,71 @@
+@import '~/src/renderer/scss/utils.scss';
+
+.VirtualAlbumsItem {
+  display: flex;
+  padding: 1px 0;
+
+  @media (min-width: $sm) and (min-height: $sm) {
+    padding: 2px;
+  }
+
+  > button {
+    display: flex;
+
+    > img {
+      object-fit: contain;
+      width: 48px;
+      height: 48px;
+
+      @media (min-width: $sm) and (min-height: $sm) {
+        width: 96px;
+        height: 96px;
+      }
+
+      @media (min-width: $lg) and (min-height: $md) {
+        width: 128px;
+        height: 128px;;
+      }
+    }
+  }
+
+  > .label {
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    @media (min-width: $sm) and (min-height: $sm) {
+      padding-left: 6px;
+      padding-top: 4px;
+    }
+
+    > .primary {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: var(--text-primary);
+
+      @media (min-width: $sm) and (min-height: $sm) {
+        -webkit-line-clamp: 2;
+      }
+    }
+
+    > .secondary {
+      color: var(--text-secondary);
+    }
+
+    > .TablePair {
+      display: none;
+
+      @media (min-width: $sm) and (min-height: $sm) {
+        display: block;
+        padding-top: 4px;
+      }
+
+      @media (min-width: $lg) and (min-height: $md) {
+        padding-top: 8px;
+      }
+    }
+  }
+}

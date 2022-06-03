@@ -1,0 +1,65 @@
+@import '~/src/renderer/scss/utils.scss';
+
+.Player {
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  padding: 4px;
+  height: 80px;
+
+  @media (min-width: $xs) and (min-height: $xs) {
+    height: 164px;
+  }
+
+  @media (min-width: $sm) and (min-height: $sm) {
+    height: 210px;
+  }
+
+  @media (min-width: $md) and (min-height: $md) {
+    height: 300px;
+  }
+
+  > .text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    color: $grey6;
+
+    > .title {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-align: center;
+
+      @media (min-width: $sm) and (min-height: $sm) {
+        font-weight: 500;
+      }
+    }
+
+    > .artist {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      text-align: center;
+      overflow: hidden;
+    }
+  }
+
+  > .PlayerControls {
+    color: $grey6;
+
+    @media (max-width: $sm) {
+      display: none;
+    }
+  }
+
+  > .PlayerTime {
+    @media (max-height: $xs) {
+      display: none;
+    }
+  }
+}

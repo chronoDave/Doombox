@@ -1,0 +1,44 @@
+@import '~/src/renderer/scss/utils.scss';
+
+.OverlayScan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 16px;
+  max-width: $md;
+  color: var(--text-primary);
+
+  > .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 4px;
+
+    > .description {
+      margin-bottom: 8px;
+    }
+  }
+
+  > .progress {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    > .label {
+      margin-left: 8px;
+    }
+  }
+
+  > caption {
+    text-align: left;
+    width: 100%;
+    margin-top: 8px;
+    height: 60px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

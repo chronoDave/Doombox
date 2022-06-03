@@ -8,20 +8,6 @@
 
 A music player designed with large music collections in mind.
 
-## Documentation
-
-**2.x.x**
-
- - [Keybinds](./docs/KEYBIND.md)
- - [Project](./docs/PROJECT.md)
- - [IPC](./docs/IPC.md)
-
-**1.x.x**
-
- - [README](https://github.com/chronoDave/Doombox/tree/v1.x.x)
- - [Front-end](https://github.com/chronoDave/Doombox/tree/v1.x.x/packages/doombox-react)
- - [Back-end](https://github.com/chronoDave/Doombox/tree/v1.x.x/packages/doombox-electron)
-
 ## Downloads
 
 **2.x.x**
@@ -38,21 +24,69 @@ A music player designed with large music collections in mind.
 
  - [0.7.0-alpha (Win + Mac)](https://github.com/chronoDave/Doombox/releases/tag/v0.7.0-alpha)
 
-## Linux
+# Keybinds
 
-### Install
+### Windows / Linux
 
-Run `chmod a+x <AppImage>`, then simply double-click the AppImage file to run.
+| System (non-configurable) |  |
+|:------------------ | ---------- |
+| **Ctrl + =**       | Zoom in    |
+| **Ctrl + -**       | Zoom out   |
+| **Ctrl + Alt + =** | Reset zoom |
 
-### Errors
+| File | |
+|:-------------------- | ---------------- |
+| **Ctrl + S**         | Rescan library   |
+| **Ctrl + Shift + S** | Scan folder      |
+| **Ctrl + P**         | Open preferences |
 
-`Error: libvips-cpp.so.42: cannot open shared object file: No such file or directory`
+| Library | |
+|:------------ | -------------- |
+| **Ctrl + F** | Search library |
 
-Run `sudo apt-get install -y libvips`
+| Player | |
+| :------------------ | ------------- |
+| **Ctrl + Alt + →**  | Next song     |
+| **Ctrl + Alt + ←**  | Previous song |
+| **Ctrl + Alt + \\** | Play / pause  |
+| **Ctrl + Alt + M**  | Mute / umute  |
+| **Ctrl + Alt + ↑**  | Volume up     |
+| **Ctrl + Alt + ↓**  | Volume down   |
 
-`Error: GLib-GObject:ERROR:../../../gobject/gbinding.c:574:g_binding_constructed: assertion failed: (binding->source != NULL)`
+| Help | | 
+| :------------------- | ---------------- |
+| **Ctrl + Shift + I** | Toggle dev tools |
 
-Delete `node_modules/sharp/vendor`
+### Mac
+
+| System (non-configurable) | |
+|:------------------ | ---------- |
+| **⌘ + =**         | Zoom in    |
+| **⌘ + -**         | Zoom out   |
+| **⌘ + ⌥ + =**     | Reset zoom |
+
+| File | |
+|:-------------------- | ---------------- |
+| **⌘ + S**           | Rescan library   |
+| **⌘ + ⇧ + S**       | Scan folder      |
+| **⌘ + P**           | Open preferences |
+
+| Library | |
+|:---------- | -------------- |
+| **⌘ + F** | Search library |
+
+| Player | |
+| :--------------- | ------------- |
+| **⌘ + ⌥ + →**  | Next song     |
+| **⌘ + ⌥ + ←**  | Previous song |
+| **⌘ + ⌥ + \\** | Play / pause  |
+| **⌘ + ⌥ + M**  | Mute / umute  |
+| **⌘ + ⌥ + ↑**  | Volume up     |
+| **⌘ + ⌥ + ↓**  | Volume down   |
+
+| Help | |
+| :------------------- | ---------------- |
+| **⌘ + ⇧ + I**       | Toggle dev tools |
 
 ## License
 

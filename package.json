@@ -18,14 +18,14 @@
   "scripts": {
     "lint": "eslint src --ext js,jsx,ts,tsx",
     "lint:fix": "eslint src --ext js,jsx,ts,tsx --fix",
-    "test:electron": "tape src/electron/**/*.spec.js",
-    "test:client": "esbuild src/client/lib/Audio/Audio.js --bundle --platform=node --outfile=src/client/lib/Audio/test/build.js && tape src/client/**/*.spec.js",
+    "test:electron": "tape src/main/**/*.spec.js",
+    "test:client": "esbuild src/renderer/lib/Audio/Audio.js --bundle --platform=node --outfile=src/renderer/lib/Audio/test/build.js && tape src/renderer/**/*.spec.js",
     "test:intl": "tape src/intl/**/*.spec.js",
     "test:utils": "esbuild src/utils/index.ts --bundle --platform=node --outfile=src/utils/test/build/index.js && tape src/utils/test/**/*.spec.js",
     "test": "npm run test:intl && npm run test:utils && npm run test:client && npm run test:electron",
     "start:webpack": "webpack -w",
     "start:electron": "nodemon --config .nodemon.json",
-    "build:sharp": "esbuild node_modules/sharp/lib/index.js --bundle --platform=node --outfile=build/sharp/lib/index.js --minify",
+    "build:sharp": "esbuild node_modules/sharp/lib/index.js --bundle --platform=node --outfile=build/sharp/index.js --minify",
     "build:webpack": "webpack --mode production",
     "build:electron": "npm run build:sharp && electron-builder -p=never -c electron.config.js",
     "build": "npm run build:webpack && npm run build:electron"

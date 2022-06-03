@@ -1,0 +1,10 @@
+@import '~/src/renderer/scss/utils.scss';
+
+.PopperBase {
+  position: fixed;
+  z-index: $zPopper;
+
+  > .arrow {
+    z-index: -1;
+  }
+}

@@ -1,0 +1,28 @@
+@import '~/src/renderer/scss/utils.scss';
+
+.Select {
+  &.button {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    padding-left: 12px;
+    border-radius: 4px;
+    border: 1px solid var(--text-disabled);
+    color: var(--text-primary);
+    transition: border-color $transitionShortest;
+  
+    > .label {
+      text-align: left;
+      flex-grow: 1;
+    }
+  
+    > .Icon {
+      margin-left: 8px;
+    }
+  }
+
+  &.menu > .body {
+    max-height: 96px;
+    overflow: auto;
+  }
+}
