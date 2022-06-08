@@ -18,46 +18,11 @@ const TRANSLATIONS = {
  * Get translation string
  * @param {string} language - Language key
  * @param {string} key - Value key
- * @param {object} options
- * @param {boolean} options.plural - Is value plural?
- * @param {string} options.transform - String transform
- * @param {boolean} options.dots - Should dots be appended to the string?
- * @param {object} options.mixins - Mixins
  */
 const getTranslation = (
   language: keyof typeof LANGUAGES,
-  key: typeof TRANSLATIONS[keyof typeof LANGUAGES],
-  options?: {
-    plural?: boolean
-    mixins: Record<string, unknown>,
-    dots: boolean,
-    transform: 'uppercase' | 'capitalize' | 'pascal'
-  }
-) => {
-  let value = objectGet(TRANSLATIONS[language] || TRANSLATIONS.en, key);
-
-  if (!value) return key;
-
-  // Plural
-  if (Array.isArray(value)) value = value[options?.plural ? 1 : 0];
-
-  // Mixins
-  const templates = value.match(/({.[^}]*.)/g);
-  if (templates && templates.length > 0) {
-    for (let i = 0; i < templates.length; i += 1) {
-      value = value.replace(templates[i], options?.mixins[templates[i].slice(1, -1)]);
-    }
-  }
-
-  // Dots
-  if (options?.dots) value = `${value}...`;
-
-  // Transform
-  if (options?.transform === 'uppercase') return value.toUpperCase();
-  if (options?.transform === 'capitalize') return capitalize(value);
-  if (options?.transform === 'pascal') return pascalize(value);
-  return value;
-};
+  key: typeof TRANSLATIONS[keyof typeof LANGUAGES]
+) => objectGet(TRANSLATIONS[language] || TRANSLATIONS.en, key) ?? key;
 
 const getNativeKeybind = (keybind: string, transform?: 'capitalize' | 'pascal') => {
   const nativeKeybinds: Record<NodeJS.Platform, Record<string, string>> = {

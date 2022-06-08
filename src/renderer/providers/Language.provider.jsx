@@ -1,18 +1,46 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { getTranslation, getNativeKeybind } from '@doombox-intl';
+import { capitalize, pascalize } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
 // Context
 import { LanguageContext } from '../context';
 
 const LanguageProvider = props => {
-  const { useLocalizedMetadata,
-    language,
-    children } = props;
+  const { useLocalizedMetadata, language, children } = props;
 
-  const t = (id, options) => getTranslation(language, id, options);
-  const value = {
+  /**
+   * @param {object} options
+   * @param {boolean} options.plural - Is value plural?
+   * @param {string} options.transform - String transform
+   * @param {boolean} options.dots - Should dots be appended to the string?
+   * @param {object} options.mixins - Mixins
+   */
+  const t = (id, options) => {
+    let value = getTranslation(language, id);
+    // Plural
+    if (Array.isArray(value)) value = value[options?.plural ? 1 : 0];
+
+    // Mixins
+    const templates = value.match(/({.[^}]*.)/g);
+    if (templates && templates.length > 0) {
+      for (let i = 0; i < templates.length; i += 1) {
+        value = value.replace(templates[i], options?.mixins[templates[i].slice(1, -1)]);
+      }
+    }
+
+    // Dots
+    if (options?.dots) value = `${value}...`;
+
+    // Transform
+    if (options?.transform === 'uppercase') return value.toUpperCase();
+    if (options?.transform === 'capitalize') return capitalize(value);
+    if (options?.transform === 'pascal') return pascalize(value);
+    return value;
+  };
+
+  const value = useMemo(() => ({
     language,
     getNativeKeybind,
     getLocalizedTag: (metadata, tag) => (useLocalizedMetadata ?
@@ -47,7 +75,7 @@ const LanguageProvider = props => {
           return time;
       }
     }
-  };
+  }), [t, useLocalizedMetadata, language]);
 
   return (
     <LanguageContext.Provider value={value}>
