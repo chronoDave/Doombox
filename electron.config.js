@@ -6,8 +6,7 @@ fs.rmSync(path.resolve(__dirname, 'dist'), { recursive: true, force: true });
 module.exports = {
   appId: 'com.electron.doombox',
   productName: 'Doombox',
-  copyright: 'Copyright © 2019-2022 ${author}',
-  electronVersion: '11.1.0',
+  copyright: `Copyright © 2019-${new Date().getFullYear()} \${author}`,
   extraMetadata: {
     main: 'main.bundle.js'
   },

@@ -75,7 +75,7 @@ module.exports = class Window extends Reporter {
       // Security can safely be disabled, as Doombox doesn't load external url's
       webPreferences: {
         nodeIntegration: true,
-        enableRemoteModule: true,
+        contextIsolation: false,
         webSecurity: false
       }
     });

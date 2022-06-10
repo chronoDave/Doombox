@@ -38,6 +38,7 @@ const getNativeKeybind = (keybind: string, transform?: 'capitalize' | 'pascal') 
     linux: {
       mod: 'ctrl'
     },
+    haiku: {},
     aix: {},
     android: {},
     freebsd: {},
