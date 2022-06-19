@@ -1,7 +1,7 @@
 import React from 'react';
-import { TYPES, WINDOW } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 
+import { TYPES, WINDOW } from '../../../utils/types';
 import { cx } from '../../utils';
 import { ButtonIcon } from '../../components';
 import { VirtualSongs, VirtualAlbums, VirtualLabels } from '..';

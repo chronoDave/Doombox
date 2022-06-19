@@ -1,4 +1,4 @@
-import { IPC } from '@doombox-utils/types';
+import { IPC } from '../../utils/types';
 
 import { ipcUpdate } from './ipc.actions';
 

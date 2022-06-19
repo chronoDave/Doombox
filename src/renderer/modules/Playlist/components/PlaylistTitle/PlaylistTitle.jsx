@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import { IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
+import { IPC } from '../../../../../utils/types';
 import { Popper, ButtonIcon, InputText } from '../../../../components';
 import { ipcInsert } from '../../../../actions';
 import { useTranslation, useTimeoutOpen } from '../../../../hooks';

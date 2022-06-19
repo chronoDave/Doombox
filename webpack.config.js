@@ -5,12 +5,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const alias = {
-  '@doombox-utils': path.resolve(__dirname, 'src/utils'),
-  '@doombox-config': path.resolve(__dirname, 'src/config'),
-  '@doombox-intl': path.resolve(__dirname, 'src/intl/intl')
-};
-
 module.exports = () => [{
   name: 'main',
   target: 'electron-main',
@@ -20,8 +14,7 @@ module.exports = () => [{
   },
   mode: 'development',
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    alias
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   entry: path.resolve(__dirname, 'src/main/index.js'),
   module: {
@@ -84,8 +77,7 @@ module.exports = () => [{
   target: 'electron-renderer',
   mode: 'development',
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    alias
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   entry: path.resolve(__dirname, 'src/renderer/index.jsx'),
   output: {

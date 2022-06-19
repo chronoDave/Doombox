@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import { THEME } from '@doombox-config';
+import { THEME } from '../../config';
 
 const opacity = {
   hover: 0.09,

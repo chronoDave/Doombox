@@ -1,8 +1,8 @@
 import { remote, webFrame } from 'electron';
 import { connect } from 'react-redux';
-import { WINDOW, IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
+import { WINDOW, IPC } from '../../utils/types';
 import { useAudio, useKeybind, useTranslation } from '../hooks';
 import { ipcInsert } from '../actions';
 import { setOverlay } from '../redux';

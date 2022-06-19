@@ -1,6 +1,5 @@
-import { STATUS } from '@doombox-utils/types';
-import { CONFIG } from '@doombox-config';
-
+import { STATUS } from '../../../utils/types';
+import { CONFIG } from '../../../config';
 import { createReduxSlice } from '../utils';
 
 const initialState = {

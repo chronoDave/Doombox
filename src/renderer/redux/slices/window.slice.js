@@ -1,5 +1,4 @@
-import { WINDOW } from '@doombox-utils/types';
-
+import { WINDOW } from '../../../utils/types';
 import { createReduxSlice } from '../utils';
 
 const initialState = {

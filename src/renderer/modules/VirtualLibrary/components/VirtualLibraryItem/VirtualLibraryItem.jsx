@@ -1,7 +1,7 @@
 import React from 'react';
-import { sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
+import { sortMetadata } from '../../../../../utils';
 import { ButtonBase, TablePair } from '../../../../components';
 import { useTranslation, useAudio } from '../../../../hooks';
 import { propLabel, propVirtualStyle } from '../../../../validation/propTypes';

@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron';
-import { IPC } from '@doombox-utils/types';
+
+import { IPC } from '../../utils/types';
 
 export const ipcInsert = (
   channel,

@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { WINDOW } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-// Core
+import { WINDOW } from '../../../utils/types';
 import {
   WindowBar,
   Player,

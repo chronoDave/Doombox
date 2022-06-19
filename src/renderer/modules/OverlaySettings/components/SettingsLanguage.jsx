@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { TYPES } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
-// Core
+import { TYPES } from '../../../../utils/types';
 import { LabelToggle, SelectLanguage, Toggle } from '../../../components';
 import { updateConfig } from '../../../actions';
 import { useTranslation } from '../../../hooks';

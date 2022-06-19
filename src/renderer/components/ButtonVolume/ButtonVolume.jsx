@@ -1,8 +1,8 @@
 import React, { Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
-import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
+import { clamp } from '../../../utils';
 import { ButtonIcon, Popper, Slider } from '..';
 import { useAudio, useTimeoutOpen } from '../../hooks';
 

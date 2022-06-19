@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
-import { getTranslation, getNativeKeybind } from '@doombox-intl';
-import { capitalize, pascalize } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Context
+import { capitalize, pascalize } from '../../utils';
+import { getTranslation, getNativeKeybind } from '../../intl/intl';
 import { LanguageContext } from '../context';
 
 const LanguageProvider = props => {

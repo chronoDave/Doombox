@@ -4,8 +4,9 @@ const walk = require('@chronocide/fs-walk').default;
 const sharp = require('sharp');
 const groupBy = require('lodash.groupby');
 const { parseFile } = require('music-metadata');
-const { toArray, generateUid } = require('@doombox-utils');
-const { IPC, TYPES } = require('@doombox-utils/types');
+
+const { toArray, generateUid } = require('../../utils');
+const { IPC, TYPES } = require('../../utils/types');
 
 module.exports = class LibraryController {
   /**

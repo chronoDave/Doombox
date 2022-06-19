@@ -6,8 +6,8 @@ import React, {
   useRef
 } from 'react';
 import PropTypes from 'prop-types';
-import { IPC } from '@doombox-utils/types';
 
+import { IPC } from '../../../utils/types';
 import { Overlay, LoaderBar } from '../../components';
 import { useTranslation } from '../../hooks';
 

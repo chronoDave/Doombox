@@ -1,6 +1,7 @@
-import { CONFIG } from '@doombox-config';
-import { WINDOW } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
+
+import { CONFIG } from '../../config';
+import { WINDOW } from '../../utils/types';
 
 const createConfigShape = (key, type) => PropTypes.shape(
   Object

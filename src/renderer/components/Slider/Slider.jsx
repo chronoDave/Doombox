@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { clamp } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
-// Theme
+import { clamp } from '../../../utils';
 import { mixins } from '../../theme';
 
 import './Slider.scss';

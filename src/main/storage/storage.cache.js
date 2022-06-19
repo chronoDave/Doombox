@@ -1,5 +1,5 @@
-const { CACHE } = require('@doombox-config');
-const { WINDOW } = require('@doombox-utils/types');
+const { CACHE } = require('../../config');
+const { WINDOW } = require('../../utils/types');
 
 const Storage = require('./storage');
 

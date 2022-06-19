@@ -1,9 +1,9 @@
 import { shell, remote } from 'electron';
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { URLS, WINDOW, IPC } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
+import { URLS, WINDOW, IPC } from '../../../../../utils/types';
 import { cx } from '../../../../utils';
 import { Popper, MenuItem, ButtonBase } from '../../../../components';
 import {

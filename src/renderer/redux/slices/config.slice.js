@@ -1,5 +1,4 @@
-import { CONFIG } from '@doombox-config';
-
+import { CONFIG } from '../../../config';
 import { createReduxSlice } from '../utils';
 
 const reducers = {

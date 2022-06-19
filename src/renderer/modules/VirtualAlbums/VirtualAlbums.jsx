@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { shuffle } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
+import { shuffle } from '../../../utils';
 import { Popper, MenuItem, VirtualList } from '../../components';
 import { createPlaylist } from '../../actions';
 import { populateSearchAlbums } from '../../redux';

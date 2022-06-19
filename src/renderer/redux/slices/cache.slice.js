@@ -1,5 +1,4 @@
-import { CACHE } from '@doombox-config';
-
+import { CACHE } from '../../../utils/types';
 import { createReduxSlice } from '../utils';
 
 const reducers = {

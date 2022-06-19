@@ -1,6 +1,7 @@
 const path = require('path');
 const { ipcMain } = require('electron');
-const { IPC } = require('@doombox-utils/types');
+
+const { IPC } = require('../utils/types');
 
 // Core
 const Reporter = require('./reporter/reporter');

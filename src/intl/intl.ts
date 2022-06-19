@@ -1,5 +1,6 @@
 const objectGet = require('lodash.get');
-const { capitalize, pascalize } = require('@doombox-utils');
+
+const { capitalize, pascalize } = require('../utils');
 
 const translationEn = require('./translations/en.json');
 const translationNl = require('./translations/nl.json');

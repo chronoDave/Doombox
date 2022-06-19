@@ -7,16 +7,17 @@ const {
   shell,
   globalShortcut
 } = require('electron');
-const { pascalize } = require('@doombox-utils');
+const debounce = require('lodash.debounce');
+
+const { pascalize } = require('../utils');
 const {
   STATUS,
   TYPES,
   IPC,
   WINDOW,
   URLS
-} = require('@doombox-utils/types');
-const { getTranslation } = require('@doombox-intl');
-const debounce = require('lodash.debounce');
+} = require('../utils/types');
+const { getTranslation } = require('../intl/intl');
 
 // Core
 const Reporter = require('./reporter/reporter');

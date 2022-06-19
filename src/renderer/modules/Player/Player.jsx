@@ -2,8 +2,8 @@ import url from 'url';
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { STATUS } from '@doombox-utils/types';
 
+import { STATUS } from '../../../utils/types';
 import { useTranslation, useTimer } from '../../hooks';
 import backgroundDefault from '../../assets/images/backgroundDefault.png';
 import { propImage } from '../../validation/propTypes';

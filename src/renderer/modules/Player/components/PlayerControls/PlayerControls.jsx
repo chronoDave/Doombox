@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { STATUS } from '@doombox-utils/types';
 import PropTypes from 'prop-types';
 
+import { STATUS } from '../../../../../utils/types';
 import { cx } from '../../../../utils';
 import { ButtonIcon, ButtonVolume } from '../../../../components';
 import { useAudio, useMediaQuery } from '../../../../hooks';

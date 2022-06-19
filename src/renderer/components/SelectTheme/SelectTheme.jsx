@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TYPES } from '@doombox-utils/types';
-import { THEME } from '@doombox-config';
 import PropTypes from 'prop-types';
 
+import { TYPES } from '../../../utils/types';
+import { THEME } from '../../../config';
 import { Select, LabelSelect } from '..';
 import { updateConfig } from '../../actions';
 import { useTranslation } from '../../hooks';

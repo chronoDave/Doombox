@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { shuffle, sortMetadata } from '@doombox-utils';
 import PropTypes from 'prop-types';
 
+import { shuffle, sortMetadata } from '../../../utils';
 import {
   VirtualList,
   VirtualListItem,

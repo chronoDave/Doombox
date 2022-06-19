@@ -1,5 +1,5 @@
-const { CONFIG } = require('@doombox-config');
-const { LANGUAGES } = require('@doombox-intl');
+const { CONFIG } = require('../../config');
+const { LANGUAGES } = require('../../intl/intl');
 
 const Storage = require('./storage');
 

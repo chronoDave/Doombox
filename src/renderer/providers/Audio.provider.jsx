@@ -1,10 +1,10 @@
 import { ipcRenderer } from 'electron';
 import React, { Component } from 'react';
 import debounce from 'lodash.debounce';
-import { IPC, EVENTS, TYPES } from '@doombox-utils/types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { IPC, EVENTS, TYPES } from '../../utils/types';
 import { AudioContext } from '../context';
 import { updateCache, setThumbar } from '../actions';
 import {
