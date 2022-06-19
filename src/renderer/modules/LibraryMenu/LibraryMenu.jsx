@@ -2,7 +2,7 @@ import React, { Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { shuffle } from '../../../utils';
+import { shuffle } from '../../../utils/array';
 import { ButtonIcon, Popper, MenuItem } from '../../components';
 import { populateLibraryMenu } from '../../redux';
 import {

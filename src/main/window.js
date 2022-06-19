@@ -9,7 +9,7 @@ const {
 } = require('electron');
 const debounce = require('lodash.debounce');
 
-const { pascalize } = require('../utils');
+const { pascalize } = require('../utils/string');
 const {
   STATUS,
   TYPES,

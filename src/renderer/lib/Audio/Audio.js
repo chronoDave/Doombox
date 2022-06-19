@@ -2,7 +2,8 @@ import EventEmitter from 'events';
 import url from 'url';
 import { Howler, Howl } from 'howler';
 
-import { clamp, shuffle, toArray } from '../../../utils';
+import { shuffle, toArray } from '../../../utils/array';
+import { clamp } from '../../../utils/math';
 import { EVENTS, STATUS } from '../../../types';
 
 export default class Audio extends EventEmitter {

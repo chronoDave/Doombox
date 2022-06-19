@@ -2,7 +2,8 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { shuffle, sortMetadata } from '../../../utils';
+import { shuffle } from '../../../utils/array';
+import { sortMetadata } from '../../utils';
 import {
   VirtualList,
   VirtualListItem,

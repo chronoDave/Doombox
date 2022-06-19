@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { clamp } from '../../../utils';
+import { clamp } from '../../../utils/math';
 import { mixins } from '../../theme';
 
 import './Slider.scss';

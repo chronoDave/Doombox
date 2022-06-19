@@ -2,7 +2,7 @@ import React, { Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { clamp } from '../../../utils';
+import { clamp } from '../../../utils/math';
 import { ButtonIcon, Popper, Slider } from '..';
 import { useAudio, useTimeoutOpen } from '../../hooks';
 

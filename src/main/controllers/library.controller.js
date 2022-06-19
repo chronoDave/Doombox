@@ -3,10 +3,16 @@ const path = require('path');
 const walk = require('@chronocide/fs-walk').default;
 const sharp = require('sharp');
 const groupBy = require('lodash.groupby');
+const crypto = require('crypto');
 const { parseFile } = require('music-metadata');
 
-const { toArray, generateUid } = require('../../utils');
+const { toArray } = require('../../utils/array');
 const { IPC, TYPES } = require('../../types');
+
+const generateUid = (seed = crypto.randomBytes(20)) => crypto
+  .createHash('md5')
+  .update(seed)
+  .digest('hex');
 
 module.exports = class LibraryController {
   /**

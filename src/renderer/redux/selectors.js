@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
 import mapSort from 'mapsort';
 
-import { getLevenshteinDistance, sortMetadata } from '../../utils';
+import { levenshteinDistance } from '../../utils/string';
+import { sortMetadata } from '../utils';
 import { localize } from '../../intl/intl';
 
 export const getImages = (ids, imageMap) => {
@@ -129,7 +130,7 @@ export const populateSearchSongs = createSelector(
     imageMap
   ) => (mapSort(
     getSongs(ids, songMap, imageMap),
-    song => getLevenshteinDistance(query, localize(
+    song => levenshteinDistance(query, localize(
       song,
       isSearchTitle ?
         'title' :
@@ -158,7 +159,7 @@ export const populateSearchAlbums = createSelector(
     imageMap
   ) => (mapSort(
     getAlbums(ids, songMap, albumMap, imageMap),
-    album => getLevenshteinDistance(query, localize(
+    album => levenshteinDistance(query, localize(
       album,
       isSearchAlbum ?
         'album' :
@@ -187,7 +188,7 @@ export const populateSearchLabels = createSelector(
     imageMap
   ) => (mapSort(
     getLabels(ids, songMap, albumMap, labelMap, imageMap),
-    label => getLevenshteinDistance(query, localize(
+    label => levenshteinDistance(query, localize(
       label,
       'publisher',
       useLocalizedMetadata

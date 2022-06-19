@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { capitalize, pascalize } from '../../utils';
+import { capitalize, pascalize } from '../../utils/string';
 import { getTranslation, getNativeKeybind } from '../../intl/intl';
 import { LanguageContext } from '../context';
 
