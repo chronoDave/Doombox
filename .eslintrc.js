@@ -70,6 +70,9 @@ module.exports = {
     }],
     // General
     'operator-linebreak': ['error', 'after'],
+    'no-param-reassign': ['error', {
+      ignorePropertyModificationsFor: ['draft']
+    }],
     'linebreak-style': 'off',
     'no-confusing-arrow': 'off',
     'comma-dangle': 'off',

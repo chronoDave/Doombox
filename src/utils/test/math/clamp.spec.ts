@@ -1,8 +1,8 @@
-const test = require('tape');
+import test from 'tape';
 
-const { clamp } = require('./build');
+import { clamp } from '../../math';
 
-test('[clamp] should return `min` value if value is smaller than `min`', t => {
+test('[math.clamp] should return `min` value if value is smaller than `min`', t => {
   const min = -5;
   const max = 10;
   const original = -10;
@@ -16,7 +16,7 @@ test('[clamp] should return `min` value if value is smaller than `min`', t => {
   t.end();
 });
 
-test('[clamp] should return `max` value if value is smaller than `max`', t => {
+test('[math.clamp] should return `max` value if value is smaller than `max`', t => {
   const min = -5;
   const max = 10;
   const original = 20;
@@ -30,7 +30,7 @@ test('[clamp] should return `max` value if value is smaller than `max`', t => {
   t.end();
 });
 
-test('[clamp] should return `n` value if value is between `min` and `max`', t => {
+test('[math.clamp] should return `n` value if value is between `min` and `max`', t => {
   const min = -5;
   const max = 10;
   const original = 5;
