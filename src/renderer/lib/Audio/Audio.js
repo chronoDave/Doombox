@@ -3,7 +3,7 @@ import url from 'url';
 import { Howler, Howl } from 'howler';
 
 import { clamp, shuffle, toArray } from '../../../utils';
-import { EVENTS, STATUS } from '../../../utils/types';
+import { EVENTS, STATUS } from '../../../types';
 
 export default class Audio extends EventEmitter {
   constructor({ autoplay = true, volume = 1 } = {}) {

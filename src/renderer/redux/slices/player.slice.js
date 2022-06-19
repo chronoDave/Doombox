@@ -1,4 +1,4 @@
-import { STATUS } from '../../../utils/types';
+import { STATUS } from '../../../types';
 import { CONFIG } from '../../../config';
 import { createReduxSlice } from '../utils';
 

@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import { IPC } from '../../../utils/types';
+import { IPC } from '../../../types';
 import { Overlay, LoaderBar } from '../../components';
 import { useTranslation } from '../../hooks';
 

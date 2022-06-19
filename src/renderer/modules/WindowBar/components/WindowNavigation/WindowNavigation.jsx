@@ -3,7 +3,7 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { URLS, WINDOW, IPC } from '../../../../../utils/types';
+import { URLS, WINDOW, IPC } from '../../../../../types';
 import { cx } from '../../../../utils';
 import { Popper, MenuItem, ButtonBase } from '../../../../components';
 import {

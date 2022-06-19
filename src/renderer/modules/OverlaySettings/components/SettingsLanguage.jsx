@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { TYPES } from '../../../../utils/types';
+import { TYPES } from '../../../../types';
 import { LabelToggle, SelectLanguage, Toggle } from '../../../components';
 import { updateConfig } from '../../../actions';
 import { useTranslation } from '../../../hooks';

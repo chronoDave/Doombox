@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { IPC, TYPES, WINDOW } from '../../../utils/types';
+import { IPC, TYPES, WINDOW } from '../../../types';
 import { Search, Popper, Checkbox } from '../../components';
 import { updateConfig, ipcFind } from '../../actions';
 import { setView, setQuery } from '../../redux';

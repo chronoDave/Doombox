@@ -1,7 +1,7 @@
 const path = require('path');
 const { ipcMain } = require('electron');
 
-const { IPC } = require('../utils/types');
+const { IPC } = require('../types');
 
 // Core
 const Reporter = require('./reporter/reporter');

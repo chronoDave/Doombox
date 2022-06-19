@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 
-import { IPC } from '../../utils/types';
+import { IPC } from '../../types';
 
 export const ipcInsert = (
   channel,

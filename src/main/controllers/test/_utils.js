@@ -11,7 +11,7 @@ require('esbuild').buildSync({
 });
 
 const { CONFIG } = require('../../../config');
-const { TYPES } = require('../../../utils/types');
+const { TYPES } = require('../../../types');
 
 const LibraryController = require('./build');
 

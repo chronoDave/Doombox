@@ -1,4 +1,4 @@
-import { IPC } from '../../utils/types';
+import { IPC } from '../../types';
 
 import { ipcUpdate } from './ipc.actions';
 

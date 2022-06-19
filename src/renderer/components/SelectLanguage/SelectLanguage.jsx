@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { TYPES } from '../../../utils/types';
+import { TYPES } from '../../../types';
 import { LANGUAGES } from '../../../intl/intl';
 import { Select, LabelSelect } from '..';
 import { updateConfig } from '../../actions';

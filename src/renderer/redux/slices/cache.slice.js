@@ -1,4 +1,4 @@
-import { CACHE } from '../../../utils/types';
+import { CACHE } from '../../../config';
 import { createReduxSlice } from '../utils';
 
 const reducers = {

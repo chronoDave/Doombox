@@ -16,7 +16,7 @@ const {
   IPC,
   WINDOW,
   URLS
-} = require('../utils/types');
+} = require('../types');
 const { getTranslation } = require('../intl/intl');
 
 // Core

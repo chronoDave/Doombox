@@ -2,7 +2,7 @@ const { app, globalShortcut } = require('electron');
 const path = require('path');
 const LeafDB = require('leaf-db').default;
 
-const { TYPES, IPC } = require('../utils/types');
+const { TYPES, IPC } = require('../types');
 const { THEME } = require('../config');
 
 // Core

@@ -1,7 +1,7 @@
 const test = require('tape');
 const fs = require('fs');
 
-const { TYPES } = require('../../../utils/types');
+const { TYPES } = require('../../../types');
 
 const { createMockElectronEvent } = require('./mock');
 const {

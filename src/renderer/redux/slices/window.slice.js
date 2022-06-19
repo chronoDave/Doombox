@@ -1,4 +1,4 @@
-import { WINDOW } from '../../../utils/types';
+import { WINDOW } from '../../../types';
 import { createReduxSlice } from '../utils';
 
 const initialState = {

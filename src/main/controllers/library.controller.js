@@ -6,7 +6,7 @@ const groupBy = require('lodash.groupby');
 const { parseFile } = require('music-metadata');
 
 const { toArray, generateUid } = require('../../utils');
-const { IPC, TYPES } = require('../../utils/types');
+const { IPC, TYPES } = require('../../types');
 
 module.exports = class LibraryController {
   /**

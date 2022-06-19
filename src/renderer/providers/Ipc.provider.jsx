@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { IPC } from '../../utils/types';
+import { IPC } from '../../types';
 import { ipcFind } from '../actions';
 import {
   setCache,

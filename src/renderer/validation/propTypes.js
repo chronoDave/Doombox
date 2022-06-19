@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { CONFIG } from '../../config';
-import { WINDOW } from '../../utils/types';
+import { WINDOW } from '../../types';
 
 const createConfigShape = (key, type) => PropTypes.shape(
   Object

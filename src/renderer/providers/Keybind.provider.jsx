@@ -2,7 +2,7 @@ import { remote, webFrame } from 'electron';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { WINDOW, IPC } from '../../utils/types';
+import { WINDOW, IPC } from '../../types';
 import { useAudio, useKeybind, useTranslation } from '../hooks';
 import { ipcInsert } from '../actions';
 import { setOverlay } from '../redux';

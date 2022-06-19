@@ -1,6 +1,6 @@
 const test = require('tape');
 
-const { STATUS } = require('../../../../utils/types');
+const { STATUS } = require('../../../../types');
 
 const setup = require('./_utils');
 

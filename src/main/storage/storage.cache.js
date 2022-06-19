@@ -1,5 +1,5 @@
 const { CACHE } = require('../../config');
-const { WINDOW } = require('../../utils/types');
+const { WINDOW } = require('../../types');
 
 const Storage = require('./storage');
 

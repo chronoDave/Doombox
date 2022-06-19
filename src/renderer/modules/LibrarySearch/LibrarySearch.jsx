@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { TYPES, WINDOW } from '../../../utils/types';
+import { TYPES, WINDOW } from '../../../types';
 import { cx } from '../../utils';
 import { ButtonIcon } from '../../components';
 import { VirtualSongs, VirtualAlbums, VirtualLabels } from '..';
