@@ -21,7 +21,7 @@
     "test:electron": "tape src/main/**/*.spec.js",
     "test:client": "esbuild src/renderer/lib/Audio/Audio.js --bundle --platform=node --outfile=src/renderer/lib/Audio/test/build.js && tape src/renderer/**/*.spec.js",
     "test:intl": "tape src/intl/**/*.spec.js",
-    "test:utils": "ts-node scripts/test.ts src/utils/test",
+    "test:utils": "node scripts/test.js src/utils/test && tape build/test/**/*.spec.js",
     "test": "npm run test:intl && npm run test:utils && npm run test:client && npm run test:electron",
     "start:webpack": "webpack -w",
     "start:electron": "nodemon --config .nodemon.json",
@@ -84,7 +84,6 @@
     "tape": "^5.0.1",
     "terser-webpack-plugin": "^5.0.0",
     "ts-loader": "^9.3.0",
-    "ts-node": "^10.8.1",
     "typescript": "^4.6.4",
     "webpack": "^5.1.1",
     "webpack-cli": "^4.0.0"
