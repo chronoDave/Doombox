@@ -12,7 +12,7 @@ import {
   useTimeoutOpen,
   useAudio
 } from '../../hooks';
-import { mixins } from '../../theme';
+import { MIXINS } from '../../utils';
 import { propLabel } from '../../validation/propTypes';
 
 import VirtualLibraryItem from './components/VirtualLibraryItem/VirtualLibraryItem';
@@ -50,9 +50,9 @@ const VirtualLibrary = ({ library }) => {
         size={(index, width) => {
           const breakpoint = getBreakpoint();
 
-          const item = mixins.library.item[breakpoint];
-          const body = mixins.library.body[breakpoint];
-          const header = mixins.library.header[breakpoint];
+          const item = MIXINS.library.item[breakpoint];
+          const body = MIXINS.library.body[breakpoint];
+          const header = MIXINS.library.header[breakpoint];
 
           const itemWidth = item.width + (item.padding * 2);
           const itemHeight = item.height + (item.padding * 2);

@@ -1,8 +1,4 @@
-export {
-  useAudio,
-  useTheme,
-  useTranslation
-} from './useContext';
+export { useAudio, useTranslation } from './useContext';
 export { default as useMediaQuery } from './useMediaQuery';
 export { default as useKeybind } from './useKeybind';
 export { default as useTimeout } from './useTimeout';

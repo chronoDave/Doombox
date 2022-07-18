@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { shuffle } from '../../../utils/array';
-import { sortMetadata } from '../../utils';
+import { sortMetadata, MIXINS } from '../../utils';
 import {
   VirtualList,
   VirtualListItem,
@@ -13,7 +13,6 @@ import {
 import { createPlaylist } from '../../actions';
 import { populateSearchLabels } from '../../redux';
 import { useTranslation, useAudio, useTimeoutOpen } from '../../hooks';
-import { mixins } from '../../theme';
 import { propLabel } from '../../validation/propTypes';
 
 const VirtualLabels = ({ labels, current, useLocalizedMetadata }) => {
@@ -32,7 +31,7 @@ const VirtualLabels = ({ labels, current, useLocalizedMetadata }) => {
     <Fragment>
       <VirtualList
         length={labels.length}
-        size={mixins.virtual.item * 2}
+        size={MIXINS.virtual.item * 2}
       >
         {({ style, index }) => {
           const label = labels[index];

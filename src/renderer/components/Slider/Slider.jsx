@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { clamp } from '../../../utils/math';
-import { mixins } from '../../theme';
+import { MIXINS } from '../../utils';
 
 import './Slider.scss';
 
@@ -74,9 +74,9 @@ const Slider = props => {
       className="Slider"
       style={orientation === 'horizontal' ? ({
         width: '100%',
-        height: mixins.slider.track
+        height: MIXINS.slider.track
       }) : ({
-        width: mixins.slider.track,
+        width: MIXINS.slider.track,
         height: '100%',
         flexDirection: 'column-reverse'
       })}
@@ -104,9 +104,9 @@ const Slider = props => {
         <div
           className="thumb"
           style={orientation === 'horizontal' ? ({
-            left: `${mixins.slider.thumb * (1 - (percentage / 100))}px`
+            left: `${MIXINS.slider.thumb * (1 - (percentage / 100))}px`
           }) : ({
-            bottom: `${mixins.slider.thumb * (1 - (percentage / 100))}px`
+            bottom: `${MIXINS.slider.thumb * (1 - (percentage / 100))}px`
           })}
           onMouseDown={handleOnMouseDown}
           // Aria

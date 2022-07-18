@@ -7,7 +7,6 @@ import {
   LanguaugeProvider,
   IpcProvider,
   AudioProvider,
-  ThemeProvider,
   KeybindProvider
 } from './providers';
 import { store } from './redux';
@@ -21,9 +20,7 @@ render(
       <LanguaugeProvider>
         <AudioProvider>
           <KeybindProvider>
-            <ThemeProvider>
-              <App />
-            </ThemeProvider>
+            <App />
           </KeybindProvider>
         </AudioProvider>
       </LanguaugeProvider>

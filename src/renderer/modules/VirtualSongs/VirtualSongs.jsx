@@ -11,7 +11,7 @@ import {
 } from '../../components';
 import { populateSearchSongs } from '../../redux';
 import { useTranslation, useAudio, useTimeoutOpen } from '../../hooks';
-import { mixins } from '../../theme';
+import { MIXINS } from '../../utils';
 import { propSong } from '../../validation/propTypes';
 
 const VirtualSongs = ({ songs, current }) => {
@@ -30,7 +30,7 @@ const VirtualSongs = ({ songs, current }) => {
     <Fragment>
       <VirtualList
         length={songs.length}
-        size={mixins.virtual.item * 2}
+        size={MIXINS.virtual.item * 2}
       >
         {({ style, index }) => {
           const song = songs[index];

@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   useTimeoutOpen
 } from '../../hooks';
-import { mixins } from '../../theme';
+import { MIXINS } from '../../utils';
 import { propAlbum } from '../../validation/propTypes';
 
 import VirtualAlbumsItem from './components/VirtualAlbumsItem/VirtualAlbumsItem';
@@ -56,8 +56,8 @@ const VirtualAlbums = ({ albums }) => {
           const breakpoint = getBreakpoint();
 
           return (
-            mixins.albums.item[breakpoint].height +
-            mixins.albums.item[breakpoint].padding * 2
+            MIXINS.albums.item[breakpoint].height +
+            MIXINS.albums.item[breakpoint].padding * 2
           );
         }}
       >

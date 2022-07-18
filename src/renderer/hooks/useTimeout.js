@@ -1,9 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-// Theme
-import { transitions } from '../theme';
-
-export default (fn, delay = transitions.durations.shortest) => {
+export default (fn, delay = 150) => {
   const timeout = useRef();
 
   const destroy = useCallback(() => (

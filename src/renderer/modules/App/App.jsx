@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -17,27 +17,34 @@ import {
 
 import './App.scss';
 
-const App = ({ overlay, view }) => (
-  <div className="App">
-    <WindowBar />
-    <div className="body">
-      <div className="controller">
-        <Player />
-        <Playlist />
-      </div>
-      <div className="library">
-        <div className="header">
-          <SearchLibrary />
-          <LibraryMenu />
+const App = ({ name, overlay, view }) => {
+  useEffect(() => {
+    document.body.classList.toggle('dark', name === 'dark');
+    document.body.classList.toggle('light', name === 'light');
+  }, [name]);
+
+  return (
+    <div className="App">
+      <WindowBar />
+      <div className="body">
+        <div className="controller">
+          <Player />
+          <Playlist />
         </div>
-        {view === WINDOW.VIEW.LIBRARY && <VirtualLibrary />}
-        {view === WINDOW.VIEW.SEARCH && <LibrarySearch />}
+        <div className="library">
+          <div className="header">
+            <SearchLibrary />
+            <LibraryMenu />
+          </div>
+          {view === WINDOW.VIEW.LIBRARY && <VirtualLibrary />}
+          {view === WINDOW.VIEW.SEARCH && <LibrarySearch />}
+        </div>
+        <OverlayScan open={overlay === WINDOW.OVERLAY.SCAN} />
+        <OverlaySettings open={overlay === WINDOW.OVERLAY.SETTINGS} />
       </div>
-      <OverlayScan open={overlay === WINDOW.OVERLAY.SCAN} />
-      <OverlaySettings open={overlay === WINDOW.OVERLAY.SETTINGS} />
     </div>
-  </div>
-);
+  );
+};
 
 App.defaultProps = {
   overlay: null
@@ -49,6 +56,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  name: state.config.display.theme,
   overlay: state.window.overlay,
   view: state.window.view
 });

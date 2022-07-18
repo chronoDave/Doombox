@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { VirtualList, VirtualListItem } from '../../components';
 import { useMediaQuery, useTranslation, useAudio } from '../../hooks';
-import { mixins } from '../../theme';
+import { MIXINS } from '../../utils';
 import { propSong } from '../../validation/propTypes';
 
 import PlaylistTitle from './components/PlaylistTitle/PlaylistTitle';
@@ -20,8 +20,8 @@ const Playlist = ({ songs, current }) => {
       <VirtualList
         length={songs.length}
         size={(isWidthSm ?
-          mixins.virtual.item * 2 :
-          mixins.virtual.item
+          MIXINS.virtual.item * 2 :
+          MIXINS.virtual.item
         )}
         scrollTo={current}
       >
