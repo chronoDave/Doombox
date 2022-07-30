@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { toArray } from '../../array';
+import { toArray } from 'src/utils/array';
 
 test('[array.toArray] should transform `x` into `[x]`', t => {
   const x = 3;

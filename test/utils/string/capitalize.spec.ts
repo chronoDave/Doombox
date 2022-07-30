@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { capitalize } from '../../string';
+import { capitalize } from 'src/utils/string';
 
 test('[string.capitalize] shoud capitalize string', t => {
   t.equal(

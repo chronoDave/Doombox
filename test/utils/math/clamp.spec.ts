@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { clamp } from '../../math';
+import { clamp } from 'src/utils/math';
 
 test('[math.clamp] should return `min` value if value is smaller than `min`', t => {
   const min = -5;

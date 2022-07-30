@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { fill } from '../../array';
+import { fill } from 'src/utils/array';
 
 test('[array.fill] should create filled array', t => {
   const n = 3;

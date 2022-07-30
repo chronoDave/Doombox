@@ -96,11 +96,16 @@ module.exports = {
     'import/order': ['error', {
       'newlines-between': 'always',
       warnOnUnassignedImports: true,
+      pathGroups: [{
+        pattern: 'src/**',
+        group: 'internal'
+      }],
+      pathGroupsExcludedImportTypes: ['builtin'],
       groups: [
-        ['builtin', 'external', 'internal'],
+        ['builtin', 'external'],
+        'internal',
         'parent',
-        'sibling',
-        'index'
+        ['sibling', 'index']
       ]
     }]
   }

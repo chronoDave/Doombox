@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { sum } from '../../math';
+import { sum } from 'src/utils/math';
 
 test('[math.sum] should return sum', t => {
   t.equal(

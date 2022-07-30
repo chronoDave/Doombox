@@ -1,3 +1,15 @@
+export type JSON =
+  string |
+  number |
+  boolean |
+  null |
+  JSON[] |
+  { [key: string]: JSON };
+
+export interface Shape {
+  [key: string]: JSON
+}
+
 module.exports = {
   IPC: {
     CHANNEL: {

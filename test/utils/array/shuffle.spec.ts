@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { shuffle } from '../../array';
+import { shuffle } from 'src/utils/array';
 
 test('[array.shuffle] should shuffle array', t => {
   const arr = [];

@@ -20,6 +20,7 @@
   },
   "include": [
     "src",
+    "test",
     "scripts",
     ".eslintrc.js",
     "webpack.config.js"
@@ -28,7 +29,6 @@
     "node_modules",
     "build",
     "userData",
-    "test",
     "dist",
     "docs"
   ]

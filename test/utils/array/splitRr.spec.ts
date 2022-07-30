@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { splitRr } from '../../array';
+import { splitRr } from 'src/utils/array';
 
 test('[array.splitRr] should split array round-robin', t => {
   const arr = Array(99).fill(0);

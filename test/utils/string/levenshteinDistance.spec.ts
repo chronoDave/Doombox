@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { levenshteinDistance } from '../../string';
+import { levenshteinDistance } from 'src/utils/string';
 
 test('[string.levenshteinDistance] shoud return levenshtein distance', t => {
   t.equal(
