@@ -1,8 +1,2 @@
-.DS_Store
-.bundle.json
-build.js
-
-userData
 node_modules
 build
-dist

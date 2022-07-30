@@ -1,1 +1,0 @@
-All icons in this folder are obtained from [Material Design - Icons](https://material.io/resources/icons) and are licensed under [Apache license version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).

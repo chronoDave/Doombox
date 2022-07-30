@@ -2,41 +2,20 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   extends: [
-    'airbnb',
-    'airbnb-typescript'
+    'plugin:import/recommended',
+    'plugin:jsx-a11y/recommended',
+    'airbnb-base',
+    'airbnb-typescript/base'
   ],
+  settings: {
+    'import/core-modules': [
+      'electron'
+    ]
+  },
   parserOptions: {
     project: './tsconfig.json'
   },
-  env: {
-    browser: true
-  },
-  settings: {
-    'import/resolver': {
-      node: {},
-      webpack: {
-        config: 'webpack.config.js'
-      }
-    },
-    'import/core-modules': [
-      '@babel/register',
-      '@babel/polyfill',
-      'esbuild',
-      'electron',
-      'tape',
-      'sinon',
-      'chokidar'
-    ]
-  },
   rules: {
-    // TEMPORARY OVERRIDES
-    'react/function-component-definition': 'off',
-    'react/jsx-fragments': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    'react/no-unused-prop-types': 'off',
-    'react/require-default-props': 'off',
-    'react/prop-types': 'off',
-    'react/destructuring-assignment': 'off',
     // TypeScript
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/comma-dangle': ['error', 'never'],
@@ -92,7 +71,6 @@ module.exports = {
       ImportDeclaration: { minProperties: 4 }
     }],
     // Import
-    'import/prefer-default-export': 'off',
     'import/order': ['error', {
       'newlines-between': 'always',
       warnOnUnassignedImports: true,

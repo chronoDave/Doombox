@@ -1,109 +1,38 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
-module.exports = () => [{
+module.exports = (env, argv) => [{
+  /** Main */
   name: 'main',
   target: 'electron-main',
-  externals: {
-    fsevents: 'require("fs-events")',
-    sharp: 'commonjs2 sharp'
+  entry: {
+    main: path.resolve(__dirname, 'src/main/index.ts'),
+    preload: path.resolve(__dirname, 'src/main/preload.ts')
   },
-  mode: 'development',
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: '[name].js',
+    clean: {
+      keep: /renderer/
+    }
+  },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.ts']
   },
-  entry: path.resolve(__dirname, 'src/main/index.js'),
   module: {
     rules: [{
-      test: /\.node$/,
-      loader: 'node-loader'
-    }, {
-      test: /\.(js|jsx|ts|tsx)$/,
+      test: /\.(jsx?|tsx?)$/,
       include: path.resolve(__dirname, 'src'),
-      exclude: [/\.spec\.js$/],
-      loader: 'ts-loader',
+      loader: 'esbuild-loader',
       options: {
-        transpileOnly: true
+        loader: 'tsx',
+        target: 'es2017'
       }
     }]
   },
-  output: {
-    path: path.resolve(__dirname, 'build/main'),
-    filename: '[name].bundle.js',
-    clean: true
-  },
-  plugins: [
-    new ForkTsCheckerWebpackPlugin(),
-    new CopyPlugin({
-      patterns: [{
-        from: 'src/main/assets',
-        to: 'assets'
-      }]
-    })
-  ],
   optimization: {
-    // Split otherwise sharp module won't work
-    splitChunks: {
-      cacheGroups: {
-        vendors: {
-          name: 'vendors',
-          test: /[\\/]node_modules[\\/]/,
-          chunks: 'all'
-        }
-      }
-    },
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          output: {
-            comments: /@license/i
-          },
-          compress: {
-            passes: 2
-          }
-        },
-        extractComments: {
-          filename: ({ filename }) => `${filename.split('.').slice(0, -1).join('.')}.license.txt`
-        }
-      })
-    ]
-  }
-}, {
-  name: 'renderer',
-  target: 'electron-renderer',
-  mode: 'development',
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
-  },
-  entry: path.resolve(__dirname, 'src/renderer/index.jsx'),
-  output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'build/renderer'),
-    clean: true
-  },
-  optimization: {
-    minimizer: [
-      '...',
-      new CssMinimizerPlugin(),
-      new TerserPlugin({
-        terserOptions: {
-          output: {
-            comments: /@license/i
-          },
-          compress: {
-            passes: 2
-          }
-        },
-        extractComments: {
-          filename: ({ filename }) => `${filename.split('.').slice(0, -1).join('.')}.license.txt`
-        }
-      })
-    ],
     splitChunks: {
       cacheGroups: {
         vendors: {
@@ -114,38 +43,64 @@ module.exports = () => [{
       }
     }
   },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin()
+  ]
+}, {
+  /** Renderer */
+  name: 'renderer',
+  target: 'electron-renderer',
+  devtool: 'inline-cheap-source-map',
+  entry: {
+    main: path.resolve(__dirname, 'src/renderer/index.tsx'),
+    preload: path.resolve(__dirname, 'src/renderer/preload.ts')
+  },
+  output: {
+    path: path.resolve(__dirname, 'build/renderer'),
+    filename: '[name].js',
+    clean: true
+  },
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx']
+  },
   module: {
     rules: [{
-      test: /\.(js|jsx|ts|tsx)$/,
+      test: /\.(jsx?|tsx?)$/,
       include: path.resolve(__dirname, 'src'),
-      exclude: [/\.spec\.js$/],
-      loader: 'ts-loader',
+      loader: 'esbuild-loader',
       options: {
-        transpileOnly: true
+        loader: 'tsx',
+        target: 'es2017'
       }
     }, {
-      test: /\.scss$/,
+      test: /\.scss/,
       include: path.resolve(__dirname, 'src/renderer'),
       use: [
         MiniCssExtractPlugin.loader,
-        { loader: 'css-loader', options: { sourceMap: true, url: false } },
-        { loader: 'sass-loader', options: { sourceMap: true } }
+        { loader: 'css-loader', options: { url: false } },
+        {
+          loader: 'sass-loader',
+          options: {
+            sassOptions: {
+              style: argv.mode === 'development' ?
+                'expanded' :
+                'compressed'
+            }
+          }
+        }
       ]
-    }, {
-      test: /\.(png|jpe?g|gif)$/,
-      include: path.resolve(__dirname, 'src/renderer/assets/icons'),
-      type: 'asset/resource',
-      generator: {
-        filename: 'assets/icons/[name][ext]'
-      }
-    }, {
-      test: /\.(png|jpe?g|gif)$/,
-      include: path.resolve(__dirname, 'src/renderer/assets/images'),
-      type: 'asset/resource',
-      generator: {
-        filename: 'assets/images/[name][ext]'
-      }
     }]
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all'
+        }
+      }
+    }
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
@@ -155,13 +110,8 @@ module.exports = () => [{
     }),
     new CopyPlugin({
       patterns: [{
-        from: 'src/renderer/assets/fonts',
-        to: 'assets/fonts'
-      }, {
-        from: 'src/renderer/assets/images/README.md',
-        to: 'assets/images'
-      }, {
-        from: 'src/renderer/index.html'
+        from: 'src/renderer/index.html',
+        to: path.resolve(__dirname, 'build/renderer/index.html')
       }]
     })
   ]
