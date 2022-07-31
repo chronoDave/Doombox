@@ -1,7 +1,7 @@
 import test from 'tape';
 import fs from 'fs';
 
-import type { Shape } from '../../../../src/types';
+import type { Shape } from '../../../../src/types/primitives';
 
 import init from './utils';
 

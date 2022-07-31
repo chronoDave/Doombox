@@ -1,6 +1,7 @@
-import type { Constrain, Json } from '../types';
+import type { Constrain } from '../types/helpers';
+import type { Json } from '../types/primitives';
 
-export type ShapeApp = Constrain<Json, {
+export type AppShape = Constrain<Json, {
   window: {
     width: number
     height: number
@@ -9,11 +10,11 @@ export type ShapeApp = Constrain<Json, {
   }
 }>;
 
-const shape: Readonly<ShapeApp> = {
+const appShape: Readonly<AppShape> = {
   window: {
     width: 320,
     height: 240
   }
 };
 
-export default shape;
+export default appShape;

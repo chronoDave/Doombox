@@ -1,4 +1,4 @@
-import type { Shape } from '../types';
+import type { Shape } from '../types/primitives';
 
 import { isShape } from './validation';
 

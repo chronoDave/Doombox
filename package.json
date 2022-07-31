@@ -20,7 +20,8 @@
     "build:electron": "electron-builder -p=never -c .electron.config.js",
     "build": "npm run build:webpack && npm run build:electron",
     "test:app": "npm run build:test && tape test/build/app/**/*.spec.js",
-    "test:utils": "npm run build:test && tape test/build/utils/**/*.spec.js"
+    "test:utils": "npm run build:test && tape test/build/utils/**/*.spec.js",
+    "test": "npm run build:test && tape test/build/**/*.spec.js"
   },
   "devDependencies": {
     "@types/mithril": "^2.0.11",
@@ -51,6 +52,7 @@
   "dependencies": {
     "@chronocide/fs-walk": "^1.2.3",
     "immer": "^9.0.15",
-    "mithril": "^2.2.2"
+    "mithril": "^2.2.2",
+    "mithril-tsx": "^1.0.1"
   }
 }

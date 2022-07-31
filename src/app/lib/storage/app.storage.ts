@@ -1,6 +1,7 @@
+import type { AppShape } from '../../../shapes/app.shape';
+import type { Shape } from '../../../types/primitives';
+
 import shape from '../../../shapes/app.shape';
-import type { ShapeApp } from '../../../shapes/app.shape';
-import type { Shape } from '../../../types';
 import { getShape } from '../../../utils/shape';
 
 import Storage from './storage';
@@ -9,7 +10,7 @@ export interface AppStorageProps {
   root: string
 }
 
-export default class AppStorage extends Storage<ShapeApp> {
+export default class AppStorage extends Storage<AppShape> {
   constructor(props: AppStorageProps) {
     super({ root: props.root, name: 'app', shape });
   }
@@ -20,7 +21,7 @@ export default class AppStorage extends Storage<ShapeApp> {
     const width = getShape(json, 'window.width');
     const height = getShape(json, 'window.height');
 
-    const merged: ShapeApp = {
+    const merged: AppShape = {
       window: {
         width: typeof width === 'number' ?
           width :

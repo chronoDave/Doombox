@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import produce from 'immer';
 
-import type { Shape } from '../../../types';
+import type { Shape } from '../../../types/primitives';
+
 import { debounce } from '../../../utils/function';
 import { parseShape } from '../../../utils/shape';
 

@@ -34,4 +34,13 @@ export default class Logger {
       `STACK\n${err.stack}`
     ].join('\n\n'), 'error');
   }
+
+  ipc(x: unknown): Promise<Error> {
+    const error = x instanceof Error ?
+      x :
+      new Error('An unknown error has occurred');
+
+    this.error(error);
+    return Promise.reject(error);
+  }
 }

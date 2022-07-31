@@ -59,6 +59,10 @@ module.exports = {
     'no-param-reassign': ['error', {
       ignorePropertyModificationsFor: ['draft']
     }],
+    'class-methods-use-this': ['error', {
+      exceptMethods: ['view']
+    }],
+    'no-promise-executor-return': 'off',
     'linebreak-style': 'off',
     'no-confusing-arrow': 'off',
     'comma-dangle': 'off',
@@ -90,6 +94,7 @@ module.exports = {
       groups: [
         ['builtin', 'external'],
         'internal',
+        'type',
         'parent',
         ['sibling', 'index']
       ]

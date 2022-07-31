@@ -7,4 +7,5 @@ if (App.isDev) {
   fs.mkdirSync(App.dir.userData, { recursive: true });
 }
 
-App.run();
+const app = new App();
+app.run();
