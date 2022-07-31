@@ -1,9 +1,10 @@
 import test from 'tape';
 
-import { init, cleanup, storage } from './utils';
+import init from './utils';
 
 test('[storage.read] should read file', t => {
-  init();
+  const { storage, write, cleanup } = init();
+  write();
 
   // @ts-ignore
   const json = storage._read();
@@ -14,6 +15,7 @@ test('[storage.read] should read file', t => {
 });
 
 test('[storage.read] should return null if file does not exist', t => {
+  const { storage } = init();
   // @ts-ignore
   const json = storage._read();
 

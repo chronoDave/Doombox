@@ -3,11 +3,12 @@ import fs from 'fs';
 
 import type { Shape } from '../../../../src/types';
 
-import { init, cleanup, storage } from './utils';
+import init from './utils';
 
 test('[storage.write] should write file', async t => {
   const data: Shape = { a: 1 };
-  init();
+  const { write, cleanup, storage } = init();
+  write();
 
   // @ts-ignore
   storage._data = data;
@@ -26,6 +27,7 @@ test('[storage.write] should write file', async t => {
 });
 
 test('[storage.write] should create file if file does not exist', async t => {
+  const { cleanup, storage } = init();
   // @ts-ignore
   await storage._write();
 

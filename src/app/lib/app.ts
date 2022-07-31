@@ -1,43 +1,57 @@
 import { app, BrowserWindow } from 'electron';
+import path from 'path';
 
-import type { Point, Rect } from '../../types';
-
+import Logger from './logger';
 import AppStorage from './storage/app.storage';
-import createWindow from './window';
-
-export interface AppProps {
-  isDev: boolean
-  path: {
-    userData: string
-    assets: string
-  }
-}
 
 export default class App {
-  private readonly _storage: {
-    app: AppStorage
+  static readonly isDev = process.env.NODE_ENV === 'development';
+  static readonly dir = {
+    userData: App.isDev ?
+      path.resolve(__dirname, '../userData') :
+      app.getPath('userData'),
+    assets: App.isDev ?
+      path.resolve(__dirname, '../build/assets') :
+      path.resolve(app.getAppPath(), 'assets'),
+    log: App.isDev ?
+      path.resolve(__dirname, '../userData/logs') :
+      app.getPath('logs')
+  };
+  static readonly logger = new Logger({ root: App.dir.log });
+  static readonly storage = {
+    app: new AppStorage({ root: App.dir.userData })
   };
 
-  private _createWindow() {
-    return createWindow({
-      ...this._storage.app.get('window'),
-      onMove: (point: Point) => this._storage.app.set('window', point),
-      onResize: (rect: Rect) => this._storage.app.set('window', rect)
+  static createWindow() {
+    const browserWindow = new BrowserWindow({
+      ...App.storage.app.get('window'),
+      title: 'Doombox',
+      minWidth: 320,
+      minHeight: 240,
+      // frame: process.platform === 'darwin',
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      }
     });
+
+    browserWindow.on('resize', () => {
+      App.storage.app.set('window', browserWindow.getBounds());
+    });
+
+    browserWindow.on('move', () => {
+      const [x, y] = browserWindow.getPosition();
+      App.storage.app.set('window', { x, y });
+    });
+
+    browserWindow.loadFile('renderer/index.html');
   }
 
-  constructor(props: AppProps) {
-    this._storage = {
-      app: new AppStorage({ root: props.path.userData })
-    };
-  }
-
-  async run() {
+  static async run() {
     await app.whenReady();
-    this._createWindow();
+    App.createWindow();
 
     app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) this._createWindow();
+      if (BrowserWindow.getAllWindows().length === 0) App.createWindow();
     });
 
     app.on('window-all-closed', () => {

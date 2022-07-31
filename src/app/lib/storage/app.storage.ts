@@ -14,7 +14,7 @@ export default class AppStorage extends Storage<ShapeApp> {
     super({ root: props.root, name: 'app', shape });
   }
 
-  _merge(json: Shape) {
+  protected _merge(json: Shape) {
     const x = getShape(json, 'window.x');
     const y = getShape(json, 'window.y');
     const width = getShape(json, 'window.width');
