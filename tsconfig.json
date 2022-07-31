@@ -22,6 +22,7 @@
   },
   "include": [
     "src",
+    "test",
     ".eslintrc.js",
     ".electron.config.js",
     "webpack.config.js"

@@ -8,7 +8,7 @@ module.exports = {
   productName: 'Doombox',
   copyright: `Copyright © 2019-${new Date().getFullYear()} \${author}`,
   extraMetadata: {
-    main: 'main.js'
+    main: 'app.js'
   },
   directories: {
     output: path.resolve(__dirname, 'dist')

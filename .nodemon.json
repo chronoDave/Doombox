@@ -1,10 +1,10 @@
 {
   "watch": [
-    "build/main.js",
+    "build/app.js",
     "build/preload.js"
   ],
   "env": {
     "NODE_ENV": "development"
   },
-  "exec": "electron build/main.js"
+  "exec": "electron build/app.js"
 }

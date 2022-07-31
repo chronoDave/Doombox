@@ -4,12 +4,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => [{
-  /** Main */
-  name: 'main',
+  /** App */
+  name: 'app',
   target: 'electron-main',
   entry: {
-    main: path.resolve(__dirname, 'src/main/index.ts'),
-    preload: path.resolve(__dirname, 'src/main/preload.ts')
+    app: path.resolve(__dirname, 'src/app/index.ts'),
+    preload: path.resolve(__dirname, 'src/app/preload.ts')
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -52,7 +52,7 @@ module.exports = (env, argv) => [{
   target: 'electron-renderer',
   devtool: 'inline-cheap-source-map',
   entry: {
-    main: path.resolve(__dirname, 'src/renderer/index.tsx'),
+    index: path.resolve(__dirname, 'src/renderer/index.tsx'),
     preload: path.resolve(__dirname, 'src/renderer/preload.ts')
   },
   output: {

@@ -15,8 +15,15 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json'
   },
+  overrides: [{
+    files: ['test/build.js'],
+    rules: {
+      'import/no-extraneous-dependencies': 'off'
+    }
+  }],
   rules: {
     // TypeScript
+    '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/comma-dangle': ['error', 'never'],
     '@typescript-eslint/lines-between-class-members': 'off',
@@ -71,6 +78,7 @@ module.exports = {
       ImportDeclaration: { minProperties: 4 }
     }],
     // Import
+    'import/prefer-default-export': 'off',
     'import/order': ['error', {
       'newlines-between': 'always',
       warnOnUnassignedImports: true,
