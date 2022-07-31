@@ -18,6 +18,7 @@
     "build:test": "node test/build.js",
     "build:webpack": "webpack --mode production",
     "build:electron": "electron-builder -p=never -c .electron.config.js",
+    "build": "npm run build:webpack && npm run build:electron",
     "test:app": "npm run build:test && tape test/build/app/**/*.spec.js",
     "test:utils": "npm run build:test && tape test/build/utils/**/*.spec.js"
   },

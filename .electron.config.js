@@ -32,7 +32,7 @@ module.exports = {
       { target: 'nsis', arch: 'x64' },
       { target: 'portable', arch: 'x64' }
     ],
-    icon: path.resolve(__dirname, 'src/assets/app.ico'),
+    icon: path.resolve(__dirname, 'build/assets/app.ico'),
     publisherName: 'Chronocide'
   },
 }

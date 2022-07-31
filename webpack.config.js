@@ -44,7 +44,14 @@ module.exports = (env, argv) => [{
     }
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin()
+    new ForkTsCheckerWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{
+        from: path.resolve(__dirname, 'src/app/assets'),
+        to: path.resolve(__dirname, 'build/assets'),
+        toType: 'dir'
+      }]
+    })
   ]
 }, {
   /** Renderer */
@@ -110,7 +117,7 @@ module.exports = (env, argv) => [{
     }),
     new CopyPlugin({
       patterns: [{
-        from: 'src/renderer/index.html',
+        from: path.resolve(__dirname, 'src/renderer/index.html'),
         to: path.resolve(__dirname, 'build/renderer/index.html')
       }]
     })

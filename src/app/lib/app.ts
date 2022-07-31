@@ -26,6 +26,9 @@ export default class App {
     const browserWindow = new BrowserWindow({
       ...App.storage.app.get('window'),
       title: 'Doombox',
+      icon: process.platform === 'win32' ?
+        path.resolve(App.dir.assets, 'app.ico') :
+        path.resolve(App.dir.assets, 'app.png'),
       minWidth: 320,
       minHeight: 240,
       // frame: process.platform === 'darwin',
