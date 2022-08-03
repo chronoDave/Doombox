@@ -12,11 +12,9 @@ test('[logger.info] should create log file', t => {
 
   Logger.info(expected);
 
-  // @ts-ignore
-  const files = fs.readdirSync(Logger._root);
+  const files = fs.readdirSync(Logger.root);
   t.equal(files.length, 1, 'creates file');
-  // @ts-ignore
-  const file = fs.readFileSync(path.resolve(Logger._root, files[0]), 'utf-8');
+  const file = fs.readFileSync(path.resolve(Logger.root, files[0]), 'utf-8');
   t.true(file.includes(expected), 'has text');
   t.true(/TIME/.test(file), 'has timestamp');
 

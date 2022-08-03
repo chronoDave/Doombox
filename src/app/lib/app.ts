@@ -9,20 +9,22 @@ import AppStorage from './storage/app.storage';
 import ThemeStorage from './storage/theme.storage';
 import StorageController from './controller/storage.controller';
 
+export type AppProps = {
+  dir: {
+    assets: string
+    userData: string
+  }
+};
+
 export default class App {
-  private readonly _isDev = process.env.NODE_ENV === 'development';
-  private readonly _dir = {
-    userData: this._isDev ?
-      path.resolve(__dirname, '../userData') :
-      app.getPath('userData'),
-    assets: this._isDev ?
-      path.resolve(__dirname, '../build/assets') :
-      path.resolve(app.getAppPath(), 'assets')
+  private readonly _dir: {
+    assets: string
+    userData: string
   };
 
-  private readonly _storage = {
-    app: new AppStorage({ root: this._dir.userData }),
-    theme: new ThemeStorage({ root: this._dir.userData })
+  private readonly _storage: {
+    app: AppStorage
+    theme: ThemeStorage
   };
 
   private _createWindow() {
@@ -50,6 +52,14 @@ export default class App {
     });
 
     browserWindow.loadFile('renderer/index.html');
+  }
+
+  constructor(props: AppProps) {
+    this._dir = props.dir;
+    this._storage = {
+      app: new AppStorage({ root: this._dir.userData }),
+      theme: new ThemeStorage({ root: this._dir.userData })
+    };
   }
 
   async run() {
