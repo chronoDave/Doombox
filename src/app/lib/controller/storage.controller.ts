@@ -3,6 +3,7 @@ import type { IpcPayloadGet, IpcPayloadSet } from '../../../types/ipc';
 import type Storage from '../storage/storage';
 
 import { isIpcEventGet, isIpcEventSet } from '../../../utils/validation';
+import Logger from '../logger';
 
 import Controller from './controller';
 
@@ -34,7 +35,10 @@ export default class StorageController<T extends Shape> extends Controller {
         this._set(event.payload);
         resolve(this._get(event.payload));
       }
-      return reject(new Error(`Invalid action: ${JSON.stringify(event)}`));
+
+      const err = new Error(`Invalid action: ${JSON.stringify(event)}`);
+      Logger.error(err);
+      return reject(err);
     });
   }
 }

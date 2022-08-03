@@ -5,29 +5,24 @@ import type { IpcMainInvokeEvent } from 'electron';
 
 import { IpcChannel } from '../../types/ipc';
 
-import Logger from './logger';
 import AppStorage from './storage/app.storage';
 import ThemeStorage from './storage/theme.storage';
 import StorageController from './controller/storage.controller';
 
 export default class App {
-  static readonly isDev = process.env.NODE_ENV === 'development';
-  static readonly dir = {
-    userData: App.isDev ?
+  private readonly _isDev = process.env.NODE_ENV === 'development';
+  private readonly _dir = {
+    userData: this._isDev ?
       path.resolve(__dirname, '../userData') :
       app.getPath('userData'),
-    assets: App.isDev ?
+    assets: this._isDev ?
       path.resolve(__dirname, '../build/assets') :
-      path.resolve(app.getAppPath(), 'assets'),
-    log: App.isDev ?
-      path.resolve(__dirname, '../userData/logs') :
-      app.getPath('logs')
+      path.resolve(app.getAppPath(), 'assets')
   };
 
-  private readonly _logger = new Logger({ root: App.dir.log });
   private readonly _storage = {
-    app: new AppStorage({ root: App.dir.userData }),
-    theme: new ThemeStorage({ root: App.dir.userData })
+    app: new AppStorage({ root: this._dir.userData }),
+    theme: new ThemeStorage({ root: this._dir.userData })
   };
 
   private _createWindow() {
@@ -35,8 +30,8 @@ export default class App {
       ...this._storage.app.get('window'),
       title: 'Doombox',
       icon: process.platform === 'win32' ?
-        path.resolve(App.dir.assets, 'app.ico') :
-        path.resolve(App.dir.assets, 'app.png'),
+        path.resolve(this._dir.assets, 'app.ico') :
+        path.resolve(this._dir.assets, 'app.png'),
       minWidth: 320,
       minHeight: 240,
       frame: process.platform === 'darwin',
@@ -65,7 +60,7 @@ export default class App {
     ipcMain.handle(IpcChannel.Theme, async (
       _: IpcMainInvokeEvent,
       event: unknown
-    ) => themeStorageController.route(event).catch(err => this._logger.ipc(err)));
+    ) => themeStorageController.route(event));
 
     this._createWindow();
 

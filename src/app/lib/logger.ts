@@ -1,14 +1,15 @@
+import { app } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
-export type LoggerProps = {
-  root: string
-};
-
 export default class Logger {
-  private readonly _root: string;
+  private static get _root() {
+    return process.env.NODE_ENV === 'development' ?
+      path.resolve(__dirname, '../userData/logs') :
+      app.getPath('logs');
+  }
 
-  private _log(data: string, type: 'info' | 'error') {
+  static log(data: string, type: 'info' | 'error') {
     const now = new Date().toISOString().replace(/:|\./g, '-');
     const file = `${now} (${type}).txt`;
 
@@ -18,29 +19,14 @@ export default class Logger {
     ].join('\n\n'));
   }
 
-  constructor(props: LoggerProps) {
-    this._root = props.root;
-
-    fs.mkdirSync(this._root, { recursive: true });
+  static info(text: string) {
+    this.log(text, 'info');
   }
 
-  info(text: string) {
-    this._log(text, 'info');
-  }
-
-  error(err: Error) {
-    this._log([
+  static error(err: Error) {
+    this.log([
       `MESSAGE\n${err.message}`,
       `STACK\n${err.stack}`
     ].join('\n\n'), 'error');
-  }
-
-  ipc(x: unknown): Promise<Error> {
-    const error = x instanceof Error ?
-      x :
-      new Error('An unknown error has occurred');
-
-    this.error(error);
-    return Promise.reject(error);
   }
 }

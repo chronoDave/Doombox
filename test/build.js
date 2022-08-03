@@ -9,7 +9,10 @@ fs.rmSync(outdir, { force: true, recursive: true });
 buildSync({
   entryPoints: walk(path.resolve(__dirname, 'src')),
   bundle: true,
-  external: ['tape'],
+  external: ['tape', 'electron'],
+  define: {
+    'process.env.NODE_ENV': '"development"'
+  },
   legalComments: 'none',
   platform: 'node',
   outdir,

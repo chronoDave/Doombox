@@ -1,3 +1,3 @@
 export default abstract class Controller {
-  abstract route(action: unknown, payload: unknown): unknown;
+  abstract route(event: unknown): Promise<unknown>;
 }
