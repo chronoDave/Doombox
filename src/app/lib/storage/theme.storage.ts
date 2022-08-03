@@ -1,7 +1,7 @@
-import type { ThemeShape } from '../../../shapes/theme.shape';
+import type { ThemeShape } from '../../../types/shapes/theme.shape';
 import type { Shape } from '../../../types/primitives';
 
-import shape from '../../../shapes/theme.shape';
+import shape from '../../../types/shapes/theme.shape';
 import { getShape } from '../../../utils/shape';
 
 import Storage from './storage';

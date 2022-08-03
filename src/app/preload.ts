@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 import type { ElectronApi } from '../types/electron';
 import type { IpcEventGet } from '../types/events';
-import type { ThemeShape } from '../shapes/theme.shape';
+import type { ThemeShape } from '../types/shapes/theme.shape';
 
 import { IpcAction, IpcChannel } from '../types/ipc';
 

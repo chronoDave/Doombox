@@ -1,5 +1,5 @@
-import type { Constrain } from '../types/helpers';
-import type { Json } from '../types/primitives';
+import type { Constrain } from '../helpers';
+import type { Json } from '../primitives';
 
 export type ThemeShape = Constrain<Json, {
   darkTheme: boolean

@@ -15,6 +15,9 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json'
   },
+  ignorePatterns: [
+    '**/build/**/*.js'
+  ],
   overrides: [{
     files: ['test/build.js'],
     rules: {

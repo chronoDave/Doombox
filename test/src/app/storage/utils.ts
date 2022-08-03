@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import AppStorage from '../../../../src/app/lib/storage/app.storage';
-import shapeApp from '../../../../src/shapes/app.shape';
+import shapeApp from '../../../../src/types/shapes/app.shape';
 
 export default () => {
   const storage = new AppStorage({ root: __dirname });

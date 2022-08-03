@@ -1,7 +1,7 @@
-import type { AppShape } from '../../../shapes/app.shape';
+import type { AppShape } from '../../../types/shapes/app.shape';
 import type { Shape } from '../../../types/primitives';
 
-import shape from '../../../shapes/app.shape';
+import shape from '../../../types/shapes/app.shape';
 import { getShape } from '../../../utils/shape';
 
 import Storage from './storage';
