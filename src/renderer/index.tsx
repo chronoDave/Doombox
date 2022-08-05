@@ -1,15 +1,10 @@
-import m from 'mithril';
+import * as forgo from 'forgo';
 
 import './index.scss';
 
-window.electronApi.getTheme('darkTheme')
-  .then(console.log)
-  .catch(console.error);
-
-m.mount(document.body, {
-  view: () => [
-    <div className='body'>
-      Doombox
-    </div>
-  ]
-});
+forgo.mount(
+  <div>
+    Doombox
+  </div>,
+  document.body
+);

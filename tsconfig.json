@@ -10,13 +10,15 @@
     "forceConsistentCasingInFileNames": true,
 
     "jsx": "react",
-    "jsxFactory": "m",
+    "jsxFactory": "forgo.createElement",
+    "jsxFragmentFactory": "forgo.Fragment",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
     "noEmitHelpers": true,
     "importHelpers": true,
+    "isolatedModules": true,
 
     "outDir": "build"
   },

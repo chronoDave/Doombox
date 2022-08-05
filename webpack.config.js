@@ -27,8 +27,7 @@ module.exports = (env, argv) => [{
       include: path.resolve(__dirname, 'src'),
       loader: 'esbuild-loader',
       options: {
-        loader: 'tsx',
-        target: 'es2017'
+        loader: 'tsx'
       }
     }]
   },
@@ -72,7 +71,7 @@ module.exports = (env, argv) => [{
   },
   module: {
     rules: [{
-      test: /\.(jsx?|tsx?)$/,
+      test: /\.(js|tsx?)$/,
       include: path.resolve(__dirname, 'src'),
       loader: 'esbuild-loader',
       options: {

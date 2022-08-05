@@ -8,6 +8,11 @@ module.exports = {
     'airbnb-typescript/base'
   ],
   settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.ts', '.tsx']
+      }
+    },
     'import/core-modules': [
       'electron'
     ]
@@ -99,7 +104,8 @@ module.exports = {
         'internal',
         'type',
         'parent',
-        ['sibling', 'index']
+        'sibling',
+        'index'
       ]
     }]
   }

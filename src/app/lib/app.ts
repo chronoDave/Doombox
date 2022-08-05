@@ -8,6 +8,7 @@ import { IpcChannel } from '../../types/ipc';
 import AppStorage from './storage/app.storage';
 import ThemeStorage from './storage/theme.storage';
 import StorageController from './controller/storage.controller';
+import { ThemeShape } from '../../types/shapes/theme.shape';
 
 export type AppProps = {
   dir: {
@@ -25,6 +26,10 @@ export default class App {
   private readonly _storage: {
     app: AppStorage
     theme: ThemeStorage
+  };
+
+  private readonly _controllers: {
+    theme: StorageController<ThemeShape>
   };
 
   private _createWindow() {
@@ -51,26 +56,30 @@ export default class App {
       this._storage.app.set('window', { x, y });
     });
 
+    ipcMain.on(IpcChannel.Theme, async (
+      _: IpcMainInvokeEvent,
+      event: unknown
+    ) => this._controllers.theme.route(event)
+      .then(payload => browserWindow.webContents.send(IpcChannel.Theme, payload)));
+
     browserWindow.loadFile('renderer/index.html');
   }
 
   constructor(props: AppProps) {
     this._dir = props.dir;
+
     this._storage = {
       app: new AppStorage({ root: this._dir.userData }),
       theme: new ThemeStorage({ root: this._dir.userData })
+    };
+
+    this._controllers = {
+      theme: new StorageController({ storage: this._storage.theme })
     };
   }
 
   async run() {
     await app.whenReady();
-
-    const themeStorageController = new StorageController({ storage: this._storage.theme });
-
-    ipcMain.handle(IpcChannel.Theme, async (
-      _: IpcMainInvokeEvent,
-      event: unknown
-    ) => themeStorageController.route(event));
 
     this._createWindow();
 

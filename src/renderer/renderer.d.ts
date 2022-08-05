@@ -1,7 +1,7 @@
-import type { ElectronApi } from '../types/electron';
+import type { IpcApi } from '../types/ipc';
 
 declare global {
   interface Window {
-    electronApi: ElectronApi
+    ipc: IpcApi
   }
 }

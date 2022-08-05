@@ -1,4 +1,4 @@
-import type { IpcEventGet, IpcEventSet } from '../types/events';
+import type { IpcEventGet, IpcEventSet } from '../types/ipc';
 import type { Shape } from '../types/primitives';
 
 import { IpcAction } from '../types/ipc';
