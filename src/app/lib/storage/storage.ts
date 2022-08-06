@@ -6,6 +6,7 @@ import produce from 'immer';
 
 import { debounce } from '../../../utils/function';
 import { parseShape } from '../../../utils/shape';
+import { isObject } from '../../../utils/validation';
 
 export type StorageProps<T> = {
   root: string
@@ -49,8 +50,13 @@ export default abstract class Storage<T extends Shape> {
 
   set<K extends keyof T>(key: K, value: Partial<T[K]>) {
     this._data = produce(this._data, (draft: T) => {
-      // @ts-ignore
-      Object.assign(draft[key], value);
+      if (isObject(value) && isObject(draft[key])) {
+        // @ts-ignore
+        Object.assign(draft[key], value);
+      } else {
+        // @ts-ignore
+        draft[key] = value;
+      }
     });
 
     return this._write();

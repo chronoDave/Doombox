@@ -1,7 +1,6 @@
 import type { BrowserWindow } from 'electron';
 import type { ControllerProps } from './controller';
 
-import { IpcAction } from '../../../types/ipc';
 import { isIpcEvent } from '../../../utils/validation';
 
 import Controller from './controller';
@@ -38,9 +37,9 @@ export default class WindowController extends Controller {
   route(event: unknown) {
     return new Promise((resolve, reject) => {
       if (!isIpcEvent(event)) return reject(this.log('Invalid ipc event', event));
-      if (event.action === IpcAction.Minimize) return resolve(this._minimize());
-      if (event.action === IpcAction.Maximize) return resolve(this._maximize());
-      if (event.action === IpcAction.Close) return resolve(this._close());
+      if (event.action === 'MINIMIZE') return resolve(this._minimize());
+      if (event.action === 'MAXIMIZE') return resolve(this._maximize());
+      if (event.action === 'CLOSE') return resolve(this._close());
       return reject(this.log('Invalid action', event));
     });
   }

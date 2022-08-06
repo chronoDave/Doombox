@@ -3,7 +3,7 @@ import type { IpcPayloadGet, IpcPayloadSet } from '../../../types/ipc';
 import type Storage from '../storage/storage';
 import type { ControllerProps } from './controller';
 
-import { isIpcEvent, isIpcPayloadGet, isIpcPayloadSet } from '../../../utils/validation';
+import { isIpcEvent, isIpcEventGet, isIpcEventSet } from '../../../utils/validation';
 
 import Controller from './controller';
 
@@ -14,11 +14,11 @@ export type StorageControllerProps<T extends Shape> = ControllerProps & {
 export default class StorageController<T extends Shape> extends Controller {
   private readonly _storage: Storage<T>;
 
-  private _get(payload: IpcPayloadGet<T>) {
+  protected _get(payload: IpcPayloadGet<T>) {
     return this._storage.get(payload.key);
   }
 
-  private _set(payload: IpcPayloadSet<T>) {
+  protected _set(payload: IpcPayloadSet<T>) {
     return this._storage.set(payload.key, payload.value);
   }
 
@@ -31,8 +31,8 @@ export default class StorageController<T extends Shape> extends Controller {
   route(event: unknown) {
     return new Promise((resolve, reject) => {
       if (!isIpcEvent(event)) return reject(this.log('Invalid ipc event', event));
-      if (isIpcPayloadGet(event.payload)) return resolve(this._get(event.payload));
-      if (isIpcPayloadSet<T>(event.payload)) {
+      if (isIpcEventGet(event)) return resolve(this._get(event.payload));
+      if (isIpcEventSet<T>(event)) {
         this._set(event.payload);
         resolve(this._get(event.payload));
       }

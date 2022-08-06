@@ -4,20 +4,20 @@ import type Logger from './logger';
 import path from 'path';
 import { BrowserWindow, ipcMain } from 'electron';
 
-import { IpcChannel } from '../../types/ipc';
+import { IPC_CHANNEL } from '../../types/ipc';
 
 import WindowController from './controller/window.controller';
 
 export type WindowProps = {
-  storage: AppStorage
+  storage: AppStorage,
   logger: Logger
 };
 
 export default class Window {
   private readonly _window: BrowserWindow;
-  private readonly _storage: AppStorage;
   private readonly _logger: Logger;
   private readonly _controller: WindowController;
+  private readonly _storage: AppStorage;
 
   private _handleResize() {
     this._storage.set('window', this._window.getBounds());
@@ -55,7 +55,7 @@ export default class Window {
     this._window.on('resize', () => this._handleResize());
     this._window.on('move', () => this._handleMove());
 
-    ipcMain.on(IpcChannel.Window, (_, event: unknown) => this._controller.route(event));
+    ipcMain.on(IPC_CHANNEL.WINDOW, (_, event: unknown) => this._controller.route(event));
 
     this._window.loadFile('renderer/index.html');
   }

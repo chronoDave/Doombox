@@ -1,15 +1,13 @@
 import type { Shape } from '../types/primitives';
 import type {
   IpcApi,
-  IpcChannelStorage,
   IpcEvent,
   IpcPayloadGet,
-  IpcPayloadSet
+  IpcPayloadSet,
+  IpcChannel, IpcAction
 } from '../types/ipc';
 
 import { contextBridge, ipcRenderer } from 'electron';
-
-import { IpcChannel, IpcAction } from '../types/ipc';
 
 const send = (
   channel: IpcChannel,
@@ -30,13 +28,15 @@ const invoke = (
 };
 
 const ipc: IpcApi = {
-  minimize: () => send(IpcChannel.Window, IpcAction.Minimize),
-  maximize: () => send(IpcChannel.Window, IpcAction.Maximize),
-  close: () => send(IpcChannel.Window, IpcAction.Close),
-  get: async <T extends Shape>(channel: IpcChannelStorage, payload: IpcPayloadGet<T>) =>
-    invoke(channel, IpcAction.Get, payload),
-  set: async <T extends Shape>(channel: IpcChannelStorage, payload: IpcPayloadSet<T>) =>
-    invoke(channel, IpcAction.Set, payload)
+  minimize: () => send('WINDOW', 'MINIMIZE'),
+  maximize: () => send('WINDOW', 'MAXIMIZE'),
+  close: () => send('WINDOW', 'CLOSE'),
+  get: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) =>
+    invoke(channel, 'GET', payload),
+  set: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadSet<T>) =>
+    invoke(channel, 'SET', payload),
+  toggle: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) =>
+    invoke(channel, 'TOGGLE', payload)
 };
 
 contextBridge.exposeInMainWorld('ipc', ipc);

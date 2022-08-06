@@ -1,8 +1,9 @@
 import type { ThemeShape } from '../../../types/shapes/theme.shape';
 import type { Shape } from '../../../types/primitives';
 
-import shape from '../../../types/shapes/theme.shape';
+import shape, { THEME_SOURCE } from '../../../types/shapes/theme.shape';
 import { getShape } from '../../../utils/shape';
+import { isKeyOf } from '../../../utils/validation';
 
 import Storage from './storage';
 
@@ -12,16 +13,16 @@ export type ThemeStorageProps = {
 
 export default class ThemeStorage extends Storage<ThemeShape> {
   constructor(props: ThemeStorageProps) {
-    super({ root: props.root, name: 'app', shape });
+    super({ root: props.root, name: 'theme', shape });
   }
 
   protected _merge(json: Shape) {
-    const darkTheme = getShape(json, 'darkTheme');
+    const theme = getShape(json, 'theme');
 
     const merged: ThemeShape = {
-      darkTheme: typeof darkTheme === 'boolean' ?
-        darkTheme :
-        this._data.darkTheme
+      theme: isKeyOf(theme, THEME_SOURCE) ?
+        theme :
+        this._data.theme
     };
 
     return merged;

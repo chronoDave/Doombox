@@ -12,7 +12,8 @@ const TitleBar: Component<TitleBarProps> = () => new forgo.Component({
   render() {
     return (
       <header class='TitleBar'>
-        <img src='icons/icon_dark.png' alt='Doombox app icon' />
+        <img class='light' src='icons/icon_light.png' alt='Doombox app icon' />
+        <img class='dark' src='icons/icon_dark.png' alt='Doombox app icon' />
         <h1>Doombox</h1>
         <nav>
           <button

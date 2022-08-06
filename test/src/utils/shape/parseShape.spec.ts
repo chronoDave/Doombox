@@ -1,6 +1,6 @@
-import test from 'tape';
-
 import type { Shape } from '../../../../src/types/primitives';
+
+import test from 'tape';
 
 import { parseShape } from '../../../../src/utils/shape';
 
