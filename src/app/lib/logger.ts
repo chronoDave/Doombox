@@ -1,31 +1,32 @@
-import { app } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
-import { isDev } from './utils';
+export type LoggerProps = {
+  root: string
+};
 
 export default class Logger {
-  static get root() {
-    return isDev() ?
-      path.resolve(__dirname, '../userData/logs') :
-      app.getPath('logs');
+  private readonly _root: string;
+
+  constructor(props: LoggerProps) {
+    this._root = props.root;
   }
 
-  static log(data: string, type: 'info' | 'error') {
+  log(data: string, type: 'info' | 'error') {
     const now = new Date().toISOString().replace(/:|\./g, '-');
     const file = `${now} (${type}).txt`;
 
-    fs.writeFileSync(path.join(this.root, file), [
+    fs.writeFileSync(path.resolve(this._root, file), [
       `TIME\n${new Date().toLocaleString()} (local time)`,
       data
     ].join('\n\n'));
   }
 
-  static info(text: string) {
+  info(text: string) {
     this.log(text, 'info');
   }
 
-  static error(err: Error) {
+  error(err: Error) {
     this.log([
       `MESSAGE\n${err.message}`,
       `STACK\n${err.stack}`

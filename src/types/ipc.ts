@@ -1,20 +1,24 @@
 import type { Shape } from './primitives';
 
 export enum IpcChannel {
-  Theme = 'THEME'
+  Theme = 'THEME',
+  Window = 'WINDOW'
 }
+
+export type IpcChannelStorage =
+  IpcChannel.Theme;
 
 export enum IpcAction {
   Get = 'GET',
-  Set = 'SET'
+  Set = 'SET',
+  Minimize = 'MINIMIZE',
+  Maximize = 'MAXIMIZE',
+  Close = 'CLOSE'
 }
 
-export type IpcEvent<T extends IpcAction, K extends Record<string, unknown>> = {
-  action: T,
-  payload: K
-};
-
 /** Payloads */
+export type IpcPayload = Record<string, unknown>;
+
 export type IpcPayloadGet<T extends Shape> = {
   key: keyof T
 };
@@ -25,11 +29,25 @@ export type IpcPayloadSet<T extends Shape> = {
 };
 
 /** Events */
-export type IpcEventGet<T extends Shape> = IpcEvent<IpcAction.Get, IpcPayloadGet<T>>;
-export type IpcEventSet<T extends Shape> = IpcEvent<IpcAction.Set, IpcPayloadSet<T>>;
+export type IpcEvent<
+  T extends IpcAction = IpcAction,
+  K extends IpcPayload = IpcPayload
+> = {
+  action: T,
+  payload: K
+};
 
 /** Api */
-export interface IpcApi {
-  get: <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) => Promise<T[keyof T]>,
-  set: <T extends Shape>(channel: IpcChannel, payload: IpcPayloadSet<T>) => Promise<T[keyof T]>
-}
+export type IpcApi = {
+  minimize: () => void,
+  maximize: () => void,
+  close: () => void,
+  get: <T extends Shape>(
+    channel: IpcChannelStorage,
+    payload: IpcPayloadGet<T>
+  ) => Promise<T[keyof T]>,
+  set: <T extends Shape>(
+    channel: IpcChannelStorage,
+    payload: IpcPayloadSet<T>
+  ) => Promise<T[keyof T]>
+};

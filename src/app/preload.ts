@@ -1,26 +1,42 @@
-import { contextBridge, ipcRenderer } from 'electron';
-
 import type { Shape } from '../types/primitives';
 import type {
   IpcApi,
-  IpcChannel,
-  IpcEventGet,
-  IpcEventSet,
+  IpcChannelStorage,
+  IpcEvent,
   IpcPayloadGet,
   IpcPayloadSet
 } from '../types/ipc';
 
-import { IpcAction } from '../types/ipc';
+import { contextBridge, ipcRenderer } from 'electron';
+
+import { IpcChannel, IpcAction } from '../types/ipc';
+
+const send = (
+  channel: IpcChannel,
+  action: IpcAction,
+  payload: Record<string, unknown> = {}
+) => {
+  const event: IpcEvent = { action, payload };
+  ipcRenderer.send(channel, event);
+};
+
+const invoke = (
+  channel: IpcChannel,
+  action: IpcAction,
+  payload: Record<string, unknown> = {}
+) => {
+  const event: IpcEvent = { action, payload };
+  return ipcRenderer.invoke(channel, event);
+};
 
 const ipc: IpcApi = {
-  get: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) => {
-    const event: IpcEventGet<T> = { action: IpcAction.Get, payload };
-    return ipcRenderer.invoke(channel, event);
-  },
-  set: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadSet<T>) => {
-    const event: IpcEventSet<T> = { action: IpcAction.Set, payload };
-    return ipcRenderer.invoke(channel, event);
-  }
+  minimize: () => send(IpcChannel.Window, IpcAction.Minimize),
+  maximize: () => send(IpcChannel.Window, IpcAction.Maximize),
+  close: () => send(IpcChannel.Window, IpcAction.Close),
+  get: async <T extends Shape>(channel: IpcChannelStorage, payload: IpcPayloadGet<T>) =>
+    invoke(channel, IpcAction.Get, payload),
+  set: async <T extends Shape>(channel: IpcChannelStorage, payload: IpcPayloadSet<T>) =>
+    invoke(channel, IpcAction.Set, payload)
 };
 
 contextBridge.exposeInMainWorld('ipc', ipc);

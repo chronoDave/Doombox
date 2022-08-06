@@ -1,8 +1,8 @@
+import type { Shape } from '../../../types/primitives';
+
 import fs from 'fs';
 import path from 'path';
 import produce from 'immer';
-
-import type { Shape } from '../../../types/primitives';
 
 import { debounce } from '../../../utils/function';
 import { parseShape } from '../../../utils/shape';
@@ -14,7 +14,9 @@ export type StorageProps<T> = {
 };
 
 export default abstract class Storage<T extends Shape> {
+  private readonly _root: string;
   private readonly _write: () => Promise<void>;
+
   protected readonly _file: string;
   protected _data: T;
 
@@ -29,8 +31,10 @@ export default abstract class Storage<T extends Shape> {
   protected abstract _merge(shape: Shape): T;
 
   constructor(props: StorageProps<T>) {
+    this._root = props.root;
     this._data = props.shape;
-    this._file = path.join(props.root, `${props.name}.json`);
+    this._file = path.join(this._root, `${props.name}.json`);
+
     this._write = debounce(() => fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t')), 100);
 
     const json = this._read();

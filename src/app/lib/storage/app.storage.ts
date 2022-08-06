@@ -6,9 +6,9 @@ import { getShape } from '../../../utils/shape';
 
 import Storage from './storage';
 
-export interface AppStorageProps {
+export type AppStorageProps = {
   root: string
-}
+};
 
 export default class AppStorage extends Storage<AppShape> {
   constructor(props: AppStorageProps) {

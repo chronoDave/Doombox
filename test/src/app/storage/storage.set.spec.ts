@@ -1,10 +1,10 @@
 import test from 'tape';
 import fs from 'fs';
 
-import init from './utils';
+import fixture from './fixture';
 
 test('[storage.set] sets data', async t => {
-  const { storage, cleanup } = init();
+  const { storage, cleanup } = fixture();
 
   const x = 100;
   await storage.set('window', { x });
@@ -17,7 +17,7 @@ test('[storage.set] sets data', async t => {
 });
 
 test('[storage.set] writes data', async t => {
-  const { storage, cleanup } = init();
+  const { storage, cleanup } = fixture();
 
   await storage.set('window', {});
 
@@ -29,7 +29,7 @@ test('[storage.set] writes data', async t => {
 });
 
 test('[storage.set] does not overwrite data', async t => {
-  const { storage, cleanup } = init();
+  const { storage, cleanup } = fixture();
 
   const window = { x: 100, y: 200 };
   // @ts-ignore

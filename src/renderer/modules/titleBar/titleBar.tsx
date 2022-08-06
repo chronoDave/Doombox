@@ -18,18 +18,21 @@ const TitleBar: Component<TitleBarProps> = () => new forgo.Component({
           <button
             type='button'
             aria-label='minimize'
+            onclick={window.ipc.minimize}
           >
             <Icon id='minimize' />
           </button>
           <button
             type='button'
             aria-label='maximize'
+            onclick={window.ipc.maximize}
           >
             <Icon id='maximize' />
           </button>
           <button
             type='button'
             aria-label='close'
+            onclick={window.ipc.close}
           >
             <Icon id='close' />
           </button>

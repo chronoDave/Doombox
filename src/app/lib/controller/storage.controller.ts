@@ -1,13 +1,13 @@
 import type { Shape } from '../../../types/primitives';
 import type { IpcPayloadGet, IpcPayloadSet } from '../../../types/ipc';
 import type Storage from '../storage/storage';
+import type { ControllerProps } from './controller';
 
-import { isIpcEventGet, isIpcEventSet } from '../../../utils/validation';
-import Logger from '../logger';
+import { isIpcEvent, isIpcPayloadGet, isIpcPayloadSet } from '../../../utils/validation';
 
 import Controller from './controller';
 
-export type StorageControllerProps<T extends Shape> = {
+export type StorageControllerProps<T extends Shape> = ControllerProps & {
   storage: Storage<T>
 };
 
@@ -23,22 +23,21 @@ export default class StorageController<T extends Shape> extends Controller {
   }
 
   constructor(props: StorageControllerProps<T>) {
-    super();
+    super(props);
 
     this._storage = props.storage;
   }
 
   route(event: unknown) {
     return new Promise((resolve, reject) => {
-      if (isIpcEventGet<T>(event)) return resolve(this._get(event.payload));
-      if (isIpcEventSet<T>(event)) {
+      if (!isIpcEvent(event)) return reject(this.log('Invalid ipc event', event));
+      if (isIpcPayloadGet(event.payload)) return resolve(this._get(event.payload));
+      if (isIpcPayloadSet<T>(event.payload)) {
         this._set(event.payload);
         resolve(this._get(event.payload));
       }
 
-      const err = new Error(`Invalid action: ${JSON.stringify(event)}`);
-      Logger.error(err);
-      return reject(err);
+      return reject(this.log('Invalid action', event));
     });
   }
 }

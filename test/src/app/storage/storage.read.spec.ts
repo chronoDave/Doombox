@@ -1,10 +1,10 @@
 import test from 'tape';
 
-import init from './utils';
+import fixture from './fixture';
 
 test('[storage.read] should read file', t => {
-  const { storage, write, cleanup } = init();
-  write();
+  const { storage, init, cleanup } = fixture();
+  init();
 
   // @ts-ignore
   const json = storage._read();
@@ -15,7 +15,7 @@ test('[storage.read] should read file', t => {
 });
 
 test('[storage.read] should return null if file does not exist', t => {
-  const { storage } = init();
+  const { storage } = fixture();
   // @ts-ignore
   const json = storage._read();
 

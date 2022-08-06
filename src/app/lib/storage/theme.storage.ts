@@ -6,12 +6,12 @@ import { getShape } from '../../../utils/shape';
 
 import Storage from './storage';
 
-export interface AppStorageProps {
+export type ThemeStorageProps = {
   root: string
-}
+};
 
-export default class AppStorage extends Storage<ThemeShape> {
-  constructor(props: AppStorageProps) {
+export default class ThemeStorage extends Storage<ThemeShape> {
+  constructor(props: ThemeStorageProps) {
     super({ root: props.root, name: 'app', shape });
   }
 
