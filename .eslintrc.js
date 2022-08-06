@@ -1,6 +1,9 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: [
+    '@typescript-eslint',
+    'react'
+  ],
   extends: [
     'plugin:import/recommended',
     'plugin:jsx-a11y/recommended',
@@ -8,6 +11,9 @@ module.exports = {
     'airbnb-typescript/base'
   ],
   settings: {
+    react: {
+      pragma: 'forgo'
+    },
     'import/resolver': {
       node: {
         extensions: ['.js', '.ts', '.tsx']
@@ -100,13 +106,46 @@ module.exports = {
       }],
       pathGroupsExcludedImportTypes: ['builtin'],
       groups: [
+        'type',
         ['builtin', 'external'],
         'internal',
-        'type',
         'parent',
         'sibling',
         'index'
       ]
-    }]
+    }],
+    // React
+    'react/button-has-type': 'error',
+    'react/no-unescaped-entities': 'error',
+    'react/react-in-jsx-scope': 'error',
+    'react/require-render-return': 'error',
+    'react/no-invalid-html-attribute': 'error',
+    'react/no-multi-comp': 'error',
+    'react/self-closing-comp': 'error',
+    'react/void-dom-elements-no-children': 'error',
+    'react/forbid-dom-props': ['error', {
+      forbid: ['className']
+    }],
+    // JSX
+    'react/jsx-boolean-value': ['error', 'never'],
+    'react/jsx-closing-bracket-location': 'error',
+    'react/jsx-equals-spacing': 'error',
+    'react/jsx-wrap-multilines': 'error',
+    'react/jsx-curly-newline': 'error',
+    'react/jsx-max-props-per-line': ['error', {
+      maximum: 2,
+      when: 'multiline'
+    }],
+    'react/jsx-tag-spacing': 'error',
+    'react/jsx-space-before-closing': 'error',
+    'react/jsx-pascal-case': 'error',
+    'react/jsx-no-script-url': 'error',
+    'react/jsx-first-prop-new-line': 'error',
+    'react/jsx-no-comment-textnodes': 'error',
+    'react/jsx-no-duplicate-props': 'error',
+    'react/jsx-no-target-blank': 'error',
+    'react/jsx-no-undef': 'error',
+    'react/jsx-uses-vars': 'error',
+    'react/jsx-closing-tag-location': 'error'
   }
 };

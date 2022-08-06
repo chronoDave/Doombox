@@ -56,13 +56,14 @@ module.exports = (env, argv) => [{
   /** Renderer */
   name: 'renderer',
   target: 'electron-renderer',
-  devtool: 'inline-cheap-source-map',
+  devtool: 'cheap-source-map',
   entry: {
     index: path.resolve(__dirname, 'src/renderer/index.tsx'),
     preload: path.resolve(__dirname, 'src/renderer/preload.ts')
   },
   output: {
     path: path.resolve(__dirname, 'build/renderer'),
+    globalObject: 'globalThis',
     filename: '[name].js',
     clean: true
   },
@@ -118,6 +119,10 @@ module.exports = (env, argv) => [{
       patterns: [{
         from: path.resolve(__dirname, 'src/renderer/index.html'),
         to: path.resolve(__dirname, 'build/renderer/index.html')
+      }, {
+        from: path.resolve(__dirname, 'src/renderer/assets'),
+        to: path.resolve(__dirname, 'build/renderer'),
+        toType: 'dir'
       }]
     })
   ]

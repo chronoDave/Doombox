@@ -18,7 +18,6 @@
     "downlevelIteration": true,
     "noEmitHelpers": true,
     "importHelpers": true,
-    "isolatedModules": true,
 
     "outDir": "build"
   },
