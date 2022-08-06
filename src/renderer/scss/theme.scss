@@ -1,11 +1,31 @@
 @media (prefers-color-scheme: dark) {
-  .light {
-    display: none;
+  :root{
+    --black: #040405;
+    --white: #f6f6f7;
+    --grey100: #18191c;
+    --grey200: #202225;
+    --grey300: #36393f;
+    --grey400: #4f545c;
+    --grey500: #72767d;
+    --grey600: #b9bbbe;
+    --grey700: #dcddde;
+    --bg: var(--grey100);
+    --text-normal: var(--grey700);
   }
 }
 
 @media (prefers-color-scheme: light) {
-  .dark {
-    display: none;
+  :root{
+    --black: #060607;
+    --white: #f8f9f9;
+    --grey100: #23262a;
+    --grey200: #2e3338;
+    --grey300: #4f5660;
+    --grey400: #747f8d;
+    --grey500: #9099a4;
+    --grey600: #c7ccd1;
+    --grey700: #e3e5e8;
+    --bg: var(--white);
+    --text-normal: var(--grey100);
   }
 }

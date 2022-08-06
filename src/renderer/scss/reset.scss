@@ -13,8 +13,8 @@
   -moz-user-modify: read-write;
   -webkit-user-modify: read-write;
   overflow-wrap: break-word;
-  -webkit-line-break: after-white-space;
-  -webkit-user-select: auto;
+  line-break: after-white-space;
+  user-select: auto;
 }
 
 :where([draggable="true"]) {
@@ -25,6 +25,11 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+body {
+  color: var(--text-normal);
+  fill: var(--text-normal);
 }
 
 a, button {
