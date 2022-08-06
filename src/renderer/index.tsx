@@ -1,10 +1,10 @@
 import * as forgo from 'forgo';
 
-import './index.scss';
+import TitleBar from './modules/titleBar/titleBar';
 
-forgo.mount(
-  <div>
-    Doombox
-  </div>,
-  document.body
-);
+forgo.mount([
+  <TitleBar />,
+  <main>
+    Main!
+  </main>
+], document.body);

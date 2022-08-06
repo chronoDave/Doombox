@@ -1,0 +1,25 @@
+.TitleBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  > img {
+    -webkit-app-region: drag;
+    flex-shrink: 0;
+  }
+
+  > h1 {
+    -webkit-app-region: drag;
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  > nav {
+    flex-shrink: 0;
+
+    > button {
+      width: 40px;
+      font-size: 1.25rem;
+    }
+  }
+}

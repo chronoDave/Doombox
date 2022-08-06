@@ -1,3 +1,3 @@
-// eslint-disable-next-line no-global-assign
-global = globalThis;
-export {};
+import './scss/mixins.scss';
+import './scss/reset.scss';
+import './scss/core.scss';
