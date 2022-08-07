@@ -1,7 +1,12 @@
+@use 'mixins/utils.scss';
+@use 'mixins/transition.scss';
+@use 'mixins/typography.scss';
+
 .TitleBar {
   display: flex;
   align-items: center;
   gap: 4px;
+  background-color: var(--title-bar);
 
   > img {
     -webkit-app-region: drag;
@@ -9,17 +14,44 @@
   }
 
   > h1 {
+    @include typography.normal;
+    @include typography.nowrap;
     -webkit-app-region: drag;
     text-align: center;
     flex-grow: 1;
+
+    > span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 
   > nav {
     flex-shrink: 0;
+    height: 100%;
 
     > button {
       width: 40px;
+      height: 100%;
       font-size: 1.25rem;
+      fill: var(--text-inactive);
+      transition: background-color transition.$fast;
+
+      @include utils.hover {
+        fill: var(--text-normal);
+        background-color: var(--hover);
+
+        &[aria-label='close'] {
+          fill: var(--text-error);
+          background-color: var(--error);
+        }
+      }
+
+      > svg > path {
+        transition: fill transition.$fast;
+      }
     }
   }
 }

@@ -17,7 +17,7 @@ const TitleBar: Component<TitleBarProps> = () => {
       return (
         <header class='TitleBar'>
           <img src={`icons/icon_${variant}.png`} alt='Doombox app icon' />
-          <h1 class='font-normal'>Doombox</h1>
+          <h1>Doombox</h1>
           <nav>
             <button
               type='button'

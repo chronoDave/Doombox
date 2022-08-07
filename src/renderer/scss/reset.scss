@@ -1,4 +1,4 @@
-@use './mixins.scss';
+@use './mixins/utils.scss';
 
 :where(:not(html, iframe, canvas, img, svg *, video *)) {
   all: unset;
@@ -38,7 +38,7 @@ a, button {
   align-items: center;
   cursor: revert;
 
-  @include mixins.hover {
+  @include utils.hover {
     cursor: pointer;
   }
 }

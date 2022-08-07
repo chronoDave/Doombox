@@ -1,0 +1,24 @@
+@mixin tiny {
+  font-family: NotoSansJP, sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.03125rem;
+}
+
+@mixin small {
+  font-family: NotoSansJP, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.015625rem;
+}
+
+@mixin normal {
+  font-family: NotoSansJP, sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.015625rem;
+}
+
+@mixin nowrap {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

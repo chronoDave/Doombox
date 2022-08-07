@@ -11,6 +11,9 @@ module.exports = (env, argv) => [{
     app: path.resolve(__dirname, 'src/app/index.ts'),
     preload: path.resolve(__dirname, 'src/app/preload.ts')
   },
+  externals: {
+    fsevents: 'require("fs-events")'
+  },
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].js',
@@ -89,6 +92,9 @@ module.exports = (env, argv) => [{
           loader: 'sass-loader',
           options: {
             sassOptions: {
+              includePaths: [
+                path.resolve(__dirname, 'src/renderer/scss')
+              ],
               style: argv.mode === 'development' ?
                 'expanded' :
                 'compressed'
