@@ -20,7 +20,8 @@ module.exports = {
       }
     },
     'import/core-modules': [
-      'electron'
+      'electron',
+      'chokidar'
     ]
   },
   parserOptions: {

@@ -58,5 +58,11 @@ export default class Window {
     ipcMain.on(IPC_CHANNEL.WINDOW, (_, event: unknown) => this._controller.route(event));
 
     this._window.loadFile('renderer/index.html');
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line global-require
+      require('chokidar')
+        .watch(`${__dirname}/renderer/**/*`)
+        .on('change', () => this._window.reload());
+    }
   }
 }
