@@ -1,5 +1,4 @@
 const path = require('path');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -46,7 +45,6 @@ module.exports = (env, argv) => [{
     }
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
     new CopyPlugin({
       patterns: [{
         from: path.resolve(__dirname, 'src/app/assets'),
@@ -93,7 +91,7 @@ module.exports = (env, argv) => [{
           options: {
             sassOptions: {
               includePaths: [
-                path.resolve(__dirname, 'src/renderer/scss')
+                path.resolve(__dirname, 'src/renderer/scss/mixins')
               ],
               style: argv.mode === 'development' ?
                 'expanded' :
@@ -116,7 +114,6 @@ module.exports = (env, argv) => [{
     }
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name].[contenthash].css'

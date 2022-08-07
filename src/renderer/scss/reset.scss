@@ -1,4 +1,4 @@
-@use './mixins/utils.scss';
+@use 'utils.scss';
 
 :where(:not(html, iframe, canvas, img, svg *, video *)) {
   all: unset;

@@ -1,6 +1,6 @@
-@use 'mixins/utils.scss';
-@use 'mixins/transition.scss';
-@use 'mixins/typography.scss';
+@use 'utils.scss';
+@use 'transition.scss';
+@use 'typography.scss';
 
 .TitleBar {
   display: flex;
@@ -11,6 +11,18 @@
   > img {
     -webkit-app-region: drag;
     flex-shrink: 0;
+
+    @media (prefers-color-scheme: dark) {
+      &.light {
+        display: none
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      &.dark {
+        display: none
+      }
+    }
   }
 
   > h1 {
@@ -29,6 +41,7 @@
   }
 
   > nav {
+    position: relative;
     flex-shrink: 0;
     height: 100%;
 
@@ -47,6 +60,11 @@
           fill: var(--text-error);
           background-color: var(--error);
         }
+      }
+
+      &[aria-expanded='true'] {
+        fill: var(--text-normal);
+        background-color: var(--hover);
       }
 
       > svg > path {

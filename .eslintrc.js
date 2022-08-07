@@ -97,6 +97,7 @@ module.exports = {
       ImportDeclaration: { minProperties: 4 }
     }],
     // Import
+    'import/no-deprecated': 'warn',
     'import/prefer-default-export': 'off',
     'import/order': ['error', {
       'newlines-between': 'always',

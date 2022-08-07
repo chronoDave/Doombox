@@ -19,5 +19,8 @@ forgo.mount([
     >
       {values.map(value => <option value={value} key={value}>{value}</option>)}
     </select>
+    <button type='button'>
+      Click me
+    </button>
   </main>
 ], document.body);
