@@ -2,7 +2,7 @@ import type AppStorage from './storage/app.storage';
 import type ThemeStorage from './storage/theme.storage';
 import type Logger from './logger';
 
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, nativeTheme } from 'electron';
 
 import { IPC_CHANNEL } from '../../types/ipc';
 
@@ -41,6 +41,8 @@ export default class App {
   }
 
   async run() {
+    nativeTheme.themeSource = this._storage.theme.get('theme');
+
     await app.whenReady();
 
     ipcMain.handle(IPC_CHANNEL.THEME, (_, event: unknown) => (
