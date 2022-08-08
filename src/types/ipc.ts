@@ -13,7 +13,6 @@ export const IPC_CHANNEL: Enum<IpcChannel> = {
 export type IpcAction =
   'GET' |
   'SET' |
-  'TOGGLE' |
   'MINIMIZE' |
   'MAXIMIZE' |
   'CLOSE';
@@ -21,7 +20,6 @@ export type IpcAction =
 export const IPC_ACTION: Enum<IpcAction> = {
   GET: 'GET',
   SET: 'SET',
-  TOGGLE: 'TOGGLE',
   MINIMIZE: 'MINIMIZE',
   MAXIMIZE: 'MAXIMIZE',
   CLOSE: 'CLOSE'
@@ -50,19 +48,19 @@ export type IpcEvent<
 
 /** Api */
 export type IpcApi = {
-  minimize: () => void,
-  maximize: () => void,
-  close: () => void,
-  get: <T extends Shape>(
-    channel: IpcChannel,
-    payload: IpcPayloadGet<T>
-  ) => Promise<T[keyof T]>,
-  set: <T extends Shape>(
-    channel: IpcChannel,
-    payload: IpcPayloadSet<T>
-  ) => Promise<T[keyof T]>,
-  toggle: <T extends Shape>(
-    channel: IpcChannel,
-    payload: IpcPayloadGet<T>
-  ) => Promise<T[keyof T]>
+  window: {
+    minimize: () => void,
+    maximize: () => void,
+    close: () => void,
+  },
+  storage: {
+    get: <T extends Shape>(
+      channel: IpcChannel,
+      payload: IpcPayloadGet<T>
+    ) => Promise<T[keyof T]>,
+    set: <T extends Shape>(
+      channel: IpcChannel,
+      payload: IpcPayloadSet<T>
+    ) => Promise<T[keyof T]>
+  }
 };

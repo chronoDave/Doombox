@@ -71,21 +71,21 @@ const TitleBar: Component<TitleBarProps> = () => {
             <button
               type='button'
               aria-label='minimize window'
-              onclick={window.ipc.minimize}
+              onclick={window.ipc.window.minimize}
             >
               <Icon id='minimize' />
             </button>
             <button
               type='button'
               aria-label='maximize window'
-              onclick={window.ipc.maximize}
+              onclick={window.ipc.window.maximize}
             >
               <Icon id='maximize' />
             </button>
             <button
               type='button'
               aria-label='close close'
-              onclick={window.ipc.close}
+              onclick={window.ipc.window.close}
             >
               <Icon id='close' />
             </button>

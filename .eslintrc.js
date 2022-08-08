@@ -55,6 +55,15 @@ module.exports = {
       format: ['PascalCase', 'camelCase', 'UPPER_CASE'],
       modifiers: ['global']
     }, {
+      // Disable underscore on public members
+      selector: [
+        'classProperty',
+        'classMethod'
+      ],
+      modifiers: ['public'],
+      format: ['camelCase'],
+      leadingUnderscore: 'forbid'
+    }, {
       // Enforce underscore on private members
       selector: 'memberLike',
       modifiers: ['private'],

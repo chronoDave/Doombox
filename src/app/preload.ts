@@ -28,15 +28,15 @@ const invoke = (
 };
 
 const ipc: IpcApi = {
-  minimize: () => send('WINDOW', 'MINIMIZE'),
-  maximize: () => send('WINDOW', 'MAXIMIZE'),
-  close: () => send('WINDOW', 'CLOSE'),
-  get: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) =>
-    invoke(channel, 'GET', payload),
-  set: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadSet<T>) =>
-    invoke(channel, 'SET', payload),
-  toggle: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) =>
-    invoke(channel, 'TOGGLE', payload)
+  window: {
+    minimize: () => send('WINDOW', 'MINIMIZE'),
+    maximize: () => send('WINDOW', 'MAXIMIZE'),
+    close: () => send('WINDOW', 'CLOSE')
+  },
+  storage: {
+    get: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) => invoke(channel, 'GET', payload),
+    set: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadSet<T>) => invoke(channel, 'SET', payload)
+  }
 };
 
 contextBridge.exposeInMainWorld('ipc', ipc);
