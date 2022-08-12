@@ -1,5 +1,6 @@
-import type AppStorage from './storage/app.storage';
+import type Storage from './storage';
 import type Logger from './logger';
+import type { AppShape } from '../../types/shapes/app.shape';
 
 import path from 'path';
 import { BrowserWindow, ipcMain } from 'electron';
@@ -9,7 +10,7 @@ import { IPC_CHANNEL } from '../../types/ipc';
 import WindowController from './controller/window.controller';
 
 export type WindowProps = {
-  storage: AppStorage,
+  storage: Storage<AppShape>,
   logger: Logger
 };
 
@@ -17,7 +18,7 @@ export default class Window {
   private readonly _window: BrowserWindow;
   private readonly _logger: Logger;
   private readonly _controller: WindowController;
-  private readonly _storage: AppStorage;
+  private readonly _storage: Storage<AppShape>;
 
   private _handleResize() {
     this._storage.set('window', this._window.getBounds());

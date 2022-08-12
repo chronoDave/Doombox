@@ -1,8 +1,14 @@
-import type AppStorage from './storage/app.storage';
-import type ThemeStorage from './storage/theme.storage';
 import type Logger from './logger';
+import type Storage from './storage';
+import type { ThemeShape } from '../../types/shapes/theme.shape';
+import type { AppShape } from '../../types/shapes/app.shape';
 
-import { app, BrowserWindow, ipcMain, nativeTheme } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  nativeTheme
+} from 'electron';
 
 import { IPC_CHANNEL } from '../../types/ipc';
 
@@ -12,8 +18,8 @@ import ThemeController from './controller/theme.controller';
 export type AppProps = {
   logger: Logger
   storage: {
-    app: AppStorage,
-    theme: ThemeStorage
+    app: Storage<AppShape>,
+    theme: Storage<ThemeShape>
   }
 };
 
@@ -23,8 +29,8 @@ export default class App {
     storage: ThemeController;
   };
   private readonly _storage: {
-    app: AppStorage
-    theme: ThemeStorage
+    app: Storage<AppShape>,
+    theme: Storage<ThemeShape>
   };
 
   private _window?: AppWindow;

@@ -1,6 +1,6 @@
 import type { Shape } from '../../../types/primitives';
 import type { IpcPayloadGet, IpcPayloadSet } from '../../../types/ipc';
-import type Storage from '../storage/storage';
+import type Storage from '../storage';
 import type { ControllerProps } from './controller';
 
 import { isIpcEvent, isIpcEventGet, isIpcEventSet } from '../../../utils/validation';
