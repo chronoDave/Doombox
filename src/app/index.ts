@@ -2,10 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import { app as electron } from 'electron';
 
+import appShape from '../types/shapes/app.shape';
+import themeShape from '../types/shapes/theme.shape';
+
 import App from './lib/app';
 import Logger from './lib/logger';
-import AppStorage from './lib/storage/app.storage';
-import ThemeStorage from './lib/storage/theme.storage';
+import Storage from './lib/storage';
 
 const isDev = () => process.env.NODE_ENV === 'development';
 
@@ -28,8 +30,8 @@ if (isDev()) {
 
 const logger = new Logger({ root: ROOT.LOGGER });
 const storage = {
-  app: new AppStorage({ root: ROOT.USER_DATA }),
-  theme: new ThemeStorage({ root: ROOT.USER_DATA })
+  app: new Storage({ name: 'app', shape: appShape, root: ROOT.USER_DATA }),
+  theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA })
 };
 
 const app = new App({ logger, storage });

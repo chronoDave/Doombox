@@ -45,8 +45,3 @@ export const isIpcEventSet = <T extends Shape>(x: unknown): x is IpcEvent<'SET',
   x.action === 'SET' &&
   typeof x.payload.key === 'string' &&
   !!x.payload.value;
-
-export const isIpcEventToggle = <T extends Shape>(x: unknown): x is IpcEvent<'TOGGLE', IpcPayloadGet<T>> =>
-  isIpcEvent(x) &&
-  x.action === 'TOGGLE' &&
-  typeof x.payload.key === 'string';
