@@ -16,7 +16,7 @@
     "lint": "eslint src test",
     "start:webpack": "webpack --mode development -w",
     "start:electron": "nodemon --config .nodemon.json",
-    "build:test": "tsc --noEmit && node test/build.js",
+    "build:test": "node test/build.js",
     "build:webpack": "tsc --noEmit && webpack --mode production",
     "build:electron": "electron-builder -p=never -c .electron.config.js",
     "build": "npm run build:webpack && npm run build:electron",

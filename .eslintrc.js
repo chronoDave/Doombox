@@ -70,6 +70,12 @@ module.exports = {
       format: ['camelCase'],
       leadingUnderscore: 'require'
     }, {
+      // Enforce underscore on protected members
+      selector: 'memberLike',
+      modifiers: ['protected'],
+      format: ['camelCase'],
+      leadingUnderscore: 'require'
+    }, {
       // Enforce PascalCase on types / interfaces
       selector: 'typeLike',
       format: ['PascalCase']

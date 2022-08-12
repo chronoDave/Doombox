@@ -1,13 +1,17 @@
 import type { ThemeShape } from '../../../types/shapes/theme.shape';
-import type { IpcPayloadSet } from '../../../types/ipc';
 
 import { nativeTheme } from 'electron';
+
+import { isIpcPayloadSet } from '../../../utils/validation';
 
 import StorageController from './storage.controller';
 
 export default class ThemeController extends StorageController<ThemeShape> {
-  protected _set(payload: IpcPayloadSet<ThemeShape>) {
-    if (payload.key === 'theme') nativeTheme.themeSource = payload.value;
-    return super._set(payload);
+  set(payload: unknown) {
+    return new Promise((resolve, reject) => {
+      if (!isIpcPayloadSet<ThemeShape>(payload)) return reject(this._log('Invalid set payload', payload));
+      nativeTheme.themeSource = payload.value;
+      return resolve(this._storage.set(payload.key, payload.value));
+    });
   }
 }

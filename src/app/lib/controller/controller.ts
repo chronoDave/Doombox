@@ -7,17 +7,21 @@ export type ControllerProps = {
 export default abstract class Controller {
   private readonly _logger: Logger;
 
+  get?(payload: unknown): Promise<unknown>;
+  set?(payload: unknown): Promise<unknown>;
+  minimize?(payload: unknown): Promise<unknown>;
+  maximize?(payload: unknown): Promise<unknown>;
+  close?(payload: unknown): Promise<unknown>;
+
   constructor(props: ControllerProps) {
     this._logger = props.logger;
   }
 
-  protected log(message: string, data?: unknown) {
+  protected _log(message: string, data?: unknown) {
     const raw = data ? `: ${JSON.stringify(data)}` : '';
     const err = new Error(`${message}${raw}`);
 
     this._logger.error(err);
     return err;
   }
-
-  abstract route(event: unknown): Promise<unknown>;
 }

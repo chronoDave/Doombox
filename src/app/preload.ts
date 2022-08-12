@@ -3,11 +3,12 @@ import type {
   IpcApi,
   IpcEvent,
   IpcPayloadGet,
-  IpcPayloadSet,
-  IpcChannel, IpcAction
+  IpcPayloadSet
 } from '../types/ipc';
 
 import { contextBridge, ipcRenderer } from 'electron';
+
+import { IpcAction, IpcChannel } from '../types/ipc';
 
 const send = (
   channel: IpcChannel,
@@ -29,13 +30,19 @@ const invoke = (
 
 const ipc: IpcApi = {
   window: {
-    minimize: () => send('WINDOW', 'MINIMIZE'),
-    maximize: () => send('WINDOW', 'MAXIMIZE'),
-    close: () => send('WINDOW', 'CLOSE')
+    minimize: () => send(IpcChannel.Window, IpcAction.Minimize),
+    maximize: () => send(IpcChannel.Window, IpcAction.Maximize),
+    close: () => send(IpcChannel.Window, IpcAction.Close)
   },
   storage: {
-    get: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadGet<T>) => invoke(channel, 'GET', payload),
-    set: async <T extends Shape>(channel: IpcChannel, payload: IpcPayloadSet<T>) => invoke(channel, 'SET', payload)
+    get: async <T extends Shape>(
+      channel: IpcChannel,
+      payload: IpcPayloadGet<T>
+    ) => invoke(channel, IpcAction.Get, payload),
+    set: async <T extends Shape>(
+      channel: IpcChannel,
+      payload: IpcPayloadSet<T>
+    ) => invoke(channel, IpcAction.Set, payload)
   }
 };
 

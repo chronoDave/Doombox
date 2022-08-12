@@ -1,13 +1,7 @@
-import type {
-  IpcEvent,
-  IpcPayload,
-  IpcPayloadGet,
-  IpcPayloadSet,
-  IpcAction
-} from '../types/ipc';
+import type { IpcEvent, IpcPayloadGet, IpcPayloadSet } from '../types/ipc';
 import type { Shape } from '../types/primitives';
 
-import { IPC_ACTION } from '../types/ipc';
+import { IpcAction } from '../types/ipc';
 
 export const isObject = (x: unknown): x is Record<string, unknown> =>
   x !== null &&
@@ -30,18 +24,15 @@ export const isShape = (x: unknown): x is Shape =>
   isObject(x) &&
   Object.values(x).every(isJSON);
 
-export const isIpcEvent = (x: unknown): x is IpcEvent<IpcAction, IpcPayload> =>
+export const isIpcEvent = (x: unknown): x is IpcEvent =>
   isObject(x) &&
-  isKeyOf(x.action, IPC_ACTION) &&
-  isObject(x.payload);
+  isKeyOf(x.action, IpcAction);
 
-export const isIpcEventGet = <T extends Shape>(x: unknown): x is IpcEvent<'GET', IpcPayloadGet<T>> =>
-  isIpcEvent(x) &&
-  x.action === 'GET' &&
-  typeof x.payload.key === 'string';
+export const isIpcPayloadGet = <T extends Shape>(x: unknown): x is IpcPayloadGet<T> =>
+  isObject(x) &&
+  'key' in x;
 
-export const isIpcEventSet = <T extends Shape>(x: unknown): x is IpcEvent<'SET', IpcPayloadSet<T>> =>
-  isIpcEvent(x) &&
-  x.action === 'SET' &&
-  typeof x.payload.key === 'string' &&
-  !!x.payload.value;
+export const isIpcPayloadSet = <T extends Shape>(x: unknown): x is IpcPayloadSet<T> =>
+  isObject(x) &&
+  'key' in x &&
+  'value' in x;

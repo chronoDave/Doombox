@@ -1,33 +1,24 @@
 import type { Shape } from './primitives';
-import type { Enum } from './helpers';
 
-export type IpcChannel =
-  'THEME' |
-  'WINDOW';
+export enum IpcChannel {
+  Theme = 'Theme',
+  Window = 'Window'
+}
 
-export const IPC_CHANNEL: Enum<IpcChannel> = {
-  THEME: 'THEME',
-  WINDOW: 'WINDOW'
-} as const;
+export enum IpcAction {
+  Get = 'Get',
+  Set = 'Set',
+  Minimize = 'Minimize',
+  Maximize = 'Maximize',
+  Close = 'Close'
+}
 
-export type IpcAction =
-  'GET' |
-  'SET' |
-  'MINIMIZE' |
-  'MAXIMIZE' |
-  'CLOSE';
-
-export const IPC_ACTION: Enum<IpcAction> = {
-  GET: 'GET',
-  SET: 'SET',
-  MINIMIZE: 'MINIMIZE',
-  MAXIMIZE: 'MAXIMIZE',
-  CLOSE: 'CLOSE'
-} as const;
+export type IpcEvent = {
+  action: IpcAction,
+  payload?: unknown
+};
 
 /** Payloads */
-export type IpcPayload = Record<string, unknown>;
-
 export type IpcPayloadGet<T extends Shape> = {
   key: keyof T
 };
@@ -35,15 +26,6 @@ export type IpcPayloadGet<T extends Shape> = {
 export type IpcPayloadSet<T extends Shape> = {
   key: keyof T,
   value: Partial<T[keyof T]>
-};
-
-/** Events */
-export type IpcEvent<
-  T extends IpcAction = IpcAction,
-  K extends IpcPayload = IpcPayload
-> = {
-  action: T,
-  payload: K
 };
 
 /** Api */

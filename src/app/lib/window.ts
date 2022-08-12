@@ -5,9 +5,10 @@ import type { AppShape } from '../../types/shapes/app.shape';
 import path from 'path';
 import { BrowserWindow, ipcMain } from 'electron';
 
-import { IPC_CHANNEL } from '../../types/ipc';
+import { IpcChannel } from '../../types/ipc';
 
 import WindowController from './controller/window.controller';
+import router from './router';
 
 export type WindowProps = {
   storage: Storage<AppShape>,
@@ -17,7 +18,7 @@ export type WindowProps = {
 export default class Window {
   private readonly _window: BrowserWindow;
   private readonly _logger: Logger;
-  private readonly _controller: WindowController;
+  private readonly _route: ReturnType<typeof router>;
   private readonly _storage: Storage<AppShape>;
 
   private _handleResize() {
@@ -47,16 +48,16 @@ export default class Window {
         preload: path.resolve(__dirname, 'preload.js')
       }
     });
-    this._controller = new WindowController({
+    this._route = router(new WindowController({
       logger: this._logger,
       window: this._window
-    });
+    }));
 
     this._window.once('ready-to-show', () => this._window.show());
     this._window.on('resize', () => this._handleResize());
     this._window.on('move', () => this._handleMove());
 
-    ipcMain.on(IPC_CHANNEL.WINDOW, (_, event: unknown) => this._controller.route(event));
+    ipcMain.on(IpcChannel.Window, (_, event: unknown) => this._route(event));
 
     this._window.loadFile('renderer/index.html');
     if (process.env.NODE_ENV === 'development') {

@@ -10,9 +10,10 @@ import {
   nativeTheme
 } from 'electron';
 
-import { IPC_CHANNEL } from '../../types/ipc';
+import { IpcChannel } from '../../types/ipc';
 
 import AppWindow from './window';
+import router from './router';
 import ThemeController from './controller/theme.controller';
 
 export type AppProps = {
@@ -25,8 +26,8 @@ export type AppProps = {
 
 export default class App {
   private readonly _logger: Logger;
-  private readonly _controller: {
-    storage: ThemeController;
+  private readonly _route: {
+    theme: ReturnType<typeof router>;
   };
   private readonly _storage: {
     app: Storage<AppShape>,
@@ -38,22 +39,20 @@ export default class App {
   constructor(props: AppProps) {
     this._logger = props.logger;
     this._storage = props.storage;
-    this._controller = {
-      storage: new ThemeController({
+    this._route = {
+      theme: router(new ThemeController({
         logger: this._logger,
         storage: this._storage.theme
-      })
+      }))
     };
+
+    nativeTheme.themeSource = this._storage.theme.get('theme');
   }
 
   async run() {
-    nativeTheme.themeSource = this._storage.theme.get('theme');
-
     await app.whenReady();
 
-    ipcMain.handle(IPC_CHANNEL.THEME, (_, event: unknown) => (
-      this._controller.storage.route(event)
-    ));
+    ipcMain.handle(IpcChannel.Theme, (_, event: unknown) => this._route.theme(event));
 
     this._window = new AppWindow({
       storage: this._storage.app,
