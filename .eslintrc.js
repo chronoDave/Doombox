@@ -12,7 +12,8 @@ module.exports = {
   ],
   settings: {
     react: {
-      pragma: 'forgo'
+      pragma: 'forgo',
+      version: '0'
     },
     'import/resolver': {
       node: {
@@ -20,6 +21,7 @@ module.exports = {
       }
     },
     'import/core-modules': [
+      'jsdom',
       'electron',
       'chokidar'
     ]
@@ -34,6 +36,11 @@ module.exports = {
     files: ['test/build.js'],
     rules: {
       'import/no-extraneous-dependencies': 'off'
+    }
+  }, {
+    files: ['test/shim.js'],
+    rules: {
+      'prefer-destructuring': 'off'
     }
   }],
   rules: {
@@ -112,6 +119,11 @@ module.exports = {
       ImportDeclaration: { minProperties: 4 }
     }],
     // Import
+    'import/no-unresolved': ['error', {
+      commonjs: true,
+      ignore: ['forgo'],
+      caseSensitiveStrict: true
+    }],
     'import/no-deprecated': 'warn',
     'import/prefer-default-export': 'off',
     'import/order': ['error', {
@@ -154,7 +166,6 @@ module.exports = {
       when: 'multiline'
     }],
     'react/jsx-tag-spacing': 'error',
-    'react/jsx-space-before-closing': 'error',
     'react/jsx-pascal-case': 'error',
     'react/jsx-no-script-url': 'error',
     'react/jsx-first-prop-new-line': 'error',

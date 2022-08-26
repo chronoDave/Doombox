@@ -1,7 +1,7 @@
 import * as forgo from 'forgo';
 
 /**
- * @deprecated Does not fire `unmount()` event
+ * @deprecated Does not fire `unmount()` event, see [forgojs/forgo#73](https://github.com/forgojs/forgo/issues/73)
  */
 export default (anchor: HTMLElement, element: forgo.ForgoComponentCtor) => {
   let unmounted = false;
@@ -24,6 +24,7 @@ export default (anchor: HTMLElement, element: forgo.ForgoComponentCtor) => {
   };
 
   const { node } = forgo.render(forgo.createElement(portal, {}));
-  queueMicrotask(() => anchor.appendChild(node));
+  anchor.appendChild(node);
+
   return () => unmount();
 };

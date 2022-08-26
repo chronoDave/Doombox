@@ -1,6 +1,6 @@
-import type { ThemeShape } from '../../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../types/shapes/theme.shape';
 
-import { IpcChannel } from '../../../types/ipc';
+import { IpcChannel } from '../../types/ipc';
 
 export const getTheme = (key: keyof ThemeShape) =>
   window.ipc.storage.get<ThemeShape>(IpcChannel.Theme, { key });

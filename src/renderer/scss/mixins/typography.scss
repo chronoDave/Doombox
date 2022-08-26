@@ -1,19 +1,21 @@
+@use './utils.scss';
+
 @mixin tiny {
   font-family: NotoSansJP, sans-serif;
-  font-size: 0.625rem;
-  letter-spacing: 0.03125rem;
+  font-size: utils.rem(10);
+  letter-spacing: utils.rem(0.5);
 }
 
 @mixin small {
   font-family: NotoSansJP, sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.015625rem;
+  font-size: utils.rem(12);
+  letter-spacing: utils.rem(0.25);
 }
 
 @mixin normal {
   font-family: NotoSansJP, sans-serif;
-  font-size: 0.8125rem;
-  letter-spacing: 0.015625rem;
+  font-size: utils.rem(13);
+  letter-spacing: utils.rem(0.5);
 }
 
 @mixin nowrap {

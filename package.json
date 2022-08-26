@@ -22,9 +22,11 @@
     "build": "npm run build:webpack && npm run build:electron",
     "test:app": "npm run build:test && tape test/build/app/**/*.spec.js",
     "test:utils": "npm run build:test && tape test/build/utils/**/*.spec.js",
+    "test:renderer": "npm run build:test && tape test/build/renderer/**/*.spec.js",
     "test": "npm run build:test && tape test/build/**/*.spec.js"
   },
   "devDependencies": {
+    "@types/jsdom": "^20.0.0",
     "@types/tape": "^4.13.2",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
@@ -41,6 +43,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.30.1",
+    "jsdom": "^20.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "nodemon": "^2.0.19",
     "sass": "^1.54.0",

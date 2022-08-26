@@ -1,11 +1,12 @@
-export default (selector: string, cb: () => void) => {
+export default (element: Element, cb: (event: MouseEvent) => void) => {
   const handleClick = (event: MouseEvent) => {
-    const target = (event.target as HTMLElement);
-    if (!target.closest(selector)) {
-      cb();
+    if (!element.contains((event.target as Element))) {
+      cb(event);
       document.removeEventListener('click', handleClick);
     }
   };
 
   document.addEventListener('click', handleClick);
+
+  return () => document.removeEventListener('click', handleClick);
 };

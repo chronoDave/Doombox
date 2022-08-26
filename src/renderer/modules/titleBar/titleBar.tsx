@@ -2,19 +2,14 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Menu from '../menu/menu';
 import Icon from '../../components/icon/icon';
-import Menu from '../../components/menu/menu';
-import MenuButton from '../../components/menu/menuButton';
-import { createPopup } from '../../components/popup/popup';
-import clickAwayListener from '../../utils/clickAwayListener';
 
 import './titleBar.scss';
 
 export type TitleBarProps = {};
 
 const TitleBar: Component<TitleBarProps> = () => {
-  const menu: { id?: string, close?: () => void; } = {};
-
   const component = new forgo.Component({
     render() {
       return (
@@ -30,41 +25,16 @@ const TitleBar: Component<TitleBarProps> = () => {
             alt='Doombox app icon'
           />
           <nav aria-label='app'>
-            <MenuButton
+            <Menu
               id='app'
-              open={menu.id === 'app'}
-              onclick={event => {
-                const closeMenu = () => {
-                  menu.id = '';
-                  menu.close?.();
-                  component.update();
-                };
-
-                if (menu.id === 'app') {
-                  closeMenu();
-                } else {
-                  menu.id = 'app';
-                  menu.close = createPopup(
-                    (event.currentTarget.parentElement as HTMLElement),
-                    <Menu
-                      id='app'
-                      onclose={closeMenu}
-                      items={[{
-                        icon: 'settings',
-                        label: 'Settings',
-                        onclick: () => {}
-                      }]}
-                    />,
-                    { align: { x: 'start', y: 'end' } }
-                  );
-                  clickAwayListener('.TitleBar', closeMenu);
-                }
-
-                component.update();
-              }}
+              items={[{
+                label: 'Settings',
+                onclick: () => {}
+              }]}
+              popup={{ align: { x: 'start', y: 'end' } }}
             >
               <Icon id='menu' />
-            </MenuButton>
+            </Menu>
           </nav>
           <h1>Doombox</h1>
           <nav aria-label='window'>

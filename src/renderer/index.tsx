@@ -1,6 +1,6 @@
 import * as forgo from 'forgo';
 
-import { setTheme } from './ipc/actions/theme';
+import { setTheme } from './ipc/theme';
 import TitleBar from './modules/titleBar/titleBar';
 
 const values = [
