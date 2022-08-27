@@ -23,8 +23,7 @@ export default (anchor: HTMLElement, element: forgo.ForgoComponentCtor) => {
     return component;
   };
 
-  const { node } = forgo.render(forgo.createElement(portal, {}));
-  anchor.appendChild(node);
+  anchor.appendChild(forgo.render(forgo.createElement(portal, {})).node);
 
   return () => unmount();
 };
