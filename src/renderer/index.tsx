@@ -1,7 +1,7 @@
 import * as forgo from 'forgo';
 
 import { setTheme } from './ipc/theme';
-import TitleBar from './modules/titleBar/titleBar';
+import { TitleBar } from './modules/titleBar/titleBar';
 
 const values = [
   'system',

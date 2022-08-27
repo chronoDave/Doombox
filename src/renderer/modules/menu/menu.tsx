@@ -5,7 +5,7 @@ import type { IconProps } from '../../components/icon/icon';
 import * as forgo from 'forgo';
 
 import { createPopup } from '../../components/popup/popup';
-import Icon from '../../components/icon/icon';
+import { Icon } from '../../components/icon/icon';
 import createClickAwayListener from '../../utils/clickAwayListener';
 
 import './menu.scss';
@@ -25,7 +25,7 @@ export type MenuProps = {
   onclose?: (event: MouseEvent) => void
 };
 
-const Menu: Component<MenuProps> = () => {
+export const Menu: Component<MenuProps> = () => {
   let open = false;
   let popup: () => void;
   let clickAwayListener: () => void;
@@ -113,5 +113,3 @@ const Menu: Component<MenuProps> = () => {
 
   return component;
 };
-
-export default Menu;

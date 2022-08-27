@@ -2,14 +2,14 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Menu from '../menu/menu';
-import Icon from '../../components/icon/icon';
+import { Menu } from '../menu/menu';
+import { Icon } from '../../components/icon/icon';
 
 import './titleBar.scss';
 
 export type TitleBarProps = {};
 
-const TitleBar: Component<TitleBarProps> = () => {
+export const TitleBar: Component<TitleBarProps> = () => {
   const component = new forgo.Component({
     render() {
       return (
@@ -29,7 +29,7 @@ const TitleBar: Component<TitleBarProps> = () => {
               id='app'
               items={[{
                 label: 'Settings',
-                onclick: () => {}
+                onclick: () => { }
               }]}
               popup={{ align: { x: 'start', y: 'end' } }}
             >
@@ -67,5 +67,3 @@ const TitleBar: Component<TitleBarProps> = () => {
 
   return component;
 };
-
-export default TitleBar;
