@@ -12,6 +12,7 @@ export default abstract class Controller {
   minimize?(payload: unknown): Promise<unknown>;
   maximize?(payload: unknown): Promise<unknown>;
   close?(payload: unknown): Promise<unknown>;
+  scan?(payload: unknown): Promise<unknown>;
 
   constructor(props: ControllerProps) {
     this._logger = props.logger;

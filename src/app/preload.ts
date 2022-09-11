@@ -1,10 +1,4 @@
-import type { Shape } from '../types/primitives';
-import type {
-  IpcApi,
-  IpcEvent,
-  IpcPayloadGet,
-  IpcPayloadSet
-} from '../types/ipc';
+import type { IpcApi, IpcEvent } from '../types/ipc';
 
 import { contextBridge, ipcRenderer } from 'electron';
 
@@ -29,20 +23,17 @@ const invoke = (
 };
 
 const ipc: IpcApi = {
+  library: {
+    scan: payload => invoke(IpcChannel.Library, IpcAction.Scan, payload)
+  },
   window: {
     minimize: () => send(IpcChannel.Window, IpcAction.Minimize),
     maximize: () => send(IpcChannel.Window, IpcAction.Maximize),
     close: () => send(IpcChannel.Window, IpcAction.Close)
   },
   storage: {
-    get: async <T extends Shape>(
-      channel: IpcChannel,
-      payload: IpcPayloadGet<T>
-    ) => invoke(channel, IpcAction.Get, payload),
-    set: async <T extends Shape>(
-      channel: IpcChannel,
-      payload: IpcPayloadSet<T>
-    ) => invoke(channel, IpcAction.Set, payload)
+    get: (channel, payload) => invoke(channel, IpcAction.Get, payload),
+    set: (channel, payload) => invoke(channel, IpcAction.Set, payload)
   }
 };
 

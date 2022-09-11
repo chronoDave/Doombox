@@ -121,7 +121,10 @@ module.exports = {
     // Import
     'import/no-unresolved': ['error', {
       commonjs: true,
-      ignore: ['forgo'],
+      ignore: [
+        'forgo',
+        'music-metadata'
+      ],
       caseSensitiveStrict: true
     }],
     'import/no-deprecated': 'warn',

@@ -1,6 +1,9 @@
+import type { Image, Song } from '../types/library';
+
 import fs from 'fs';
 import path from 'path';
 import { app as electron } from 'electron';
+import LeafDB from 'leaf-db';
 
 import appShape from '../types/shapes/app.shape';
 import themeShape from '../types/shapes/theme.shape';
@@ -29,10 +32,16 @@ if (isDev()) {
 }
 
 const logger = new Logger({ root: ROOT.LOGGER });
+const db = {
+  songs: new LeafDB<Song>({ storage: [ROOT.USER_DATA, 'songs'] }),
+  images: new LeafDB<Image>({ storage: [ROOT.USER_DATA, 'images'] })
+};
 const storage = {
   app: new Storage({ name: 'app', shape: appShape, root: ROOT.USER_DATA }),
   theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA })
 };
 
-const app = new App({ logger, storage });
+Object.values(db).forEach(x => x.open());
+
+const app = new App({ logger, storage, db });
 app.run();

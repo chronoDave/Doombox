@@ -9,7 +9,8 @@ export default (controller: Controller) => (event: unknown): Promise<unknown> =>
     [IpcAction.Set]: controller.set?.bind(controller),
     [IpcAction.Minimize]: controller.minimize?.bind(controller),
     [IpcAction.Maximize]: controller.maximize?.bind(controller),
-    [IpcAction.Close]: controller.close?.bind(controller)
+    [IpcAction.Close]: controller.close?.bind(controller),
+    [IpcAction.Scan]: controller.scan?.bind(controller)
   };
 
   if (!isIpcEvent(event)) return Promise.reject(new Error('Invalid ipc event'));

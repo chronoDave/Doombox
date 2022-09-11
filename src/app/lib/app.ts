@@ -2,6 +2,8 @@ import type Logger from './logger';
 import type Storage from './storage';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { AppShape } from '../../types/shapes/app.shape';
+import type { Image, Song } from '../../types/library';
+import type LeafDB from 'leaf-db';
 
 import {
   app,
@@ -15,11 +17,16 @@ import { IpcChannel } from '../../types/ipc';
 import AppWindow from './window';
 import router from './router';
 import ThemeController from './controller/theme.controller';
+import LibraryController from './controller/library.controller';
 
 export type AppProps = {
   logger: Logger
+  db: {
+    songs: LeafDB<Song>
+    images: LeafDB<Image>
+  }
   storage: {
-    app: Storage<AppShape>,
+    app: Storage<AppShape>
     theme: Storage<ThemeShape>
   }
 };
@@ -27,7 +34,8 @@ export type AppProps = {
 export default class App {
   private readonly _logger: Logger;
   private readonly _route: {
-    theme: ReturnType<typeof router>;
+    theme: ReturnType<typeof router>,
+    library: ReturnType<typeof router>
   };
   private readonly _storage: {
     app: Storage<AppShape>,
@@ -40,6 +48,13 @@ export default class App {
     this._logger = props.logger;
     this._storage = props.storage;
     this._route = {
+      library: router(new LibraryController({
+        logger: this._logger,
+        db: {
+          songs: props.db.songs,
+          images: props.db.images
+        }
+      })),
       theme: router(new ThemeController({
         logger: this._logger,
         storage: this._storage.theme
@@ -53,6 +68,7 @@ export default class App {
     await app.whenReady();
 
     ipcMain.handle(IpcChannel.Theme, (_, event: unknown) => this._route.theme(event));
+    ipcMain.handle(IpcChannel.Library, (_, event: unknown) => this._route.library(event));
 
     this._window = new AppWindow({
       storage: this._storage.app,

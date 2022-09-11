@@ -1,11 +1,14 @@
+import type { IAudioMetadata } from 'music-metadata';
 import type { Shape } from './primitives';
 
 export enum IpcChannel {
   Theme = 'Theme',
-  Window = 'Window'
+  Window = 'Window',
+  Library = 'Library'
 }
 
 export enum IpcAction {
+  Scan = 'Scan',
   Get = 'Get',
   Set = 'Set',
   Minimize = 'Minimize',
@@ -30,6 +33,9 @@ export type IpcPayloadSet<T extends Shape> = {
 
 /** Api */
 export type IpcApi = {
+  library: {
+    scan: (payload: { dir: string }) => Promise<IAudioMetadata[]>
+  }
   window: {
     minimize: () => void,
     maximize: () => void,

@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@types/jsdom": "^20.0.0",
+    "@types/sharp": "^0.30.5",
     "@types/tape": "^4.13.2",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
@@ -54,8 +55,11 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@chronocide/fs-walk": "^1.2.3",
+    "fast-glob": "^3.2.11",
     "forgo": "^3.2.0",
-    "immer": "^9.0.15"
+    "immer": "^9.0.15",
+    "leaf-db": "^7.1.2",
+    "music-metadata": "^8.0.1",
+    "sharp": "^0.30.7"
   }
 }

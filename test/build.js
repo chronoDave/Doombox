@@ -1,13 +1,13 @@
 const { build } = require('esbuild');
 const path = require('path');
 const fs = require('fs');
-const walk = require('@chronocide/fs-walk');
+const glob = require('fast-glob');
 
 const outdir = path.resolve(__dirname, 'build');
 
 fs.rmSync(outdir, { force: true, recursive: true });
 build({
-  entryPoints: walk(path.resolve(__dirname, 'src')),
+  entryPoints: glob.sync('src/**/*.spec.{ts,tsx}', { cwd: __dirname, absolute: true }),
   bundle: true,
   external: [
     'tape',

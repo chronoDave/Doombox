@@ -1,5 +1,7 @@
 import * as forgo from 'forgo';
 
+import { IpcChannel } from '../types/ipc';
+
 import { setTheme } from './ipc/theme';
 import { TitleBar } from './modules/titleBar/titleBar';
 
@@ -19,6 +21,17 @@ forgo.mount([
     >
       {values.map(value => <option value={value} key={value}>{value}</option>)}
     </select>
+    <button
+      type="button"
+      onclick={async () => {
+        const metadata = await window.ipc.library.scan({
+          dir: 'C:\\Users\\David\\Music\\Finished Music\\かめるかめりあ (KamelCamellia)'
+        });
+        console.log(metadata);
+      }}
+    >
+      Scan
+    </button>,
     <button type='button'>
       Click me
     </button>
