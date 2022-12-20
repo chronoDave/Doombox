@@ -8,10 +8,6 @@ export const isObject = (x: unknown): x is Record<string, unknown> =>
   typeof x === 'object' &&
   !Array.isArray(x);
 
-export const isKeyOf = <T extends Record<string, unknown>>(x: unknown, obj: T): x is keyof T =>
-  typeof x === 'string' &&
-  Object.keys(obj).includes(x);
-
 export const isJSON = (x: unknown): x is JSON =>
   x === null ||
   typeof x === 'number' ||
@@ -26,7 +22,8 @@ export const isShape = (x: unknown): x is Shape =>
 
 export const isIpcEvent = (x: unknown): x is IpcEvent =>
   isObject(x) &&
-  isKeyOf(x.action, IpcAction);
+  typeof x.action === 'string' &&
+  Object.values<string>(IpcAction).includes(x.action);
 
 export const isIpcPayloadGet = <T extends Shape>(x: unknown): x is IpcPayloadGet<T> =>
   isObject(x) &&

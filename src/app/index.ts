@@ -33,8 +33,8 @@ if (isDev()) {
 
 const logger = new Logger({ root: ROOT.LOGGER });
 const db = {
-  songs: new LeafDB<Song>({ storage: [ROOT.USER_DATA, 'songs'] }),
-  images: new LeafDB<Image>({ storage: [ROOT.USER_DATA, 'images'] })
+  songs: new LeafDB<Song>({ storage: { root: ROOT.USER_DATA, name: 'songs' } }),
+  images: new LeafDB<Image>({ storage: { root: ROOT.USER_DATA, name: 'images' } })
 };
 const storage = {
   app: new Storage({ name: 'app', shape: appShape, root: ROOT.USER_DATA }),

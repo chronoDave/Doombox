@@ -3,6 +3,7 @@ import type Storage from './storage';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { AppShape } from '../../types/shapes/app.shape';
 import type { Image, Song } from '../../types/library';
+import type { IpcRouter } from '../../types/ipc';
 import type LeafDB from 'leaf-db';
 
 import {
@@ -14,10 +15,11 @@ import {
 
 import { IpcChannel } from '../../types/ipc';
 
-import AppWindow from './window';
-import router from './router';
-import ThemeController from './controller/theme.controller';
-import LibraryController from './controller/library.controller';
+import createWindow from './window';
+import createLibraryController from './ipc/library/library.controller';
+import createThemeController from './ipc/theme/theme.controller';
+import createLibraryRouter from './ipc/library/library.router';
+import createThemeRouter from './ipc/theme/theme.router';
 
 export type AppProps = {
   logger: Logger
@@ -32,55 +34,44 @@ export type AppProps = {
 };
 
 export default class App {
-  private readonly _logger: Logger;
-  private readonly _route: {
-    theme: ReturnType<typeof router>,
-    library: ReturnType<typeof router>
-  };
-  private readonly _storage: {
-    app: Storage<AppShape>,
-    theme: Storage<ThemeShape>
+  private readonly _router: {
+    library: IpcRouter,
+    theme: IpcRouter
   };
 
-  private _window?: AppWindow;
+  private readonly _createWindow: () => BrowserWindow;
+
+  private _window?: BrowserWindow;
 
   constructor(props: AppProps) {
-    this._logger = props.logger;
-    this._storage = props.storage;
-    this._route = {
-      library: router(new LibraryController({
-        logger: this._logger,
-        db: {
-          songs: props.db.songs,
-          images: props.db.images
-        }
-      })),
-      theme: router(new ThemeController({
-        logger: this._logger,
-        storage: this._storage.theme
-      }))
+    this._router = {
+      library: createLibraryRouter(createLibraryController({
+        db: props.db
+      }))(props.logger),
+      theme: createThemeRouter(createThemeController({
+        storage: props.storage.theme
+      }))(props.logger)
     };
 
-    nativeTheme.themeSource = this._storage.theme.get('theme');
+    this._createWindow = () => createWindow({
+      storage: props.storage.app,
+      logger: props.logger
+    });
+
+    nativeTheme.themeSource = props.storage.theme.get('theme');
   }
 
   async run() {
     await app.whenReady();
 
-    ipcMain.handle(IpcChannel.Theme, (_, event: unknown) => this._route.theme(event));
-    ipcMain.handle(IpcChannel.Library, (_, event: unknown) => this._route.library(event));
+    ipcMain.handle(IpcChannel.Theme, (...args) => this._router.theme(args));
+    ipcMain.handle(IpcChannel.Library, (...args) => this._router.library(args));
 
-    this._window = new AppWindow({
-      storage: this._storage.app,
-      logger: this._logger
-    });
+    this._window = this._createWindow();
 
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) {
-        this._window = new AppWindow({
-          storage: this._storage.app,
-          logger: this._logger
-        });
+        this._window = this._createWindow();
       }
     });
 

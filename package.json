@@ -58,7 +58,7 @@
     "fast-glob": "^3.2.11",
     "forgo": "^3.2.0",
     "immer": "^9.0.15",
-    "leaf-db": "^7.1.2",
+    "leaf-db": "^8.0.2",
     "music-metadata": "^8.0.1",
     "sharp": "^0.30.7"
   }

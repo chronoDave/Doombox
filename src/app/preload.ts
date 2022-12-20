@@ -1,4 +1,4 @@
-import type { IpcApi, IpcEvent } from '../types/ipc';
+import type { IpcEvent, IpcApi } from '../types/ipc';
 
 import { contextBridge, ipcRenderer } from 'electron';
 
@@ -7,7 +7,7 @@ import { IpcAction, IpcChannel } from '../types/ipc';
 const send = (
   channel: IpcChannel,
   action: IpcAction,
-  payload: Record<string, unknown> = {}
+  payload?: unknown
 ) => {
   const event: IpcEvent = { action, payload };
   ipcRenderer.send(channel, event);
@@ -16,7 +16,7 @@ const send = (
 const invoke = (
   channel: IpcChannel,
   action: IpcAction,
-  payload: Record<string, unknown> = {}
+  payload: unknown
 ) => {
   const event: IpcEvent = { action, payload };
   return ipcRenderer.invoke(channel, event);
@@ -31,9 +31,9 @@ const ipc: IpcApi = {
     maximize: () => send(IpcChannel.Window, IpcAction.Maximize),
     close: () => send(IpcChannel.Window, IpcAction.Close)
   },
-  storage: {
-    get: (channel, payload) => invoke(channel, IpcAction.Get, payload),
-    set: (channel, payload) => invoke(channel, IpcAction.Set, payload)
+  theme: {
+    get: payload => invoke(IpcChannel.Theme, IpcAction.Get, payload),
+    set: payload => invoke(IpcChannel.Theme, IpcAction.Set, payload)
   }
 };
 

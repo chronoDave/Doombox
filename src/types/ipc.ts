@@ -1,19 +1,23 @@
-import type { IAudioMetadata } from 'music-metadata';
+import type { Doc } from 'leaf-db';
+import type { Song } from './library';
+import type { ThemeShape } from './shapes/theme.shape';
 import type { Shape } from './primitives';
 
+export type IpcRouter = (...args: unknown[][]) => unknown;
+
 export enum IpcChannel {
-  Theme = 'Theme',
-  Window = 'Window',
-  Library = 'Library'
+  Theme = 'theme',
+  Window = 'window',
+  Library = 'library'
 }
 
 export enum IpcAction {
-  Scan = 'Scan',
-  Get = 'Get',
-  Set = 'Set',
-  Minimize = 'Minimize',
-  Maximize = 'Maximize',
-  Close = 'Close'
+  Scan = 'scan',
+  Get = 'get',
+  Set = 'set',
+  Minimize = 'minimize',
+  Maximize = 'maximize',
+  Close = 'close'
 }
 
 export type IpcEvent = {
@@ -31,24 +35,27 @@ export type IpcPayloadSet<T extends Shape> = {
   value: Partial<T[keyof T]>
 };
 
-/** Api */
-export type IpcApi = {
-  library: {
-    scan: (payload: { dir: string }) => Promise<IAudioMetadata[]>
-  }
-  window: {
-    minimize: () => void,
-    maximize: () => void,
-    close: () => void,
-  },
-  storage: {
-    get: <T extends Shape>(
-      channel: IpcChannel,
-      payload: IpcPayloadGet<T>
-    ) => Promise<T[keyof T]>,
-    set: <T extends Shape>(
-      channel: IpcChannel,
-      payload: IpcPayloadSet<T>
-    ) => Promise<T[keyof T]>
+/** Controller */
+export type IpcControllerStorage<T extends Shape> = {
+  [IpcAction.Get]: (payload: IpcPayloadGet<T>) => Promise<T[keyof T]>,
+  [IpcAction.Set]: (payload: IpcPayloadSet<T>) => Promise<T[keyof T]>
+};
+
+/** Renderer to main (one-way) */
+export type IpcSendController = {
+  [IpcChannel.Window]: {
+    [IpcAction.Minimize]: () => void,
+    [IpcAction.Maximize]: () => void,
+    [IpcAction.Close]: () => void,
   }
 };
+
+/** Renderer to main (two-way) */
+export type IpcInvokeController = {
+  [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>,
+  [IpcChannel.Library]: {
+    [IpcAction.Scan]: (payload: string) => Promise<Doc<Song>[]>
+  }
+};
+
+export type IpcApi = IpcSendController & IpcInvokeController;
