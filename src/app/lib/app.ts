@@ -1,17 +1,11 @@
-import type Logger from './logger';
 import type Storage from './storage';
-import type { ThemeShape } from '../../types/shapes/theme.shape';
-import type { AppShape } from '../../types/shapes/app.shape';
-import type { Image, Song } from '../../types/library';
-import type { IpcRouter } from '../../types/ipc';
 import type LeafDB from 'leaf-db';
+import type { Image, Song } from '../../types/library';
+import type { AppShape } from '../../types/shapes/app.shape';
+import type Logger from './logger';
+import type { ThemeShape } from '../../types/shapes/theme.shape';
 
-import {
-  app,
-  BrowserWindow,
-  ipcMain,
-  nativeTheme
-} from 'electron';
+import { app, ipcMain, nativeTheme } from 'electron';
 
 import { IpcChannel } from '../../types/ipc';
 
@@ -33,50 +27,24 @@ export type AppProps = {
   }
 };
 
-export default class App {
-  private readonly _router: {
-    library: IpcRouter,
-    theme: IpcRouter
-  };
+export default async (props: AppProps) => {
+  const libraryRouter = createLibraryRouter(createLibraryController({
+    db: props.db
+  }))(props.logger);
+  const themeRouter = createThemeRouter(createThemeController({
+    storage: props.storage.theme
+  }))(props.logger);
 
-  private readonly _createWindow: () => BrowserWindow;
+  nativeTheme.themeSource = props.storage.theme.get('theme');
 
-  private _window?: BrowserWindow;
+  await app.whenReady();
 
-  constructor(props: AppProps) {
-    this._router = {
-      library: createLibraryRouter(createLibraryController({
-        db: props.db
-      }))(props.logger),
-      theme: createThemeRouter(createThemeController({
-        storage: props.storage.theme
-      }))(props.logger)
-    };
+  ipcMain.handle(IpcChannel.Theme, themeRouter);
+  ipcMain.handle(IpcChannel.Library, libraryRouter);
 
-    this._createWindow = () => createWindow({
-      storage: props.storage.app,
-      logger: props.logger
-    });
+  createWindow({ storage: props.storage.app, logger: props.logger });
 
-    nativeTheme.themeSource = props.storage.theme.get('theme');
-  }
-
-  async run() {
-    await app.whenReady();
-
-    ipcMain.handle(IpcChannel.Theme, (_, e) => this._router.theme(_, e));
-    ipcMain.handle(IpcChannel.Library, (_, e) => this._router.library(_, e));
-
-    this._window = this._createWindow();
-
-    app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) {
-        this._window = this._createWindow();
-      }
-    });
-
-    app.on('window-all-closed', () => {
-      if (process.platform !== 'darwin') app.quit();
-    });
-  }
-}
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
+  });
+};

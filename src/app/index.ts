@@ -8,25 +8,25 @@ import LeafDB from 'leaf-db';
 import appShape from '../types/shapes/app.shape';
 import themeShape from '../types/shapes/theme.shape';
 
-import App from './lib/app';
+import run from './lib/app';
 import Logger from './lib/logger';
 import Storage from './lib/storage';
 
-const isDev = () => process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 const ROOT = {
-  USER_DATA: isDev() ?
+  USER_DATA: isDev ?
     path.resolve(__dirname, '../userData') :
     electron.getPath('userData'),
-  ASSETS: isDev() ?
+  ASSETS: isDev ?
     path.resolve(__dirname, '../build/assets') :
     path.resolve(electron.getAppPath(), 'assets'),
-  LOGGER: isDev() ?
+  LOGGER: isDev ?
     path.resolve(__dirname, '../userData/logs') :
     electron.getPath('logs')
 } as const;
 
-if (isDev()) {
+if (isDev) {
   Object.values(ROOT)
     .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
 }
@@ -43,5 +43,4 @@ const storage = {
 
 Object.values(db).forEach(x => x.open());
 
-const app = new App({ logger, storage, db });
-app.run();
+run({ logger, storage, db });
