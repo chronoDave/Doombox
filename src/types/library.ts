@@ -1,9 +1,6 @@
 export type Image = {
   // Keys
   _id: string
-  // General
-  original: string
-  thumb: string
 };
 
 export type Song = {

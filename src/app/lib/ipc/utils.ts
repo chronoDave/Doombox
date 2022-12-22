@@ -15,3 +15,6 @@ export const createIpcRouter = (router: (event: IpcEvent) => unknown) =>
 
       return router(args[0]);
     };
+
+export const errorIpcPayload = (payload: unknown) => `Invalid payload: ${JSON.stringify(payload)}`;
+export const errorIpcAction = (action: unknown) => `Invalic ipc action: ${JSON.stringify(action)}`;

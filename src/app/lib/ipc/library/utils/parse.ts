@@ -1,16 +1,20 @@
-import type { Song } from '../../../types/library';
+import type { Song } from '../../../../../types/library';
 import type { IAudioMetadata } from 'music-metadata';
 
-import { generateId } from '../../../utils/string';
+import { generateId } from '../../../../../utils/string';
 
 export default (payload: Array<{ file: string, metadata: IAudioMetadata }>) => {
-  const pictures = new Map<string, string>(); // Map<image, id>
+  const pictures = new Map<string, { _id: string, raw: Buffer }>(); // Map<image, id>
   const songs = payload.map(({ metadata, file }) => {
-    const picture = Array.isArray(metadata.common.picture) ?
-      metadata.common.picture[0].data.toString('base64') :
+    const raw = Array.isArray(metadata.common.picture) ?
+      metadata.common.picture[0].data :
       null;
+    let b64: string | undefined;
 
-    if (picture && !pictures.has(picture)) pictures.set(picture, generateId());
+    if (raw) {
+      b64 = raw.toString('base64');
+      if (!pictures.has(b64)) pictures.set(b64, { _id: b64, raw });
+    }
 
     const native: Record<string, unknown> = Object.fromEntries(Object.values(metadata.native)
       .flat()
@@ -24,8 +28,8 @@ export default (payload: Array<{ file: string, metadata: IAudioMetadata }>) => {
 
     const song: Song = {
       _id: generateId(),
-      _image: picture ?
-        pictures.get(picture) :
+      _image: b64 ?
+        pictures.get(b64)?._id :
         undefined,
       file,
       // Metadata

@@ -11,6 +11,7 @@ module.exports = (env, argv) => [{
     preload: path.resolve(__dirname, 'src/app/preload.ts')
   },
   externals: {
+    sharp: 'commonjs2 sharp',
     fsevents: 'require("fs-events")'
   },
   output: {

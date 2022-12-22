@@ -11,19 +11,31 @@ import themeShape from '../types/shapes/theme.shape';
 import run from './lib/app';
 import Logger from './lib/logger';
 import Storage from './lib/storage';
+import createThemeController from './lib/ipc/theme/theme.controller';
+import createLibraryRouter from './lib/ipc/library/library.router';
+import createThemeRouter from './lib/ipc/theme/theme.router';
+import createLibraryController from './lib/ipc/library/library.controller';
 
 const isDev = process.env.NODE_ENV === 'development';
 
 const ROOT = {
   USER_DATA: isDev ?
-    path.resolve(__dirname, '../userData') :
+    path.resolve(__dirname, '../data/userData') :
     electron.getPath('userData'),
   ASSETS: isDev ?
     path.resolve(__dirname, '../build/assets') :
     path.resolve(electron.getAppPath(), 'assets'),
-  LOGGER: isDev ?
-    path.resolve(__dirname, '../userData/logs') :
-    electron.getPath('logs')
+  LOGS: isDev ?
+    path.resolve(__dirname, '../data/logs') :
+    electron.getPath('logs'),
+  APP_DATA: isDev ?
+    path.resolve(__dirname, '../data/appData') :
+    electron.getPath('appData')
+} as const;
+
+const DIR = {
+  COVERS: path.resolve(ROOT.APP_DATA, 'covers'),
+  THUMBS: path.resolve(ROOT.APP_DATA, 'thumbs')
 } as const;
 
 if (isDev) {
@@ -31,16 +43,36 @@ if (isDev) {
     .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
 }
 
-const logger = new Logger({ root: ROOT.LOGGER });
+Object.values(DIR)
+  .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
+
+const logger = new Logger({ root: ROOT.LOGS });
 const db = {
-  songs: new LeafDB<Song>({ storage: { root: ROOT.USER_DATA, name: 'songs' } }),
-  images: new LeafDB<Image>({ storage: { root: ROOT.USER_DATA, name: 'images' } })
+  songs: new LeafDB<Song>({ storage: { root: ROOT.APP_DATA, name: 'songs' } }),
+  images: new LeafDB<Image>({ storage: { root: ROOT.APP_DATA, name: 'images' } })
 };
 const storage = {
   app: new Storage({ name: 'app', shape: appShape, root: ROOT.USER_DATA }),
   theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA })
 };
+const router = {
+  library: createLibraryRouter(createLibraryController({
+    db,
+    root: {
+      covers: DIR.COVERS,
+      thumbs: DIR.THUMBS
+    }
+  }))(logger),
+  theme: createThemeRouter(createThemeController({
+    storage: storage.theme
+  }))(logger)
+};
 
 Object.values(db).forEach(x => x.open());
 
-run({ logger, storage, db });
+run({
+  router,
+  logger,
+  storage,
+  db
+});

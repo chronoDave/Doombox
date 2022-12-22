@@ -1,7 +1,7 @@
 import type { IpcChannel, IpcEvent, IpcSendController } from '../../../../types/ipc';
 
 import { IpcAction } from '../../../../types/ipc';
-import { createIpcRouter } from '../utils';
+import { createIpcRouter, errorIpcAction } from '../utils';
 
 export default (controller: IpcSendController[IpcChannel.Window]) =>
   createIpcRouter(({ action }: IpcEvent): void => {
@@ -13,6 +13,6 @@ export default (controller: IpcSendController[IpcChannel.Window]) =>
       case IpcAction.Close:
         return controller.close();
       default:
-        throw new Error('Invalid ipc action');
+        throw new Error(errorIpcAction(action));
     }
   });
