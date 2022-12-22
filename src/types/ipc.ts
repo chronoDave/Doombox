@@ -3,7 +3,7 @@ import type { Song } from './library';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { Shape } from './primitives';
 
-export type IpcRouter = (...args: unknown[][]) => unknown;
+export type IpcRouter = (_: unknown, ...args: unknown[]) => unknown;
 
 export enum IpcChannel {
   Theme = 'theme',

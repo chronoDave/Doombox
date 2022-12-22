@@ -64,8 +64,8 @@ export default class App {
   async run() {
     await app.whenReady();
 
-    ipcMain.handle(IpcChannel.Theme, (...args) => this._router.theme(args));
-    ipcMain.handle(IpcChannel.Library, (...args) => this._router.library(args));
+    ipcMain.handle(IpcChannel.Theme, (_, e) => this._router.theme(_, e));
+    ipcMain.handle(IpcChannel.Library, (_, e) => this._router.library(_, e));
 
     this._window = this._createWindow();
 
