@@ -60,6 +60,11 @@
           fill: var(--text-error);
           background-color: var(--error);
         }
+
+        &.close {
+          fill: var(--text-error);
+          background-color: var(--error);
+        }
       }
 
       &[aria-expanded='true'] {

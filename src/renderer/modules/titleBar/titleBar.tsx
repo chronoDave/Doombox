@@ -54,8 +54,9 @@ export const TitleBar: Component<TitleBarProps> = () => {
             </button>
             <button
               type='button'
-              aria-label='close close'
+              aria-label='close window'
               onclick={window.ipc.window.close}
+              class="close"
             >
               <Icon id='close' />
             </button>

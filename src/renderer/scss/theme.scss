@@ -17,7 +17,7 @@
     --title-bar: var(--grey100);
     --text-normal: var(--grey700);
     --text-inactive: var(--grey500);
-    --text-error: var(--text-normal);
+    --text-error: var(--white);
   }
 }
 
@@ -40,6 +40,6 @@
     --title-bar: var(--grey700);
     --text-normal: var(--grey100);
     --text-inactive: var(--grey300);
-    --text-error: var(--text-normal);
+    --text-error: var(--white);
   }
 }
