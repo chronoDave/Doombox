@@ -61,7 +61,7 @@ module.exports = (env, argv) => [{
   devtool: 'cheap-source-map',
   entry: {
     index: path.resolve(__dirname, 'src/renderer/index.tsx'),
-    preload: path.resolve(__dirname, 'src/renderer/preload.ts')
+    preload: path.resolve(__dirname, 'src/renderer/index.scss')
   },
   output: {
     path: path.resolve(__dirname, 'build/renderer'),
@@ -92,7 +92,7 @@ module.exports = (env, argv) => [{
           options: {
             sassOptions: {
               includePaths: [
-                path.resolve(__dirname, 'src/renderer/scss/mixins')
+                path.resolve(__dirname, 'src/renderer/scss/utils')
               ],
               style: argv.mode === 'development' ?
                 'expanded' :
@@ -105,6 +105,7 @@ module.exports = (env, argv) => [{
   },
   optimization: {
     splitChunks: {
+      minSize: 0,
       cacheGroups: {
         vendors: {
           name: 'vendors',
