@@ -3,6 +3,44 @@ const path = require('path');
 
 fs.rmSync(path.resolve(__dirname, 'dist'), { force: true, recursive: true });
 
+const crawlDeps = dep => {
+  const deps = [dep];
+  const files = [];
+
+  while (deps.length > 0) {
+    const dep = deps.pop();
+    const package = path.resolve(__dirname, `node_modules/${dep}/package.json`);
+    const json = JSON.parse(fs.readFileSync(package, 'utf-8'));
+  
+    files.push({
+      from: `node_modules/${dep}`,
+      to: `node_modules/${dep}`,
+      filter: [
+        'package.json',
+        'LICENSE',
+        ...(json.files ?? [json.main ?? 'index.js'])
+      ]
+    });
+
+    if (json.dependencies) {
+      const cDeps = Object.keys(json.dependencies)
+        .map(dep => {
+          const rPackage = path.resolve(__dirname, `node_modules/${dep}/package.json`);
+
+          // Nested node_modules folder
+          if (fs.existsSync(rPackage)) return dep;
+          return `${json.name}/node_modules/${dep}`
+        })
+        // Remove dupes
+        .filter(dep => !files.some(file => file.from === `node_modules/${dep}`))
+
+      deps.push(...cDeps)
+    }
+  }
+
+  return files;
+};
+
 module.exports = {
   appId: 'com.electron.doombox',
   productName: 'Doombox',
@@ -17,7 +55,9 @@ module.exports = {
     '!**/*',
     'LICENSE',
     'package.json',
-    { from: 'build' }
+    { from: 'build' },
+    { from: 'node_modules/sharp/build', to: 'node_modules/sharp/build' },
+    ...crawlDeps('sharp')
   ],
   npmRebuild: false,
   // Windows

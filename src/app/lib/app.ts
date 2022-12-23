@@ -41,4 +41,14 @@ export default async (props: AppProps) => {
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
   });
+
+  app.on('render-process-gone', (e, w, d) => {
+    props.logger.error(new Error(JSON.stringify(d)));
+    app.quit();
+  });
+
+  app.on('child-process-gone', (e, d) => {
+    props.logger.error(new Error(JSON.stringify(d)));
+    app.quit();
+  });
 };

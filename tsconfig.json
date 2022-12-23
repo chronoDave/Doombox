@@ -4,6 +4,7 @@
     "lib": ["esnext", "dom"],
     "module": "CommonJS",
     "moduleResolution": "node",
+    "skipLibCheck": true,
 
     "strict": true,
     "noImplicitAny": true,
@@ -19,7 +20,10 @@
     "noEmitHelpers": true,
     "importHelpers": true,
 
-    "outDir": "build"
+    "outDir": "build",
+    "paths": {
+      "strtok3/core": ["./node_modules/strtok3/lib/core"]
+    }
   },
   "include": [
     "src",
@@ -27,5 +31,5 @@
     ".eslintrc.js",
     ".electron.config.js",
     "webpack.config.js"
-  ]
+  ],
 }

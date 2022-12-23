@@ -24,7 +24,8 @@ const invoke = (
 
 const ipc: IpcApi = {
   library: {
-    scan: payload => invoke(IpcChannel.Library, IpcAction.Scan, payload)
+    scanQuick: payload => invoke(IpcChannel.Library, IpcAction.ScanQuick, payload),
+    scanFull: payload => invoke(IpcChannel.Library, IpcAction.ScanFull, payload)
   },
   window: {
     minimize: () => send(IpcChannel.Window, IpcAction.Minimize),

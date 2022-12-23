@@ -17,7 +17,7 @@
     "start:webpack": "webpack --mode development -w",
     "start:electron": "nodemon --config .nodemon.json",
     "build:test": "node test/build.js",
-    "build:webpack": "tsc --noEmit && webpack --mode production",
+    "build:webpack": "webpack --mode production",
     "build:electron": "electron-builder -p=never -c .electron.config.js",
     "build": "npm run build:webpack && npm run build:electron",
     "test:app": "npm run build:test && tape test/build/app/**/*.spec.js",
@@ -59,7 +59,7 @@
     "forgo": "^3.2.0",
     "immer": "^9.0.15",
     "leaf-db": "^8.0.2",
-    "music-metadata": "^8.0.1",
+    "music-metadata": "^8.1.0",
     "sharp": "^0.30.7"
   }
 }
