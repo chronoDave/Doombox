@@ -14,8 +14,7 @@ import Storage from './lib/storage';
 import createThemeController from './lib/controllers/theme.controller';
 import createLibraryController from './lib/controllers/library/library.controller';
 import { createIpcRouter } from './lib/utils/ipc';
-
-const isDev = process.env.NODE_ENV === 'development';
+import { isDev } from './lib/utils/dev';
 
 const ROOT = {
   USER_DATA: isDev ?
