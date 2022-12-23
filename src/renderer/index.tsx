@@ -22,11 +22,20 @@ forgo.mount([
     <button
       type="button"
       onclick={async () => {
-        const metadata = await window.ipc.library.scan('C:\\Users\\David\\Music\\Finished Music\\かめるかめりあ (KamelCamellia)');
+        const metadata = await window.ipc.library.scanFull('C:\\Users\\David\\Music\\Finished Music\\かめるかめりあ (KamelCamellia)');
         console.log(metadata);
       }}
     >
-      Scan
+      Scan Full
+    </button>,
+    <button
+      type="button"
+      onclick={async () => {
+        const metadata = await window.ipc.library.scanQuick('C:\\Users\\David\\Music\\Finished Music\\かめるかめりあ (KamelCamellia)');
+        console.log(metadata);
+      }}
+    >
+      Scan Quick
     </button>,
     <button type='button'>
       Click me

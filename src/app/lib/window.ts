@@ -7,8 +7,8 @@ import { BrowserWindow, ipcMain } from 'electron';
 
 import { IpcChannel } from '../../types/ipc';
 
-import createWindowRouter from './ipc/window/window.router';
-import createWindowController from './ipc/window/window.controller';
+import createWindowController from './controllers/window.controller';
+import { createIpcRouter } from './utils/ipc';
 
 export type WindowProps = {
   storage: Storage<AppShape>,
@@ -32,8 +32,9 @@ export default (props: WindowProps) => {
     }
   });
 
-  const controller = createWindowController({ window });
-  const router = createWindowRouter(controller)(props.logger);
+  const router = createIpcRouter(createWindowController({
+    window
+  }))(props.logger);
 
   // Events
   window.once('ready-to-show', window.show);

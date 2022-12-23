@@ -11,10 +11,9 @@ import themeShape from '../types/shapes/theme.shape';
 import run from './lib/app';
 import Logger from './lib/logger';
 import Storage from './lib/storage';
-import createThemeController from './lib/ipc/theme/theme.controller';
-import createLibraryRouter from './lib/ipc/library/library.router';
-import createThemeRouter from './lib/ipc/theme/theme.router';
-import createLibraryController from './lib/ipc/library/library.controller';
+import createThemeController from './lib/controllers/theme.controller';
+import createLibraryController from './lib/controllers/library/library.controller';
+import { createIpcRouter } from './lib/utils/ipc';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -33,18 +32,10 @@ const ROOT = {
     electron.getPath('appData')
 } as const;
 
-const DIR = {
-  COVERS: path.resolve(ROOT.APP_DATA, 'covers'),
-  THUMBS: path.resolve(ROOT.APP_DATA, 'thumbs')
-} as const;
-
 if (isDev) {
   Object.values(ROOT)
     .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
 }
-
-Object.values(DIR)
-  .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
 
 const logger = new Logger({ root: ROOT.LOGS });
 const db = {
@@ -56,14 +47,14 @@ const storage = {
   theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA })
 };
 const router = {
-  library: createLibraryRouter(createLibraryController({
+  library: createIpcRouter(createLibraryController({
     db,
     root: {
       covers: DIR.COVERS,
       thumbs: DIR.THUMBS
     }
   }))(logger),
-  theme: createThemeRouter(createThemeController({
+  theme: createIpcRouter(createThemeController({
     storage: storage.theme
   }))(logger)
 };

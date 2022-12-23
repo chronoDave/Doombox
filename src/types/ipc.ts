@@ -12,7 +12,8 @@ export enum IpcChannel {
 }
 
 export enum IpcAction {
-  Scan = 'scan',
+  ScanQuick = 'scanQuick',
+  ScanFull = 'scanFull',
   Get = 'get',
   Set = 'set',
   Minimize = 'minimize',
@@ -54,7 +55,8 @@ export type IpcSendController = {
 export type IpcInvokeController = {
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>,
   [IpcChannel.Library]: {
-    [IpcAction.Scan]: (payload: string) => Promise<Doc<Song>[]>
+    [IpcAction.ScanQuick]: (payload: string) => Promise<Doc<Song>[]>,
+    [IpcAction.ScanFull]: (payload: string) => Promise<Doc<Song>[]>
   }
 };
 

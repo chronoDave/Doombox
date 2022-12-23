@@ -12,7 +12,8 @@ build({
   external: [
     'tape',
     'electron',
-    'jsdom'
+    'jsdom',
+    'sharp'
   ],
   plugins: [{
     name: 'ignore',

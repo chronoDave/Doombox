@@ -1,4 +1,4 @@
-import type { IpcEvent, IpcPayloadGet, IpcPayloadSet } from '../types/ipc';
+import type { IpcEvent } from '../types/ipc';
 import type { Shape } from '../types/primitives';
 
 import { IpcAction } from '../types/ipc';
@@ -24,12 +24,3 @@ export const isIpcEvent = (x: unknown): x is IpcEvent =>
   isObject(x) &&
   typeof x.action === 'string' &&
   Object.values<string>(IpcAction).includes(x.action);
-
-export const isIpcPayloadGet = <T extends Shape>(x: unknown): x is IpcPayloadGet<T> =>
-  isObject(x) &&
-  'key' in x;
-
-export const isIpcPayloadSet = <T extends Shape>(x: unknown): x is IpcPayloadSet<T> =>
-  isObject(x) &&
-  'key' in x &&
-  'value' in x;
