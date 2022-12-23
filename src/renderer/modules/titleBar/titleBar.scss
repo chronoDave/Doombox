@@ -31,6 +31,7 @@
     -webkit-app-region: drag;
     text-align: center;
     flex-grow: 1;
+    font-weight: 500;
 
     > span {
       position: absolute;
@@ -55,11 +56,6 @@
       @include utils.hover {
         fill: var(--text-normal);
         background-color: var(--hover);
-
-        &[aria-label='close'] {
-          fill: var(--text-error);
-          background-color: var(--error);
-        }
 
         &.close {
           fill: var(--text-error);

@@ -24,3 +24,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.text-header {
+  margin-bottom: 0.25rem;
+}
+
+.text-body + .text-body {
+  margin-top: 0.25rem;
+}

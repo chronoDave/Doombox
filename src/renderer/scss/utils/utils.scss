@@ -1,7 +1,11 @@
 @use 'sass:math';
 
 @function rem($size) {
-  @return #{calc($size / 16)}rem;
+  @return #{math.div($size, 16)}rem;
+}
+
+@function unit($x) {
+  @return #{$x * 8}px;
 }
 
 @mixin hover() {

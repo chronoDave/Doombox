@@ -1,0 +1,36 @@
+@use 'utils.scss';
+@use 'typography.scss';
+@use 'variables.scss' as v;
+
+.HomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: utils.unit(2);
+
+  > .text-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: utils.unit(1);
+    font-size: 1.5rem;
+
+    > .Icon {
+      display: none;
+      font-size: 4rem;
+      fill: var(--text-inactive);
+
+      @media (min-height: v.$h-sm) {
+        display: block;
+      }
+    }
+  }
+
+  > .Button {
+    margin-top: utils.unit(2);
+  }
+}

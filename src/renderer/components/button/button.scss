@@ -1,0 +1,26 @@
+@use 'utils.scss';
+@use 'variables.scss';
+
+.Button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: utils.unit(0.5);
+
+  &.filled {
+    background-color: var(--primary);
+    color: var(--text-primary);
+    padding: utils.unit(1) utils.unit(1.5);
+    border-radius: utils.unit(0.5);
+    transition: background-color variables.$transition-fast;
+
+    > .Icon {
+      fill: var(--text-primary);
+      margin-right: utils.unit(0.5);
+    }
+
+    @include utils.hover {
+      background-color: var(--primary-dark);
+    }
+  }
+}

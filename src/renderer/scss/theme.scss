@@ -1,5 +1,6 @@
 @media (prefers-color-scheme: dark) {
-  :root{
+  :root {
+    // colours
     --black: #040405;
     --white: #f6f6f7;
     --hover: #f6f6f71a;
@@ -11,18 +12,23 @@
     --grey500: #72767d;
     --grey600: #b9bbbe;
     --grey700: #dcddde;
+    --primary: #664d82;
+    --primary-dark: #533e6b;
     --error: #f04747;
+    // components
     --bg: var(--grey200);
     --popup: var(--grey300);
     --title-bar: var(--grey100);
     --text-normal: var(--grey700);
     --text-inactive: var(--grey500);
     --text-error: var(--white);
+    --text-primary: var(--white);
   }
 }
 
 @media (prefers-color-scheme: light) {
-  :root{
+  :root {
+    // colours
     --black: #060607;
     --white: #f8f9f9;
     --hover: #06060713;
@@ -34,12 +40,16 @@
     --grey500: #9099a4;
     --grey600: #c7ccd1;
     --grey700: #e3e5e8;
+    --primary: #664d82;
+    --primary-dark: #533e6b;
     --error: #f04747;
+    // components
     --bg: var(--white);
     --popup: var(--grey700);
     --title-bar: var(--grey700);
     --text-normal: var(--grey100);
     --text-inactive: var(--grey300);
     --text-error: var(--white);
+    --text-primary: var(--white);
   }
 }

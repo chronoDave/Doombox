@@ -77,5 +77,6 @@ export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.L
 
     await props.db.images.insert(images);
     return props.db.songs.insert(songs);
-  }
+  },
+  getSongs: () => props.db.songs.find({})
 });
