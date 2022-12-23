@@ -32,6 +32,11 @@ const ROOT = {
     electron.getPath('appData')
 } as const;
 
+const DIR = {
+  COVERS: path.resolve(ROOT.APP_DATA, 'covers'),
+  THUMBS: path.resolve(ROOT.APP_DATA, 'thumbs')
+} as const;
+
 if (isDev) {
   Object.values(ROOT)
     .forEach(dir => fs.mkdirSync(dir, { recursive: true }));

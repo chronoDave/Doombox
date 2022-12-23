@@ -6,8 +6,6 @@ import fs from 'fs';
 import path from 'path';
 import glob from 'fast-glob';
 
-import { fUnique } from '../../../../utils/array';
-
 import parse from './utils/parse';
 import { createCover, createThumb } from './utils/image';
 
