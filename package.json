@@ -13,7 +13,9 @@
     "node": ">=12.10.0"
   },
   "scripts": {
-    "lint": "eslint src test",
+    "lint:es": "eslint src test",
+    "lint:ts": "tsc --noEmit",
+    "lint": "npm run lint:ts && npm run lint:es",
     "start:webpack": "webpack --mode development -w",
     "start:electron": "nodemon --config .nodemon.json",
     "build:test": "node test/build.js",
@@ -36,7 +38,7 @@
     "css-loader": "^6.7.1",
     "electron": "^20.0.1",
     "electron-builder": "^23.1.0",
-    "esbuild": "^0.14.51",
+    "esbuild": "^0.16.10",
     "esbuild-loader": "^2.19.0",
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",

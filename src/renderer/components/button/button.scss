@@ -5,18 +5,18 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: utils.unit(0.5);
+  gap: 4px;
 
   &.filled {
     background-color: var(--primary);
     color: var(--text-primary);
-    padding: utils.unit(1) utils.unit(1.5);
-    border-radius: utils.unit(0.5);
+    padding: 8px 12px;
+    border-radius: 4px;
     transition: background-color variables.$transition-fast;
 
     > .Icon {
       fill: var(--text-primary);
-      margin-right: utils.unit(0.5);
+      margin-right: 4px;
     }
 
     @include utils.hover {

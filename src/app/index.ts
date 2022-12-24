@@ -13,6 +13,7 @@ import Logger from './lib/logger';
 import Storage from './lib/storage';
 import createThemeController from './lib/controllers/theme.controller';
 import createLibraryController from './lib/controllers/library/library.controller';
+import createAppController from './lib/controllers/app.controller';
 import { createIpcRouter } from './lib/utils/ipc';
 import { isDev } from './lib/utils/dev';
 
@@ -41,6 +42,9 @@ if (isDev) {
     .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
 }
 
+Object.values(DIR)
+  .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
+
 const logger = new Logger({ root: ROOT.LOGS });
 const db = {
   songs: new LeafDB<Song>({ storage: { root: ROOT.APP_DATA, name: 'songs' } }),
@@ -53,6 +57,7 @@ const storage = {
 const router = {
   library: createIpcRouter(createLibraryController({
     db,
+    storage,
     root: {
       covers: DIR.COVERS,
       thumbs: DIR.THUMBS
@@ -60,7 +65,8 @@ const router = {
   }))(logger),
   theme: createIpcRouter(createThemeController({
     storage: storage.theme
-  }))(logger)
+  }))(logger),
+  app: createIpcRouter(createAppController())(logger)
 };
 
 Object.values(db).forEach(x => x.open());

@@ -9,15 +9,16 @@
   justify-content: center;
   height: 100%;
   text-align: center;
-  padding: utils.unit(2);
+  padding: 16px;
 
   > .text-header {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: utils.unit(1);
+    gap: 8px;
     font-size: 1.5rem;
+    margin-bottom: 0.75rem;
 
     > .Icon {
       display: none;
@@ -31,6 +32,6 @@
   }
 
   > .Button {
-    margin-top: utils.unit(2);
+    margin-top: 16px;
   }
 }

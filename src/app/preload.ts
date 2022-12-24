@@ -16,16 +16,19 @@ const send = (
 const invoke = (
   channel: IpcChannel,
   action: IpcAction,
-  payload: unknown
+  payload?: unknown
 ) => {
   const event: IpcEvent = { action, payload };
   return ipcRenderer.invoke(channel, event);
 };
 
 const ipc: IpcApi = {
+  app: {
+    selectFolders: () => invoke(IpcChannel.App, IpcAction.SelectFolders)
+  },
   library: {
-    scanQuick: payload => invoke(IpcChannel.Library, IpcAction.ScanQuick, payload),
-    scanFull: payload => invoke(IpcChannel.Library, IpcAction.ScanFull, payload)
+    addFolders: payload => invoke(IpcChannel.Library, IpcAction.AddFolders, payload),
+    removeFolders: payload => invoke(IpcChannel.Library, IpcAction.RemoveFolders, payload)
   },
   window: {
     minimize: () => send(IpcChannel.Window, IpcAction.Minimize),

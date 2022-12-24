@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import produce from 'immer';
 
-import { debounce } from '../../utils/function';
 import { mergeShape, parseShape } from '../../utils/shape';
 import { isObject } from '../../utils/validation';
 
@@ -16,7 +15,6 @@ export type StorageProps<T> = {
 
 export default class Storage<T extends Shape> {
   private readonly _root: string;
-  private readonly _write: () => Promise<void>;
 
   protected readonly _file: string;
   protected _data: T;
@@ -33,8 +31,6 @@ export default class Storage<T extends Shape> {
     this._root = props.root;
     this._data = props.shape;
     this._file = path.join(this._root, `${props.name}.json`);
-
-    this._write = debounce(() => fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t')), 100);
 
     const json = this._read();
     if (json) this._data = mergeShape(this._data, json);
@@ -57,6 +53,6 @@ export default class Storage<T extends Shape> {
       }
     });
 
-    return this._write();
+    fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));
   }
 }

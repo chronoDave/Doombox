@@ -6,15 +6,16 @@ import type { Shape } from './primitives';
 export type IpcRouter = (_: unknown, ...args: unknown[]) => unknown;
 
 export enum IpcChannel {
+  App = 'app',
   Theme = 'theme',
   Window = 'window',
   Library = 'library'
 }
 
 export enum IpcAction {
-  GetSongs = 'getSongs',
-  ScanQuick = 'scanQuick',
-  ScanFull = 'scanFull',
+  SelectFolders = 'selectFolders',
+  AddFolders = 'addFolders',
+  RemoveFolders = 'removeFolders',
   Get = 'get',
   Set = 'set',
   Minimize = 'minimize',
@@ -54,11 +55,13 @@ export type IpcSendController = {
 
 /** Renderer to main (two-way) */
 export type IpcInvokeController = {
+  [IpcChannel.App]: {
+    [IpcAction.SelectFolders]: () => Promise<string[]>
+  }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>,
   [IpcChannel.Library]: {
-    [IpcAction.GetSongs]: () => Promise<Doc<Song>[]>,
-    [IpcAction.ScanQuick]: (payload: string) => Promise<Doc<Song>[]>,
-    [IpcAction.ScanFull]: (payload: string) => Promise<Doc<Song>[]>
+    [IpcAction.AddFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
+    [IpcAction.RemoveFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
   }
 };
 

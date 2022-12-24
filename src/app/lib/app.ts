@@ -23,6 +23,7 @@ export type AppProps = {
     theme: Storage<ThemeShape>
   },
   router: {
+    app: IpcRouter
     library: IpcRouter,
     theme: IpcRouter
   }
@@ -33,6 +34,7 @@ export default async (props: AppProps) => {
 
   await app.whenReady();
 
+  ipcMain.handle(IpcChannel.App, props.router.app);
   ipcMain.handle(IpcChannel.Theme, props.router.theme);
   ipcMain.handle(IpcChannel.Library, props.router.library);
 

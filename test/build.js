@@ -6,14 +6,35 @@ const glob = require('fast-glob');
 const outdir = path.resolve(__dirname, 'build');
 
 fs.rmSync(outdir, { force: true, recursive: true });
+
+// App
 build({
-  entryPoints: glob.sync('src/**/*.spec.{ts,tsx}', { cwd: __dirname, absolute: true }),
+  entryPoints: [
+    ...glob.sync('src/app/**/*.spec.{ts,tsx}', { cwd: __dirname, absolute: true }),
+    ...glob.sync('src/utils/**/*.spec.{ts,tsx}', { cwd: __dirname, absolute: true })
+  ],
   bundle: true,
   external: [
     'tape',
     'electron',
-    'jsdom',
     'sharp'
+  ],
+  define: {
+    'process.env.NODE_ENV': '"development"'
+  },
+  legalComments: 'none',
+  platform: 'node',
+  outdir,
+  outbase: 'test/src'
+});
+
+// Renderer
+build({
+  entryPoints: glob.sync('src/renderer/**/*.spec.{ts,tsx}', { cwd: __dirname, absolute: true }),
+  bundle: true,
+  external: [
+    'tape',
+    'jsdom'
   ],
   plugins: [{
     name: 'ignore',

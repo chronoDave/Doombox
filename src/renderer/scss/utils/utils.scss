@@ -4,10 +4,6 @@
   @return #{math.div($size, 16)}rem;
 }
 
-@function unit($x) {
-  @return #{$x * 8}px;
-}
-
 @mixin hover() {
   @media (hover: hover) {
     &:not([disabled]):hover {

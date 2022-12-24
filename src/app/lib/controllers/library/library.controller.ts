@@ -1,15 +1,21 @@
 import type LeafDB from 'leaf-db';
 import type { Image, Song } from '../../../../types/library';
 import type { IpcChannel, IpcInvokeController } from '../../../../types/ipc';
+import type Storage from '../../storage';
+import type { AppShape } from '../../../../types/shapes/app.shape';
 
-import fs from 'fs';
 import path from 'path';
 import glob from 'fast-glob';
+
+import { mergeUnique } from '../../../../utils/array';
 
 import parse from './utils/parse';
 import { createCover, createThumb } from './utils/image';
 
 export type LibraryControllerProps = {
+  storage: {
+    app: Storage<AppShape>
+  }
   root: {
     covers: string,
     thumbs: string
@@ -21,62 +27,49 @@ export type LibraryControllerProps = {
 };
 
 export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.Library] => ({
-  /**
-   * 1) Search new files in folder
-   * 2) Find stale files in database
-   * 3) Delete stale images from folder
-   * 4) Delete stale data from database
-   * 5) Parse metadata in folder
-   * 6) Create images
-   * 7) Insert data into database
-   */
-  scanQuick: async payload => {
-    const files = glob.sync('**/*.mp3', { cwd: payload, absolute: true });
-    const newSongs = await props.db.songs.find({});
+  addFolders: async payload => {
+    const settings = props.storage.app.get('library');
+    const songs = await props.db.songs.find({});
+    const folders = mergeUnique(payload, settings.folders);
 
-    const fresh = files.filter(file => !newSongs.some(song => song.file === file));
-    const stale = newSongs.filter(song => !files.includes(song.file));
-    props.db.songs.delete(stale.map(song => song._id));
+    if (folders.length === settings.folders.length) return Promise.resolve(songs);
 
-    const { songs, pictures } = await parse(fresh);
+    props.storage.app.set('library', { folders });
 
-    await Promise.all(Array.from(pictures).map(async ([, { _id, raw }]) => {
+    const files = await Promise.all(folders
+      .map(cwd => glob('**/*.mp3', { cwd, absolute: true })))
+      .then(x => x.flat());
+
+    const fresh = files.filter(x => songs.every(({ file }) => file !== x));
+    const stale = songs.reduce<string[]>((acc, song) => {
+      if (!files.includes(song.file)) acc.push(song._id);
+      return acc;
+    }, []);
+
+    props.db.songs.delete(stale);
+
+    const metadata = await parse(fresh);
+    await Promise.all(Array.from(metadata.pictures).map(async ([, { _id, raw }]) => {
       await createCover(raw, path.resolve(props.root.covers, `${_id}.jpg`));
       await createThumb(raw, path.resolve(props.root.thumbs, `${_id}.jpg`));
     }));
 
-    const images: Image[] = Array.from(pictures, ([, { _id }]) => ({ _id }));
-
+    const images: Image[] = Array.from(metadata.pictures, ([, { _id }]) => ({ _id }));
     await props.db.images.insert(images);
-    return props.db.songs.insert(songs);
+    return props.db.songs.insert(metadata.songs);
   },
-  /**
-   * 1) Clear images
-   * 2) Flush database
-   * 3) Parse all metadata in folder
-   * 4) Create images
-   * 5) Insert data into database
-   */
-  scanFull: async payload => {
-    fs.rmSync(props.root.covers, { recursive: true, force: true });
-    fs.rmSync(props.root.thumbs, { recursive: true, force: true });
-    fs.mkdirSync(props.root.covers, { recursive: true });
-    fs.mkdirSync(props.root.thumbs, { recursive: true });
-    props.db.images.drop();
-    props.db.songs.drop();
+  removeFolders: async payload => {
+    if (payload.length === 0) return props.db.songs.find({});
 
-    const files = glob.sync('**/*.mp3', { cwd: payload, absolute: true });
-    const { songs, pictures } = await parse(files);
+    const settings = props.storage.app.get('library');
+    const folders = settings.folders.filter(x => !payload.includes(x));
+    props.storage.app.set('library', { folders });
 
-    await Promise.all(Array.from(pictures).map(async ([, { _id, raw }]) => {
-      await createCover(raw, path.resolve(props.root.covers, `${_id}.jpg`));
-      await createThumb(raw, path.resolve(props.root.thumbs, `${_id}.jpg`));
-    }));
+    const files = await Promise.all(payload
+      .map(cwd => glob('**/*.mp3', { cwd, absolute: true })))
+      .then(x => x.flat());
 
-    const images: Image[] = Array.from(pictures, ([, { _id }]) => ({ _id }));
-
-    await props.db.images.insert(images);
-    return props.db.songs.insert(songs);
-  },
-  getSongs: () => props.db.songs.find({})
+    await Promise.all(files.map(file => props.db.songs.deleteOne({ file })));
+    return props.db.songs.find({});
+  }
 });

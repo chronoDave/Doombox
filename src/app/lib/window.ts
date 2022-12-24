@@ -6,6 +6,7 @@ import path from 'path';
 import { BrowserWindow, ipcMain } from 'electron';
 
 import { IpcChannel } from '../../types/ipc';
+import { debounce } from '../../utils/function';
 
 import createWindowController from './controllers/window.controller';
 import { createIpcRouter } from './utils/ipc';
@@ -36,16 +37,16 @@ export default (props: WindowProps) => {
   const router = createIpcRouter(createWindowController({
     window
   }))(props.logger);
-
-  // Events
-  window.once('ready-to-show', window.show);
-  window.on('resize', () => props.storage.set('window', window.getBounds()));
-  window.on('move', () => {
+  const handleResize = debounce(() => props.storage.set('window', window.getBounds()), 100);
+  const handleMove = debounce(() => {
     const [x, y] = window.getPosition();
     props.storage.set('window', { x, y });
-  });
+  }, 100);
 
-  // Ipc
+  window.once('ready-to-show', window.show);
+  window.on('resize', handleResize);
+  window.on('move', handleMove);
+
   ipcMain.on(IpcChannel.Window, router);
 
   window.loadFile('renderer/index.html');

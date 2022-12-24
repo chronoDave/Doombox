@@ -3,8 +3,8 @@ import test from 'tape';
 import { isIpcEvent } from '../../../../src/utils/validation';
 
 test('[validation.isIpcEvent] should return true if ipcEvent', t => {
-  t.true(isIpcEvent({ action: 'Get', payload: {} }), 'ipcEvent');
-  t.true(isIpcEvent({ action: 'Get' }), 'empty payload');
+  t.true(isIpcEvent({ action: 'get', payload: {} }), 'ipcEvent');
+  t.true(isIpcEvent({ action: 'get' }), 'empty payload');
 
   t.end();
 });
