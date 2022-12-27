@@ -1,13 +1,14 @@
 import type { UserShape } from '../../../types/shapes/user.shape';
 
 import { getUser } from '../../ipc/user';
+import createSlice from '../../utils/createSlice';
 
-export type UserSlice = {
+export type UserState = {
   shape: UserShape
 };
 
-export default (slice: UserSlice) => ({
+export default (state: UserState) => createSlice({
   fetchUser: async () => {
-    slice.shape = await getUser();
+    state.shape = await getUser();
   }
-});
+}, 'user');

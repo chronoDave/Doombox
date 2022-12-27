@@ -1,36 +1,37 @@
-export default class EventEmitter {
-  private readonly _listeners: Record<string, Function[]>;
+export default class EventEmitter<T extends string> {
+  private readonly _listeners: Map<T, Function[]>;
 
   constructor() {
-    this._listeners = {};
+    this._listeners = new Map();
   }
 
-  on(event: string, cb: Function) {
-    if (!Array.isArray(this._listeners[event])) this._listeners[event] = [];
-    this._listeners[event].push(cb);
+  on<K>(event: T, cb: (payload?: K) => void) {
+    if (!this._listeners.has(event)) this._listeners.set(event, []);
+    this._listeners.get(event)?.push(cb);
   }
 
-  once(event: string, cb: Function) {
-    const wrapper = () => {
-      cb();
+  once<K>(event: T, cb: (payload?: K) => void) {
+    const wrapper = (payload?: K) => {
+      cb(payload);
       this.remove(event, wrapper);
     };
 
     this.on(event, wrapper);
   }
 
-  emit(event: string) {
-    this._listeners[event]?.forEach(listener => listener());
+  emit(event: T, payload?: unknown) {
+    this._listeners.get(event)?.forEach(listener => listener(payload));
   }
 
-  remove(event: string, cb: Function) {
-    if (!Array.isArray(this._listeners[event])) return;
+  remove(event: T, cb: Function) {
+    const listeners = this._listeners.get(event);
 
-    const i = this._listeners[event].findIndex(listener => listener === cb);
-    if (i >= 0) this._listeners[event].splice(i, 1);
+    if (!listeners) return;
+    const i = listeners.findIndex(listener => listener === cb);
+    if (i >= 0) listeners.splice(i, 1);
   }
 
-  destroy(event: string) {
-    this._listeners[event] = [];
+  destroy(event: T) {
+    this._listeners.set(event, []);
   }
 }

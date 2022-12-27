@@ -24,7 +24,7 @@ export const TitleBar: Component<TitleBarProps> = () => {
             src="icons/icon_light.png"
             alt='Doombox app icon'
           />
-          <nav aria-label='app'>
+          {/* <nav aria-label='app'>
             <Menu
               id='app'
               items={[{
@@ -35,7 +35,7 @@ export const TitleBar: Component<TitleBarProps> = () => {
             >
               <Icon id='menu' />
             </Menu>
-          </nav>
+          </nav> */}
           <span class="title">Doombox</span>
           <nav aria-label='window'>
             <button

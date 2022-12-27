@@ -1,15 +1,17 @@
-export type AppSlice = {
-  ready: boolean
-  library: {
-    isEmpty: boolean
-  }
+import createSlice from '../../utils/createSlice';
+
+export type AppView = 'album';
+
+export type AppState = {
+  ready: boolean,
+  view: AppView,
 };
 
-export default (slice: AppSlice) => ({
+export default (state: AppState) => createSlice({
   setReady: (ready: boolean) => {
-    slice.ready = ready;
+    state.ready = ready;
   },
-  setLibraryEmpty: (empty: boolean) => {
-    slice.library.isEmpty = empty;
+  setView: (view: AppView) => {
+    state.view = view;
   }
-});
+}, 'app');

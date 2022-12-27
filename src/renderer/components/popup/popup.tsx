@@ -17,9 +17,9 @@ export type PopupProps = {
 
 const Popup: Component<PopupProps> = () => new forgo.Component({
   render(props) {
-    const lutAxis: Record<Axis, number> = { start: 0, center: 50, end: 100 };
-    const x = lutAxis[props.align.x];
-    const y = lutAxis[props.align.y];
+    const axis: Record<Axis, number> = { start: 0, center: 50, end: 100 };
+    const x = axis[props.align.x];
+    const y = axis[props.align.y];
 
     return (
       <div
@@ -38,7 +38,7 @@ const Popup: Component<PopupProps> = () => new forgo.Component({
 
 export const createPopup = (
   anchor: HTMLElement,
-  element: forgo.ForgoComponentCtor,
+  children: forgo.ForgoComponentCtor,
   props?: Partial<PopupProps>
 ) => {
   const align = {
@@ -46,5 +46,5 @@ export const createPopup = (
     y: props?.align?.y ?? 'start'
   };
 
-  return portal(anchor, <Popup align={align}>{element}</Popup>);
+  return portal(anchor, () => <Popup align={align}>{children}</Popup>);
 };

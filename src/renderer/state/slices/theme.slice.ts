@@ -1,16 +1,17 @@
 import type { ThemeShape } from '../../../types/shapes/theme.shape';
 
 import { getTheme, setTheme } from '../../ipc/theme';
+import createSlice from '../../utils/createSlice';
 
-export type ThemeSlice = {
+export type ThemeState = {
   shape: ThemeShape
 };
 
-export default (slice: ThemeSlice) => ({
+export default (state: ThemeState) => createSlice({
   fetchTheme: async () => {
-    slice.shape = await getTheme();
+    state.shape = await getTheme();
   },
   setThemeType: async (type: ThemeShape['theme']) => {
-    slice.shape.theme = await setTheme('theme', type);
+    state.shape.theme = await setTheme('theme', type);
   }
-});
+}, 'theme');

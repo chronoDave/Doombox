@@ -1,33 +1,42 @@
-import type { LibrarySlice } from './slices/library.slice';
-import type { ThemeSlice } from './slices/theme.slice';
-import type { AppSlice } from './slices/app.slice';
-import type { UserSlice } from './slices/user.slice';
+import type { LibraryState } from './slices/library.slice';
+import type { ThemeState } from './slices/theme.slice';
+import type { AppState } from './slices/app.slice';
+import type { UserState } from './slices/user.slice';
+import type { SettingsState } from './slices/settings.slice';
 
 import createCollection from '../utils/createCollection';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 import { IS_DEV } from '../../utils/const';
+import EventEmitter from '../../utils/eventEmitter';
 
 import appActions from './slices/app.slice';
 import userActions from './slices/user.slice';
 import themeActions from './slices/theme.slice';
 import libraryActions from './slices/library.slice';
+import settingsActions from './slices/settings.slice';
 
 export type State = {
-  app: Readonly<AppSlice>
-  library: Readonly<LibrarySlice>
-  user: Readonly<UserSlice>
-  theme: Readonly<ThemeSlice>
+  app: Readonly<AppState>
+  settings: Readonly<SettingsState>
+  library: Readonly<LibraryState>
+  user: Readonly<UserState>
+  theme: Readonly<ThemeState>
 };
+
+export const emitter = new EventEmitter();
 
 const state: State = {
   app: {
     ready: false,
-    library: {
-      isEmpty: true
-    }
+    view: 'album'
+  },
+  settings: {
+    open: true,
+    view: 'general'
   },
   library: {
+    empty: true,
     song: createCollection([])
   },
   user: {
@@ -38,30 +47,25 @@ const state: State = {
   }
 };
 
-const actions = {
-  app: appActions(state.app),
-  library: libraryActions(state.library),
-  user: userActions(state.user),
-  theme: themeActions(state.theme)
+export const {
+  app,
+  settings,
+  library,
+  user,
+  theme
+} = state;
+
+export const actions = {
+  app: appActions(state.app)(emitter),
+  library: libraryActions(state.library)(emitter),
+  user: userActions(state.user)(emitter),
+  theme: themeActions(state.theme)(emitter),
+  settings: settingsActions(state.settings)(emitter)
 };
 
 if (IS_DEV) {
   // @ts-ignore
   window.actions = actions;
+  // @ts-ignore
+  window.state = state;
 }
-
-export const init = async () => {
-  await Promise.all([
-    actions.library.fetchSongs(),
-    actions.theme.fetchTheme(),
-    actions.user.fetchUser()
-  ]);
-
-  if (state.user.shape.library.folders.length === 0) {
-    actions.app.setLibraryEmpty(true);
-  }
-
-  actions.app.setReady(true);
-};
-
-export default state;

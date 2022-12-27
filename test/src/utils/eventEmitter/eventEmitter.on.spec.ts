@@ -10,9 +10,9 @@ test('[eventEmitter.on] creates event listener', t => {
   emiter.on(event, fn);
 
   // @ts-ignore
-  t.true(Array.isArray(emiter._listeners[event]), 'creates event list');
+  t.true(Array.isArray(emiter._listeners.get(event)), 'creates event list');
   // @ts-ignore
-  t.true(emiter._listeners[event].includes(fn));
+  t.true(emiter._listeners.get(event).includes(fn));
 
   t.end();
 });
