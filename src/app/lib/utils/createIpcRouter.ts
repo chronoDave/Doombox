@@ -3,7 +3,7 @@ import type Logger from '../logger';
 
 import { isIpcEvent } from '../../../utils/validation';
 
-export const createIpcRouter = (controller: { [key in IpcAction]?: Function }) =>
+export default (controller: { [key in IpcAction]?: Function }) =>
   (logger: Logger) =>
     (_: unknown, ...args: unknown[]) => {
       if (!isIpcEvent(args[0])) {

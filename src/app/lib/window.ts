@@ -7,10 +7,10 @@ import { BrowserWindow, ipcMain } from 'electron';
 
 import { IpcChannel } from '../../types/ipc';
 import { debounce } from '../../utils/function';
+import { IS_DEV } from '../../utils/const';
 
 import createWindowController from './controllers/window.controller';
-import { createIpcRouter } from './utils/ipc';
-import { isDev } from './utils/dev';
+import createIpcRouter from './utils/createIpcRouter';
 
 export type WindowProps = {
   storage: Storage<AppShape>,
@@ -22,8 +22,8 @@ export default (props: WindowProps) => {
     ...props.storage.get('window'),
     title: 'Doombox',
     icon: process.platform === 'win32' ?
-      path.resolve(__dirname, isDev ? 'assets/dev.ico' : 'assets/app.ico') :
-      path.resolve(__dirname, isDev ? 'assets/dev.png' : 'assets/app.png'),
+      path.resolve(__dirname, IS_DEV ? 'assets/dev.ico' : 'assets/app.ico') :
+      path.resolve(__dirname, IS_DEV ? 'assets/dev.png' : 'assets/app.png'),
     minWidth: 320,
     minHeight: 240,
     frame: process.platform === 'darwin',
@@ -50,7 +50,7 @@ export default (props: WindowProps) => {
   ipcMain.on(IpcChannel.Window, router);
 
   window.loadFile('renderer/index.html');
-  if (isDev) {
+  if (IS_DEV) {
     // eslint-disable-next-line global-require
     require('chokidar')
       .watch(`${__dirname}/renderer/**/*`)

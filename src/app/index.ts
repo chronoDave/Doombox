@@ -7,6 +7,7 @@ import LeafDB from 'leaf-db';
 
 import appShape from '../types/shapes/app.shape';
 import themeShape from '../types/shapes/theme.shape';
+import { IS_DEV } from '../utils/const';
 
 import run from './lib/app';
 import Logger from './lib/logger';
@@ -14,20 +15,19 @@ import Storage from './lib/storage';
 import createThemeController from './lib/controllers/theme.controller';
 import createLibraryController from './lib/controllers/library/library.controller';
 import createAppController from './lib/controllers/app.controller';
-import { createIpcRouter } from './lib/utils/ipc';
-import { isDev } from './lib/utils/dev';
+import createIpcRouter from './lib/utils/createIpcRouter';
 
 const ROOT = {
-  USER_DATA: isDev ?
+  USER_DATA: IS_DEV ?
     path.resolve(__dirname, '../data/userData') :
     electron.getPath('userData'),
-  ASSETS: isDev ?
+  ASSETS: IS_DEV ?
     path.resolve(__dirname, '../build/assets') :
     path.resolve(electron.getAppPath(), 'assets'),
-  LOGS: isDev ?
+  LOGS: IS_DEV ?
     path.resolve(__dirname, '../data/logs') :
     electron.getPath('logs'),
-  APP_DATA: isDev ?
+  APP_DATA: IS_DEV ?
     path.resolve(__dirname, '../data/appData') :
     electron.getPath('appData')
 } as const;
@@ -37,7 +37,7 @@ const DIR = {
   THUMBS: path.resolve(ROOT.APP_DATA, 'thumbs')
 } as const;
 
-if (isDev) {
+if (IS_DEV) {
   Object.values(ROOT)
     .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
 }
