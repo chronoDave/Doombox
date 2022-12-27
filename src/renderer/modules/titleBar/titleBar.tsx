@@ -36,7 +36,7 @@ export const TitleBar: Component<TitleBarProps> = () => {
               <Icon id='menu' />
             </Menu>
           </nav>
-          <h1>Doombox</h1>
+          <span class="title">Doombox</span>
           <nav aria-label='window'>
             <button
               type='button'

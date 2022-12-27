@@ -6,6 +6,7 @@ import type { UserSlice } from './slices/user.slice';
 import createCollection from '../utils/createCollection';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
+import { IS_DEV } from '../../utils/const';
 
 import appActions from './slices/app.slice';
 import userActions from './slices/user.slice';
@@ -44,16 +45,23 @@ const actions = {
   theme: themeActions(state.theme)
 };
 
+if (IS_DEV) {
+  // @ts-ignore
+  window.actions = actions;
+}
+
 export const init = async () => {
-  await actions.library.fetchSongs();
-  await actions.theme.fetchTheme();
-  await actions.user.fetchUser();
+  await Promise.all([
+    actions.library.fetchSongs(),
+    actions.theme.fetchTheme(),
+    actions.user.fetchUser()
+  ]);
 
   if (state.user.shape.library.folders.length === 0) {
     actions.app.setLibraryEmpty(true);
   }
 
-  // actions.app.setReady(true);
+  actions.app.setReady(true);
 };
 
 export default state;

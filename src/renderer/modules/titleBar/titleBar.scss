@@ -25,20 +25,12 @@
     }
   }
 
-  > h1 {
+  > .title {
     @include typography.normal;
     @include typography.nowrap;
     -webkit-app-region: drag;
     text-align: center;
     flex-grow: 1;
-    font-weight: 500;
-
-    > span {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
   }
 
   > nav {
