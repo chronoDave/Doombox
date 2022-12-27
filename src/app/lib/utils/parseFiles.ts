@@ -1,8 +1,8 @@
-import type { Song } from '../../../../../types/library';
+import type { Song } from '../../../types/library';
 
 import { parseFile } from 'music-metadata';
 
-import { generateId } from '../../../../../utils/string';
+import { generateId } from '../../../utils/string';
 
 export default async (files: string[]) => {
   const data = await Promise.all(files.map(async file => {

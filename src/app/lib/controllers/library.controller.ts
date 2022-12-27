@@ -1,16 +1,16 @@
 import type LeafDB from 'leaf-db';
-import type { Image, Song } from '../../../../types/library';
-import type { IpcChannel, IpcInvokeController } from '../../../../types/ipc';
-import type Storage from '../../storage';
-import type { AppShape } from '../../../../types/shapes/app.shape';
+import type { Image, Song } from '../../../types/library';
+import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
+import type Storage from '../storage';
+import type { AppShape } from '../../../types/shapes/app.shape';
 
 import path from 'path';
 import glob from 'fast-glob';
 
-import { mergeUnique } from '../../../../utils/array';
-
-import parse from './utils/parse';
-import { createCover, createThumb } from './utils/image';
+import { mergeUnique } from '../../../utils/array';
+import parseFiles from '../utils/parseFiles';
+import createImageCover from '../utils/createImageCover';
+import createImageThumb from '../utils/createImageThumb';
 
 export type LibraryControllerProps = {
   storage: {
@@ -49,10 +49,10 @@ export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.L
 
     props.db.songs.delete(stale);
 
-    const metadata = await parse(fresh);
+    const metadata = await parseFiles(fresh);
     await Promise.all(Array.from(metadata.pictures).map(async ([, { _id, raw }]) => {
-      await createCover(raw, path.resolve(props.root.covers, `${_id}.jpg`));
-      await createThumb(raw, path.resolve(props.root.thumbs, `${_id}.jpg`));
+      await createImageCover(raw, path.resolve(props.root.covers, `${_id}.jpg`));
+      await createImageThumb(raw, path.resolve(props.root.thumbs, `${_id}.jpg`));
     }));
 
     const images: Image[] = Array.from(metadata.pictures, ([, { _id }]) => ({ _id }));

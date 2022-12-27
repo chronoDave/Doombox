@@ -6,7 +6,7 @@ import fs from 'fs';
 import LeafDB from 'leaf-db';
 
 import Storage from '../../../../../src/app/lib/storage';
-import libraryController from '../../../../../src/app/lib/controllers/library/library.controller';
+import libraryController from '../../../../../src/app/lib/controllers/library.controller';
 import appShape from '../../../../../src/types/shapes/app.shape';
 
 export default () => {

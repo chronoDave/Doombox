@@ -13,7 +13,7 @@ import run from './lib/app';
 import Logger from './lib/logger';
 import Storage from './lib/storage';
 import createThemeController from './lib/controllers/theme.controller';
-import createLibraryController from './lib/controllers/library/library.controller';
+import createLibraryController from './lib/controllers/library.controller';
 import createAppController from './lib/controllers/app.controller';
 import createIpcRouter from './lib/utils/createIpcRouter';
 
