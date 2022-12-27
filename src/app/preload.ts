@@ -28,7 +28,8 @@ const ipc: IpcApi = {
   },
   library: {
     addFolders: payload => invoke(IpcChannel.Library, IpcAction.AddFolders, payload),
-    removeFolders: payload => invoke(IpcChannel.Library, IpcAction.RemoveFolders, payload)
+    removeFolders: payload => invoke(IpcChannel.Library, IpcAction.RemoveFolders, payload),
+    getSongs: () => invoke(IpcChannel.Library, IpcAction.GetSongs)
   },
   window: {
     minimize: () => send(IpcChannel.Window, IpcAction.Minimize),

@@ -1,5 +1,4 @@
-export type Rect = { width: number, height: number };
-export type Point = { x: number, y: number };
+import type { Doc } from 'leaf-db';
 
 export type Json =
   string |
@@ -10,3 +9,8 @@ export type Json =
   { [key: string]: Json };
 
 export type Shape = { [key: string]: Json };
+
+export type Collection<T extends Doc<{}>> = {
+  set: Set<T>
+  map: Map<string, T>
+};

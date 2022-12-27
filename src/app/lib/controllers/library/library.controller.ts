@@ -27,6 +27,7 @@ export type LibraryControllerProps = {
 };
 
 export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.Library] => ({
+  getSongs: () => props.db.songs.find({}),
   addFolders: async payload => {
     const settings = props.storage.app.get('library');
     const songs = await props.db.songs.find({});

@@ -16,6 +16,7 @@ export enum IpcAction {
   SelectFolders = 'selectFolders',
   AddFolders = 'addFolders',
   RemoveFolders = 'removeFolders',
+  GetSongs = 'getSongs',
   Get = 'get',
   Set = 'set',
   Minimize = 'minimize',
@@ -62,6 +63,7 @@ export type IpcInvokeController = {
   [IpcChannel.Library]: {
     [IpcAction.AddFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
     [IpcAction.RemoveFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
+    [IpcAction.GetSongs]: () => Promise<Doc<Song>[]>
   }
 };
 
