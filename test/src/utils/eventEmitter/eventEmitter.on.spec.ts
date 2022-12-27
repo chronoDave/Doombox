@@ -1,0 +1,33 @@
+import test from 'tape';
+
+import EventEmitter from '../../../../src/utils/eventEmitter';
+
+test('[eventEmitter.on] creates event listener', t => {
+  const emiter = new EventEmitter();
+
+  const fn = () => {};
+  const event = 'test';
+  emiter.on(event, fn);
+
+  // @ts-ignore
+  t.true(Array.isArray(emiter._listeners[event]), 'creates event list');
+  // @ts-ignore
+  t.true(emiter._listeners[event].includes(fn));
+
+  t.end();
+});
+
+test('[eventEmitter.on] fires when event is emitted', t => {
+  const emiter = new EventEmitter();
+
+  let n = 0;
+  const fn = () => { n += 1; };
+  const event = 'test';
+  emiter.on(event, fn);
+  emiter.emit(event);
+  emiter.emit(event);
+
+  t.equal(n, 2, 'fires event');
+
+  t.end();
+});
