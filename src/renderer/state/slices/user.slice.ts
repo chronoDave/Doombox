@@ -6,6 +6,8 @@ export type UserSlice = {
   shape: UserShape
 };
 
-export const fetchUser = async (slice: UserSlice) => {
-  slice.shape = await getUser();
-};
+export default (slice: UserSlice) => ({
+  fetchUser: async () => {
+    slice.shape = await getUser();
+  }
+});

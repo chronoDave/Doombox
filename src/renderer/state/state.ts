@@ -7,18 +7,16 @@ import createCollection from '../utils/createCollection';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 
-import { setLibraryEmpty, setReady } from './slices/app.slice';
-import { fetchUser } from './slices/user.slice';
-import { fetchTheme } from './slices/theme.slice';
-import { fetchSongs } from './slices/library.slice';
+import appActions from './slices/app.slice';
+import userActions from './slices/user.slice';
+import themeActions from './slices/theme.slice';
+import libraryActions from './slices/library.slice';
 
 export type State = {
   app: Readonly<AppSlice>
   library: Readonly<LibrarySlice>
-  config: {
-    user: Readonly<UserSlice>
-    theme: Readonly<ThemeSlice>
-  }
+  user: Readonly<UserSlice>
+  theme: Readonly<ThemeSlice>
 };
 
 const state: State = {
@@ -31,26 +29,31 @@ const state: State = {
   library: {
     song: createCollection([])
   },
-  config: {
-    user: {
-      shape: userShape
-    },
-    theme: {
-      shape: themeShape
-    }
+  user: {
+    shape: userShape
+  },
+  theme: {
+    shape: themeShape
   }
 };
 
-export const init = async () => {
-  await fetchSongs(state.library);
-  await fetchTheme(state.config.theme);
-  await fetchUser(state.config.user);
+const actions = {
+  app: appActions(state.app),
+  library: libraryActions(state.library),
+  user: userActions(state.user),
+  theme: themeActions(state.theme)
+};
 
-  if (state.config.user.shape.library.folders.length === 0) {
-    setLibraryEmpty(state.app, true);
+export const init = async () => {
+  await actions.library.fetchSongs();
+  await actions.theme.fetchTheme();
+  await actions.user.fetchUser();
+
+  if (state.user.shape.library.folders.length === 0) {
+    actions.app.setLibraryEmpty(true);
   }
 
-  setReady(state.app, true);
+  // actions.app.setReady(true);
 };
 
 export default state;

@@ -5,10 +5,11 @@ export type AppSlice = {
   }
 };
 
-export const setReady = (slice: AppSlice, ready: boolean) => {
-  slice.ready = ready;
-};
-
-export const setLibraryEmpty = (slice: AppSlice, empty: boolean) => {
-  slice.library.isEmpty = empty;
-};
+export default (slice: AppSlice) => ({
+  setReady: (ready: boolean) => {
+    slice.ready = ready;
+  },
+  setLibraryEmpty: (empty: boolean) => {
+    slice.library.isEmpty = empty;
+  }
+});

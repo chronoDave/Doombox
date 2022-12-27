@@ -1,11 +1,16 @@
 import type { ThemeShape } from '../../../types/shapes/theme.shape';
 
-import { getTheme } from '../../ipc/theme';
+import { getTheme, setTheme } from '../../ipc/theme';
 
 export type ThemeSlice = {
   shape: ThemeShape
 };
 
-export const fetchTheme = async (slice: ThemeSlice) => {
-  slice.shape = await getTheme();
-};
+export default (slice: ThemeSlice) => ({
+  fetchTheme: async () => {
+    slice.shape = await getTheme();
+  },
+  setThemeType: async (type: ThemeShape['theme']) => {
+    slice.shape.theme = await setTheme('theme', type);
+  }
+});

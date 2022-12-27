@@ -8,7 +8,9 @@ export type LibrarySlice = {
   song: Collection<Song>
 };
 
-export const fetchSongs = async (slice: LibrarySlice) => {
-  const songs = await getSongs();
-  slice.song = createCollection(songs);
-};
+export default (slice: LibrarySlice) => ({
+  fetchSongs: async () => {
+    const songs = await getSongs();
+    slice.song = createCollection(songs);
+  }
+});
