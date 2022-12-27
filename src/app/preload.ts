@@ -36,7 +36,13 @@ const ipc: IpcApi = {
     maximize: () => send(IpcChannel.Window, IpcAction.Maximize),
     close: () => send(IpcChannel.Window, IpcAction.Close)
   },
+  user: {
+    all: () => invoke(IpcChannel.User, IpcAction.All),
+    get: payload => invoke(IpcChannel.User, IpcAction.Get, payload),
+    set: payload => invoke(IpcChannel.User, IpcAction.Set, payload)
+  },
   theme: {
+    all: () => invoke(IpcChannel.Theme, IpcAction.All),
     get: payload => invoke(IpcChannel.Theme, IpcAction.Get, payload),
     set: payload => invoke(IpcChannel.Theme, IpcAction.Set, payload)
   }

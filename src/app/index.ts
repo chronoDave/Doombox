@@ -8,11 +8,13 @@ import LeafDB from 'leaf-db';
 import appShape from '../types/shapes/app.shape';
 import themeShape from '../types/shapes/theme.shape';
 import { IS_DEV } from '../utils/const';
+import userShape from '../types/shapes/user.shape';
 
 import run from './lib/app';
 import Logger from './lib/logger';
 import Storage from './lib/storage';
 import createThemeController from './lib/controllers/theme.controller';
+import createUserController from './lib/controllers/user.controller';
 import createLibraryController from './lib/controllers/library.controller';
 import createAppController from './lib/controllers/app.controller';
 import createIpcRouter from './lib/utils/createIpcRouter';
@@ -51,8 +53,9 @@ const db = {
   images: new LeafDB<Image>({ storage: { root: ROOT.APP_DATA, name: 'images' } })
 };
 const storage = {
-  app: new Storage({ name: 'app', shape: appShape, root: ROOT.USER_DATA }),
-  theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA })
+  app: new Storage({ name: 'app', shape: appShape, root: ROOT.APP_DATA }),
+  theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA }),
+  user: new Storage({ name: 'user', shape: userShape, root: ROOT.USER_DATA })
 };
 const router = {
   library: createIpcRouter(createLibraryController({
@@ -62,6 +65,9 @@ const router = {
       covers: DIR.COVERS,
       thumbs: DIR.THUMBS
     }
+  }))(logger),
+  user: createIpcRouter(createUserController({
+    storage: storage.user
   }))(logger),
   theme: createIpcRouter(createThemeController({
     storage: storage.theme

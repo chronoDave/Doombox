@@ -5,6 +5,7 @@ import type { AppShape } from '../../types/shapes/app.shape';
 import type Logger from './logger';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { IpcRouter } from '../../types/ipc';
+import type { UserShape } from '../../types/shapes/user.shape';
 
 import { app, ipcMain, nativeTheme } from 'electron';
 
@@ -20,12 +21,14 @@ export type AppProps = {
   }
   storage: {
     app: Storage<AppShape>
-    theme: Storage<ThemeShape>
+    theme: Storage<ThemeShape>,
+    user: Storage<UserShape>
   },
   router: {
     app: IpcRouter
     library: IpcRouter,
-    theme: IpcRouter
+    theme: IpcRouter,
+    user: IpcRouter
   }
 };
 
@@ -35,6 +38,7 @@ export default async (props: AppProps) => {
   await app.whenReady();
 
   ipcMain.handle(IpcChannel.App, props.router.app);
+  ipcMain.handle(IpcChannel.User, props.router.user);
   ipcMain.handle(IpcChannel.Theme, props.router.theme);
   ipcMain.handle(IpcChannel.Library, props.router.library);
 

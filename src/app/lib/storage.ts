@@ -55,4 +55,8 @@ export default class Storage<T extends Shape> {
 
     fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));
   }
+
+  all() {
+    return this._data;
+  }
 }

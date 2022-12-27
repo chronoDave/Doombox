@@ -2,11 +2,13 @@ import type { Doc } from 'leaf-db';
 import type { Song } from './library';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { Shape } from './primitives';
+import type { UserShape } from './shapes/user.shape';
 
 export type IpcRouter = (_: unknown, ...args: unknown[]) => unknown;
 
 export enum IpcChannel {
   App = 'app',
+  User = 'user',
   Theme = 'theme',
   Window = 'window',
   Library = 'library'
@@ -17,6 +19,7 @@ export enum IpcAction {
   AddFolders = 'addFolders',
   RemoveFolders = 'removeFolders',
   GetSongs = 'getSongs',
+  All = 'all',
   Get = 'get',
   Set = 'set',
   Minimize = 'minimize',
@@ -42,7 +45,8 @@ export type IpcPayloadSet<T extends Shape> = {
 /** Controller */
 export type IpcControllerStorage<T extends Shape> = {
   [IpcAction.Get]: (payload: IpcPayloadGet<T>) => Promise<T[keyof T]>,
-  [IpcAction.Set]: (payload: IpcPayloadSet<T>) => Promise<T[keyof T]>
+  [IpcAction.Set]: (payload: IpcPayloadSet<T>) => Promise<T[keyof T]>,
+  [IpcAction.All]: () => Promise<T>
 };
 
 /** Renderer to main (one-way) */
@@ -60,6 +64,7 @@ export type IpcInvokeController = {
     [IpcAction.SelectFolders]: () => Promise<string[]>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>,
+  [IpcChannel.User]: IpcControllerStorage<UserShape>,
   [IpcChannel.Library]: {
     [IpcAction.AddFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
     [IpcAction.RemoveFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
