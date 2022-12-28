@@ -1,9 +1,9 @@
 import * as forgo from 'forgo';
 
 import App from './modules/app/app';
-import { TitleBar } from './modules/titleBar/titleBar';
+import AppBar from './modules/appBar/appBar';
 
 forgo.mount([
-  <TitleBar />,
+  <AppBar />,
   <App />
 ], document.body);

@@ -5,15 +5,15 @@ import * as forgo from 'forgo';
 // import Menu from '../../components/menu/menu';
 import Icon from '../../components/icon/icon';
 
-import './titleBar.scss';
+import './appBar.scss';
 
-export type TitleBarProps = {};
+export type AppBarProps = {};
 
-export const TitleBar: Component<TitleBarProps> = () => {
+const AppBar: Component<AppBarProps> = () => {
   const component = new forgo.Component({
     render() {
       return (
-        <header class='TitleBar'>
+        <header class='AppBar'>
           <img
             class='light'
             src="icons/icon_dark.png"
@@ -68,3 +68,5 @@ export const TitleBar: Component<TitleBarProps> = () => {
 
   return component;
 };
+
+export default AppBar;
