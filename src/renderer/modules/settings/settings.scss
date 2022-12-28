@@ -1,15 +1,17 @@
 @use 'variables.scss' as v;
 @use 'utils.scss';
+@use 'typography.scss';
 
 .Settings {
   display: grid;
-  grid-template-columns: 120px 1fr;
-
-  @media (min-width: v.$w-sm) {
-    grid-template-columns: 180px 1fr;
-  }
+  grid-template-columns: auto 1fr auto;
+  align-items: flex-start;
+  background-color: var(--settings);
 
   > [role='tablist'] {
+    position: sticky;
+    top: 0;
+    height: 100%;
     background-color: var(--settings-menu);
     
     @media (min-width: v.$w-sm) {
@@ -47,6 +49,39 @@
 
   > [role='tabpanel'] {
     padding: 8px 12px;
-    background-color: var(--settings);
+    overflow: auto;
+
+    @media (min-width: v.$w-md) {
+      padding: 16px 32px;
+    }
+
+    > .title {
+      @include typography.large;
+      margin-bottom: 8px;
+    }
+  }
+
+  > .close {
+    position: sticky;
+    top: 0;
+    padding: 8px;
+    gap: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: v.$w-md) {
+      padding: 16px 20px;
+    }
+
+    > button {
+      width: 28px;
+      aspect-ratio: 1/1;
+      border-radius: 4px;
+
+      @include utils.hover {
+        background-color: var(--hover);
+      }
+    }
   }
 }

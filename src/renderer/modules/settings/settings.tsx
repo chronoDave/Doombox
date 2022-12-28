@@ -7,6 +7,7 @@ import * as state from '../../state/state';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
 import cx from '../../utils/cx';
 import updateOnEvents from '../../utils/updateOnEvents';
+import Icon from '../../components/icon/icon';
 
 import './settings.scss';
 
@@ -75,9 +76,20 @@ const Settings: Component<SettingsProps> = () => {
                 hidden: state.settings.view !== key
               })}
             >
+              <h1 class="title">{key}</h1>
               {view}
             </section>
           ))}
+          <div class="close">
+            <button
+              type="button"
+              aria-label="close settings"
+              onclick={() => state.actions.settings.setOpen(false)}
+            >
+              <Icon id="close" />
+            </button>
+            <span>Esc</span>
+          </div>
         </main>
       );
     }

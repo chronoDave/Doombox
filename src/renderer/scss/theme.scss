@@ -8,8 +8,8 @@
     --grey100: #18191c;
     --grey200: #202225;
     --grey300: #272a2e;
-    --grey400: #4f545c;
-    --grey500: #72767d;
+    --grey400: #3b3f45;
+    --grey500: #4F545C;
     --grey600: #b9bbbe;
     --grey700: #dcddde;
     --primary: #664d82;
@@ -19,12 +19,14 @@
     --bg: var(--grey200);
     --popup: var(--grey300);
     --app-bar: var(--grey100);
-    --text-normal: var(--grey700);
+    --text: var(--grey700);
     --text-inactive: var(--grey500);
     --text-error: var(--white);
     --text-primary: var(--white);
     --settings: var(--grey300);
     --settings-menu: var(--grey200);
+    --scrollbar: var(--grey400);
+    --scrollbar-thumb: var(--grey500);
   }
 }
 
@@ -40,8 +42,8 @@
     --grey300: #4f5660;
     --grey400: #747f8d;
     --grey500: #9099a4;
-    --grey600: #c7ccd1;
-    --grey700: #e3e5e8;
+    --grey600: #d7dbde;
+    --grey700: #e8eaec;
     --primary: #664d82;
     --primary-hover: #664d8255; // 33%
     --error: #f04747;
@@ -49,11 +51,13 @@
     --bg: var(--white);
     --popup: var(--grey700);
     --app-bar: var(--grey700);
-    --text-normal: var(--grey100);
+    --text: var(--grey100);
     --text-inactive: var(--grey300);
     --text-error: var(--white);
     --text-primary: var(--white);
-    --settings: var(--grey400);
-    --settings-menu: var(--grey300);
+    --settings: var(--white);
+    --settings-menu: var(--grey600);
+    --scrollbar: var(--grey200);
+    --scrollbar-thumb: var(--grey300);
   }
 }

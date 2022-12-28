@@ -1,4 +1,6 @@
+@use 'utils.scss';
+
 .Icon {
-  width: 1em;
-  height: 1em;
+  width: utils.rem(18);
+  aspect-ratio: 1/1;
 }

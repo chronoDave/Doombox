@@ -18,6 +18,12 @@
   letter-spacing: utils.rem(0.5);
 }
 
+@mixin large {
+  font-family: NotoSansJP, sans-serif;
+  font-size: utils.rem(24);
+  letter-spacing: utils.rem(0.25);
+}
+
 @mixin nowrap {
   min-width: 0;
   overflow: hidden;
