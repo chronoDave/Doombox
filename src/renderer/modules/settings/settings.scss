@@ -1,0 +1,52 @@
+@use 'variables.scss' as v;
+@use 'utils.scss';
+
+.Settings {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+
+  @media (min-width: v.$w-sm) {
+    grid-template-columns: 180px 1fr;
+  }
+
+  > [role='tablist'] {
+    background-color: var(--settings-menu);
+    
+    @media (min-width: v.$w-sm) {
+      padding: 16px;
+    }
+
+    > li {
+      + li {
+        @media (min-width: v.$w-sm) {   
+          margin-top: 2px;
+        }
+      }
+
+      > button {
+        padding: 8px 12px;
+        width: 100%;
+        transition: background-color v.$transition-fast;
+        justify-content: flex-start;
+
+        @include utils.hover {
+          background-color: var(--primary-hover);
+        }
+        
+        @media (min-width: v.$w-sm) {
+          border-radius: 4px;
+        }
+
+        &[aria-selected='true'] {
+          background-color: var(--primary);
+          color: var(--text-primary);
+        }
+      }
+    }
+  }
+
+  > [role='tabpanel'] {
+    padding: 8px 12px;
+    background-color: var(--settings);
+  }
+}

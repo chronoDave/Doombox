@@ -1,12 +1,12 @@
 @use 'utils.scss';
-@use 'variables.scss';
+@use 'variables.scss' as v;
 @use 'typography.scss';
 
 .AppBar {
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: var(--title-bar);
+  background-color: var(--app-bar);
 
   > img {
     -webkit-app-region: drag;
@@ -43,7 +43,7 @@
       height: 100%;
       font-size: utils.rem(20);
       fill: var(--text-inactive);
-      transition: background-color variables.$transition-fast;
+      transition: background-color v.$transition-fast;
 
       @include utils.hover {
         fill: var(--text-normal);
@@ -61,7 +61,7 @@
       }
 
       > svg > path {
-        transition: fill variables.$transition-fast;
+        transition: fill v.$transition-fast;
       }
     }
   }

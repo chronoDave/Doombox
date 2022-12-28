@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import LoaderEqualizer from '../../components/loader/equalizer/loader.equalizer';
+import LoaderEqualizer from '../../../components/loader/equalizer/loader.equalizer';
 
 import './splash.view.scss';
 

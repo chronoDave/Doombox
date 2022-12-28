@@ -33,7 +33,7 @@ const state: State = {
   },
   settings: {
     open: true,
-    view: 'general'
+    view: 'appearance'
   },
   library: {
     empty: true,

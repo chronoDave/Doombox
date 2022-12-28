@@ -13,7 +13,7 @@ export default class EventEmitter<T extends string> {
   once<K>(event: T, cb: (payload?: K) => void) {
     const wrapper = (payload?: K) => {
       cb(payload);
-      this.remove(event, wrapper);
+      this.off(event, wrapper);
     };
 
     this.on(event, wrapper);
@@ -23,7 +23,7 @@ export default class EventEmitter<T extends string> {
     this._listeners.get(event)?.forEach(listener => listener(payload));
   }
 
-  remove(event: T, cb: Function) {
+  off(event: T, cb: Function) {
     const listeners = this._listeners.get(event);
 
     if (!listeners) return;

@@ -3,10 +3,11 @@ import type { AppView } from '../../state/slices/app.slice';
 
 import * as forgo from 'forgo';
 
-import SplashView from '../../views/splash/splash.view';
-import AlbumView from '../../views/album/album.view';
 import Settings from '../settings/settings';
 import * as state from '../../state/state';
+import SplashView from '../../views/app/splash/splash.view';
+import AlbumView from '../../views/app/album/album.view';
+import updateOnEvents from '../../utils/updateOnEvents';
 
 import './app.scss';
 
@@ -26,8 +27,6 @@ const App: Component<AppProps> = () => {
   });
 
   component.mount(async () => {
-    state.emitter.on('settings.setOpen', () => component.update());
-
     await Promise.all([
       state.actions.library.fetchSongs(),
       state.actions.theme.fetchTheme(),
@@ -41,6 +40,8 @@ const App: Component<AppProps> = () => {
     state.actions.app.setReady(true);
     component.update();
   });
+
+  updateOnEvents(component, ['settings.setOpen']);
 
   return component;
 };

@@ -16,4 +16,9 @@ body {
 *:focus-visible {
   outline: 2px solid var(--text-normal);
   outline-offset: 2px;
+  isolation: isolate;
+}
+
+.hidden {
+  display: none;
 }

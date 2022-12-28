@@ -1,6 +1,6 @@
 import createSlice from '../../utils/createSlice';
 
-export type SettingsView = 'general';
+export type SettingsView = 'appearance' | 'library';
 
 export type SettingsState = {
   open: boolean
