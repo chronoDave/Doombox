@@ -2,7 +2,7 @@ import type LeafDB from 'leaf-db';
 import type { Image, Song } from '../../../types/library';
 import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
 import type Storage from '../storage';
-import type { AppShape } from '../../../types/shapes/app.shape';
+import type { UserShape } from '../../../types/shapes/user.shape';
 
 import path from 'path';
 import glob from 'fast-glob';
@@ -14,7 +14,7 @@ import createImageThumb from '../utils/createImageThumb';
 
 export type LibraryControllerProps = {
   storage: {
-    app: Storage<AppShape>
+    user: Storage<UserShape>
   }
   root: {
     covers: string,
@@ -29,13 +29,13 @@ export type LibraryControllerProps = {
 export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.Library] => ({
   getSongs: () => props.db.songs.find({}),
   addFolders: async payload => {
-    const settings = props.storage.app.get('library');
+    const settings = props.storage.user.get('library');
     const songs = await props.db.songs.find({});
     const folders = mergeUnique(payload, settings.folders);
 
     if (folders.length === settings.folders.length) return Promise.resolve(songs);
 
-    props.storage.app.set('library', { folders });
+    props.storage.user.set('library', { folders });
 
     const files = await Promise.all(folders
       .map(cwd => glob('**/*.mp3', { cwd, absolute: true })))
@@ -62,9 +62,9 @@ export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.L
   removeFolders: async payload => {
     if (payload.length === 0) return props.db.songs.find({});
 
-    const settings = props.storage.app.get('library');
+    const settings = props.storage.user.get('library');
     const folders = settings.folders.filter(x => !payload.includes(x));
-    props.storage.app.set('library', { folders });
+    props.storage.user.set('library', { folders });
 
     const files = await Promise.all(payload
       .map(cwd => glob('**/*.mp3', { cwd, absolute: true })))

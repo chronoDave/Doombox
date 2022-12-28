@@ -19,7 +19,7 @@ export type IconProps = {
   id: keyof typeof icons
 };
 
-export const Icon: Component<IconProps> = () => new forgo.Component({
+const Icon: Component<IconProps> = () => new forgo.Component({
   render(props) {
     return (
       <svg
@@ -33,3 +33,5 @@ export const Icon: Component<IconProps> = () => new forgo.Component({
     );
   }
 });
+
+export default Icon;

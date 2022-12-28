@@ -1,5 +1,5 @@
 import type { Image, Song } from '../../../../../src/types/library';
-import type { AppShape } from '../../../../../src/types/shapes/app.shape';
+import type { UserShape } from '../../../../../src/types/shapes/user.shape';
 
 import path from 'path';
 import fs from 'fs';
@@ -7,7 +7,7 @@ import LeafDB from 'leaf-db';
 
 import Storage from '../../../../../src/app/lib/storage';
 import libraryController from '../../../../../src/app/lib/controllers/library.controller';
-import appShape from '../../../../../src/types/shapes/app.shape';
+import userShape from '../../../../../src/types/shapes/user.shape';
 
 export default () => {
   const root = path.resolve(__dirname, '__data');
@@ -32,9 +32,9 @@ export default () => {
   };
 
   const storage = {
-    app: new Storage<AppShape>({
+    user: new Storage<UserShape>({
       name: 'app',
-      shape: appShape,
+      shape: userShape,
       root: dir.root
     })
   };

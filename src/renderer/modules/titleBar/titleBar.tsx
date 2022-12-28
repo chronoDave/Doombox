@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { Menu } from '../menu/menu';
-import { Icon } from '../../components/icon/icon';
+// import Menu from '../../components/menu/menu';
+import Icon from '../../components/icon/icon';
 
 import './titleBar.scss';
 
@@ -37,24 +37,24 @@ export const TitleBar: Component<TitleBarProps> = () => {
             </Menu>
           </nav> */}
           <span class="title">Doombox</span>
-          <nav aria-label='window'>
+          <nav aria-label='app'>
             <button
               type='button'
-              aria-label='minimize window'
+              aria-label='minimize app'
               onclick={window.ipc.window.minimize}
             >
               <Icon id='minimize' />
             </button>
             <button
               type='button'
-              aria-label='maximize window'
+              aria-label='maximize app'
               onclick={window.ipc.window.maximize}
             >
               <Icon id='maximize' />
             </button>
             <button
               type='button'
-              aria-label='close window'
+              aria-label='close app'
               onclick={window.ipc.window.close}
               class="close"
             >

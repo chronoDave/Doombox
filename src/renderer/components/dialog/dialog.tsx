@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { Icon } from '../../components/icon/icon';
+import Icon from '../icon/icon';
 import createFocusTrap from '../../utils/createFocusTrap';
 import cx from '../../utils/cx';
 import portal from '../../utils/portal';
@@ -14,7 +14,7 @@ export type DialogProps = {
   onclose?: () => void
 };
 
-export const Dialog: Component<DialogProps & { close: () => void }> = () => {
+const Dialog: Component<DialogProps & { close: () => void }> = () => {
   const component = new forgo.Component<DialogProps & { close:() => void }>({
     render(props) {
       const idTitle = `${props.id}-title`;
@@ -73,3 +73,5 @@ export const createDialog = (
     {children}
   </Dialog>
 ));
+
+export default Dialog;
