@@ -1,4 +1,9 @@
-import type { Image, Song } from '../types/library';
+import type {
+  Album,
+  Image,
+  Label,
+  Song
+} from '../types/library';
 
 import fs from 'fs';
 import path from 'path';
@@ -50,6 +55,8 @@ Object.values(DIR)
 const logger = new Logger({ root: ROOT.LOGS });
 const db = {
   songs: new LeafDB<Song>({ storage: { root: ROOT.APP_DATA, name: 'songs' } }),
+  albums: new LeafDB<Album>({ storage: { root: ROOT.APP_DATA, name: 'albums' } }),
+  labels: new LeafDB<Label>({ storage: { root: ROOT.APP_DATA, name: 'labels' } }),
   images: new LeafDB<Image>({ storage: { root: ROOT.APP_DATA, name: 'images' } })
 };
 const storage = {
@@ -80,6 +87,5 @@ Object.values(db).forEach(x => x.open());
 run({
   router,
   logger,
-  storage,
-  db
+  storage
 });

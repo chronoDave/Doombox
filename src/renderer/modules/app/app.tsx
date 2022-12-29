@@ -28,7 +28,7 @@ const App: Component<AppProps> = () => {
 
   component.mount(async () => {
     await Promise.all([
-      state.actions.library.fetchSongs(),
+      state.actions.library.fetchLibrary(),
       state.actions.theme.fetchTheme(),
       state.actions.user.fetchUser()
     ]);

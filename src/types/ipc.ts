@@ -1,5 +1,4 @@
-import type { Doc } from 'leaf-db';
-import type { Song } from './library';
+import type { Library } from './library';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { Shape } from './primitives';
 import type { UserShape } from './shapes/user.shape';
@@ -18,7 +17,6 @@ export enum IpcAction {
   SelectFolders = 'selectFolders',
   AddFolders = 'addFolders',
   RemoveFolders = 'removeFolders',
-  GetSongs = 'getSongs',
   All = 'all',
   Get = 'get',
   Set = 'set',
@@ -66,9 +64,9 @@ export type IpcInvokeController = {
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>,
   [IpcChannel.User]: IpcControllerStorage<UserShape>,
   [IpcChannel.Library]: {
-    [IpcAction.AddFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
-    [IpcAction.RemoveFolders]: (payload: string[]) => Promise<Doc<Song>[]>,
-    [IpcAction.GetSongs]: () => Promise<Doc<Song>[]>
+    [IpcAction.AddFolders]: (payload: string[]) => Promise<Library>,
+    [IpcAction.RemoveFolders]: (payload: string[]) => Promise<Library>,
+    [IpcAction.Get]: () => Promise<Library>
   }
 };
 

@@ -32,12 +32,15 @@ const state: State = {
     view: 'album'
   },
   settings: {
-    open: true,
+    open: false,
     view: 'appearance'
   },
   library: {
     empty: true,
-    song: createCollection([])
+    song: createCollection([]),
+    album: createCollection([]),
+    label: createCollection([]),
+    image: createCollection([])
   },
   user: {
     shape: userShape

@@ -1,12 +1,10 @@
 export type Image = {
-  // Keys
   _id: string
 };
 
 export type Song = {
-  // Headers
   _id: string
-  _image?: string
+  image: string | null
   file: string
   // Metadata
   duration: number | null
@@ -20,4 +18,34 @@ export type Song = {
   year: number | null
   date: string | null
   cdid: string | null
+};
+
+export type Album = {
+  _id: string
+  image: string | null
+  songs: string[]
+  // Metadata
+  duration: number | null
+  albumartist: string | null
+  album: string | null
+  label: string | null
+  date: string | null
+  year: number | null
+  cdid: string | null
+};
+
+export type Label = {
+  _id: string
+  albums: string[]
+  songs: string[]
+  // Metadata
+  label: string
+  duration: number | null
+};
+
+export type Library = {
+  images: Image[],
+  songs: Song[],
+  albums: Album[],
+  labels: Label[]
 };

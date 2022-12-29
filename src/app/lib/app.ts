@@ -1,11 +1,8 @@
 import type Storage from './storage';
-import type LeafDB from 'leaf-db';
-import type { Image, Song } from '../../types/library';
 import type { AppShape } from '../../types/shapes/app.shape';
 import type Logger from './logger';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { IpcRouter } from '../../types/ipc';
-import type { UserShape } from '../../types/shapes/user.shape';
 
 import { app, ipcMain, nativeTheme } from 'electron';
 
@@ -15,14 +12,9 @@ import createWindow from './window';
 
 export type AppProps = {
   logger: Logger
-  db: {
-    songs: LeafDB<Song>
-    images: LeafDB<Image>
-  }
   storage: {
     app: Storage<AppShape>
-    theme: Storage<ThemeShape>,
-    user: Storage<UserShape>
+    theme: Storage<ThemeShape>
   },
   router: {
     app: IpcRouter

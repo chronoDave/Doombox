@@ -2,7 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-// import Menu from '../../components/menu/menu';
+import * as state from '../../state/state';
+import Menu from '../../components/menu/menu';
 import Icon from '../../components/icon/icon';
 
 import './appBar.scss';
@@ -24,18 +25,18 @@ const AppBar: Component<AppBarProps> = () => {
             src="icons/icon_light.png"
             alt='Doombox app icon'
           />
-          {/* <nav aria-label='app'>
+          <nav aria-label='app'>
             <Menu
               id='app'
               items={[{
                 label: 'Settings',
-                onclick: () => { }
+                onclick: () => state.actions.settings.setOpen(true)
               }]}
               popup={{ align: { x: 'start', y: 'end' } }}
             >
               <Icon id='menu' />
             </Menu>
-          </nav> */}
+          </nav>
           <span class="title">Doombox</span>
           <nav aria-label='app'>
             <button

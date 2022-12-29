@@ -11,10 +11,10 @@ export default async (files: string[]) => {
 
   const pictures = new Map<string, { _id: string, raw: Buffer }>(); // Map<image, id>
   const songs = data.map(({ metadata, file }) => {
+    let b64 = '';
     const raw = Array.isArray(metadata.common.picture) ?
       metadata.common.picture[0].data :
       null;
-    let b64: string | undefined;
 
     if (raw) {
       b64 = raw.toString('base64');
@@ -33,9 +33,7 @@ export default async (files: string[]) => {
 
     const song: Song = {
       _id: LeafDB.generateId(),
-      _image: b64 ?
-        pictures.get(b64)?._id :
-        undefined,
+      image: pictures.get(b64)?._id ?? null,
       file,
       // Metadata
       duration: metadata.format.duration ?? null,

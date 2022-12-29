@@ -1,4 +1,9 @@
-import type { Image, Song } from '../../../../../src/types/library';
+import type {
+  Album,
+  Image,
+  Label,
+  Song
+} from '../../../../../src/types/library';
 import type { UserShape } from '../../../../../src/types/shapes/user.shape';
 
 import path from 'path';
@@ -28,7 +33,9 @@ export default () => {
 
   const db = {
     images: new LeafDB<Image>(),
-    songs: new LeafDB<Song>()
+    songs: new LeafDB<Song>(),
+    albums: new LeafDB<Album>(),
+    labels: new LeafDB<Label>()
   };
 
   const storage = {
