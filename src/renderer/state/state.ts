@@ -8,7 +8,7 @@ import createCollection from '../utils/createCollection';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 import { IS_DEV } from '../../utils/const';
-import EventEmitter from '../../utils/eventEmitter';
+import EventEmitter from '../../lib/eventEmitter';
 
 import appActions from './slices/app.slice';
 import userActions from './slices/user.slice';

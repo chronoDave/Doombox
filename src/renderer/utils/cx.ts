@@ -1,4 +1,4 @@
-import { isObject } from '../../utils/validation';
+import isObject from '../../utils/validation/isObject';
 
 const cx = (...args: unknown[]): string => {
   if (!Array.isArray(args)) return cx([args]);

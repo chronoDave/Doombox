@@ -1,21 +1,8 @@
-import type { Shape } from '../types/primitives';
+import type { Shape } from '../../types/primitives';
 
 import produce from 'immer';
 
-import { isShape } from './validation';
-
-export const parseShape = (x: string) => {
-  try {
-    const json = JSON.parse(x);
-    return isShape(json) ?
-      json :
-      null;
-  } catch (err) {
-    return null;
-  }
-};
-
-export const mergeShape = <T>(target: T, source: Shape): T =>
+export default <T extends Shape>(target: Readonly<T>, source: Shape): T =>
   produce(target, draft => {
     const merge = (
       a: Record<string, unknown>,

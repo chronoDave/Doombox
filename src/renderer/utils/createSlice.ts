@@ -1,4 +1,4 @@
-import type EventEmitter from '../../utils/eventEmitter';
+import type EventEmitter from '../../lib/eventEmitter';
 
 import { IS_DEV } from '../../utils/const';
 

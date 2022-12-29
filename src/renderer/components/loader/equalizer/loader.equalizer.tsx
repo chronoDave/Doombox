@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { intRandom } from '../../../../utils/number';
+import random from '../../../../utils/math/random';
 
 import './loader.equalizer.scss';
 
@@ -25,7 +25,7 @@ const LoaderEqualizer: Component<LoaderEqualizerProps> = () => {
             <div
               class="bar"
               style={{
-                'animation-delay': `-${intRandom(0, 777)}ms`
+                'animation-delay': `-${random(0, 777)}ms`
               }}
             />
           ))}

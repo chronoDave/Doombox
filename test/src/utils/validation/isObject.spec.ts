@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { isObject } from '../../../../src/utils/validation';
+import isObject from '../../../../src/utils/validation/isObject';
 
 test('[validation.isObject] should return true if object', t => {
   t.true(isObject({}), 'empty object');

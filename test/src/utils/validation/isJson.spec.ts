@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { isJSON } from '../../../../src/utils/validation';
+import isJSON from '../../../../src/utils/validation/isJSON';
 
 test('[validation.isJSON] should return true if object', t => {
   t.true(isJSON(null), 'null');

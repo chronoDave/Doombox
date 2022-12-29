@@ -6,7 +6,7 @@ import path from 'path';
 import { BrowserWindow, ipcMain } from 'electron';
 
 import { IpcChannel } from '../../types/ipc';
-import { debounce } from '../../utils/function';
+import debounce from '../../utils/function/debounce';
 import { IS_DEV } from '../../utils/const';
 
 import createWindowController from './controllers/window.controller';

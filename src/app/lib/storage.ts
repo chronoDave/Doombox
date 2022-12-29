@@ -4,8 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import produce from 'immer';
 
-import { mergeShape, parseShape } from '../../utils/shape';
-import { isObject } from '../../utils/validation';
+import merge from '../../utils/shape/merge';
+import parse from '../../utils/shape/parse';
+import isObject from '../../utils/validation/isObject';
 
 export type StorageProps<T> = {
   root: string
@@ -21,7 +22,7 @@ export default class Storage<T extends Shape> {
 
   private _read() {
     try {
-      return parseShape(fs.readFileSync(this._file, 'utf-8'));
+      return parse(fs.readFileSync(this._file, 'utf-8'));
     } catch (err) {
       return null; // File does not exist
     }
@@ -33,7 +34,7 @@ export default class Storage<T extends Shape> {
     this._file = path.join(this._root, `${props.name}.json`);
 
     const json = this._read();
-    if (json) this._data = mergeShape(this._data, json);
+    if (json) this._data = merge<T>(this._data, json);
 
     Object.seal(this._data);
   }

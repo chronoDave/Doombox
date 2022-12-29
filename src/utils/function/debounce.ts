@@ -1,4 +1,4 @@
-export const debounce = <T extends (...args: any[]) => any>(fn: T, n: number) => {
+export default <T extends (...args: any[]) => any>(fn: T, n: number) => {
   let id: ReturnType<typeof setTimeout>;
 
   return (...args: Parameters<T>) => new Promise<ReturnType<T>>(resolve => {

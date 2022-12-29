@@ -1,7 +1,7 @@
 import type { IpcAction } from '../../../types/ipc';
 import type Logger from '../logger';
 
-import { isIpcEvent } from '../../../utils/validation';
+import isIpcEvent from '../../../utils/validation/isIpcEvent';
 
 export default (controller: { [key in IpcAction]?: Function }) =>
   (logger: Logger) =>

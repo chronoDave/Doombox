@@ -7,7 +7,7 @@ import type { UserShape } from '../../../types/shapes/user.shape';
 import path from 'path';
 import glob from 'fast-glob';
 
-import { mergeUnique } from '../../../utils/array';
+import intersect from '../../../utils/array/intersect';
 import parseFiles from '../utils/parseFiles';
 import createImageCover from '../utils/createImageCover';
 import createImageThumb from '../utils/createImageThumb';
@@ -31,7 +31,7 @@ export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.L
   addFolders: async payload => {
     const settings = props.storage.user.get('library');
     const songs = await props.db.songs.find({});
-    const folders = mergeUnique(payload, settings.folders);
+    const folders = intersect(payload, settings.folders);
 
     if (folders.length === settings.folders.length) return Promise.resolve(songs);
 

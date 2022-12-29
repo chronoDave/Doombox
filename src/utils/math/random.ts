@@ -1,4 +1,4 @@
-export const intRandom = (min: number, max: number) => {
+export default (min: number, max: number) => {
   const cMin = Math.ceil(min);
   const cMax = Math.floor(max);
 

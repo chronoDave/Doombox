@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { isShape } from '../../../../src/utils/validation';
+import isShape from '../../../../src/utils/validation/isShape';
 
 test('[validation.isShape] should return true if shape', t => {
   t.true(isShape({}), 'empty shape');

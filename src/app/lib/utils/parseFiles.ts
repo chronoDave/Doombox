@@ -1,8 +1,7 @@
 import type { Song } from '../../../types/library';
 
 import { parseFile } from 'music-metadata';
-
-import { generateId } from '../../../utils/string';
+import LeafDB from 'leaf-db';
 
 export default async (files: string[]) => {
   const data = await Promise.all(files.map(async file => {
@@ -19,7 +18,7 @@ export default async (files: string[]) => {
 
     if (raw) {
       b64 = raw.toString('base64');
-      if (!pictures.has(b64)) pictures.set(b64, { _id: generateId(), raw });
+      if (!pictures.has(b64)) pictures.set(b64, { _id: LeafDB.generateId(), raw });
     }
 
     const native: Record<string, unknown> = Object.fromEntries(Object.values(metadata.native)
@@ -33,7 +32,7 @@ export default async (files: string[]) => {
     };
 
     const song: Song = {
-      _id: generateId(),
+      _id: LeafDB.generateId(),
       _image: b64 ?
         pictures.get(b64)?._id :
         undefined,
