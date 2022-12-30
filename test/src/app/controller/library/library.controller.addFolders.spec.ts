@@ -3,20 +3,14 @@ import fs from 'fs';
 
 import fixture from './fixture';
 
-test('[library.controller.addFolders] scans folders', async t => {
+test('[library.controller.add] scans folders', async t => {
   const { controller, dir, cleanup } = fixture();
 
-  const {
-    songs,
-    albums,
-    labels,
-    images
-  } = await controller.addFolders([dir.album]);
+  const { songs, albums, labels } = await controller.add([dir.album]);
 
   t.equal(songs.length, 11, 'scans all files');
   t.equal(albums.length, 1, 'groups songs by album');
   t.equal(labels.length, 1, 'groups albums by label');
-  t.equal(images.length, 1, 'groups song images');
 
   const covers = fs.readdirSync(dir.covers);
   const thumbs = fs.readdirSync(dir.thumbs);
@@ -28,11 +22,11 @@ test('[library.controller.addFolders] scans folders', async t => {
   t.end();
 });
 
-test('[library.controller.addFolders] ignores duplicate files', async t => {
+test('[library.controller.add] ignores duplicate files', async t => {
   const { controller, dir, cleanup } = fixture();
 
-  await controller.addFolders([dir.album]);
-  const { songs } = await controller.addFolders([dir.album]);
+  await controller.add([dir.album]);
+  const { songs } = await controller.add([dir.album]);
   t.equal(songs.length, 11, 'does not add duplicate files');
 
   const covers = fs.readdirSync(dir.covers);

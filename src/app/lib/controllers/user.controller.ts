@@ -11,6 +11,6 @@ export default (props: UserControllerProps): IpcInvokeController[IpcChannel.User
   get: async payload => props.storage.get(payload.key),
   set: async payload => {
     props.storage.set(payload.key, payload.value);
-    return props.storage.get(payload.key);
+    return props.storage.all();
   }
 });

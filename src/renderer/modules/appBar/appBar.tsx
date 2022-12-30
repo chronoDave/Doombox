@@ -2,9 +2,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import * as state from '../../state/state';
 import Menu from '../../components/menu/menu';
 import Icon from '../../components/icon/icon';
+import { setLayout } from '../../store/actions/layout.actions';
+import { addFolders, rebuildLibrary } from '../../store/actions/library.actions';
 
 import './appBar.scss';
 
@@ -30,7 +31,13 @@ const AppBar: Component<AppBarProps> = () => {
               id='app'
               items={[{
                 label: 'Settings',
-                onclick: () => state.actions.settings.setOpen(true)
+                onclick: () => setLayout('settings')
+              }, {
+                label: 'Add folders',
+                onclick: addFolders
+              }, {
+                label: 'Rebuild library',
+                onclick: rebuildLibrary
               }]}
               popup={{ align: { x: 'start', y: 'end' } }}
             >

@@ -1,7 +1,3 @@
-export type Image = {
-  _id: string
-};
-
 export type Song = {
   _id: string
   image: string | null
@@ -44,7 +40,6 @@ export type Label = {
 };
 
 export type Library = {
-  images: Image[],
   songs: Song[],
   albums: Album[],
   labels: Label[]

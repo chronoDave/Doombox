@@ -1,47 +1,48 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
-import type { AppView } from '../../state/slices/app.slice';
+import type { State } from '../../store/store';
 
 import * as forgo from 'forgo';
 
 import Settings from '../settings/settings';
-import * as state from '../../state/state';
 import SplashView from '../../views/app/splash/splash.view';
 import AlbumView from '../../views/app/album/album.view';
-import updateOnEvents from '../../utils/updateOnEvents';
+import { fetchLibrary } from '../../store/actions/library.actions';
+import { fetchTheme } from '../../store/actions/theme.actions';
+import { fetchUser } from '../../store/actions/user.actions';
+import store from '../../store/store';
 
 import './app.scss';
 
 export type AppProps = {};
 
 const App: Component<AppProps> = () => {
-  const views: Record<AppView, forgo.Component> = {
-    album: <AlbumView />
+  const views: Record<State['view']['app'], forgo.Component> = {
+    song: <div>Song</div>,
+    album: <AlbumView />,
+    label: <div>Label</div>
   };
 
   const component = new forgo.Component<AppProps>({
     render() {
-      if (!state.app.ready) return <SplashView />;
-      if (state.settings.open) return <Settings />;
-      return views[state.app.view];
+      const { ready, layout, view } = store.get();
+
+      if (!ready) return <SplashView />;
+      if (layout === 'settings') return <Settings />;
+      return views[view.app];
     }
   });
 
   component.mount(async () => {
     await Promise.all([
-      state.actions.library.fetchLibrary(),
-      state.actions.theme.fetchTheme(),
-      state.actions.user.fetchUser()
+      fetchLibrary(),
+      fetchTheme(),
+      fetchUser()
     ]);
 
-    if (state.user.shape.library.folders.length === 0) {
-      state.actions.library.setEmpty(true);
-    }
-
-    state.actions.app.setReady(true);
-    component.update();
+    store.dispatch('setReady', true);
   });
 
-  updateOnEvents(component, ['settings.setOpen']);
+  store.subscribe(component, ['ready', 'layout']);
 
   return component;
 };

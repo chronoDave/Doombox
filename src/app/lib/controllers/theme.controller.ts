@@ -14,6 +14,6 @@ export default (props: ThemeControllerProps): IpcInvokeController[IpcChannel.The
   set: async payload => {
     nativeTheme.themeSource = payload.value;
     props.storage.set(payload.key, payload.value);
-    return props.storage.get(payload.key);
+    return props.storage.all();
   }
 });

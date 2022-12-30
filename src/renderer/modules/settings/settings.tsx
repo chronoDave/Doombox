@@ -1,31 +1,34 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
-import type { SettingsView } from '../../state/slices/settings.slice';
+import type { State } from '../../store/store';
 
 import * as forgo from 'forgo';
 
-import * as state from '../../state/state';
+import store from '../../store/store';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
 import cx from '../../utils/cx';
-import updateOnEvents from '../../utils/updateOnEvents';
 import Icon from '../../components/icon/icon';
+import { setViewSettings } from '../../store/actions/view.actions';
+import { setLayout } from '../../store/actions/layout.actions';
 
 import './settings.scss';
 
 export type SettingsProps = {};
 
 const Settings: Component<SettingsProps> = () => {
-  const views: Record<SettingsView, forgo.Component> = {
+  const views: Record<State['view']['settings'], forgo.Component> = {
     appearance: <AppearanceView />,
     library: <div>E</div>
   };
 
   const handleClick = (e: UIEvent) => {
-    const view = (e.target as HTMLElement).id as SettingsView;
-    if (view) state.actions.settings.setView(view);
+    const view = (e.target as HTMLElement).id as State['view']['settings'];
+    if (view) setViewSettings(view);
   };
 
   const component = new forgo.Component<SettingsProps>({
     render() {
+      const state = store.get();
+
       return (
         <main class='Settings' id="settings">
           <ul
@@ -58,9 +61,9 @@ const Settings: Component<SettingsProps> = () => {
                   type="button"
                   key={key}
                   role="tab"
-                  aria-selected={state.settings.view === key}
+                  aria-selected={state.view.settings === key}
                   aria-controls={`${key}-panel`}
-                  tabindex={state.settings.view === key ? 0 : -1}
+                  tabindex={state.view.settings === key ? 0 : -1}
                 >
                   {key}
                 </button>
@@ -73,7 +76,7 @@ const Settings: Component<SettingsProps> = () => {
               role="tabpanel"
               aria-labelledby={key}
               class={cx({
-                hidden: state.settings.view !== key
+                hidden: state.view.settings !== key
               })}
             >
               <h1 class="title">{key}</h1>
@@ -84,7 +87,7 @@ const Settings: Component<SettingsProps> = () => {
             <button
               type="button"
               aria-label="close settings"
-              onclick={() => state.actions.settings.setOpen(false)}
+              onclick={() => setLayout('app')}
             >
               <Icon id="close" />
             </button>
@@ -95,7 +98,7 @@ const Settings: Component<SettingsProps> = () => {
     }
   });
 
-  updateOnEvents(component, ['settings.setView']);
+  store.subscribe(component, ['view']);
 
   return component;
 };

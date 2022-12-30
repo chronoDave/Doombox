@@ -27,8 +27,9 @@ const ipc: IpcApi = {
     selectFolders: () => invoke(IpcChannel.App, IpcAction.SelectFolders)
   },
   library: {
-    addFolders: payload => invoke(IpcChannel.Library, IpcAction.AddFolders, payload),
-    removeFolders: payload => invoke(IpcChannel.Library, IpcAction.RemoveFolders, payload),
+    add: payload => invoke(IpcChannel.Library, IpcAction.Add, payload),
+    remove: payload => invoke(IpcChannel.Library, IpcAction.Remove, payload),
+    rebuild: payload => invoke(IpcChannel.Library, IpcAction.Rebuild, payload),
     get: () => invoke(IpcChannel.Library, IpcAction.Get)
   },
   window: {

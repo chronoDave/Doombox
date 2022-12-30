@@ -1,9 +1,4 @@
-import type {
-  Album,
-  Image,
-  Label,
-  Song
-} from '../types/library';
+import type { Album, Label, Song } from '../types/library';
 
 import fs from 'fs';
 import path from 'path';
@@ -56,8 +51,7 @@ const logger = new Logger({ root: ROOT.LOGS });
 const db = {
   songs: new LeafDB<Song>({ storage: { root: ROOT.APP_DATA, name: 'songs' } }),
   albums: new LeafDB<Album>({ storage: { root: ROOT.APP_DATA, name: 'albums' } }),
-  labels: new LeafDB<Label>({ storage: { root: ROOT.APP_DATA, name: 'labels' } }),
-  images: new LeafDB<Image>({ storage: { root: ROOT.APP_DATA, name: 'images' } })
+  labels: new LeafDB<Label>({ storage: { root: ROOT.APP_DATA, name: 'labels' } })
 };
 const storage = {
   app: new Storage({ name: 'app', shape: appShape, root: ROOT.APP_DATA }),
@@ -67,7 +61,6 @@ const storage = {
 const router = {
   library: createIpcRouter(createLibraryController({
     db,
-    storage,
     root: {
       covers: DIR.COVERS,
       thumbs: DIR.THUMBS

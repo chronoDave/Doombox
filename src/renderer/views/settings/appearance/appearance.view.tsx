@@ -3,8 +3,9 @@ import type { ThemeShape } from '../../../../types/shapes/theme.shape';
 
 import * as forgo from 'forgo';
 
-import * as state from '../../../state/state';
+import store from '../../../store/store';
 import InputRadio from '../../../components/input/radio/input.radio';
+import { setTheme } from '../../../store/actions/theme.actions';
 
 export type AppearanceViewProps = {};
 
@@ -12,13 +13,15 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
   const values: ThemeShape['theme'][] = ['dark', 'light', 'system'];
   const component = new forgo.Component<AppearanceViewProps>({
     render() {
+      const { theme } = store.get();
+
       return (
         <div>
           <InputRadio
             id="theme"
             label="theme"
-            value={state.theme.shape.theme}
-            onchange={value => state.actions.theme.setThemeType(value as ThemeShape['theme'])}
+            value={theme.theme}
+            onchange={value => setTheme(value as ThemeShape['theme'])}
             options={values.map(value => ({
               id: value,
               value,

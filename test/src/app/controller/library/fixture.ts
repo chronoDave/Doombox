@@ -1,18 +1,10 @@
-import type {
-  Album,
-  Image,
-  Label,
-  Song
-} from '../../../../../src/types/library';
-import type { UserShape } from '../../../../../src/types/shapes/user.shape';
+import type { Album, Label, Song } from '../../../../../src/types/library';
 
 import path from 'path';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
 
-import Storage from '../../../../../src/app/lib/storage';
 import libraryController from '../../../../../src/app/lib/controllers/library.controller';
-import userShape from '../../../../../src/types/shapes/user.shape';
 
 export default () => {
   const root = path.resolve(__dirname, '__data');
@@ -32,22 +24,12 @@ export default () => {
   fs.mkdirSync(dir.thumbs);
 
   const db = {
-    images: new LeafDB<Image>(),
     songs: new LeafDB<Song>(),
     albums: new LeafDB<Album>(),
     labels: new LeafDB<Label>()
   };
 
-  const storage = {
-    user: new Storage<UserShape>({
-      name: 'app',
-      shape: userShape,
-      root: dir.root
-    })
-  };
-
   const controller = libraryController({
-    storage,
     db,
     root: {
       covers: dir.covers,

@@ -15,8 +15,9 @@ export enum IpcChannel {
 
 export enum IpcAction {
   SelectFolders = 'selectFolders',
-  AddFolders = 'addFolders',
-  RemoveFolders = 'removeFolders',
+  Add = 'add',
+  Remove = 'remove',
+  Rebuild = 'rebuild',
   All = 'all',
   Get = 'get',
   Set = 'set',
@@ -43,7 +44,7 @@ export type IpcPayloadSet<T extends Shape> = {
 /** Controller */
 export type IpcControllerStorage<T extends Shape> = {
   [IpcAction.Get]: (payload: IpcPayloadGet<T>) => Promise<T[keyof T]>,
-  [IpcAction.Set]: (payload: IpcPayloadSet<T>) => Promise<T[keyof T]>,
+  [IpcAction.Set]: (payload: IpcPayloadSet<T>) => Promise<T>,
   [IpcAction.All]: () => Promise<T>
 };
 
@@ -64,9 +65,10 @@ export type IpcInvokeController = {
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>,
   [IpcChannel.User]: IpcControllerStorage<UserShape>,
   [IpcChannel.Library]: {
-    [IpcAction.AddFolders]: (payload: string[]) => Promise<Library>,
-    [IpcAction.RemoveFolders]: (payload: string[]) => Promise<Library>,
+    [IpcAction.Add]: (payload: string[]) => Promise<Library>,
+    [IpcAction.Remove]: (payload: string[]) => Promise<Library>,
     [IpcAction.Get]: () => Promise<Library>
+    [IpcAction.Rebuild]: (payload: string[]) => Promise<Library>
   }
 };
 
