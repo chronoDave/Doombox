@@ -8,7 +8,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
   const component = new forgo.Component<AlbumViewProps>({
     render() {
       return (
-        <div>AlbumView</div>
+        <div class="view">AlbumView</div>
       );
     }
   });

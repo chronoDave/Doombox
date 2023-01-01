@@ -83,11 +83,17 @@ module.exports = (env, argv) => [{
       include: path.resolve(__dirname, 'src/renderer'),
       use: [
         MiniCssExtractPlugin.loader,
-        { loader: 'css-loader', options: { url: false } },
         {
+          loader: 'css-loader',
+          options: {
+            url: false,
+            sourceMap: argv.mode === 'development'
+          }
+        }, {
           loader: 'sass-loader',
           options: {
             sassOptions: {
+              sourceMap: argv.mode === 'development',
               includePaths: [
                 path.resolve(__dirname, 'src/renderer/scss/utils')
               ],

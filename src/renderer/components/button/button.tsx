@@ -7,9 +7,6 @@ import cx from '../../utils/cx';
 import './button.scss';
 
 export type ButtonProps = forgo.JSX.HTMLAttributes<HTMLButtonElement> & {
-  onclick: forgo.JSX.MouseEventHandler<HTMLButtonElement>
-  'aria-label'?: string
-  variant: 'filled'
   class?: string
 };
 
@@ -18,14 +15,9 @@ const Button: Component<ButtonProps> = () => {
     render(props) {
       return (
         <button
-          onclick={props.onclick}
+          {...props}
           type="button"
-          aria-label={props['aria-label']}
-          class={cx(
-            'Button',
-            props.variant,
-            props.class
-          )}
+          class={cx('Button', props.class)}
         >
           {props.children}
         </button>

@@ -19,7 +19,7 @@ export type State = Immutable<{
   ready: boolean,
   layout: 'library' | 'settings'
   view: {
-    library: 'song' | 'album' | 'label',
+    library: 'player' | 'song' | 'album' | 'label',
     settings: 'appearance' | 'library'
   },
   library: {

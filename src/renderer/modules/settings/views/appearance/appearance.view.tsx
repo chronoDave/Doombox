@@ -4,7 +4,7 @@ import type { ThemeShape } from '../../../../../types/shapes/theme.shape';
 import * as forgo from 'forgo';
 
 import store from '../../../../store/store';
-import InputRadio from '../../../../components/input/radio/input.radio';
+import InputRadio from '../../../../components/inputRadio/input.radio';
 import { setTheme } from '../../../../store/actions/theme.actions';
 
 export type AppearanceViewProps = {};
