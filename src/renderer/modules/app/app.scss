@@ -1,0 +1,34 @@
+@use 'typography.scss';
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  color: var(--text);
+  fill: var(--text);
+  background-color: var(--bg);
+  overflow: hidden;
+  @include typography.normal;
+
+  > main {
+    flex-grow: 1;
+    max-height: 100%;
+    overflow: auto;
+  }
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  background-color: var(--scrollbar);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+  isolation: isolate;
+}

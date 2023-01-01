@@ -24,8 +24,8 @@ test('[eventEmitter.on] fires when event is emitted', t => {
   const fn = () => { n += 1; };
   const event = 'test';
   emiter.on(event, fn);
-  emiter.emit(event);
-  emiter.emit(event);
+  emiter.emit(event, '');
+  emiter.emit(event, '');
 
   t.equal(n, 2, 'fires event');
 

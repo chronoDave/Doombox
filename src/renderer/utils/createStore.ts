@@ -48,6 +48,8 @@ const createStore = <S extends State, R extends Record<string, Reducer<S>>>(
     const channels = paths.map(path => path.split('.')[0]) as Extract<keyof S, string>[];
     component.mount(() => channels.forEach(channel => emitter.on(channel, update)));
     component.unmount(() => channels.forEach(channel => emitter.off(channel, update)));
+
+    return component;
   };
 
   return ({ dispatch, subscribe, get });

@@ -1,34 +1,25 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
-import type { State } from '../../store/store';
 
 import * as forgo from 'forgo';
 
-import Settings from '../settings/settings';
-import SplashView from '../../views/app/splash/splash.view';
-import AlbumView from '../../views/app/album/album.view';
+import store from '../../store/store';
+import Splash from '../../layouts/splash/splash';
+import Settings from '../../layouts/settings/settings';
+import Library from '../../layouts/library/library';
 import { fetchLibrary } from '../../store/actions/library.actions';
 import { fetchTheme } from '../../store/actions/theme.actions';
 import { fetchUser } from '../../store/actions/user.actions';
-import store from '../../store/store';
-
-import './app.scss';
 
 export type AppProps = {};
 
 const App: Component<AppProps> = () => {
-  const views: Record<State['view']['app'], forgo.Component> = {
-    song: <div>Song</div>,
-    album: <AlbumView />,
-    label: <div>Label</div>
-  };
-
   const component = new forgo.Component<AppProps>({
     render() {
-      const { ready, layout, view } = store.get();
+      const { ready, layout } = store.get();
 
-      if (!ready) return <SplashView />;
+      if (!ready) return <Splash />;
       if (layout === 'settings') return <Settings />;
-      return views[view.app];
+      return <Library />;
     }
   });
 
@@ -42,9 +33,7 @@ const App: Component<AppProps> = () => {
     store.dispatch('setReady', true);
   });
 
-  store.subscribe(component, ['ready', 'layout']);
-
-  return component;
+  return store.subscribe(component, ['ready', 'layout']);
 };
 
 export default App;

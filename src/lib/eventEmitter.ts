@@ -1,4 +1,4 @@
-export default class EventEmitter<T extends string, K = undefined> {
+export default class EventEmitter<T extends string, K> {
   private readonly _listeners: Map<T, Function[]>;
 
   constructor() {

@@ -17,9 +17,9 @@ import { IS_DEV } from '../../utils/const';
 
 export type State = Immutable<{
   ready: boolean,
-  layout: 'app' | 'settings'
+  layout: 'library' | 'settings'
   view: {
-    app: 'song' | 'album' | 'label',
+    library: 'song' | 'album' | 'label',
     settings: 'appearance' | 'library'
   },
   library: {
@@ -33,9 +33,9 @@ export type State = Immutable<{
 
 const state: State = {
   ready: false,
-  layout: 'app',
+  layout: 'library',
   view: {
-    app: 'song',
+    library: 'song',
     settings: 'appearance'
   },
   library: {
@@ -54,10 +54,10 @@ const store = createStore(state, {
       draft.ready = ready;
     })
   },
-  setViewApp: {
+  setViewLibrary: {
     channel: 'view',
-    action: (view: State['view']['app']) => produce(draft => {
-      draft.view.app = view;
+    action: (view: State['view']['library']) => produce(draft => {
+      draft.view.library = view;
     })
   },
   setViewSettings: {

@@ -3,8 +3,6 @@ import store from '../store';
 export const fetchUser = async () => {
   const user = await window.ipc.user.all();
 
-  console.log(user);
-
   store.dispatch('setUser', user);
 };
 

@@ -59,10 +59,7 @@ module.exports = (env, argv) => [{
   name: 'renderer',
   target: 'electron-renderer',
   devtool: 'cheap-source-map',
-  entry: {
-    index: path.resolve(__dirname, 'src/renderer/index.tsx'),
-    preload: path.resolve(__dirname, 'src/renderer/index.scss')
-  },
+  entry: path.resolve(__dirname, 'src/renderer/index.tsx'),
   output: {
     path: path.resolve(__dirname, 'build/renderer'),
     globalObject: 'globalThis',

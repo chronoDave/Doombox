@@ -9,8 +9,8 @@ test('[eventEmitter.once] fires event once', t => {
   const fn = () => { n += 1; };
   const event = 'test';
   emiter.once(event, fn);
-  emiter.emit(event);
-  emiter.emit(event);
+  emiter.emit(event, '');
+  emiter.emit(event, '');
 
   t.equal(n, 1, 'fires event once');
 

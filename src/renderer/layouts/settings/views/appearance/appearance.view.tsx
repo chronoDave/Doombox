@@ -1,11 +1,11 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
-import type { ThemeShape } from '../../../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../../../../types/shapes/theme.shape';
 
 import * as forgo from 'forgo';
 
-import store from '../../../store/store';
-import InputRadio from '../../../components/input/radio/input.radio';
-import { setTheme } from '../../../store/actions/theme.actions';
+import store from '../../../../store/store';
+import InputRadio from '../../../../components/input/radio/input.radio';
+import { setTheme } from '../../../../store/actions/theme.actions';
 
 export type AppearanceViewProps = {};
 

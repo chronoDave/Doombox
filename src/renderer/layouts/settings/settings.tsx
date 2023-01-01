@@ -4,12 +4,12 @@ import type { State } from '../../store/store';
 import * as forgo from 'forgo';
 
 import store from '../../store/store';
-import AppearanceView from '../../views/settings/appearance/appearance.view';
 import cx from '../../utils/cx';
 import Icon from '../../components/icon/icon';
 import { setViewSettings } from '../../store/actions/view.actions';
 import { setLayout } from '../../store/actions/layout.actions';
 
+import AppearanceView from './views/appearance/appearance.view';
 import './settings.scss';
 
 export type SettingsProps = {};
@@ -87,7 +87,7 @@ const Settings: Component<SettingsProps> = () => {
             <button
               type="button"
               aria-label="close settings"
-              onclick={() => setLayout('app')}
+              onclick={() => setLayout('library')}
             >
               <Icon id="close" />
             </button>
