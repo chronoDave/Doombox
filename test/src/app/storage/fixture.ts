@@ -9,9 +9,8 @@ export default () => {
   fs.mkdirSync(root, { recursive: true });
 
   const storage = new Storage({ root, name: 'app', shape: appShape });
-  // @ts-ignore
+  // @ts-expect-error: Ignore private
   const init = () => fs.writeFileSync(storage._file, JSON.stringify(appShape));
-  // @ts-ignore
   const cleanup = () => fs.rmSync(root, { force: true, recursive: true });
 
   return ({

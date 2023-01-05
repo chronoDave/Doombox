@@ -15,6 +15,7 @@
   "scripts": {
     "lint:es": "eslint src test",
     "lint:ts": "tsc --noEmit",
+    "lint:fix": "eslint src test --fix",
     "lint": "npm run lint:ts && npm run lint:es",
     "start:webpack": "webpack --mode development -w",
     "start:electron": "nodemon --config .nodemon.json",

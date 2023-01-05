@@ -1,12 +1,11 @@
 import type { Shape } from '../../types/primitives';
 
 import fs from 'fs';
-import path from 'path';
 import produce from 'immer';
+import path from 'path';
 
 import merge from '../../utils/shape/merge';
 import parse from '../../utils/shape/parse';
-import isObject from '../../utils/validation/isObject';
 
 export type StorageProps<T> = {
   root: string
@@ -45,13 +44,7 @@ export default class Storage<T extends Shape> {
 
   set<K extends keyof T>(key: K, value: Partial<T[K]>) {
     this._data = produce(this._data, (draft: T) => {
-      if (isObject(value) && isObject(draft[key])) {
-        // @ts-ignore
-        Object.assign(draft[key], value);
-      } else {
-        // @ts-ignore
-        draft[key] = value;
-      }
+      Object.assign(draft[key], value);
     });
 
     fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));

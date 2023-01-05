@@ -2,9 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Menu from '../../../../components/menu/menu';
-import Icon from '../../../../components/icon/icon';
 import ButtonIcon from '../../../../components/buttonIcon/button.icon';
+import Icon from '../../../../components/icon/icon';
+import Menu from '../../../../components/menu/menu';
 import { setLayout } from '../../../../store/actions/layout.actions';
 import { addFolders, rebuildLibrary } from '../../../../store/actions/library.actions';
 

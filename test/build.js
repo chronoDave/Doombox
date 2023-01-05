@@ -1,7 +1,7 @@
 const { build } = require('esbuild');
-const path = require('path');
-const fs = require('fs');
 const glob = require('fast-glob');
+const fs = require('fs');
+const path = require('path');
 
 const outdir = path.resolve(__dirname, 'build');
 

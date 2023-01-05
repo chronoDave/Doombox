@@ -1,5 +1,5 @@
-import type { BrowserWindow } from 'electron';
 import type { IpcChannel, IpcSendController } from '../../../types/ipc';
+import type { BrowserWindow } from 'electron';
 
 export type WindowControllerProps = {
   window: BrowserWindow

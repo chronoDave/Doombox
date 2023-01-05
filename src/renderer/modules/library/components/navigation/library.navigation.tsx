@@ -1,12 +1,12 @@
-import type { ForgoNewComponentCtor as Component } from 'forgo';
 import type { IconProps } from '../../../../components/icon/icon';
 import type { State } from '../../../../store/store';
+import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import ButtonIcon from '../../../../components/buttonIcon/button.icon';
 import store from '../../../../store/store';
 import cx from '../../../../utils/cx';
-import ButtonIcon from '../../../../components/buttonIcon/button.icon';
 
 import './library.navigation.scss';
 
@@ -19,10 +19,11 @@ type LayoutItem = {
 
 const LibraryNavigation: Component<LibraryNavigationProps> = () => {
   const layouts: LayoutItem[] = [
-    { layout: 'player', icon: 'player' },
-    { layout: 'song', icon: 'songs' },
-    { layout: 'album', icon: 'album' },
-    { layout: 'label', icon: 'libraryMusic' }
+    { layout: 'playlist', icon: 'playlistMusic' },
+    { layout: 'player', icon: 'playCircle' },
+    { layout: 'song', icon: 'musicNote' },
+    { layout: 'album', icon: 'musicBox' },
+    { layout: 'label', icon: 'accountMusic' }
   ];
 
   const component = new forgo.Component<LibraryNavigationProps>({
@@ -41,7 +42,7 @@ const LibraryNavigation: Component<LibraryNavigationProps> = () => {
             ))}
             <li>
               <ButtonIcon
-                icon='settings'
+                icon='cog'
                 aria-label='open settings'
                 onclick={() => {
                   store.dispatch('setViewSettings', 'library');

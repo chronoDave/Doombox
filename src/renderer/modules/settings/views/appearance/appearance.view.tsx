@@ -1,16 +1,16 @@
-import type { ForgoNewComponentCtor as Component } from 'forgo';
 import type { ThemeShape } from '../../../../../types/shapes/theme.shape';
+import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import store from '../../../../store/store';
 import InputRadio from '../../../../components/inputRadio/input.radio';
 import { setTheme } from '../../../../store/actions/theme.actions';
+import store from '../../../../store/store';
 
 export type AppearanceViewProps = {};
 
 const AppearanceView: Component<AppearanceViewProps> = () => {
-  const values: ThemeShape['theme'][] = ['dark', 'light', 'system'];
+  const values: Array<ThemeShape['theme']> = ['dark', 'light', 'system'];
   const component = new forgo.Component<AppearanceViewProps>({
     render() {
       const { theme } = store.get();

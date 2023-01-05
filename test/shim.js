@@ -1,5 +1,5 @@
-const { JSDOM } = require('jsdom');
 const forgo = require('forgo');
+const { JSDOM } = require('jsdom');
 
 export const dom = new JSDOM();
 export const window = dom.window;

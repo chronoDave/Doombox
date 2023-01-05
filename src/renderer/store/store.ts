@@ -1,4 +1,3 @@
-import type { Immutable } from 'immer';
 import type {
   Album,
   Label,
@@ -7,19 +6,20 @@ import type {
 } from '../../types/library';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
+import type { Immutable } from 'immer';
 
 import { produce } from 'immer';
 
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
-import createStore from '../utils/createStore';
 import { IS_DEV } from '../../utils/const';
+import createStore from '../utils/createStore';
 
 export type State = Immutable<{
   ready: boolean,
   layout: 'library' | 'settings'
   view: {
-    library: 'player' | 'song' | 'album' | 'label',
+    library: 'playlist' | 'player' | 'song' | 'album' | 'label',
     settings: 'appearance' | 'library'
   },
   library: {

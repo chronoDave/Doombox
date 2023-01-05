@@ -1,7 +1,7 @@
 import type { Song } from '../../../types/library';
 
-import { parseFile } from 'music-metadata';
 import LeafDB from 'leaf-db';
+import { parseFile } from 'music-metadata';
 
 export default async (files: string[]) => {
   const data = await Promise.all(files.map(async file => {

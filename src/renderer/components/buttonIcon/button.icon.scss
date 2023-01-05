@@ -13,6 +13,7 @@
   }
 
   @include utils.hover {
+    cursor: pointer;
     fill: var(--text);
     background-color: var(--hover);
   }

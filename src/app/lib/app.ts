@@ -1,8 +1,8 @@
-import type Storage from './storage';
-import type { AppShape } from '../../types/shapes/app.shape';
-import type Logger from './logger';
-import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { IpcRouter } from '../../types/ipc';
+import type { AppShape } from '../../types/shapes/app.shape';
+import type { ThemeShape } from '../../types/shapes/theme.shape';
+import type Logger from './logger';
+import type Storage from './storage';
 
 import { app, ipcMain, nativeTheme } from 'electron';
 

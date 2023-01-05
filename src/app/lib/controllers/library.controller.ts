@@ -1,21 +1,21 @@
-import type LeafDB from 'leaf-db';
+import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
 import type {
   Album,
   Label,
   Library,
   Song
 } from '../../../types/library';
-import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
+import type LeafDB from 'leaf-db';
 
-import path from 'path';
 import glob from 'fast-glob';
+import path from 'path';
 
-import parseFiles from '../utils/parseFiles';
+import difference from '../../../utils/array/difference';
 import createImageCover from '../utils/createImageCover';
 import createImageThumb from '../utils/createImageThumb';
 import groupAlbums from '../utils/groupAlbums';
 import groupLabels from '../utils/groupLabels';
-import difference from '../../../utils/array/difference';
+import parseFiles from '../utils/parseFiles';
 
 export type LibraryControllerProps = {
   root: {

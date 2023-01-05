@@ -1,13 +1,13 @@
-import type Storage from './storage';
-import type Logger from './logger';
 import type { AppShape } from '../../types/shapes/app.shape';
+import type Logger from './logger';
+import type Storage from './storage';
 
-import path from 'path';
 import { BrowserWindow, ipcMain } from 'electron';
+import path from 'path';
 
 import { IpcChannel } from '../../types/ipc';
-import debounce from '../../utils/function/debounce';
 import { IS_DEV } from '../../utils/const';
+import debounce from '../../utils/function/debounce';
 
 import createWindowController from './controllers/window.controller';
 import createIpcRouter from './utils/createIpcRouter';

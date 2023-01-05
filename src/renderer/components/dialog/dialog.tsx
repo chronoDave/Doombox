@@ -2,10 +2,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../icon/icon';
 import createFocusTrap from '../../utils/createFocusTrap';
 import cx from '../../utils/cx';
 import portal from '../../utils/portal';
+import Icon from '../icon/icon';
 
 export type DialogProps = {
   id: string

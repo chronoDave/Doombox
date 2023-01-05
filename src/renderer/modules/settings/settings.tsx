@@ -1,15 +1,16 @@
-import type { ForgoNewComponentCtor as Component } from 'forgo';
 import type { State } from '../../store/store';
+import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Icon from '../../components/icon/icon';
+import { setLayout } from '../../store/actions/layout.actions';
+import { setViewSettings } from '../../store/actions/view.actions';
 import store from '../../store/store';
 import cx from '../../utils/cx';
-import Icon from '../../components/icon/icon';
-import { setViewSettings } from '../../store/actions/view.actions';
-import { setLayout } from '../../store/actions/layout.actions';
 
 import AppearanceView from './views/appearance/appearance.view';
+
 import './settings.scss';
 
 export type SettingsProps = {};

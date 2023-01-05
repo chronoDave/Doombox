@@ -9,9 +9,9 @@ test('[eventEmitter.on] creates event listener', t => {
   const event = 'test';
   emiter.on(event, fn);
 
-  // @ts-ignore
+  // @ts-expect-error: Ignore private
   t.true(Array.isArray(emiter._listeners.get(event)), 'creates event list');
-  // @ts-ignore
+  // @ts-expect-error: Ignore private
   t.true(emiter._listeners.get(event).includes(fn));
 
   t.end();

@@ -1,5 +1,5 @@
-import type { ForgoNewComponentCtor as Component } from 'forgo';
 import type { IconProps } from '../icon/icon';
+import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 

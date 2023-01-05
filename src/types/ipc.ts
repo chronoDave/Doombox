@@ -1,6 +1,6 @@
 import type { Library } from './library';
-import type { ThemeShape } from './shapes/theme.shape';
 import type { Shape } from './primitives';
+import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
 
 export type IpcRouter = (_: unknown, ...args: unknown[]) => unknown;

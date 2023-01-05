@@ -50,6 +50,8 @@ module.exports = {
     '@typescript-eslint/comma-dangle': ['error', 'never'],
     '@typescript-eslint/lines-between-class-members': 'off',
     '@typescript-eslint/prefer-readonly': ['error'],
+    '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
+    '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
     '@typescript-eslint/prefer-reduce-type-parameter': ['error'],
     '@typescript-eslint/naming-convention': ['error', {
       // Enforce camelCase
@@ -133,9 +135,14 @@ module.exports = {
       'newlines-between': 'always',
       warnOnUnassignedImports: true,
       pathGroups: [{
-        pattern: 'src/**',
-        group: 'internal'
+        pattern: './*.scss',
+        group: 'index',
+        position: 'after'
       }],
+      alphabetize: {
+        order: 'asc',
+        caseInsensitive: true
+      },
       pathGroupsExcludedImportTypes: ['builtin'],
       groups: [
         'type',

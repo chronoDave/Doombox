@@ -1,6 +1,6 @@
-import type Storage from '../storage';
 import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
 import type { ThemeShape } from '../../../types/shapes/theme.shape';
+import type Storage from '../storage';
 
 import { nativeTheme } from 'electron';
 

@@ -1,22 +1,22 @@
 import type { Album, Label, Song } from '../types/library';
 
-import fs from 'fs';
-import path from 'path';
 import { app as electron } from 'electron';
+import fs from 'fs';
 import LeafDB from 'leaf-db';
+import path from 'path';
 
 import appShape from '../types/shapes/app.shape';
 import themeShape from '../types/shapes/theme.shape';
-import { IS_DEV } from '../utils/const';
 import userShape from '../types/shapes/user.shape';
+import { IS_DEV } from '../utils/const';
 
 import run from './lib/app';
-import Logger from './lib/logger';
-import Storage from './lib/storage';
+import createAppController from './lib/controllers/app.controller';
+import createLibraryController from './lib/controllers/library.controller';
 import createThemeController from './lib/controllers/theme.controller';
 import createUserController from './lib/controllers/user.controller';
-import createLibraryController from './lib/controllers/library.controller';
-import createAppController from './lib/controllers/app.controller';
+import Logger from './lib/logger';
+import Storage from './lib/storage';
 import createIpcRouter from './lib/utils/createIpcRouter';
 
 const ROOT = {

@@ -1,13 +1,13 @@
-import type { ForgoNewComponentCtor as Component } from 'forgo';
-import type { PopupProps } from '../popup/popup';
 import type { IconProps } from '../icon/icon';
+import type { PopupProps } from '../popup/popup';
+import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { createPopup } from '../popup/popup';
-import Icon from '../icon/icon';
-import Button from '../button/button';
 import createClickAwayListener from '../../utils/clickAwayListener';
+import Button from '../button/button';
+import Icon from '../icon/icon';
+import { createPopup } from '../popup/popup';
 
 import './menu.scss';
 

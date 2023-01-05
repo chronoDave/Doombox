@@ -1,5 +1,5 @@
-import test from 'tape';
 import fs from 'fs';
+import test from 'tape';
 
 import fixture from './fixture';
 
@@ -9,7 +9,7 @@ test('[storage.set] sets data', async t => {
   const x = 100;
   storage.set('window', { x });
 
-  // @ts-ignore
+  // @ts-expect-error: Ignore private
   t.equal(storage._data.window.x, x, 'sets data');
 
   cleanup();
@@ -21,7 +21,7 @@ test('[storage.set] writes data', async t => {
 
   storage.set('window', {});
 
-  // @ts-ignore
+  // @ts-expect-error: Ignore private
   t.true(fs.existsSync(storage._file), 'writes data');
 
   cleanup();
@@ -32,11 +32,11 @@ test('[storage.set] does not overwrite data', async t => {
   const { storage, cleanup } = fixture();
 
   const window = { x: 100, y: 200 };
-  // @ts-ignore
+  // @ts-expect-error: Ignore private
   storage._data = { window };
   storage.set('window', {});
 
-  // @ts-ignore
+  // @ts-expect-error: Ignore private
   t.deepEqual(storage._data.window, window, 'does not overwrite');
 
   cleanup();

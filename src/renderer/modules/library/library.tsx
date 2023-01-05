@@ -1,21 +1,24 @@
-import type { ForgoNewComponentCtor as Component } from 'forgo';
 import type { State } from '../../store/store';
+import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
 import store from '../../store/store';
 
+import LibraryNavigation from './components/navigation/library.navigation';
 import AlbumView from './views/album/album.view';
-import './library.scss';
-import SongView from './views/song/song.view';
 import LabelView from './views/label/label.view';
 import PlayerView from './views/player/player.view';
-import LibraryNavigation from './components/navigation/library.navigation';
+import PlaylistView from './views/playlist/playlist.view';
+import SongView from './views/song/song.view';
+
+import './library.scss';
 
 export type LibraryProps = {};
 
 const Library: Component<LibraryProps> = () => {
   const views: Record<State['view']['library'], forgo.Component> = {
+    playlist: <PlaylistView />,
     player: <PlayerView />,
     song: <SongView />,
     album: <AlbumView />,

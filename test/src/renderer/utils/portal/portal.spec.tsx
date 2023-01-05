@@ -1,8 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
-import test from 'tape';
 import * as forgo from 'forgo';
+import test from 'tape';
 
 import portal from '../../../../../src/renderer/utils/portal';
 
