@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import './splash.scss';
+import './splash.view.scss';
 
 export type SplashViewProps = {};
 

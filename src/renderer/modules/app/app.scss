@@ -12,23 +12,38 @@ body {
   @include typography.normal;
 
   > main {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
     max-height: 100%;
     overflow: auto;
+
+    > div {
+      flex-grow: 1;
+    }
+
+    > nav {
+      background-color: var(--app-bar);
+
+      > ul {
+        display: flex;
+
+        > li {
+          display: inline-flex;
+
+          > button {
+            padding: 4px 8px;
+          }
+
+          &.active > button {
+            fill: var(--text);
+          }
+
+          &:last-child {
+            margin-left: auto;
+          }
+        }
+      }
+    }
   }
-}
-
-*::-webkit-scrollbar {
-  width: 12px;
-  background-color: var(--scrollbar);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-}
-
-*:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 2px;
-  isolation: isolate;
 }

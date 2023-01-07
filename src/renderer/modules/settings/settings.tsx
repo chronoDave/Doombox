@@ -3,13 +3,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../components/icon/icon';
-import { setLayout } from '../../store/actions/layout.actions';
 import { setViewSettings } from '../../store/actions/view.actions';
 import store from '../../store/store';
 import cx from '../../utils/cx';
-
-import AppearanceView from './views/appearance/appearance.view';
+import AppearanceView from '../../views/settings/appearance/appearance.view';
+import LibraryView from '../../views/settings/library/library.view';
 
 import './settings.scss';
 
@@ -18,7 +16,7 @@ export type SettingsProps = {};
 const Settings: Component<SettingsProps> = () => {
   const views: Record<State['view']['settings'], forgo.Component> = {
     appearance: <AppearanceView />,
-    library: <div>E</div>
+    library: <LibraryView />
   };
 
   const handleClick = (e: UIEvent) => {
@@ -31,7 +29,7 @@ const Settings: Component<SettingsProps> = () => {
       const state = store.get();
 
       return (
-        <main class='Settings' id="settings">
+        <div class='Settings' id="settings">
           <ul
             aria-label="settings"
             role="tablist"
@@ -84,17 +82,7 @@ const Settings: Component<SettingsProps> = () => {
               {view}
             </section>
           ))}
-          <div class="close">
-            <button
-              type="button"
-              aria-label="close settings"
-              onclick={() => setLayout('library')}
-            >
-              <Icon id="close" />
-            </button>
-            <span>Esc</span>
-          </div>
-        </main>
+        </div>
       );
     }
   });

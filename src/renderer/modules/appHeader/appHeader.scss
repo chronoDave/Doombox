@@ -33,25 +33,40 @@ body > header {
     flex-grow: 1;
   }
 
+  > button {
+    width: 40px;
+    height: 100%;
+  }
+
   > nav {
     position: relative;
     flex-shrink: 0;
     height: 100%;
 
-    > button {
-      width: 40px;
+    > ul {
+      display: flex;
+      align-items: center;
       height: 100%;
 
-      @include utils.hover {
-        &.close {
-          fill: var(--text-error);
-          background-color: var(--error);
-        }
-      }
+      > li {
+        height: 100%;
 
-      &[aria-expanded='true'] {
-        fill: var(--text);
-        background-color: var(--hover);
+        > button {
+          width: 40px;
+          height: 100%;
+
+          @include utils.hover {
+            &.close {
+              fill: var(--text-error);
+              background-color: var(--error);
+            }
+          }
+
+          &[aria-expanded='true'] {
+            fill: var(--text);
+            background-color: var(--hover);
+          }
+        }
       }
     }
   }

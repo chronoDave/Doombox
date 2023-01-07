@@ -135,7 +135,7 @@ module.exports = {
       'newlines-between': 'always',
       warnOnUnassignedImports: true,
       pathGroups: [{
-        pattern: './*.scss',
+        pattern: './**/*.scss',
         group: 'index',
         position: 'after'
       }],

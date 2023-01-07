@@ -17,9 +17,8 @@ import createStore from '../utils/createStore';
 
 export type State = Immutable<{
   ready: boolean,
-  layout: 'library' | 'settings'
   view: {
-    library: 'playlist' | 'player' | 'song' | 'album' | 'label',
+    app: 'playlist' | 'player' | 'song' | 'album' | 'label' | 'settings',
     settings: 'appearance' | 'library'
   },
   library: {
@@ -33,9 +32,8 @@ export type State = Immutable<{
 
 const state: State = {
   ready: false,
-  layout: 'library',
   view: {
-    library: 'song',
+    app: 'song',
     settings: 'appearance'
   },
   library: {
@@ -56,8 +54,8 @@ const store = createStore(state, {
   },
   setViewLibrary: {
     channel: 'view',
-    action: (view: State['view']['library']) => produce(draft => {
-      draft.view.library = view;
+    action: (view: State['view']['app']) => produce(draft => {
+      draft.view.app = view;
     })
   },
   setViewSettings: {
@@ -72,12 +70,6 @@ const store = createStore(state, {
       draft.library.songs = new Map(library.songs.map(song => [song._id, song]));
       draft.library.albums = new Map(library.albums.map(album => [album._id, album]));
       draft.library.labels = new Map(library.labels.map(label => [label._id, label]));
-    })
-  },
-  setLayout: {
-    channel: 'layout',
-    action: (layout: State['layout']) => produce(draft => {
-      draft.layout = layout;
     })
   },
   setTheme: {
