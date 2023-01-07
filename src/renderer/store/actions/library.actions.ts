@@ -10,16 +10,23 @@ export const fetchLibrary = async () => {
   store.dispatch('setLibrary', library);
 };
 
-export const addFolders = async () => {
-  const folders = await window.ipc.app.selectFolders();
-  if (folders.length === 0) return;
-
+export const addFolders = async (folders: string[]) => {
   const { user } = store.get();
   await setFolders(unique(user.library.folders, folders));
   const library = await window.ipc.library.add(difference(
     folders,
     user.library.folders
   ));
+
+  store.dispatch('setLibrary', library);
+};
+
+export const removeFolders = async (folders: string[]) => {
+  const { user } = store.get();
+  const newFolders = difference(user.library.folders, folders);
+
+  await setFolders(newFolders);
+  const library = await window.ipc.library.rebuild(newFolders);
 
   store.dispatch('setLibrary', library);
 };

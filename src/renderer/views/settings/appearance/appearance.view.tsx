@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import InputRadio from '../../../components/inputRadio/input.radio';
+import InputRadioList from '../../../components/inputRadioList/inputRadioList';
 import { setTheme } from '../../../store/actions/theme.actions';
 import store from '../../../store/store';
 
@@ -17,11 +17,13 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
 
       return (
         <div>
-          <InputRadio
+          <InputRadioList
             id="theme"
             label="theme"
             value={theme.theme}
-            onchange={value => setTheme(value as ThemeShape['theme'])}
+            onchange={value => {
+              setTheme(value as ThemeShape['theme']);
+            }}
             options={values.map(value => ({
               id: value,
               value,
@@ -33,7 +35,7 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
     }
   });
 
-  return component;
+  return store.subscribe(component, ['theme']);
 };
 
 export default AppearanceView;

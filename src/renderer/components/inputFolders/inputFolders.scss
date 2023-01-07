@@ -1,0 +1,8 @@
+.InputFolders {
+  display: flex;
+  flex-wrap: wrap;
+
+  > .input > ul > .InputCheckbox {
+    overflow-wrap: anywhere;
+  }
+}

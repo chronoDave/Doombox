@@ -1,0 +1,29 @@
+@use 'utils.scss';
+
+.InputRadioList {
+  > .options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  // > label {
+  //   display: flex;
+  //   align-items: center;
+  //   gap: 8px;
+  //   padding: 4px;
+  //   border-radius: 4px;
+
+  //   @include utils.hover {
+  //     cursor: pointer;
+
+  //     > input:after {
+  //       background-color: var(--text-inactive);
+  //     }
+  //   }
+
+  //   + label {
+  //     margin-top: 4px;
+  //   }
+  // }
+}

@@ -33,8 +33,8 @@ export type State = Immutable<{
 const state: State = {
   ready: false,
   view: {
-    app: 'song',
-    settings: 'appearance'
+    app: 'settings',
+    settings: 'library'
   },
   library: {
     songs: new Map(),

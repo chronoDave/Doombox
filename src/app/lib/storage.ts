@@ -42,9 +42,9 @@ export default class Storage<T extends Shape> {
     return this._data[key];
   }
 
-  set<K extends keyof T>(key: K, value: Partial<T[K]>) {
+  set<K extends keyof T>(key: K, value: T[K]) {
     this._data = produce(this._data, (draft: T) => {
-      Object.assign(draft[key], value);
+      draft[key] = value;
     });
 
     fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));

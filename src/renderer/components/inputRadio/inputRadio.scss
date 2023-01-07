@@ -1,0 +1,13 @@
+@use 'input.scss';
+
+.InputRadio {
+  @extend %input-checked;
+
+  > input {
+    border-radius: 50%;
+
+    &:after {
+      border-radius: 50%;
+    }
+  }
+}

@@ -1,0 +1,5 @@
+@use 'input.scss';
+
+.InputCheckbox {
+  @extend %input-checked;
+}

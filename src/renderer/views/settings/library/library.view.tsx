@@ -2,6 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import InputFolders from '../../../components/inputFolders/inputFolders';
 import store from '../../../store/store';
 
 export type LibraryViewProps = {};
@@ -13,15 +14,18 @@ const LibraryView: Component<LibraryViewProps> = () => {
 
       return (
         <div>
-          {user.library.folders.map(folder => (
-            <p>{folder}</p>
-          ))}
+          <InputFolders
+            folders={user.library.folders}
+            label='folders'
+            onadd={console.log}
+            onremove={console.log}
+          />
         </div>
       );
     }
   });
 
-  return component;
+  return store.subscribe(component, ['user']);
 };
 
 export default LibraryView;

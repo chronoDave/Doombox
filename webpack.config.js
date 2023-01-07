@@ -95,7 +95,8 @@ module.exports = (env, argv) => [{
             sassOptions: {
               sourceMap: argv.mode === 'development',
               includePaths: [
-                path.resolve(__dirname, 'src/renderer/scss/utils')
+                path.resolve(__dirname, 'src/renderer/scss/utils'),
+                path.resolve(__dirname, 'src/renderer/scss/partials')
               ],
               style: argv.mode === 'development' ?
                 'expanded' :
