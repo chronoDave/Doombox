@@ -12,7 +12,7 @@ export type InputRadioListProps = {
   label: string
   value: string
   onchange: (value: string, event: Event) => void
-  options: InputRadioProps[]
+  options: Array<Omit<InputRadioProps, 'checked'>>
 };
 
 const InputRadioList: Component<InputRadioListProps> = () => {

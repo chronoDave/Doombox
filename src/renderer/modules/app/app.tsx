@@ -1,13 +1,13 @@
 import type { IconProps } from '../../components/icon/icon';
-import type { State } from '../../store/store';
+import type { State } from '../../store/state';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import { fetchLibrary } from '../../actions/library.actions';
+import { fetchTheme } from '../../actions/theme.actions';
+import { fetchUser } from '../../actions/user.actions';
 import Icon from '../../components/icon/icon';
-import { fetchLibrary } from '../../store/actions/library.actions';
-import { fetchTheme } from '../../store/actions/theme.actions';
-import { fetchUser } from '../../store/actions/user.actions';
 import store from '../../store/store';
 import cx from '../../utils/cx';
 import AlbumView from '../../views/album/album.view';
@@ -40,9 +40,9 @@ const App: Component<AppProps> = () => {
 
   const component = new forgo.Component<AppProps>({
     render() {
-      const { ready, view } = store.get();
+      const { app, view } = store.get();
 
-      if (!ready) return <Splash />;
+      if (!app.ready) return <Splash />;
       return (
         <main>
           {views[view.app].view}
@@ -53,7 +53,7 @@ const App: Component<AppProps> = () => {
                   <button
                     type='button'
                     aria-label={`navigate to library ${id}`}
-                    onclick={() => store.dispatch('setViewLibrary', id)}
+                    onclick={() => store.dispatch('setViewApp', id)}
                   >
                     <Icon id={icon} />
                   </button>
@@ -76,7 +76,7 @@ const App: Component<AppProps> = () => {
     store.dispatch('setReady', true);
   });
 
-  return store.subscribe(component, ['ready', 'view']);
+  return store.subscribe(component, ['app.ready', 'view']);
 };
 
 export default App;

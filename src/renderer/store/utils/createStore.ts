@@ -1,15 +1,10 @@
+import type { Reducer, State } from '../types';
 import type { Component } from 'forgo';
 
 import objGet from 'lodash.get';
 
-import EventEmitter from '../../lib/eventEmitter';
-import { IS_DEV } from '../../utils/const';
-
-export type State = Record<string, unknown>;
-export type Reducer<S extends State> = {
-  channel: Extract<keyof S, string>
-  action: (payload: any) => (state: S) => S
-};
+import EventEmitter from '../../../lib/eventEmitter';
+import { IS_DEV } from '../../../utils/const';
 
 const createStore = <S extends State, R extends Record<string, Reducer<S>>>(
   initialState: S,

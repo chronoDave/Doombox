@@ -3,9 +3,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import Menu from '../../components/menu/menu';
-import { setLayout } from '../../store/actions/layout.actions';
-import { addFolders, rebuildLibrary } from '../../store/actions/library.actions';
 
 import './appHeader.scss';
 
@@ -26,22 +23,6 @@ const AppBar: Component<AppBarProps> = () => {
             src="icons/icon_light.png"
             alt='Doombox app icon'
           />
-          <Menu
-            id='app actions'
-            items={[{
-              label: 'Settings',
-              onclick: () => setLayout('settings')
-            }, {
-              label: 'Add folders',
-              onclick: addFolders
-            }, {
-              label: 'Rebuild library',
-              onclick: rebuildLibrary
-            }]}
-            popup={{ align: { x: 'start', y: 'end' } }}
-          >
-            <Icon id='menu' />
-          </Menu>
           <span class="title">Doombox</span>
           <nav aria-label='window'>
             <ul>

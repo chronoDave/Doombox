@@ -21,7 +21,7 @@ export default class Storage<T extends Shape> {
 
   private _read() {
     try {
-      return parse(fs.readFileSync(this._file, 'utf-8'));
+      return parse<T>(fs.readFileSync(this._file, 'utf-8'));
     } catch (err) {
       return null; // File does not exist
     }
@@ -33,7 +33,7 @@ export default class Storage<T extends Shape> {
     this._file = path.join(this._root, `${props.name}.json`);
 
     const json = this._read();
-    if (json) this._data = merge<T>(this._data, json);
+    if (json) this._data = merge(this._data, json);
 
     Object.seal(this._data);
   }
@@ -42,9 +42,9 @@ export default class Storage<T extends Shape> {
     return this._data[key];
   }
 
-  set<K extends keyof T>(key: K, value: T[K]) {
+  set<K extends keyof T>(key: K, value: Partial<T[K]>) {
     this._data = produce(this._data, (draft: T) => {
-      draft[key] = value;
+      draft[key] = merge(draft[key], value);
     });
 
     fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));

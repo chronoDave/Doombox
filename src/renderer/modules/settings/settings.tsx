@@ -1,9 +1,9 @@
-import type { State } from '../../store/store';
+import type { State } from '../../store/state';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { setViewSettings } from '../../store/actions/view.actions';
+import { setViewSettings } from '../../actions/view.actions';
 import store from '../../store/store';
 import cx from '../../utils/cx';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
