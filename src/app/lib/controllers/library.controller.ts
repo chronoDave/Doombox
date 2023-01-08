@@ -80,7 +80,7 @@ export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.L
     const fresh = difference(filesNew, filesOld);
 
     await props.db.songs.delete(stale.map(song => song._id));
-    const metadata = await parseFiles(fresh);
+    const metadata = await parseFiles(fresh, props.root);
 
     return addSongs(props, metadata);
   },
@@ -88,7 +88,7 @@ export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.L
     const songs = await props.db.songs.find({});
     const files = await getFiles(folders);
     const fresh = files.filter(file => songs.every(song => song.file !== file));
-    const metadata = await parseFiles(fresh);
+    const metadata = await parseFiles(fresh, props.root);
 
     return addSongs(props, metadata);
   },

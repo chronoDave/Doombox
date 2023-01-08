@@ -2,8 +2,9 @@ import type { Song } from '../../../types/library';
 
 import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
+import path from 'path';
 
-export default async (files: string[]) => {
+export default async (files: string[], root: { thumbs: string, covers: string }) => {
   const data = await Promise.all(files.map(async file => {
     const metadata = await parseFile(file, { duration: true });
     return ({ file, metadata });
@@ -33,7 +34,11 @@ export default async (files: string[]) => {
 
     const song: Song = {
       _id: LeafDB.generateId(),
-      image: pictures.get(b64)?._id ?? null,
+      image: pictures.get(b64)?._id ?
+        {
+          thumbs: path.join(root.thumbs, `${pictures.get(b64)?._id}.jpg`),
+          covers: path.join(root.covers, `${pictures.get(b64)?._id}.jpg`)
+        } : { thumbs: null, covers: null },
       file,
       // Metadata
       duration: metadata.format.duration ?? null,

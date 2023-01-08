@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "fast-glob": "^3.2.11",
-    "forgo": "^3.2.0",
+    "forgo": "^3.2.2",
     "immer": "^9.0.15",
     "leaf-db": "^8.0.5",
     "lodash.get": "^4.4.2",

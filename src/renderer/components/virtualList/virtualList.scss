@@ -1,0 +1,12 @@
+.VirtualList {
+  flex-grow: 1;
+  overflow: auto;
+
+  > ul {
+    position: relative;
+
+    > li {
+      position: absolute;
+    }
+  }
+}

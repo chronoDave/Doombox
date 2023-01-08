@@ -22,9 +22,12 @@ export type State = Immutable<{
     settings: 'appearance' | 'library'
   },
   library: {
-    songs: Map<string, Song>
-    albums: Map<string, Album>
-    labels: Map<string, Label>
+    songs: {
+      list: Song[]
+      map: Map<string, Song>
+    }
+    albums: Album[]
+    labels: Label[]
   }
   theme: ThemeShape
   user: UserShape
@@ -33,13 +36,16 @@ export type State = Immutable<{
 const state: State = {
   ready: false,
   view: {
-    app: 'settings',
+    app: 'song',
     settings: 'library'
   },
   library: {
-    songs: new Map(),
-    albums: new Map(),
-    labels: new Map()
+    songs: {
+      list: [],
+      map: new Map()
+    },
+    albums: [],
+    labels: []
   },
   theme: themeShape,
   user: userShape
@@ -67,9 +73,12 @@ const store = createStore(state, {
   setLibrary: {
     channel: 'library',
     action: (library: Library) => produce(draft => {
-      draft.library.songs = new Map(library.songs.map(song => [song._id, song]));
-      draft.library.albums = new Map(library.albums.map(album => [album._id, album]));
-      draft.library.labels = new Map(library.labels.map(label => [label._id, label]));
+      draft.library.songs = {
+        list: library.songs,
+        map: new Map(library.songs.map(song => [song._id, song]))
+      };
+      draft.library.albums = library.albums;
+      draft.library.labels = library.labels;
     })
   },
   setTheme: {
