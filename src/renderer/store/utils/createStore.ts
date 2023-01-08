@@ -1,3 +1,4 @@
+import type { NestedKeyOf } from '../../../types/helpers';
 import type { Reducer, State } from '../types';
 import type { Component } from 'forgo';
 
@@ -36,7 +37,7 @@ const createStore = <S extends State, R extends Record<string, Reducer<S>>>(
     emitter.emit(channel, old);
   };
 
-  const subscribe = (component: Component, paths: string[]) => {
+  const subscribe = <T extends NestedKeyOf<S>>(component: Component, paths: T[]) => {
     const update = (state: S) => paths
       .some(channel => objGet(state, channel) !== objGet(__state, channel)) && component.update();
 
