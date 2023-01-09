@@ -6,9 +6,9 @@ test('[eventEmitter.once] fires event once', t => {
   const emiter = new EventEmitter();
 
   let n = 0;
-  const fn = () => { n += 1; };
+  const cb = () => { n += 1; };
   const event = 'test';
-  emiter.once(event, fn);
+  emiter.once(event, cb);
   emiter.emit(event, '');
   emiter.emit(event, '');
 

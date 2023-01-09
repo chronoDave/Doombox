@@ -1,3 +1,17 @@
+:root {
+  --xs-w: 320px;
+  --sm-w: 480px;
+  --md-w: 720px;
+  --lg-w: 960px;
+  --xl-w: 1280px;
+
+  --xs-h: 240px;
+  --sm-h: 320px;
+  --md-h: 480px;
+  --lg-h: 720px;
+  --xl-h: 960px;
+}
+
 *::-webkit-scrollbar {
   width: 12px;
   background-color: var(--scrollbar);

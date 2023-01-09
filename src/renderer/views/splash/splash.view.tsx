@@ -2,12 +2,15 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import { useMediaQueryList } from '../../hooks/useMediaQuery';
+
 import './splash.view.scss';
 
 export type SplashViewProps = {};
 
 const SplashView: Component<SplashViewProps> = () => {
-  const bars = 10;
+  const ref: forgo.ForgoRef<Element> = {};
+  let bars = 12;
 
   const component = new forgo.Component<SplashViewProps>({
     render() {
@@ -17,6 +20,7 @@ const SplashView: Component<SplashViewProps> = () => {
             class="loader"
             aria-hidden="true"
             style={{ '--loader-equalizer-n': bars }}
+            ref={ref}
           >
             {Array.from({ length: bars }).map((_, i) => (
               <div
@@ -30,6 +34,19 @@ const SplashView: Component<SplashViewProps> = () => {
       );
     }
   });
+
+  useMediaQueryList(
+    'min-width',
+    ['xs-w', 'sm-w', 'md-w']
+  )((_, i) => {
+    bars = 12 + (4 * i);
+
+    ref.value?.childNodes.forEach(node => (node as HTMLDivElement).getAnimations()
+      .forEach(animation => {
+        animation.currentTime = 0;
+        animation.play();
+      }));
+  })(component);
 
   return component;
 };

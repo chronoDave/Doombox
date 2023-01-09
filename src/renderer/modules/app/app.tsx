@@ -7,6 +7,7 @@ import * as forgo from 'forgo';
 import { fetchLibrary } from '../../actions/library.actions';
 import { fetchTheme } from '../../actions/theme.actions';
 import { fetchUser } from '../../actions/user.actions';
+import { setViewApp } from '../../actions/view.actions';
 import Icon from '../../components/icon/icon';
 import store from '../../store/store';
 import cx from '../../utils/cx';
@@ -53,7 +54,7 @@ const App: Component<AppProps> = () => {
                   <button
                     type='button'
                     aria-label={`navigate to library ${id}`}
-                    onclick={() => store.dispatch('setViewApp', id)}
+                    onclick={() => setViewApp(id)}
                   >
                     <Icon id={icon} />
                   </button>
@@ -73,7 +74,7 @@ const App: Component<AppProps> = () => {
       fetchUser()
     ]);
 
-    store.dispatch('setReady', true);
+    // store.dispatch('setReady', true);
   });
 
   return store.subscribe(component, ['app.ready', 'view']);

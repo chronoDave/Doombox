@@ -14,13 +14,13 @@
     height: 100%;
     background-color: var(--settings-menu);
     
-    @media (min-width: v.$w-sm) {
+    @media (min-width: var(--sm-w)) {
       padding: 16px;
     }
 
     > li {
       + li {
-        @media (min-width: v.$w-sm) {   
+        @media (min-width: var(--sm-w)) {   
           margin-top: 2px;
         }
       }
@@ -35,7 +35,7 @@
           background-color: var(--primary-hover);
         }
         
-        @media (min-width: v.$w-sm) {
+        @media (min-width: var(--sm-w)) {
           border-radius: 4px;
         }
 
@@ -51,7 +51,7 @@
     padding: 8px 12px;
     overflow: auto;
 
-    @media (min-width: v.$w-md) {
+    @media (min-width: var(--md-w)) {
       padding: 16px 32px;
     }
 
@@ -71,7 +71,7 @@
     border-radius: 4px;
     color: var(--text-inactive);
 
-    @media (min-width: v.$w-md) {
+    @media (min-width: var(--md-w)) {
       margin: 16px 20px;
     }
 
