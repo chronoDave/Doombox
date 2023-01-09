@@ -4,8 +4,8 @@ import type { Component } from 'forgo';
 
 import objGet from 'lodash.get';
 
-import EventEmitter from '../../../lib/eventEmitter';
 import { IS_DEV } from '../../../utils/const';
+import EventEmitter from '../../../utils/event/eventEmitter';
 
 const createStore = <S extends State, R extends Record<string, Reducer<S>>>(
   initialState: S,

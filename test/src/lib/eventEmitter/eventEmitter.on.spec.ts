@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import EventEmitter from '../../../../src/lib/eventEmitter';
+import EventEmitter from '../../../../src/utils/event/eventEmitter';
 
 test('[eventEmitter.on] creates event listener', t => {
   const emiter = new EventEmitter();

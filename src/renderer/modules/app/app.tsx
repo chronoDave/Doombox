@@ -15,7 +15,7 @@ import LabelView from '../../views/label/label.view';
 import PlayerView from '../../views/player/player.view';
 import PlaylistView from '../../views/playlist/playlist.view';
 import SongView from '../../views/song/song.view';
-import Splash from '../../views/splash/splash.view';
+import SplashView from '../../views/splash/splash.view';
 import Settings from '../settings/settings';
 
 import './app.scss';
@@ -42,7 +42,7 @@ const App: Component<AppProps> = () => {
     render() {
       const { app, view } = store.get();
 
-      if (!app.ready) return <Splash />;
+      if (!app.ready) return <SplashView />;
       return (
         <main>
           {views[view.app].view}

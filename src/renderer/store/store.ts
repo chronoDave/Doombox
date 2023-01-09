@@ -18,5 +18,4 @@ const store = createStore(state, {
 
 if (IS_DEV) window.store = store;
 
-export type Store = typeof store;
 export default store;

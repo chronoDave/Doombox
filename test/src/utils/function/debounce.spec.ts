@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import debounce from '../../../../src/utils/function/debounce';
+import { debounce } from '../../../../src/utils/function/debounce';
 
 test('[function.debounce] should debounce', async t => {
   let count = 0;

@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import { debounceFrame } from '../../../utils/function/debounce';
 import createVirtualList from '../../utils/createVirtualList';
-import debounce from '../../utils/debounce';
 
 import './virtualList.scss';
 
@@ -19,7 +19,7 @@ const VirtualList: Component<VirtualListProps> = () => {
 
   const { abort, signal } = new AbortController();
   const ref: forgo.ForgoRef<Element> = {};
-  const virtualize = debounce(props => {
+  const virtualize = debounceFrame(props => {
     if (ref.value) virtual = createVirtualList(ref.value, props);
   });
 
