@@ -32,7 +32,7 @@ export const useMediaQuery = (axis: Axis, breakpoint: Breakpoint) =>
 export const useMediaQueryList = <T extends Breakpoint>(axis: Axis, breakpoints: T[]) =>
   (cb: (breakpoint: T, i: number, arr: T[]) => void) =>
     (component: Component) => {
-      const { abort, signal } = new AbortController();
+      const controller = new AbortController();
       const mqls = breakpoints.slice(1).map(breakpoint => window.matchMedia(`(${axis}: ${getCssVar(breakpoint)})`));
 
       component.mount(() => {
@@ -41,12 +41,12 @@ export const useMediaQueryList = <T extends Breakpoint>(axis: Axis, breakpoints:
             const index = e.matches ? i + 1 : i;
             cb(breakpoints[index], index, breakpoints);
             component.update();
-          }, { signal });
+          }, { signal: controller.signal });
         });
       });
 
       component.unmount(() => {
-        abort();
+        controller.abort();
       });
 
       let i = mqls.findIndex(mql => !mql.matches);

@@ -1,0 +1,32 @@
+@use 'typography.scss';
+
+.Scan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: var(--sm-w);
+  flex-grow: 1;
+  padding: 16px;
+  text-align: center;
+
+  > .Loader {
+    height: 30px;
+    margin-bottom: 8px
+  }
+
+  > .title {
+    @include typography.large;
+    margin-bottom: 1em;
+  }
+
+  > .file {
+    $line-height: 1.3em;
+    @include typography.clamp(3);
+    @include typography.small;
+
+    line-height: $line-height;
+    margin-top: 0.5em;
+    height: $line-height * 3;
+  }  
+}

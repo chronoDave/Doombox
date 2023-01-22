@@ -8,12 +8,13 @@ export type ThemeControllerProps = {
   storage: Storage<ThemeShape>
 };
 
-export default (props: ThemeControllerProps): IpcInvokeController[IpcChannel.Theme] => ({
-  all: async () => props.storage.all(),
-  get: async payload => props.storage.get(payload.key),
-  set: async payload => {
-    nativeTheme.themeSource = payload.value;
-    props.storage.set(payload.key, payload.value);
-    return props.storage.all();
-  }
-});
+export default (props: ThemeControllerProps) =>
+  (): IpcInvokeController[IpcChannel.Theme] => ({
+    all: async () => props.storage.all(),
+    get: async payload => props.storage.get(payload.key),
+    set: async payload => {
+      nativeTheme.themeSource = payload.value;
+      props.storage.set(payload.key, payload.value);
+      return props.storage.all();
+    }
+  });

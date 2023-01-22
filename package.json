@@ -32,7 +32,6 @@
   "devDependencies": {
     "@types/jsdom": "^20.0.0",
     "@types/lodash.get": "^4.4.7",
-    "@types/lodash.merge": "^4.6.7",
     "@types/sharp": "^0.30.5",
     "@types/tape": "^4.13.2",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
@@ -61,14 +60,15 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "deepmerge": "^4.2.2",
     "fast-glob": "^3.2.11",
     "forgo": "^3.2.2",
     "howler": "^2.2.3",
     "immer": "^9.0.15",
-    "leaf-db": "^8.0.5",
+    "leaf-db": "^8.0.6",
     "lodash.get": "^4.4.2",
-    "lodash.merge": "^4.6.2",
     "music-metadata": "^8.1.0",
+    "p-map": "^5.5.0",
     "sharp": "^0.30.7"
   }
 }

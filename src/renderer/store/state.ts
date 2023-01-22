@@ -9,7 +9,8 @@ import userShape from '../../types/shapes/user.shape';
 export type State = Immutable<{
   app: {
     ready: boolean
-  }
+    scanning: boolean
+  },
   view: {
     app: 'playlist' | 'player' | 'song' | 'album' | 'label' | 'settings'
     settings: 'appearance' | 'library'
@@ -28,7 +29,8 @@ export type State = Immutable<{
 
 const state: State = {
   app: {
-    ready: false
+    ready: false,
+    scanning: false
   },
   view: {
     app: 'song',

@@ -24,6 +24,7 @@ const createStore = <S extends State, R extends Record<string, Reducer<S>>>(
 
     if (IS_DEV) {
       console.group(`[store.channel] ${channel}`);
+      console.log('[store.event]', { action: key, payload });
       console.log('[state.old]', __state);
     }
 

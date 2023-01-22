@@ -32,7 +32,7 @@ export default async (props: AppProps) => {
   ipcMain.handle(IpcChannel.App, props.router.app);
   ipcMain.handle(IpcChannel.User, props.router.user);
   ipcMain.handle(IpcChannel.Theme, props.router.theme);
-  ipcMain.handle(IpcChannel.Library, props.router.library);
+  ipcMain.handle(IpcChannel.Library, (...args) => props.router.library(...args));
 
   createWindow({ storage: props.storage.app, logger: props.logger });
 

@@ -15,6 +15,7 @@ import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';
 import PlayerView from '../../views/player/player.view';
 import PlaylistView from '../../views/playlist/playlist.view';
+import ScanView from '../../views/scan/scan.view';
 import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
 import Settings from '../settings/settings';
@@ -44,6 +45,7 @@ const App: Component<AppProps> = () => {
       const { app, view } = store.get();
 
       if (!app.ready) return <SplashView />;
+      if (app.scanning) return <ScanView />;
       return (
         <main>
           {views[view.app].view}
@@ -74,10 +76,10 @@ const App: Component<AppProps> = () => {
       fetchUser()
     ]);
 
-    // store.dispatch('setReady', true);
+    store.dispatch('setReady', true);
   });
 
-  return store.subscribe(component, ['app.ready', 'view']);
+  return store.subscribe(component, ['app', 'view']);
 };
 
 export default App;

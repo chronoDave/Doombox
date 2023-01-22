@@ -8,43 +8,6 @@
   align-items: center;
   flex-grow: 1;
 
-  > .loader {
-    display: grid;
-    grid-template-columns: repeat(var(--loader-equalizer-n), 1fr);
-    align-items: flex-end;
-    gap: 2px;
-    width: 25vw;
-    max-width: 240px;
-    aspect-ratio: 2/1;
-
-    > .bar {
-      @keyframes bounce {
-        0% {
-          height: 20%;
-        }
-
-        20% {
-          height: 40%;
-        }
-
-        40% {
-          height: 30%;
-        }
-
-        50% {
-          height: 100%;
-        }
-    
-        100% {
-          height: 20%;
-        }
-      }
-  
-      background-color: var(--text);
-      animation: bounce 860ms infinite;
-    }
-  }
-
   > .title {
     margin-top: 8px;
   }

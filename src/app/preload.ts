@@ -1,4 +1,5 @@
 import type { IpcEvent, IpcApi } from '../types/ipc';
+import type { IpcRendererEvent } from 'electron';
 
 import { contextBridge, ipcRenderer } from 'electron';
 
@@ -46,6 +47,14 @@ const ipc: IpcApi = {
     all: () => invoke(IpcChannel.Theme, IpcAction.All),
     get: payload => invoke(IpcChannel.Theme, IpcAction.Get, payload),
     set: payload => invoke(IpcChannel.Theme, IpcAction.Set, payload)
+  },
+  on: {
+    scan: cb => {
+      const handler = (event: IpcRendererEvent, ...args: any[]) => cb(args[0]);
+      ipcRenderer.on(IpcChannel.Listener, handler);
+
+      return () => ipcRenderer.off(IpcChannel.Listener, handler);
+    }
   }
 };
 

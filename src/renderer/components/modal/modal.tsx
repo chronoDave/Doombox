@@ -7,6 +7,8 @@ import cx from '../../utils/cx';
 import portal from '../../utils/portal';
 import Icon from '../icon/icon';
 
+import './modal.scss';
+
 export type DialogProps = {
   id: string
   title: string
@@ -14,7 +16,7 @@ export type DialogProps = {
   onclose?: () => void
 };
 
-const Dialog: Component<DialogProps & { close: () => void }> = () => {
+export const Dialog: Component<DialogProps & { close: () => void }> = () => {
   const component = new forgo.Component<DialogProps & { close:() => void }>({
     render(props) {
       const idTitle = `${props.id}-title`;
@@ -62,9 +64,9 @@ const Dialog: Component<DialogProps & { close: () => void }> = () => {
   return component;
 };
 
-export const createDialog = (
-  props: DialogProps,
-  children: forgo.ForgoComponentCtor
+const createDialog = (
+  children: forgo.ForgoComponentCtor,
+  props: DialogProps
 ) => portal(document.body, close => (
   <Dialog
     close={close}
@@ -74,4 +76,4 @@ export const createDialog = (
   </Dialog>
 ));
 
-export default Dialog;
+export default createDialog;

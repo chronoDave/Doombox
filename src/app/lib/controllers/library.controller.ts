@@ -1,15 +1,18 @@
-import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
+import type { IpcInvokeController, IpcPayloadScan } from '../../../types/ipc';
 import type {
   Album,
   Label,
   Library,
   Song
 } from '../../../types/library';
+import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
 
 import glob from 'fast-glob';
+import pMap from 'p-map';
 import path from 'path';
 
+import { IpcChannel } from '../../../types/ipc';
 import difference from '../../../utils/array/difference';
 import createImageCover from '../utils/createImageCover';
 import createImageThumb from '../utils/createImageThumb';
@@ -58,10 +61,10 @@ const addSongs = async (
   props: LibraryControllerProps,
   metadata: Awaited<ReturnType<typeof parseFiles>>
 ) => {
-  await Promise.all(Array.from(metadata.pictures).map(async ([, { _id, raw }]) => {
-    await createImageCover(raw, path.resolve(props.root.covers, `${_id}.jpg`));
-    await createImageThumb(raw, path.resolve(props.root.thumbs, `${_id}.jpg`));
-  }));
+  await pMap(Array.from(metadata.pictures), ([, { _id, raw }]) => Promise.all([
+    createImageCover(raw, path.resolve(props.root.covers, `${_id}.jpg`)),
+    createImageThumb(raw, path.resolve(props.root.thumbs, `${_id}.jpg`))
+  ]), { concurrency: 8 });
 
   await props.db.songs.insert(metadata.songs);
   await rebuild(props);
@@ -69,35 +72,55 @@ const addSongs = async (
   return getLibrary(props);
 };
 
-export default (props: LibraryControllerProps): IpcInvokeController[IpcChannel.Library] => ({
-  get: () => getLibrary(props),
-  rebuild: async folders => {
-    const songsOld = await props.db.songs.find({});
-    const filesOld = songsOld.map(song => song.file);
-    const filesNew = await getFiles(folders);
+const sendUpdate = (sender: WebContents) =>
+  (payload: IpcPayloadScan) => sender.send(IpcChannel.Listener, payload);
 
-    const stale = songsOld.filter(song => !filesNew.includes(song.file));
-    const fresh = difference(filesNew, filesOld);
+export default (props: LibraryControllerProps) =>
+  (sender: WebContents): IpcInvokeController[IpcChannel.Library] => ({
+    get: () => getLibrary(props),
+    rebuild: async folders => {
+      const update = sendUpdate(sender);
 
-    await props.db.songs.delete(stale.map(song => song._id));
-    const metadata = await parseFiles(fresh, props.root);
+      const songsOld = await props.db.songs.find({});
+      const filesOld = songsOld.map(song => song.file);
+      const filesNew = await getFiles(folders);
 
-    return addSongs(props, metadata);
-  },
-  add: async folders => {
-    const songs = await props.db.songs.find({});
-    const files = await getFiles(folders);
-    const fresh = files.filter(file => songs.every(song => song.file !== file));
-    const metadata = await parseFiles(fresh, props.root);
+      const stale = songsOld.filter(song => !filesNew.includes(song.file));
+      const fresh = difference(filesNew, filesOld);
 
-    return addSongs(props, metadata);
-  },
-  remove: async folders => {
-    const files = await getFiles(folders);
+      if (fresh.length > 0) update({ size: fresh.length });
 
-    await Promise.all(files.map(file => props.db.songs.deleteOne({ file })));
-    await rebuild(props);
+      await props.db.songs.delete(stale.map(song => song._id));
+      const metadata = await parseFiles(fresh, props.root, file => update({ file }));
 
-    return getLibrary(props);
-  }
-});
+      return addSongs(props, metadata);
+    },
+    add: async folders => {
+      const update = sendUpdate(sender);
+
+      const songs = await props.db.songs.find({});
+      const files = await getFiles(folders);
+
+      if (files.length > 0) update({ size: files.length });
+
+      const fresh = files.filter(file => songs.every(song => song.file !== file));
+      const metadata = await parseFiles(fresh, props.root, file => update({ file }));
+
+      return addSongs(props, metadata);
+    },
+    remove: async folders => {
+      const update = sendUpdate(sender);
+
+      const files = await getFiles(folders);
+
+      if (files.length > 0) update({ size: files.length });
+
+      await Promise.all(files.map(file => {
+        update({ file });
+        return props.db.songs.deleteOne({ file });
+      }));
+      await rebuild(props);
+
+      return getLibrary(props);
+    }
+  });

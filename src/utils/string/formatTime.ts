@@ -6,7 +6,7 @@ const format = (ms: number): [h: number, m: number, s: number] => {
   return [h, m, s];
 };
 
-export const formatTimeNumber = (ms: number, digits: number) => format(ms)
-  .slice(3 - digits)
+export const formatTimeNumber = (ms: number, units: number) => format(ms)
+  .slice(3 - units)
   .map(x => `${x}`.padStart(2, '0'))
   .join(':');

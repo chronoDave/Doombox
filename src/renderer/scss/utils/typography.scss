@@ -31,10 +31,9 @@
   white-space: nowrap;
 }
 
-.text-header {
-  margin-bottom: 0.25rem;
-}
-
-.text-body + .text-body {
-  margin-top: 0.25rem;
+@mixin clamp($n) {
+  display: -webkit-box;
+  -webkit-line-clamp: $n;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
 }

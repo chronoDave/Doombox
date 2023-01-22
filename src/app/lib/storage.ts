@@ -1,10 +1,10 @@
 import type { Shape } from '../../types/primitives';
 
+import merge from 'deepmerge';
 import fs from 'fs';
 import produce from 'immer';
 import path from 'path';
 
-import merge from '../../utils/shape/merge';
 import parse from '../../utils/shape/parse';
 
 export type StorageProps<T> = {
@@ -33,7 +33,7 @@ export default class Storage<T extends Shape> {
     this._file = path.join(this._root, `${props.name}.json`);
 
     const json = this._read();
-    if (json) this._data = merge(this._data, json);
+    if (json) this._data = merge<T>(this._data, json);
 
     Object.seal(this._data);
   }
@@ -44,8 +44,12 @@ export default class Storage<T extends Shape> {
 
   set<K extends keyof T>(key: K, value: Partial<T[K]>) {
     this._data = produce(this._data, (draft: T) => {
-      draft[key] = merge(draft[key], value);
+      draft[key] = merge(draft[key], value, {
+        arrayMerge: (_, s) => s
+      });
     });
+
+    console.log(this._data);
 
     fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));
   }

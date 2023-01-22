@@ -2,13 +2,19 @@ import type { Song } from '../../../types/library';
 
 import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
+import pMap from 'p-map';
 import path from 'path';
 
-export default async (files: string[], root: { thumbs: string, covers: string }) => {
-  const data = await Promise.all(files.map(async file => {
-    const metadata = await parseFile(file, { duration: true });
+export default async (
+  files: string[],
+  root: { thumbs: string, covers: string },
+  cb: (file: string) => void
+) => {
+  const data = await pMap(files, async file => {
+    const metadata = await parseFile(file);
+    cb(file);
     return ({ file, metadata });
-  }));
+  }, { concurrency: 8 });
 
   const pictures = new Map<string, { _id: string, raw: Buffer }>(); // Map<image, id>
   const songs = data.map(({ metadata, file }) => {

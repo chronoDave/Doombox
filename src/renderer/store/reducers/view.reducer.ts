@@ -10,5 +10,8 @@ export default combineReducers<State>('view')({
   }),
   setViewSettings: (view: State['view']['settings']) => produce(draft => {
     draft.view.settings = view;
+  }),
+  setViewScan: (view: State['view']['scan']) => produce(draft => {
+    draft.view.scan = view;
   })
 });

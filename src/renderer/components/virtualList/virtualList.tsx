@@ -19,9 +19,6 @@ const VirtualList: Component<VirtualListProps> = () => {
 
   const { abort, signal } = new AbortController();
   const ref: forgo.ForgoRef<Element> = {};
-  const virtualize = debounceFrame(props => {
-    if (ref.value) virtual = createVirtualList(ref.value, props);
-  });
 
   const component = new forgo.Component<VirtualListProps>({
     render(props) {
@@ -50,19 +47,23 @@ const VirtualList: Component<VirtualListProps> = () => {
     }
   });
 
+  const virtualize = debounceFrame(props => {
+    if (ref.value) {
+      virtual = createVirtualList(ref.value, props);
+      component.update();
+    }
+  });
+
   component.mount(async props => {
     window.addEventListener('resize', () => {
       virtualize(props);
-      component.update();
     }, { passive: true, signal });
 
     ref.value?.addEventListener('scroll', () => {
       virtualize(props);
-      component.update();
     }, { passive: true, signal });
 
     await virtualize(props);
-    component.update();
   });
 
   component.unmount(() => {

@@ -1,0 +1,37 @@
+@use 'variables' as v;
+
+.Progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  > progress {
+    position: relative;
+    flex-grow: 1;
+    height: 8px;
+    
+    &[value]::-webkit-progress-bar {
+      background-color: var(--primary-hover);
+    }
+
+    &[value]::-webkit-progress-value {
+      background-color: var(--primary);
+    }
+    
+
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   bottom: 0;
+    //   right: 0;
+    //   background-color: var(--primary);
+    //   transform: scaleX(var(--progress-value));
+    //   transform-origin: left;
+    //   transition: transform v.$transition-fast;
+    // }
+  }
+
+
+}
