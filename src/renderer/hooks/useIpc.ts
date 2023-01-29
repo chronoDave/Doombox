@@ -1,9 +1,9 @@
-import type { IpcApi, IpcChannel } from '../../types/ipc';
+import type { IpcReceiveController, IpcPayloadReceive } from '../../types/ipc';
 import type { Component } from 'forgo';
 
-const useIpc = <T extends keyof IpcApi[IpcChannel.Listener]>(
+const useIpc = <T extends keyof IpcReceiveController>(
   channel: T,
-  cb: (payload: Parameters<Parameters<IpcApi[IpcChannel.Listener][T]>[0]>[0]) => void
+  cb: (payload: IpcPayloadReceive[T]) => void
 ) => (component: Component) => {
   let cleanup: () => void;
 

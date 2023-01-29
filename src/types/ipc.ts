@@ -13,8 +13,10 @@ export enum IpcChannel {
   Window = 'window',
   Library = 'library',
   Scan = 'scan',
-  Listener = 'on'
+  Receive = 'on'
 }
+
+export type IpcChannelReceive<T extends IpcChannel> = `${IpcChannel.Receive}.${T}`;
 
 export enum IpcAction {
   SelectFolders = 'selectFolders',
@@ -29,6 +31,7 @@ export enum IpcAction {
   Close = 'close'
 }
 
+/** Events */
 export type IpcEvent = {
   action: IpcAction
   payload?: unknown
@@ -44,9 +47,11 @@ export type IpcPayloadSet<T extends Shape> = {
   value: Partial<T[keyof T]>
 };
 
-export type IpcPayloadScan = {
-  size?: number,
-  file?: string
+export type IpcPayloadReceive = {
+  [IpcChannel.Scan]: {
+    size?: number,
+    file?: string
+  }
 };
 
 /** Controller */
@@ -82,9 +87,9 @@ export type IpcInvokeController = {
 
 /** Main to renderer (one-way) */
 export type IpcReceiveController = {
-  [IpcChannel.Listener]: {
-    [IpcChannel.Scan]: (cb: (payload: IpcPayloadScan) => void) => () => void
-  }
+  [T in keyof IpcPayloadReceive]: (cb: (payload: IpcPayloadReceive[T]) => void) => () => void
 };
 
-export type IpcApi = IpcSendController & IpcInvokeController & IpcReceiveController;
+export type IpcApi = IpcSendController & IpcInvokeController & {
+  [IpcChannel.Receive]: IpcReceiveController
+};

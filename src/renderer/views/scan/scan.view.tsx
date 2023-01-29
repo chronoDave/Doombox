@@ -51,7 +51,7 @@ const ScanView: Component<ScanViewProps> = () => {
       scan.file = payload.file;
       scan.scanned += 1;
     }
-  });
+  })(component);
 
   useInterval(() => {
     time.cur += 1;
