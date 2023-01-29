@@ -12,7 +12,7 @@ import { IS_DEV } from '../utils/const';
 
 import run from './lib/app';
 import createAppController from './lib/controllers/app.controller';
-import createLibraryController from './lib/controllers/library.controller';
+import createLibraryController from './lib/controllers/library/library.controller';
 import createThemeController from './lib/controllers/theme.controller';
 import createUserController from './lib/controllers/user.controller';
 import Logger from './lib/logger';

@@ -1,9 +1,6 @@
 export type Song = {
   _id: string
-  image: {
-    thumbs: string | null
-    covers: string | null
-  }
+  image: string | null
   file: string
   // Metadata
   duration: number | null
@@ -21,10 +18,7 @@ export type Song = {
 
 export type Album = {
   _id: string
-  image: {
-    thumbs: string | null
-    covers: string | null
-  }
+  image: string | null
   songs: string[]
   // Metadata
   duration: number | null
