@@ -41,6 +41,19 @@ export default (props: LibraryControllerProps) =>
         props.db.labels.insert(labels)
       ]);
     };
+    const insert = async (files: string[]) => {
+      const { songs, images } = await parseFiles(files, song => update({
+        process: 'scanning files',
+        file: song.file,
+        size: files.length
+      }));
+      await pMap(images.entries(), ([b64, id]) => {
+        update({ process: 'creating thumbnails', file: id, size: images.size });
+        createImage(b64, id);
+      }, { concurrency: 64 });
+
+      return props.db.songs.insert(songs);
+    };
 
     return ({
       get: () => fetchLibrary(props.db),
@@ -52,13 +65,8 @@ export default (props: LibraryControllerProps) =>
         const stale = songsOld.filter(song => !filesNew.includes(song.file));
         const fresh = difference(filesNew, filesOld);
 
-        if (fresh.length > 0) update({ size: fresh.length });
-
         await props.db.songs.delete(stale.map(song => song._id));
-        const { songs, images } = await parseFiles(fresh);
-        await pMap(images.entries(), ([b64, id]) => createImage(b64, id), { concurrency: 64 });
-        await props.db.songs.insert(songs);
-
+        const songs = await insert(fresh);
         const { albums, labels } = groupSongs(songs);
         await rebuild(albums, labels);
 
@@ -68,13 +76,8 @@ export default (props: LibraryControllerProps) =>
         const current = await props.db.songs.find({});
         const files = await getFiles(folders);
 
-        if (files.length > 0) update({ size: files.length });
-
         const fresh = files.filter(file => current.every(song => song.file !== file));
-        const { songs, images } = await parseFiles(fresh, song => update({ file: song.file }));
-        await pMap(images.entries(), ([b64, id]) => createImage(b64, id), { concurrency: 16 });
-        await props.db.songs.insert(songs);
-
+        const songs = await insert(fresh);
         const { albums, labels } = groupSongs(songs);
         await rebuild(albums, labels);
 
@@ -83,9 +86,8 @@ export default (props: LibraryControllerProps) =>
       remove: async folders => {
         const files = await getFiles(folders);
 
-        if (files.length > 0) update({ size: files.length });
         await Promise.all(files.map(file => {
-          update({ file });
+          update({ process: 'deleting files', file, size: files.length });
           return props.db.songs.deleteOne({ file });
         }));
 

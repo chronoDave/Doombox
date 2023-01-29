@@ -49,8 +49,9 @@ export type IpcPayloadSet<T extends Shape> = {
 
 export type IpcPayloadReceive = {
   [IpcChannel.Scan]: {
-    size?: number,
-    file?: string
+    process: string
+    file: string
+    size: number
   }
 };
 
