@@ -4,7 +4,7 @@ import fs from 'fs';
 import LeafDB from 'leaf-db';
 import path from 'path';
 
-import libraryController from '../../../../../src/app/lib/controllers/library.controller';
+import libraryController from '../../../../../src/app/lib/controllers/library/library.controller';
 
 export default () => {
   const root = path.resolve(__dirname, '__data');
@@ -13,7 +13,6 @@ export default () => {
   const dir = {
     root,
     covers: path.resolve(root, 'covers'),
-    thumbs: path.resolve(root, 'thumbs'),
     album,
     sideOne: path.resolve(album, 'side one'),
     sideTwo: path.resolve(album, 'side two')
@@ -21,7 +20,6 @@ export default () => {
 
   fs.mkdirSync(dir.root);
   fs.mkdirSync(dir.covers);
-  fs.mkdirSync(dir.thumbs);
 
   const db = {
     songs: new LeafDB<Song>(),
@@ -29,13 +27,11 @@ export default () => {
     labels: new LeafDB<Label>()
   };
 
+  const sender = { send: () => {} } as any as Electron.WebContents;
   const controller = libraryController({
     db,
-    root: {
-      covers: dir.covers,
-      thumbs: dir.thumbs
-    }
-  });
+    root: dir.covers
+  })(sender);
 
   const cleanup = () => fs.rmSync(root, { recursive: true, force: true });
 

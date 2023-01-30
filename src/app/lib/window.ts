@@ -34,7 +34,7 @@ export default (props: WindowProps) => {
     }
   });
 
-  const router = createIpcRouter(createWindowController({
+  const router = createIpcRouter(() => createWindowController({
     window
   }))(props.logger);
   const handleResize = debounce(() => props.storage.set('window', window.getBounds()), 100);

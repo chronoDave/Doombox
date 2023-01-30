@@ -13,10 +13,8 @@ test('[library.controller.add] scans folders', async t => {
   t.equal(labels.length, 1, 'groups albums by label');
 
   const covers = fs.readdirSync(dir.covers);
-  const thumbs = fs.readdirSync(dir.thumbs);
 
-  t.equal(covers.length, 1, 'creates cover image');
-  t.equal(thumbs.length, 1, 'creates thumbnail image');
+  t.equal(covers.length, 1, 'creates cover');
 
   cleanup();
   t.end();
@@ -30,10 +28,8 @@ test('[library.controller.add] ignores duplicate files', async t => {
   t.equal(songs.length, 11, 'does not add duplicate files');
 
   const covers = fs.readdirSync(dir.covers);
-  const thumbs = fs.readdirSync(dir.thumbs);
 
   t.equal(covers.length, 1, 'does not create cover');
-  t.equal(thumbs.length, 1, 'does not create thumbnail');
 
   cleanup();
   t.end();

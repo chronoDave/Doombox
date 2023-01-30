@@ -6,14 +6,16 @@ import type { Immutable } from 'immer';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 
+import { ViewApp, ViewSettings } from './types';
+
 export type State = Immutable<{
   app: {
     ready: boolean
     scanning: boolean
   },
   view: {
-    app: 'playlist' | 'player' | 'song' | 'album' | 'label' | 'settings'
-    settings: 'appearance' | 'library'
+    app: ViewApp
+    settings: ViewSettings
   },
   library: {
     songs: {
@@ -33,8 +35,8 @@ const state: State = {
     scanning: false
   },
   view: {
-    app: 'song',
-    settings: 'library'
+    app: ViewApp.Song,
+    settings: ViewSettings.Library
   },
   library: {
     songs: {

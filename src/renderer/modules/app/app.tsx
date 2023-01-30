@@ -10,6 +10,7 @@ import { fetchUser } from '../../actions/user.actions';
 import { setViewApp } from '../../actions/view.actions';
 import Icon from '../../components/icon/icon';
 import store from '../../store/store';
+import { ViewApp } from '../../store/types';
 import cx from '../../utils/cx';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';
@@ -32,12 +33,12 @@ type Views = Record<State['view']['app'], {
 
 const App: Component<AppProps> = () => {
   const views: Views = {
-    playlist: { id: 'playlist', view: <PlaylistView />, icon: 'playlistMusic' },
-    player: { id: 'player', view: <PlayerView />, icon: 'playCircle' },
-    song: { id: 'song', view: <SongView />, icon: 'musicNote' },
-    album: { id: 'album', view: <AlbumView />, icon: 'musicBox' },
-    label: { id: 'label', view: <LabelView />, icon: 'accountMusic' },
-    settings: { id: 'settings', view: <Settings />, icon: 'cog' }
+    playlist: { id: ViewApp.Playlist, view: <PlaylistView />, icon: 'playlistMusic' },
+    player: { id: ViewApp.Player, view: <PlayerView />, icon: 'playCircle' },
+    song: { id: ViewApp.Song, view: <SongView />, icon: 'musicNote' },
+    album: { id: ViewApp.Album, view: <AlbumView />, icon: 'musicBox' },
+    label: { id: ViewApp.Label, view: <LabelView />, icon: 'accountMusic' },
+    settings: { id: ViewApp.Settings, view: <Settings />, icon: 'cog' }
   };
 
   const component = new forgo.Component<AppProps>({

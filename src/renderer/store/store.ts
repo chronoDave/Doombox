@@ -1,5 +1,3 @@
-import { IS_DEV } from '../../utils/const';
-
 import appReducer from './reducers/app.reducer';
 import libraryReducer from './reducers/library.reducer';
 import themeReducer from './reducers/theme.reducer';
@@ -15,7 +13,5 @@ const store = createStore(state, {
   ...themeReducer,
   ...userReducer
 });
-
-if (IS_DEV) window.store = store;
 
 export default store;

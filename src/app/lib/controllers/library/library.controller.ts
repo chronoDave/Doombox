@@ -38,6 +38,7 @@ export default (props: LibraryControllerProps) =>
       ]);
     };
     const insert = async (files: string[]) => {
+      if (files.length === 0) return props.db.songs.find({});
       const { songs, images } = await parseFiles(files, props.root, song => update({
         process: 'scanning files',
         file: song.file,
