@@ -1,21 +1,22 @@
+import type { ViewFrame } from '../../utils/createViewFrame';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
 import { debounceFrame } from '../../../utils/function/debounce';
-import createVirtualList from '../../utils/createVirtualList';
+import createViewFrame from '../../utils/createViewFrame';
 
 import './virtualList.scss';
 
 export type VirtualListProps = {
   size: number
-  height: number | ((index: number, width: number) => number)
+  height: number
   overflow: number
   render: (i: number) => forgo.Component | forgo.Component[]
 };
 
 const VirtualList: Component<VirtualListProps> = () => {
-  let virtual: ReturnType<typeof createVirtualList> | undefined;
+  let virtual: ViewFrame = { height: 0, items: [] };
 
   const { abort, signal } = new AbortController();
   const ref: forgo.ForgoRef<Element> = {};
@@ -30,7 +31,7 @@ const VirtualList: Component<VirtualListProps> = () => {
               height: `${virtual?.height ?? 0}px`
             }}
           >
-            {virtual?.view?.map(({ index, top, height }) => (
+            {virtual?.items?.map(({ index, top, height }) => (
               <li
                 key={index}
                 style={{
@@ -47,23 +48,37 @@ const VirtualList: Component<VirtualListProps> = () => {
     }
   });
 
-  const virtualize = debounceFrame(props => {
-    if (ref.value) {
-      virtual = createVirtualList(ref.value, props);
-      component.update();
-    }
-  });
-
   component.mount(async props => {
+    const virtualize = debounceFrame(() => {
+      if (ref.value) {
+        const old = virtual;
+        virtual = createViewFrame({
+          size: props.size,
+          overflow: props.overflow,
+          item: { height: props.height },
+          container: {
+            width: ref.value.clientWidth,
+            height: ref.value.clientHeight,
+            y: ref.value.scrollTop
+          }
+        });
+
+        if (
+          old.items[0]?.index !== virtual.items[0].index ||
+          old.items.length !== virtual.items.length
+        ) component.update();
+      }
+    });
+
     window.addEventListener('resize', () => {
-      virtualize(props);
+      virtualize();
     }, { passive: true, signal });
 
     ref.value?.addEventListener('scroll', () => {
-      virtualize(props);
+      virtualize();
     }, { passive: true, signal });
 
-    await virtualize(props);
+    await virtualize();
   });
 
   component.unmount(() => {

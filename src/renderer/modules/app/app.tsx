@@ -44,8 +44,6 @@ const App: Component<AppProps> = () => {
     render() {
       const { app, view } = store.get();
 
-      console.log(app, view);
-
       if (!app.ready) return <SplashView />;
       if (app.scanning) return <ScanView />;
       return (
