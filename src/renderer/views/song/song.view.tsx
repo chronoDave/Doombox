@@ -4,6 +4,7 @@ import * as forgo from 'forgo';
 
 import { formatTimeNumber } from '../../../utils/string/formatTime';
 import VirtualList from '../../components/virtualList/virtualList';
+import player from '../../state/player';
 import store from '../../state/store';
 
 import './song.view.scss';
@@ -26,20 +27,22 @@ const SongView: Component<SongViewProps> = () => {
             render={i => {
               const song = library.songs.list[i];
 
-              return [
-                <img
-                  src={song.image ?? 'icons/icon_light.png'}
-                  alt=''
-                  loading='lazy'
-                />,
-                <div class='metadata'>
-                  <p>{song.title}</p>
-                  <p>{song.artist}</p>
-                </div>,
-                <div class='duration'>
-                  <p>{formatTimeNumber(song.duration ?? 0, 2)}</p>
-                </div>
-              ];
+              return (
+                <button type='button' onclick={() => player.play(song)}>
+                  <img
+                    src={song.image ?? 'icons/icon_light.png'}
+                    alt=''
+                    loading='lazy'
+                  />
+                  <div class='metadata'>
+                    <p>{song.title}</p>
+                    <p>{song.artist}</p>
+                  </div>
+                  <div class='duration'>
+                    <p>{formatTimeNumber(song.duration ?? 0, 2)}</p>
+                  </div>
+                </button>
+              );
             }}
           />
         </div>

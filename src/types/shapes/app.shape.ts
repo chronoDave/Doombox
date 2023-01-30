@@ -7,6 +7,10 @@ export type AppShape = Constrain<Json, {
     height: number
     x: number
     y: number
+  },
+  player: {
+    volume: number,
+    muted: boolean
   }
 }>;
 
@@ -16,6 +20,10 @@ const appShape: Readonly<AppShape> = {
     height: 240,
     x: -1,
     y: -1
+  },
+  player: {
+    volume: 1,
+    muted: false
   }
 };
 

@@ -6,6 +6,7 @@ import Store from '../lib/state/store';
 
 import appSlice from './slices/app.slice';
 import librarySlice from './slices/library.slice';
+import playerSlice from './slices/player.slice';
 import themeSlice from './slices/theme.slice';
 import userSlice from './slices/user.slice';
 import viewSlice from './slices/view.slice';
@@ -42,6 +43,7 @@ const store = new Store(state, {
   ...appSlice,
   ...viewSlice,
   ...librarySlice,
+  ...playerSlice,
   ...themeSlice,
   ...userSlice
 });

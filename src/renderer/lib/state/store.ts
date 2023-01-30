@@ -31,11 +31,12 @@ export default class Store<S extends State, R extends Slice<S>> extends Emitter<
 
   dispatch<T extends keyof R>(key: T, payload: Payload<S, R, T>) {
     const { channel, action } = this._slice[key];
+    const old = this._state;
 
     if (IS_DEV) {
       console.group(`[store.channel] ${channel}`);
       console.log('[store.event]', { action: key, payload });
-      console.log('[state.old]', this._state);
+      console.log('[state.old]', old);
     }
 
     this._state = action(payload)(this._state);
@@ -45,13 +46,13 @@ export default class Store<S extends State, R extends Slice<S>> extends Emitter<
       console.groupEnd();
     }
 
-    this.emit(channel, this._state);
+    this.emit(channel, old);
   }
 
   subscribe<T extends NestedKeyOf<S>>(component: Component, paths: T[]) {
-    const update = (state: S) => {
+    const update = (old: S) => {
       const shouldUpdate = paths
-        .some(channel => get(state, channel) !== get(this._state, channel));
+        .some(channel => get(old, channel) !== get(this._state, channel));
 
       if (shouldUpdate) component.update();
     };
