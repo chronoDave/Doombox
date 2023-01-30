@@ -16,10 +16,7 @@ import parseFiles from './utils/parseFiles';
 import writeImage from './utils/writeImage';
 
 export type LibraryControllerProps = {
-  root: {
-    covers: string,
-    thumbs: string
-  },
+  root: string,
   db: {
     songs: LeafDB<Song>,
     albums: LeafDB<Album>,
@@ -30,7 +27,6 @@ export type LibraryControllerProps = {
 export default (props: LibraryControllerProps) =>
   (sender: WebContents): IpcInvokeController[IpcChannel.Library] => {
     const update = ipcSend(sender)(IpcChannel.Scan);
-    const createImage = writeImage(props.root.covers);
     const rebuild = async (albums: Album[], labels: Label[]) => {
       await Promise.all([
         props.db.albums.drop(),
@@ -42,15 +38,15 @@ export default (props: LibraryControllerProps) =>
       ]);
     };
     const insert = async (files: string[]) => {
-      const { songs, images } = await parseFiles(files, song => update({
+      const { songs, images } = await parseFiles(files, props.root, song => update({
         process: 'scanning files',
         file: song.file,
         size: files.length
       }));
-      await pMap(images.entries(), ([b64, id]) => {
-        update({ process: 'creating thumbnails', file: id, size: images.size });
-        createImage(b64, id);
-      }, { concurrency: 64 });
+      await pMap(images.entries(), ([b64, file]) => {
+        update({ process: 'creating thumbnails', file, size: images.size });
+        writeImage(b64, file);
+      }, { concurrency: 32 });
 
       return props.db.songs.insert(songs);
     };

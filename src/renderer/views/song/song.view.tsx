@@ -28,7 +28,7 @@ const SongView: Component<SongViewProps> = () => {
 
               return [
                 <img
-                  src={song.image.thumbs ?? 'icons/icon_light.png'}
+                  src={song.image ?? 'icons/icon_light.png'}
                   alt=''
                   loading='lazy'
                 />,

@@ -35,8 +35,7 @@ const ROOT = {
 } as const;
 
 const DIR = {
-  COVERS: path.resolve(ROOT.APP_DATA, 'covers'),
-  THUMBS: path.resolve(ROOT.APP_DATA, 'thumbs')
+  COVER: path.resolve(ROOT.APP_DATA, 'covers')
 } as const;
 
 if (IS_DEV) {
@@ -61,10 +60,7 @@ const storage = {
 const router = {
   library: createIpcRouter(createLibraryController({
     db,
-    root: {
-      covers: DIR.COVERS,
-      thumbs: DIR.THUMBS
-    }
+    root: DIR.COVER
   }))(logger),
   user: createIpcRouter(createUserController({
     storage: storage.user
