@@ -1,5 +1,5 @@
 import type { IconProps } from '../../components/icon/icon';
-import type { State } from '../../store/state';
+import type { State } from '../../lib/store/state';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
@@ -9,8 +9,8 @@ import { fetchTheme } from '../../actions/theme.actions';
 import { fetchUser } from '../../actions/user.actions';
 import { setViewApp } from '../../actions/view.actions';
 import Icon from '../../components/icon/icon';
-import store from '../../store/store';
-import { ViewApp } from '../../store/types';
+import store from '../../lib/store/store';
+import { ViewApp } from '../../lib/store/types';
 import cx from '../../utils/cx';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';

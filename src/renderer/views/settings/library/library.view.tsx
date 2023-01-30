@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import { rebuildLibrary } from '../../../actions/library.actions';
 import InputFolders from '../../../components/inputFolders/inputFolders';
-import store from '../../../store/store';
+import store from '../../../lib/store/store';
 
 export type LibraryViewProps = {};
 

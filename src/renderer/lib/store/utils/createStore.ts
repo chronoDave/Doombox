@@ -1,11 +1,11 @@
-import type { NestedKeyOf } from '../../../types/helpers';
+import type { NestedKeyOf } from '../../../../types/helpers';
 import type { Reducer, State } from '../types';
 import type { Component } from 'forgo';
 
 import objGet from 'lodash.get';
 
-import { IS_DEV } from '../../../utils/const';
-import EventEmitter from '../../../utils/event/eventEmitter';
+import { IS_DEV } from '../../../../utils/const';
+import Emitter from '../../emitter/emitter';
 
 const createStore = <S extends State, R extends Record<string, Reducer<S>>>(
   initialState: S,
@@ -13,7 +13,7 @@ const createStore = <S extends State, R extends Record<string, Reducer<S>>>(
 ) => {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   let __state = initialState;
-  const emitter = new EventEmitter<Extract<keyof S, string>, S>();
+  const emitter = new Emitter<Extract<keyof S, string>, S>();
 
   const get = () => __state;
 

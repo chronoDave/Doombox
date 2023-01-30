@@ -1,9 +1,9 @@
 import test from 'tape';
 
-import EventEmitter from '../../../../src/utils/event/eventEmitter';
+import Emitter from '../../../../../src/renderer/lib/emitter/emitter';
 
-test('[eventEmitter.on] creates event listener', t => {
-  const emiter = new EventEmitter();
+test('[emitter.on] creates event listener', t => {
+  const emiter = new Emitter();
 
   const cb = () => {};
   const event = 'test';
@@ -17,8 +17,8 @@ test('[eventEmitter.on] creates event listener', t => {
   t.end();
 });
 
-test('[eventEmitter.on] fires when event is emitted', t => {
-  const emiter = new EventEmitter();
+test('[emitter.on] fires when event is emitted', t => {
+  const emiter = new Emitter();
 
   let n = 0;
   const cb = () => { n += 1; };

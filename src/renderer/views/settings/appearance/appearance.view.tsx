@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 
 import { setTheme } from '../../../actions/theme.actions';
 import InputRadioList from '../../../components/inputRadioList/inputRadioList';
-import store from '../../../store/store';
+import store from '../../../lib/store/store';
 
 export type AppearanceViewProps = {};
 

@@ -1,6 +1,6 @@
-import type { State } from '../store/state';
+import type { State } from '../lib/store/state';
 
-import store from '../store/store';
+import store from '../lib/store/store';
 
 export const setViewApp = (view: State['view']['app']) => {
   const current = store.get();

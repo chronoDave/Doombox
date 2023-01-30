@@ -1,10 +1,10 @@
-import type { Album, Label, Song } from '../../types/library';
-import type { ThemeShape } from '../../types/shapes/theme.shape';
-import type { UserShape } from '../../types/shapes/user.shape';
+import type { Album, Label, Song } from '../../../types/library';
+import type { ThemeShape } from '../../../types/shapes/theme.shape';
+import type { UserShape } from '../../../types/shapes/user.shape';
 import type { Immutable } from 'immer';
 
-import themeShape from '../../types/shapes/theme.shape';
-import userShape from '../../types/shapes/user.shape';
+import themeShape from '../../../types/shapes/theme.shape';
+import userShape from '../../../types/shapes/user.shape';
 
 import { ViewApp, ViewSettings } from './types';
 

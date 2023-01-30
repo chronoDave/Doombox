@@ -1,4 +1,4 @@
-import type { ThemeShape } from '../../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../../../types/shapes/theme.shape';
 import type { State } from '../state';
 
 import produce from 'immer';

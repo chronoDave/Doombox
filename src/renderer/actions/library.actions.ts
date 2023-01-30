@@ -1,6 +1,6 @@
 import difference from '../../utils/array/difference';
 import unique from '../../utils/array/unique';
-import store from '../store/store';
+import store from '../lib/store/store';
 
 import { setFolders } from './user.actions';
 

@@ -1,9 +1,9 @@
 import test from 'tape';
 
-import EventEmitter from '../../../../src/utils/event/eventEmitter';
+import Emitter from '../../../../../src/renderer/lib/emitter/emitter';
 
-test('[eventEmitter.once] fires event once', t => {
-  const emiter = new EventEmitter();
+test('[emitter.once] fires event once', t => {
+  const emiter = new Emitter();
 
   let n = 0;
   const cb = () => { n += 1; };

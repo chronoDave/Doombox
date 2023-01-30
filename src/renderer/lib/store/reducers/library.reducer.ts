@@ -1,4 +1,4 @@
-import type { Library } from '../../../types/library';
+import type { Library } from '../../../../types/library';
 import type { State } from '../state';
 
 import produce from 'immer';

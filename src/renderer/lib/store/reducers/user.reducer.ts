@@ -1,4 +1,4 @@
-import type { UserShape } from '../../../types/shapes/user.shape';
+import type { UserShape } from '../../../../types/shapes/user.shape';
 import type { State } from '../state';
 
 import produce from 'immer';
