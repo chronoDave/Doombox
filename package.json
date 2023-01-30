@@ -30,6 +30,7 @@
     "test": "npm run build:test && tape test/build/**/*.spec.js"
   },
   "devDependencies": {
+    "@types/howler": "^2.2.7",
     "@types/jsdom": "^20.0.0",
     "@types/lodash.get": "^4.4.7",
     "@types/sharp": "^0.30.5",

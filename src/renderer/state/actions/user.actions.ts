@@ -1,4 +1,4 @@
-import store from '../lib/store/store';
+import store from '../store';
 
 export const fetchUser = async () => {
   const user = await window.ipc.user.all();

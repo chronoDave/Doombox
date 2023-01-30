@@ -1,6 +1,6 @@
-import difference from '../../utils/array/difference';
-import unique from '../../utils/array/unique';
-import store from '../lib/store/store';
+import difference from '../../../utils/array/difference';
+import unique from '../../../utils/array/unique';
+import store from '../store';
 
 import { setFolders } from './user.actions';
 
@@ -38,9 +38,7 @@ export const removeFolders = async (folders: string[]) => {
 export const rebuildLibrary = async () => {
   const { user } = store.get();
   store.dispatch('setScanning', true);
-  const library = window.ipc.library.rebuild(user.library.folders as string[]);
-
-  await library;
+  const library = await window.ipc.library.rebuild(user.library.folders as string[]);
 
   store.dispatch('setLibrary', library);
   store.dispatch('setScanning', false);

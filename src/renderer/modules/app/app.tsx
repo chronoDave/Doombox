@@ -1,16 +1,15 @@
 import type { IconProps } from '../../components/icon/icon';
-import type { State } from '../../lib/store/state';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { fetchLibrary } from '../../actions/library.actions';
-import { fetchTheme } from '../../actions/theme.actions';
-import { fetchUser } from '../../actions/user.actions';
-import { setViewApp } from '../../actions/view.actions';
 import Icon from '../../components/icon/icon';
-import store from '../../lib/store/store';
-import { ViewApp } from '../../lib/store/types';
+import { fetchLibrary } from '../../state/actions/library.actions';
+import { fetchTheme } from '../../state/actions/theme.actions';
+import { fetchUser } from '../../state/actions/user.actions';
+import { setViewApp } from '../../state/actions/view.actions';
+import store from '../../state/store';
+import { ViewApp } from '../../state/types';
 import cx from '../../utils/cx';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';
@@ -25,8 +24,8 @@ import './app.scss';
 
 export type AppProps = {};
 
-type Views = Record<State['view']['app'], {
-  id: State['view']['app'],
+type Views = Record<ViewApp, {
+  id: ViewApp,
   view: forgo.Component,
   icon: IconProps['id'],
 }>;

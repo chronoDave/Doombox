@@ -1,11 +1,11 @@
-import type { ThemeShape } from '../../../../types/shapes/theme.shape';
-import type { State } from '../state';
+import type { ThemeShape } from '../../../types/shapes/theme.shape';
+import type { State } from '../types';
 
 import produce from 'immer';
 
-import combineReducers from '../utils/combineReducer';
+import createSlice from '../../lib/state/createSlice';
 
-export default combineReducers<State>('theme')({
+export default createSlice<State>('theme')({
   setTheme: (theme: ThemeShape) => produce(draft => {
     draft.theme = theme;
   }),

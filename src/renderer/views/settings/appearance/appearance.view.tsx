@@ -3,9 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { setTheme } from '../../../actions/theme.actions';
 import InputRadioList from '../../../components/inputRadioList/inputRadioList';
-import store from '../../../lib/store/store';
+import { setTheme } from '../../../state/actions/theme.actions';
+import store from '../../../state/store';
 
 export type AppearanceViewProps = {};
 

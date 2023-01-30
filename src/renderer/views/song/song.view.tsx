@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import { formatTimeNumber } from '../../../utils/string/formatTime';
 import VirtualList from '../../components/virtualList/virtualList';
-import store from '../../lib/store/store';
+import store from '../../state/store';
 
 import './song.view.scss';
 

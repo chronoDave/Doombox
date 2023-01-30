@@ -1,10 +1,10 @@
-import type { State } from '../state';
+import type { State } from '../types';
 
 import produce from 'immer';
 
-import combineReducers from '../utils/combineReducer';
+import createSlice from '../../lib/state/createSlice';
 
-export default combineReducers<State>('view')({
+export default createSlice<State>('view')({
   setViewApp: (view: State['view']['app']) => produce(draft => {
     draft.view.app = view;
   }),

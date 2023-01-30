@@ -1,6 +1,6 @@
-import type { ThemeShape } from '../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../../types/shapes/theme.shape';
 
-import store from '../lib/store/store';
+import store from '../store';
 
 export const fetchTheme = async () => {
   const theme = await window.ipc.theme.all();

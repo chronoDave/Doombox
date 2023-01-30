@@ -1,10 +1,10 @@
-import type { State } from '../../lib/store/state';
+import type { ViewSettings } from '../../state/types';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { setViewSettings } from '../../actions/view.actions';
-import store from '../../lib/store/store';
+import { setViewSettings } from '../../state/actions/view.actions';
+import store from '../../state/store';
 import cx from '../../utils/cx';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
 import LibraryView from '../../views/settings/library/library.view';
@@ -14,13 +14,13 @@ import './settings.scss';
 export type SettingsProps = {};
 
 const Settings: Component<SettingsProps> = () => {
-  const views: Record<State['view']['settings'], forgo.Component> = {
+  const views: Record<ViewSettings, forgo.Component> = {
     appearance: <AppearanceView />,
     library: <LibraryView />
   };
 
   const handleClick = (e: UIEvent) => {
-    const view = (e.target as HTMLElement).id as State['view']['settings'];
+    const view = (e.target as HTMLElement).id as ViewSettings;
     if (view) setViewSettings(view);
   };
 

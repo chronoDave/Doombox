@@ -1,13 +1,13 @@
-import type { State } from '../lib/store/state';
+import type { ViewApp, ViewSettings } from '../types';
 
-import store from '../lib/store/store';
+import store from '../store';
 
-export const setViewApp = (view: State['view']['app']) => {
+export const setViewApp = (view: ViewApp) => {
   const current = store.get();
   if (current.view.app !== view) store.dispatch('setViewApp', view);
 };
 
-export const setViewSettings = (view: State['view']['settings']) => {
+export const setViewSettings = (view: ViewSettings) => {
   const current = store.get();
   if (current.view.settings !== view) store.dispatch('setViewSettings', view);
 };

@@ -1,11 +1,11 @@
-import type { Library } from '../../../../types/library';
-import type { State } from '../state';
+import type { Library } from '../../../types/library';
+import type { State } from '../types';
 
 import produce from 'immer';
 
-import combineReducers from '../utils/combineReducer';
+import createSlice from '../../lib/state/createSlice';
 
-export default combineReducers<State>('library')({
+export default createSlice<State>('library')({
   setLibrary: (library: Library) => produce(draft => {
     draft.library.songs = {
       list: library.songs,
