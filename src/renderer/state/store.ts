@@ -2,14 +2,8 @@ import type { State } from './types';
 
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
-import Store from '../lib/state/store';
+import Store from '../lib/store';
 
-import appSlice from './slices/app.slice';
-import librarySlice from './slices/library.slice';
-import playerSlice from './slices/player.slice';
-import themeSlice from './slices/theme.slice';
-import userSlice from './slices/user.slice';
-import viewSlice from './slices/view.slice';
 import { ViewApp, ViewSettings } from './types';
 
 const state: State = {
@@ -28,10 +22,7 @@ const state: State = {
     settings: ViewSettings.Library
   },
   library: {
-    songs: {
-      list: [],
-      map: new Map()
-    },
+    songs: new Map(),
     albums: [],
     labels: []
   },
@@ -39,13 +30,6 @@ const state: State = {
   user: userShape
 };
 
-const store = new Store(state, {
-  ...appSlice,
-  ...viewSlice,
-  ...librarySlice,
-  ...playerSlice,
-  ...themeSlice,
-  ...userSlice
-});
+const store = new Store(state);
 
 export default store;

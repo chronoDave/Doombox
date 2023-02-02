@@ -3,8 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import setTheme from '../../../actions/setTheme';
 import InputRadioList from '../../../components/inputRadioList/inputRadioList';
-import { setTheme } from '../../../state/actions/theme.actions';
 import store from '../../../state/store';
 
 export type AppearanceViewProps = {};
@@ -35,7 +35,9 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
     }
   });
 
-  return store.subscribe(component, ['theme']);
+  return store.subscribe(component, (prev, cur) => (
+    prev.theme.theme !== cur.theme.theme
+  ));
 };
 
 export default AppearanceView;

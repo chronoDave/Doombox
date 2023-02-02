@@ -1,10 +1,10 @@
-import type { Song } from '../../../types/library';
-import type { AppShape } from '../../../types/shapes/app.shape';
-import type { UserShape } from '../../../types/shapes/user.shape';
+import type { Song } from '../../types/library';
+import type { AppShape } from '../../types/shapes/app.shape';
+import type { UserShape } from '../../types/shapes/user.shape';
 
 import { Howl } from 'howler';
 
-import clamp from '../../../utils/number/clamp';
+import clamp from '../../utils/number/clamp';
 
 export enum PlayerStatus {
   Playing = 'playing',

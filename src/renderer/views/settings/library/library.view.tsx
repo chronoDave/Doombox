@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import rebuildLibrary from '../../../actions/rebuildLibrary';
 import InputFolders from '../../../components/inputFolders/inputFolders';
-import { rebuildLibrary } from '../../../state/actions/library.actions';
 import store from '../../../state/store';
 
 export type LibraryViewProps = {};
@@ -29,7 +29,9 @@ const LibraryView: Component<LibraryViewProps> = () => {
     }
   });
 
-  return store.subscribe(component, ['user']);
+  return store.subscribe(component, (prev, cur) => (
+    Object.is(prev.user.library.folders, cur.user.library.folders)
+  ));
 };
 
 export default LibraryView;

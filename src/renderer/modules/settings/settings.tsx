@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { setViewSettings } from '../../state/actions/view.actions';
+import setViewSettings from '../../actions/setViewSettings';
 import store from '../../state/store';
 import cx from '../../utils/cx';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
@@ -87,7 +87,9 @@ const Settings: Component<SettingsProps> = () => {
     }
   });
 
-  store.subscribe(component, ['view']);
+  store.subscribe(component, (prev, cur) => (
+    prev.view.settings !== cur.view.settings
+  ));
 
   return component;
 };

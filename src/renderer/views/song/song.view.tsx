@@ -15,17 +15,18 @@ const SongView: Component<SongViewProps> = () => {
   const component = new forgo.Component<SongViewProps>({
     render() {
       const { library } = store.get();
+      const songs = Array.from(library.songs.values());
 
       return (
         <div class="SongView">
           <h1>All songs</h1>
-          <p>{library.songs.map.size} songs</p>
+          <p>{songs.length} songs</p>
           <VirtualList
-            size={library.songs.list.length}
+            size={songs.length}
             overflow={3}
             height={42}
             render={i => {
-              const song = library.songs.list[i];
+              const song = songs[i];
 
               return (
                 <button type='button' onclick={() => player.play(song)}>

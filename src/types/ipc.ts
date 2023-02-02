@@ -79,10 +79,10 @@ export type IpcInvokeController = {
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
   [IpcChannel.Library]: {
-    [IpcAction.Add]: (payload: string[]) => Promise<Library>
-    [IpcAction.Remove]: (payload: string[]) => Promise<Library>
+    [IpcAction.Add]: (payload: readonly string[]) => Promise<Library>
+    [IpcAction.Remove]: (payload: readonly string[]) => Promise<Library>
     [IpcAction.Get]: () => Promise<Library>
-    [IpcAction.Rebuild]: (payload: string[]) => Promise<Library>
+    [IpcAction.Rebuild]: (payload: readonly string[]) => Promise<Library>
   }
 };
 

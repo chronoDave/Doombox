@@ -37,10 +37,7 @@ export type State = Immutable<{
     settings: ViewSettings
   },
   library: {
-    songs: {
-      list: Song[]
-      map: Map<string, Song>
-    }
+    songs: Map<string, Song>
     albums: Album[]
     labels: Label[]
   }

@@ -126,6 +126,9 @@ module.exports = {
       ImportDeclaration: { minProperties: 4 }
     }],
     // Import
+    'import/no-self-import': 'error',
+    'import/no-cycle': 'error',
+    'import/no-mutable-exports': 'error',
     'import/no-unresolved': ['error', {
       commonjs: true,
       ignore: [

@@ -2,7 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { addFolders, removeFolders } from '../../state/actions/library.actions';
+import addFolders from '../../actions/addFolders';
+import removeFolders from '../../actions/removeFolders';
 import Icon from '../icon/icon';
 import InputCheckbox from '../inputCheckbox/inputCheckbox';
 

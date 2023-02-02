@@ -3,11 +3,12 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import fetchLibrary from '../../actions/fetchLibrary';
+import fetchTheme from '../../actions/fetchTheme';
+import fetchUser from '../../actions/fetchUser';
+import setReady from '../../actions/setReady';
+import setViewApp from '../../actions/setViewApp';
 import Icon from '../../components/icon/icon';
-import { fetchLibrary } from '../../state/actions/library.actions';
-import { fetchTheme } from '../../state/actions/theme.actions';
-import { fetchUser } from '../../state/actions/user.actions';
-import { setViewApp } from '../../state/actions/view.actions';
 import store from '../../state/store';
 import { ViewApp } from '../../state/types';
 import cx from '../../utils/cx';
@@ -76,10 +77,14 @@ const App: Component<AppProps> = () => {
       fetchUser()
     ]);
 
-    store.dispatch('setReady', true);
+    setReady();
   });
 
-  return store.subscribe(component, ['app', 'view']);
+  return store.subscribe(component, (prev, cur) => (
+    prev.app.ready !== cur.app.ready ||
+    prev.app.scanning !== cur.app.scanning ||
+    prev.view.app !== cur.view.app
+  ));
 };
 
 export default App;

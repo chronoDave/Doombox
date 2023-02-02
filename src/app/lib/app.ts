@@ -4,7 +4,7 @@ import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type Logger from './logger';
 import type Storage from './storage';
 
-import { app, ipcMain, nativeTheme } from 'electron';
+import { app as electron, ipcMain, nativeTheme } from 'electron';
 
 import { IpcChannel } from '../../types/ipc';
 
@@ -27,7 +27,7 @@ export type AppProps = {
 export default async (props: AppProps) => {
   nativeTheme.themeSource = props.storage.theme.get('theme');
 
-  await app.whenReady();
+  await electron.whenReady();
 
   ipcMain.handle(IpcChannel.App, props.router.app);
   ipcMain.handle(IpcChannel.User, props.router.user);
@@ -36,17 +36,17 @@ export default async (props: AppProps) => {
 
   createWindow({ storage: props.storage.app, logger: props.logger });
 
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit();
+  electron.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') electron.quit();
   });
 
-  app.on('render-process-gone', (e, w, d) => {
+  electron.on('render-process-gone', (e, w, d) => {
     props.logger.error(new Error(JSON.stringify(d)));
-    app.quit();
+    electron.quit();
   });
 
-  app.on('child-process-gone', (e, d) => {
+  electron.on('child-process-gone', (e, d) => {
     props.logger.error(new Error(JSON.stringify(d)));
-    app.quit();
+    electron.quit();
   });
 };
