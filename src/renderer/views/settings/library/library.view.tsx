@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import rebuildLibrary from '../../../actions/rebuildLibrary';
+import rebuildLibrary from '../../../state/actions/rebuildLibrary';
 import InputFolders from '../../../components/inputFolders/inputFolders';
 import store from '../../../state/store';
 

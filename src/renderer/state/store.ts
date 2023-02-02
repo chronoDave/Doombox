@@ -2,6 +2,7 @@ import type { State } from './types';
 
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
+import { PlayerStatus } from '../lib/player';
 import Store from '../lib/store';
 
 import { ViewApp, ViewSettings } from './types';
@@ -12,13 +13,17 @@ const state: State = {
     scanning: false
   },
   player: {
+    muted: false,
+    volume: 100,
+    status: PlayerStatus.Stopped,
+    current: {},
     playlist: {
       index: 0,
       songs: []
     }
   },
   view: {
-    app: ViewApp.Song,
+    app: ViewApp.Player,
     settings: ViewSettings.Library
   },
   library: {

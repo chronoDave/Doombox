@@ -1,8 +1,8 @@
-import type { ViewSettings } from '../state/types';
+import type { ViewSettings } from '../types';
 
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const setViewSettings = (view: ViewSettings) => {
   const current = store.get();

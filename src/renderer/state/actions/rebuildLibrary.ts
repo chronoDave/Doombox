@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const rebuildLibrary = async () => {
   store.dispatch(produce(draft => {

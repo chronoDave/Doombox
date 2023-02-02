@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import setTheme from '../../../actions/setTheme';
+import setTheme from '../../../state/actions/setTheme';
 import InputRadioList from '../../../components/inputRadioList/inputRadioList';
 import store from '../../../state/store';
 

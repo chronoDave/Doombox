@@ -1,7 +1,7 @@
 import produce from 'immer';
 
-import difference from '../../utils/array/difference';
-import store from '../state/store';
+import difference from '../../../utils/array/difference';
+import store from '../store';
 
 const removeFolder = async (folders: string[]) => {
   store.dispatch(produce(draft => {

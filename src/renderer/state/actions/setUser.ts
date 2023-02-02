@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const setUser = async (folders: string[]) => {
   const user = await window.ipc.user.set({

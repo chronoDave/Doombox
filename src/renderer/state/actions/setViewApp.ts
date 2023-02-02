@@ -1,8 +1,8 @@
-import type { ViewApp } from '../state/types';
+import type { ViewApp } from '../types';
 
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const setViewApp = (view: ViewApp) => {
   const current = store.get();

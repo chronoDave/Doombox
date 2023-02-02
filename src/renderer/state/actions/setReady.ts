@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const setReady = () => store.dispatch(produce(draft => {
   draft.app.ready = true;

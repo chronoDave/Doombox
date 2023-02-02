@@ -1,4 +1,3 @@
-import type { Song } from '../../types/library';
 import type { AppShape } from '../../types/shapes/app.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
 
@@ -12,32 +11,47 @@ export enum PlayerStatus {
   Stopped = 'stopped'
 }
 
-export type PlayerOptions = AppShape['player'] & UserShape['player'];
+export type PlayerListener = {
+  onstatus: (status: PlayerStatus) => void
+  onduration: (duration: number) => void
+};
+
+export type PlayerOptions = AppShape['player'] & UserShape['player'] & {
+  listener: PlayerListener
+};
 
 export class Player {
+  private readonly _listener: PlayerListener;
+
   private _autoplay: boolean;
   private _muted: boolean;
   private _volume: number;
   private _status = PlayerStatus.Stopped;
   private _howl?: Howl;
 
-  private _load(song: Pick<Song, '_id' | 'file'>) {
+  private _load(file: string) {
     this._howl?.unload();
     this._howl = new Howl({
-      src: song.file,
+      src: file,
       html5: true,
       volume: this._volume,
       autoplay: this._autoplay,
       mute: this._muted,
-      onload: () => {},
+      onload: () => {
+        const duration = this._howl?.duration();
+        if (duration) this._listener.onduration(duration);
+      },
       onplay: () => {
         this._status = PlayerStatus.Playing;
+        this._listener.onstatus(this._status);
       },
       onpause: () => {
         this._status = PlayerStatus.Paused;
+        this._listener.onstatus(this._status);
       },
       onstop: () => {
         this._status = PlayerStatus.Stopped;
+        this._listener.onstatus(this._status);
       },
       onend: () => {},
       onmute: () => {},
@@ -57,10 +71,11 @@ export class Player {
     this._volume = options.volume;
     this._autoplay = options.autoplay;
     this._muted = options.muted;
+    this._listener = options.listener;
   }
 
-  play(song?: Pick<Song, '_id' | 'file'>) {
-    if (song) this._load(song);
+  play(file?: string) {
+    if (file) this._load(file);
     if (this._status !== PlayerStatus.Playing) this._howl?.play();
   }
 

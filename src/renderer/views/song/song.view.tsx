@@ -5,7 +5,8 @@ import * as forgo from 'forgo';
 import { formatTimeNumber } from '../../../utils/string/formatTime';
 import VirtualList from '../../components/virtualList/virtualList';
 import player from '../../state/player';
-import store from '../../state/store';
+import getSongs from '../../state/selectors/getSongs';
+import play from '../../state/actions/play';
 
 import './song.view.scss';
 
@@ -14,8 +15,7 @@ export type SongViewProps = {};
 const SongView: Component<SongViewProps> = () => {
   const component = new forgo.Component<SongViewProps>({
     render() {
-      const { library } = store.get();
-      const songs = Array.from(library.songs.values());
+      const songs = getSongs();
 
       return (
         <div class="SongView">
@@ -29,7 +29,7 @@ const SongView: Component<SongViewProps> = () => {
               const song = songs[i];
 
               return (
-                <button type='button' onclick={() => player.play(song)}>
+                <button type='button' onclick={() => play(song)}>
                   <img
                     src={song.image ?? 'icons/icon_light.png'}
                     alt=''

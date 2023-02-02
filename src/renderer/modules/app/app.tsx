@@ -3,11 +3,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import fetchLibrary from '../../actions/fetchLibrary';
-import fetchTheme from '../../actions/fetchTheme';
-import fetchUser from '../../actions/fetchUser';
-import setReady from '../../actions/setReady';
-import setViewApp from '../../actions/setViewApp';
+import fetchLibrary from '../../state/actions/fetchLibrary';
+import fetchTheme from '../../state/actions/fetchTheme';
+import fetchUser from '../../state/actions/fetchUser';
+import setReady from '../../state/actions/setReady';
+import setViewApp from '../../state/actions/setViewApp';
 import Icon from '../../components/icon/icon';
 import store from '../../state/store';
 import { ViewApp } from '../../state/types';

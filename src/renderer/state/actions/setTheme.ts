@@ -1,8 +1,8 @@
-import type { ThemeShape } from '../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../../types/shapes/theme.shape';
 
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const setTheme = async (type: ThemeShape['theme']) => {
   const theme = await window.ipc.theme.set({ key: 'theme', value: type });

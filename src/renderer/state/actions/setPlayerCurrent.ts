@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const setPlayerCurrent = (current: { id: string, duration: number }) =>
   store.dispatch(produce(draft => {

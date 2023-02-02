@@ -1,8 +1,8 @@
 import produce from 'immer';
 
-import difference from '../../utils/array/difference';
-import unique from '../../utils/array/unique';
-import store from '../state/store';
+import difference from '../../../utils/array/difference';
+import unique from '../../../utils/array/unique';
+import store from '../store';
 
 const addFolders = async (folders: string[]) => {
   store.dispatch(produce(draft => {

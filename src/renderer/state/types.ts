@@ -2,6 +2,7 @@ import type { Album, Label, Song } from '../../types/library';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
 import type { Immutable } from 'immer';
+import { PlayerStatus } from '../lib/player';
 
 export enum ViewApp {
   Playlist = 'playlist',
@@ -23,9 +24,12 @@ export type State = Immutable<{
     scanning: boolean
   },
   player: {
-    current?: {
-      id: string
-      duration: number
+    muted: boolean
+    volume: number
+    status: PlayerStatus,
+    current: {
+      id?: string
+      duration?: number
     }
     playlist: {
       index: number

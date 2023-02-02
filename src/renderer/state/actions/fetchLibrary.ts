@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import store from '../state/store';
+import store from '../store';
 
 const fetchLibrary = async () => {
   const library = await window.ipc.library.get();
