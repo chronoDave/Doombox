@@ -1,5 +1,5 @@
-@media (prefers-color-scheme: dark) {
-  :root {
+:root {
+  @media (prefers-color-scheme: dark) {
     // colours
     --black: #040405;
     --white: #f6f6f7;
@@ -28,10 +28,8 @@
     --scrollbar: var(--grey400);
     --scrollbar-thumb: var(--grey500);
   }
-}
 
-@media (prefers-color-scheme: light) {
-  :root {
+  @media (prefers-color-scheme: light) {
     // colours
     --black: #060607;
     --white: #f8f9f9;
@@ -57,7 +55,7 @@
     --text-primary: var(--white);
     --settings: var(--white);
     --settings-menu: var(--grey600);
-    --scrollbar: var(--grey200);
-    --scrollbar-thumb: var(--grey300);
+    --scrollbar: var(--grey600);
+    --scrollbar-thumb: var(--grey500);
   }
 }

@@ -13,18 +13,27 @@ export type PlayerCoverProps = {};
 const PlayerCover: Component<PlayerCoverProps> = () => {
   const component = new forgo.Component<PlayerCoverProps>({
     render() {
+      const { theme } = store.get();
       const current = getCurrent();
 
       return (
         <div class='PlayerCover'>
-          {current?.image && <ImageBlur src={current.image} alt='' padding={16} />}
+          {(
+            theme.player.cover === 'contain' &&
+            current?.image
+          ) ? <ImageBlur src={current.image} alt='' padding={16} /> : null}
+          {(
+            theme.player.cover === 'cover' &&
+            current?.image
+          ) ? <img src={current.image} alt='' /> : null}
         </div>
       );
     }
   });
 
   return store.subscribe(component, (prev, cur) => (
-    prev.player.current?.id !== cur.player.current?.id
+    prev.player.current?.id !== cur.player.current?.id ||
+    prev.theme.player.cover !== cur.theme.player.cover
   ));
 };
 

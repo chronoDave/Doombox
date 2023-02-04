@@ -11,10 +11,10 @@ export type ThemeControllerProps = {
 export default (props: ThemeControllerProps) =>
   (): IpcInvokeController[IpcChannel.Theme] => ({
     all: async () => props.storage.all(),
-    get: async payload => props.storage.get(payload.key),
+    get: async payload => props.storage.get(payload),
     set: async payload => {
-      nativeTheme.themeSource = payload.value;
-      props.storage.set(payload.key, payload.value);
-      return props.storage.all();
+      const theme = props.storage.set(payload);
+      nativeTheme.themeSource = theme.theme;
+      return theme;
     }
   });

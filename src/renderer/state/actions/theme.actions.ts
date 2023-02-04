@@ -11,8 +11,8 @@ export const fetchTheme = async () => {
   }));
 };
 
-export const setType = async (type: ThemeShape['theme']) => {
-  const theme = await window.ipc.theme.set({ key: 'theme', value: type });
+export const setTheme = async (reducer: (state: ThemeShape) => ThemeShape) => {
+  const theme = await window.ipc.theme.set(reducer(store.get().theme));
   store.dispatch(produce(draft => {
     draft.theme = theme;
   }));

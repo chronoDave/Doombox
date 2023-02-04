@@ -3,6 +3,7 @@ import type Logger from './logger';
 import type Storage from './storage';
 
 import { BrowserWindow, ipcMain } from 'electron';
+import produce from 'immer';
 import path from 'path';
 
 import { IpcChannel } from '../../types/ipc';
@@ -37,10 +38,19 @@ export default (props: WindowProps) => {
   const router = createIpcRouter(() => createWindowController({
     window
   }))(props.logger);
-  const handleResize = debounce(() => props.storage.set('window', window.getBounds()), 100);
+  const handleResize = debounce(() => {
+    const { width, height } = window.getBounds();
+    props.storage.set(produce(draft => {
+      draft.window.width = width;
+      draft.window.height = height;
+    })(props.storage.all()));
+  }, 100);
   const handleMove = debounce(() => {
     const [x, y] = window.getPosition();
-    props.storage.set('window', { x, y });
+    props.storage.set(produce(draft => {
+      draft.window.x = x;
+      draft.window.y = y;
+    })(props.storage.all()));
   }, 100);
 
   window.once('ready-to-show', window.show);

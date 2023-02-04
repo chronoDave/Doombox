@@ -37,10 +37,7 @@ const Slider: Component<SliderProps> = () => {
   const handlePointerMove = (
     event: { target: HTMLElement, x: number },
     props: SliderProps
-  ) => requestAnimationFrame(() => {
-    if (!dragging) return;
-    handleSeek(event, props);
-  });
+  ) => requestAnimationFrame(() => dragging && handleSeek(event, props));
 
   const component = new forgo.Component<SliderProps>({
     render(props) {

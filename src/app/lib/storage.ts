@@ -2,7 +2,6 @@ import type { Shape } from '../../types/primitives';
 
 import merge from 'deepmerge';
 import fs from 'fs';
-import produce from 'immer';
 import path from 'path';
 
 import parse from '../../utils/shape/parse';
@@ -42,14 +41,11 @@ export default class Storage<T extends Shape> {
     return this._data[key];
   }
 
-  set<K extends keyof T>(key: K, value: Partial<T[K]>) {
-    this._data = produce(this._data, (draft: T) => {
-      draft[key] = merge(draft[key], value, {
-        arrayMerge: (_, s) => s
-      });
-    });
-
+  set(state: T) {
+    this._data = state;
     fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));
+
+    return this._data;
   }
 
   all() {

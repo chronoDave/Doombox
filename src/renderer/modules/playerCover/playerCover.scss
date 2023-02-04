@@ -1,10 +1,20 @@
 .PlayerCover {
-  flex-grow: 1;
+  display: flex;
+  min-height: 0;
   background: linear-gradient(0deg,
-      var(--grey200) 0%,
+      var(--bg) 0%,
       var(--primary-hover) 100%);
 
   > .ImageBlur {
     height: 100%;
+    flex-grow: 1;
+  }
+
+  > img {
+    display: block;
+    object-fit: cover;
+    height: auto;
+    width: 100%;
+    aspect-ratio: 1 / 1;
   }
 }

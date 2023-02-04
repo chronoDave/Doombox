@@ -3,6 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
+import { getCurrent } from '../../state/selectors/player.selectors';
+import store from '../../state/store';
 
 import './appHeader.scss';
 
@@ -11,6 +13,11 @@ export type AppBarProps = {};
 const AppBar: Component<AppBarProps> = () => {
   const component = new forgo.Component({
     render() {
+      const current = getCurrent();
+      const title = current ?
+        `${current.artist} - ${current.title} (${current.album})` :
+        'Doombox';
+
       return (
         <header>
           <img
@@ -23,7 +30,7 @@ const AppBar: Component<AppBarProps> = () => {
             src="icons/icon_light.png"
             alt='Doombox app icon'
           />
-          <span class="title">Doombox</span>
+          <span class="title">{title}</span>
           <nav aria-label='window'>
             <ul>
               <li>
@@ -61,7 +68,9 @@ const AppBar: Component<AppBarProps> = () => {
     }
   });
 
-  return component;
+  return store.subscribe(component, (prev, cur) => (
+    prev.player.current.id !== cur.player.current.id
+  ));
 };
 
 export default AppBar;

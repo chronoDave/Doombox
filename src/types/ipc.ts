@@ -38,15 +38,6 @@ export type IpcEvent = {
 };
 
 /** Payloads */
-export type IpcPayloadGet<T extends Shape> = {
-  key: keyof T
-};
-
-export type IpcPayloadSet<T extends Shape> = {
-  key: keyof T,
-  value: Partial<T[keyof T]>
-};
-
 export type IpcPayloadReceive = {
   [IpcChannel.Scan]: {
     process: string
@@ -57,8 +48,8 @@ export type IpcPayloadReceive = {
 
 /** Controller */
 export type IpcControllerStorage<T extends Shape> = {
-  [IpcAction.Get]: (payload: IpcPayloadGet<T>) => Promise<T[keyof T]>
-  [IpcAction.Set]: (payload: IpcPayloadSet<T>) => Promise<T>
+  [IpcAction.Get]: (payload: keyof T) => Promise<T[keyof T]>
+  [IpcAction.Set]: (payload: T) => Promise<T>
   [IpcAction.All]: () => Promise<T>
 };
 
