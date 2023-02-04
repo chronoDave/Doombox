@@ -1,0 +1,10 @@
+.PlayerCover {
+  flex-grow: 1;
+  background: linear-gradient(0deg,
+      var(--grey200) 0%,
+      var(--primary-hover) 100%);
+
+  > .ImageBlur {
+    height: 100%;
+  }
+}

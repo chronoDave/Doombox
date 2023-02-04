@@ -1,0 +1,26 @@
+.ImageBlur {
+  position: relative;
+  overflow: hidden;
+
+  > img {
+    position: absolute;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    &:not(.blur) {
+      max-height: calc(100% - var(--padding));
+      max-width: calc(100% - var(--padding));
+    }
+
+    &.blur {
+      width: 100%;
+      filter: blur(16px);
+      object-fit: cover;
+    }
+  }
+}

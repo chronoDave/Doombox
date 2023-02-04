@@ -1,0 +1,26 @@
+@use 'typography';
+@use 'breakpoint';
+
+.PlayerMeta {
+  > span {
+    @include typography.nowrap;
+    display: block;
+
+    &.title {
+      font-weight: 500;
+    }
+
+    &.artist {
+      @include typography.small;
+    }
+
+    &.label {
+      @include typography.small;
+      display: none;
+
+      @media (min-height: breakpoint.$sm-h) {
+        display: block;
+      }
+    }
+  }
+}

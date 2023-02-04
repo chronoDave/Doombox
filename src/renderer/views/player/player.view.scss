@@ -1,47 +1,27 @@
+@use 'breakpoint';
+
 .Player {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  
-  > .current {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    position: relative;
-    flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 
-    > .cover {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: auto;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      aspect-ratio: 1 / 1;
-      z-index: -1;
-      transform: translateX(-50%);
+  > .panel {
+    overflow: auto;
 
-      &.blur {
-        width: 100%;
-        height: 100%;
-        filter: blur(32px);
-      }
-    }
-
-    > .meta {
+    &.meta {
       display: flex;
       flex-direction: column;
-      text-align: center;
-      padding: 0 8px;
+
+      > .PlayerCover {
+        flex-grow: 1;
+      }
+
+      > .PlayerMeta {
+        padding: 2px 4px;
+      }
+  
+      > .PlayerControls {
+        padding-bottom: 8px;
+      }
     }
-  }
-
-  > .PlayerSlider {
-    padding: 0 12px;
-  }
-
-  > .PlayerControls {
-    padding: 16px 8px;
   }
 }

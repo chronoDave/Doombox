@@ -1,5 +1,9 @@
+@use 'typography';
+
 .PlayerSlider {
   > .time {
+    @include typography.small;
+
     display: flex;
     justify-content: space-between;
   }

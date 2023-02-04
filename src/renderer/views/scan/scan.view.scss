@@ -1,11 +1,12 @@
 @use 'typography.scss';
+@use 'breakpoint.scss';
 
 .Scan {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: var(--sm-w);
+  max-width: breakpoint.$sm-w;
   flex-grow: 1;
   padding: 16px;
   text-align: center;
