@@ -1,5 +1,5 @@
-@use 'variables.scss' as v;
 @use 'utils.scss';
+@use 'transition.scss';
 
 %input-checked {
   display: inline-flex;
@@ -23,7 +23,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      transition: background-color v.$transition-fast;
+      transition: background-color transition.$fast;
     }
 
     &:checked:after {

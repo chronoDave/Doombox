@@ -1,3 +1,5 @@
+@use 'layer.scss';
+
 *::-webkit-scrollbar {
   width: 12px;
   background-color: var(--scrollbar);
@@ -8,9 +10,11 @@
 }
 
 *:focus-visible {
+  position: relative;
   outline: 2px solid var(--text);
   outline-offset: 2px;
   isolation: isolate;
+  z-index: layer.$focus;
 }
 
 .hidden {

@@ -1,5 +1,3 @@
-@use 'variables' as v;
-
 .Progress {
   display: flex;
   align-items: center;
@@ -18,21 +16,5 @@
     &[value]::-webkit-progress-value {
       background-color: var(--primary);
     }
-    
-
-    // &::after {
-    //   content: '';
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   bottom: 0;
-    //   right: 0;
-    //   background-color: var(--primary);
-    //   transform: scaleX(var(--progress-value));
-    //   transform-origin: left;
-    //   transition: transform v.$transition-fast;
-    // }
   }
-
-
 }

@@ -1,11 +1,11 @@
 @use 'utils.scss';
-@use 'variables.scss' as v;
+@use 'transition.scss';
 
 button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  transition: background-color v.$transition-fast;
+  transition: background-color transition.$fast;
 
   @include utils.hover {
     cursor: pointer;
@@ -16,7 +16,7 @@ button {
     fill: var(--text-inactive);
 
     > svg > path {
-      transition: fill v.$transition-fast;
+      transition: fill transition.$fast;
     }
 
     @include utils.hover {

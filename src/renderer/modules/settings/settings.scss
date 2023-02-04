@@ -1,7 +1,7 @@
-@use 'variables.scss' as v;
 @use 'utils.scss';
 @use 'typography.scss';
 @use 'breakpoint.scss';
+@use 'transition.scss';
 
 .Settings {
   display: grid;
@@ -29,7 +29,7 @@
       > button {
         padding: 8px 12px;
         width: 100%;
-        transition: background-color v.$transition-fast;
+        transition: background-color transition.$fast;
         justify-content: flex-start;
 
         @include utils.hover {
@@ -82,7 +82,7 @@
     }
 
     > span {
-      transition: color v.$transition-fast;
+      transition: color transition.$fast;
     }
   }
 }
