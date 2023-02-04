@@ -15,6 +15,7 @@ const state: State = {
   player: {
     muted: false,
     volume: 100,
+    position: 0,
     status: PlayerStatus.Stopped,
     current: {},
     playlist: {

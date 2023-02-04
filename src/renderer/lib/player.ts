@@ -14,6 +14,7 @@ export enum PlayerStatus {
 export type PlayerListener = {
   onstatus: (status: PlayerStatus) => void
   onduration: (duration: number) => void
+  onposition: (position: number) => void
 };
 
 export type PlayerOptions = AppShape['player'] & UserShape['player'] & {
@@ -28,8 +29,11 @@ export class Player {
   private _volume: number;
   private _status = PlayerStatus.Stopped;
   private _howl?: Howl;
+  private _interval?: number;
 
   private _load(file: string) {
+    console.log(file);
+
     this._howl?.unload();
     this._howl = new Howl({
       src: file,
@@ -42,29 +46,39 @@ export class Player {
         if (duration) this._listener.onduration(duration);
       },
       onplay: () => {
+        if (this._interval) window.clearInterval(this._interval);
+        this._interval = window.setInterval(() => {
+          this._listener.onposition(this._howl?.seek() ?? 0);
+        }, 1000);
+
         this._status = PlayerStatus.Playing;
         this._listener.onstatus(this._status);
       },
       onpause: () => {
+        if (this._interval) window.clearInterval(this._interval);
+
         this._status = PlayerStatus.Paused;
         this._listener.onstatus(this._status);
       },
       onstop: () => {
+        if (this._interval) window.clearInterval(this._interval);
+
         this._status = PlayerStatus.Stopped;
         this._listener.onstatus(this._status);
       },
-      onend: () => {},
+      onend: () => {
+        if (this._interval) window.clearInterval(this._interval);
+
+        this._status = PlayerStatus.Stopped;
+        this._listener.onstatus(this._status);
+      },
       onmute: () => {},
       onloaderror: () => {}
     });
   }
 
-  set autoplay(autoplay: boolean) {
-    this._autoplay = autoplay;
-  }
-
-  set volume(number: number) {
-    this._volume = clamp(0, 1, number);
+  get pos() {
+    return this._howl?.seek() ?? 0;
   }
 
   constructor(options: PlayerOptions) {
@@ -92,5 +106,9 @@ export class Player {
   mute(muted?: boolean) {
     this._muted = muted ?? !this._muted;
     this._howl?.mute(this._muted);
+  }
+
+  seek(pos: number) {
+    this._howl?.seek(pos);
   }
 }

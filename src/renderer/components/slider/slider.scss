@@ -1,0 +1,37 @@
+.Slider {
+  position: relative;
+  width: 100%;
+  height: var(--size-thumb);
+  overflow: hidden;
+
+  > .track {
+    position: absolute;
+    height: var(--size-track);
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--primary-hover);
+  }
+
+  > .thumb {
+    position: relative;
+    transform: translate(calc(-1 * (100% - var(--x))), -50%);
+    height: var(--size-track);
+    top: 50%;
+    background-color: var(--primary);
+
+    &::after {
+      position: absolute;
+      content: '';
+      right: 0;
+      background-color: var(--text-primary);
+      top: 50%;
+      width: var(--size-thumb);
+      height: var(--size-thumb);
+      transform: translate(calc(100% - var(--x)), -50%);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+}

@@ -3,7 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
+import SliderSeek from '../../components/sliderSeek/sliderSeek';
 import { PlayerStatus } from '../../lib/player';
+import seek from '../../state/actions/seek';
 import { getCurrent } from '../../state/selectors/getCurrent';
 import store from '../../state/store';
 
@@ -38,6 +40,11 @@ const PlayerView: Component<PlayerViewProps> = () => {
               <span class='label'>{current?.label ?? 'unknown'}</span>
             </div>
           </div>
+          <SliderSeek
+            max={current?.duration ?? 0}
+            value={player.position}
+            onchange={seek}
+          />
           <div class='controls'>
             <button type='button'>
               <Icon id='previous' />
@@ -56,7 +63,8 @@ const PlayerView: Component<PlayerViewProps> = () => {
 
   return store.subscribe(component, (prev, cur) => (
     prev.player.current?.id !== cur.player.current?.id ||
-    prev.player.muted !== cur.player.muted
+    prev.player.muted !== cur.player.muted ||
+    prev.player.position !== cur.player.position
   ));
 };
 

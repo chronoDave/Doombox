@@ -15,6 +15,9 @@ const player = new Player({
     })),
     onduration: duration => store.dispatch(produce(draft => {
       draft.player.current.duration = duration;
+    })),
+    onposition: position => store.dispatch(produce(draft => {
+      draft.player.position = position;
     }))
   }
 });
