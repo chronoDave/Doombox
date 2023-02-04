@@ -51,6 +51,7 @@ export class Player {
 
         this._status = PlayerStatus.Playing;
         this._listener.onstatus(this._status);
+        this._listener.onposition(this.pos);
       },
       onpause: () => {
         if (this._interval) window.clearInterval(this._interval);

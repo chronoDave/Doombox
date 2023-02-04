@@ -1,0 +1,9 @@
+.PlayerControls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  
+  > button > .Icon {
+    width: 1.5rem;
+  }
+}

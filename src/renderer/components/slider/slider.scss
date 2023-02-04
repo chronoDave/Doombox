@@ -3,6 +3,7 @@
   width: 100%;
   height: var(--size-thumb);
   overflow: hidden;
+  cursor: pointer;
 
   > .track {
     position: absolute;
@@ -31,7 +32,6 @@
       height: var(--size-thumb);
       transform: translate(calc(100% - var(--x)), -50%);
       border-radius: 50%;
-      cursor: pointer;
     }
   }
 }

@@ -29,7 +29,7 @@ export default class Store<S extends Record<string, unknown>> {
     this._listeners.forEach(listener => listener(prev, this._state));
   }
 
-  subscribe(component: Component, shouldUpdate: (prev: S, cur: S) => boolean) {
+  subscribe<T extends Component>(component: T, shouldUpdate: (prev: S, cur: S) => boolean) {
     const listener = (prev: S, cur: S) => shouldUpdate(prev, cur) && component.update();
 
     component.mount(() => this._listeners.add(listener));

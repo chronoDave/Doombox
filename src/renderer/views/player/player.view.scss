@@ -37,14 +37,11 @@
     }
   }
 
-  > .controls {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    padding: 16px 8px;
+  > .PlayerSlider {
+    padding: 0 12px;
+  }
 
-    > button > .Icon {
-      width: 1.5rem;
-    }
+  > .PlayerControls {
+    padding: 16px 8px;
   }
 }

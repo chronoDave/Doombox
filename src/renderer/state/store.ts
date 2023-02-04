@@ -15,9 +15,12 @@ const state: State = {
   player: {
     muted: false,
     volume: 100,
-    position: 0,
     status: PlayerStatus.Stopped,
-    current: {},
+    current: {
+      id: '',
+      duration: 0,
+      position: 0
+    },
     playlist: {
       index: 0,
       songs: []

@@ -3,9 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import SliderSeek from '../../components/sliderSeek/sliderSeek';
 import { PlayerStatus } from '../../lib/player';
-import { seek } from '../../state/actions/player.actions';
+import PlayerControls from '../../modules/playerControls/playerControls';
+import PlayerSlider from '../../modules/playerSlider/playerSlider';
 import { getCurrent } from '../../state/selectors/player.selectors';
 import store from '../../state/store';
 
@@ -17,7 +17,6 @@ const PlayerView: Component<PlayerViewProps> = () => {
   const component = new forgo.Component<PlayerViewProps>({
     render() {
       const current = getCurrent();
-      const { player } = store.get();
 
       return (
         <div class='Player'>
@@ -40,31 +39,15 @@ const PlayerView: Component<PlayerViewProps> = () => {
               <span class='label'>{current?.label ?? 'unknown'}</span>
             </div>
           </div>
-          <SliderSeek
-            max={current?.duration ?? 0}
-            value={player.position}
-            onchange={seek}
-          />
-          <div class='controls'>
-            <button type='button'>
-              <Icon id='previous' />
-            </button>
-            <button type='button'>
-              <Icon id={player.status === PlayerStatus.Playing ? 'pause' : 'play'} />
-            </button>
-            <button type='button'>
-              <Icon id='next' />
-            </button>
-          </div>
+          <PlayerSlider />
+          <PlayerControls />
         </div>
       );
     }
   });
 
   return store.subscribe(component, (prev, cur) => (
-    prev.player.current?.id !== cur.player.current?.id ||
-    prev.player.muted !== cur.player.muted ||
-    prev.player.position !== cur.player.position
+    prev.player.current?.id !== cur.player.current?.id
   ));
 };
 

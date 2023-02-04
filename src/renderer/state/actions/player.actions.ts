@@ -18,7 +18,7 @@ const player = new Player({
       draft.player.current.duration = duration;
     })),
     onposition: position => store.dispatch(produce(draft => {
-      draft.player.position = position;
+      draft.player.current.position = position;
     }))
   }
 });
@@ -33,16 +33,12 @@ export const play = (song?: Song) => {
   player.play(song?.file);
 };
 
+export const pause = () => player.pause();
+
 export const seek = (pos: number) => {
   store.dispatch(produce(draft => {
-    draft.player.position = pos;
+    draft.player.current.position = pos;
   }));
 
   player.seek(pos);
-};
-
-export const setCurrent = (current: { id: string, duration: number }) => {
-  store.dispatch(produce(draft => {
-    draft.player.current = current;
-  }));
 };

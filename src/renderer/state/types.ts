@@ -27,10 +27,10 @@ export type State = Immutable<{
     muted: boolean
     volume: number
     status: PlayerStatus,
-    position: number
     current: {
-      id?: string
-      duration?: number
+      id: string
+      duration: number
+      position: number
     }
     playlist: {
       index: number

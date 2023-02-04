@@ -22,18 +22,24 @@ export type SliderProps = {
 const Slider: Component<SliderProps> = () => {
   let dragging = false;
 
-  const handlePointerMove = (
+  const handleSeek = (
     event: { target: HTMLElement, x: number },
     props: SliderProps
-  ) => requestAnimationFrame(() => {
-    if (!dragging) return;
-
+  ) => {
     const { left, width } = event.target.getBoundingClientRect();
     const rel = Math.max(0, (left - event.x) * -1);
     const offset = (rel / width); // <0,1>
     const offsetThumb = ((props.size.thumb / 2) / width) * -offset;
 
     props.onchange(clamp(props.min, props.max, (props.max * (offset - offsetThumb))));
+  };
+
+  const handlePointerMove = (
+    event: { target: HTMLElement, x: number },
+    props: SliderProps
+  ) => requestAnimationFrame(() => {
+    if (!dragging) return;
+    handleSeek(event, props);
   });
 
   const component = new forgo.Component<SliderProps>({
@@ -68,6 +74,10 @@ const Slider: Component<SliderProps> = () => {
             }
           }}
           onpointermove={event => handlePointerMove({
+            target: event.currentTarget,
+            x: event.clientX
+          }, props)}
+          onclick={event => handleSeek({
             target: event.currentTarget,
             x: event.clientX
           }, props)}
