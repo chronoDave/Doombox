@@ -1,6 +1,6 @@
 import store from '../store';
 
-import { getSong } from './getSong';
+import { getSong } from './library.selectors';
 
 export const getCurrent = () => {
   const { player } = store.get();

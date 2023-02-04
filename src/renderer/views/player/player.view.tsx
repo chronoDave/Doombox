@@ -5,8 +5,8 @@ import * as forgo from 'forgo';
 import Icon from '../../components/icon/icon';
 import SliderSeek from '../../components/sliderSeek/sliderSeek';
 import { PlayerStatus } from '../../lib/player';
-import seek from '../../state/actions/seek';
-import { getCurrent } from '../../state/selectors/getCurrent';
+import { seek } from '../../state/actions/player.actions';
+import { getCurrent } from '../../state/selectors/player.selectors';
 import store from '../../state/store';
 
 import './player.view.scss';

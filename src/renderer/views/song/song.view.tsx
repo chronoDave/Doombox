@@ -4,9 +4,8 @@ import * as forgo from 'forgo';
 
 import { formatTimeNumber } from '../../../utils/string/formatTime';
 import VirtualList from '../../components/virtualList/virtualList';
-import player from '../../state/player';
-import getSongs from '../../state/selectors/getSongs';
-import play from '../../state/actions/play';
+import { play } from '../../state/actions/player.actions';
+import { getSongs } from '../../state/selectors/library.selectors';
 
 import './song.view.scss';
 

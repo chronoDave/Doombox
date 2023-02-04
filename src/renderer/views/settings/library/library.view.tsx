@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import rebuildLibrary from '../../../state/actions/rebuildLibrary';
 import InputFolders from '../../../components/inputFolders/inputFolders';
+import { rebuildLibrary } from '../../../state/actions/library.actions';
 import store from '../../../state/store';
 
 export type LibraryViewProps = {};

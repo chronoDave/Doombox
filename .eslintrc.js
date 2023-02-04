@@ -126,6 +126,21 @@ module.exports = {
       ImportDeclaration: { minProperties: 4 }
     }],
     // Import
+    'import/no-restricted-paths': ['error', {
+      zones: [{
+        target: 'src/renderer/components',
+        from: 'src/renderer/state',
+        message: 'Components should be stateless'
+      }, {
+        target: 'src/renderer/lib',
+        from: 'src/renderer/state',
+        message: 'Lib should be stateless'
+      }, {
+        target: 'src/renderer/utils',
+        from: 'src/renderer/state',
+        message: 'Utils should be stateless'
+      }]
+    }],
     'import/no-self-import': 'error',
     'import/no-cycle': 'error',
     'import/no-mutable-exports': 'error',

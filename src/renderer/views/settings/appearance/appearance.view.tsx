@@ -3,8 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import setTheme from '../../../state/actions/setTheme';
 import InputRadioList from '../../../components/inputRadioList/inputRadioList';
+import { setType } from '../../../state/actions/theme.actions';
 import store from '../../../state/store';
 
 export type AppearanceViewProps = {};
@@ -22,7 +22,7 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
             label="theme"
             value={theme.theme}
             onchange={value => {
-              setTheme(value as ThemeShape['theme']);
+              setType(value as ThemeShape['theme']);
             }}
             options={values.map(value => ({
               id: value,

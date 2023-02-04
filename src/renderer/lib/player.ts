@@ -32,8 +32,6 @@ export class Player {
   private _interval?: number;
 
   private _load(file: string) {
-    console.log(file);
-
     this._howl?.unload();
     this._howl = new Howl({
       src: file,
@@ -73,7 +71,7 @@ export class Player {
         this._listener.onstatus(this._status);
       },
       onmute: () => {},
-      onloaderror: () => {}
+      onloaderror: (_, err) => console.error(err)
     });
   }
 

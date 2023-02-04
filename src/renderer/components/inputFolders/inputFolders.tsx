@@ -2,8 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import addFolders from '../../state/actions/addFolders';
-import removeFolders from '../../state/actions/removeFolders';
+import { addFolders, removeFolders } from '../../state/actions/library.actions';
 import Icon from '../icon/icon';
 import InputCheckbox from '../inputCheckbox/inputCheckbox';
 

@@ -1,8 +1,8 @@
 import type { Album, Label, Song } from '../../types/library';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
+import type { PlayerStatus } from '../lib/player';
 import type { Immutable } from 'immer';
-import { PlayerStatus } from '../lib/player';
 
 export enum ViewApp {
   Playlist = 'playlist',
