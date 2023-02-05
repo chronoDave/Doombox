@@ -57,6 +57,7 @@ module.exports = {
     'package.json',
     { from: 'build' },
     { from: 'node_modules/sharp/build', to: 'node_modules/sharp/build' },
+    { from: 'node_modules/kuromoji/dict', to: 'dict' },
     ...crawlDeps('sharp')
   ],
   npmRebuild: false,

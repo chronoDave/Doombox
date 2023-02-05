@@ -1,89 +1,42 @@
-import type { Album, Label, Song } from '../types/library';
-
 import { app as electron } from 'electron';
 import fs from 'fs';
-import Kuroshiro from 'kuroshiro';
-import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji';
-import LeafDB from 'leaf-db';
 import path from 'path';
 
-import appShape from '../types/shapes/app.shape';
-import themeShape from '../types/shapes/theme.shape';
-import userShape from '../types/shapes/user.shape';
 import { IS_DEV } from '../utils/const';
 
 import run from './lib/app';
-import createAppController from './lib/controllers/app.controller';
-import createLibraryController from './lib/controllers/library/library.controller';
-import createThemeController from './lib/controllers/theme.controller';
-import createUserController from './lib/controllers/user.controller';
-import Logger from './lib/logger';
-import Storage from './lib/storage';
-import createIpcRouter from './lib/utils/createIpcRouter';
 
-const ROOT = {
-  USER_DATA: IS_DEV ?
-    path.resolve(__dirname, '../data/userData') :
-    electron.getPath('userData'),
-  ASSETS: IS_DEV ?
-    path.resolve(__dirname, '../build/assets') :
-    path.resolve(electron.getAppPath(), 'assets'),
-  LOGS: IS_DEV ?
-    path.resolve(__dirname, '../data/logs') :
-    electron.getPath('logs'),
-  APP_DATA: IS_DEV ?
-    path.resolve(__dirname, '../data/appData') :
-    electron.getPath('appData')
-} as const;
-
-const DIR = {
-  COVER: path.resolve(ROOT.APP_DATA, 'covers')
-} as const;
+const userData = IS_DEV ?
+  path.resolve(__dirname, '../data/userData') :
+  electron.getPath('userData');
+const appData = IS_DEV ?
+  path.resolve(__dirname, '../data/appData') :
+  electron.getPath('appData');
+const assets = IS_DEV ?
+  path.resolve(__dirname, '../build/assets') :
+  path.resolve(electron.getAppPath(), 'assets');
+const logs = IS_DEV ?
+  path.resolve(__dirname, '../data/logs') :
+  electron.getPath('logs');
+const dict = IS_DEV ?
+  path.resolve(__dirname, '../../node_modules/kuromoji/dict') :
+  path.resolve(electron.getAppPath(), 'dict');
+const covers = path.resolve(appData, 'covers');
 
 if (IS_DEV) {
-  Object.values(ROOT)
-    .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
+  fs.mkdirSync(userData, { recursive: true });
+  fs.mkdirSync(appData, { recursive: true });
+  fs.mkdirSync(assets, { recursive: true });
+  fs.mkdirSync(logs, { recursive: true });
 }
 
-Object.values(DIR)
-  .forEach(dir => fs.mkdirSync(dir, { recursive: true }));
+fs.mkdirSync(covers, { recursive: true });
 
-const logger = new Logger({ root: ROOT.LOGS });
-const db = {
-  songs: new LeafDB<Song>({ storage: { root: ROOT.APP_DATA, name: 'songs' } }),
-  albums: new LeafDB<Album>({ storage: { root: ROOT.APP_DATA, name: 'albums' } }),
-  labels: new LeafDB<Label>({ storage: { root: ROOT.APP_DATA, name: 'labels' } })
-};
-const storage = {
-  app: new Storage({ name: 'app', shape: appShape, root: ROOT.APP_DATA }),
-  theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA }),
-  user: new Storage({ name: 'user', shape: userShape, root: ROOT.USER_DATA })
-};
-
-Object.values(db).forEach(x => x.open());
-
-const analyzer = new Kuroshiro();
-analyzer.init(new KuromojiAnalyzer())
-  .then(() => {
-    const router = {
-      library: createIpcRouter(createLibraryController({
-        db,
-        root: DIR.COVER,
-        analyzer,
-        storage: storage.user
-      }))(logger),
-      user: createIpcRouter(createUserController({
-        storage: storage.user
-      }))(logger),
-      theme: createIpcRouter(createThemeController({
-        storage: storage.theme
-      }))(logger),
-      app: createIpcRouter(createAppController())(logger)
-    };
-
-    run({
-      router,
-      logger,
-      storage
-    });
-  });
+run({
+  userData,
+  appData,
+  assets,
+  logs,
+  dict,
+  covers
+});

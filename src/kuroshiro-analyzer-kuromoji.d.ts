@@ -1,5 +1,7 @@
 declare module 'kuroshiro-analyzer-kuromoji' {
-  class KuromojiAnalyzer {}
+  class KuromojiAnalyzer {
+    constructor(options?: { dictPath?: string });
+  }
 
   export = KuromojiAnalyzer;
 }
