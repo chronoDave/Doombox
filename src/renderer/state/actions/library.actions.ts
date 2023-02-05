@@ -14,12 +14,15 @@ export const fetchLibrary = async () => {
   }));
 };
 
-export const rebuildLibrary = async () => {
+export const rebuildLibrary = async (force?: boolean) => {
   store.dispatch(produce(draft => {
     draft.app.scanning = true;
   }));
 
-  const library = await window.ipc.library.rebuild(store.get().user.library.folders);
+  const library = await window.ipc.library.rebuild({
+    folders: store.get().user.library.folders,
+    force
+  });
 
   store.dispatch(produce(draft => {
     draft.app.scanning = false;
@@ -54,7 +57,9 @@ export const removeFolders = async (folders: string[]) => {
     draft.user.library.folders = difference(store.get().user.library.folders, folders);
   }));
 
-  const library = await window.ipc.library.rebuild(store.get().user.library.folders);
+  const library = await window.ipc.library.rebuild({
+    folders: store.get().user.library.folders
+  });
 
   store.dispatch(produce(draft => {
     draft.app.scanning = false;

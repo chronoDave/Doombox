@@ -29,7 +29,8 @@ const groupAlbums = (arr: Song[]): Album[] => Object.entries(group(arr, 'album')
       label: songs[0].label,
       date: songs[0].date,
       year: songs[0].year,
-      cdid: songs[0].cdid
+      cdid: songs[0].cdid,
+      romaji: songs[0].romaji
     });
   });
 
@@ -50,7 +51,10 @@ const groupLabels = (arr: Album[]): Label[] => Object.entries(group(arr, 'label'
         .map(album => album.songs)
         .flat(),
       label,
-      duration
+      duration,
+      romaji: {
+        label: albums[0].romaji.label
+      }
     });
   });
 

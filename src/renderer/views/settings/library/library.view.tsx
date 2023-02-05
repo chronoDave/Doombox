@@ -21,8 +21,11 @@ const LibraryView: Component<LibraryViewProps> = () => {
             onadd={console.log}
             onremove={console.log}
           />
-          <button type='button' onclick={rebuildLibrary}>
+          <button type='button' onclick={() => rebuildLibrary()}>
             Rebuild library
+          </button>
+          <button type='button' onclick={() => rebuildLibrary(true)}>
+            Force rebuild library
           </button>
         </div>
       );

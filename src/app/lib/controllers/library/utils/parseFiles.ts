@@ -6,14 +6,14 @@ import path from 'path';
 
 import parseFile from './parseFile';
 
-const parseFiles = async (
+const parseFiles = (toRomaji: (x?: string) => Promise<string | null>) => async (
   files: string[],
   root: string,
   cb?: (song: Song) => void
 ): Promise<{ songs: Song[], images: Map<string, string> }> => {
   const images = new Map<string, string>();
   const songs = await pMap(files, async file => {
-    const { song, image } = await parseFile(file);
+    const { song, image } = await parseFile(toRomaji)(file);
     if (image) {
       const b64 = image.toString('base64');
 

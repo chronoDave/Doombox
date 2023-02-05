@@ -28,15 +28,15 @@ const SongView: Component<SongViewProps> = () => {
               const song = songs[i];
 
               return (
-                <button type='button' onclick={() => play(song)}>
+                <button id={song._id} type='button' onclick={() => play(song)}>
                   <img
                     src={song.image ?? 'icons/icon_light.png'}
                     alt=''
                     loading='lazy'
                   />
                   <div class='metadata'>
-                    <p>{song.title}</p>
-                    <p>{song.artist}</p>
+                    <p>{song.romaji.title ?? song.title}</p>
+                    <p>{song.romaji.artist ?? song.artist}</p>
                   </div>
                   <div class='duration'>
                     <p>{formatTimeNumber(song.duration ?? 0, 2)}</p>

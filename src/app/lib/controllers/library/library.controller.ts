@@ -1,8 +1,11 @@
 import type { IpcInvokeController } from '../../../../types/ipc';
 import type { Album, Label, Song } from '../../../../types/library';
+import type { UserShape } from '../../../../types/shapes/user.shape';
+import type Storage from '../../storage';
 import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
 
+import Kuroshiro from 'kuroshiro';
 import pMap from 'p-map';
 
 import { IpcChannel } from '../../../../types/ipc';
@@ -21,7 +24,9 @@ export type LibraryControllerProps = {
     songs: LeafDB<Song>,
     albums: LeafDB<Album>,
     labels: LeafDB<Label>
-  }
+  },
+  analyzer: Kuroshiro
+  storage: Storage<UserShape>
 };
 
 export default (props: LibraryControllerProps) =>
@@ -39,7 +44,21 @@ export default (props: LibraryControllerProps) =>
     };
     const insert = async (files: string[]) => {
       if (files.length === 0) return props.db.songs.find({});
-      const { songs, images } = await parseFiles(files, props.root, song => update({
+      const toRomaji = (x?: string) => {
+        const { romaji } = props.storage.get('scanner');
+
+        if (!x || !Kuroshiro.Util.hasJapanese(x)) return Promise.resolve(null);
+        return props.analyzer.convert(x, {
+          to: 'romaji',
+          mode: 'spaced',
+          romajiSystem: romaji.system
+        })
+          .catch(err => {
+            console.error(err);
+            return null;
+          });
+      };
+      const { songs, images } = await parseFiles(toRomaji)(files, props.root, song => update({
         process: 'scanning files',
         file: song.file,
         size: files.length
@@ -54,13 +73,13 @@ export default (props: LibraryControllerProps) =>
 
     return ({
       get: () => fetchLibrary(props.db),
-      rebuild: async folders => {
+      rebuild: async ({ folders, force }) => {
         const songsOld = await props.db.songs.find({});
         const filesOld = songsOld.map(song => song.file);
-        const filesNew = await getFiles(folders);
+        const files = await getFiles(folders);
 
-        const stale = songsOld.filter(song => !filesNew.includes(song.file));
-        const fresh = difference(filesNew, filesOld);
+        const stale = songsOld.filter(song => !files.includes(song.file));
+        const fresh = force ? files : difference(files, filesOld);
 
         await props.db.songs.delete(stale.map(song => song._id));
         const songs = await insert(fresh);

@@ -73,7 +73,10 @@ export type IpcInvokeController = {
     [IpcAction.Add]: (payload: readonly string[]) => Promise<Library>
     [IpcAction.Remove]: (payload: readonly string[]) => Promise<Library>
     [IpcAction.Get]: () => Promise<Library>
-    [IpcAction.Rebuild]: (payload: readonly string[]) => Promise<Library>
+    [IpcAction.Rebuild]: (payload: {
+      folders: readonly string[],
+      force?: boolean
+    }) => Promise<Library>
   }
 };
 

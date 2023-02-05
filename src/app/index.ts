@@ -2,6 +2,8 @@ import type { Album, Label, Song } from '../types/library';
 
 import { app as electron } from 'electron';
 import fs from 'fs';
+import Kuroshiro from 'kuroshiro';
+import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji';
 import LeafDB from 'leaf-db';
 import path from 'path';
 
@@ -57,24 +59,31 @@ const storage = {
   theme: new Storage({ name: 'theme', shape: themeShape, root: ROOT.USER_DATA }),
   user: new Storage({ name: 'user', shape: userShape, root: ROOT.USER_DATA })
 };
-const router = {
-  library: createIpcRouter(createLibraryController({
-    db,
-    root: DIR.COVER
-  }))(logger),
-  user: createIpcRouter(createUserController({
-    storage: storage.user
-  }))(logger),
-  theme: createIpcRouter(createThemeController({
-    storage: storage.theme
-  }))(logger),
-  app: createIpcRouter(createAppController())(logger)
-};
 
 Object.values(db).forEach(x => x.open());
 
-run({
-  router,
-  logger,
-  storage
-});
+const analyzer = new Kuroshiro();
+analyzer.init(new KuromojiAnalyzer())
+  .then(() => {
+    const router = {
+      library: createIpcRouter(createLibraryController({
+        db,
+        root: DIR.COVER,
+        analyzer,
+        storage: storage.user
+      }))(logger),
+      user: createIpcRouter(createUserController({
+        storage: storage.user
+      }))(logger),
+      theme: createIpcRouter(createThemeController({
+        storage: storage.theme
+      }))(logger),
+      app: createIpcRouter(createAppController())(logger)
+    };
+
+    run({
+      router,
+      logger,
+      storage
+    });
+  });

@@ -66,6 +66,8 @@
     "forgo": "^3.2.2",
     "howler": "^2.2.3",
     "immer": "^9.0.15",
+    "kuroshiro": "^1.2.0",
+    "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "leaf-db": "^8.0.6",
     "lodash.get": "^4.4.2",
     "music-metadata": "^8.1.0",

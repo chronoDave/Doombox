@@ -14,6 +14,14 @@ export type Song = {
   year: number | null
   date: string | null
   cdid: string | null
+  // Romaji
+  romaji: {
+    artist: string | null
+    title: string | null
+    album: string | null
+    albumartist: string | null
+    label: string | null
+  }
 };
 
 export type Album = {
@@ -28,6 +36,12 @@ export type Album = {
   date: string | null
   year: number | null
   cdid: string | null
+  // Romaji
+  romaji: {
+    albumartist: string | null
+    album: string | null
+    label: string | null
+  }
 };
 
 export type Label = {
@@ -37,6 +51,10 @@ export type Label = {
   // Metadata
   label: string
   duration: number | null
+  // Romaji
+  romaji: {
+    label: string | null
+  }
 };
 
 export type Library = {

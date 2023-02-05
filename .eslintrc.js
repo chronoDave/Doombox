@@ -42,6 +42,11 @@ module.exports = {
     rules: {
       'prefer-destructuring': 'off'
     }
+  }, {
+    files: ['src/app/lib/**/*'],
+    rules: {
+      'no-console': 'error'
+    }
   }],
   rules: {
     // TypeScript
