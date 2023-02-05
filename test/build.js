@@ -17,7 +17,8 @@ build({
   external: [
     'tape',
     'electron',
-    'sharp'
+    'sharp',
+    'kuromoji'
   ],
   define: {
     'process.env.NODE_ENV': '"development"'

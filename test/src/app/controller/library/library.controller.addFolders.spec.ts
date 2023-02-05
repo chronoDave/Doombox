@@ -4,7 +4,7 @@ import test from 'tape';
 import fixture from './fixture';
 
 test('[library.controller.add] scans folders', async t => {
-  const { controller, dir, cleanup } = fixture();
+  const { controller, dir, cleanup } = await fixture();
 
   const { songs, albums, labels } = await controller.add([dir.album]);
 
@@ -21,7 +21,7 @@ test('[library.controller.add] scans folders', async t => {
 });
 
 test('[library.controller.add] ignores duplicate files', async t => {
-  const { controller, dir, cleanup } = fixture();
+  const { controller, dir, cleanup } = await fixture();
 
   await controller.add([dir.album]);
   const { songs } = await controller.add([dir.album]);

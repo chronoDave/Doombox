@@ -3,10 +3,10 @@ import test from 'tape';
 import fixture from './fixture';
 
 test('[library.controller.remove] removes folders', async t => {
-  const { controller, dir, cleanup } = fixture();
+  const { controller, dir, cleanup } = await fixture();
 
   await controller.add([dir.album]);
-  const library = await controller.rebuild([dir.sideOne]);
+  const library = await controller.rebuild({ folders: [dir.sideOne] });
 
   t.equal(library.songs.length, 6, 'deletes stale songs');
   t.equal(library.albums.length, 1, 'rebuilds albums');

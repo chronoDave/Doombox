@@ -4,13 +4,13 @@ import test from 'tape';
 
 import fixture from './fixture';
 
-test('[storage.set] sets data', async t => {
+test('[storage.set] sets data', t => {
   const { storage, cleanup } = fixture();
 
   const x = 100;
   storage.set(produce(draft => {
     draft.window.x = x;
-  }));
+  })({ window: {} }));
 
   // @ts-expect-error: Ignore private
   t.equal(storage._data.window.x, x, 'sets data');
@@ -19,10 +19,9 @@ test('[storage.set] sets data', async t => {
   t.end();
 });
 
-test('[storage.set] writes data', async t => {
+test('[storage.set] writes data', t => {
   const { storage, cleanup } = fixture();
-
-  storage.set(produce(() => {}));
+  storage.set(produce(draft => draft)({}));
 
   // @ts-expect-error: Ignore private
   t.true(fs.existsSync(storage._file), 'writes data');

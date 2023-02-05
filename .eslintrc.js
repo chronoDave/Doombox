@@ -8,7 +8,8 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:jsx-a11y/recommended',
     'airbnb-base',
-    'airbnb-typescript/base'
+    'airbnb-typescript/base',
+    'plugin:promise/recommended'
   ],
   settings: {
     react: {
