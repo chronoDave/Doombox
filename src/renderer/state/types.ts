@@ -22,7 +22,7 @@ export type State = Immutable<{
   app: {
     ready: boolean
     scanning: boolean
-  },
+  }
   player: {
     muted: boolean
     volume: number
@@ -40,9 +40,17 @@ export type State = Immutable<{
   view: {
     app: ViewApp
     settings: ViewSettings
-  },
+  }
   library: {
-    songs: Map<string, Song>
+    search: {
+      songs: string[]
+      albums: string[]
+      labels: string[]
+    }
+    songs: {
+      map: Map<string, Song>
+      list: string[]
+    }
     albums: Album[]
     labels: Label[]
   }

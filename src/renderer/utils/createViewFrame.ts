@@ -1,3 +1,6 @@
+import { binarySearchRight } from "../../utils/array/binarySearch";
+import fill from "../../utils/array/fill";
+
 export type Skeleton = {
   index: number
   top: number
@@ -28,21 +31,20 @@ const createViewFrame = ({
   item,
   container
 }: ViewFrameOptions): ViewFrame => {
-  const skeletons = Array.from({ length: size })
-    .reduce<Skeleton[]>((acc, _, i) => {
-      acc.push({
-        index: i,
-        top: i === 0 ?
-          0 :
-          acc[i - 1].top + acc[i - 1].height,
-        height: item.height
-      });
+  const skeletons = fill<Skeleton>(size, (i, arr) => ({
+    index: i,
+    top: i !== 0 ?
+      arr[i - 1].top + arr[i - 1].height :
+      0,
+    height: item.height
+  }));
 
-      return acc;
-    }, []);
-
-  const min = skeletons.findIndex(skeleton => skeleton.top >= container.y);
-  const max = skeletons.findIndex(skeleton => skeleton.top >= container.y + container.height);
+  const min = binarySearchRight(skeletons, container.y, ({ top }) => top) + 1;
+  const max = binarySearchRight(
+    skeletons,
+    container.y + container.height,
+    ({ top }) => top
+  ) + 1;
 
   const view = skeletons.slice(
     Math.max(0, min - overflow),
@@ -51,10 +53,10 @@ const createViewFrame = ({
       max + overflow)
   );
 
-  const last = skeletons[skeletons.length - 1];
-
   return ({
-    height: last.top + last.height,
+    height:
+      (skeletons[skeletons.length - 1]?.top ?? 0) +
+      (skeletons[skeletons.length - 1]?.height ?? 0),
     items: view
   });
 };

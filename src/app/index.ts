@@ -19,7 +19,7 @@ const logs = IS_DEV ?
   path.resolve(__dirname, '../data/logs') :
   electron.getPath('logs');
 const dict = IS_DEV ?
-  path.resolve(__dirname, '../../node_modules/kuromoji/dict') :
+  path.resolve(__dirname, '../node_modules/kuromoji/dict') :
   path.resolve(electron.getAppPath(), 'dict');
 const covers = path.resolve(appData, 'covers');
 

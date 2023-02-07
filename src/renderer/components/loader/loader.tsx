@@ -9,7 +9,7 @@ export type LoaderProps = {
 };
 
 const Loader: Component<LoaderProps> = () => {
-  const ref: forgo.ForgoRef<Element> = {};
+  const ref: forgo.ForgoRef<HTMLDivElement> = {};
   const component = new forgo.Component<LoaderProps>({
     render(props) {
       return (

@@ -15,7 +15,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
   const component = new forgo.Component<PlayerViewProps>({
     render() {
       return (
-        <div class='Player'>
+        <div class='PlayerView'>
           <div class='panel meta'>
             <PlayerCover />
             <PlayerMeta />

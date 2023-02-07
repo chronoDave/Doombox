@@ -1,8 +1,10 @@
-import type { Library } from './library';
+import type { Library, Song } from './library';
 import type { Shape } from './primitives';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
 import type { IpcMainInvokeEvent } from 'electron';
+import type { Immutable } from 'immer';
+import type { Query } from 'leaf-db';
 
 export type IpcRouter = (event: IpcMainInvokeEvent, ...args: unknown[]) => unknown;
 
@@ -13,7 +15,10 @@ export enum IpcChannel {
   Window = 'window',
   Library = 'library',
   Scan = 'scan',
-  Receive = 'on'
+  Receive = 'on',
+  Song = 'song',
+  Album = 'album',
+  Label = 'label'
 }
 
 export type IpcChannelReceive<T extends IpcChannel> = `${IpcChannel.Receive}.${T}`;
@@ -28,7 +33,8 @@ export enum IpcAction {
   Set = 'set',
   Minimize = 'minimize',
   Maximize = 'maximize',
-  Close = 'close'
+  Close = 'close',
+  Search = 'search'
 }
 
 /** Events */
@@ -49,7 +55,7 @@ export type IpcPayloadReceive = {
 /** Controller */
 export type IpcControllerStorage<T extends Shape> = {
   [IpcAction.Get]: (payload: keyof T) => Promise<T[keyof T]>
-  [IpcAction.Set]: (payload: T) => Promise<T>
+  [IpcAction.Set]: (payload: Immutable<T>) => Promise<T>
   [IpcAction.All]: () => Promise<T>
 };
 
@@ -66,6 +72,9 @@ export type IpcSendController = {
 export type IpcInvokeController = {
   [IpcChannel.App]: {
     [IpcAction.SelectFolders]: () => Promise<string[]>
+  }
+  [IpcChannel.Song]: {
+    [IpcAction.Search]: (payload: Query) => Promise<Song[]>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>

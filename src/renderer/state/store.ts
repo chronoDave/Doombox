@@ -27,11 +27,19 @@ const state: State = {
     }
   },
   view: {
-    app: ViewApp.Player,
+    app: ViewApp.Song,
     settings: ViewSettings.Library
   },
   library: {
-    songs: new Map(),
+    search: {
+      songs: [],
+      albums: [],
+      labels: []
+    },
+    songs: {
+      list: [],
+      map: new Map()
+    },
     albums: [],
     labels: []
   },

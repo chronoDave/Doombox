@@ -2,7 +2,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { addFolders, removeFolders } from '../../state/actions/library.actions';
 import Icon from '../icon/icon';
 import InputCheckbox from '../inputCheckbox/inputCheckbox';
 
@@ -12,7 +11,7 @@ export type InputFoldersProps = {
   label: string
   folders: readonly string[]
   onadd: (folders: string[]) => void
-  onremove: (folder: string) => void
+  onremove: (folder: string[]) => void
 };
 
 const InputFolders: Component<InputFoldersProps> = () => {
@@ -51,7 +50,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
               aria-label='remove selected folders'
               disabled={selected.size === 0}
               onclick={() => {
-                removeFolders(Array.from(selected));
+                props.onremove(Array.from(selected));
                 selected.clear();
               }}
             >
@@ -62,7 +61,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
               aria-label='add folders'
               onclick={async () => {
                 const folders = await window.ipc.app.selectFolders();
-                if (folders.length > 0) addFolders(folders);
+                if (folders.length > 0) props.onadd(folders);
               }}
             >
               <Icon id='folderPlus' />

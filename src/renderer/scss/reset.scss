@@ -3,10 +3,6 @@
   display: revert;
 }
 
-:where([hidden]) {
-  display: none;
-}
-
 :where([contenteditable]:not([contenteditable="false"])) {
   -moz-user-modify: read-write;
   -webkit-user-modify: read-write;
@@ -47,6 +43,10 @@ table {
 meter {
   -webkit-appearance: revert;
   appearance: revert;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  display: none;
 }
 
 ::placeholder {

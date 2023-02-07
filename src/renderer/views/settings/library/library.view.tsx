@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import InputFolders from '../../../components/inputFolders/inputFolders';
-import { rebuildLibrary } from '../../../state/actions/library.actions';
+import { addFolders, rebuildLibrary, removeFolders } from '../../../state/actions/library.actions';
 import store from '../../../state/store';
 
 export type LibraryViewProps = {};
@@ -18,8 +18,8 @@ const LibraryView: Component<LibraryViewProps> = () => {
           <InputFolders
             folders={user.library.folders}
             label='folders'
-            onadd={console.log}
-            onremove={console.log}
+            onadd={addFolders}
+            onremove={removeFolders}
           />
           <button type='button' onclick={() => rebuildLibrary()}>
             Rebuild library

@@ -48,6 +48,7 @@ const VirtualList: Component<VirtualListProps> = () => {
     }
   });
 
+  /** Doesn't update correctly when new props are applied */
   component.mount(async props => {
     const virtualize = debounceFrame(() => {
       if (ref.value) {
@@ -64,7 +65,7 @@ const VirtualList: Component<VirtualListProps> = () => {
         });
 
         if (
-          old.items[0]?.index !== virtual.items[0].index ||
+          old.items[0]?.index !== virtual.items[0]?.index ||
           old.items.length !== virtual.items.length
         ) component.update();
       }

@@ -9,6 +9,7 @@ import type {
 import { contextBridge, ipcRenderer } from 'electron';
 
 import { IpcAction, IpcChannel } from '../types/ipc';
+import { IS_DEV } from '../utils/const';
 
 const send = (
   channel: IpcChannel,
@@ -21,9 +22,18 @@ const send = (
 const invoke = (
   channel: IpcChannel,
   action: IpcAction
-) => (payload?: unknown) => {
+) => async (payload?: unknown) => {
   const event: IpcEvent = { action, payload };
-  return ipcRenderer.invoke(channel, event);
+  const result = await ipcRenderer.invoke(channel, event);
+
+  if (IS_DEV) {
+    console.group('[ipc]', `${channel}.${action}`);
+    console.log('[event]', event);
+    console.log('[result]', result);
+    console.groupEnd();
+  }
+
+  return result;
 };
 
 const receive = <T extends keyof IpcReceiveController>(channel: T) =>
@@ -36,6 +46,9 @@ const receive = <T extends keyof IpcReceiveController>(channel: T) =>
   };
 
 const ipc: IpcApi = {
+  song: {
+    search: invoke(IpcChannel.Song, IpcAction.Search)
+  },
   app: {
     selectFolders: invoke(IpcChannel.App, IpcAction.SelectFolders)
   },

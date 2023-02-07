@@ -12,6 +12,7 @@ import userShape from '../../types/shapes/user.shape';
 
 import createAppController from './controllers/app.controller';
 import createLibraryController from './controllers/library/library.controller';
+import createSongController from './controllers/song.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
 import Logger from './logger';
@@ -58,7 +59,10 @@ export default async (root: AppRoot) => {
     theme: createIpcRouter(createThemeController({
       storage: storage.theme
     }))(logger),
-    app: createIpcRouter(createAppController())(logger)
+    app: createIpcRouter(createAppController())(logger),
+    song: createIpcRouter(createSongController({
+      db: db.songs
+    }))(logger)
   };
 
   Object.values(db).forEach(x => x.open());
@@ -69,7 +73,8 @@ export default async (root: AppRoot) => {
   ipcMain.handle(IpcChannel.App, router.app);
   ipcMain.handle(IpcChannel.User, router.user);
   ipcMain.handle(IpcChannel.Theme, router.theme);
-  ipcMain.handle(IpcChannel.Library, (...args) => router.library(...args));
+  ipcMain.handle(IpcChannel.Library, router.library);
+  ipcMain.handle(IpcChannel.Song, router.song);
 
   createWindow({ storage: storage.app, logger });
 
