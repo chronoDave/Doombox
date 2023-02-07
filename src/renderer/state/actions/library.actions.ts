@@ -6,6 +6,7 @@ import produce from 'immer';
 import difference from '../../../utils/array/difference';
 import unique from '../../../utils/array/unique';
 import store from '../store';
+import levenshteinDistance from '../../../utils/string/levenshteinDistance';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.song = new Map(library.songs.map(song => [song._id, song]));
@@ -72,4 +73,30 @@ export const removeFolders = async (folders: string[]) => {
   store.dispatch(produce(draft => {
     draft.app.scanning = false;
   }));
+};
+
+export const searchSongs = async (query: string) => {
+  if (query === '') {
+    store.dispatch(produce(draft => {
+      draft.search.songs = null;
+    }));
+  } else {
+    const songs = await window.ipc.song.search({
+      $string: {
+        title: query
+      }
+    });
+
+    store.dispatch(produce(draft => {
+      draft.search.songs = songs
+        .map(song => ({
+          song,
+          distance: song.title ?
+            levenshteinDistance(song.title, query) :
+            Number.MAX_SAFE_INTEGER
+        }))
+        .sort((a, b) => a.distance - b.distance)
+        .map(({ song }) => song._id);
+    }));
+  }
 };

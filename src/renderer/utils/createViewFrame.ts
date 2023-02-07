@@ -48,15 +48,19 @@ const createViewFrame = ({
 
   const view = skeletons.slice(
     Math.max(0, min - overflow),
-    Math.min(skeletons.length, max === -1 ?
+    Math.min(skeletons.length - 1, max === -1 ?
       skeletons.length :
       max + overflow)
   );
 
+  console.group('createViewFrame');
+  console.log('size', size);
+  console.log('view', view);
+  console.log('max', max);
+  console.groupEnd();
+
   return ({
-    height:
-      (skeletons[skeletons.length - 1]?.top ?? 0) +
-      (skeletons[skeletons.length - 1]?.height ?? 0),
+    height: skeletons[skeletons.length - 1]?.top ?? 0,
     items: view
   });
 };

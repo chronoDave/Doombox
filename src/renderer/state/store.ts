@@ -31,9 +31,9 @@ const state: State = {
     settings: ViewSettings.Library
   },
   search: {
-    songs: [],
-    albums: [],
-    labels: []
+    songs: null,
+    albums: null,
+    labels: null
   },
   entities: {
     song: new Map(),

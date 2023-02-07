@@ -23,6 +23,27 @@ const VirtualList: Component<VirtualListProps> = () => {
 
   const component = new forgo.Component<VirtualListProps>({
     render(props) {
+      if (ref.value) {
+        // const old = virtual;
+        virtual = createViewFrame({
+          size: props.size,
+          overflow: props.overflow,
+          item: { height: props.height },
+          container: {
+            width: ref.value.clientWidth,
+            height: ref.value.clientHeight,
+            y: ref.value.scrollTop
+          }
+        });
+
+        // if (
+        //   old.items[0]?.index !== virtual.items[0]?.index ||
+        //   old.items.length !== virtual.items.length
+        // ) component.update();
+
+        // component.update();
+      }
+
       return (
         <div class='VirtualList' ref={ref}>
           <ul
@@ -50,9 +71,9 @@ const VirtualList: Component<VirtualListProps> = () => {
 
   /** Doesn't update correctly when new props are applied */
   component.mount(async props => {
-    const virtualize = debounceFrame(() => {
+    const virtualize = () => {
       if (ref.value) {
-        const old = virtual;
+        // const old = virtual;
         virtual = createViewFrame({
           size: props.size,
           overflow: props.overflow,
@@ -64,12 +85,14 @@ const VirtualList: Component<VirtualListProps> = () => {
           }
         });
 
-        if (
-          old.items[0]?.index !== virtual.items[0]?.index ||
-          old.items.length !== virtual.items.length
-        ) component.update();
+        // if (
+        //   old.items[0]?.index !== virtual.items[0]?.index ||
+        //   old.items.length !== virtual.items.length
+        // ) component.update();
+
+        component.update();
       }
-    });
+    };
 
     window.addEventListener('resize', () => {
       virtualize();
@@ -79,7 +102,7 @@ const VirtualList: Component<VirtualListProps> = () => {
       virtualize();
     }, { passive: true, signal });
 
-    await virtualize();
+    virtualize();
   });
 
   component.unmount(() => {

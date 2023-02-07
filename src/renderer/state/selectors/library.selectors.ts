@@ -1,8 +1,7 @@
 import store from '../store';
 
 export const getSong = (id: string) => {
-  const { library } = store.get();
-  const song = library.songs.map.get(id);
+  const song = store.get().entities.song.get(id);
 
   if (!song) throw new Error(`Invalid id: ${id}`);
   return song;

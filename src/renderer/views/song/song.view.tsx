@@ -5,9 +5,10 @@ import * as forgo from 'forgo';
 import { formatTimeNumber } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
+import { searchSongs } from '../../state/actions/library.actions';
 import { play } from '../../state/actions/player.actions';
-// import { search } from '../../state/actions/song.actions';
 import { getSong } from '../../state/selectors/library.selectors';
+import { getSongs } from '../../state/selectors/song.selector';
 import store from '../../state/store';
 
 import './song.view.scss';
@@ -17,19 +18,24 @@ export type SongViewProps = {};
 const SongView: Component<SongViewProps> = () => {
   const component = new forgo.Component<SongViewProps>({
     render() {
-      const { entities } = store.get();
+      const { search } = store.get();
+      const songs = search.songs ?? getSongs();
 
       return (
         <div class="SongView">
           <h1>All songs</h1>
-          <InputSearch onsubmit={x => search(x)} />
-          <p>{entities.song.size} songs</p>
-          {/* <VirtualList
-            size={library.search.songs.length}
+          <InputSearch onsubmit={x => searchSongs(x)} />
+          <p>{songs.length} songs</p>
+          <VirtualList
+            size={songs.length}
             overflow={3}
             height={42}
             render={i => {
-              const song = getSong(library.search.songs[i]);
+              // console.group('RERENDER');
+              // console.log(songs[i], i);
+              // console.groupEnd();
+
+              const song = getSong(songs[i]);
 
               return (
                 <button id={song._id} type='button' onclick={() => play(song)}>
@@ -50,15 +56,16 @@ const SongView: Component<SongViewProps> = () => {
                 </button>
               );
             }}
-          /> */}
+          />
         </div>
       );
     }
   });
 
   return store.subscribe(component, (cur, prev) => (
-    prev.library.search.songs.length !== cur.library.search.songs.length ||
-    prev.library.search.songs.every((id, i) => cur.library.search.songs[i] === id)
+    !cur.search.songs ||
+    prev.search.songs?.length !== cur.search.songs.length ||
+    prev.search.songs.every((id, i) => cur.search.songs?.[i] === id)
   ));
 };
 

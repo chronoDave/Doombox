@@ -47,9 +47,9 @@ export type State = Immutable<{
     label: Map<string, Label>
   }
   search: {
-    songs: string[]
-    albums: string[]
-    labels: string[]
+    songs: string[] | null
+    albums: string[] | null
+    labels: string[] | null
   }
   theme: ThemeShape
   user: UserShape
