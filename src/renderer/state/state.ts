@@ -41,18 +41,15 @@ export type State = Immutable<{
     app: ViewApp
     settings: ViewSettings
   }
-  library: {
-    search: {
-      songs: string[]
-      albums: string[]
-      labels: string[]
-    }
-    songs: {
-      map: Map<string, Song>
-      list: string[]
-    }
-    albums: Album[]
-    labels: Label[]
+  entities: {
+    song: Map<string, Song>
+    album: Map<string, Album>
+    label: Map<string, Label>
+  }
+  search: {
+    songs: string[]
+    albums: string[]
+    labels: string[]
   }
   theme: ThemeShape
   user: UserShape

@@ -1,4 +1,4 @@
-import type { ViewSettings } from '../../state/types';
+import type { ViewSettings } from '../../state/state';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';

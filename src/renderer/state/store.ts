@@ -1,11 +1,11 @@
-import type { State } from './types';
+import type { State } from './state';
 
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 import { PlayerStatus } from '../lib/player';
 import Store from '../lib/store';
 
-import { ViewApp, ViewSettings } from './types';
+import { ViewApp, ViewSettings } from './state';
 
 const state: State = {
   app: {
@@ -30,18 +30,15 @@ const state: State = {
     app: ViewApp.Song,
     settings: ViewSettings.Library
   },
-  library: {
-    search: {
-      songs: [],
-      albums: [],
-      labels: []
-    },
-    songs: {
-      list: [],
-      map: new Map()
-    },
+  search: {
+    songs: [],
     albums: [],
     labels: []
+  },
+  entities: {
+    song: new Map(),
+    album: new Map(),
+    label: new Map()
   },
   theme: themeShape,
   user: userShape

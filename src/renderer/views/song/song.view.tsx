@@ -6,7 +6,7 @@ import { formatTimeNumber } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
 import { play } from '../../state/actions/player.actions';
-import { search } from '../../state/actions/song.actions';
+// import { search } from '../../state/actions/song.actions';
 import { getSong } from '../../state/selectors/library.selectors';
 import store from '../../state/store';
 
@@ -17,14 +17,14 @@ export type SongViewProps = {};
 const SongView: Component<SongViewProps> = () => {
   const component = new forgo.Component<SongViewProps>({
     render() {
-      const { library } = store.get();
+      const { entities } = store.get();
 
       return (
         <div class="SongView">
           <h1>All songs</h1>
           <InputSearch onsubmit={x => search(x)} />
-          <p>{library.search.songs.length} songs</p>
-          <VirtualList
+          <p>{entities.song.size} songs</p>
+          {/* <VirtualList
             size={library.search.songs.length}
             overflow={3}
             height={42}
@@ -50,7 +50,7 @@ const SongView: Component<SongViewProps> = () => {
                 </button>
               );
             }}
-          />
+          /> */}
         </div>
       );
     }

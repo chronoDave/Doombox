@@ -10,7 +10,7 @@ import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
 import { setViewApp } from '../../state/actions/view.actions';
 import store from '../../state/store';
-import { ViewApp } from '../../state/types';
+import { ViewApp } from '../../state/state';
 import cx from '../../utils/cx';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';

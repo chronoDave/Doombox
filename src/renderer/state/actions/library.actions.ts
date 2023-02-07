@@ -1,5 +1,5 @@
 import type { Library } from '../../../types/library';
-import type { State } from '../types';
+import type { State } from '../state';
 
 import produce from 'immer';
 
@@ -8,15 +8,9 @@ import unique from '../../../utils/array/unique';
 import store from '../store';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
-  const songs = library.songs.map(song => song._id);
-
-  draft.library.songs.map = new Map(library.songs.map(song => [song._id, song]));
-  draft.library.songs.list = songs;
-  draft.library.albums = library.albums;
-  draft.library.labels = library.labels;
-  draft.library.search.songs = songs;
-  draft.library.search.albums = library.albums.map(({ _id }) => _id);
-  draft.library.search.labels = library.labels.map(({ _id }) => _id);
+  draft.entities.song = new Map(library.songs.map(song => [song._id, song]));
+  draft.entities.album = new Map(library.albums.map(album => [album._id, album]));
+  draft.entities.label = new Map(library.labels.map(label => [label._id, label]));
 }));
 
 export const fetchLibrary = async () => {
