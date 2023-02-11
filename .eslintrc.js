@@ -51,6 +51,9 @@ module.exports = {
   }],
   rules: {
     // TypeScript
+    '@typescript-eslint/no-unused-vars': ['error', {
+      varsIgnorePattern: '\\_'
+    }],
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/comma-dangle': ['error', 'never'],

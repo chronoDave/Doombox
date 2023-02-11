@@ -19,7 +19,7 @@ const SongView: Component<SongViewProps> = () => {
   const component = new forgo.Component<SongViewProps>({
     render() {
       const { search } = store.get();
-      const songs = search.songs ?? getSongs();
+      const songs = (search.songs ?? getSongs()) as string[];
 
       return (
         <div class="SongView">
@@ -27,34 +27,31 @@ const SongView: Component<SongViewProps> = () => {
           <InputSearch onsubmit={x => searchSongs(x)} />
           <p>{songs.length} songs</p>
           <VirtualList
-            size={songs.length}
+            data={songs}
             overflow={3}
-            height={42}
-            render={i => {
-              // console.group('RERENDER');
-              // console.log(songs[i], i);
-              // console.groupEnd();
-
-              const song = getSong(songs[i]);
-
-              return (
-                <button id={song._id} type='button' onclick={() => play(song)}>
-                  <img
-                    width={34}
-                    height={34}
-                    src={song.image ?? 'icons/icon_light.png'}
-                    alt=''
-                    loading='lazy'
-                  />
-                  <div class='metadata'>
-                    <p>{song.romaji.title ?? song.title}</p>
-                    <p>{song.romaji.artist ?? song.artist}</p>
-                  </div>
-                  <div class='duration'>
-                    <p>{formatTimeNumber(song.duration ?? 0, 2)}</p>
-                  </div>
-                </button>
-              );
+            item={{
+              height: 42,
+              render: data => {
+                const song = getSong(data);
+                return (
+                  <button id={song._id} type='button' onclick={() => play(song)}>
+                    <img
+                      width={34}
+                      height={34}
+                      src={song.image ?? 'icons/icon_light.png'}
+                      alt=''
+                      loading='lazy'
+                    />
+                    <div class='metadata'>
+                      <p>{song.romaji.title ?? song.title}</p>
+                      <p>{song.romaji.artist ?? song.artist}</p>
+                    </div>
+                    <div class='duration'>
+                      <p>{formatTimeNumber(song.duration ?? 0, 2)}</p>
+                    </div>
+                  </button>
+                );
+              }
             }}
           />
         </div>

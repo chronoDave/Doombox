@@ -5,8 +5,8 @@ import produce from 'immer';
 
 import difference from '../../../utils/array/difference';
 import unique from '../../../utils/array/unique';
-import store from '../store';
 import levenshteinDistance from '../../../utils/string/levenshteinDistance';
+import store from '../store';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.song = new Map(library.songs.map(song => [song._id, song]));

@@ -1,66 +1,53 @@
-import type { ViewFrame } from '../../utils/createViewFrame';
-import type { ForgoNewComponentCtor as Component } from 'forgo';
-
 import * as forgo from 'forgo';
 
-import { debounceFrame } from '../../../utils/function/debounce';
-import createViewFrame from '../../utils/createViewFrame';
+import createVirtualList from '../../utils/createVirtualList';
+import debounce from '../../utils/debounce';
 
 import './virtualList.scss';
 
-export type VirtualListProps = {
-  size: number
-  height: number
+export type VirtualListProps<T> = {
+  data: T[]
   overflow: number
-  render: (i: number) => forgo.Component | forgo.Component[]
+  item: {
+    height: number
+    render: (data: T) => forgo.Component | forgo.Component[]
+  }
 };
 
-const VirtualList: Component<VirtualListProps> = () => {
-  let virtual: ViewFrame = { height: 0, items: [] };
+const VirtualList = <T extends any>(_: VirtualListProps<T>): forgo.Component<VirtualListProps<T>> => {
+  const { signal, abort } = new AbortController();
+  const ref: forgo.ForgoRef<HTMLDivElement> = {};
 
-  const { abort, signal } = new AbortController();
-  const ref: forgo.ForgoRef<Element> = {};
-
-  const component = new forgo.Component<VirtualListProps>({
+  let prev = 0;
+  const component = new forgo.Component<VirtualListProps<T>>({
     render(props) {
-      if (ref.value) {
-        // const old = virtual;
-        virtual = createViewFrame({
-          size: props.size,
-          overflow: props.overflow,
-          item: { height: props.height },
-          container: {
-            width: ref.value.clientWidth,
-            height: ref.value.clientHeight,
-            y: ref.value.scrollTop
-          }
-        });
+      const list = createVirtualList({
+        data: props.data,
+        overflow: props.overflow,
+        scroll: ref.value?.scrollTop ?? 0,
+        height: {
+          item: props.item.height,
+          container: ref.value?.clientHeight ?? 0
+        }
+      });
 
-        // if (
-        //   old.items[0]?.index !== virtual.items[0]?.index ||
-        //   old.items.length !== virtual.items.length
-        // ) component.update();
-
-        // component.update();
+      if (list.height !== prev) {
+        prev = list.height;
+        if (ref.value) ref.value.scrollTop = 0;
       }
 
       return (
         <div class='VirtualList' ref={ref}>
-          <ul
-            style={{
-              '--item-height': `${props.height}px`,
-              height: `${virtual?.height ?? 0}px`
-            }}
-          >
-            {virtual?.items?.map(({ index, top, height }) => (
+          <ul style={{ height: `${list.height}px` }}>
+            {list.columns.map(column => (
               <li
-                key={index}
+                key={column.data}
                 style={{
-                  top: `${top}px`,
-                  height: `${height}px`
+                  top: `${column.position.top}px`,
+                  height: `${column.position.height}px`
                 }}
               >
-                {props.render(index)}
+                {props.item.render(column.data)}
               </li>
             ))}
           </ul>
@@ -69,45 +56,23 @@ const VirtualList: Component<VirtualListProps> = () => {
     }
   });
 
-  /** Doesn't update correctly when new props are applied */
-  component.mount(async props => {
-    const virtualize = () => {
-      if (ref.value) {
-        // const old = virtual;
-        virtual = createViewFrame({
-          size: props.size,
-          overflow: props.overflow,
-          item: { height: props.height },
-          container: {
-            width: ref.value.clientWidth,
-            height: ref.value.clientHeight,
-            y: ref.value.scrollTop
-          }
-        });
-
-        // if (
-        //   old.items[0]?.index !== virtual.items[0]?.index ||
-        //   old.items.length !== virtual.items.length
-        // ) component.update();
-
-        component.update();
-      }
-    };
+  component.mount(() => {
+    const update = debounce(() => component.update());
+    let prev: number = window.innerHeight;
 
     window.addEventListener('resize', () => {
-      virtualize();
+      if (prev !== window.innerHeight) {
+        prev = window.innerHeight;
+        update();
+      }
     }, { passive: true, signal });
 
-    ref.value?.addEventListener('scroll', () => {
-      virtualize();
-    }, { passive: true, signal });
-
-    virtualize();
+    ref.value?.addEventListener('scroll', update, { passive: true, signal })
   });
 
   component.unmount(() => {
     abort();
-  });
+  })
 
   return component;
 };

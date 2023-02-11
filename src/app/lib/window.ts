@@ -8,7 +8,7 @@ import path from 'path';
 
 import { IpcChannel } from '../../types/ipc';
 import { IS_DEV } from '../../utils/const';
-import { debounce } from '../../utils/function/debounce';
+import debounce from './utils/debounce';
 
 import createWindowController from './controllers/window.controller';
 import createIpcRouter from './utils/createIpcRouter';
