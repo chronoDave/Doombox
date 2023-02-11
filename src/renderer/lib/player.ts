@@ -28,8 +28,21 @@ export class Player {
   private _status = PlayerStatus.Stopped;
   private _howl?: Howl;
   private _interval?: number;
+  private _file?: string;
 
-  private _load(file: string) {
+  get pos() {
+    return this._howl?.seek() ?? 0;
+  }
+
+  constructor(options: PlayerOptions) {
+    this._volume = options.volume;
+    this._autoplay = options.autoplay;
+    this._muted = options.muted;
+    this._listener = options.listener;
+  }
+
+  play(file: string) {
+    this._file = file;
     this._howl?.unload();
     this._howl = new Howl({
       src: file,
@@ -74,25 +87,10 @@ export class Player {
     });
   }
 
-  get pos() {
-    return this._howl?.seek() ?? 0;
-  }
-
-  constructor(options: PlayerOptions) {
-    this._volume = options.volume;
-    this._autoplay = options.autoplay;
-    this._muted = options.muted;
-    this._listener = options.listener;
-  }
-
-  play(file?: string) {
-    if (file) this._load(file);
-    if (this._status !== PlayerStatus.Playing) this._howl?.play();
-  }
-
   pause() {
     if (this._status === PlayerStatus.Playing) this._howl?.pause();
     if (this._status === PlayerStatus.Paused) this._howl?.play();
+    if (this._status === PlayerStatus.Stopped && this._file) this.play(this._file);
   }
 
   stop() {

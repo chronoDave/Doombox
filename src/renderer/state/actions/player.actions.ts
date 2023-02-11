@@ -23,14 +23,12 @@ const player = new Player({
   }
 });
 
-export const play = (song?: Song) => {
-  if (song) {
-    store.dispatch(produce(draft => {
-      draft.player.current.id = song._id;
-    }));
-  }
+export const play = (song: Song) => {
+  store.dispatch(produce(draft => {
+    draft.player.current.id = song._id;
+  }));
 
-  player.play(song?.file);
+  player.play(song.file);
 };
 
 export const pause = () => player.pause();
