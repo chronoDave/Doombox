@@ -7,5 +7,9 @@
 
   > input {
     flex-grow: 1;
+
+    &::placeholder {
+      color: var(--hover);
+    }
   }
 }

@@ -7,6 +7,7 @@ import Icon from '../icon/icon';
 import './inputSearch.scss';
 
 export type InputSearchProps = {
+  placeholder: string
   onsubmit: (query: string) => void
 };
 
@@ -20,6 +21,7 @@ const InputSearch: Component<InputSearchProps> = () => {
           <input
             ref={ref}
             type='search'
+            placeholder={props.placeholder}
             onkeydown={e => {
               if (e.key === 'Enter' && ref.value) {
                 e.preventDefault();

@@ -1,23 +1,30 @@
+@use 'typography';
+
 .SongView {
   display: flex;
   flex-direction: column;
 
   > .VirtualList > ul > li > button {
-    --item-padding: 4px;
+    $padding: 4px;
 
-    width: 100%;
     display: flex;
     align-items: center;
-    padding: var(--item-padding);
+    padding: $padding;
     gap: 4px;
+    width: 100%;
 
     > img {
-      height: calc(var(--item-height) - (2 * var(--item-padding)));
-      aspect-ratio: 1/1;
+      height: calc($padding - (2 * $padding));
+      aspect-ratio: 1 / 1;
     }
 
     > .metadata {
       flex-grow: 1;
+      min-width: 0;
+
+      > p {
+        @include typography.nowrap;
+      }
     }
 
     > .duration {

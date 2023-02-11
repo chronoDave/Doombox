@@ -24,7 +24,10 @@ const SongView: Component<SongViewProps> = () => {
       return (
         <div class="SongView">
           <h1>All songs</h1>
-          <InputSearch onsubmit={x => searchSongs(x)} />
+          <InputSearch
+            placeholder='search for song title'
+            onsubmit={x => searchSongs(x)}
+          />
           <p>{songs.length} songs</p>
           <VirtualList
             data={songs}
