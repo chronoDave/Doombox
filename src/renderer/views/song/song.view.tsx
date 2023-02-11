@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { formatTimeNumber } from '../../../utils/string/formatTime';
+import { toMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
 import { searchSongs } from '../../state/actions/library.actions';
@@ -36,6 +36,7 @@ const SongView: Component<SongViewProps> = () => {
               height: 42,
               render: data => {
                 const song = getSong(data);
+
                 return (
                   <button id={song._id} type='button' onclick={() => play(song)}>
                     <img
@@ -50,7 +51,7 @@ const SongView: Component<SongViewProps> = () => {
                       <p>{song.romaji.artist ?? song.artist}</p>
                     </div>
                     <div class='duration'>
-                      <p>{formatTimeNumber(song.duration ?? 0, 2)}</p>
+                      <p>{toMinSec(song.duration ?? 0)}</p>
                     </div>
                   </button>
                 );

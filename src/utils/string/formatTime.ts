@@ -1,12 +1,14 @@
-const format = (ms: number): [h: number, m: number, s: number] => {
-  const s = Math.floor((ms % 3600) % 60);
-  const m = Math.floor((ms % 3600) / 60);
-  const h = Math.floor(ms / 3600);
-
-  return [h, m, s];
-};
-
-export const formatTimeNumber = (ms: number, units: number) => format(ms)
-  .slice(3 - units)
+const join = (arr: number[]) => arr
   .map(x => `${x}`.padStart(2, '0'))
   .join(':');
+
+export const toSec = (x: number) => Math.floor(x % 60);
+export const toMin = (x: number) => Math.floor((x / 60) % 60);
+export const toHour = (x: number) => Math.floor((x / 60 / 60) % 60);
+
+export const toMinSec = (x: number) =>
+  join([toMin(x), toSec(x)]);
+
+export const toHourMinSec = (x: number) =>
+  join([toHour(x), toMin(x), toSec(x)]);
+

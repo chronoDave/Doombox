@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import clamp from '../../../utils/number/clamp';
-import { formatTimeNumber } from '../../../utils/string/formatTime';
+import { toMinSec, toHourMinSec } from '../../../utils/string/formatTime';
 
 import './slider.scss';
 
@@ -45,6 +45,10 @@ const Slider: Component<SliderProps> = () => {
         0 :
         props.value / props.max;
 
+      const format = props.max > (60 * 60) ?
+        toHourMinSec :
+        toMinSec;
+
       return (
         <div
           class='Slider'
@@ -57,9 +61,10 @@ const Slider: Component<SliderProps> = () => {
           aria-valuemin={props.min}
           aria-valuemax={props.max}
           aria-valuenow={props.value}
-          aria-valuetext={formatTimeNumber(props.value, 2)}
+          aria-valuetext={format(props.value)}
           onpointerup={() => { dragging = false; }}
-          onpointerleave={() => { dragging = false; }}
+          onpointerout={() => { dragging = false; }}
+          ondragstart={event => event.preventDefault()}
           onkeydown={event => {
             if (event.key === 'Home') props.onchange(props.min);
             if (event.key === 'End') props.onchange(props.max);

@@ -3,8 +3,6 @@ import type { UserShape } from '../../types/shapes/user.shape';
 
 import { Howl } from 'howler';
 
-import clamp from '../../utils/number/clamp';
-
 export enum PlayerStatus {
   Playing = 'playing',
   Paused = 'paused',

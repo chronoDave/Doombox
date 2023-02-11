@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { IpcChannel } from '../../../types/ipc';
-import { formatTimeNumber } from '../../../utils/string/formatTime';
+import { msToMinSec } from '../../../utils/string/formatTime';
 import Loader from '../../components/loader/loader';
 import Progress from '../../components/progress/progress';
 import { useInterval } from '../../hooks/useInterval';
@@ -33,7 +33,7 @@ const ScanView: Component<ScanViewProps> = () => {
             <h1>Loading</h1>
           ] : [
             <h1 class='title'>{state.process} ({state.scanned} / {state.size})</h1>,
-            <p>{formatTimeNumber(state.time.cur, 2)} / {Number.isFinite(state.time.max) ? formatTimeNumber(state.time.max, 2) : '\u221e'}</p>,
+            <p>{msToMinSec(state.time.cur)} / {Number.isFinite(state.time.max) ? msToMinSec(state.time.max) : '\u221e'}</p>,
             <Progress
               value={state.scanned}
               label='scanning progress'
