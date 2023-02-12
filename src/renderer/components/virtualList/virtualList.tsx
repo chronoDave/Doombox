@@ -14,7 +14,9 @@ export type VirtualListProps<T> = {
   }
 };
 
-const VirtualList = <T extends any>(_: VirtualListProps<T>): forgo.Component<VirtualListProps<T>> => {
+const VirtualList = <T extends any>(
+  initial: VirtualListProps<T>
+): forgo.Component<VirtualListProps<T>> => {
   const { signal, abort } = new AbortController();
   const ref: forgo.ForgoRef<HTMLDivElement> = {};
 
@@ -58,21 +60,21 @@ const VirtualList = <T extends any>(_: VirtualListProps<T>): forgo.Component<Vir
 
   component.mount(() => {
     const update = debounce(() => component.update());
-    let prev: number = window.innerHeight;
+    let prevHeight: number = window.innerHeight;
 
     window.addEventListener('resize', () => {
-      if (prev !== window.innerHeight) {
-        prev = window.innerHeight;
+      if (prevHeight !== window.innerHeight) {
+        prevHeight = window.innerHeight;
         update();
       }
     }, { passive: true, signal });
 
-    ref.value?.addEventListener('scroll', update, { passive: true, signal })
+    ref.value?.addEventListener('scroll', update, { passive: true, signal });
   });
 
   component.unmount(() => {
     abort();
-  })
+  });
 
   return component;
 };

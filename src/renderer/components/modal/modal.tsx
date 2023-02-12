@@ -16,13 +16,15 @@ export type DialogProps = {
   onclose?: () => void
 };
 
-export const Dialog: Component<DialogProps & { close: () => void }> = () => {
-  const component = new forgo.Component<DialogProps & { close:() => void }>({
+export const Dialog: Component<DialogProps> = () => {
+  let ref: forgo.ForgoRef<HTMLDivElement>;
+
+  const component = new forgo.Component<DialogProps>({
     render(props) {
       const idTitle = `${props.id}-title`;
 
       return (
-        <div class={cx('Modal', props.size)} id={props.id}>
+        <div ref={ref} class={cx('Modal', props.size)} id={props.id}>
           <div class="bg" />
           <div
             class="main"
@@ -34,7 +36,7 @@ export const Dialog: Component<DialogProps & { close: () => void }> = () => {
               <h2 id={idTitle} class="title">
                 {props.title}
               </h2>
-              <button type="button">
+              <button type="button" onclick={() => ref.value && forgo.unmount(ref.value)}>
                 <Icon id="close" />
               </button>
             </div>
@@ -54,7 +56,7 @@ export const Dialog: Component<DialogProps & { close: () => void }> = () => {
     if (elements) {
       const handleKeyDown = createFocusTrap(elements);
       root?.addEventListener('keydown', e => handleKeyDown(e, {
-        onescape: props.close
+        onescape: () => ref.value && forgo.unmount(ref.value)
       }), { passive: true });
     }
   });
@@ -67,13 +69,10 @@ export const Dialog: Component<DialogProps & { close: () => void }> = () => {
 const createDialog = (
   children: forgo.ForgoComponentCtor,
   props: DialogProps
-) => portal(document.body, close => (
-  <Dialog
-    close={close}
-    {...props}
-  >
+) => portal(
+  <Dialog {...props}>
     {children}
   </Dialog>
-));
+);
 
 export default createDialog;

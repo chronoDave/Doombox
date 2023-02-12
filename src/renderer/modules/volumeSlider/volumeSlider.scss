@@ -1,0 +1,10 @@
+.VolumeSlider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+
+  > .Slider {
+    min-width: 120px;
+  }
+}

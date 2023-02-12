@@ -1,4 +1,4 @@
-import type { ViewApp, ViewSettings } from '../types';
+import type { ViewApp, ViewSettings } from '../state';
 
 import produce from 'immer';
 

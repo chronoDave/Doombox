@@ -27,7 +27,7 @@ const state: State = {
     }
   },
   view: {
-    app: ViewApp.Song,
+    app: ViewApp.Player,
     settings: ViewSettings.Library
   },
   search: {

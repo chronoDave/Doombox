@@ -2,49 +2,81 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import debounce from '../../utils/debounce';
 import portal from '../../utils/portal';
 
 import './popup.scss';
 
-type Axis = 'start' | 'center' | 'end';
+type Position =
+  'top-left' |
+  'top' |
+  'top-right' |
+  'right-top' |
+  'right' |
+  'right-bottom' |
+  'bottom-right' |
+  'bottom' |
+  'bottom-left' |
+  'left-bottom' |
+  'left' |
+  'left-top';
 
 export type PopupProps = {
-  align: {
-    x: Axis
-    y: Axis
-  }
+  position: Position
+  anchor: Element
 };
 
-const Popup: Component<PopupProps> = () => new forgo.Component({
-  render(props) {
-    const axis: Record<Axis, number> = { start: 0, center: 50, end: 100 };
-    const x = axis[props.align.x];
-    const y = axis[props.align.y];
+const Popup: Component<PopupProps> = () => {
+  const { signal, abort } = new AbortController();
 
-    return (
-      <div
-        class='Popup'
-        style={{
-          left: `${x}%`,
-          top: `${y}%`,
-          transform: `translate(-${x}, -${y})`
-        }}
-      >
-        {props.children}
-      </div>
-    );
-  }
-});
-
-export const createPopup = (
-  anchor: HTMLElement,
-  children: forgo.ForgoComponentCtor,
-  props?: Partial<PopupProps>
-) => {
-  const align = {
-    x: props?.align?.x ?? 'center',
-    y: props?.align?.y ?? 'start'
+  const transform: Record<Position, string> = {
+    'top-left': 'translateY(-100%)',
+    top: 'translate(-50%, -100%)',
+    'top-right': 'translateY(-100%)',
+    'left-top': 'translateX(100%)',
+    left: 'translate(100%, -50%)',
+    'left-bottom': 'translateX(100%)',
+    'bottom-right': 'translateY(100%)',
+    bottom: 'translate(-50%, 100%)',
+    'bottom-left': 'translateY(100%)',
+    'right-bottom': 'translateX(-100%)',
+    right: 'translate(-100%, -50%)',
+    'right-top': 'translateX(-100%)'
   };
 
-  return portal(anchor, () => <Popup align={align}>{children}</Popup>);
+  const component = new forgo.Component<PopupProps>({
+    render(props) {
+      const { x, y } = props.anchor.getBoundingClientRect();
+
+      return (
+        <div
+          class='Popup'
+          style={{
+            top: `${y}px`,
+            left: `${x}px`,
+            transform: transform[props.position]
+          }}
+        >
+          {props.children}
+        </div>
+      );
+    }
+  });
+
+  component.mount(() => {
+    const update = debounce(() => { component.update(); });
+
+    window.addEventListener('resize', update, { passive: true, signal });
+  });
+
+  component.unmount(() => {
+    abort();
+  });
+
+  return component;
 };
+
+export const createPopup = (
+  props: PopupProps,
+  children: forgo.Component | forgo.Component[]
+) => portal(<Popup {...props}>{children}</Popup>);

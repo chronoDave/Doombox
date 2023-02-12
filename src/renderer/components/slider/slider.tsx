@@ -12,14 +12,11 @@ export type SliderProps = {
   min: number
   max: number
   step: number
-  size: {
-    track: number
-    thumb: number
-  }
   onchange: (value: number) => void
 };
 
 const Slider: Component<SliderProps> = () => {
+  const size = { thumb: 12, track: 6 };
   let dragging = false;
 
   const handleSeek = (
@@ -29,7 +26,7 @@ const Slider: Component<SliderProps> = () => {
     const { left, width } = event.target.getBoundingClientRect();
     const rel = Math.max(0, (left - event.x) * -1);
     const offset = (rel / width); // <0,1>
-    const offsetThumb = ((props.size.thumb / 2) / width) * -offset;
+    const offsetThumb = ((size.thumb / 2) / width) * -offset;
 
     props.onchange(clamp(props.min, props.max, (props.max * (offset - offsetThumb))));
   };
@@ -53,8 +50,8 @@ const Slider: Component<SliderProps> = () => {
         <div
           class='Slider'
           style={{
-            '--size-track': `${props.size.track}px`,
-            '--size-thumb': `${props.size.thumb}px`
+            '--size-track': `${size.track}px`,
+            '--size-thumb': `${size.thumb}px`
           }}
           role='slider'
           tabindex={0}

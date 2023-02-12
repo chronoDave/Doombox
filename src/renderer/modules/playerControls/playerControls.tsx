@@ -6,6 +6,7 @@ import Icon from '../../components/icon/icon';
 import { PlayerStatus } from '../../lib/player';
 import { pause } from '../../state/actions/player.actions';
 import store from '../../state/store';
+import PlayerVolume from '../playerVolume/playerVolume';
 
 import './playerControls.scss';
 
@@ -18,6 +19,7 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
 
       return (
         <div class='PlayerControls'>
+          <PlayerVolume />
           <button type='button'>
             <Icon id='previous' />
           </button>

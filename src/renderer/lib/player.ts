@@ -22,21 +22,24 @@ export type PlayerOptions = AppShape['player'] & UserShape['player'] & {
 export class Player {
   private readonly _listener: PlayerListener;
 
-  private _autoplay: boolean;
+  // private _autoplay: boolean;
   private _muted: boolean;
-  private _volume: number;
   private _status = PlayerStatus.Stopped;
   private _howl?: Howl;
   private _interval?: number;
   private _file?: string;
+
+  set volume(volume: number) {
+    if (this._howl) this._howl.volume(volume / 100);
+  }
 
   get pos() {
     return this._howl?.seek() ?? 0;
   }
 
   constructor(options: PlayerOptions) {
-    this._volume = options.volume;
-    this._autoplay = options.autoplay;
+    // this._volume = options.volume;
+    // this._autoplay = options.autoplay;
     this._muted = options.muted;
     this._listener = options.listener;
   }
@@ -47,8 +50,8 @@ export class Player {
     this._howl = new Howl({
       src: file,
       html5: true,
-      volume: this._volume,
-      autoplay: this._autoplay,
+      // volume: this._volume,
+      // autoplay: this._autoplay,
       mute: this._muted,
       onload: () => {
         const duration = this._howl?.duration();

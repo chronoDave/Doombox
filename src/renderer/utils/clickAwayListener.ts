@@ -1,12 +1,18 @@
-export default (element: Element, cb: (event: MouseEvent) => void) => {
-  const handleClick = (event: MouseEvent) => {
+const createClickAwayListener = (
+  element: Element,
+  cb: (event: MouseEvent) => void,
+  options?: { abortController: AbortController }
+) => {
+  const controller = options?.abortController ?? new AbortController();
+
+  document.addEventListener('click', event => {
     if (!element.contains((event.target as Element))) {
       cb(event);
-      document.removeEventListener('click', handleClick);
+      controller.abort();
     }
-  };
+  }, { signal: controller.signal });
 
-  document.addEventListener('click', handleClick);
-
-  return () => document.removeEventListener('click', handleClick);
+  return controller.abort;
 };
+
+export default createClickAwayListener;

@@ -9,7 +9,7 @@ import './inputFolders.scss';
 
 export type InputFoldersProps = {
   label: string
-  folders: readonly string[]
+  folders: string[]
   onadd: (folders: string[]) => void
   onremove: (folder: string[]) => void
 };

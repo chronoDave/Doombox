@@ -23,5 +23,10 @@ export default (createController: (sender: WebContents) => ({ [key in IpcAction]
         return err;
       }
 
-      return controller[action]?.(payload);
+      try {
+        return controller[action]?.(payload);
+      } catch (err) {
+        logger.error(err as Error);
+        return err;
+      }
     };

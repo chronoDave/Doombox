@@ -1,0 +1,9 @@
+.Popup.PlayerVolume {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  > .Slider {
+    min-width: 120px;
+  }
+}

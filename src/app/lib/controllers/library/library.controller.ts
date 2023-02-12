@@ -52,11 +52,7 @@ export default (props: LibraryControllerProps) =>
           to: 'romaji',
           mode: 'spaced',
           romajiSystem: romaji.system
-        })
-          .catch(err => {
-            console.error(err);
-            return null;
-          });
+        });
       };
       const { songs, images } = await parseFiles(toRomaji)(files, props.root, song => update({
         process: 'scanning files',

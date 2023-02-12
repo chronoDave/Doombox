@@ -3,7 +3,6 @@ import type { Shape } from './primitives';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
 import type { IpcMainInvokeEvent } from 'electron';
-import type { Immutable } from 'immer';
 import type { Query } from 'leaf-db';
 
 export type IpcRouter = (event: IpcMainInvokeEvent, ...args: unknown[]) => unknown;
@@ -55,7 +54,7 @@ export type IpcPayloadReceive = {
 /** Controller */
 export type IpcControllerStorage<T extends Shape> = {
   [IpcAction.Get]: (payload: keyof T) => Promise<T[keyof T]>
-  [IpcAction.Set]: (payload: Immutable<T>) => Promise<T>
+  [IpcAction.Set]: (payload: T) => Promise<T>
   [IpcAction.All]: () => Promise<T>
 };
 
@@ -79,11 +78,11 @@ export type IpcInvokeController = {
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
   [IpcChannel.Library]: {
-    [IpcAction.Add]: (payload: readonly string[]) => Promise<Library>
-    [IpcAction.Remove]: (payload: readonly string[]) => Promise<Library>
+    [IpcAction.Add]: (payload: string[]) => Promise<Library>
+    [IpcAction.Remove]: (payload: string[]) => Promise<Library>
     [IpcAction.Get]: () => Promise<Library>
     [IpcAction.Rebuild]: (payload: {
-      folders: readonly string[],
+      folders: string[],
       force?: boolean
     }) => Promise<Library>
   }

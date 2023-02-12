@@ -2,7 +2,6 @@ import type { Album, Label, Song } from '../../types/library';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
 import type { PlayerStatus } from '../lib/player';
-import type { Immutable } from 'immer';
 
 export enum ViewApp {
   Playlist = 'playlist',
@@ -18,7 +17,7 @@ export enum ViewSettings {
   Library = 'library'
 }
 
-export type State = Immutable<{
+export type State = {
   app: {
     ready: boolean
     scanning: boolean
@@ -53,4 +52,4 @@ export type State = Immutable<{
   }
   theme: ThemeShape
   user: UserShape
-}>;
+};

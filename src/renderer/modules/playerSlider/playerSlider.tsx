@@ -11,7 +11,7 @@ import './playerSlider.scss';
 
 export type PlayerSliderProps = {};
 
-const PlayerSlider: Component<PlayerSliderProps> = () => {    
+const PlayerSlider: Component<PlayerSliderProps> = () => {
   const component = new forgo.Component<PlayerSliderProps>({
     render() {
       const { player } = store.get();
@@ -25,10 +25,6 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
             min={0}
             step={1}
             max={player.current.duration}
-            size={{
-              thumb: 12,
-              track: 6
-            }}
             value={player.current.position}
             onchange={seek}
           />

@@ -52,7 +52,7 @@ module.exports = {
   rules: {
     // TypeScript
     '@typescript-eslint/no-unused-vars': ['error', {
-      varsIgnorePattern: '\\_'
+      argsIgnorePattern: 'initial'
     }],
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/await-thenable': 'error',
@@ -115,11 +115,13 @@ module.exports = {
     'class-methods-use-this': ['error', {
       exceptMethods: ['view']
     }],
+    'no-unused-vars': 'off',
     'no-promise-executor-return': 'off',
     'linebreak-style': 'off',
     'no-confusing-arrow': 'off',
     'comma-dangle': 'off',
     'arrow-body-style': 'warn',
+    'function-paren-newline': ['error', 'consistent'],
     'max-len': ['error', {
       code: 100,
       ignoreStrings: true,

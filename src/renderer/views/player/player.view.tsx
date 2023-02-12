@@ -22,7 +22,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
             <PlayerSlider />
             <PlayerControls />
           </div>
-          <div class='panel'>
+          <div class='panel playlist'>
             Playlist
           </div>
         </div>

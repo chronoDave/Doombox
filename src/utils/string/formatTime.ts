@@ -11,4 +11,3 @@ export const toMinSec = (x: number) =>
 
 export const toHourMinSec = (x: number) =>
   join([toHour(x), toMin(x), toSec(x)]);
-

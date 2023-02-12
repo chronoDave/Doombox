@@ -1,2 +1,2 @@
-export default <T>(a: readonly T[], b: readonly T[]) =>
+export default <T>(a: T[], b: T[]) =>
   Array.from(new Set([...a, ...b]));

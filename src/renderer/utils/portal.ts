@@ -1,32 +1,32 @@
 import * as forgo from 'forgo';
 
-/**
- * @deprecated Does not fire `unmount()` event, see [forgojs/forgo#73](https://github.com/forgojs/forgo/issues/73)
- */
-export default (
-  anchor: HTMLElement,
-  element: (unmount: () => void) => forgo.ForgoComponentCtor
-) => {
-  let unmounted = false;
-  let unmount: () => void;
+import createClickAwayListener from './clickAwayListener';
 
-  const portal = () => {
-    const component = new forgo.Component({
-      render() {
-        if (unmounted) return null;
-        return element(unmount);
-      }
-    });
+export type PortalOptions = {
+  persistent?: boolean
+};
 
-    unmount = () => {
-      unmounted = true;
-      component.update();
-    };
+export default (component: forgo.ForgoNode, options?: PortalOptions) => {
+  let deleted = false;
 
-    return component;
+  const abortController = new AbortController();
+  const element = (forgo.render(component).node) as Element;
+  document.body.appendChild(element);
+
+  const unmount = () => {
+    forgo.unmount(element);
+    document.body.removeChild(element);
+    deleted = true;
   };
 
-  anchor.appendChild(forgo.render(forgo.createElement(portal, {})).node);
+  if (!options?.persistent) {
+    createClickAwayListener(element, () => {
+      if (!deleted) unmount();
+    }, { abortController });
+  }
 
-  return () => unmount();
+  return () => {
+    if (!deleted) unmount();
+    abortController.abort();
+  };
 };

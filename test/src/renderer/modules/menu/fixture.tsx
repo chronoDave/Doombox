@@ -6,6 +6,7 @@ export default () => {
   forgo.mount([
     <Menu
       id='menu'
+      popup={{ position: 'left' }}
       items={[
         { label: '1', onclick: () => { } },
         { label: '2', onclick: () => { }, disableAutoclose: true }

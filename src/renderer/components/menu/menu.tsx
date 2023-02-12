@@ -4,7 +4,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import createClickAwayListener from '../../utils/clickAwayListener';
 import Icon from '../icon/icon';
 import { createPopup } from '../popup/popup';
 
@@ -20,7 +19,7 @@ export type MenuItemProps = {
 export type MenuProps = {
   id: string
   items: MenuItemProps[]
-  popup?: PopupProps
+  popup: Omit<PopupProps, 'anchor'>
   onopen?: (event: MouseEvent) => void
   onclose?: (event: MouseEvent) => void
 };
@@ -28,7 +27,6 @@ export type MenuProps = {
 const Menu: Component<MenuProps> = () => {
   let open = false;
   let popup: () => void;
-  let clickAwayListener: () => void;
 
   const handleClose = (
     event: MouseEvent,
@@ -39,9 +37,12 @@ const Menu: Component<MenuProps> = () => {
     open = false;
   };
 
-  const createMenu = (element: HTMLElement, props: MenuProps) => {
+  const createMenu = ({ currentTarget }: MouseEvent, props: MenuProps) => {
     popup = createPopup(
-      element,
+      {
+        ...props.popup,
+        anchor: (currentTarget as Element)
+      },
       <ul
         id={`menu-${props.id}`}
         role='menu'
@@ -63,29 +64,22 @@ const Menu: Component<MenuProps> = () => {
             </button>
           </li>
         ))}
-      </ul>,
-      props.popup
-    );
-
-    clickAwayListener = createClickAwayListener(
-      element,
-      event => handleClose(event, props)
+      </ul>
     );
   };
 
   const handleOpen = (
-    event: forgo.JSX.TargetedMouseEvent<HTMLButtonElement>,
+    event: MouseEvent,
     props: MenuProps
   ) => {
     props.onopen?.(event);
-    createMenu(event.currentTarget, props);
+    createMenu(event, props);
     open = true;
   };
 
-  const handleToggle = (
-    event: forgo.JSX.TargetedMouseEvent<HTMLButtonElement>,
-    props: MenuProps
-  ) => open ? handleClose(event, props) : handleOpen(event, props);
+  const handleToggle = (event: MouseEvent, props: MenuProps) => open ?
+    handleClose(event, props) :
+    handleOpen(event, props);
 
   const component = new forgo.Component<MenuProps>({
     render(props) {
@@ -108,7 +102,6 @@ const Menu: Component<MenuProps> = () => {
 
   component.unmount(() => {
     popup?.();
-    clickAwayListener?.();
   });
 
   return component;

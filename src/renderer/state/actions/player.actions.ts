@@ -40,3 +40,21 @@ export const seek = (pos: number) => {
 
   player.seek(pos);
 };
+
+export const mute = () => {
+  const state = store.get();
+
+  store.dispatch(produce(draft => {
+    draft.player.muted = !state.player.muted;
+  }));
+
+  player.mute(!state.player.muted);
+};
+
+export const setVolume = (volume: number) => {
+  store.dispatch(produce(draft => {
+    draft.player.volume = volume;
+  }));
+
+  player.volume = volume;
+};
