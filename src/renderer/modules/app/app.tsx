@@ -9,8 +9,8 @@ import { fetchLibrary } from '../../state/actions/library.actions';
 import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
 import { setViewApp } from '../../state/actions/view.actions';
-import { ViewApp } from '../../state/state';
 import store from '../../state/store';
+import { AppView } from '../../types/view';
 import cx from '../../utils/cx';
 import createSubscription from '../../utils/subscribe';
 import AlbumView from '../../views/album/album.view';
@@ -26,8 +26,8 @@ import './app.scss';
 
 export type AppProps = {};
 
-type Views = Record<ViewApp, {
-  id: ViewApp,
+type Views = Record<AppView, {
+  id: AppView,
   view: forgo.Component,
   icon: IconProps['id'],
 }>;
@@ -35,12 +35,12 @@ type Views = Record<ViewApp, {
 const App: Component<AppProps> = () => {
   const subscribe = createSubscription(store);
   const views: Views = {
-    playlist: { id: ViewApp.Playlist, view: <PlaylistView />, icon: 'playlistMusic' },
-    player: { id: ViewApp.Player, view: <PlayerView />, icon: 'playCircle' },
-    song: { id: ViewApp.Song, view: <SongView />, icon: 'musicNote' },
-    album: { id: ViewApp.Album, view: <AlbumView />, icon: 'musicBox' },
-    label: { id: ViewApp.Label, view: <LabelView />, icon: 'accountMusic' },
-    settings: { id: ViewApp.Settings, view: <Settings />, icon: 'cog' }
+    playlist: { id: AppView.Playlist, view: <PlaylistView />, icon: 'playlistMusic' },
+    player: { id: AppView.Player, view: <PlayerView />, icon: 'playCircle' },
+    song: { id: AppView.Song, view: <SongView />, icon: 'musicNote' },
+    album: { id: AppView.Album, view: <AlbumView />, icon: 'musicBox' },
+    label: { id: AppView.Label, view: <LabelView />, icon: 'accountMusic' },
+    settings: { id: AppView.Settings, view: <Settings />, icon: 'cog' }
   };
 
   const component = new forgo.Component<AppProps>({

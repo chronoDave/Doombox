@@ -1,55 +1,45 @@
-import type { Album, Label, Song } from '../../types/library';
-import type { ThemeShape } from '../../types/shapes/theme.shape';
-import type { UserShape } from '../../types/shapes/user.shape';
-import type { PlayerStatus } from '../lib/player';
+import type { State } from '../types/state';
 
-export enum ViewApp {
-  Playlist = 'playlist',
-  Player = 'player',
-  Song = 'song',
-  Album = 'album',
-  Label = 'label',
-  Settings = 'settings'
-}
+import themeShape from '../../types/shapes/theme.shape';
+import userShape from '../../types/shapes/user.shape';
+import { PlayerStatus } from '../lib/player';
+import { AppView, SettingsView } from '../types/view';
 
-export enum ViewSettings {
-  Appearance = 'appearance',
-  Library = 'library'
-}
-
-export type State = {
+const state: State = {
   app: {
-    ready: boolean
-    scanning: boolean
-  }
+    ready: false,
+    scanning: false
+  },
   player: {
-    muted: boolean
-    volume: number
-    status: PlayerStatus,
+    muted: false,
+    volume: 100,
+    status: PlayerStatus.Stopped,
     current: {
-      id: string
-      duration: number
-      position: number
+      id: '',
+      duration: 0,
+      position: 0
     }
   },
   playlist: {
-    index: number
-    songs: string[]
+    index: 0,
+    songs: []
   },
   view: {
-    app: ViewApp
-    settings: ViewSettings
-  }
-  entities: {
-    song: Map<string, Song>
-    album: Map<string, Album>
-    label: Map<string, Label>
-  }
+    app: AppView.Label,
+    settings: SettingsView.Library
+  },
   search: {
-    songs: string[] | null
-    albums: string[] | null
-    labels: string[] | null
-  }
-  theme: ThemeShape
-  user: UserShape
+    songs: null,
+    albums: null,
+    labels: null
+  },
+  entities: {
+    song: new Map(),
+    album: new Map(),
+    label: new Map()
+  },
+  theme: themeShape,
+  user: userShape
 };
+
+export default state;

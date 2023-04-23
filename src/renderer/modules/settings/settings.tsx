@@ -1,4 +1,4 @@
-import type { ViewSettings } from '../../state/state';
+import type { SettingsView } from '../../types/view';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
@@ -16,13 +16,13 @@ export type SettingsProps = {};
 
 const Settings: Component<SettingsProps> = () => {
   const subscribe = createSubscription(store);
-  const views: Record<ViewSettings, forgo.Component> = {
+  const views: Record<SettingsView, forgo.Component> = {
     appearance: <AppearanceView />,
     library: <LibraryView />
   };
 
   const handleClick = (e: UIEvent) => {
-    const view = (e.target as HTMLElement).id as ViewSettings;
+    const view = (e.target as HTMLElement).id as SettingsView;
     if (view) setViewSettings(view);
   };
 
