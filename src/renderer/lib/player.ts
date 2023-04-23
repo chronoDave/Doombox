@@ -19,7 +19,7 @@ export type PlayerListener = {
 
 export type PlayerOptions = AppShape['player'] & UserShape['player'];
 
-export class Player extends Observer<PlayerListener> {
+export default class Player extends Observer<PlayerListener> {
   // private _autoplay: boolean;
   private _muted: boolean;
   private _status = PlayerStatus.Stopped;

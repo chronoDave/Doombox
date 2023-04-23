@@ -8,4 +8,3 @@ export const getSong = (id: string) => {
   if (!song) throw new Error(`Invalid id: ${id}`);
   return song;
 };
-

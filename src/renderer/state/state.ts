@@ -31,11 +31,11 @@ export type State = {
       duration: number
       position: number
     }
-    playlist: {
-      index: number
-      songs: string[]
-    }
-  }
+  },
+  playlist: {
+    index: number
+    songs: string[]
+  },
   view: {
     app: ViewApp
     settings: ViewSettings

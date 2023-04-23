@@ -5,6 +5,7 @@ import * as forgo from 'forgo';
 import { toMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
+import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchLabels } from '../../state/actions/search.actions';
 import { getLabel, getLabels } from '../../state/selectors/label.selector';
 import store from '../../state/store';
@@ -24,7 +25,7 @@ const LabelView: Component<LabelViewProps> = () => {
           <h1>All labels</h1>
           <InputSearch
             placeholder='search for label'
-            onsubmit={x => searchLabels(x)}
+            onsubmit={query => searchLabels(query)}
           />
           <p>{labels.length} labels</p>
           <VirtualList
@@ -32,11 +33,15 @@ const LabelView: Component<LabelViewProps> = () => {
             overflow={3}
             item={{
               height: 24,
-              render: x => {
-                const label = getLabel(x);
+              render: id => {
+                const label = getLabel(id);
 
                 return (
-                  <button id={label._id} type='button' onclick={() => console.log(label._id)}>
+                  <button
+                    id={label._id}
+                    type='button'
+                    onclick={() => addToPlaylist(label.songs)}
+                  >
                     <div class='metadata'>
                       <p>{label.romaji.label ?? label.label}</p>
                     </div>

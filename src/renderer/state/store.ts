@@ -20,11 +20,11 @@ const state: State = {
       id: '',
       duration: 0,
       position: 0
-    },
-    playlist: {
-      index: 0,
-      songs: []
     }
+  },
+  playlist: {
+    index: 0,
+    songs: []
   },
   view: {
     app: ViewApp.Label,
