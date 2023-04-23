@@ -1,4 +1,5 @@
 @use 'breakpoint';
+@use 'typography';
 
 .PlayerView {
   display: grid;
@@ -27,6 +28,26 @@
       > .PlayerControls {
         padding-bottom: 8px;
       }
+    }
+  }
+
+  > .VirtualList > ul > li > div {
+    display: flex;
+
+    > .metadata {
+      flex-grow: 1;
+      min-width: 0;
+
+      > p {
+        @include typography.nowrap;
+      }
+    }
+
+    > .duration {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      height: 100%;
     }
   }
 }
