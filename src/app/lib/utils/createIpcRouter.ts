@@ -1,10 +1,10 @@
-import type { IpcAction } from '../../../types/ipc';
+import type { IpcRoute } from '../../../types/ipc';
 import type Logger from '../logger';
 import type { IpcMainInvokeEvent, WebContents } from 'electron';
 
 import isIpcEvent from '../../../utils/validation/isIpcEvent';
 
-export default (createController: (sender: WebContents) => ({ [key in IpcAction]?: Function })) =>
+export default (createController: (sender: WebContents) => ({ [key in IpcRoute]?: Function })) =>
   (logger: Logger) =>
     (event: IpcMainInvokeEvent, ...args: unknown[]) => {
       if (!isIpcEvent(args[0])) {

@@ -81,7 +81,7 @@ export const searchSongs = async (query: string) => {
       draft.search.songs = null;
     }));
   } else {
-    const songs = await window.ipc.song.search({
+    const songs = await window.ipc.search.song({
       $string: {
         title: query
       }

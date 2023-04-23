@@ -15,14 +15,12 @@ export enum IpcChannel {
   Library = 'library',
   Scan = 'scan',
   Receive = 'on',
-  Song = 'song',
-  Album = 'album',
-  Label = 'label'
+  Search = 'search'
 }
 
 export type IpcChannelReceive<T extends IpcChannel> = `${IpcChannel.Receive}.${T}`;
 
-export enum IpcAction {
+export enum IpcRoute {
   SelectFolders = 'selectFolders',
   Add = 'add',
   Remove = 'remove',
@@ -33,12 +31,14 @@ export enum IpcAction {
   Minimize = 'minimize',
   Maximize = 'maximize',
   Close = 'close',
-  Search = 'search'
+  Song = 'song',
+  Album = 'album',
+  Label = 'label'
 }
 
 /** Events */
 export type IpcEvent = {
-  action: IpcAction
+  action: IpcRoute
   payload?: unknown
 };
 
@@ -53,35 +53,35 @@ export type IpcPayloadReceive = {
 
 /** Controller */
 export type IpcControllerStorage<T extends Shape> = {
-  [IpcAction.Get]: (payload: keyof T) => Promise<T[keyof T]>
-  [IpcAction.Set]: (payload: T) => Promise<T>
-  [IpcAction.All]: () => Promise<T>
+  [IpcRoute.Get]: (payload: keyof T) => Promise<T[keyof T]>
+  [IpcRoute.Set]: (payload: T) => Promise<T>
+  [IpcRoute.All]: () => Promise<T>
 };
 
 /** Renderer to main (one-way) */
 export type IpcSendController = {
   [IpcChannel.Window]: {
-    [IpcAction.Minimize]: () => void
-    [IpcAction.Maximize]: () => void
-    [IpcAction.Close]: () => void
+    [IpcRoute.Minimize]: () => void
+    [IpcRoute.Maximize]: () => void
+    [IpcRoute.Close]: () => void
   }
 };
 
 /** Renderer to main (two-way) */
 export type IpcInvokeController = {
   [IpcChannel.App]: {
-    [IpcAction.SelectFolders]: () => Promise<string[]>
+    [IpcRoute.SelectFolders]: () => Promise<string[]>
   }
-  [IpcChannel.Song]: {
-    [IpcAction.Search]: (payload: Query) => Promise<Song[]>
+  [IpcChannel.Search]: {
+    [IpcRoute.Song]: (payload: Query) => Promise<Song[]>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
   [IpcChannel.Library]: {
-    [IpcAction.Add]: (payload: string[]) => Promise<Library>
-    [IpcAction.Remove]: (payload: string[]) => Promise<Library>
-    [IpcAction.Get]: () => Promise<Library>
-    [IpcAction.Rebuild]: (payload: {
+    [IpcRoute.Add]: (payload: string[]) => Promise<Library>
+    [IpcRoute.Remove]: (payload: string[]) => Promise<Library>
+    [IpcRoute.Get]: () => Promise<Library>
+    [IpcRoute.Rebuild]: (payload: {
       folders: string[],
       force?: boolean
     }) => Promise<Library>
