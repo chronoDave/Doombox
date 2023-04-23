@@ -1,16 +1,18 @@
-import type { Song } from '../../../types/library';
-
 import produce from 'immer';
 
 import player from '../player';
+import { getSong } from '../selectors/song.selector';
 import store from '../store';
 
-export const play = (song: Song) => {
+export const play = (id: string) => {
   store.dispatch(produce(draft => {
-    draft.player.current.id = song._id;
+    draft.player.current.id = id;
+
+    const i = draft.playlist.songs.findIndex(song => song === id);
+    if (i >= 0) draft.playlist.index = i;
   }), 'player.play');
 
-  player.play(song.file);
+  player.play(getSong(id).file);
 };
 
 export const pause = () => player.pause();

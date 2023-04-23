@@ -8,6 +8,7 @@ import Observer from './observer';
 export enum PlayerStatus {
   Playing = 'playing',
   Paused = 'paused',
+  Ended = 'ended',
   Stopped = 'stopped'
 }
 
@@ -84,7 +85,7 @@ export default class Player extends Observer<PlayerListener> {
       onend: () => {
         if (this._interval) window.clearInterval(this._interval);
 
-        this._status = PlayerStatus.Stopped;
+        this._status = PlayerStatus.Ended;
 
         this._emit('status', this._status);
       },

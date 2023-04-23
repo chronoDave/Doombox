@@ -31,8 +31,13 @@
     }
   }
 
-  > .VirtualList > ul > li > div {
+  > .VirtualList > ul > li > button {
     display: flex;
+    width: 100%;
+
+    &.active {
+      background-color: var(--primary);
+    }
 
     > .metadata {
       flex-grow: 1;

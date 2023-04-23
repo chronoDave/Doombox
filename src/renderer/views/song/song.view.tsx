@@ -37,7 +37,7 @@ const SongView: Component<SongViewProps> = () => {
                 const song = getSong(data);
 
                 return (
-                  <button id={song._id} type='button' onclick={() => play(song)}>
+                  <button id={song._id} type='button' onclick={() => play(song._id)}>
                     <img
                       width={34}
                       height={34}

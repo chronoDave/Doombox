@@ -8,9 +8,12 @@ import PlayerControls from '../../modules/playerControls/playerControls';
 import PlayerCover from '../../modules/playerCover/playerCover';
 import PlayerMeta from '../../modules/playerMeta/playerMeta';
 import PlayerSlider from '../../modules/playerSlider/playerSlider';
+import { play } from '../../state/actions/player.actions';
+import { getCurrent } from '../../state/selectors/player.selectors';
 import { getPlaylist } from '../../state/selectors/playlist.selector';
 import { getSong } from '../../state/selectors/song.selector';
 import store from '../../state/store';
+import cx from '../../utils/cx';
 
 import './player.view.scss';
 
@@ -20,6 +23,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
   const component = new forgo.Component<PlayerViewProps>({
     render() {
       const labels = getPlaylist();
+      const current = getCurrent();
 
       return (
         <div class='PlayerView'>
@@ -38,7 +42,12 @@ const PlayerView: Component<PlayerViewProps> = () => {
                 const song = getSong(id);
 
                 return (
-                  <div id={song._id}>
+                  <button
+                    id={song._id}
+                    type='button'
+                    class={cx(current?._id === song._id && 'active')}
+                    onclick={() => play(song._id)}
+                  >
                     <div class='metadata'>
                       <p>{song.romaji.title ?? song.title}</p>
                       <p>{song.romaji.artist ?? song.artist}</p>
@@ -46,7 +55,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
                     <div class='duration'>
                       <p>{toMinSec(song.duration ?? 0)}</p>
                     </div>
-                  </div>
+                  </button>
                 );
               }
             }}
@@ -57,6 +66,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
   });
 
   return store.subscribe(component, (prev, cur) => (
+    prev.player.current.id !== cur.player.current.id ||
     !prev.playlist.songs ||
     cur.playlist.songs?.length !== prev.playlist.songs.length ||
     cur.playlist.songs.every((id, i) => prev.playlist.songs?.[i] === id)
