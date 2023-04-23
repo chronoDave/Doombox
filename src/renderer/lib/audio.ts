@@ -3,28 +3,28 @@ import type { UserShape } from '../../types/shapes/user.shape';
 
 import { Howl } from 'howler';
 
-export enum PlayerStatus {
+export enum AudioStatus {
   Playing = 'playing',
   Paused = 'paused',
   Stopped = 'stopped',
   Ended = 'ended'
 }
 
-export type PlayerOptions = AppShape['player'] & UserShape['player'] & {
-  onstatus: (status: PlayerStatus) => void
+export type AudioOptions = AppShape['player'] & UserShape['player'] & {
+  onstatus: (status: AudioStatus) => void
   onduration: (duration: number) => void
   onposition: (position: number) => void
 };
 
-export default class Player {
+export default class Audio {
   private readonly _volume: number;
   private readonly _autoplay: boolean;
-  private readonly _onstatus: PlayerOptions['onstatus'];
-  private readonly _onduration: PlayerOptions['onduration'];
-  private readonly _onposition: PlayerOptions['onposition'];
+  private readonly _onstatus: AudioOptions['onstatus'];
+  private readonly _onduration: AudioOptions['onduration'];
+  private readonly _onposition: AudioOptions['onposition'];
 
   private _muted: boolean;
-  private _status = PlayerStatus.Stopped;
+  private _status = AudioStatus.Stopped;
   private _howl?: Howl;
   private _interval?: number;
   private _file?: string;
@@ -37,7 +37,7 @@ export default class Player {
     return this._howl?.seek() ?? 0;
   }
 
-  constructor(options: PlayerOptions) {
+  constructor(options: AudioOptions) {
     this._onstatus = options.onstatus;
     this._onduration = options.onduration;
     this._onposition = options.onposition;
@@ -65,7 +65,7 @@ export default class Player {
           this._onposition(this._howl?.seek() ?? 0);
         }, 1000);
 
-        this._status = PlayerStatus.Playing;
+        this._status = AudioStatus.Playing;
 
         this._onstatus(this._status);
         this._onposition(this.pos);
@@ -73,19 +73,19 @@ export default class Player {
       onpause: () => {
         if (this._interval) window.clearInterval(this._interval);
 
-        this._status = PlayerStatus.Paused;
+        this._status = AudioStatus.Paused;
         this._onstatus(this._status);
       },
       onstop: () => {
         if (this._interval) window.clearInterval(this._interval);
 
-        this._status = PlayerStatus.Stopped;
+        this._status = AudioStatus.Stopped;
         this._onstatus(this._status);
       },
       onend: () => {
         if (this._interval) window.clearInterval(this._interval);
 
-        this._status = PlayerStatus.Ended;
+        this._status = AudioStatus.Ended;
         this._onstatus(this._status);
       },
       onmute: () => {},
@@ -94,9 +94,9 @@ export default class Player {
   }
 
   pause() {
-    if (this._status === PlayerStatus.Playing) this._howl?.pause();
-    if (this._status === PlayerStatus.Paused) this._howl?.play();
-    if (this._status === PlayerStatus.Stopped && this._file) this.play(this._file);
+    if (this._status === AudioStatus.Playing) this._howl?.pause();
+    if (this._status === AudioStatus.Paused) this._howl?.play();
+    if (this._status === AudioStatus.Stopped && this._file) this.play(this._file);
   }
 
   stop() {

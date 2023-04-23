@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import { PlayerStatus } from '../../lib/player';
+import { AudioStatus } from '../../lib/audio';
 import { pause } from '../../state/actions/player.actions';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
@@ -26,7 +26,7 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
             <Icon id='previous' />
           </button>
           <button type='button' onclick={pause}>
-            <Icon id={player.status === PlayerStatus.Playing ? 'pause' : 'play'} />
+            <Icon id={player.status === AudioStatus.Playing ? 'pause' : 'play'} />
           </button>
           <button type='button'>
             <Icon id='next' />

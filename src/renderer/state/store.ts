@@ -2,7 +2,7 @@ import type { State } from '../types/state';
 
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
-import { PlayerStatus } from '../lib/player';
+import { AudioStatus } from '../lib/audio';
 import Store from '../lib/store';
 import { AppView, SettingsView } from '../types/view';
 
@@ -14,7 +14,7 @@ export default new Store<State>({
   player: {
     muted: false,
     volume: 100,
-    status: PlayerStatus.Stopped,
+    status: AudioStatus.Stopped,
     current: {
       id: '',
       duration: 0,

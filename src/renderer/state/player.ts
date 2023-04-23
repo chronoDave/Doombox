@@ -2,11 +2,11 @@ import produce from 'immer';
 
 import appShape from '../../types/shapes/app.shape';
 import userShape from '../../types/shapes/user.shape';
-import Player from '../lib/player';
+import Audio from '../lib/audio';
 
 import store from './store';
 
-const player = new Player({
+const audio = new Audio({
   ...appShape.player,
   ...userShape.player,
   onstatus: status => store.dispatch(produce(draft => {
@@ -20,4 +20,4 @@ const player = new Player({
   }), 'player.position')
 });
 
-export default player;
+export default audio;

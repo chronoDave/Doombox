@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import { PlayerStatus } from '../../lib/player';
+import { AudioStatus } from '../../lib/audio';
 import { getCurrent } from '../selectors/playlist.selector';
 import store from '../store';
 
@@ -9,7 +9,7 @@ import { play } from './player.actions';
 export const addToPlaylist = (ids: string[]) => {
   const autplay =
     store.get().playlist.songs.length === 0 &&
-    store.get().player.status !== PlayerStatus.Playing;
+    store.get().player.status !== AudioStatus.Playing;
 
   store.dispatch(produce(draft => {
     draft.playlist.songs.push(...ids);
