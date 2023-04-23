@@ -60,9 +60,7 @@ export default async (root: AppRoot) => {
       storage: storage.theme
     }))(logger),
     app: createIpcRouter(createAppController())(logger),
-    search: createIpcRouter(createSearchController({
-      db: db.songs
-    }))(logger)
+    search: createIpcRouter(createSearchController({ db }))(logger)
   };
 
   Object.values(db).forEach(x => x.open());

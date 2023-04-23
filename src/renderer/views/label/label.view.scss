@@ -1,0 +1,11 @@
+.LabelView {
+  display: flex;
+  flex-direction: column;
+
+  > .VirtualList > ul > li > button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+}

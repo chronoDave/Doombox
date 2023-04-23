@@ -5,10 +5,9 @@ import * as forgo from 'forgo';
 import { toMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
-import { searchSongs } from '../../state/actions/library.actions';
 import { play } from '../../state/actions/player.actions';
-import { getSong } from '../../state/selectors/library.selectors';
-import { getSongs } from '../../state/selectors/song.selector';
+import { searchSongs } from '../../state/actions/search.actions';
+import { getSong, getSongs } from '../../state/selectors/song.selector';
 import store from '../../state/store';
 
 import './song.view.scss';
@@ -30,7 +29,7 @@ const SongView: Component<SongViewProps> = () => {
           />
           <p>{songs.length} songs</p>
           <VirtualList
-            data={songs}
+            list={songs}
             overflow={3}
             item={{
               height: 42,
@@ -63,10 +62,10 @@ const SongView: Component<SongViewProps> = () => {
     }
   });
 
-  return store.subscribe(component, (cur, prev) => (
-    !cur.search.songs ||
-    prev.search.songs?.length !== cur.search.songs.length ||
-    prev.search.songs.every((id, i) => cur.search.songs?.[i] === id)
+  return store.subscribe(component, (prev, cur) => (
+    !prev.search.songs ||
+    cur.search.songs?.length !== prev.search.songs.length ||
+    cur.search.songs.every((id, i) => prev.search.songs?.[i] === id)
   ));
 };
 

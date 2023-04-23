@@ -6,7 +6,7 @@ import debounce from '../../utils/debounce';
 import './virtualList.scss';
 
 export type VirtualListProps<T> = {
-  data: T[]
+  list: T[]
   overflow: number
   item: {
     height: number
@@ -24,7 +24,7 @@ const VirtualList = <T extends any>(
   const component = new forgo.Component<VirtualListProps<T>>({
     render(props) {
       const list = createVirtualList({
-        data: props.data,
+        data: props.list,
         overflow: props.overflow,
         scroll: ref.value?.scrollTop ?? 0,
         height: {
