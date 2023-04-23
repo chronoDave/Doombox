@@ -6,5 +6,5 @@ export const fetchUser = async () => {
   const user = await window.ipc.user.all();
   store.dispatch(produce(draft => {
     draft.user = user;
-  }));
+  }), 'user.fetchUser');
 };

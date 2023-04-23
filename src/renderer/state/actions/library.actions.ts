@@ -12,7 +12,7 @@ const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.song = new Map(library.songs.map(song => [song._id, song]));
   draft.entities.album = new Map(library.albums.map(album => [album._id, album]));
   draft.entities.label = new Map(library.labels.map(label => [label._id, label]));
-}));
+}), 'library.dispatchLibrary');
 
 export const fetchLibrary = async () => {
   const library = await window.ipc.library.get();
@@ -22,7 +22,7 @@ export const fetchLibrary = async () => {
 export const rebuildLibrary = async (force?: boolean) => {
   store.dispatch(produce(draft => {
     draft.app.scanning = true;
-  }));
+  }), 'library.rebuildLibrary');
 
   const library = await window.ipc.library.rebuild({
     folders: store.get().user.library.folders,
@@ -32,7 +32,7 @@ export const rebuildLibrary = async (force?: boolean) => {
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
     draft.app.scanning = false;
-  }));
+  }), 'library.rebuildLibrary');
 };
 
 export const addFolders = async (folders: string[]) => {
@@ -44,14 +44,14 @@ export const addFolders = async (folders: string[]) => {
   store.dispatch(produce(draft => {
     draft.app.scanning = true;
     draft.user.library.folders = user.library.folders;
-  }));
+  }), 'library.addFolders');
 
   const library = await window.ipc.library.add(user.library.folders);
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
     draft.app.scanning = false;
-  }));
+  }), 'library.addFolders');
 };
 
 export const removeFolders = async (folders: string[]) => {
@@ -63,7 +63,7 @@ export const removeFolders = async (folders: string[]) => {
   store.dispatch(produce(draft => {
     draft.app.scanning = true;
     draft.user.library.folders = user.library.folders;
-  }));
+  }), 'library.removeFolders');
 
   const library = await window.ipc.library.rebuild({
     folders: user.library.folders
@@ -72,14 +72,14 @@ export const removeFolders = async (folders: string[]) => {
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
     draft.app.scanning = false;
-  }));
+  }), 'library.removeFolders');
 };
 
 export const searchSongs = async (query: string) => {
   if (query === '') {
     store.dispatch(produce(draft => {
       draft.search.songs = null;
-    }));
+    }), 'library.searchSongs');
   } else {
     const songs = await window.ipc.search.song({
       $string: {
@@ -97,6 +97,6 @@ export const searchSongs = async (query: string) => {
         }))
         .sort((a, b) => a.distance - b.distance)
         .map(({ song }) => song._id);
-    }));
+    }), 'library.searchSongs');
   }
 };

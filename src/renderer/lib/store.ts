@@ -15,12 +15,12 @@ export default class Store<S extends Record<string, unknown>> {
     return this._state;
   }
 
-  dispatch(reducer: (state: S) => S) {
+  dispatch(reducer: (state: S) => S, action: string) {
     const prev = this._state;
     this._state = reducer(prev);
 
     if (IS_DEV) {
-      console.group('[dispatch]');
+      console.group(`[dispatch] ${action}`);
       console.log('[state.old]', prev);
       console.log('[state.new]', this._state);
       console.groupEnd();

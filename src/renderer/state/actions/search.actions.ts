@@ -7,7 +7,7 @@ export const searchSongs = async (query: string) => {
   if (query === '') {
     store.dispatch(produce(draft => {
       draft.search.songs = null;
-    }));
+    }), 'search.searchSongs');
   } else {
     const songs = await window.ipc.search.song({
       $string: {
@@ -25,7 +25,7 @@ export const searchSongs = async (query: string) => {
         }))
         .sort((a, b) => a.distance - b.distance)
         .map(({ song }) => song._id);
-    }));
+    }), 'search.searchSongs');
   }
 };
 
@@ -33,7 +33,7 @@ export const searchLabels = async (query: string) => {
   if (query === '') {
     store.dispatch(produce(draft => {
       draft.search.labels = null;
-    }));
+    }), 'search.searchLabels');
   } else {
     const labels = await window.ipc.search.label({
       $string: {
@@ -51,6 +51,6 @@ export const searchLabels = async (query: string) => {
         }))
         .sort((a, b) => a.distance - b.distance)
         .map(({ label }) => label._id);
-    }));
+    }), 'search.searchLabels');
   }
 };

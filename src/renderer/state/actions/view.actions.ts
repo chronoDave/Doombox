@@ -9,7 +9,7 @@ export const setViewApp = (view: ViewApp) => {
   if (current.view.app !== view) {
     store.dispatch(produce(draft => {
       draft.view.app = view;
-    }));
+    }), 'view.setViewApp');
   }
 };
 
@@ -18,6 +18,6 @@ export const setViewSettings = (view: ViewSettings) => {
   if (current.view.settings !== view) {
     store.dispatch(produce(draft => {
       draft.view.settings = view;
-    }));
+    }), 'view.setViewSettings');
   }
 };

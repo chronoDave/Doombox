@@ -3,6 +3,8 @@ import type { UserShape } from '../../types/shapes/user.shape';
 
 import { Howl } from 'howler';
 
+import Observer from './observer';
+
 export enum PlayerStatus {
   Playing = 'playing',
   Paused = 'paused',
@@ -10,18 +12,14 @@ export enum PlayerStatus {
 }
 
 export type PlayerListener = {
-  onstatus: (status: PlayerStatus) => void
-  onduration: (duration: number) => void
-  onposition: (position: number) => void
+  status: (status: PlayerStatus) => void
+  duration: (duration: number) => void
+  position: (position: number) => void
 };
 
-export type PlayerOptions = AppShape['player'] & UserShape['player'] & {
-  listener: PlayerListener
-};
+export type PlayerOptions = AppShape['player'] & UserShape['player'];
 
-export class Player {
-  private readonly _listener: PlayerListener;
-
+export class Player extends Observer<PlayerListener> {
   // private _autoplay: boolean;
   private _muted: boolean;
   private _status = PlayerStatus.Stopped;
@@ -38,10 +36,11 @@ export class Player {
   }
 
   constructor(options: PlayerOptions) {
+    super();
+
     // this._volume = options.volume;
     // this._autoplay = options.autoplay;
     this._muted = options.muted;
-    this._listener = options.listener;
   }
 
   play(file: string) {
@@ -55,35 +54,39 @@ export class Player {
       mute: this._muted,
       onload: () => {
         const duration = this._howl?.duration();
-        if (duration) this._listener.onduration(duration);
+        if (duration) this._emit('duration', duration);
       },
       onplay: () => {
         if (this._interval) window.clearInterval(this._interval);
         this._interval = window.setInterval(() => {
-          this._listener.onposition(this._howl?.seek() ?? 0);
+          this._emit('position', this._howl?.seek() ?? 0);
         }, 1000);
 
         this._status = PlayerStatus.Playing;
-        this._listener.onstatus(this._status);
-        this._listener.onposition(this.pos);
+
+        this._emit('status', this._status);
+        this._emit('position', this.pos);
       },
       onpause: () => {
         if (this._interval) window.clearInterval(this._interval);
 
         this._status = PlayerStatus.Paused;
-        this._listener.onstatus(this._status);
+
+        this._emit('status', this._status);
       },
       onstop: () => {
         if (this._interval) window.clearInterval(this._interval);
 
         this._status = PlayerStatus.Stopped;
-        this._listener.onstatus(this._status);
+
+        this._emit('status', this._status);
       },
       onend: () => {
         if (this._interval) window.clearInterval(this._interval);
 
         this._status = PlayerStatus.Stopped;
-        this._listener.onstatus(this._status);
+
+        this._emit('status', this._status);
       },
       onmute: () => {},
       onloaderror: (_, err) => console.error(err)
