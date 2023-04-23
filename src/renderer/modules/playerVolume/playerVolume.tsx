@@ -6,6 +6,7 @@ import * as forgo from 'forgo';
 import Icon from '../../components/icon/icon';
 import { createPopup } from '../../components/popup/popup';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 import VolumeSlider from '../volumeSlider/volumeSlider';
 
 import './playerVolume.scss';
@@ -15,6 +16,7 @@ export type PlayerVolumeProps = {};
 const PlayerVolume: Component<PlayerVolumeProps> = () => {
   let popup: () => void;
 
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerVolumeProps>({
     render() {
       const { player } = store.get();
@@ -48,10 +50,10 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
     popup?.();
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.player.muted !== cur.player.muted ||
     prev.player.volume !== cur.player.volume
-  ));
+  ))(component);
 };
 
 export default PlayerVolume;

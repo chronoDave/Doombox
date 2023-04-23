@@ -6,12 +6,14 @@ import { toMinSec, toHourMinSec } from '../../../utils/string/formatTime';
 import Slider from '../../components/slider/slider';
 import { seek } from '../../state/actions/player.actions';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 
 import './playerSlider.scss';
 
 export type PlayerSliderProps = {};
 
 const PlayerSlider: Component<PlayerSliderProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerSliderProps>({
     render() {
       const { player } = store.get();
@@ -37,9 +39,9 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.player.current.position !== cur.player.current.position
-  ));
+  ))(component);
 };
 
 export default PlayerSlider;

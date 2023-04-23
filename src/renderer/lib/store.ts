@@ -1,5 +1,3 @@
-import type { Component } from 'forgo';
-
 import { IS_DEV } from '../../utils/const';
 
 export default class Store<S extends Record<string, unknown>> {
@@ -29,12 +27,11 @@ export default class Store<S extends Record<string, unknown>> {
     this._listeners.forEach(listener => listener(prev, this._state));
   }
 
-  subscribe<T extends Component>(component: T, shouldUpdate: (prev: S, cur: S) => boolean) {
-    const listener = (prev: S, cur: S) => shouldUpdate(prev, cur) && component.update();
+  subscribe(listener: (prev: S, cur: S) => void) {
+    this._listeners.add(listener);
+  }
 
-    component.mount(() => this._listeners.add(listener));
-    component.unmount(() => this._listeners.delete(listener));
-
-    return component;
+  unsubscribe(listener: (prev: S, cur: S) => void) {
+    this._listeners.delete(listener);
   }
 }

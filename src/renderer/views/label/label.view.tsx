@@ -9,12 +9,14 @@ import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchLabels } from '../../state/actions/search.actions';
 import { getLabel, getLabels } from '../../state/selectors/label.selector';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 
 import './label.view.scss';
 
 export type LabelViewProps = {};
 
 const LabelView: Component<LabelViewProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<LabelViewProps>({
     render() {
       const { search } = store.get();
@@ -58,11 +60,11 @@ const LabelView: Component<LabelViewProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     !prev.search.labels ||
     cur.search.labels?.length !== prev.search.labels.length ||
     cur.search.labels.every((id, i) => prev.search.labels?.[i] === id)
-  ));
+  ))(component);
 };
 
 export default LabelView;

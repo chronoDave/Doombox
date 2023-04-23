@@ -6,6 +6,7 @@ import Icon from '../../components/icon/icon';
 import { PlayerStatus } from '../../lib/player';
 import { pause } from '../../state/actions/player.actions';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 import PlayerVolume from '../playerVolume/playerVolume';
 
 import './playerControls.scss';
@@ -13,6 +14,7 @@ import './playerControls.scss';
 export type PlayerControlsProps = {};
 
 const PlayerControls: Component<PlayerControlsProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerControlsProps>({
     render() {
       const { player } = store.get();
@@ -34,9 +36,9 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.player.status !== cur.player.status
-  ));
+  ))(component);
 };
 
 export default PlayerControls;

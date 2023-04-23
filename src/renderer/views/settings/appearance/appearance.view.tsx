@@ -7,10 +7,12 @@ import produce from 'immer';
 import InputRadioList from '../../../components/inputRadioList/inputRadioList';
 import { setTheme } from '../../../state/actions/theme.actions';
 import store from '../../../state/store';
+import createSubscription from '../../../utils/subscribe';
 
 export type AppearanceViewProps = {};
 
 const AppearanceView: Component<AppearanceViewProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<AppearanceViewProps>({
     render() {
       const { theme } = store.get();
@@ -48,10 +50,10 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.theme.theme !== cur.theme.theme ||
     prev.theme.player.cover !== cur.theme.player.cover
-  ));
+  ))(component);
 };
 
 export default AppearanceView;

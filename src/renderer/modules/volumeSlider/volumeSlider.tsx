@@ -7,12 +7,14 @@ import Icon from '../../components/icon/icon';
 import Slider from '../../components/slider/slider';
 import { mute, setVolume } from '../../state/actions/player.actions';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 
 import './volumeSlider.scss';
 
 export type VolumeSliderProps = {};
 
 const VolumeSlider: Component<VolumeSliderProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<VolumeSliderProps>({
     render() {
       const { player } = store.get();
@@ -41,10 +43,10 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.player.volume !== cur.player.volume ||
     prev.player.muted !== cur.player.muted
-  ));
+  ))(component);
 };
 
 export default VolumeSlider;

@@ -14,12 +14,14 @@ import { getPlaylist } from '../../state/selectors/playlist.selector';
 import { getSong } from '../../state/selectors/song.selector';
 import store from '../../state/store';
 import cx from '../../utils/cx';
+import createSubscription from '../../utils/subscribe';
 
 import './player.view.scss';
 
 export type PlayerViewProps = {};
 
 const PlayerView: Component<PlayerViewProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerViewProps>({
     render() {
       const labels = getPlaylist();
@@ -65,12 +67,12 @@ const PlayerView: Component<PlayerViewProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.player.current.id !== cur.player.current.id ||
     !prev.playlist.songs ||
     cur.playlist.songs?.length !== prev.playlist.songs.length ||
     cur.playlist.songs.every((id, i) => prev.playlist.songs?.[i] === id)
-  ));
+  ))(component);
 };
 
 export default PlayerView;

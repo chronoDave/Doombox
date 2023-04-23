@@ -5,12 +5,14 @@ import * as forgo from 'forgo';
 import ImageBlur from '../../components/imageBlur/imageBlur';
 import { getCurrent } from '../../state/selectors/player.selectors';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 
 import './playerCover.scss';
 
 export type PlayerCoverProps = {};
 
 const PlayerCover: Component<PlayerCoverProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerCoverProps>({
     render() {
       const { theme } = store.get();
@@ -31,10 +33,10 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.player.current?.id !== cur.player.current?.id ||
     prev.theme.player.cover !== cur.theme.player.cover
-  ));
+  ))(component);
 };
 
 export default PlayerCover;

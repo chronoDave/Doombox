@@ -5,12 +5,14 @@ import * as forgo from 'forgo';
 import Icon from '../../components/icon/icon';
 import { getCurrent } from '../../state/selectors/player.selectors';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 
 import './appHeader.scss';
 
 export type AppBarProps = {};
 
 const AppBar: Component<AppBarProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component({
     render() {
       const current = getCurrent();
@@ -68,9 +70,9 @@ const AppBar: Component<AppBarProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.player.current.id !== cur.player.current.id
-  ));
+  ))(component);
 };
 
 export default AppBar;

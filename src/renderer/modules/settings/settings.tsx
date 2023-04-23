@@ -6,6 +6,7 @@ import * as forgo from 'forgo';
 import { setViewSettings } from '../../state/actions/view.actions';
 import store from '../../state/store';
 import cx from '../../utils/cx';
+import createSubscription from '../../utils/subscribe';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
 import LibraryView from '../../views/settings/library/library.view';
 
@@ -14,6 +15,7 @@ import './settings.scss';
 export type SettingsProps = {};
 
 const Settings: Component<SettingsProps> = () => {
+  const subscribe = createSubscription(store);
   const views: Record<ViewSettings, forgo.Component> = {
     appearance: <AppearanceView />,
     library: <LibraryView />
@@ -87,11 +89,9 @@ const Settings: Component<SettingsProps> = () => {
     }
   });
 
-  store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.view.settings !== cur.view.settings
-  ));
-
-  return component;
+  ))(component);
 };
 
 export default Settings;

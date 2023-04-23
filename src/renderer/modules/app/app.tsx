@@ -12,6 +12,7 @@ import { setViewApp } from '../../state/actions/view.actions';
 import { ViewApp } from '../../state/state';
 import store from '../../state/store';
 import cx from '../../utils/cx';
+import createSubscription from '../../utils/subscribe';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';
 import PlayerView from '../../views/player/player.view';
@@ -32,6 +33,7 @@ type Views = Record<ViewApp, {
 }>;
 
 const App: Component<AppProps> = () => {
+  const subscribe = createSubscription(store);
   const views: Views = {
     playlist: { id: ViewApp.Playlist, view: <PlaylistView />, icon: 'playlistMusic' },
     player: { id: ViewApp.Player, view: <PlayerView />, icon: 'playCircle' },
@@ -80,11 +82,11 @@ const App: Component<AppProps> = () => {
     setReady(true);
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     prev.app.ready !== cur.app.ready ||
     prev.app.scanning !== cur.app.scanning ||
     prev.view.app !== cur.view.app
-  ));
+  ))(component);
 };
 
 export default App;

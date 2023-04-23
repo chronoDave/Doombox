@@ -9,12 +9,14 @@ import { play } from '../../state/actions/player.actions';
 import { searchSongs } from '../../state/actions/search.actions';
 import { getSong, getSongs } from '../../state/selectors/song.selector';
 import store from '../../state/store';
+import createSubscription from '../../utils/subscribe';
 
 import './song.view.scss';
 
 export type SongViewProps = {};
 
 const SongView: Component<SongViewProps> = () => {
+  const subscribe = createSubscription(store);
   const component = new forgo.Component<SongViewProps>({
     render() {
       const { search } = store.get();
@@ -62,11 +64,11 @@ const SongView: Component<SongViewProps> = () => {
     }
   });
 
-  return store.subscribe(component, (prev, cur) => (
+  return subscribe((prev, cur) => (
     !prev.search.songs ||
     cur.search.songs?.length !== prev.search.songs.length ||
     cur.search.songs.every((id, i) => prev.search.songs?.[i] === id)
-  ));
+  ))(component);
 };
 
 export default SongView;
