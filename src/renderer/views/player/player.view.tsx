@@ -8,7 +8,6 @@ import PlayerControls from '../../modules/playerControls/playerControls';
 import PlayerCover from '../../modules/playerCover/playerCover';
 import PlayerMeta from '../../modules/playerMeta/playerMeta';
 import PlayerSlider from '../../modules/playerSlider/playerSlider';
-import { getCurrent } from '../../selectors/player.selectors';
 import { getPlaylist } from '../../selectors/playlist.selector';
 import { getSong } from '../../selectors/song.selector';
 import player from '../../state/player';
@@ -25,7 +24,6 @@ const PlayerView: Component<PlayerViewProps> = () => {
   const component = new forgo.Component<PlayerViewProps>({
     render() {
       const labels = getPlaylist(store)();
-      const current = getCurrent(store)();
 
       return (
         <div class='PlayerView'>
@@ -40,15 +38,15 @@ const PlayerView: Component<PlayerViewProps> = () => {
             overflow={3}
             item={{
               height: 38,
-              render: id => {
+              render: (id, i) => {
                 const song = getSong(store)(id);
 
                 return (
                   <button
                     id={song._id}
                     type='button'
-                    class={cx(current?._id === song._id && 'active')}
-                    onclick={() => player.play(song._id)}
+                    class={cx(store.get().playlist.index === i && 'active')}
+                    onclick={() => player.skip(i)}
                   >
                     <div class='metadata'>
                       <p>{song.romaji.title ?? song.title}</p>

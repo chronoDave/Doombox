@@ -101,10 +101,20 @@ export default class Player<S extends Store<State>> {
   }
 
   next() {
-    this.skip(this._store.get().playlist.index + 1);
+    const { playlist } = this._store.get();
+
+    let next = playlist.index + 1;
+    if (next === playlist.songs.length) next = 0;
+
+    this.skip(next);
   }
 
   previous() {
-    this.skip(this._store.get().playlist.index - 1);
+    const { playlist } = this._store.get();
+
+    let previous = playlist.index - 1;
+    if (previous < 0) previous = playlist.songs.length - 1;
+
+    this.skip(previous);
   }
 }

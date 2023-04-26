@@ -10,7 +10,7 @@ export type VirtualListProps<T> = {
   overflow: number
   item: {
     height: number
-    render: (data: T) => forgo.Component | forgo.Component[]
+    render: (data: T, i: number) => forgo.Component | forgo.Component[]
   }
 };
 
@@ -49,7 +49,7 @@ const VirtualList = <T extends any>(
                   height: `${column.position.height}px`
                 }}
               >
-                {props.item.render(column.data)}
+                {props.item.render(column.data, column.index)}
               </li>
             ))}
           </ul>
