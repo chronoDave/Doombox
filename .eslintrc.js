@@ -150,6 +150,10 @@ module.exports = {
         target: 'src/renderer/utils',
         from: 'src/renderer/state',
         message: 'Utils should be stateless'
+      }, {
+        target: 'src/renderer/selectors',
+        from: 'src/renderer/state',
+        message: 'Selectors should be stateless'
       }]
     }],
     'import/no-self-import': 'error',

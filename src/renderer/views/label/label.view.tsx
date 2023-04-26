@@ -5,9 +5,9 @@ import * as forgo from 'forgo';
 import { toMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
+import { getLabel, getLabels } from '../../selectors/label.selector';
 import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchLabels } from '../../state/actions/search.actions';
-import { getLabel, getLabels } from '../../state/selectors/label.selector';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -20,7 +20,7 @@ const LabelView: Component<LabelViewProps> = () => {
   const component = new forgo.Component<LabelViewProps>({
     render() {
       const { search } = store.get();
-      const labels = (search.labels ?? getLabels()) as string[];
+      const labels = (search.labels ?? getLabels(store)()) as string[];
 
       return (
         <div class="LabelView">
@@ -36,7 +36,7 @@ const LabelView: Component<LabelViewProps> = () => {
             item={{
               height: 24,
               render: id => {
-                const label = getLabel(id);
+                const label = getLabel(store)(id);
 
                 return (
                   <button

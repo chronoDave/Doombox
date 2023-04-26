@@ -1,5 +1,5 @@
 import type { Library } from '../../../types/library';
-import type { State } from '../state';
+import type { State } from '../../types/state';
 
 import produce from 'immer';
 

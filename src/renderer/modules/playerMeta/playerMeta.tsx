@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { getCurrent } from '../../state/selectors/player.selectors';
+import { getCurrent } from '../../selectors/player.selectors';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -14,7 +14,7 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
   const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerMetaProps>({
     render() {
-      const current = getCurrent();
+      const current = getCurrent(store)();
 
       return (
         <div class='PlayerMeta'>

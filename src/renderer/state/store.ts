@@ -1,5 +1,6 @@
 import type { State } from '../types/state';
 
+import appShape from '../../types/shapes/app.shape';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 import { AudioStatus } from '../lib/audio';
@@ -11,19 +12,18 @@ export default new Store<State>({
     ready: false,
     scanning: false
   },
-  player: {
-    muted: false,
-    volume: 100,
-    status: AudioStatus.Stopped,
-    current: {
-      id: '',
-      duration: 0,
-      position: 0
-    }
-  },
   playlist: {
     index: 0,
     songs: []
+  },
+  player: {
+    ...userShape.player,
+    ...appShape.player,
+    current: {
+      position: 0,
+      duration: 0
+    },
+    status: AudioStatus.Stopped
   },
   view: {
     app: AppView.Label,

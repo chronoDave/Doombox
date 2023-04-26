@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import { getCurrent } from '../../state/selectors/player.selectors';
+import { getCurrent } from '../../selectors/player.selectors';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -15,7 +15,7 @@ const AppBar: Component<AppBarProps> = () => {
   const subscribe = createSubscription(store);
   const component = new forgo.Component({
     render() {
-      const current = getCurrent();
+      const current = getCurrent(store)();
       const title = current ?
         `${current.artist} - ${current.title} (${current.album})` :
         'Doombox';

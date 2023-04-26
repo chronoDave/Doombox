@@ -1,7 +1,6 @@
-import type { AppShape } from '../../types/shapes/app.shape';
-import type { UserShape } from '../../types/shapes/user.shape';
-
 import { Howl } from 'howler';
+
+import EventEmitter from './eventEmitter';
 
 export enum AudioStatus {
   Playing = 'playing',
@@ -10,44 +9,42 @@ export enum AudioStatus {
   Ended = 'ended'
 }
 
-export type AudioOptions = AppShape['player'] & UserShape['player'] & {
-  onstatus: (status: AudioStatus) => void
-  onduration: (duration: number) => void
-  onposition: (position: number) => void
+export type AudioEvents = {
+  duration: (duration: number) => void
+  status: (status: AudioStatus) => void,
+  mute: (muted: boolean) => void
 };
 
-export default class Audio {
-  private readonly _volume: number;
-  private readonly _autoplay: boolean;
-  private readonly _onstatus: AudioOptions['onstatus'];
-  private readonly _onduration: AudioOptions['onduration'];
-  private readonly _onposition: AudioOptions['onposition'];
+export type AudioOptions = {
+  volume: number
+  autoplay: boolean
+  muted: boolean
+};
 
+export default class Audio extends EventEmitter<AudioEvents> {
+  private _autoplay: boolean;
+  private _volume: number;
   private _muted: boolean;
-  private _status = AudioStatus.Stopped;
   private _howl?: Howl;
-  private _interval?: number;
-  private _file?: string;
 
   set volume(volume: number) {
-    if (this._howl) this._howl.volume(volume / 100);
+    this._volume = volume;
+    if (this._howl) this._howl.volume(this._volume / 100);
   }
 
-  get pos() {
-    return this._howl?.seek() ?? 0;
+  set autoplay(autoplay: boolean) {
+    this._autoplay = autoplay;
   }
 
   constructor(options: AudioOptions) {
-    this._onstatus = options.onstatus;
-    this._onduration = options.onduration;
-    this._onposition = options.onposition;
+    super();
+
     this._volume = options.volume;
     this._autoplay = options.autoplay;
     this._muted = options.muted;
   }
 
   play(file: string) {
-    this._file = file;
     this._howl?.unload();
     this._howl = new Howl({
       src: file,
@@ -55,48 +52,21 @@ export default class Audio {
       volume: this._volume,
       autoplay: this._autoplay,
       mute: this._muted,
-      onload: () => {
-        const duration = this._howl?.duration();
-        if (duration) this._onduration(duration);
-      },
-      onplay: () => {
-        if (this._interval) window.clearInterval(this._interval);
-        this._interval = window.setInterval(() => {
-          this._onposition(this._howl?.seek() ?? 0);
-        }, 1000);
-
-        this._status = AudioStatus.Playing;
-
-        this._onstatus(this._status);
-        this._onposition(this.pos);
-      },
-      onpause: () => {
-        if (this._interval) window.clearInterval(this._interval);
-
-        this._status = AudioStatus.Paused;
-        this._onstatus(this._status);
-      },
-      onstop: () => {
-        if (this._interval) window.clearInterval(this._interval);
-
-        this._status = AudioStatus.Stopped;
-        this._onstatus(this._status);
-      },
-      onend: () => {
-        if (this._interval) window.clearInterval(this._interval);
-
-        this._status = AudioStatus.Ended;
-        this._onstatus(this._status);
-      },
-      onmute: () => {},
-      onloaderror: (_, err) => console.error(err)
+      onload: () => this._emit('duration', this._howl?.duration() ?? 0),
+      onplay: () => this._emit('status', AudioStatus.Playing),
+      onpause: () => this._emit('status', AudioStatus.Paused),
+      onstop: () => this._emit('status', AudioStatus.Stopped),
+      onend: () => this._emit('status', AudioStatus.Ended),
+      onmute: () => this._emit('mute', this._muted)
     });
   }
 
+  resume() {
+    this._howl?.play();
+  }
+
   pause() {
-    if (this._status === AudioStatus.Playing) this._howl?.pause();
-    if (this._status === AudioStatus.Paused) this._howl?.play();
-    if (this._status === AudioStatus.Stopped && this._file) this.play(this._file);
+    this._howl?.pause();
   }
 
   stop() {

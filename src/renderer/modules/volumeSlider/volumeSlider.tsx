@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import Slider from '../../components/slider/slider';
-import { mute, setVolume } from '../../state/actions/player.actions';
+import player from '../../state/player';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -17,7 +17,6 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
   const subscribe = createSubscription(store);
   const component = new forgo.Component<VolumeSliderProps>({
     render() {
-      const { player } = store.get();
       const getIcon = (): IconProps['id'] => {
         if (player.muted) return 'mute';
         if (player.volume >= 66) return 'volumeHigh';
@@ -27,7 +26,7 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
 
       return (
         <div class='VolumeSlider'>
-          <button type='button' onclick={mute}>
+          <button type='button' onclick={() => player.mute()}>
             <Icon id={getIcon()} />
           </button>
           <Slider
@@ -35,7 +34,7 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
             max={100}
             value={player.volume}
             step={1}
-            onchange={setVolume}
+            onchange={volume => player.setVolume(volume)}
           />
           <span>{Math.round(player.volume)}</span>
         </div>

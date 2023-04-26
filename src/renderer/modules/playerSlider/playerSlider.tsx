@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import { toMinSec, toHourMinSec } from '../../../utils/string/formatTime';
 import Slider from '../../components/slider/slider';
-import { seek } from '../../state/actions/player.actions';
+import player from '../../state/player';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -16,7 +16,6 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
   const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerSliderProps>({
     render() {
-      const { player } = store.get();
       const format = player.current.duration > (60 * 60) ?
         toHourMinSec :
         toMinSec;
@@ -28,7 +27,7 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
             step={1}
             max={player.current.duration}
             value={player.current.position}
-            onchange={seek}
+            onchange={position => player.seek(position)}
           />
           <div class='time'>
             <span>{format(player.current.position)}</span>

@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import { AudioStatus } from '../../lib/audio';
-import { pause } from '../../state/actions/player.actions';
+import player from '../../state/player';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 import PlayerVolume from '../playerVolume/playerVolume';
@@ -17,15 +17,13 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
   const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerControlsProps>({
     render() {
-      const { player } = store.get();
-
       return (
         <div class='PlayerControls'>
           <PlayerVolume />
           <button type='button'>
             <Icon id='previous' />
           </button>
-          <button type='button' onclick={pause}>
+          <button type='button' onclick={() => player.pause()}>
             <Icon id={player.status === AudioStatus.Playing ? 'pause' : 'play'} />
           </button>
           <button type='button'>

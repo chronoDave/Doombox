@@ -5,9 +5,9 @@ import * as forgo from 'forgo';
 import { toMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
-import { play } from '../../state/actions/player.actions';
+import { getSong, getSongs } from '../../selectors/song.selector';
 import { searchSongs } from '../../state/actions/search.actions';
-import { getSong, getSongs } from '../../state/selectors/song.selector';
+import player from '../../state/player';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -20,7 +20,7 @@ const SongView: Component<SongViewProps> = () => {
   const component = new forgo.Component<SongViewProps>({
     render() {
       const { search } = store.get();
-      const songs = (search.songs ?? getSongs()) as string[];
+      const songs = (search.songs ?? getSongs(store)()) as string[];
 
       return (
         <div class="SongView">
@@ -36,10 +36,10 @@ const SongView: Component<SongViewProps> = () => {
             item={{
               height: 42,
               render: data => {
-                const song = getSong(data);
+                const song = getSong(store)(data);
 
                 return (
-                  <button id={song._id} type='button' onclick={() => play(song._id)}>
+                  <button id={song._id} type='button' onclick={() => player.play(song._id)}>
                     <img
                       width={34}
                       height={34}

@@ -1,7 +1,7 @@
 import type { Album, Label, Song } from '../../types/library';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
-import type { PlayerStatus } from '../lib/player';
+import type { AudioStatus } from '../lib/audio';
 import type { AppView, SettingsView } from './view';
 
 export type State = {
@@ -10,14 +10,15 @@ export type State = {
     scanning: boolean
   }
   player: {
-    muted: boolean
-    volume: number
-    status: PlayerStatus,
     current: {
-      id: string
-      duration: number
+      id?: string
       position: number
-    }
+      duration: number
+    },
+    status: AudioStatus,
+    muted: boolean
+    autoplay: boolean
+    volume: number
   },
   playlist: {
     index: number

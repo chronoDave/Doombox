@@ -1,10 +1,10 @@
-import type { ViewApp, ViewSettings } from '../state';
+import type { AppView, SettingsView } from '../../types/view';
 
 import produce from 'immer';
 
 import store from '../store';
 
-export const setViewApp = (view: ViewApp) => {
+export const setViewApp = (view: AppView) => {
   const current = store.get();
   if (current.view.app !== view) {
     store.dispatch(produce(draft => {
@@ -13,7 +13,7 @@ export const setViewApp = (view: ViewApp) => {
   }
 };
 
-export const setViewSettings = (view: ViewSettings) => {
+export const setViewSettings = (view: SettingsView) => {
   const current = store.get();
   if (current.view.settings !== view) {
     store.dispatch(produce(draft => {

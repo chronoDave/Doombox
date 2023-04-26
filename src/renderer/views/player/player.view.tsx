@@ -8,10 +8,10 @@ import PlayerControls from '../../modules/playerControls/playerControls';
 import PlayerCover from '../../modules/playerCover/playerCover';
 import PlayerMeta from '../../modules/playerMeta/playerMeta';
 import PlayerSlider from '../../modules/playerSlider/playerSlider';
-import { play } from '../../state/actions/player.actions';
-import { getCurrent } from '../../state/selectors/player.selectors';
-import { getPlaylist } from '../../state/selectors/playlist.selector';
-import { getSong } from '../../state/selectors/song.selector';
+import { getCurrent } from '../../selectors/player.selectors';
+import { getPlaylist } from '../../selectors/playlist.selector';
+import { getSong } from '../../selectors/song.selector';
+import player from '../../state/player';
 import store from '../../state/store';
 import cx from '../../utils/cx';
 import createSubscription from '../../utils/subscribe';
@@ -24,8 +24,8 @@ const PlayerView: Component<PlayerViewProps> = () => {
   const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerViewProps>({
     render() {
-      const labels = getPlaylist();
-      const current = getCurrent();
+      const labels = getPlaylist(store)();
+      const current = getCurrent(store)();
 
       return (
         <div class='PlayerView'>
@@ -41,14 +41,14 @@ const PlayerView: Component<PlayerViewProps> = () => {
             item={{
               height: 38,
               render: id => {
-                const song = getSong(id);
+                const song = getSong(store)(id);
 
                 return (
                   <button
                     id={song._id}
                     type='button'
                     class={cx(current?._id === song._id && 'active')}
-                    onclick={() => play(song._id)}
+                    onclick={() => player.play(song._id)}
                   >
                     <div class='metadata'>
                       <p>{song.romaji.title ?? song.title}</p>

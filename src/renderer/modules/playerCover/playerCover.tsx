@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import ImageBlur from '../../components/imageBlur/imageBlur';
-import { getCurrent } from '../../state/selectors/player.selectors';
+import { getCurrent } from '../../selectors/player.selectors';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -16,7 +16,7 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
   const component = new forgo.Component<PlayerCoverProps>({
     render() {
       const { theme } = store.get();
-      const current = getCurrent();
+      const current = getCurrent(store)();
 
       return (
         <div class='PlayerCover'>
