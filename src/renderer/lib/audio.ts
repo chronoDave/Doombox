@@ -10,6 +10,7 @@ export enum AudioStatus {
 }
 
 export type AudioEvents = {
+  position: (duration: number) => void,
   duration: (duration: number) => void
   status: (status: AudioStatus) => void,
   mute: (muted: boolean) => void
@@ -26,6 +27,7 @@ export default class Audio extends EventEmitter<AudioEvents> {
   private _volume: number;
   private _muted: boolean;
   private _howl?: Howl;
+  private _interval?: number;
 
   set volume(volume: number) {
     this._volume = volume;
@@ -53,10 +55,30 @@ export default class Audio extends EventEmitter<AudioEvents> {
       autoplay: this._autoplay,
       mute: this._muted,
       onload: () => this._emit('duration', this._howl?.duration() ?? 0),
-      onplay: () => this._emit('status', AudioStatus.Playing),
-      onpause: () => this._emit('status', AudioStatus.Paused),
-      onstop: () => this._emit('status', AudioStatus.Stopped),
-      onend: () => this._emit('status', AudioStatus.Ended),
+      onplay: () => {
+        if (this._interval) window.clearInterval(this._interval);
+        this._interval = window.setInterval(() => {
+          this._emit('position', this._howl?.seek() ?? 0);
+        }, 1000);
+
+        this._emit('position', this._howl?.seek() ?? 0);
+        this._emit('status', AudioStatus.Playing);
+      },
+      onpause: () => {
+        if (this._interval) window.clearInterval(this._interval);
+
+        this._emit('status', AudioStatus.Paused);
+      },
+      onstop: () => {
+        if (this._interval) window.clearInterval(this._interval);
+
+        this._emit('status', AudioStatus.Stopped);
+      },
+      onend: () => {
+        if (this._interval) window.clearInterval(this._interval);
+
+        this._emit('status', AudioStatus.Ended);
+      },
       onmute: () => this._emit('mute', this._muted)
     });
   }

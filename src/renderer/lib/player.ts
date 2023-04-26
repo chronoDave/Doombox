@@ -4,6 +4,7 @@ import type Store from './store';
 import produce from 'immer';
 
 import appShape from '../../types/shapes/app.shape';
+import clamp from '../../utils/number/clamp';
 import { getSong } from '../selectors/song.selector';
 
 import Audio, { AudioStatus } from './audio';
@@ -34,9 +35,18 @@ export default class Player<S extends Store<State>> {
       ...store.get().user.player,
       ...appShape.player
     })
-      .on('status', status => this._store.dispatch(produce(draft => {
-        draft.player.status = status;
-      }), 'player.status'))
+      .on('status', status => {
+        this._store.dispatch(produce(draft => {
+          draft.player.status = status;
+        }), 'player.status');
+        if (
+          status === AudioStatus.Ended &&
+          this._store.get().player.autoplay
+        ) this.next();
+      })
+      .on('position', position => this._store.dispatch(produce(draft => {
+        draft.player.current.position = position;
+      }), 'player.position'))
       .on('duration', duration => this._store.dispatch(produce(draft => {
         draft.player.current.duration = duration;
       }), 'player.duration'))
@@ -78,5 +88,23 @@ export default class Player<S extends Store<State>> {
       draft.player.volume = volume;
     }), 'player.volume');
     this._audio.volume = volume;
+  }
+
+  skip(n: number) {
+    const i = clamp(0, this._store.get().playlist.songs.length - 1, n);
+    const id = this._store.get().playlist.songs[i];
+
+    this._store.dispatch(produce(draft => {
+      draft.playlist.index = i;
+    }), 'player.skip');
+    this.play(id);
+  }
+
+  next() {
+    this.skip(this._store.get().playlist.index + 1);
+  }
+
+  previous() {
+    this.skip(this._store.get().playlist.index - 1);
   }
 }
