@@ -20,13 +20,13 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
       return (
         <div class='PlayerControls'>
           <PlayerVolume />
-          <button type='button'>
+          <button type='button' onclick={() => player.previous()}>
             <Icon id='previous' />
           </button>
           <button type='button' onclick={() => player.pause()}>
             <Icon id={player.status === AudioStatus.Playing ? 'pause' : 'play'} />
           </button>
-          <button type='button'>
+          <button type='button' onclick={() => player.next()}>
             <Icon id='next' />
           </button>
         </div>
