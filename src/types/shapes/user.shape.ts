@@ -13,7 +13,8 @@ export type UserShape = Constrain<Json, {
     folders: string[]
   },
   player: {
-    autoplay: boolean
+    autoplay: boolean,
+    loop: boolean
   }
 }>;
 
@@ -28,7 +29,8 @@ const userShape: Readonly<UserShape> = {
     folders: []
   },
   player: {
-    autoplay: true
+    autoplay: true,
+    loop: true
   }
 };
 

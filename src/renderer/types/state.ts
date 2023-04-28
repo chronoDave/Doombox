@@ -16,6 +16,7 @@ export type State = {
       duration: number
     },
     status: AudioStatus,
+    loop: boolean
     muted: boolean
     autoplay: boolean
     volume: number
