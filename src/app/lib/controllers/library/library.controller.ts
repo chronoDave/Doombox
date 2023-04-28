@@ -64,7 +64,8 @@ export default (props: LibraryControllerProps) =>
         writeImage(b64, file);
       }, { concurrency: 32 });
 
-      return props.db.songs.insert(songs);
+      await props.db.songs.insert(songs);
+      return props.db.songs.find({});
     };
 
     return ({
