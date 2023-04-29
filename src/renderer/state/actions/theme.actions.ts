@@ -5,7 +5,7 @@ import produce from 'immer';
 import store from '../store';
 
 export const fetchTheme = async () => {
-  const theme = await window.ipc.theme.all();
+  const theme = await window.ipc.theme.get();
   store.dispatch(produce(draft => {
     draft.theme = theme;
   }), 'theme.fetchTheme');

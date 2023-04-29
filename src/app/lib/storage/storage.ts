@@ -37,18 +37,14 @@ export default class Storage<T extends Shape> {
     Object.seal(this._data);
   }
 
-  get<K extends keyof T>(key: K): Readonly<T[K]> {
-    return this._data[key];
+  get() {
+    return this._data;
   }
 
   set(state: T) {
     this._data = state;
     fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));
 
-    return this._data;
-  }
-
-  all() {
     return this._data;
   }
 }

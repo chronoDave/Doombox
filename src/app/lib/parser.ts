@@ -34,7 +34,7 @@ export default class Parser extends TypedEmitter<ParserEvents> {
   private readonly _root: string;
 
   private async _toRomaji(x?: string) {
-    const { romaji } = this._storage.get('scanner');
+    const { romaji } = this._storage.get().scanner;
 
     if (!x || !romaji.enabled || !Kuroshiro.Util.hasJapanese(x)) return Promise.resolve(null);
     return this._analyzer.convert(x, {

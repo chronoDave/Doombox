@@ -73,7 +73,7 @@ export default async (root: AppRoot) => {
   };
 
   Object.values(db).forEach(x => x.open());
-  nativeTheme.themeSource = storage.theme.get('theme');
+  nativeTheme.themeSource = storage.theme.get().theme;
 
   await electron.whenReady();
 

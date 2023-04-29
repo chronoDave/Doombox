@@ -7,7 +7,6 @@ export type UserControllerProps = {
 };
 
 export default (props: UserControllerProps) => (): IpcInvokeController[IpcChannel.User] => ({
-  all: async () => props.storage.all(),
-  get: async payload => props.storage.get(payload),
+  get: async () => props.storage.get(),
   set: async payload => props.storage.set(payload)
 });

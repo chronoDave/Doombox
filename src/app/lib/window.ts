@@ -19,7 +19,7 @@ export type WindowProps = {
 
 export default (props: WindowProps) => {
   const window = new BrowserWindow({
-    ...props.storage.get('window'),
+    ...props.storage.get().window,
     title: 'Doombox',
     icon: process.platform === 'win32' ?
       path.resolve(__dirname, IS_DEV ? 'assets/dev.ico' : 'assets/app.ico') :
@@ -42,14 +42,14 @@ export default (props: WindowProps) => {
     props.storage.set(produce(draft => {
       draft.window.width = width;
       draft.window.height = height;
-    })(props.storage.all()));
+    })(props.storage.get()));
   }, 100);
   const handleMove = debounce(() => {
     const [x, y] = window.getPosition();
     props.storage.set(produce(draft => {
       draft.window.x = x;
       draft.window.y = y;
-    })(props.storage.all()));
+    })(props.storage.get()));
   }, 100);
 
   window.once('ready-to-show', window.show);

@@ -26,7 +26,6 @@ export enum IpcRoute {
   Remove = 'remove',
   Rebuild = 'rebuild',
   Reindex = 'reindex',
-  All = 'all',
   Get = 'get',
   Set = 'set',
   Minimize = 'minimize',
@@ -54,9 +53,8 @@ export type IpcPayloadReceive = {
 
 /** Controller */
 export type IpcControllerStorage<T extends Shape> = {
-  [IpcRoute.Get]: (payload: keyof T) => Promise<T[keyof T]>
+  [IpcRoute.Get]: () => Promise<T>
   [IpcRoute.Set]: (payload: T) => Promise<T>
-  [IpcRoute.All]: () => Promise<T>
 };
 
 /** Renderer to main (one-way) */

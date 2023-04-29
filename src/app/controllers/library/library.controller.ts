@@ -54,10 +54,10 @@ export default (props: LibraryControllerProps) =>
         return props.library.rebuild();
       },
       rebuild: async () => {
-        const { folders } = props.storage.get('library');
+        const { library } = props.storage.get();
 
         props.db.songs.drop();
-        const files = await globs(folders, '**/*.mp3');
+        const files = await globs(library.folders, '**/*.mp3');
         await props.library.insert(files);
 
         return props.library.rebuild();

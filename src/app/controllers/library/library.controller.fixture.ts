@@ -7,6 +7,9 @@ import LeafDB from 'leaf-db';
 import path from 'path';
 
 import userShape from '../../../types/shapes/user.shape';
+import Library from '../../lib/library';
+import Logger from '../../lib/logger/logger';
+import Parser from '../../lib/parser';
 import Storage from '../../lib/storage/storage';
 
 import createLibraryController from './library.controller';
@@ -43,9 +46,18 @@ export default async () => {
   const sender = { send: () => { } } as any as Electron.WebContents;
   const controller = createLibraryController({
     db,
-    root: dir.covers,
-    analyzer,
-    storage
+    storage,
+    library: new Library({
+      db,
+      parser: new Parser({
+        analyzer,
+        storage,
+        logger: new Logger({
+          root: dir.covers
+        }),
+        root: dir.covers
+      })
+    })
   })(sender);
 
   const cleanup = () => fs.rmSync(root, { recursive: true, force: true });

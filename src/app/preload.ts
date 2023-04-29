@@ -66,12 +66,10 @@ const ipc: IpcApi = {
     close: send(IpcChannel.Window, IpcRoute.Close)
   },
   user: {
-    all: invoke(IpcChannel.User, IpcRoute.All),
     get: invoke(IpcChannel.User, IpcRoute.Get),
     set: invoke(IpcChannel.User, IpcRoute.Set)
   },
   theme: {
-    all: invoke(IpcChannel.Theme, IpcRoute.All),
     get: invoke(IpcChannel.Theme, IpcRoute.Get),
     set: invoke(IpcChannel.Theme, IpcRoute.Set)
   },

@@ -1,11 +1,13 @@
 import type { Album, Label, Song } from '../../types/library';
+import type { ParserEvents } from './parser';
+import type Parser from './parser';
+
 import LeafDB from 'leaf-db';
-import sharp from 'sharp';
-import path from 'path';
 import pMap from 'p-map';
-import group from '../../utils/collection/group';
-import Parser, { ParserEvents } from './parser';
+import sharp from 'sharp';
 import { TypedEmitter } from 'tiny-typed-emitter';
+
+import group from '../../utils/collection/group';
 
 export type LibraryOptions = {
   parser: Parser
@@ -14,7 +16,7 @@ export type LibraryOptions = {
     albums: LeafDB<Album>,
     labels: LeafDB<Label>
   }
-}
+};
 
 export type LibraryEvents = {
   insert: (event: { image: string, total: number }) => void
@@ -22,10 +24,10 @@ export type LibraryEvents = {
 };
 
 export default class Library extends TypedEmitter<LibraryEvents> {
-  private readonly _songs: LeafDB<Song>
-  private readonly _albums: LeafDB<Album>
-  private readonly _labels: LeafDB<Label>
-  private readonly _parser: Parser
+  private readonly _songs: LeafDB<Song>;
+  private readonly _albums: LeafDB<Album>;
+  private readonly _labels: LeafDB<Label>;
+  private readonly _parser: Parser;
 
   static groupAlbums(arr: Song[]): Album[] {
     return Object.entries(group(arr, 'album'))
@@ -51,7 +53,7 @@ export default class Library extends TypedEmitter<LibraryEvents> {
           cdid: songs[0].cdid,
           romaji: songs[0].romaji
         });
-      })
+      });
   }
 
   static groupLabels(arr: Album[]): Label[] {
@@ -76,7 +78,7 @@ export default class Library extends TypedEmitter<LibraryEvents> {
           romaji: {
             label: albums[0].romaji.label
           }
-        })
+        });
       });
   }
 
@@ -94,12 +96,12 @@ export default class Library extends TypedEmitter<LibraryEvents> {
   async insert(files: string[]) {
     const { songs, images } = await this._parser.parse(files);
     await pMap(images.entries(), ([b64, file]) => {
-      this.emit('insert', { image: file, total: images.size })
+      this.emit('insert', { image: file, total: images.size });
       return sharp(Buffer.from(b64, 'base64'))
         .jpeg({ progressive: true })
         .toFile(file);
     }, { concurrency: 32 });
-    
+
     await this._songs.insert(songs);
   }
 
@@ -111,9 +113,11 @@ export default class Library extends TypedEmitter<LibraryEvents> {
       this._albums.drop(),
       this._labels.drop()
     ]);
-    return Promise.all([
+    await Promise.all([
       this._albums.insert(albums),
       this._labels.insert(labels)
-    ]).then(([albums, labels]) => ({ songs, albums, labels }))
+    ]);
+
+    return ({ songs, albums, labels });
   }
 }
