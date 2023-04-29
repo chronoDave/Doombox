@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { click } from '../../utils';
+import { click } from '../../../../test/lib/dom/mouse';
 
 import fixture from './fixture';
 

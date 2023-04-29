@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import createFocusTrap from '../../utils/createFocusTrap';
 import cx from '../../utils/cx';
-import portal from '../../utils/portal';
+import portal from '../../utils/portal/portal';
 import Icon from '../icon/icon';
 
 import './modal.scss';

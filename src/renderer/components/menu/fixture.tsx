@@ -1,6 +1,6 @@
 import * as forgo from 'forgo';
 
-import Menu from '../../../../../src/renderer/components/menu/menu';
+import Menu from './menu';
 
 export default () => {
   forgo.mount([

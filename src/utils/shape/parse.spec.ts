@@ -1,8 +1,8 @@
-import type { Shape } from '../../../../src/types/primitives';
+import type { Shape } from '../../types/primitives';
 
 import test from 'tape';
 
-import parse from '../../../../src/utils/shape/parse';
+import parse from './parse';
 
 test('[shape.parse] returns null if shape is invalid', t => {
   t.equal(parse('undefined'), null, 'returns null');

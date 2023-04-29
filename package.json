@@ -10,7 +10,7 @@
   "private": true,
   "license": "GPL-3.0",
   "engines": {
-    "node": ">=12.10.0"
+    "node": ">=16.7.0"
   },
   "scripts": {
     "lint:es": "eslint src test",
@@ -19,16 +19,15 @@
     "lint": "npm run lint:ts && npm run lint:es",
     "start:webpack": "webpack --mode development -w",
     "start:electron": "nodemon --config .nodemon.json",
-    "build:test": "node test/build.js",
+    "build:test": "node scripts/tape.renderer.js && node scripts/tape.app.js",
     "build:webpack": "webpack --mode production",
     "build:app": "node scripts/esbuild.js",
     "build:electron": "electron-builder -p=never -c .electron.config.js",
     "build": "npm run build:app && npm run build:webpack && npm run build:electron",
-    "test:app": "npm run build:test && tape test/build/app/**/*.spec.js",
-    "test:lib": "npm run build:test && tape test/build/lib/**/*.spec.js",
-    "test:utils": "npm run build:test && tape test/build/utils/**/*.spec.js",
-    "test:renderer": "npm run build:test && tape test/build/renderer/**/*.spec.js",
-    "test": "npm run build:test && tape test/build/**/*.spec.js"
+    "test:app": "npm run build:test && tape build/test/app/**/*.spec.js",
+    "test:utils": "npm run build:test && tape build/test/utils/**/*.spec.js",
+    "test:renderer": "npm run build:test && tape build/test/renderer/**/*.spec.js",
+    "test": "npm run build:test && tape build/test/**/*.spec.js"
   },
   "devDependencies": {
     "@types/howler": "^2.2.7",

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import Logger from '../../../../src/app/lib/logger';
+import Logger from './logger';
 
 export default () => {
   const root = path.resolve(__dirname, '__logs');

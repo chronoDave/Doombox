@@ -1,8 +1,8 @@
 import test from 'tape';
 
-import clickAwayListener from '../../../../../src/renderer/utils/clickAwayListener';
-import { click } from '../../utils';
+import { click } from '../../../../test/lib/dom/mouse';
 
+import clickAwayListener from './clickAwayListener';
 import fixture from './fixture';
 
 test('[clickAwayListener] should fire event if clicked outside element', t => {

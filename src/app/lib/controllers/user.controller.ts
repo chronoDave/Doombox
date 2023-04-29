@@ -1,6 +1,6 @@
 import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
 import type { UserShape } from '../../../types/shapes/user.shape';
-import type Storage from '../storage';
+import type Storage from '../storage/storage';
 
 export type UserControllerProps = {
   storage: Storage<UserShape>

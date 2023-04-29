@@ -55,7 +55,7 @@ module.exports = {
     '!**/*',
     'LICENSE',
     'package.json',
-    { from: 'build' },
+    { from: 'build/app' },
     { from: 'node_modules/sharp/build', to: 'node_modules/sharp/build' },
     { from: 'node_modules/kuromoji/dict', to: 'dict' },
     ...crawlDeps('sharp')
@@ -73,7 +73,7 @@ module.exports = {
       { target: 'nsis', arch: 'x64' },
       { target: 'portable', arch: 'x64' }
     ],
-    icon: path.resolve(__dirname, 'build/assets/app.ico'),
+    icon: path.resolve(__dirname, 'build/app/assets/app.ico'),
     publisherName: 'Chronocide'
   },
 }

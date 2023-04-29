@@ -1,7 +1,7 @@
 import type { IpcInvokeController } from '../../../../types/ipc';
 import type { Album, Label, Song } from '../../../../types/library';
 import type { UserShape } from '../../../../types/shapes/user.shape';
-import type Storage from '../../storage';
+import type Storage from '../../storage/storage';
 import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
 

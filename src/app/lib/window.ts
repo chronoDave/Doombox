@@ -1,6 +1,6 @@
 import type { AppShape } from '../../types/shapes/app.shape';
-import type Logger from './logger';
-import type Storage from './storage';
+import type Logger from './logger/logger';
+import type Storage from './storage/storage';
 
 import { BrowserWindow, ipcMain } from 'electron';
 import produce from 'immer';

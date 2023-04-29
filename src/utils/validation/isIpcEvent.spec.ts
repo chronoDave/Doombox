@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import isIpcEvent from '../../../../src/utils/validation/isIpcEvent';
+import isIpcEvent from './isIpcEvent';
 
 test('[validation.isIpcEvent] should return true if ipcEvent', t => {
   t.true(isIpcEvent({ action: 'get', payload: {} }), 'ipcEvent');

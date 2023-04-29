@@ -1,6 +1,6 @@
 import * as forgo from 'forgo';
 
-import createClickAwayListener from './clickAwayListener';
+import createClickAwayListener from '../clickAwayListener/clickAwayListener';
 
 export type PortalOptions = {
   persistent?: boolean

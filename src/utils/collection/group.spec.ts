@@ -1,7 +1,8 @@
 import test from 'tape';
 
-import group from '../../../../src/utils/collection/group';
-import isObject from '../../../../src/utils/validation/isObject';
+import isObject from '../validation/isObject';
+
+import group from './group';
 
 test('[group] groups collection by key', t => {
   const collection = [

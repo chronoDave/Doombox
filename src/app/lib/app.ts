@@ -15,8 +15,8 @@ import createLibraryController from './controllers/library/library.controller';
 import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
-import Logger from './logger';
-import Storage from './storage';
+import Logger from './logger/logger';
+import Storage from './storage/storage';
 import createIpcRouter from './utils/createIpcRouter';
 import createWindow from './window';
 

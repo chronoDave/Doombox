@@ -22,6 +22,7 @@ module.exports = {
       }
     },
     'import/core-modules': [
+      'esbuild',
       'jsdom',
       'electron',
       'chokidar'

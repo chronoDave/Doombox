@@ -1,6 +1,6 @@
 const esbuild = require('esbuild');
-
-console.log(process.argv.slice(2)[0]);
+const fs = require('fs');
+const path = require('path');
 
 esbuild.context({
   entryPoints: [
@@ -12,11 +12,25 @@ esbuild.context({
     'sharp',
     'fs-events'
   ],
+  define: {
+    'process.env.NODE_ENV': '"production"'
+  },
   platform: 'node',
   bundle: true,
-  outdir: 'build',
+  outdir: 'build/app',
   outbase: 'src/app',
   plugins: [{
+    name: 'copy',
+    setup: build => {
+      build.onStart(() => {
+        const source = path.resolve(__dirname, '../src/app/assets');
+        const dest = path.resolve(__dirname, '../build/app/assets');
+
+        fs.rmSync(dest, { recursive: true, force: true });
+        fs.cpSync(source, dest, { recursive: true });
+      });
+    }
+  }, {
     name: 'logger',
     setup: build => {
       build.onStart(() => {

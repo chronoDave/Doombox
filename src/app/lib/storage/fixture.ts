@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-import Storage from '../../../../src/app/lib/storage';
-import appShape from '../../../../src/types/shapes/app.shape';
+import appShape from '../../../types/shapes/app.shape';
+
+import Storage from './storage';
 
 export default () => {
   const root = path.resolve(__dirname, '__storage');

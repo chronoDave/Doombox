@@ -1,10 +1,10 @@
-import type { Shape } from '../../types/primitives';
+import type { Shape } from '../../../types/primitives';
 
 import merge from 'deepmerge';
 import fs from 'fs';
 import path from 'path';
 
-import parse from '../../utils/shape/parse';
+import parse from '../../../utils/shape/parse';
 
 export type StorageProps<T> = {
   root: string

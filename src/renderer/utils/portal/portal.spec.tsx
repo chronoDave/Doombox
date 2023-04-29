@@ -1,9 +1,8 @@
 import * as forgo from 'forgo';
 import test from 'tape';
 
-import portal from '../../../../../src/renderer/utils/portal';
-
 import fixture from './fixture';
+import portal from './portal';
 
 test('[portal] should mount component', t => {
   const { cleanup } = fixture();

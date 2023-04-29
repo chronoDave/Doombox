@@ -9,7 +9,7 @@ module.exports = (env, argv) => [{
   devtool: 'cheap-source-map',
   entry: path.resolve(__dirname, 'src/renderer/index.tsx'),
   output: {
-    path: path.resolve(__dirname, 'build/renderer'),
+    path: path.resolve(__dirname, 'build/app/renderer'),
     globalObject: 'globalThis',
     filename: '[name].js',
     clean: true
@@ -74,10 +74,10 @@ module.exports = (env, argv) => [{
     new CopyPlugin({
       patterns: [{
         from: path.resolve(__dirname, 'src/renderer/index.html'),
-        to: path.resolve(__dirname, 'build/renderer/index.html')
+        to: path.resolve(__dirname, 'build/app/renderer/index.html')
       }, {
         from: path.resolve(__dirname, 'src/renderer/assets'),
-        to: path.resolve(__dirname, 'build/renderer'),
+        to: path.resolve(__dirname, 'build/app/renderer'),
         toType: 'dir'
       }]
     })

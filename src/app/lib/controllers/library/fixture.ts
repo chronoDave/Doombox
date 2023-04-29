@@ -1,4 +1,4 @@
-import type { Album, Label, Song } from '../../../../../src/types/library';
+import type { Album, Label, Song } from '../../../../types/library';
 
 import fs from 'fs';
 import Kuroshiro from 'kuroshiro';
@@ -6,9 +6,10 @@ import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji';
 import LeafDB from 'leaf-db';
 import path from 'path';
 
-import createLibraryController from '../../../../../src/app/lib/controllers/library/library.controller';
-import Storage from '../../../../../src/app/lib/storage';
-import userShape from '../../../../../src/types/shapes/user.shape';
+import userShape from '../../../../types/shapes/user.shape';
+import Storage from '../../storage/storage';
+
+import createLibraryController from './library.controller';
 
 export default async () => {
   const root = path.resolve(__dirname, '__data');
