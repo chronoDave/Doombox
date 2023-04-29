@@ -4,7 +4,7 @@ import path from 'path';
 
 import { IS_DEV } from '../utils/const';
 
-import run from './lib/app';
+import app from './lib/app';
 
 const userData = IS_DEV ?
   path.resolve(__dirname, '../data/userData') :
@@ -32,7 +32,7 @@ if (IS_DEV) {
 
 fs.mkdirSync(covers, { recursive: true });
 
-run({
+app({
   userData,
   appData,
   assets,

@@ -1,5 +1,5 @@
 import type { IpcRoute } from '../../../types/ipc';
-import type Logger from '../logger/logger';
+import type Logger from '../../lib/logger/logger';
 import type { IpcMainInvokeEvent, WebContents } from 'electron';
 
 import isIpcEvent from '../../../utils/validation/isIpcEvent';

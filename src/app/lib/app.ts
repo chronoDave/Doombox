@@ -9,15 +9,17 @@ import { IpcChannel } from '../../types/ipc';
 import appShape from '../../types/shapes/app.shape';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
+import createAppController from '../controllers/app.controller';
+import createLibraryController from '../controllers/library/library.controller';
+import createSearchController from '../controllers/search.controller';
+import createThemeController from '../controllers/theme.controller';
+import createUserController from '../controllers/user.controller';
+import createIpcRouter from '../utils/ipc/createIpcRouter';
 
-import createAppController from './controllers/app.controller';
-import createLibraryController from './controllers/library/library.controller';
-import createSearchController from './controllers/search.controller';
-import createThemeController from './controllers/theme.controller';
-import createUserController from './controllers/user.controller';
+import Library from './library';
 import Logger from './logger/logger';
+import Parser from './parser';
 import Storage from './storage/storage';
-import createIpcRouter from './utils/createIpcRouter';
 import createWindow from './window';
 
 export type AppRoot = {
@@ -49,9 +51,16 @@ export default async (root: AppRoot) => {
   const router = {
     library: createIpcRouter(createLibraryController({
       db,
-      root: root.covers,
-      analyzer,
-      storage: storage.user
+      storage: storage.user,
+      library: new Library({
+        db,
+        parser: new Parser({
+          root: root.covers,
+          analyzer,
+          storage: storage.user,
+          logger
+        })
+      })
     }))(logger),
     user: createIpcRouter(createUserController({
       storage: storage.user

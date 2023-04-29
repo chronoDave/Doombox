@@ -1,4 +1,4 @@
-import type { Album, Label, Song } from '../../../../types/library';
+import type { Album, Label, Song } from '../../../types/library';
 
 import fs from 'fs';
 import Kuroshiro from 'kuroshiro';
@@ -6,8 +6,8 @@ import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji';
 import LeafDB from 'leaf-db';
 import path from 'path';
 
-import userShape from '../../../../types/shapes/user.shape';
-import Storage from '../../storage/storage';
+import userShape from '../../../types/shapes/user.shape';
+import Storage from '../../lib/storage/storage';
 
 import createLibraryController from './library.controller';
 

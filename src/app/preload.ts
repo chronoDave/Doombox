@@ -57,6 +57,7 @@ const ipc: IpcApi = {
     add: invoke(IpcChannel.Library, IpcRoute.Add),
     remove: invoke(IpcChannel.Library, IpcRoute.Remove),
     rebuild: invoke(IpcChannel.Library, IpcRoute.Rebuild),
+    reindex: invoke(IpcChannel.Library, IpcRoute.Reindex),
     get: invoke(IpcChannel.Library, IpcRoute.Get)
   },
   window: {

@@ -25,6 +25,7 @@ export enum IpcRoute {
   Add = 'add',
   Remove = 'remove',
   Rebuild = 'rebuild',
+  Reindex = 'reindex',
   All = 'all',
   Get = 'get',
   Set = 'set',
@@ -82,10 +83,8 @@ export type IpcInvokeController = {
     [IpcRoute.Add]: (payload: string[]) => Promise<Library>
     [IpcRoute.Remove]: (payload: string[]) => Promise<Library>
     [IpcRoute.Get]: () => Promise<Library>
-    [IpcRoute.Rebuild]: (payload: {
-      folders: string[],
-      force?: boolean
-    }) => Promise<Library>
+    [IpcRoute.Reindex]: (folders: string[]) => Promise<Library>
+    [IpcRoute.Rebuild]: () => Promise<Library>
   }
 };
 

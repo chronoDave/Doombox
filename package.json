@@ -13,10 +13,10 @@
     "node": ">=16.7.0"
   },
   "scripts": {
-    "lint:es": "eslint src test",
-    "lint:ts": "tsc --noEmit",
-    "lint:fix": "eslint src test --fix",
-    "lint": "npm run lint:ts && npm run lint:es",
+    "lint:eslint": "eslint src test",
+    "lint:tsc": "tsc --noEmit",
+    "lint": "npm run lint:tsc && npm run lint:eslint",
+    "start:app": "node scripts/esbuild.js -w",
     "start:webpack": "webpack --mode development -w",
     "start:electron": "nodemon --config .nodemon.json",
     "build:test": "node scripts/tape.renderer.js && node scripts/tape.app.js",
@@ -73,6 +73,7 @@
     "lodash.get": "^4.4.2",
     "music-metadata": "^8.1.0",
     "p-map": "^5.5.0",
-    "sharp": "^0.30.7"
+    "sharp": "^0.30.7",
+    "tiny-typed-emitter": "^2.1.0"
   }
 }

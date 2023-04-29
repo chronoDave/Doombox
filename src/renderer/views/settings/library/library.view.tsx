@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import InputFolders from '../../../components/inputFolders/inputFolders';
-import { addFolders, rebuildLibrary, removeFolders } from '../../../state/actions/library.actions';
+import { addFolders, rebuildLibrary, reindexLibrary, removeFolders } from '../../../state/actions/library.actions';
 import store from '../../../state/store';
 import createSubscription from '../../../utils/subscribe';
 
@@ -23,11 +23,11 @@ const LibraryView: Component<LibraryViewProps> = () => {
             onadd={addFolders}
             onremove={removeFolders}
           />
+          <button type='button' onclick={() => reindexLibrary()}>
+            Reindex library
+          </button>
           <button type='button' onclick={() => rebuildLibrary()}>
             Rebuild library
-          </button>
-          <button type='button' onclick={() => rebuildLibrary(true)}>
-            Force rebuild library
           </button>
         </div>
       );

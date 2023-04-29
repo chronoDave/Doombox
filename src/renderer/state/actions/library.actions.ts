@@ -19,15 +19,26 @@ export const fetchLibrary = async () => {
   dispatchLibrary(library);
 };
 
-export const rebuildLibrary = async (force?: boolean) => {
+export const reindexLibrary = async () => {
+  store.dispatch(produce(draft => {
+    draft.app.scanning = true;
+  }), 'library.reindexLibrary');
+
+  const library = await window.ipc.library
+    .reindex(store.get().user.library.folders);
+
+  dispatchLibrary(library);
+  store.dispatch(produce(draft => {
+    draft.app.scanning = false;
+  }), 'library.reindexLibrary');
+};
+
+export const rebuildLibrary = async () => {
   store.dispatch(produce(draft => {
     draft.app.scanning = true;
   }), 'library.rebuildLibrary');
 
-  const library = await window.ipc.library.rebuild({
-    folders: store.get().user.library.folders,
-    force
-  });
+  const library = await window.ipc.library.rebuild();
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
@@ -65,9 +76,7 @@ export const removeFolders = async (folders: string[]) => {
     draft.user.library.folders = user.library.folders;
   }), 'library.removeFolders');
 
-  const library = await window.ipc.library.rebuild({
-    folders: user.library.folders
-  });
+  const library = await window.ipc.library.rebuild();
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {

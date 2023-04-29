@@ -1,5 +1,5 @@
-import type { IpcChannel, IpcInvokeController } from '../../../types/ipc';
-import type { Label, Song } from '../../../types/library';
+import type { IpcChannel, IpcInvokeController } from '../../types/ipc';
+import type { Label, Song } from '../../types/library';
 import type LeafDB from 'leaf-db';
 
 export type SongControllerProps = {

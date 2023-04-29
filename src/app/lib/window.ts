@@ -8,10 +8,9 @@ import path from 'path';
 
 import { IpcChannel } from '../../types/ipc';
 import { IS_DEV } from '../../utils/const';
-
-import createWindowController from './controllers/window.controller';
-import createIpcRouter from './utils/createIpcRouter';
-import debounce from './utils/debounce';
+import createWindowController from '../controllers/window.controller';
+import debounce from '../utils/debounce';
+import createIpcRouter from '../utils/ipc/createIpcRouter';
 
 export type WindowProps = {
   storage: Storage<AppShape>,
