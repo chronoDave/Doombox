@@ -7,19 +7,19 @@ import { IS_DEV } from '../utils/const';
 import app from './lib/app';
 
 const userData = IS_DEV ?
-  path.resolve(__dirname, '../data/userData') :
+  path.resolve(__dirname, '../../data/userData') :
   electron.getPath('userData');
 const appData = IS_DEV ?
-  path.resolve(__dirname, '../data/appData') :
+  path.resolve(__dirname, '../../data/appData') :
   electron.getPath('appData');
 const assets = IS_DEV ?
-  path.resolve(__dirname, '../build/assets') :
+  path.resolve(__dirname, './assets') :
   path.resolve(electron.getAppPath(), 'assets');
 const logs = IS_DEV ?
-  path.resolve(__dirname, '../data/logs') :
+  path.resolve(__dirname, '../../data/logs') :
   electron.getPath('logs');
 const dict = IS_DEV ?
-  path.resolve(__dirname, '../node_modules/kuromoji/dict') :
+  path.resolve(__dirname, '../../node_modules/kuromoji/dict') :
   path.resolve(electron.getAppPath(), 'dict');
 const covers = path.resolve(appData, 'covers');
 
