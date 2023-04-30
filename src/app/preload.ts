@@ -75,6 +75,10 @@ const ipc: IpcApi = {
     get: invoke(IpcChannel.Theme, IpcRoute.Get),
     set: invoke(IpcChannel.Theme, IpcRoute.Set)
   },
+  cache: {
+    get: invoke(IpcChannel.Cache, IpcRoute.Get),
+    set: invoke(IpcChannel.Cache, IpcRoute.Set)
+  },
   on: {
     scan: receive(IpcChannel.Scan)
   }

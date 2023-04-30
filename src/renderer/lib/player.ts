@@ -3,7 +3,7 @@ import type Store from './store';
 
 import produce from 'immer';
 
-import appShape from '../../types/shapes/app.shape';
+import rendererShape from '../../types/shapes/renderer.shape';
 import clamp from '../../utils/number/clamp';
 import { getSong } from '../selectors/song.selector';
 
@@ -33,7 +33,7 @@ export default class Player<S extends Store<State>> {
     this._store = store;
     this._audio = new Audio({
       ...store.get().user.player,
-      ...appShape.player
+      ...rendererShape.player
     })
       .on('status', status => {
         this._store.dispatch(produce(draft => {

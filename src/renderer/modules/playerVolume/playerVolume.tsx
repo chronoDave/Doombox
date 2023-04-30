@@ -4,9 +4,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import player from '../../state/player';
-import store from '../../state/store';
 import { createPopup } from '../../components/popup/popup';
+import player from '../../state/player';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 import VolumeSlider from '../volumeSlider/volumeSlider';
@@ -32,7 +31,6 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
         <button
           type='button'
           class='PlayerVolume'
-          // onclick={() => player.mute()}
           onclick={event => {
             event.stopPropagation();
 

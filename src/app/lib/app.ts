@@ -7,10 +7,12 @@ import LeafDB from 'leaf-db';
 
 import { IpcChannel } from '../../types/ipc';
 import appShape from '../../types/shapes/app.shape';
+import rendererShape from '../../types/shapes/renderer.shape';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 import createAppController from '../controllers/app.controller';
 import createLibraryController from '../controllers/library/library.controller';
+import createRendererController from '../controllers/renderer.controller';
 import createSearchController from '../controllers/search.controller';
 import createThemeController from '../controllers/theme.controller';
 import createUserController from '../controllers/user.controller';
@@ -48,7 +50,8 @@ export default async (root: AppRoot) => {
   const storage = {
     app: new Storage({ name: 'app', shape: appShape, root: root.appData }),
     theme: new Storage({ name: 'theme', shape: themeShape, root: root.userData }),
-    user: new Storage({ name: 'user', shape: userShape, root: root.userData })
+    user: new Storage({ name: 'user', shape: userShape, root: root.userData }),
+    renderer: new Storage({ name: 'renderer', shape: rendererShape, root: root.userData })
   };
   const router = {
     library: createIpcRouter(createLibraryController({
@@ -69,6 +72,9 @@ export default async (root: AppRoot) => {
     theme: createIpcRouter(createThemeController({
       storage: storage.theme
     }))(logger),
+    renderer: createIpcRouter(createRendererController({
+      storage: storage.renderer
+    }))(logger),
     app: createIpcRouter(createAppController({ root: root.covers }))(logger),
     search: createIpcRouter(createSearchController({ db }))(logger)
   };
@@ -81,6 +87,7 @@ export default async (root: AppRoot) => {
   ipcMain.handle(IpcChannel.App, router.app);
   ipcMain.handle(IpcChannel.User, router.user);
   ipcMain.handle(IpcChannel.Theme, router.theme);
+  ipcMain.handle(IpcChannel.Cache, router.renderer);
   ipcMain.handle(IpcChannel.Library, router.library);
   ipcMain.handle(IpcChannel.Search, router.search);
 

@@ -5,6 +5,7 @@ import type {
   Song
 } from './library';
 import type { Shape } from './primitives';
+import type { RendererShape } from './shapes/renderer.shape';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
 import type { IpcMainInvokeEvent } from 'electron';
@@ -16,6 +17,7 @@ export enum IpcChannel {
   App = 'app',
   User = 'user',
   Theme = 'theme',
+  Cache = 'cache',
   Window = 'window',
   Library = 'library',
   Scan = 'scan',
@@ -85,6 +87,7 @@ export type IpcInvokeController = {
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
+  [IpcChannel.Cache]: IpcControllerStorage<RendererShape>,
   [IpcChannel.Library]: {
     [IpcRoute.Add]: (payload: string[]) => Promise<Library>
     [IpcRoute.Remove]: (payload: string[]) => Promise<Library>

@@ -5,6 +5,7 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import Slider from '../../components/slider/slider';
+import { setMuted, setVolume } from '../../state/actions/player.actions';
 import player from '../../state/player';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
@@ -26,7 +27,7 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
 
       return (
         <div class='VolumeSlider'>
-          <button type='button' onclick={() => player.mute()}>
+          <button type='button' onclick={() => setMuted()}>
             <Icon id={getIcon()} />
           </button>
           <Slider
@@ -34,7 +35,7 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
             max={100}
             value={player.volume}
             step={1}
-            onchange={volume => player.setVolume(volume)}
+            onchange={volume => setVolume(volume)}
           />
           <span>{Math.round(player.volume)}</span>
         </div>
