@@ -2,6 +2,8 @@ const esbuild = require('esbuild');
 const fs = require('fs');
 const path = require('path');
 
+const isWatch = process.argv.slice(2)[0] === '-w';
+
 esbuild.context({
   entryPoints: [
     { in: 'src/app/index.ts', out: 'app' },
@@ -13,7 +15,9 @@ esbuild.context({
     'fs-events'
   ],
   define: {
-    'process.env.NODE_ENV': '"production"'
+    'process.env.NODE_ENV': isWatch ?
+      '"development"' :
+      '"production"'
   },
   platform: 'node',
   bundle: true,
@@ -44,7 +48,7 @@ esbuild.context({
   }]
 })
   .then(async context => {
-    if (process.argv.slice(2)[0] === '-w') return context.watch();
+    if (isWatch) return context.watch();
 
     await context.rebuild();
     return context.dispose();
