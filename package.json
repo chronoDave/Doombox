@@ -17,7 +17,7 @@
     "lint:tsc": "tsc --noEmit",
     "lint": "npm run lint:tsc && npm run lint:eslint",
     "start:app": "node scripts/esbuild.js -w",
-    "start:webpack": "webpack --mode development -w",
+    "start:renderer": "webpack --mode development -w",
     "start:electron": "nodemon --config .nodemon.json",
     "build:test": "node scripts/tape.renderer.js && node scripts/tape.app.js",
     "build:webpack": "webpack --mode production",

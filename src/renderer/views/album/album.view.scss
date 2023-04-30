@@ -1,0 +1,9 @@
+.AlbumView {
+  display: flex;
+  flex-direction: column;
+
+  > .VirtualGrid > ul > li > button {
+    flex-direction: column;
+    width: 100%;
+  }
+}

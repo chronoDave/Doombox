@@ -48,6 +48,7 @@ const receive = <T extends keyof IpcReceiveController>(channel: T) =>
 const ipc: IpcApi = {
   search: {
     song: invoke(IpcChannel.Search, IpcRoute.Song),
+    album: invoke(IpcChannel.Search, IpcRoute.Album),
     label: invoke(IpcChannel.Search, IpcRoute.Label)
   },
   app: {

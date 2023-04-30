@@ -1,4 +1,9 @@
-import type { Label, Library, Song } from './library';
+import type {
+  Album,
+  Label,
+  Library,
+  Song
+} from './library';
 import type { Shape } from './primitives';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
@@ -70,11 +75,12 @@ export type IpcSendController = {
 /** Renderer to main (two-way) */
 export type IpcInvokeController = {
   [IpcChannel.App]: {
-    [IpcRoute.SelectFolders]: () => Promise<string[]>,
+    [IpcRoute.SelectFolders]: () => Promise<string[]>
     [IpcRoute.GetImagePath]: () => Promise<string>
   }
   [IpcChannel.Search]: {
-    [IpcRoute.Song]: (payload: Query) => Promise<Song[]>,
+    [IpcRoute.Song]: (payload: Query) => Promise<Song[]>
+    [IpcRoute.Album]: (payload: Query) => Promise<Album[]>
     [IpcRoute.Label]: (payload: Query) => Promise<Label[]>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>

@@ -29,6 +29,32 @@ export const searchSongs = async (query: string) => {
   }
 };
 
+export const searchAlbums = async (query: string) => {
+  if (query === '') {
+    store.dispatch(produce(draft => {
+      draft.search.albums = null;
+    }), 'search.searchAlbums');
+  } else {
+    const albums = await window.ipc.search.album({
+      $string: {
+        title: query
+      }
+    });
+
+    store.dispatch(produce(draft => {
+      draft.search.albums = albums
+        .map(album => ({
+          album,
+          distance: album.album ?
+            levenshteinDistance(album.album, query) :
+            Number.MAX_SAFE_INTEGER
+        }))
+        .sort((a, b) => a.distance - b.distance)
+        .map(({ album }) => album._id);
+    }), 'search.searchAlbums');
+  }
+};
+
 export const searchLabels = async (query: string) => {
   if (query === '') {
     store.dispatch(produce(draft => {
