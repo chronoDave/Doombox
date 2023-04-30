@@ -35,8 +35,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
           <VirtualGrid
             list={albums}
             item={{
-              width: 128,
-              height: 128,
+              width: 64,
               render: id => {
                 const album = getAlbum(store)(id);
 
@@ -46,14 +45,20 @@ const AlbumView: Component<AlbumViewProps> = () => {
                     type='button'
                     onclick={() => addToPlaylist(album.songs)}
                   >
-                    <ImageBlur src={getCover(store)(album.image)} alt='' padding={4} />
-                    <div class='metadata'>
+                    <img
+                      loading="lazy"
+                      src={getCover(store)(album.image)}
+                      alt=''
+                      width={64}
+                      height={64}
+                    />
+                    {/* <div class='metadata'>
                       <p>{album.romaji.album ?? album.album}</p>
                       <p>{album.romaji.albumartist ?? album.albumartist}</p>
                     </div>
                     <div class='duration'>
                       <p>{toMinSec(album.duration ?? 0)}</p>
-                    </div>
+                    </div> */}
                   </button>
                 );
               }

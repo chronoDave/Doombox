@@ -9,7 +9,7 @@ export type VirtualGridProps<T> = {
   list: T[]
   item: {
     width: number
-    height: number
+    height?: number
     render: (data: T, index: number) => forgo.Component | forgo.Component[]
   }
 };
@@ -80,6 +80,8 @@ const VirtualGrid = <T extends any>(
     }, { passive: true, signal });
 
     ref.value?.addEventListener('scroll', update, { passive: true, signal });
+
+    update();
   });
 
   component.unmount(() => {

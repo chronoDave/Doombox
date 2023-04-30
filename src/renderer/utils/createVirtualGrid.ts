@@ -26,7 +26,7 @@ export type VirtualGridOptions<T> = {
   }
   item: {
     width: number
-    height: number
+    height?: number
   }
 };
 
@@ -34,6 +34,7 @@ const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> =>
   const rows = Math.max(1, Math.floor(options.container.width / options.item.width));
   const cells = fill<Cell<T>>(options.data.length, (i, arr) => {
     const row = i % rows;
+    const width = options.container.width / rows;
 
     return ({
       data: options.data[i],
@@ -42,9 +43,9 @@ const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> =>
         top: i > rows - 1 ?
           arr[i - 1 - row].position.top + arr[i - 1 - row].position.height :
           0,
-        height: options.item.height,
         left: row * (options.container.width / rows),
-        width: options.container.width / rows
+        height: options.item.height ?? width,
+        width
       }
     });
   });
