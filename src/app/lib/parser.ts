@@ -95,13 +95,13 @@ export default class Parser extends TypedEmitter<ParserEvents> {
   async parse(files: string[]): Promise<ParserResult> {
     const images = new Map<string, string>();
     const songs = await pMap(files, async file => {
-      this.emit('parse', { file, total: files.length });
-
       const song = await this._parseFile(file);
       if (song.image) {
         if (!images.has(song.image)) images.set(song.image, LeafDB.generateId());
         song.image = images.get(song.image) ?? null;
       }
+
+      this.emit('parse', { file, total: files.length });
 
       return song;
     }, { concurrency: 64 });

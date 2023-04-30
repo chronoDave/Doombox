@@ -6,6 +6,8 @@ import type Storage from '../../lib/storage/storage';
 import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
 
+import fs from 'fs';
+
 import { IpcChannel } from '../../../types/ipc';
 import difference from '../../../utils/array/difference';
 import globs from '../../../utils/collection/globs';
@@ -14,6 +16,11 @@ import ipcSend from '../../utils/ipc/ipcSend';
 export type LibraryControllerProps = {
   library: Library
   storage: Storage<UserShape>
+  root: {
+    root: string
+    thumb: string
+    original: string
+  }
   db: {
     songs: LeafDB<Song>,
     albums: LeafDB<Album>,
@@ -57,6 +64,9 @@ export default (props: LibraryControllerProps) =>
         const { library } = props.storage.get();
 
         props.db.songs.drop();
+        fs.rmSync(props.root.root, { recursive: true, force: true });
+        fs.mkdirSync(props.root.original, { recursive: true });
+        fs.mkdirSync(props.root.thumb, { recursive: true });
         const files = await globs(library.folders, '**/*.mp3');
         await props.library.insert(files);
 

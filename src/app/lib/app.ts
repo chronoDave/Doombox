@@ -31,6 +31,7 @@ export type AppRoot = {
   logs: string
   dict: string
   covers: {
+    root: string
     thumb: string
     original: string
   }
@@ -57,6 +58,7 @@ export default async (root: AppRoot) => {
     library: createIpcRouter(createLibraryController({
       db,
       storage: storage.user,
+      root: root.covers,
       library: new Library({
         db,
         root: root.covers,

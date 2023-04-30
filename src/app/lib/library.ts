@@ -1,6 +1,6 @@
-import type { Album, Label, Song } from '../../types/library';
 import type { ParserEvents } from './parser';
 import type Parser from './parser';
+import type { Album, Label, Song } from '../../types/library';
 
 import LeafDB from 'leaf-db';
 import pMap from 'p-map';
@@ -8,6 +8,7 @@ import path from 'path';
 import sharp from 'sharp';
 import { TypedEmitter } from 'tiny-typed-emitter';
 
+import sum from '../../utils/array/sum';
 import group from '../../utils/collection/group';
 
 export type LibraryOptions = {
@@ -40,55 +41,53 @@ export default class Library extends TypedEmitter<LibraryEvents> {
 
   static groupAlbums(arr: Song[]): Album[] {
     return Object.entries(group(arr, 'album'))
-      .map(([album, songs]) => {
-        const { duration, ids } = songs
-          .reduce<{ duration: number, ids: string[] }>((acc, cur) => {
-            acc.ids.push(cur._id);
-            acc.duration += (cur.duration ?? 0);
+      .map(([album, songs]) => ({
+        _id: LeafDB.generateId(),
+        image: songs[0].image,
+        songs: songs
+          .sort((a, b) => {
+            if (a.disc.no === b.disc.no) {
+              return (
+                (a.track.no ?? Number.MAX_SAFE_INTEGER) -
+                (b.track.no ?? Number.MAX_SAFE_INTEGER)
+              );
+            }
 
-            return acc;
-          }, { duration: 0, ids: [] });
-
-        return ({
-          _id: LeafDB.generateId(),
-          image: songs[0].image,
-          songs: ids,
-          duration,
-          albumartist: songs[0].albumartist,
-          album,
-          label: songs[0].label,
-          date: songs[0].date,
-          year: songs[0].year,
-          cdid: songs[0].cdid,
-          romaji: songs[0].romaji
-        });
-      });
+            return (
+              (a.disc.no ?? Number.MAX_SAFE_INTEGER) -
+              (b.disc.no ?? Number.MAX_SAFE_INTEGER)
+            );
+          })
+          .map(song => song._id),
+        duration: sum(songs, song => song.duration ?? 0),
+        albumartist: songs[0].albumartist,
+        album,
+        label: songs[0].label,
+        date: songs[0].date,
+        year: songs[0].year,
+        cdid: songs[0].cdid,
+        romaji: songs[0].romaji
+      }));
   }
 
   static groupLabels(arr: Album[]): Label[] {
     return Object.entries(group(arr, 'label'))
-      .map(([label, albums]) => {
-        const { duration, ids } = albums
-          .reduce<{ duration: number, ids: string[] }>((acc, cur) => {
-            acc.ids.push(cur._id);
-            acc.duration += (cur.duration ?? 0);
-
-            return acc;
-          }, { duration: 0, ids: [] });
-
-        return ({
-          _id: LeafDB.generateId(),
-          albums: ids,
-          songs: albums
-            .map(album => album.songs)
-            .flat(),
-          label,
-          duration,
-          romaji: {
-            label: albums[0].romaji.label
-          }
-        });
-      });
+      .map(([label, albums]) => ({
+        _id: LeafDB.generateId(),
+        albums: albums.map(album => album._id),
+        songs: albums
+          .sort((a, b) => (
+            (b.year ?? Number.MAX_SAFE_INTEGER) -
+            (a.year ?? Number.MAX_SAFE_INTEGER)
+          ))
+          .map(album => album.songs)
+          .flat(),
+        label,
+        duration: sum(albums, album => album.duration ?? 0),
+        romaji: {
+          label: albums[0].romaji.label
+        }
+      }));
   }
 
   constructor(options: LibraryOptions) {
@@ -105,11 +104,9 @@ export default class Library extends TypedEmitter<LibraryEvents> {
 
   async insert(files: string[]) {
     const { songs, images } = await this._parser.parse(files);
-    await pMap(images.entries(), ([b64, id]) => {
+    await pMap(images.entries(), async ([b64, id]) => {
       const file = `${id}.jpg`;
-      this.emit('insert', { image: file, total: images.size });
-
-      return Promise.all([
+      await Promise.all([
         sharp(Buffer.from(b64, 'base64'))
           .jpeg({ progressive: true })
           .toFile(path.join(this._root.original, file)),
@@ -118,6 +115,8 @@ export default class Library extends TypedEmitter<LibraryEvents> {
           .resize(164, 164)
           .toFile(path.join(this._root.thumb, file))
       ]);
+
+      this.emit('insert', { image: file, total: images.size });
     }, { concurrency: 32 });
 
     await this._songs.insert(songs);
