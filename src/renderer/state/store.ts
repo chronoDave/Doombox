@@ -1,18 +1,19 @@
 import type { State } from '../types/state';
 
-import appShape from '../../types/shapes/app.shape';
+import rendererShape from '../../types/shapes/renderer.shape';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
+import { AppView, SettingsView } from '../../types/views';
 import { AudioStatus } from '../lib/audio';
 import Store from '../lib/store';
-import { AppView, SettingsView } from '../types/view';
 
 export default new Store<State>({
   app: {
     ready: false,
     scanning: false,
     path: {
-      image: ''
+      cover: '',
+      thumb: ''
     }
   },
   playlist: {
@@ -21,7 +22,7 @@ export default new Store<State>({
   },
   player: {
     ...userShape.player,
-    ...appShape.player,
+    ...rendererShape.player,
     current: {
       position: 0,
       duration: 0

@@ -3,6 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import { AppView } from '../../../types/views';
 import Icon from '../../components/icon/icon';
 import { fetchPaths, setReady } from '../../state/actions/app.actions';
 import { fetchCache } from '../../state/actions/cache.actions';
@@ -11,7 +12,6 @@ import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
 import { setViewApp } from '../../state/actions/view.actions';
 import store from '../../state/store';
-import { AppView } from '../../types/view';
 import cx from '../../utils/cx';
 import createSubscription from '../../utils/subscribe';
 import AlbumView from '../../views/album/album.view';

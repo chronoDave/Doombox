@@ -1,8 +1,8 @@
 import type { Album, Label, Song } from '../../types/library';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
+import type { AppView, SettingsView } from '../../types/views';
 import type { AudioStatus } from '../lib/audio';
-import type { AppView, SettingsView } from './view';
 
 export type State = {
   app: {

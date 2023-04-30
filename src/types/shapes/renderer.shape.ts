@@ -1,7 +1,10 @@
 import type { Constrain } from '../helpers';
 import type { Json } from '../primitives';
 
+import { AppView } from '../views';
+
 export type RendererShape = Constrain<Json, {
+  tab: AppView,
   player: {
     volume: number,
     muted: boolean
@@ -9,6 +12,7 @@ export type RendererShape = Constrain<Json, {
 }>;
 
 const rendererShape: Readonly<RendererShape> = {
+  tab: AppView.Player,
   player: {
     volume: 1,
     muted: false
