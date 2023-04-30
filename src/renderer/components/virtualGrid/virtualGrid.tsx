@@ -7,9 +7,8 @@ import './virtualGrid.scss';
 
 export type VirtualGridProps<T> = {
   list: T[]
-  overflow: number
-  rows: number
   item: {
+    width: number
     height: number
     render: (data: T, index: number) => forgo.Component | forgo.Component[]
   }
@@ -26,15 +25,14 @@ const VirtualGrid = <T extends any>(
     render(props) {
       const grid = createVirtualGrid({
         data: props.list,
-        overflow: props.overflow,
-        rows: props.rows,
         scroll: ref.value?.scrollTop ?? 0,
-        width: {
-          container: ref.value?.clientWidth ?? 0
+        container: {
+          width: ref.value?.clientWidth ?? 0,
+          height: ref.value?.clientHeight ?? 0
         },
-        height: {
-          item: props.item.height,
-          container: ref.value?.clientHeight ?? 0
+        item: {
+          width: props.item.width,
+          height: props.item.height
         }
       });
 

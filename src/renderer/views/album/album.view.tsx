@@ -3,9 +3,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { toMinSec } from '../../../utils/string/formatTime';
+import ImageBlur from '../../components/imageBlur/imageBlur';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import { getAlbum, getAlbums } from '../../selectors/album.selector';
+import { getCover } from '../../selectors/song.selector';
 import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchAlbums } from '../../state/actions/search.actions';
 import store from '../../state/store';
@@ -32,10 +34,9 @@ const AlbumView: Component<AlbumViewProps> = () => {
           <p>{albums.length} albums</p>
           <VirtualGrid
             list={albums}
-            rows={3}
-            overflow={3}
             item={{
-              height: 64,
+              width: 128,
+              height: 128,
               render: id => {
                 const album = getAlbum(store)(id);
 
@@ -45,8 +46,10 @@ const AlbumView: Component<AlbumViewProps> = () => {
                     type='button'
                     onclick={() => addToPlaylist(album.songs)}
                   >
+                    <ImageBlur src={getCover(store)(album.image)} alt='' padding={4} />
                     <div class='metadata'>
-                      <p>{album.romaji.label ?? album.label}</p>
+                      <p>{album.romaji.album ?? album.album}</p>
+                      <p>{album.romaji.albumartist ?? album.albumartist}</p>
                     </div>
                     <div class='duration'>
                       <p>{toMinSec(album.duration ?? 0)}</p>

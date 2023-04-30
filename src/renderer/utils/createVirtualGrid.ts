@@ -1,4 +1,4 @@
-import { binarySearchRight } from '../../utils/array/binarySearch';
+import { binarySearchLeft } from '../../utils/array/binarySearch';
 import fill from '../../utils/array/fill';
 
 export type Cell<T> = {
@@ -19,54 +19,54 @@ export type VirtualGrid<T> = {
 
 export type VirtualGridOptions<T> = {
   data: T[],
-  overflow: number
   scroll: number
-  rows: number
-  width: {
-    container: number
+  container: {
+    width: number
+    height: number
   }
-  height: {
-    item: number
-    container: number
+  item: {
+    width: number
+    height: number
   }
 };
 
 const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> => {
+  const rows = Math.max(1, Math.floor(options.container.width / options.item.width));
   const cells = fill<Cell<T>>(options.data.length, (i, arr) => {
-    const row = i % options.rows;
+    const row = i % rows;
 
     return ({
       data: options.data[i],
       index: i,
       position: {
-        top: i > options.rows - 1 ?
+        top: i > rows - 1 ?
           arr[i - 1 - row].position.top + arr[i - 1 - row].position.height :
           0,
-        height: options.height.item,
-        left: row * (options.width.container / options.rows),
-        width: options.width.container / options.rows
+        height: options.item.height,
+        left: row * (options.container.width / rows),
+        width: options.container.width / rows
       }
     });
   });
 
-  const min = binarySearchRight(
+  const min = binarySearchLeft(
     cells,
     options.scroll,
     cell => cell.position.top
-  ) + 1;
-  const max = binarySearchRight(
+  );
+  const max = binarySearchLeft(
     cells,
-    options.scroll + options.height.container,
+    options.scroll + options.container.height,
     cell => cell.position.top
-  ) + 1;
+  );
 
   return ({
     height: cells[cells.length - 1]?.position.top ?? 0,
     cells: cells.slice(
-      Math.max(0, min - options.overflow),
+      Math.max(0, min - rows),
       Math.min(cells.length - 1, max === -1 ?
         cells.length :
-        max + options.overflow)
+        max + rows)
     )
   });
 };
