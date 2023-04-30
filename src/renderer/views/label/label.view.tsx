@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { toMinSec } from '../../../utils/string/formatTime';
+import { toHourMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
 import { getLabel, getLabels } from '../../selectors/label.selector';
@@ -48,7 +48,7 @@ const LabelView: Component<LabelViewProps> = () => {
                       <p>{label.romaji.label ?? label.label}</p>
                     </div>
                     <div class='duration'>
-                      <p>{toMinSec(label.duration ?? 0)}</p>
+                      <p>{toHourMinSec(label.duration ?? 0)}</p>
                     </div>
                   </button>
                 );

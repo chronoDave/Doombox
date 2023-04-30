@@ -30,8 +30,8 @@ export default class Audio extends EventEmitter<AudioEvents> {
   private _interval?: number;
 
   set volume(volume: number) {
-    this._volume = volume;
-    if (this._howl) this._howl.volume(this._volume / 100);
+    this._volume = volume / 100;
+    if (this._howl) this._howl.volume(this._volume);
   }
 
   set autoplay(autoplay: boolean) {
@@ -78,8 +78,7 @@ export default class Audio extends EventEmitter<AudioEvents> {
         if (this._interval) window.clearInterval(this._interval);
 
         this._emit('status', AudioStatus.Ended);
-      },
-      onmute: () => this._emit('mute', this._muted)
+      }
     });
   }
 
@@ -99,6 +98,7 @@ export default class Audio extends EventEmitter<AudioEvents> {
   mute(muted?: boolean) {
     this._muted = muted ?? !this._muted;
     this._howl?.mute(this._muted);
+    this._emit('mute', this._muted);
   }
 
   seek(pos: number) {

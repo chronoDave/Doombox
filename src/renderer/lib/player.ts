@@ -102,6 +102,7 @@ export default class Player<S extends Store<State>> {
 
   next() {
     const { player, playlist } = this._store.get();
+    if (playlist.songs.length === 0) return;
 
     let next = playlist.index + 1;
     if (next === playlist.songs.length) next = player.loop ? 0 : playlist.songs.length - 1;
@@ -111,6 +112,7 @@ export default class Player<S extends Store<State>> {
 
   previous() {
     const { player, playlist } = this._store.get();
+    if (playlist.songs.length === 0) return;
 
     let previous = playlist.index - 1;
     if (previous < 0) previous = player.loop ? playlist.songs.length - 1 : 0;
