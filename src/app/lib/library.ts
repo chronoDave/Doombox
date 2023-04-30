@@ -12,7 +12,10 @@ import group from '../../utils/collection/group';
 
 export type LibraryOptions = {
   parser: Parser
-  root: string
+  root: {
+    original: string
+    thumb: string
+  }
   db: {
     songs: LeafDB<Song>,
     albums: LeafDB<Album>,
@@ -30,7 +33,10 @@ export default class Library extends TypedEmitter<LibraryEvents> {
   private readonly _albums: LeafDB<Album>;
   private readonly _labels: LeafDB<Label>;
   private readonly _parser: Parser;
-  private readonly _root: string;
+  private readonly _root: {
+    original: string
+    thumb: string
+  };
 
   static groupAlbums(arr: Song[]): Album[] {
     return Object.entries(group(arr, 'album'))
@@ -100,11 +106,18 @@ export default class Library extends TypedEmitter<LibraryEvents> {
   async insert(files: string[]) {
     const { songs, images } = await this._parser.parse(files);
     await pMap(images.entries(), ([b64, id]) => {
-      const file = path.join(this._root, `${id}.jpg`);
+      const file = `${id}.jpg`;
       this.emit('insert', { image: file, total: images.size });
-      return sharp(Buffer.from(b64, 'base64'))
-        .jpeg({ progressive: true })
-        .toFile(file);
+
+      return Promise.all([
+        sharp(Buffer.from(b64, 'base64'))
+          .jpeg({ progressive: true })
+          .toFile(path.join(this._root.original, file)),
+        sharp(Buffer.from(b64, 'base64'))
+          .jpeg({ progressive: true })
+          .resize(164, 164)
+          .toFile(path.join(this._root.thumb, file))
+      ]);
     }, { concurrency: 32 });
 
     await this._songs.insert(songs);

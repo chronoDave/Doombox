@@ -21,7 +21,8 @@ const logs = IS_DEV ?
 const dict = IS_DEV ?
   path.resolve(__dirname, '../../node_modules/kuromoji/dict') :
   path.resolve(electron.getAppPath(), 'dict');
-const covers = path.resolve(appData, 'covers');
+const thumb = path.resolve(appData, 'covers/thumb');
+const original = path.resolve(appData, 'covers/original');
 
 if (IS_DEV) {
   fs.mkdirSync(userData, { recursive: true });
@@ -30,7 +31,8 @@ if (IS_DEV) {
   fs.mkdirSync(logs, { recursive: true });
 }
 
-fs.mkdirSync(covers, { recursive: true });
+fs.mkdirSync(thumb, { recursive: true });
+fs.mkdirSync(original, { recursive: true });
 
 app({
   userData,
@@ -38,5 +40,8 @@ app({
   assets,
   logs,
   dict,
-  covers
+  covers: {
+    thumb,
+    original
+  }
 });

@@ -9,7 +9,8 @@ export type State = {
     ready: boolean
     scanning: boolean
     path: {
-      image: string
+      cover: string
+      thumb: string
     }
   }
   player: {

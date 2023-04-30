@@ -12,5 +12,10 @@ export const getSong = (store: Store<State>) => (id: string) => {
 
 export const getCover = (store: Store<State>) =>
   (id: string | null) => id ?
-    new URL(`${id}.jpg`, `${store.get().app.path.image}/`).href :
+    new URL(`${id}.jpg`, `${store.get().app.path.cover}/`).href :
+    'icons/icon_light.png';
+
+export const getThumb = (store: Store<State>) =>
+  (id: string | null) => id ?
+    new URL(`${id}.jpg`, `${store.get().app.path.thumb}/`).href :
     'icons/icon_light.png';

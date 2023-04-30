@@ -28,7 +28,10 @@ export type AppRoot = {
   assets: string
   logs: string
   dict: string
-  covers: string
+  covers: {
+    thumb: string
+    original: string
+  }
 };
 
 export default async (root: AppRoot) => {

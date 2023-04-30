@@ -6,10 +6,11 @@ export const setReady = (ready: boolean) => store.dispatch(produce(draft => {
   draft.app.ready = ready;
 }), 'app.setReady');
 
-export const fetchImagePath = async () => {
-  const imagePath = await window.ipc.app.getImagePath();
+export const fetchPaths = async () => {
+  const { thumb, original } = await window.ipc.app.path();
 
   store.dispatch(produce(draft => {
-    draft.app.path.image = imagePath;
+    draft.app.path.cover = original;
+    draft.app.path.thumb = thumb;
   }), 'app.imagePath');
 };

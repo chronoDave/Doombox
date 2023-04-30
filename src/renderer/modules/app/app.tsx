@@ -4,7 +4,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import { fetchImagePath, setReady } from '../../state/actions/app.actions';
+import { fetchPaths, setReady } from '../../state/actions/app.actions';
 import { fetchLibrary } from '../../state/actions/library.actions';
 import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
@@ -77,7 +77,7 @@ const App: Component<AppProps> = () => {
       fetchLibrary(),
       fetchTheme(),
       fetchUser(),
-      fetchImagePath()
+      fetchPaths()
     ]);
 
     setReady(true);

@@ -2,12 +2,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { toMinSec } from '../../../utils/string/formatTime';
-import ImageBlur from '../../components/imageBlur/imageBlur';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import { getAlbum, getAlbums } from '../../selectors/album.selector';
-import { getCover } from '../../selectors/song.selector';
+import { getThumb } from '../../selectors/song.selector';
 import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchAlbums } from '../../state/actions/search.actions';
 import store from '../../state/store';
@@ -47,7 +45,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
                   >
                     <img
                       loading="lazy"
-                      src={getCover(store)(album.image)}
+                      src={getThumb(store)(album.image)}
                       alt=''
                       width={64}
                       height={64}

@@ -53,7 +53,7 @@ const ipc: IpcApi = {
   },
   app: {
     selectFolders: invoke(IpcChannel.App, IpcRoute.SelectFolders),
-    getImagePath: invoke(IpcChannel.App, IpcRoute.GetImagePath)
+    path: invoke(IpcChannel.App, IpcRoute.Path)
   },
   library: {
     add: invoke(IpcChannel.Library, IpcRoute.Add),
