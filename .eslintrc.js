@@ -139,23 +139,27 @@ module.exports = {
     }],
     // Import
     'import/no-restricted-paths': ['error', {
-      zones: [{
-        target: 'src/renderer/components',
-        from: 'src/renderer/state',
-        message: 'Components should be stateless'
-      }, {
-        target: 'src/renderer/lib',
-        from: 'src/renderer/state',
-        message: 'Lib should be stateless'
-      }, {
-        target: 'src/renderer/utils',
-        from: 'src/renderer/state',
-        message: 'Utils should be stateless'
-      }, {
-        target: 'src/renderer/selectors',
-        from: 'src/renderer/state',
-        message: 'Selectors should be stateless'
-      }]
+      zones: [
+        ...[
+          'src/renderer/components',
+          'src/renderer/hooks',
+          'src/renderer/lib',
+          'src/renderer/utils'
+        ].map(target => ({
+          target,
+          from: 'src/renderer/state',
+          message: 'Should be stateless'
+        })),
+        ...[
+          'src/renderer/modules',
+          'src/renderer/views'
+        ].map(target => ({
+          target,
+          from: 'src/renderer/state',
+          except: ['./selectors', './actions'],
+          message: 'State should not be accessed directly, use selectors or actions instead.'
+        }))
+      ]
     }],
     'import/no-self-import': 'error',
     'import/no-cycle': 'error',

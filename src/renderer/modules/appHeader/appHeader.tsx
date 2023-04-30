@@ -3,19 +3,16 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import { getCurrent } from '../../selectors/player.selectors';
-import store from '../../state/store';
-import createSubscription from '../../utils/subscribe';
+import { playerSongSelector } from '../../state/selectors/player.selectors';
 
 import './appHeader.scss';
 
 export type AppBarProps = {};
 
 const AppBar: Component<AppBarProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component({
     render() {
-      const current = getCurrent(store)();
+      const current = playerSongSelector.get();
       const title = current ?
         `${current.artist} - ${current.title} (${current.album})` :
         'Doombox';
@@ -70,9 +67,7 @@ const AppBar: Component<AppBarProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    prev.player.current.id !== cur.player.current.id
-  ))(component);
+  return playerSongSelector.subscribe(component);
 };
 
 export default AppBar;

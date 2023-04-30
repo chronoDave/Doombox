@@ -1,9 +1,10 @@
 import produce from 'immer';
 
 import { AudioStatus } from '../../lib/audio';
-import { getCurrent } from '../../selectors/playlist.selector';
-import player from '../player';
+import { playlistIdSelector } from '../selectors/playlist.selectors';
 import store from '../store';
+
+import { play } from './player.actions';
 
 export const addToPlaylist = (ids: string[]) => {
   const autplay =
@@ -14,7 +15,7 @@ export const addToPlaylist = (ids: string[]) => {
     draft.playlist.songs.push(...ids);
   }), 'playlist.add');
 
-  if (autplay) player.play(ids[0]);
+  if (autplay) play(ids[0]);
 };
 
 export const next = () => {
@@ -23,6 +24,6 @@ export const next = () => {
       draft.playlist.index += 1;
     }), 'playlist.next');
 
-    player.play(getCurrent(store)());
+    play(playlistIdSelector.get());
   }
 };

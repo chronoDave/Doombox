@@ -5,22 +5,20 @@ import * as forgo from 'forgo';
 import { toHourMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
-import { getLabel, getLabels } from '../../selectors/label.selector';
 import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchLabels } from '../../state/actions/search.actions';
-import store from '../../state/store';
-import createSubscription from '../../utils/subscribe';
+import { labelSelector, labelsSelector } from '../../state/selectors/label.selectors';
+import { labelSearchSelector } from '../../state/selectors/search.selectors';
 
 import './label.view.scss';
 
 export type LabelViewProps = {};
 
 const LabelView: Component<LabelViewProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<LabelViewProps>({
     render() {
-      const { search } = store.get();
-      const labels = (search.labels ?? getLabels(store)()) as string[];
+      const search = labelSearchSelector.get();
+      const labels = (search ?? labelsSelector.get());
 
       return (
         <div class="LabelView">
@@ -32,11 +30,10 @@ const LabelView: Component<LabelViewProps> = () => {
           <p>{labels.length} labels</p>
           <VirtualList
             list={labels}
-            overflow={3}
             item={{
               height: 24,
               render: id => {
-                const label = getLabel(store)(id);
+                const label = labelSelector.get(id);
 
                 return (
                   <button
@@ -60,11 +57,11 @@ const LabelView: Component<LabelViewProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    !prev.search.labels ||
-    cur.search.labels?.length !== prev.search.labels.length ||
-    cur.search.labels.every((id, i) => prev.search.labels?.[i] === id)
-  ))(component);
+  labelSearchSelector.subscribe(component);
+  labelsSelector.subscribe(component);
+  labelSelector.subscribe(component);
+
+  return component;
 };
 
 export default LabelView;

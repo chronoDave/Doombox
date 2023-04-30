@@ -11,9 +11,9 @@ import { fetchLibrary } from '../../state/actions/library.actions';
 import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
 import { setViewApp } from '../../state/actions/view.actions';
-import store from '../../state/store';
+import { readySelector, scanningSelector } from '../../state/selectors/app.selectors';
+import { appViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx';
-import createSubscription from '../../utils/subscribe';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';
 import PlayerView from '../../views/player/player.view';
@@ -34,7 +34,6 @@ type Views = Record<AppView, {
 }>;
 
 const App: Component<AppProps> = () => {
-  const subscribe = createSubscription(store);
   const views: Views = {
     playlist: { id: AppView.Playlist, view: <PlaylistView />, icon: 'playlistMusic' },
     player: { id: AppView.Player, view: <PlayerView />, icon: 'playCircle' },
@@ -46,17 +45,19 @@ const App: Component<AppProps> = () => {
 
   const component = new forgo.Component<AppProps>({
     render() {
-      const { app, view } = store.get();
+      const ready = readySelector.get();
+      const scanning = scanningSelector.get();
+      const view = appViewSelector.get();
 
-      if (!app.ready) return <SplashView />;
-      if (app.scanning) return <ScanView />;
+      if (!ready) return <SplashView />;
+      if (scanning) return <ScanView />;
       return (
         <main>
-          {views[view.app].view}
+          {views[view].view}
           <nav aria-label="app">
             <ul>
               {Object.values(views).map(({ id, icon }) => (
-                <li key={id} class={cx({ active: id === store.get().view.app })}>
+                <li key={id} class={cx({ active: id === view })}>
                   <button
                     type='button'
                     aria-label={`navigate to library ${id}`}
@@ -85,11 +86,11 @@ const App: Component<AppProps> = () => {
     setReady(true);
   });
 
-  return subscribe((prev, cur) => (
-    prev.app.ready !== cur.app.ready ||
-    prev.app.scanning !== cur.app.scanning ||
-    prev.view.app !== cur.view.app
-  ))(component);
+  readySelector.subscribe(component);
+  scanningSelector.subscribe(component);
+  appViewSelector.subscribe(component);
+
+  return component;
 };
 
 export default App;

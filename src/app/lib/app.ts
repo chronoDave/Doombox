@@ -51,7 +51,7 @@ export default async (root: AppRoot) => {
     app: new Storage({ name: 'app', shape: appShape, root: root.appData }),
     theme: new Storage({ name: 'theme', shape: themeShape, root: root.userData }),
     user: new Storage({ name: 'user', shape: userShape, root: root.userData }),
-    renderer: new Storage({ name: 'renderer', shape: rendererShape, root: root.userData })
+    renderer: new Storage({ name: 'renderer', shape: rendererShape, root: root.appData })
   };
   const router = {
     library: createIpcRouter(createLibraryController({

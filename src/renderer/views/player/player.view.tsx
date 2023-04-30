@@ -8,22 +8,19 @@ import PlayerControls from '../../modules/playerControls/playerControls';
 import PlayerCover from '../../modules/playerCover/playerCover';
 import PlayerMeta from '../../modules/playerMeta/playerMeta';
 import PlayerSlider from '../../modules/playerSlider/playerSlider';
-import { getPlaylist } from '../../selectors/playlist.selector';
-import { getSong } from '../../selectors/song.selector';
-import player from '../../state/player';
-import store from '../../state/store';
+import * as player from '../../state/actions/player.actions';
+import { playlistIndexSelector, playlistSelector } from '../../state/selectors/playlist.selectors';
+import { songSelector } from '../../state/selectors/song.selectors';
 import cx from '../../utils/cx';
-import createSubscription from '../../utils/subscribe';
 
 import './player.view.scss';
 
 export type PlayerViewProps = {};
 
 const PlayerView: Component<PlayerViewProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerViewProps>({
     render() {
-      const labels = getPlaylist(store)();
+      const playlist = playlistSelector.get();
 
       return (
         <div class='PlayerView'>
@@ -34,18 +31,17 @@ const PlayerView: Component<PlayerViewProps> = () => {
             <PlayerControls />
           </div>
           <VirtualList
-            list={labels}
-            overflow={3}
+            list={playlist}
             item={{
               height: 38,
               render: (id, i) => {
-                const song = getSong(store)(id);
+                const song = songSelector.get(id);
 
                 return (
                   <button
                     id={song._id}
                     type='button'
-                    class={cx(store.get().playlist.index === i && 'active')}
+                    class={cx(playlistIndexSelector.get() === i && 'active')}
                     onclick={() => player.skip(i)}
                   >
                     <div class='metadata'>
@@ -65,12 +61,11 @@ const PlayerView: Component<PlayerViewProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    prev.player.current.id !== cur.player.current.id ||
-    !prev.playlist.songs ||
-    cur.playlist.songs?.length !== prev.playlist.songs.length ||
-    cur.playlist.songs.every((id, i) => prev.playlist.songs?.[i] === id)
-  ))(component);
+  playlistSelector.subscribe(component);
+  songSelector.subscribe(component);
+  playlistIndexSelector.subscribe(component);
+
+  return component;
 };
 
 export default PlayerView;

@@ -8,7 +8,6 @@ import path from 'path';
 
 import userShape from '../../../types/shapes/user.shape';
 import Library from '../../lib/library';
-import Logger from '../../lib/logger/logger';
 import Parser from '../../lib/parser';
 import Storage from '../../lib/storage/storage';
 
@@ -22,14 +21,17 @@ export default async () => {
 
   const dir = {
     root,
-    covers: path.resolve(root, 'covers'),
+    covers: {
+      thumb: path.resolve(root, 'covers/thumb'),
+      original: path.resolve(root, 'covers/original')
+    },
     album,
     sideOne: path.resolve(album, 'side one'),
     sideTwo: path.resolve(album, 'side two')
   };
 
   fs.mkdirSync(dir.root, { recursive: true });
-  fs.mkdirSync(dir.covers, { recursive: true });
+  fs.mkdirSync(path.resolve(root, 'covers'), { recursive: true });
 
   const db = {
     songs: new LeafDB<Song>(),
@@ -49,13 +51,10 @@ export default async () => {
     storage,
     library: new Library({
       db,
+      root: dir.covers,
       parser: new Parser({
         analyzer,
-        storage,
-        logger: new Logger({
-          root: dir.covers
-        }),
-        root: dir.covers
+        storage
       })
     })
   })(sender);

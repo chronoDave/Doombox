@@ -5,48 +5,48 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import Slider from '../../components/slider/slider';
-import { setMuted, setVolume } from '../../state/actions/player.actions';
-import player from '../../state/player';
-import store from '../../state/store';
-import createSubscription from '../../utils/subscribe';
+import * as player from '../../state/actions/player.actions';
+import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
 
 import './volumeSlider.scss';
 
 export type VolumeSliderProps = {};
 
 const VolumeSlider: Component<VolumeSliderProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<VolumeSliderProps>({
     render() {
+      const muted = playerMutedSelector.get();
+      const volume = playerVolumeSelector.get();
+
       const getIcon = (): IconProps['id'] => {
-        if (player.muted) return 'mute';
-        if (player.volume >= 66) return 'volumeHigh';
-        if (player.volume >= 33) return 'volumeMedium';
+        if (muted) return 'mute';
+        if (volume >= 66) return 'volumeHigh';
+        if (volume >= 33) return 'volumeMedium';
         return 'volumeLow';
       };
 
       return (
         <div class='VolumeSlider'>
-          <button type='button' onclick={() => setMuted()}>
+          <button type='button' onclick={() => player.mute()}>
             <Icon id={getIcon()} />
           </button>
           <Slider
             min={0}
             max={100}
-            value={player.volume}
+            value={volume}
             step={1}
-            onchange={volume => setVolume(volume)}
+            onchange={player.volume}
           />
-          <span>{Math.round(player.volume)}</span>
+          <span>{Math.round(volume)}</span>
         </div>
       );
     }
   });
 
-  return subscribe((prev, cur) => (
-    prev.player.volume !== cur.player.volume ||
-    prev.player.muted !== cur.player.muted
-  ))(component);
+  playerMutedSelector.subscribe(component);
+  playerVolumeSelector.subscribe(component);
+
+  return component;
 };
 
 export default VolumeSlider;

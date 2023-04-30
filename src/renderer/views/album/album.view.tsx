@@ -4,23 +4,21 @@ import * as forgo from 'forgo';
 
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
-import { getAlbum, getAlbums } from '../../selectors/album.selector';
-import { getThumb } from '../../selectors/song.selector';
 import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchAlbums } from '../../state/actions/search.actions';
-import store from '../../state/store';
-import createSubscription from '../../utils/subscribe';
+import { albumSelector, albumsSelector } from '../../state/selectors/album.selectors';
+import { thumbSelector } from '../../state/selectors/app.selectors';
+import { albumSearchSelector } from '../../state/selectors/search.selectors';
 
 import './album.view.scss';
 
 export type AlbumViewProps = {};
 
 const AlbumView: Component<AlbumViewProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<AlbumViewProps>({
     render() {
-      const { search } = store.get();
-      const albums = (search.albums ?? getAlbums(store)()) as string[];
+      const search = albumSearchSelector.get();
+      const albums = (search ?? albumsSelector.get());
 
       return (
         <div class="AlbumView">
@@ -35,7 +33,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
             item={{
               width: 64,
               render: id => {
-                const album = getAlbum(store)(id);
+                const album = albumSelector.get(id);
 
                 return (
                   <button
@@ -45,7 +43,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
                   >
                     <img
                       loading="lazy"
-                      src={getThumb(store)(album.image)}
+                      src={thumbSelector.get(album.image)}
                       alt=''
                       width={64}
                       height={64}
@@ -67,11 +65,12 @@ const AlbumView: Component<AlbumViewProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    !prev.search.albums ||
-    cur.search.albums?.length !== prev.search.albums.length ||
-    cur.search.albums.every((id, i) => prev.search.albums?.[i] === id)
-  ))(component);
+  albumSearchSelector.subscribe(component);
+  albumsSelector.subscribe(component);
+  albumSelector.subscribe(component);
+  thumbSelector.subscribe(component);
+
+  return component;
 };
 
 export default AlbumView;

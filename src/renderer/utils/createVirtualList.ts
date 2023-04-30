@@ -1,4 +1,4 @@
-import { binarySearchRight } from '../../utils/array/binarySearch';
+import { binarySearchLeft } from '../../utils/array/binarySearch';
 import fill from '../../utils/array/fill';
 
 export type Column<T> = {
@@ -17,7 +17,6 @@ export type VirtualList<T> = {
 
 export type VirtualListOptions<T> = {
   data: T[]
-  overflow: number
   scroll: number
   height: {
     item: number
@@ -37,24 +36,24 @@ const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualList<T> =>
     }
   }));
 
-  const min = binarySearchRight(
+  const min = binarySearchLeft(
     columns,
     options.scroll,
     column => column.position.top
-  ) + 1;
-  const max = binarySearchRight(
+  );
+  const max = binarySearchLeft(
     columns,
     options.scroll + options.height.container,
     column => column.position.top
-  ) + 1;
+  );
 
   return ({
     height: columns[columns.length - 1]?.position.top ?? 0,
     columns: columns.slice(
-      Math.max(0, min - options.overflow),
+      Math.max(0, min - 1),
       Math.min(columns.length - 1, max === -1 ?
         columns.length :
-        max + options.overflow)
+        max + 1)
     )
   });
 };

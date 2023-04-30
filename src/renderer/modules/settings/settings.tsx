@@ -1,12 +1,11 @@
-import type { SettingsView } from '../../types/view';
+import type { SettingsView } from '../../../types/views';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
 import { setViewSettings } from '../../state/actions/view.actions';
-import store from '../../state/store';
+import { settingsViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx';
-import createSubscription from '../../utils/subscribe';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
 import LibraryView from '../../views/settings/library/library.view';
 
@@ -15,7 +14,6 @@ import './settings.scss';
 export type SettingsProps = {};
 
 const Settings: Component<SettingsProps> = () => {
-  const subscribe = createSubscription(store);
   const views: Record<SettingsView, forgo.Component> = {
     appearance: <AppearanceView />,
     library: <LibraryView />
@@ -28,7 +26,7 @@ const Settings: Component<SettingsProps> = () => {
 
   const component = new forgo.Component<SettingsProps>({
     render() {
-      const state = store.get();
+      const view = settingsViewSelector.get();
 
       return (
         <div class='Settings' id="settings">
@@ -62,26 +60,26 @@ const Settings: Component<SettingsProps> = () => {
                   type="button"
                   key={key}
                   role="tab"
-                  aria-selected={state.view.settings === key}
+                  aria-selected={view === key}
                   aria-controls={`${key}-panel`}
-                  tabindex={state.view.settings === key ? 0 : -1}
+                  tabindex={view === key ? 0 : -1}
                 >
                   {key}
                 </button>
               </li>
             ))}
           </ul>
-          {Object.entries(views).map(([key, view]) => (
+          {Object.entries(views).map(([key, child]) => (
             <section
               id={`${key}-panel`}
               role="tabpanel"
               aria-labelledby={key}
               class={cx({
-                hidden: state.view.settings !== key
+                hidden: view !== key
               })}
             >
               <h1 class="title">{key}</h1>
-              {view}
+              {child}
             </section>
           ))}
         </div>
@@ -89,9 +87,7 @@ const Settings: Component<SettingsProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    prev.view.settings !== cur.view.settings
-  ))(component);
+  return settingsViewSelector.subscribe(component);
 };
 
 export default Settings;

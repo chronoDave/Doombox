@@ -5,25 +5,25 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import { createPopup } from '../../components/popup/popup';
-import player from '../../state/player';
-import store from '../../state/store';
-import createSubscription from '../../utils/subscribe';
 import VolumeSlider from '../volumeSlider/volumeSlider';
 
 import './playerVolume.scss';
+import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
 
 export type PlayerVolumeProps = {};
 
 const PlayerVolume: Component<PlayerVolumeProps> = () => {
   let popup: null | (() => void);
 
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerVolumeProps>({
     render() {
+      const muted = playerMutedSelector.get();
+      const volume = playerVolumeSelector.get();
+
       const getIcon = (): IconProps['id'] => {
-        if (player.muted) return 'mute';
-        if (player.volume >= 66) return 'volumeHigh';
-        if (player.volume >= 33) return 'volumeMedium';
+        if (muted) return 'mute';
+        if (volume >= 66) return 'volumeHigh';
+        if (volume >= 33) return 'volumeMedium';
         return 'volumeLow';
       };
 
@@ -55,10 +55,10 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
     popup?.();
   });
 
-  return subscribe((prev, cur) => (
-    prev.player.muted !== cur.player.muted ||
-    prev.player.volume !== cur.player.volume
-  ))(component);
+  playerMutedSelector.subscribe(component);
+  playerVolumeSelector.subscribe(component);
+
+  return component;
 };
 
 export default PlayerVolume;

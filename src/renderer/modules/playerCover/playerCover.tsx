@@ -3,30 +3,28 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import ImageBlur from '../../components/imageBlur/imageBlur';
-import { getCurrent } from '../../selectors/player.selectors';
-import { getCover } from '../../selectors/song.selector';
-import store from '../../state/store';
-import createSubscription from '../../utils/subscribe';
+import { coverSelector } from '../../state/selectors/app.selectors';
+import { playerSongSelector } from '../../state/selectors/player.selectors';
+import { themePlayerSelector } from '../../state/selectors/theme.selectors';
 
 import './playerCover.scss';
 
 export type PlayerCoverProps = {};
 
 const PlayerCover: Component<PlayerCoverProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerCoverProps>({
     render() {
-      const { theme } = store.get();
-      const current = getCurrent(store)();
+      const themePlayer = themePlayerSelector.get();
+      const current = playerSongSelector.get();
 
       return (
         <div class='PlayerCover'>
           {(
-            theme.player.cover === 'contain' &&
+            themePlayer.cover === 'contain' &&
             current?.image
-          ) ? <ImageBlur src={getCover(store)(current.image)} alt='' padding={16} /> : null}
+          ) ? <ImageBlur src={coverSelector.get(current.image)} alt='' padding={16} /> : null}
           {(
-            theme.player.cover === 'cover' &&
+            themePlayer.cover === 'cover' &&
             current?.image
           ) ? <img src={current.image} alt='' /> : null}
         </div>
@@ -34,10 +32,11 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    prev.player.current?.id !== cur.player.current?.id ||
-    prev.theme.player.cover !== cur.theme.player.cover
-  ))(component);
+  coverSelector.subscribe(component);
+  playerSongSelector.subscribe(component);
+  themePlayerSelector.subscribe(component);
+
+  return component;
 };
 
 export default PlayerCover;

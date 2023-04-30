@@ -1,21 +1,20 @@
-import type { RendererShape } from '../../../types/shapes/renderer.shape';
 import type { AppView, SettingsView } from '../../../types/views';
 
 import produce from 'immer';
 
+import updateCache from '../../utils/updateCache';
 import store from '../store';
 
-export const setViewApp = async (view: AppView) => {
+export const setViewApp = (view: AppView) => {
   const current = store.get();
   if (current.view.app !== view) {
     store.dispatch(produce(draft => {
       draft.view.app = view;
     }), 'view.setViewApp');
 
-    const cache = await window.ipc.cache.get();
-    window.ipc.cache.set(produce<RendererShape>(draft => {
+    updateCache(produce(draft => {
       draft.tab = view;
-    })(cache));
+    }));
   }
 };
 

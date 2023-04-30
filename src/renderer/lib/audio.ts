@@ -12,8 +12,7 @@ export enum AudioStatus {
 export type AudioEvents = {
   position: (duration: number) => void,
   duration: (duration: number) => void
-  status: (status: AudioStatus) => void,
-  mute: (muted: boolean) => void
+  status: (status: AudioStatus) => void
 };
 
 export type AudioOptions = {
@@ -30,7 +29,7 @@ export default class Audio extends EventEmitter<AudioEvents> {
   private _interval?: number;
 
   set volume(volume: number) {
-    this._volume = volume / 100;
+    this._volume = volume;
     if (this._howl) this._howl.volume(this._volume);
   }
 
@@ -98,7 +97,6 @@ export default class Audio extends EventEmitter<AudioEvents> {
   mute(muted?: boolean) {
     this._muted = muted ?? !this._muted;
     this._howl?.mute(this._muted);
-    this._emit('mute', this._muted);
   }
 
   seek(pos: number) {

@@ -7,7 +7,7 @@ export type RendererControllerProps = {
 };
 
 export default (props: RendererControllerProps) =>
-  (): IpcInvokeController[IpcChannel.Renderer] => ({
+  (): IpcInvokeController[IpcChannel.Cache] => ({
     get: async () => props.storage.get(),
     set: async payload => props.storage.set(payload)
   });

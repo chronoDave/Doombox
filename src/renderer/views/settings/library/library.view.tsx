@@ -3,22 +3,25 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import InputFolders from '../../../components/inputFolders/inputFolders';
-import { addFolders, rebuildLibrary, reindexLibrary, removeFolders } from '../../../state/actions/library.actions';
-import store from '../../../state/store';
-import createSubscription from '../../../utils/subscribe';
+import {
+  addFolders,
+  rebuildLibrary,
+  reindexLibrary,
+  removeFolders
+} from '../../../state/actions/library.actions';
+import { userLibrarySelector } from '../../../state/selectors/user.selectors';
 
 export type LibraryViewProps = {};
 
 const LibraryView: Component<LibraryViewProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<LibraryViewProps>({
     render() {
-      const { user } = store.get();
+      const userLibrary = userLibrarySelector.get();
 
       return (
         <div>
           <InputFolders
-            folders={user.library.folders}
+            folders={userLibrary.folders}
             label='folders'
             onadd={addFolders}
             onremove={removeFolders}
@@ -34,9 +37,7 @@ const LibraryView: Component<LibraryViewProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    Object.is(prev.user.library.folders, cur.user.library.folders)
-  ))(component);
+  return userLibrarySelector.subscribe(component);
 };
 
 export default LibraryView;

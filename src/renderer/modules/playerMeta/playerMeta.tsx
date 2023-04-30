@@ -2,19 +2,16 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { getCurrent } from '../../selectors/player.selectors';
-import store from '../../state/store';
-import createSubscription from '../../utils/subscribe';
+import { playerSongSelector } from '../../state/selectors/player.selectors';
 
 import './playerMeta.scss';
 
 export type PlayerMetaProps = {};
 
 const PlayerMeta: Component<PlayerMetaProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<PlayerMetaProps>({
     render() {
-      const current = getCurrent(store)();
+      const current = playerSongSelector.get();
 
       return (
         <div class='PlayerMeta'>
@@ -26,9 +23,7 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    prev.player.current?.id !== cur.player.current?.id
-  ))(component);
+  return playerSongSelector.subscribe(component);
 };
 
 export default PlayerMeta;

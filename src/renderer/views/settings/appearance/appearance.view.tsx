@@ -6,23 +6,22 @@ import produce from 'immer';
 
 import InputRadioList from '../../../components/inputRadioList/inputRadioList';
 import { setTheme } from '../../../state/actions/theme.actions';
-import store from '../../../state/store';
-import createSubscription from '../../../utils/subscribe';
+import { themePlayerSelector, themeSelector } from '../../../state/selectors/theme.selectors';
 
 export type AppearanceViewProps = {};
 
 const AppearanceView: Component<AppearanceViewProps> = () => {
-  const subscribe = createSubscription(store);
   const component = new forgo.Component<AppearanceViewProps>({
     render() {
-      const { theme } = store.get();
+      const theme = themeSelector.get();
+      const themePlayer = themePlayerSelector.get();
 
       return (
         <div>
           <InputRadioList
             id="theme"
             label="theme"
-            value={theme.theme}
+            value={theme}
             onchange={value => setTheme(produce(draft => {
               draft.theme = value as ThemeShape['theme'];
             }))}
@@ -35,7 +34,7 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
           <InputRadioList
             id="player.cover"
             label="player.cover"
-            value={theme.player.cover}
+            value={themePlayer.cover}
             onchange={value => setTheme(produce(draft => {
               draft.player.cover = value as ThemeShape['player']['cover'];
             }))}
@@ -50,10 +49,10 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
     }
   });
 
-  return subscribe((prev, cur) => (
-    prev.theme.theme !== cur.theme.theme ||
-    prev.theme.player.cover !== cur.theme.player.cover
-  ))(component);
+  themeSelector.subscribe(component);
+  themePlayerSelector.subscribe(component);
+
+  return component;
 };
 
 export default AppearanceView;

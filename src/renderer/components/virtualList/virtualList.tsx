@@ -7,7 +7,6 @@ import './virtualList.scss';
 
 export type VirtualListProps<T> = {
   list: T[]
-  overflow: number
   item: {
     height: number
     render: (data: T, i: number) => forgo.Component | forgo.Component[]
@@ -25,7 +24,6 @@ const VirtualList = <T extends any>(
     render(props) {
       const list = createVirtualList({
         data: props.list,
-        overflow: props.overflow,
         scroll: ref.value?.scrollTop ?? 0,
         height: {
           item: props.item.height,
@@ -70,6 +68,8 @@ const VirtualList = <T extends any>(
     }, { passive: true, signal });
 
     ref.value?.addEventListener('scroll', update, { passive: true, signal });
+
+    update();
   });
 
   component.unmount(() => {
