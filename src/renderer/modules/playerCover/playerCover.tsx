@@ -4,6 +4,7 @@ import * as forgo from 'forgo';
 
 import ImageBlur from '../../components/imageBlur/imageBlur';
 import { getCurrent } from '../../selectors/player.selectors';
+import { getCover } from '../../selectors/song.selector';
 import store from '../../state/store';
 import createSubscription from '../../utils/subscribe';
 
@@ -23,7 +24,7 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
           {(
             theme.player.cover === 'contain' &&
             current?.image
-          ) ? <ImageBlur src={current.image} alt='' padding={16} /> : null}
+          ) ? <ImageBlur src={getCover(store)(current.image)} alt='' padding={16} /> : null}
           {(
             theme.player.cover === 'cover' &&
             current?.image
