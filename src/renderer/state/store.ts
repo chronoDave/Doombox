@@ -10,7 +10,10 @@ import { AppView, SettingsView } from '../types/view';
 export default new Store<State>({
   app: {
     ready: false,
-    scanning: false
+    scanning: false,
+    path: {
+      image: ''
+    }
   },
   playlist: {
     index: 0,

@@ -9,3 +9,8 @@ export const getSong = (store: Store<State>) => (id: string) => {
   if (!song) throw new Error(`Invalid id: ${id}`);
   return song;
 };
+
+export const getCover = (store: Store<State>) =>
+  (id: string | null) => id ?
+    new URL(`${id}.jpg`, `${store.get().app.path.image}/`).href :
+    'icons/icon_light.png';

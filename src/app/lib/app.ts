@@ -33,7 +33,6 @@ export type AppRoot = {
 
 export default async (root: AppRoot) => {
   const logger = new Logger({ root: root.logs });
-
   const analyzer = new Kuroshiro();
   await analyzer.init(new KuromojiAnalyzer({ dictPath: root.dict }))
     .catch(err => logger.error(new Error(JSON.stringify(err))));
@@ -54,11 +53,10 @@ export default async (root: AppRoot) => {
       storage: storage.user,
       library: new Library({
         db,
+        root: root.covers,
         parser: new Parser({
-          root: root.covers,
           analyzer,
-          storage: storage.user,
-          logger
+          storage: storage.user
         })
       })
     }))(logger),
@@ -68,7 +66,7 @@ export default async (root: AppRoot) => {
     theme: createIpcRouter(createThemeController({
       storage: storage.theme
     }))(logger),
-    app: createIpcRouter(createAppController())(logger),
+    app: createIpcRouter(createAppController({ root: root.covers }))(logger),
     search: createIpcRouter(createSearchController({ db }))(logger)
   };
 

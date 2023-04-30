@@ -23,6 +23,7 @@ export type IpcChannelReceive<T extends IpcChannel> = `${IpcChannel.Receive}.${T
 export enum IpcRoute {
   SelectFolders = 'selectFolders',
   Add = 'add',
+  GetImagePath = 'getImagePath',
   Remove = 'remove',
   Rebuild = 'rebuild',
   Reindex = 'reindex',
@@ -69,7 +70,8 @@ export type IpcSendController = {
 /** Renderer to main (two-way) */
 export type IpcInvokeController = {
   [IpcChannel.App]: {
-    [IpcRoute.SelectFolders]: () => Promise<string[]>
+    [IpcRoute.SelectFolders]: () => Promise<string[]>,
+    [IpcRoute.GetImagePath]: () => Promise<string>
   }
   [IpcChannel.Search]: {
     [IpcRoute.Song]: (payload: Query) => Promise<Song[]>,

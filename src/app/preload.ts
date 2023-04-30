@@ -51,7 +51,8 @@ const ipc: IpcApi = {
     label: invoke(IpcChannel.Search, IpcRoute.Label)
   },
   app: {
-    selectFolders: invoke(IpcChannel.App, IpcRoute.SelectFolders)
+    selectFolders: invoke(IpcChannel.App, IpcRoute.SelectFolders),
+    getImagePath: invoke(IpcChannel.App, IpcRoute.GetImagePath)
   },
   library: {
     add: invoke(IpcChannel.Library, IpcRoute.Add),

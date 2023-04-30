@@ -8,6 +8,9 @@ export type State = {
   app: {
     ready: boolean
     scanning: boolean
+    path: {
+      image: string
+    }
   }
   player: {
     current: {

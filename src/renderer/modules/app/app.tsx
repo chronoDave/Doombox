@@ -4,7 +4,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import { setReady } from '../../state/actions/app.actions';
+import { fetchImagePath, setReady } from '../../state/actions/app.actions';
 import { fetchLibrary } from '../../state/actions/library.actions';
 import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
@@ -76,7 +76,8 @@ const App: Component<AppProps> = () => {
     await Promise.all([
       fetchLibrary(),
       fetchTheme(),
-      fetchUser()
+      fetchUser(),
+      fetchImagePath()
     ]);
 
     setReady(true);

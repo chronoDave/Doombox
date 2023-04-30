@@ -1,6 +1,5 @@
 import type { Song } from '../../types/library';
 import type { UserShape } from '../../types/shapes/user.shape';
-import type Logger from './logger/logger';
 import type Storage from './storage/storage';
 import type { INativeTags } from 'music-metadata/lib/type';
 
@@ -8,7 +7,6 @@ import Kuroshiro from 'kuroshiro';
 import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
 import pMap from 'p-map';
-import path from 'path';
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 export type ParserResult = {
@@ -19,8 +17,6 @@ export type ParserResult = {
 export type ParserOptions = {
   analyzer: Kuroshiro
   storage: Storage<UserShape>
-  logger: Logger
-  root: string
 };
 
 export type ParserEvents = {
@@ -30,13 +26,11 @@ export type ParserEvents = {
 export default class Parser extends TypedEmitter<ParserEvents> {
   private readonly _analyzer: Kuroshiro;
   private readonly _storage: Storage<UserShape>;
-  private readonly _logger: Logger;
-  private readonly _root: string;
 
   private async _toRomaji(x?: string) {
     const { romaji } = this._storage.get().scanner;
 
-    if (!x || !romaji.enabled || !Kuroshiro.Util.hasJapanese(x)) return Promise.resolve(null);
+    if (!x || !Kuroshiro.Util.hasJapanese(x)) return Promise.resolve(null);
     return this._analyzer.convert(x, {
       to: 'romaji',
       mode: 'spaced',
@@ -55,11 +49,7 @@ export default class Parser extends TypedEmitter<ParserEvents> {
     ])
       .then(([title, artist, album, albumartist, label]) => (
         { title, artist, album, albumartist, label }
-      ))
-      .catch(err => {
-        this._logger.error(err);
-        return ({ title: null, artist: null, album: null, albumartist: null, label: null });
-      });
+      ));
 
     return ({
       _id: LeafDB.generateId(),
@@ -100,8 +90,6 @@ export default class Parser extends TypedEmitter<ParserEvents> {
 
     this._analyzer = options.analyzer;
     this._storage = options.storage;
-    this._logger = options.logger;
-    this._root = options.root;
   }
 
   async parse(files: string[]): Promise<ParserResult> {
@@ -111,7 +99,7 @@ export default class Parser extends TypedEmitter<ParserEvents> {
 
       const song = await this._parseFile(file);
       if (song.image) {
-        if (!images.has(song.image)) images.set(song.image, path.resolve(this._root, `${LeafDB.generateId()}.jpg`));
+        if (!images.has(song.image)) images.set(song.image, LeafDB.generateId());
         song.image = images.get(song.image) ?? null;
       }
 

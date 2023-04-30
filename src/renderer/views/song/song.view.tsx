@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 import { toMinSec } from '../../../utils/string/formatTime';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
-import { getSong, getSongs } from '../../selectors/song.selector';
+import { getCover, getSong, getSongs } from '../../selectors/song.selector';
 import { searchSongs } from '../../state/actions/search.actions';
 import player from '../../state/player';
 import store from '../../state/store';
@@ -43,7 +43,7 @@ const SongView: Component<SongViewProps> = () => {
                     <img
                       width={34}
                       height={34}
-                      src={song.image ?? 'icons/icon_light.png'}
+                      src={getCover(store)(song.image)}
                       alt=''
                       loading='lazy'
                     />
