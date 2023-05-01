@@ -46,17 +46,14 @@ export default class Library extends TypedEmitter<LibraryEvents> {
         image: songs[0].image,
         songs: songs
           .sort((a, b) => {
-            if (a.disc.no === b.disc.no) {
-              return (
-                (a.track.no ?? Number.MAX_SAFE_INTEGER) -
-                (b.track.no ?? Number.MAX_SAFE_INTEGER)
-              );
+            if (a.disc.no !== b.disc.no && a.disc.no && b.disc.no) {
+              return a.disc.no - b.disc.no;
+            }
+            if (a.track.no !== b.track.no && a.track.no && b.track.no) {
+              return a.track.no - b.track.no;
             }
 
-            return (
-              (a.disc.no ?? Number.MAX_SAFE_INTEGER) -
-              (b.disc.no ?? Number.MAX_SAFE_INTEGER)
-            );
+            return 1;
           })
           .map(song => song._id),
         duration: sum(songs, song => song.duration ?? 0),
@@ -74,7 +71,24 @@ export default class Library extends TypedEmitter<LibraryEvents> {
     return Object.entries(group(arr, 'label'))
       .map(([label, albums]) => ({
         _id: LeafDB.generateId(),
-        albums: albums.map(album => album._id),
+        albums: albums
+          .sort((a, b) => {
+            if (a.label !== b.label && a.label && b.label) {
+              return a.label.localeCompare(b.label);
+            }
+            if (a.albumartist !== b.albumartist && a.albumartist && b.albumartist) {
+              return a.albumartist.localeCompare(b.albumartist);
+            }
+            if (a.year !== b.year && a.year && b.year) {
+              return a.year - b.year;
+            }
+            if (a.album !== b.album && a.album && b.album) {
+              return a.album.localeCompare(b.album);
+            }
+
+            return 1;
+          })
+          .map(album => album._id),
         songs: albums
           .sort((a, b) => (
             (b.year ?? Number.MAX_SAFE_INTEGER) -
@@ -119,7 +133,28 @@ export default class Library extends TypedEmitter<LibraryEvents> {
       this.emit('insert', { image: file, total: images.size });
     }, { concurrency: 32 });
 
-    await this._songs.insert(songs);
+    await this._songs.insert(songs.sort((a, b) => {
+      if (a.label !== b.label && a.label && b.label) {
+        return a.label.localeCompare(b.label);
+      }
+      if (a.albumartist !== b.albumartist && a.albumartist && b.albumartist) {
+        return a.albumartist.localeCompare(b.albumartist);
+      }
+      if (a.year !== b.year && a.year && b.year) {
+        return a.year - b.year;
+      }
+      if (a.album !== b.album && a.album && b.album) {
+        return a.album.localeCompare(b.album);
+      }
+      if (a.disc.no !== b.disc.no && a.disc.no && b.disc.no) {
+        return a.disc.no - b.disc.no;
+      }
+      if (a.track.no !== b.track.no && a.track.no && b.track.no) {
+        return a.track.no - b.track.no;
+      }
+
+      return 1;
+    }));
   }
 
   async rebuild() {
