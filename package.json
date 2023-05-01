@@ -35,6 +35,7 @@
     "@types/lodash.get": "^4.4.7",
     "@types/sharp": "^0.30.5",
     "@types/tape": "^4.13.2",
+    "@types/wanakana": "^4.0.3",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
     "chokidar": "^3.5.3",
@@ -68,13 +69,11 @@
     "forgo": "^3.2.2",
     "howler": "^2.2.3",
     "immer": "^9.0.15",
-    "kuroshiro": "^1.2.0",
-    "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "leaf-db": "^9.0.0",
     "lodash.get": "^4.4.2",
     "music-metadata": "^8.1.0",
     "p-map": "^5.5.0",
     "sharp": "^0.30.7",
-    "tiny-typed-emitter": "^2.1.0"
+    "wanakana": "^5.1.0"
   }
 }

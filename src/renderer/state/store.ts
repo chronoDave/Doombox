@@ -1,6 +1,6 @@
 import type { State } from '../types/state';
 
-import rendererShape from '../../types/shapes/renderer.shape';
+import cacheShape from '../../types/shapes/cache.shape';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
 import { AppView, SettingsView } from '../../types/views';
@@ -22,7 +22,7 @@ export default new Store<State>({
   },
   player: {
     ...userShape.player,
-    ...rendererShape.player,
+    ...cacheShape.player,
     current: {
       position: 0,
       duration: 0

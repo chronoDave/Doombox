@@ -1,98 +1,75 @@
 import type { IpcInvokeController } from '../../../types/ipc';
-import type { Album, Label, Song } from '../../../types/library';
 import type { UserShape } from '../../../types/shapes/user.shape';
-import type Library from '../../lib/library';
+import type { InsertProps } from '../../lib/library/insert';
 import type Storage from '../../lib/storage/storage';
 import type { WebContents } from 'electron';
-import type LeafDB from 'leaf-db';
 
 import glob from 'fast-glob';
 import fs from 'fs';
 
 import { IpcChannel } from '../../../types/ipc';
 import difference from '../../../utils/array/difference';
+import createGet from '../../lib/library/get';
+import createInsert from '../../lib/library/insert';
+import createRebuild from '../../lib/library/rebuild';
 import ipcSend from '../../utils/ipc/ipcSend';
 
-export type LibraryControllerProps = {
-  library: Library
+export type LibraryControllerProps = InsertProps & {
   storage: Storage<UserShape>
-  root: {
-    root: string
-    thumb: string
-    original: string
-  }
-  db: {
-    songs: LeafDB<Song>,
-    albums: LeafDB<Album>,
-    labels: LeafDB<Label>
-  },
 };
 
 export default (props: LibraryControllerProps) =>
   (sender: WebContents): IpcInvokeController[IpcChannel.Library] => {
-    const send = ipcSend(sender)(IpcChannel.Scan);
-    props.library.on('insert', event => send({
-      process: 'creating thumbnails',
-      file: event.image,
-      size: event.total
-    }));
-    props.library.on('parse', event => send({
-      process: 'scanning files',
-      file: event.file,
-      size: event.total
-    }));
-
+    const insert = createInsert(props)(sender);
+    const rebuild = createRebuild(props.library);
     const globAll = (folders: string[], pattern: string) =>
       Promise.all(folders.map(folder => glob(pattern, { cwd: folder, absolute: true })))
         .then(x => x.flat());
 
     return ({
-      get: () => Promise.all([
-        props.db.songs.find({}),
-        props.db.albums.find({}),
-        props.db.labels.find({})
-      ]).then(([songs, albums, labels]) => ({ songs, albums, labels })),
+      get: createGet(props.library),
       reindex: async folders => {
-        const oldSongs = await props.db.songs.find({});
+        const oldSongs = await props.library.songs.find({});
         const oldFiles = oldSongs.map(song => song.file);
         const files = await globAll(folders, '**/*.mp3');
         const stale = oldSongs.filter(song => !files.includes(song.file));
         const fresh = difference(files, oldFiles);
 
-        await props.db.songs.delete(stale.map(song => song._id));
-        await props.library.insert(fresh);
+        await props.library.songs.delete(stale.map(song => song._id));
+        await insert(fresh);
 
-        return props.library.rebuild();
+        return rebuild();
       },
       rebuild: async () => {
         const { library } = props.storage.get();
 
-        props.db.songs.drop();
-        fs.rmSync(props.root.root, { recursive: true, force: true });
-        fs.mkdirSync(props.root.original, { recursive: true });
-        fs.mkdirSync(props.root.thumb, { recursive: true });
+        props.library.songs.drop();
+        fs.rmSync(props.root.covers, { recursive: true, force: true });
+        fs.rmSync(props.root.thumbs, { recursive: true, force: true });
+        fs.mkdirSync(props.root.covers, { recursive: true });
+        fs.mkdirSync(props.root.thumbs, { recursive: true });
         const files = await globAll(library.folders, '**/*.mp3');
-        await props.library.insert(files);
+        await insert(files);
 
-        return props.library.rebuild();
+        return rebuild();
       },
       add: async folders => {
-        const current = await props.db.songs.find({});
+        const current = await props.library.songs.find({});
         const files = await globAll(folders, '**/*.mp3');
         const fresh = files.filter(file => current.every(song => song.file !== file));
-        await props.library.insert(fresh);
+        await insert(fresh);
 
-        return props.library.rebuild();
+        return rebuild();
       },
       remove: async folders => {
         const files = await globAll(folders, '**/*.mp3');
 
         await Promise.all(files.map(file => {
-          send({ process: 'deleting files', file, size: files.length });
-          return props.db.songs.deleteOne({ file });
+          ipcSend(sender)(IpcChannel.Scan)({ process: 'deleting files', file, size: files.length });
+          return props.library.songs.deleteOne({ file });
         }));
 
-        return props.library.rebuild();
+        return rebuild();
       }
     });
   };

@@ -10,6 +10,7 @@ import { addToPlaylist } from '../../state/actions/playlist.actions';
 import { searchLabels } from '../../state/actions/search.actions';
 import { labelSelector, labelsSelector } from '../../state/selectors/label.selectors';
 import { labelSearchSelector } from '../../state/selectors/search.selectors';
+import { romajiSelector } from '../../state/selectors/user.selectors';
 
 import './label.view.scss';
 
@@ -43,7 +44,7 @@ const LabelView: Component<LabelViewProps> = () => {
                     onclick={() => addToPlaylist(label.songs)}
                   >
                     <div class='metadata'>
-                      <p>{label.romaji.label ?? label.label}</p>
+                      <p>{romajiSelector.get(label.label)}</p>
                     </div>
                     <div class='duration'>
                       <p>{timeToHhMmSs(secToTime(label.duration ?? 0), { fullTime: true })}</p>
@@ -61,6 +62,7 @@ const LabelView: Component<LabelViewProps> = () => {
   labelSearchSelector.subscribe(component);
   labelsSelector.subscribe(component);
   labelSelector.subscribe(component);
+  romajiSelector.subscribe(component);
 
   return component;
 };

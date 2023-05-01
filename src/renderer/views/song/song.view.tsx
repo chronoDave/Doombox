@@ -11,6 +11,7 @@ import { searchSongs } from '../../state/actions/search.actions';
 import { thumbSelector } from '../../state/selectors/app.selectors';
 import { songSearchSelector } from '../../state/selectors/search.selectors';
 import { songSelector, songsSelector } from '../../state/selectors/song.selectors';
+import { romajiSelector } from '../../state/selectors/user.selectors';
 
 import './song.view.scss';
 
@@ -47,8 +48,8 @@ const SongView: Component<SongViewProps> = () => {
                       loading='lazy'
                     />
                     <div class='metadata'>
-                      <p>{song.romaji.title ?? song.title}</p>
-                      <p>{song.romaji.artist ?? song.artist}</p>
+                      <p>{romajiSelector.get(song.title)}</p>
+                      <p>{romajiSelector.get(song.artist)}</p>
                     </div>
                     <div class='duration'>
                       <p>{timeToHhMmSs(secToTime(song.duration ?? 0))}</p>
@@ -67,6 +68,7 @@ const SongView: Component<SongViewProps> = () => {
   songSearchSelector.subscribe(component);
   songSelector.subscribe(component);
   songsSelector.subscribe(component);
+  romajiSelector.subscribe(component);
 
   return component;
 };

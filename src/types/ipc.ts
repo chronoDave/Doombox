@@ -5,7 +5,7 @@ import type {
   Song
 } from './library';
 import type { Shape } from './primitives';
-import type { RendererShape } from './shapes/renderer.shape';
+import type { CacheShape } from './shapes/cache.shape';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
 import type { IpcMainInvokeEvent } from 'electron';
@@ -78,7 +78,7 @@ export type IpcSendController = {
 export type IpcInvokeController = {
   [IpcChannel.App]: {
     [IpcRoute.SelectFolders]: () => Promise<string[]>
-    [IpcRoute.Path]: () => Promise<{ thumb: string, original: string }>
+    [IpcRoute.Path]: () => Promise<{ covers: string, thumbs: string }>
   }
   [IpcChannel.Search]: {
     [IpcRoute.Song]: (payload: Query) => Promise<Song[]>
@@ -87,7 +87,7 @@ export type IpcInvokeController = {
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
-  [IpcChannel.Cache]: IpcControllerStorage<RendererShape>,
+  [IpcChannel.Cache]: IpcControllerStorage<CacheShape>,
   [IpcChannel.Library]: {
     [IpcRoute.Add]: (payload: string[]) => Promise<Library>
     [IpcRoute.Remove]: (payload: string[]) => Promise<Library>

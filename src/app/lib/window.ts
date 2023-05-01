@@ -1,6 +1,6 @@
-import type { AppShape } from '../../types/shapes/app.shape';
 import type Logger from './logger/logger';
 import type Storage from './storage/storage';
+import type { AppShape } from '../../types/shapes/app.shape';
 
 import { BrowserWindow, ipcMain } from 'electron';
 import produce from 'immer';
@@ -34,9 +34,9 @@ export default (props: WindowProps) => {
     }
   });
 
-  const router = createIpcRouter(() => createWindowController({
+  const router = createIpcRouter(props.logger)(() => createWindowController({
     window
-  }))(props.logger);
+  }));
   const handleResize = debounce(() => {
     const { width, height } = window.getBounds();
     props.storage.set(produce(draft => {

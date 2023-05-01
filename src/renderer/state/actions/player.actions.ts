@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import rendererShape from '../../../types/shapes/renderer.shape';
+import cacheShape from '../../../types/shapes/cache.shape';
 import clamp from '../../../utils/number/clamp';
 import Audio, { AudioStatus } from '../../lib/audio';
 import updateCache from '../../utils/updateCache';
@@ -9,7 +9,7 @@ import store from '../store';
 
 const audio = new Audio({
   ...store.get().user.player,
-  ...rendererShape.player
+  ...cacheShape.player
 })
   .on('duration', duration => store.dispatch(produce(draft => {
     draft.player.current.duration = duration;

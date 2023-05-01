@@ -12,6 +12,7 @@ import PlayerSlider from '../../modules/playerSlider/playerSlider';
 import * as player from '../../state/actions/player.actions';
 import { playlistIndexSelector, playlistSelector } from '../../state/selectors/playlist.selectors';
 import { songSelector } from '../../state/selectors/song.selectors';
+import { romajiSelector } from '../../state/selectors/user.selectors';
 import cx from '../../utils/cx';
 
 import './player.view.scss';
@@ -46,8 +47,8 @@ const PlayerView: Component<PlayerViewProps> = () => {
                     onclick={() => player.skip(i)}
                   >
                     <div class='metadata'>
-                      <p>{song.romaji.title ?? song.title}</p>
-                      <p>{song.romaji.artist ?? song.artist}</p>
+                      <p>{romajiSelector.get(song.title)}</p>
+                      <p>{romajiSelector.get(song.artist)}</p>
                     </div>
                     <div class='duration'>
                       <p>{timeToHhMmSs(secToTime(song.duration ?? 0))}</p>
@@ -65,6 +66,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
   playlistSelector.subscribe(component);
   songSelector.subscribe(component);
   playlistIndexSelector.subscribe(component);
+  romajiSelector.subscribe(component);
 
   return component;
 };

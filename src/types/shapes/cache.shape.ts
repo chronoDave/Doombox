@@ -3,7 +3,7 @@ import type { Json } from '../primitives';
 
 import { AppView } from '../views';
 
-export type RendererShape = Constrain<Json, {
+export type CacheShape = Constrain<Json, {
   tab: AppView,
   player: {
     volume: number,
@@ -11,7 +11,7 @@ export type RendererShape = Constrain<Json, {
   }
 }>;
 
-const rendererShape: Readonly<RendererShape> = {
+const cacheShape: Readonly<CacheShape> = {
   tab: AppView.Player,
   player: {
     volume: 1,
@@ -19,4 +19,4 @@ const rendererShape: Readonly<RendererShape> = {
   }
 };
 
-export default rendererShape;
+export default cacheShape;

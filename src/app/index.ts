@@ -1,48 +1,106 @@
-import { app as electron } from 'electron';
-import fs from 'fs';
-import path from 'path';
+import type { LibraryDatabase } from './types';
 
+import { app, ipcMain, nativeTheme } from 'electron';
+import fs from 'fs';
+import LeafDB from 'leaf-db';
+
+import { IpcChannel } from '../types/ipc';
+import appShape from '../types/shapes/app.shape';
+import cacheShape from '../types/shapes/cache.shape';
+import themeShape from '../types/shapes/theme.shape';
+import userShape from '../types/shapes/user.shape';
 import { IS_DEV } from '../utils/const';
 
-import app from './lib/app';
+import createAppController from './controllers/app.controller';
+import createCacheController from './controllers/cache.controller';
+import createLibraryController from './controllers/library/library.controller';
+import createSearchController from './controllers/search.controller';
+import createThemeController from './controllers/theme.controller';
+import createUserController from './controllers/user.controller';
+import Logger from './lib/logger/logger';
+import Storage from './lib/storage/storage';
+import createWindow from './lib/window';
+import { PATH } from './utils/const';
+import ipcRouterFactory from './utils/ipc/createIpcRouter';
 
-const userData = IS_DEV ?
-  path.resolve(__dirname, '../../data/userData') :
-  electron.getPath('userData');
-const appData = IS_DEV ?
-  path.resolve(__dirname, '../../data/appData') :
-  electron.getPath('appData');
-const assets = IS_DEV ?
-  path.resolve(__dirname, './assets') :
-  path.resolve(electron.getAppPath(), 'assets');
-const logs = IS_DEV ?
-  path.resolve(__dirname, '../../data/logs') :
-  electron.getPath('logs');
-const dict = IS_DEV ?
-  path.resolve(__dirname, '../../node_modules/kuromoji/dict') :
-  path.resolve(electron.getAppPath(), 'dict');
-const covers = path.resolve(appData, 'covers');
-const thumb = path.resolve(covers, 'thumb');
-const original = path.resolve(covers, 'original');
-
+/** Initialize directories */
 if (IS_DEV) {
-  fs.mkdirSync(userData, { recursive: true });
-  fs.mkdirSync(appData, { recursive: true });
-  fs.mkdirSync(assets, { recursive: true });
-  fs.mkdirSync(logs, { recursive: true });
+  fs.mkdirSync(PATH.USER_DATA, { recursive: true });
+  fs.mkdirSync(PATH.APP_DATA, { recursive: true });
+  fs.mkdirSync(PATH.ASSETS, { recursive: true });
+  fs.mkdirSync(PATH.LOGS, { recursive: true });
 }
 
-fs.mkdirSync(covers, { recursive: true });
+fs.mkdirSync(PATH.COVERS, { recursive: true });
+fs.mkdirSync(PATH.THUMBS, { recursive: true });
 
-app({
-  userData,
-  appData,
-  assets,
-  logs,
-  dict,
-  covers: {
-    root: covers,
-    thumb,
-    original
-  }
-});
+/** Initialize entities */
+const logger = new Logger({ root: PATH.LOGS });
+const library: LibraryDatabase = {
+  songs: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'songs' } }),
+  albums: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'albums' } }),
+  labels: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } })
+};
+const storage = {
+  app: new Storage({ name: 'app', shape: appShape, root: PATH.APP_DATA }),
+  theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.APP_DATA }),
+  user: new Storage({ name: 'user', shape: userShape, root: PATH.APP_DATA }),
+  cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
+};
+
+const createIpcRouter = ipcRouterFactory(logger);
+const router = {
+  library: createIpcRouter(createLibraryController({
+    library,
+    root: { covers: PATH.COVERS, thumbs: PATH.THUMBS },
+    storage: storage.user
+  })),
+  user: createIpcRouter(createUserController({
+    storage: storage.user
+  })),
+  theme: createIpcRouter(createThemeController({
+    storage: storage.theme
+  })),
+  cache: createIpcRouter(createCacheController({
+    storage: storage.cache
+  })),
+  app: createIpcRouter(createAppController({
+    root: { covers: PATH.COVERS, thumbs: PATH.THUMBS }
+  })),
+  search: createIpcRouter(createSearchController({
+    library
+  }))
+};
+
+/** Initialize app */
+Object.values(library).forEach(db => db.open());
+nativeTheme.themeSource = storage.theme.get().theme;
+
+app.whenReady()
+  .then(() => {
+    ipcMain.handle(IpcChannel.App, router.app);
+    ipcMain.handle(IpcChannel.User, router.user);
+    ipcMain.handle(IpcChannel.Theme, router.theme);
+    ipcMain.handle(IpcChannel.Cache, router.cache);
+    ipcMain.handle(IpcChannel.Library, router.library);
+    ipcMain.handle(IpcChannel.Search, router.search);
+
+    createWindow({ storage: storage.app, logger });
+
+    app.on('window-all-closed', () => {
+      if (process.platform !== 'darwin') app.quit();
+    });
+
+    app.on('render-process-gone', (e, w, d) => {
+      logger.error(new Error(JSON.stringify(d)));
+      app.quit();
+    });
+
+    app.on('child-process-gone', (e, d) => {
+      logger.error(new Error(JSON.stringify(d)));
+      app.quit();
+    });
+
+    return null;
+  })
+  .catch(logger.error);

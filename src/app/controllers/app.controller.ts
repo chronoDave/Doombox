@@ -4,8 +4,8 @@ import { dialog } from 'electron';
 
 export type AppControllerProps = {
   root: {
-    original: string
-    thumb: string
+    covers: string
+    thumbs: string
   }
 };
 
