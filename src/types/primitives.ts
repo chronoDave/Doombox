@@ -14,3 +14,9 @@ export type Collection<T extends Doc<{}>> = {
   set: Set<T>
   map: Map<string, T>
 };
+
+export type Time = {
+  s: number
+  m: number
+  h: number
+};

@@ -6,11 +6,11 @@ import type Storage from '../../lib/storage/storage';
 import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
 
+import glob from 'fast-glob';
 import fs from 'fs';
 
 import { IpcChannel } from '../../../types/ipc';
 import difference from '../../../utils/array/difference';
-import globs from '../../../utils/collection/globs';
 import ipcSend from '../../utils/ipc/ipcSend';
 
 export type LibraryControllerProps = {
@@ -42,6 +42,10 @@ export default (props: LibraryControllerProps) =>
       size: event.total
     }));
 
+    const globAll = (folders: string[], pattern: string) =>
+      Promise.all(folders.map(folder => glob(pattern, { cwd: folder, absolute: true })))
+        .then(x => x.flat());
+
     return ({
       get: () => Promise.all([
         props.db.songs.find({}),
@@ -51,7 +55,7 @@ export default (props: LibraryControllerProps) =>
       reindex: async folders => {
         const oldSongs = await props.db.songs.find({});
         const oldFiles = oldSongs.map(song => song.file);
-        const files = await globs(folders, '**/*.mp3');
+        const files = await globAll(folders, '**/*.mp3');
         const stale = oldSongs.filter(song => !files.includes(song.file));
         const fresh = difference(files, oldFiles);
 
@@ -67,21 +71,21 @@ export default (props: LibraryControllerProps) =>
         fs.rmSync(props.root.root, { recursive: true, force: true });
         fs.mkdirSync(props.root.original, { recursive: true });
         fs.mkdirSync(props.root.thumb, { recursive: true });
-        const files = await globs(library.folders, '**/*.mp3');
+        const files = await globAll(library.folders, '**/*.mp3');
         await props.library.insert(files);
 
         return props.library.rebuild();
       },
       add: async folders => {
         const current = await props.db.songs.find({});
-        const files = await globs(folders, '**/*.mp3');
+        const files = await globAll(folders, '**/*.mp3');
         const fresh = files.filter(file => current.every(song => song.file !== file));
         await props.library.insert(fresh);
 
         return props.library.rebuild();
       },
       remove: async folders => {
-        const files = await globs(folders, '**/*.mp3');
+        const files = await globAll(folders, '**/*.mp3');
 
         await Promise.all(files.map(file => {
           send({ process: 'deleting files', file, size: files.length });

@@ -3,7 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { IpcChannel } from '../../../types/ipc';
-import { toMinSec } from '../../../utils/string/formatTime';
+import secToTime from '../../../utils/time/secToTime';
+import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Loader from '../../components/loader/loader';
 import Progress from '../../components/progress/progress';
 import { useInterval } from '../../hooks/useInterval';
@@ -24,6 +25,11 @@ const ScanView: Component<ScanViewProps> = () => {
     time: { cur: 0, max: 0 }
   };
 
+  const cur = timeToHhMmSs(secToTime(state.time.cur));
+  const max = Number.isFinite(state.time.max) ?
+    timeToHhMmSs(secToTime(state.time.max)) :
+    '\u221e';
+
   const component = new forgo.Component<ScanViewProps>({
     render() {
       return (
@@ -33,7 +39,7 @@ const ScanView: Component<ScanViewProps> = () => {
             <h1>Loading</h1>
           ] : [
             <h1 class='title'>{state.process} ({state.scanned} / {state.size})</h1>,
-            <p>{toMinSec(state.time.cur)} / {Number.isFinite(state.time.max) ? toMinSec(state.time.max) : '\u221e'}</p>,
+            <p>{cur} / {max}</p>,
             <Progress
               value={state.scanned}
               label='scanning progress'

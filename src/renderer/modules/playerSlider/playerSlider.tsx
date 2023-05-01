@@ -2,7 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { toMinSec, toHourMinSec } from '../../../utils/string/formatTime';
+import secToTime from '../../../utils/time/secToTime';
+import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Slider from '../../components/slider/slider';
 import { seek } from '../../state/actions/player.actions';
 import { playerDurationSelector, playerPositionSelector } from '../../state/selectors/player.selectors';
@@ -17,10 +18,6 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
       const duration = playerDurationSelector.get();
       const position = playerPositionSelector.get();
 
-      const format = duration > (60 * 60) ?
-        toHourMinSec :
-        toMinSec;
-
       return (
         <div class='PlayerSlider'>
           <Slider
@@ -31,8 +28,8 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
             onchange={seek}
           />
           <div class='time'>
-            <span>{format(position)}</span>
-            <span>-{format(duration - position)}</span>
+            <span>{timeToHhMmSs(secToTime(position))}</span>
+            <span>-{timeToHhMmSs(secToTime(duration - position))}</span>
           </div>
         </div>
       );

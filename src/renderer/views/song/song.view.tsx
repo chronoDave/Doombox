@@ -2,7 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { toMinSec } from '../../../utils/string/formatTime';
+import secToTime from '../../../utils/time/secToTime';
+import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
 import * as player from '../../state/actions/player.actions';
@@ -50,7 +51,7 @@ const SongView: Component<SongViewProps> = () => {
                       <p>{song.romaji.artist ?? song.artist}</p>
                     </div>
                     <div class='duration'>
-                      <p>{toMinSec(song.duration ?? 0)}</p>
+                      <p>{timeToHhMmSs(secToTime(song.duration ?? 0))}</p>
                     </div>
                   </button>
                 );

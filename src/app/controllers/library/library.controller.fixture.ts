@@ -22,6 +22,7 @@ export default async () => {
   const dir = {
     root,
     covers: {
+      root: path.resolve(root, 'covers'),
       thumb: path.resolve(root, 'covers/thumb'),
       original: path.resolve(root, 'covers/original')
     },
@@ -49,6 +50,7 @@ export default async () => {
   const controller = createLibraryController({
     db,
     storage,
+    root: root.covers,
     library: new Library({
       db,
       root: dir.covers,
