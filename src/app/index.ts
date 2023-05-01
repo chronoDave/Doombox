@@ -11,17 +11,17 @@ import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
 import { IS_DEV } from '../utils/const';
 
+import { PATH } from './const';
 import createAppController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
-import createLibraryController from './controllers/library/library.controller';
+import createLibraryController from './controllers/library.controller';
 import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
 import Logger from './lib/logger/logger';
 import Storage from './lib/storage/storage';
 import createWindow from './lib/window';
-import { PATH } from './utils/const';
-import ipcRouterFactory from './utils/ipc/createIpcRouter';
+import ipcRouterFactory from './utils/createIpcRouter';
 
 /** Initialize directories */
 if (IS_DEV) {

@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import path from 'path';
 
-import { IS_DEV } from '../../utils/const';
+import { IS_DEV } from '../utils/const';
 
 const USER_DATA = IS_DEV ?
   path.resolve(__dirname, '../../data/userData') :

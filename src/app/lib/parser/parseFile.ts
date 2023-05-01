@@ -9,6 +9,9 @@ export default async (file: string): Promise<Song> => {
   const metadata = await parseFile(file);
   const nativeTag = getNativeTag(metadata.native);
 
+  const date = nativeTag('TDAT');
+  const cdid = nativeTag('TXXX:CDID');
+
   return ({
     _id: LeafDB.generateId(),
     file,
@@ -27,7 +30,7 @@ export default async (file: string): Promise<Song> => {
     track: metadata.common.track,
     disc: metadata.common.disk,
     year: metadata.common.year ?? null,
-    date: metadata.common.date ?? nativeTag('TDAT'),
-    cdid: nativeTag('TXXX:CDID')
+    date: metadata.common.date ?? (typeof date === 'string' ? date : null),
+    cdid: typeof cdid === 'string' ? cdid : null
   });
 };

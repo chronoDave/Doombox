@@ -1,7 +1,9 @@
 const esbuild = require('esbuild');
 const glob = require('fast-glob');
+const fs = require('fs');
 const path = require('path');
 
+const outdir = path.resolve(__dirname, '../build/test');
 esbuild.build({
   entryPoints: [
     ...glob.sync('../src/app/**/*.spec.{ts,tsx}', {
@@ -25,6 +27,15 @@ esbuild.build({
   },
   legalComments: 'none',
   platform: 'node',
-  outdir: path.resolve(__dirname, '../build/test'),
-  outbase: 'src'
+  outdir,
+  outbase: 'src',
+  plugins: [{
+    name: 'clean',
+    setup: build => {
+      build.onStart(() => {
+        fs.rmSync(path.resolve(outdir, 'app'), { recursive: true, force: true });
+        fs.rmSync(path.resolve(outdir, 'utils'), { recursive: true, force: true });
+      });
+    }
+  }]
 });

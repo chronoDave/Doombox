@@ -1,7 +1,9 @@
 const esbuild = require('esbuild');
 const glob = require('fast-glob');
+const fs = require('fs');
 const path = require('path');
 
+const outdir = path.resolve(__dirname, '../build/test');
 esbuild.build({
   entryPoints: glob.sync('../src/renderer/**/*.spec.{ts,tsx}', {
     cwd: __dirname,
@@ -13,6 +15,13 @@ esbuild.build({
     'jsdom'
   ],
   plugins: [{
+    name: 'clean',
+    setup: build => {
+      build.onStart(() => {
+        fs.rmSync(path.resolve(outdir, 'renderer'), { recursive: true, force: true });
+      });
+    }
+  }, {
     name: 'ignore',
     setup: build => {
       build.onResolve({ filter: /.scss$/ }, args => ({
@@ -30,6 +39,6 @@ esbuild.build({
   },
   legalComments: 'none',
   platform: 'browser',
-  outdir: path.resolve(__dirname, '../build/test'),
+  outdir,
   outbase: 'src'
 });

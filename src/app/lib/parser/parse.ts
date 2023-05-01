@@ -4,7 +4,7 @@ import LeafDB from 'leaf-db';
 import pMap from 'p-map';
 
 import { IpcChannel } from '../../../types/ipc';
-import ipcSend from '../../utils/ipc/ipcSend';
+import ipcSend from '../../utils/ipcSend';
 
 import parseFile from './parseFile';
 
