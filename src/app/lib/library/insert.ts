@@ -6,7 +6,7 @@ import path from 'path';
 import sharp from 'sharp';
 
 import { IpcChannel } from '../../../types/ipc';
-import ipcSend from '../../utils/ipc/ipcSend';
+import ipcSend from '../../utils/ipcSend';
 import parse from '../parser/parse';
 
 export type InsertProps = {
