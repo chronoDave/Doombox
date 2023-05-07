@@ -1,32 +1,20 @@
 import * as forgo from 'forgo';
 
-import createClickAwayListener from '../clickAwayListener/clickAwayListener';
-
 export type PortalOptions = {
-  persistent?: boolean
+  anchor?: Element | null
 };
 
-export default (component: forgo.ForgoNode, options?: PortalOptions) => {
-  let deleted = false;
+export default (node: forgo.ForgoNode, options?: PortalOptions) => {
+  const anchor = options?.anchor ?? document.body;
 
-  const abortController = new AbortController();
-  const element = (forgo.render(component).node) as Element;
-  document.body.appendChild(element);
+  const element = document.createElement('div');
+  element.classList.add('portal');
 
-  const unmount = () => {
-    forgo.unmount(element);
-    document.body.removeChild(element);
-    deleted = true;
-  };
-
-  if (!options?.persistent) {
-    createClickAwayListener(element, () => {
-      if (!deleted) unmount();
-    }, { abortController });
-  }
+  anchor.appendChild(element);
+  forgo.mount(node, element);
 
   return () => {
-    if (!deleted) unmount();
-    abortController.abort();
+    forgo.unmount(element);
+    anchor.removeChild(element);
   };
 };

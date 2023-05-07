@@ -1,2 +1,2 @@
-export const click = (element: Element) =>
-  element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+export const click = (element: Element | null) =>
+  element?.dispatchEvent(new MouseEvent('click', { bubbles: true }));

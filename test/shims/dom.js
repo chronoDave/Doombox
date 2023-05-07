@@ -1,11 +1,12 @@
 const forgo = require('forgo');
 const { JSDOM } = require('jsdom');
 
-export const dom = new JSDOM();
-export const window = dom.window;
-export const document = dom.window.document;
-export const MouseEvent = dom.window.MouseEvent;
-export const AbortController = dom.window.AbortController;
+const dom = new JSDOM(undefined, { pretendToBeVisual: true });
+
+global.window = dom.window;
+global.document = dom.window.document;
+global.AbortController = dom.window.AbortController;
+global.MouseEvent = dom.window.MouseEvent;
 
 forgo.setCustomEnv({
   window: dom.window,
