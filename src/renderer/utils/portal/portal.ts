@@ -4,17 +4,17 @@ export type PortalOptions = {
   anchor?: Element | null
 };
 
-export default (node: forgo.ForgoNode, options?: PortalOptions) => {
+export default (element: forgo.ForgoNode, options?: PortalOptions) => {
   const anchor = options?.anchor ?? document.body;
 
-  const element = document.createElement('div');
-  element.classList.add('portal');
+  const root = document.createElement('div');
+  root.classList.add('portal');
 
-  anchor.appendChild(element);
-  forgo.mount(node, element);
+  anchor.appendChild(root);
+  forgo.mount(element, root);
 
   return () => {
-    forgo.unmount(element);
-    anchor.removeChild(element);
+    forgo.unmount(root);
+    if (root.isConnected) anchor.removeChild(root);
   };
 };

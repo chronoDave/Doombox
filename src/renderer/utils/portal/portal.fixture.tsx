@@ -7,7 +7,5 @@ export default () => {
     </div>
   ), document.body);
 
-  return () => {
-    forgo.unmount(document.body);
-  };
+  return () => forgo.unmount(document.body);
 };

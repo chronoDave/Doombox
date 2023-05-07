@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 
 import { setViewSettings } from '../../state/actions/view.actions';
 import { settingsViewSelector } from '../../state/selectors/view.selectors';
-import cx from '../../utils/cx';
+import cx from '../../utils/cx/cx';
 import AppearanceView from '../../views/settings/appearance/appearance.view';
 import LibraryView from '../../views/settings/library/library.view';
 

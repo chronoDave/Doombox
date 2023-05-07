@@ -13,7 +13,7 @@ import { fetchUser } from '../../state/actions/user.actions';
 import { setViewApp } from '../../state/actions/view.actions';
 import { readySelector, scanningSelector } from '../../state/selectors/app.selectors';
 import { appViewSelector } from '../../state/selectors/view.selectors';
-import cx from '../../utils/cx';
+import cx from '../../utils/cx/cx';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';
 import PlayerView from '../../views/player/player.view';

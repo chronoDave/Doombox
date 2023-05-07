@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import cx from '../../utils/cx';
+import cx from '../../utils/cx/cx';
 
 import './icon.scss';
 

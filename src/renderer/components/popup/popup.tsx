@@ -27,7 +27,7 @@ export type PopupProps = {
 };
 
 const Popup: Component<PopupProps> = () => {
-  const { signal, abort } = new AbortController();
+  const abortController = new AbortController();
 
   const transform: Record<Position, string> = {
     'top-left': 'translateY(-100%)',
@@ -66,11 +66,11 @@ const Popup: Component<PopupProps> = () => {
   component.mount(() => {
     const update = debounce(() => { component.update(); });
 
-    window.addEventListener('resize', update, { passive: true, signal });
+    window.addEventListener('resize', update, { passive: true, signal: abortController.signal });
   });
 
   component.unmount(() => {
-    abort();
+    abortController.abort();
   });
 
   return component;
@@ -79,4 +79,4 @@ const Popup: Component<PopupProps> = () => {
 export const createPopup = (
   props: PopupProps,
   children: forgo.Component | forgo.Component[]
-) => portal(<Popup {...props}>{children}</Popup>);
+) => portal(<Popup {...props}>{children}</Popup>, { anchor: props.anchor });

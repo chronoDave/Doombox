@@ -1,5 +1,5 @@
 const createClickAwayListener = (
-  element: Element | null,
+  element: ChildNode | null,
   cb: (event: MouseEvent) => void,
   options?: { abortController: AbortController }
 ) => {

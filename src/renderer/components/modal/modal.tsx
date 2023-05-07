@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import createFocusTrap from '../../utils/createFocusTrap';
-import cx from '../../utils/cx';
+import cx from '../../utils/cx/cx';
+import createFocusTrap from '../../utils/focusTrap/focusTrap';
 import portal from '../../utils/portal/portal';
 import Icon from '../icon/icon';
 
@@ -51,13 +51,10 @@ export const Dialog: Component<DialogProps> = () => {
 
   component.mount(props => {
     const root = document.getElementById(props.id);
-    const elements = root?.querySelectorAll<HTMLElement>('a[href]:not([disabled]), button:not([disabled])');
-
-    if (elements) {
-      const handleKeyDown = createFocusTrap(elements);
-      root?.addEventListener('keydown', e => handleKeyDown(e, {
+    if (root) {
+      createFocusTrap(root, {
         onescape: () => ref.value && forgo.unmount(ref.value)
-      }), { passive: true });
+      });
     }
   });
 

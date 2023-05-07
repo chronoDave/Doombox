@@ -13,7 +13,7 @@ import * as player from '../../state/actions/player.actions';
 import { playlistIndexSelector, playlistSelector } from '../../state/selectors/playlist.selectors';
 import { songSelector } from '../../state/selectors/song.selectors';
 import { romajiSelector } from '../../state/selectors/user.selectors';
-import cx from '../../utils/cx';
+import cx from '../../utils/cx/cx';
 
 import './player.view.scss';
 

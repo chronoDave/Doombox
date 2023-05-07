@@ -4,6 +4,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import createClickAwayListener from '../../utils/clickAwayListener/clickAwayListener';
 import Icon from '../icon/icon';
 import { createPopup } from '../popup/popup';
 
@@ -55,6 +56,8 @@ const Menu: Component<MenuProps> = () => {
               type='button'
               role='menuitem'
               onclick={event => {
+                console.log('hit');
+
                 item.onclick(event);
                 if (!item.disableAutoclose) handleClose(event, props);
               }}
@@ -66,6 +69,7 @@ const Menu: Component<MenuProps> = () => {
         ))}
       </ul>
     );
+    createClickAwayListener(currentTarget as Element, popup);
   };
 
   const handleOpen = (

@@ -1,86 +1,85 @@
-// import test from 'tape';
+import test from 'tape';
 
-// import { click } from '../../../../test/lib/dom/mouse';
+import { click } from '../../../../test/lib/dom/mouse';
 
-// import fixture from './menu.fixture';
+import fixture from './menu.fixture';
 
-// test('[menu] should open menu on click', t => {
-//   const { menuButton, cleanup, hasMenuItems } = fixture();
+test('[menu] should open menu on click', t => {
+  const cleanup = fixture();
 
-//   t.false(hasMenuItems(), 'does not have menu');
-//   click(menuButton);
-//   t.true(hasMenuItems(), 'has menu');
+  const menuButton = document.querySelector('button');
 
-//   cleanup();
-//   t.end();
-// });
+  t.equal(document.querySelectorAll('[role=menuitem]').length, 0, 'does not have menu');
+  click(menuButton);
+  t.notEqual(document.querySelectorAll('[role=menuitem]').length, 0, 'has menu');
 
-// test('[menu] should close menu if clicked again', t => {
-//   const { menuButton, cleanup, hasMenuItems } = fixture();
+  cleanup();
+  t.end();
+});
 
-//   click(menuButton);
-//   click(menuButton);
-//   t.false(hasMenuItems(), 'does not have menu');
+test('[menu] should close menu if clicked again', t => {
+  const cleanup = fixture();
 
-//   cleanup();
-//   t.end();
-// });
+  const menuButton = document.querySelector('button');
 
-// test('[menu] should close menu if clicked again', t => {
-//   const { menuButton, cleanup, hasMenuItems } = fixture();
+  click(menuButton);
+  click(menuButton);
+  t.equal(document.querySelectorAll('[role=menuitem]').length, 0, 'does not have menu');
 
-//   click(menuButton);
-//   click(menuButton);
-//   t.false(hasMenuItems(), 'does not have menu');
+  cleanup();
+  t.end();
+});
 
-//   cleanup();
-//   t.end();
-// });
+test('[menu] should close menu if clicked again', t => {
+  const cleanup = fixture();
 
-// test('[menu] should close menu if clicked outside area', t => {
-//   const {
-//     menuButton,
-//     cleanup,
-//     outsideArea,
-//     hasMenuItems
-//   } = fixture();
+  const menuButton = document.querySelector('button');
 
-//   click(menuButton);
-//   click(outsideArea);
-//   t.false(hasMenuItems(), 'does not have menu');
+  click(menuButton);
+  click(menuButton);
+  t.equal(document.querySelectorAll('[role=menuitem]').length, 0, 'does not have menu');
 
-//   cleanup();
-//   t.end();
-// });
+  cleanup();
+  t.end();
+});
 
-// test('[menu] should close menu if item is selected', t => {
-//   const {
-//     menuButton,
-//     cleanup,
-//     getMenuItems,
-//     hasMenuItems
-//   } = fixture();
+test('[menu] should close menu if clicked outside area', t => {
+  const cleanup = fixture();
 
-//   click(menuButton);
-//   click(getMenuItems()[0]);
-//   t.false(hasMenuItems(), 'does not have menu');
+  const menuButton = document.querySelector('button');
+  const outsideArea = document.querySelector('#test');
 
-//   cleanup();
-//   t.end();
-// });
+  click(menuButton);
+  click(outsideArea);
+  t.equal(document.querySelectorAll('[role=menuitem]').length, 0, 'does not have menu');
 
-// test('[menu] should not close menu if item has "disableAutoclose"', t => {
-//   const {
-//     menuButton,
-//     cleanup,
-//     getMenuItems,
-//     hasMenuItems
-//   } = fixture();
+  cleanup();
+  t.end();
+});
 
-//   click(menuButton);
-//   click(getMenuItems()[1]);
-//   t.false(hasMenuItems(), 'does not have menu');
+test('[menu] should close menu if item is clicked', t => {
+  const cleanup = fixture();
 
-//   cleanup();
-//   t.end();
-// });
+  const menuButton = document.querySelector('button');
+
+  click(menuButton);
+  click(document.querySelectorAll('[role=menuitem]')[0]);
+
+  t.equal(document.querySelectorAll('[role=menuitem]').length, 0, 'does not have menu');
+
+  cleanup();
+  t.end();
+});
+
+test('[menu] should not close menu if item has "disableAutoclose"', t => {
+  const cleanup = fixture();
+
+  const menuButton = document.querySelector('button');
+
+  click(menuButton);
+  click(document.querySelectorAll('[role=menuitem]')[1]);
+  t.notEqual(document.querySelectorAll('[role=menuitem]'), 0, 'has menu');
+
+  cleanup();
+  t.end();
+});
