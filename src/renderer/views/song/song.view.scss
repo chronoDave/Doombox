@@ -1,15 +1,45 @@
 @use 'typography';
+@use 'utils';
 
 .SongView {
   display: flex;
   flex-direction: column;
+
+  > .toolbar {
+    display: flex;
+    justify-content: space-between;
+
+    > .status {
+      display: flex;
+      gap: 8px;
+      margin: 4px 0;
+
+      > span {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    > .actions {
+      display: flex;
+      gap: 4px;
+
+      > button {
+        padding: 4px;
+
+        > .Icon {
+          width: utils.rem(20);
+        }
+      }
+    }
+  }
 
   > .VirtualList > ul > li > button {
     $padding: 4px;
 
     display: flex;
     align-items: center;
-    padding: $padding;
+    padding: 0 $padding;
     gap: 4px;
     width: 100%;
 
@@ -28,10 +58,7 @@
     }
 
     > .duration {
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      height: 100%;
+      @include typography.small;
     }
   }
 }

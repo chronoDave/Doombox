@@ -18,6 +18,18 @@ export const addToPlaylist = (ids: string[]) => {
   if (autplay) play(ids[0]);
 };
 
+export const setPlaylist = (ids: string[]) => {
+  const autplay =
+    store.get().playlist.songs.length === 0 &&
+    store.get().player.status !== AudioStatus.Playing;
+
+  store.dispatch(produce(draft => {
+    draft.playlist.songs = ids;
+  }), 'playlist.add');
+
+  if (autplay) play(ids[0]);
+};
+
 export const next = () => {
   if (store.get().playlist.index < store.get().playlist.songs.length) {
     store.dispatch(produce(draft => {
