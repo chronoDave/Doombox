@@ -26,7 +26,7 @@ const invoke = (
   const event: IpcEvent = { action, payload };
   const result = await ipcRenderer.invoke(channel, event);
 
-  if (IS_DEV) {
+  if (IS_DEV()) {
     console.group('[ipc]', `${channel}.${action}`);
     console.log('[event]', event);
     console.log('[result]', result);

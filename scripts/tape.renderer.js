@@ -35,8 +35,7 @@ esbuild.build({
     path.resolve(__dirname, '../test/shims/dom.js')
   ],
   define: {
-    'process.env.NODE_ENV': '"development"',
-    'process.env.JSDOM': '"true"'
+    'process.env.NODE_ENV': '"development"'
   },
   legalComments: 'none',
   platform: 'browser',

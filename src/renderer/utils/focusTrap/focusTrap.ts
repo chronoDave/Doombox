@@ -9,7 +9,7 @@ export type FocusTrapOptions = {
 export default (element: HTMLElement, options: FocusTrapOptions) => {
   const { signal, abort } = new AbortController();
   const elements = tabbable(element, {
-    displayCheck: IS_JSDOM ? 'none' : 'non-zero-area'
+    displayCheck: IS_JSDOM() ? 'none' : 'non-zero-area'
   });
 
   const first = elements[0];

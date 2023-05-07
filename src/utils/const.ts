@@ -1,2 +1,2 @@
-export const IS_DEV = process.env.NODE_ENV === 'development';
-export const IS_JSDOM = process.env.JSDOM === 'true';
+export const IS_DEV = () => process.env.NODE_ENV === 'development';
+export const IS_JSDOM = () => false;

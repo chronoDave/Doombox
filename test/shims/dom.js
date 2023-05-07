@@ -14,3 +14,5 @@ forgo.setCustomEnv({
   window: dom.window,
   document: dom.window.document
 });
+
+export const IS_JSDOM = true;
