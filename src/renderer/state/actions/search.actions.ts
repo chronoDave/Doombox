@@ -10,9 +10,23 @@ export const searchSongs = async (query: string) => {
     }), 'search.searchSongs');
   } else {
     const songs = await window.ipc.search.song({
-      $string: {
-        title: query
-      }
+      $or: [{
+        $string: {
+          title: query
+        }
+      }, {
+        $string: {
+          artist: query
+        }
+      }, {
+        $string: {
+          album: query
+        }
+      }, {
+        $string: {
+          albumartist: query
+        }
+      }]
     });
 
     store.dispatch(produce(draft => {
@@ -36,9 +50,19 @@ export const searchAlbums = async (query: string) => {
     }), 'search.searchAlbums');
   } else {
     const albums = await window.ipc.search.album({
-      $string: {
-        title: query
-      }
+      $or: [{
+        $string: {
+          album: query
+        }
+      }, {
+        $string: {
+          albumartist: query
+        }
+      }, {
+        $string: {
+          label: query
+        }
+      }]
     });
 
     store.dispatch(produce(draft => {
@@ -63,7 +87,7 @@ export const searchLabels = async (query: string) => {
   } else {
     const labels = await window.ipc.search.label({
       $string: {
-        title: query
+        label: query
       }
     });
 

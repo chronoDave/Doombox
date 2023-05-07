@@ -66,8 +66,6 @@ const AlbumView: Component<AlbumViewProps> = () => {
                 const album = albumSelector.get(id);
                 const thumbs = thumbSelector.get(album.image, Thumb.Album);
 
-                console.log(playerSongSelector.get());
-
                 return (
                   <button
                     id={album._id}

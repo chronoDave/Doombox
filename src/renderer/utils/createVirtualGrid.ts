@@ -65,7 +65,7 @@ const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> =>
     height: cells[cells.length - 1]?.position.top ?? 0,
     cells: cells.slice(
       Math.max(0, min - rows),
-      Math.min(cells.length - 1, max === -1 ?
+      Math.min(cells.length, max === -1 ?
         cells.length :
         max + rows)
     )
