@@ -1,6 +1,8 @@
 import type Store from '../lib/store';
 import type { State } from '../types/state';
 
+import deepEqual from 'fast-deep-equal';
+
 import createSelector from './createSelector';
 
 export default (store: Store<State>) =>
@@ -15,7 +17,7 @@ export default (store: Store<State>) =>
 
         const keys = Array.from(cur.keys());
         for (let i = 0; i < keys.length; i += 1) {
-          if (prev.get(keys[i]) !== cur.get(keys[i])) return true;
+          if (!deepEqual(prev.get(keys[i]), cur.get(keys[i]))) return true;
         }
 
         return false;

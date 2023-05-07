@@ -12,5 +12,12 @@ export const songSelector = createSelector(store)(
     if (!song) throw new Error(`Invalid id: ${id}`);
     return song;
   },
-  () => false
+  (prev, cur) => {
+    if (
+      !prev.entities.song ||
+      prev.entities.song.size !== cur.entities.song.size
+    ) return true;
+
+    return false;
+  }
 );

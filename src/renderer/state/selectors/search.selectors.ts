@@ -1,5 +1,7 @@
 import type { State } from '../../types/state';
 
+import deepEqual from 'fast-deep-equal';
+
 import createSelector from '../../utils/createSelector';
 import store from '../store';
 
@@ -8,12 +10,10 @@ const createSearchSelector = <T extends unknown>(selector: (state: State) => T[]
     const prev = selector(prevState);
     const cur = selector(curState);
 
-    return (
-      !prev ||
-      !cur ||
-      prev.length !== cur.length ||
-      prev.some((x, i) => cur[i] !== x)
-    );
+    if (!prev && !cur) return false;
+    if (prev?.length === cur?.length) return false;
+    if (prev?.every((x, i) => deepEqual(cur?.[i], x))) return false;
+    return true;
   });
 
 export const songSearchSelector =
