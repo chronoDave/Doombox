@@ -11,9 +11,11 @@ import * as player from '../../state/actions/player.actions';
 import { addToPlaylist, setPlaylist } from '../../state/actions/playlist.actions';
 import { searchSongs } from '../../state/actions/search.actions';
 import { thumbSelector } from '../../state/selectors/app.selectors';
+import { playerIdSelector } from '../../state/selectors/player.selectors';
 import { songSearchSelector } from '../../state/selectors/search.selectors';
 import { songSelector, songsSelector } from '../../state/selectors/song.selectors';
 import { romajiSelector } from '../../state/selectors/user.selectors';
+import cx from '../../utils/cx/cx';
 
 import './song.view.scss';
 
@@ -56,7 +58,12 @@ const SongView: Component<SongViewProps> = () => {
                 const song = songSelector.get(id);
 
                 return (
-                  <button id={song._id} type='button' onclick={() => player.play(song._id)}>
+                  <button
+                    id={song._id}
+                    type='button'
+                    onclick={() => player.play(song._id)}
+                    class={cx(id === playerIdSelector.get() && 'active')}
+                  >
                     <img
                       width={34}
                       height={34}
@@ -86,6 +93,7 @@ const SongView: Component<SongViewProps> = () => {
   songSelector.subscribe(component);
   songsSelector.subscribe(component);
   romajiSelector.subscribe(component);
+  playerIdSelector.subscribe(component);
 
   return component;
 };

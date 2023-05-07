@@ -19,15 +19,11 @@ export const addToPlaylist = (ids: string[]) => {
 };
 
 export const setPlaylist = (ids: string[]) => {
-  const autplay =
-    store.get().playlist.songs.length === 0 &&
-    store.get().player.status !== AudioStatus.Playing;
-
   store.dispatch(produce(draft => {
     draft.playlist.songs = ids;
   }), 'playlist.add');
 
-  if (autplay) play(ids[0]);
+  play(ids[0]);
 };
 
 export const next = () => {

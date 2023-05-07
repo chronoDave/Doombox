@@ -19,6 +19,9 @@ export const playerMutedSelector =
 export const playerVolumeSelector =
   createPropertySelector(store)(state => state.player.volume);
 
+export const playerIdSelector =
+  createPropertySelector(store)(state => state.player.current.id);
+
 export const playerSongSelector = createSelector(store)(
   () => {
     const { player } = store.get();
