@@ -1,13 +1,12 @@
 .VirtualGrid {
   flex-grow: 1;
-  overflow: auto;
+  overflow-y: scroll;
 
   > ul {
     position: relative;
 
     > li {
       position: absolute;
-      width: 100%;
     }
   }
 }

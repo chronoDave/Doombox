@@ -158,7 +158,16 @@ module.exports = {
           from: 'src/renderer/state',
           except: ['./selectors', './actions'],
           message: 'State should not be accessed directly, use selectors or actions instead.'
-        }))
+        })),
+        {
+          target: 'src/renderer',
+          from: 'src/app',
+          message: 'Renderer should not directly import from app'
+        }, {
+          target: 'src/app',
+          from: 'src/renderer',
+          message: 'App should not directly import from renderer'
+        }
       ]
     }],
     'import/no-self-import': 'error',

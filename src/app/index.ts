@@ -31,7 +31,6 @@ if (IS_DEV) {
   fs.mkdirSync(PATH.LOGS, { recursive: true });
 }
 
-fs.mkdirSync(PATH.COVERS, { recursive: true });
 fs.mkdirSync(PATH.THUMBS, { recursive: true });
 
 /** Initialize entities */
@@ -52,7 +51,7 @@ const createIpcRouter = ipcRouterFactory(logger);
 const router = {
   library: createIpcRouter(createLibraryController({
     library,
-    root: { covers: PATH.COVERS, thumbs: PATH.THUMBS },
+    root: PATH.THUMBS,
     storage: storage.user
   })),
   user: createIpcRouter(createUserController({
@@ -65,7 +64,7 @@ const router = {
     storage: storage.cache
   })),
   app: createIpcRouter(createAppController({
-    root: { covers: PATH.COVERS, thumbs: PATH.THUMBS }
+    directory: { thumbs: PATH.THUMBS }
   })),
   search: createIpcRouter(createSearchController({
     library

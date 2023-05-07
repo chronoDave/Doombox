@@ -21,6 +21,7 @@ export const addToPlaylist = (ids: string[]) => {
 export const setPlaylist = (ids: string[]) => {
   store.dispatch(produce(draft => {
     draft.playlist.songs = ids;
+    draft.playlist.index = 0;
   }), 'playlist.add');
 
   play(ids[0]);

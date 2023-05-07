@@ -3,10 +3,7 @@ import type { IpcChannel, IpcInvokeController } from '../../types/ipc';
 import { dialog } from 'electron';
 
 export type AppControllerProps = {
-  root: {
-    covers: string
-    thumbs: string
-  }
+  directory: { thumbs: string }
 };
 
 export default (props: AppControllerProps) => (): IpcInvokeController[IpcChannel.App] => ({
@@ -19,5 +16,5 @@ export default (props: AppControllerProps) => (): IpcInvokeController[IpcChannel
     ]
   })
     .then(x => x.filePaths),
-  path: async () => props.root
+  directory: async () => props.directory
 });

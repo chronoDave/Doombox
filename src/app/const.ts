@@ -16,14 +16,10 @@ const LOGS = IS_DEV ?
   path.resolve(__dirname, '../../data/logs') :
   app.getPath('logs');
 
-const COVERS = path.resolve(APP_DATA, 'covers');
-const THUMBS = path.resolve(APP_DATA, 'thumbs');
-
 export const PATH = {
   USER_DATA,
   APP_DATA,
   ASSETS,
   LOGS,
-  COVERS,
-  THUMBS
+  THUMBS: path.resolve(APP_DATA, 'thumbs')
 };

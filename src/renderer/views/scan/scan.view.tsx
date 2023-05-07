@@ -9,7 +9,8 @@ import Loader from '../../components/loader/loader';
 import Progress from '../../components/progress/progress';
 import { useInterval } from '../../hooks/useInterval';
 import useIpc from '../../hooks/useIpc';
-import { useMediaQueryList } from '../../hooks/useMediaQuery';
+import useMediaQuery from '../../hooks/useMediaQuery';
+import createMediaQuery from '../../utils/mediaQuery';
 
 import './scan.view.scss';
 
@@ -71,7 +72,13 @@ const ScanView: Component<ScanViewProps> = () => {
     state.time.max = Math.round(state.time.cur / (state.scanned / state.size));
   }, 1000)(component);
 
-  useMediaQueryList('min-width', ['xs-w', 'sm-w', 'md-w', 'lg-w', 'xl-w'])((_, i) => {
+  useMediaQuery([
+    createMediaQuery({ axis: 'min-width', breakpoint: 'xs-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'sm-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'md-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'lg-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'xl-w' })
+  ])(i => {
     bars = 12 + (i * 6);
   })(component);
 

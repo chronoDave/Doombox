@@ -11,9 +11,8 @@ export default new Store<State>({
   app: {
     ready: false,
     scanning: false,
-    path: {
-      cover: '',
-      thumb: ''
+    directory: {
+      thumbs: null
     }
   },
   playlist: {
@@ -24,6 +23,7 @@ export default new Store<State>({
     ...userShape.player,
     ...cacheShape.player,
     current: {
+      id: null,
       position: 0,
       duration: 0
     },

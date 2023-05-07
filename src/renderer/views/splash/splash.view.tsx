@@ -3,7 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Loader from '../../components/loader/loader';
-import { useMediaQueryList } from '../../hooks/useMediaQuery';
+import useMediaQuery from '../../hooks/useMediaQuery';
+import createMediaQuery from '../../utils/mediaQuery';
 
 import './splash.view.scss';
 
@@ -23,11 +24,15 @@ const SplashView: Component<SplashViewProps> = () => {
     }
   });
 
-  useMediaQueryList('min-width', ['xs-w', 'sm-w', 'md-w', 'lg-w', 'xl-w'])((_, i) => {
+  return useMediaQuery([
+    createMediaQuery({ axis: 'min-width', breakpoint: 'xs-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'sm-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'md-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'lg-w' }),
+    createMediaQuery({ axis: 'min-width', breakpoint: 'xl-w' })
+  ])(i => {
     bars = 12 + (i * 6);
   })(component);
-
-  return component;
 };
 
 export default SplashView;

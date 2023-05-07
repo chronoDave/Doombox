@@ -8,14 +8,13 @@ export type State = {
   app: {
     ready: boolean
     scanning: boolean
-    path: {
-      cover: string
-      thumb: string
+    directory: {
+      thumbs: string | null
     }
   }
   player: {
     current: {
-      id?: string
+      id: string | null
       position: number
       duration: number
     },

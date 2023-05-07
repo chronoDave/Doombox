@@ -63,10 +63,8 @@ export default (props: LibraryControllerProps) =>
         const { library } = props.storage.get();
 
         props.library.songs.drop();
-        fs.rmSync(props.root.covers, { recursive: true, force: true });
-        fs.rmSync(props.root.thumbs, { recursive: true, force: true });
-        fs.mkdirSync(props.root.covers, { recursive: true });
-        fs.mkdirSync(props.root.thumbs, { recursive: true });
+        fs.rmSync(props.root, { recursive: true, force: true });
+        fs.mkdirSync(props.root, { recursive: true });
         const files = await globAll(library.folders, '**/*.mp3');
         await insert(files);
 

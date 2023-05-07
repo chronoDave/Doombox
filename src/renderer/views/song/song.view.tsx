@@ -2,6 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import { Thumb } from '../../../types/library';
 import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Icon from '../../components/icon/icon';
@@ -31,7 +32,7 @@ const SongView: Component<SongViewProps> = () => {
 
       return (
         <div class="SongView">
-          <h1 class='sr-only'>All songs</h1>
+          <h1 class='sr-only'>Song view</h1>
           <InputSearch
             placeholder='search for songs'
             onsubmit={x => searchSongs(x)}
@@ -67,7 +68,7 @@ const SongView: Component<SongViewProps> = () => {
                     <img
                       width={34}
                       height={34}
-                      src={thumbSelector.get(song.image)}
+                      src={thumbSelector.get(song.image, Thumb.Song)}
                       alt=''
                       loading='lazy'
                     />
@@ -88,12 +89,12 @@ const SongView: Component<SongViewProps> = () => {
     }
   });
 
-  thumbSelector.subscribe(component);
   songSearchSelector.subscribe(component);
   songSelector.subscribe(component);
   songsSelector.subscribe(component);
   romajiSelector.subscribe(component);
   playerIdSelector.subscribe(component);
+  thumbSelector.subscribe(component);
 
   return component;
 };

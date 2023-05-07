@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 
 import { AppView } from '../../../types/views';
 import Icon from '../../components/icon/icon';
-import { fetchPaths, setReady } from '../../state/actions/app.actions';
+import { fetchDirectory, setReady } from '../../state/actions/app.actions';
 import { fetchCache } from '../../state/actions/cache.actions';
 import { fetchLibrary } from '../../state/actions/library.actions';
 import { fetchTheme } from '../../state/actions/theme.actions';
@@ -80,7 +80,7 @@ const App: Component<AppProps> = () => {
       fetchTheme(),
       fetchUser(),
       fetchCache(),
-      fetchPaths()
+      fetchDirectory()
     ]);
 
     setReady(true);

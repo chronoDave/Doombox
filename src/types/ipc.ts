@@ -30,7 +30,7 @@ export type IpcChannelReceive<T extends IpcChannel> = `${IpcChannel.Receive}.${T
 export enum IpcRoute {
   SelectFolders = 'selectFolders',
   Add = 'add',
-  Path = 'path',
+  Directory = 'directory',
   Remove = 'remove',
   Rebuild = 'rebuild',
   Reindex = 'reindex',
@@ -77,9 +77,9 @@ export type IpcSendController = {
 /** Renderer to main (two-way) */
 export type IpcInvokeController = {
   [IpcChannel.App]: {
-    [IpcRoute.SelectFolders]: () => Promise<string[]>
-    [IpcRoute.Path]: () => Promise<{ covers: string, thumbs: string }>
-  }
+    [IpcRoute.SelectFolders]: () => Promise<string[]>,
+    [IpcRoute.Directory]: () => Promise<{ thumbs: string }>
+  },
   [IpcChannel.Search]: {
     [IpcRoute.Song]: (payload: Query) => Promise<Song[]>
     [IpcRoute.Album]: (payload: Query) => Promise<Album[]>
@@ -89,7 +89,7 @@ export type IpcInvokeController = {
   [IpcChannel.User]: IpcControllerStorage<UserShape>
   [IpcChannel.Cache]: IpcControllerStorage<CacheShape>,
   [IpcChannel.Library]: {
-    [IpcRoute.Add]: (payload: string[]) => Promise<Library>
+    [IpcRoute.Add]: (folders: string[]) => Promise<Library>
     [IpcRoute.Remove]: (payload: string[]) => Promise<Library>
     [IpcRoute.Get]: () => Promise<Library>
     [IpcRoute.Reindex]: (folders: string[]) => Promise<Library>
