@@ -5,10 +5,10 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import { createPopup } from '../../components/popup/popup';
+import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
 import VolumeSlider from '../volumeSlider/volumeSlider';
 
 import './playerVolume.scss';
-import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
 
 export type PlayerVolumeProps = {};
 

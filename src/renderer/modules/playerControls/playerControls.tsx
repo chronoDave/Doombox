@@ -4,9 +4,9 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import { AudioStatus } from '../../lib/audio';
-import PlayerVolume from '../playerVolume/playerVolume';
 import { previous, pause, next } from '../../state/actions/player.actions';
 import { playerStatusSelector } from '../../state/selectors/player.selectors';
+import PlayerVolume from '../playerVolume/playerVolume';
 
 import './playerControls.scss';
 
