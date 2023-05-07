@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 
 module.exports = (env, argv) => [{
   /** Renderer */
@@ -67,6 +68,11 @@ module.exports = (env, argv) => [{
     }
   },
   plugins: [
+    new DefinePlugin({
+      'process.env': {
+        DOM: JSON.stringify('production')
+      }
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name].[contenthash].css'

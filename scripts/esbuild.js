@@ -17,7 +17,8 @@ esbuild.context({
   define: {
     'process.env.NODE_ENV': isWatch ?
       '"development"' :
-      '"production"'
+      '"production"',
+    'process.env.DOM': '"production"'
   },
   platform: 'node',
   bundle: true,

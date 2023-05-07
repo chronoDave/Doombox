@@ -17,7 +17,7 @@ export default class Store<S extends Record<string, unknown>> {
     const prev = this._state;
     this._state = reducer(prev);
 
-    if (IS_DEV()) {
+    if (IS_DEV) {
       console.group(`[dispatch] ${action}`);
       console.log('[state.old]', prev);
       console.log('[state.new]', this._state);

@@ -24,7 +24,7 @@ import createWindow from './lib/window';
 import ipcRouterFactory from './utils/createIpcRouter';
 
 /** Initialize directories */
-if (IS_DEV()) {
+if (IS_DEV) {
   fs.mkdirSync(PATH.USER_DATA, { recursive: true });
   fs.mkdirSync(PATH.APP_DATA, { recursive: true });
   fs.mkdirSync(PATH.ASSETS, { recursive: true });
