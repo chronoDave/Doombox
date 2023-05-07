@@ -41,6 +41,11 @@
     height: 100%;
     padding: 1px;
 
+    &.active {
+      background-color: var(--primary);
+      color: var(--text-primary);
+    }
+
     > img {
       min-height: 0;
       object-fit: cover;

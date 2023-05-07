@@ -13,7 +13,9 @@ import { addToPlaylist, setPlaylist } from '../../state/actions/playlist.actions
 import { searchAlbums } from '../../state/actions/search.actions';
 import { albumSelector, albumsSelector } from '../../state/selectors/album.selectors';
 import { thumbSelector } from '../../state/selectors/app.selectors';
+import { playerSongSelector } from '../../state/selectors/player.selectors';
 import { albumSearchSelector } from '../../state/selectors/search.selectors';
+import cx from '../../utils/cx/cx';
 import createMediaQuery from '../../utils/mediaQuery';
 
 import './album.view.scss';
@@ -64,11 +66,14 @@ const AlbumView: Component<AlbumViewProps> = () => {
                 const album = albumSelector.get(id);
                 const thumbs = thumbSelector.get(album.image, Thumb.Album);
 
+                console.log(playerSongSelector.get());
+
                 return (
                   <button
                     id={album._id}
                     type='button'
                     onclick={() => setPlaylist(album.songs)}
+                    class={cx(playerSongSelector.get()?.album === album.album && 'active')}
                   >
                     <img
                       loading='lazy'
@@ -105,6 +110,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
   albumsSelector.subscribe(component);
   albumSelector.subscribe(component);
   thumbSelector.subscribe(component);
+  playerSongSelector.subscribe(component);
 
   return component;
 };
