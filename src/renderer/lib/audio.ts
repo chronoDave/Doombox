@@ -29,7 +29,7 @@ export default class Audio extends EventEmitter<AudioEvents> {
   private _interval?: number;
 
   set volume(volume: number) {
-    this._volume = volume;
+    this._volume = volume / 100;
     if (this._howl) this._howl.volume(this._volume);
   }
 

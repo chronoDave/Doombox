@@ -60,14 +60,12 @@ export const mute = (muted?: boolean) => {
 };
 
 export const volume = (n: number) => {
-  const newVolume = n / 100;
-
   store.dispatch(produce(draft => {
-    draft.player.volume = newVolume;
+    draft.player.volume = n;
   }), 'player.volume');
-  audio.volume = newVolume;
+  audio.volume = n;
   updateCache(produce(draft => {
-    draft.player.volume = newVolume;
+    draft.player.volume = n;
   }));
 };
 

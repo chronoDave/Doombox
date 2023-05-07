@@ -1,13 +1,10 @@
-import produce from 'immer';
-
-import store from '../store';
+import { mute, volume } from './player.actions';
+import { setViewApp } from './view.actions';
 
 export const fetchCache = async () => {
   const cache = await window.ipc.cache.get();
 
-  store.dispatch(produce(draft => {
-    draft.view.app = cache.tab;
-    draft.player.volume = cache.player.volume;
-    draft.player.muted = cache.player.muted;
-  }), 'cache.fetchCache');
+  setViewApp(cache.tab);
+  volume(cache.player.volume);
+  mute(cache.player.muted);
 };
