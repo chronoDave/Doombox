@@ -1,4 +1,6 @@
-@use 'typography.scss';
+@use 'typography';
+@use 'breakpoint';
+@use 'utils';
 
 body {
   display: flex;
@@ -34,6 +36,16 @@ body {
 
           > button {
             padding: 4px 8px;
+
+            @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+              padding: 8px 12px;
+            }
+
+            > .Icon {
+              @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+                width: utils.rem(20);
+              }
+            }
           }
 
           &.active > button {
