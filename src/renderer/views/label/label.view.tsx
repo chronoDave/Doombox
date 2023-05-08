@@ -4,9 +4,10 @@ import * as forgo from 'forgo';
 
 import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
-import { addToPlaylist } from '../../state/actions/playlist.actions';
+import { addToPlaylist, setPlaylist } from '../../state/actions/playlist.actions';
 import { searchLabels } from '../../state/actions/search.actions';
 import { labelSelector, labelsSelector } from '../../state/selectors/label.selectors';
 import { labelSearchSelector } from '../../state/selectors/search.selectors';
@@ -21,15 +22,34 @@ const LabelView: Component<LabelViewProps> = () => {
     render() {
       const search = labelSearchSelector.get();
       const labels = (search ?? labelsSelector.get());
+      const duration = labels
+        .reduce((acc, cur) => acc + (labelSelector.get(cur).duration ?? 0), 0);
+
+      const getSongs = (ids: string[]) => ids
+        .map(id => labelSelector.get(id).songs)
+        .flat();
 
       return (
         <div class="LabelView">
-          <h1>All labels</h1>
+          <h1 class='sr-only'>Label view</h1>
           <InputSearch
             placeholder='search for label'
             onsubmit={query => searchLabels(query)}
           />
-          <p>{labels.length} labels</p>
+          <div class='toolbar'>
+            <p class='status'>
+              <span><Icon id='accountMusic' />{labels.length}</span>
+              <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
+            </p>
+            <div class='actions'>
+              <button type='button' onclick={() => setPlaylist(getSongs(labels))}>
+                <Icon id='playlistPlay' />
+              </button>
+              <button type='button' onclick={() => addToPlaylist(getSongs(labels))}>
+                <Icon id='playlistAdd' />
+              </button>
+            </div>
+          </div>
           <VirtualList
             list={labels}
             item={{
