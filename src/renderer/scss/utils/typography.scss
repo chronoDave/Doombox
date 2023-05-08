@@ -1,27 +1,8 @@
 @use './utils.scss';
 
-@mixin tiny {
+@mixin size($size) {
   font-family: NotoSansJP, sans-serif;
-  font-size: utils.rem(10);
-  letter-spacing: utils.rem(0.5);
-}
-
-@mixin small {
-  font-family: NotoSansJP, sans-serif;
-  font-size: utils.rem(12);
-  letter-spacing: utils.rem(0.25);
-}
-
-@mixin normal {
-  font-family: NotoSansJP, sans-serif;
-  font-size: utils.rem(13);
-  letter-spacing: utils.rem(0.5);
-}
-
-@mixin large {
-  font-family: NotoSansJP, sans-serif;
-  font-size: utils.rem(18);
-  letter-spacing: utils.rem(0.25);
+  font-size: utils.rem($size);
 }
 
 @mixin nowrap {

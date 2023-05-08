@@ -1,5 +1,6 @@
 @use 'typography';
 @use 'utils';
+@use 'breakpoint';
 
 .SongView {
   display: flex;
@@ -9,15 +10,27 @@
     display: flex;
     justify-content: space-between;
 
+    @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+      padding: 4px 8px;
+    }
+
     > .status {
       display: flex;
       gap: 8px;
       margin: 4px 0;
 
+      @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+        gap: 12px;
+      }
+
       > span {
         display: flex;
         align-items: center;
         gap: 2px;
+
+        @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+          gap: 4px;
+        }
       }
     }
 
@@ -30,42 +43,87 @@
 
         > .Icon {
           width: utils.rem(20);
+
+          @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+            width: utils.rem(24);
+          }
         }
       }
     }
   }
 
-  > .VirtualList > ul > li > button {
-    $padding: 4px;
+  > .VirtualList > ul > li {
+    + li {
+      padding-top: 2px;
 
-    display: flex;
-    align-items: center;
-    padding: 0 $padding;
-    gap: 4px;
-    width: 100%;
-    height: 100%;
-
-    > img {
-      height: calc($padding - (2 * $padding));
-      aspect-ratio: 1 / 1;
-    }
-
-    > .metadata {
-      flex-grow: 1;
-      min-width: 0;
-
-      > p {
-        @include typography.nowrap;
+      @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+        padding-top: 4px;
       }
     }
 
-    > .duration {
-      @include typography.small;
-    }
+    > button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      height: 100%;
+      padding: 0 2px;
 
-    &.active {
-      background-color: var(--primary);
-      color: var(--text-primary);
+      @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+        padding: 0 4px;
+        gap: 8px;
+      }
+
+      &.active {
+        background-color: var(--primary);
+        color: var(--text-primary);
+      }
+
+      > img {
+        width: auto;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+      }
+
+      > .metadata {
+        flex-grow: 1;
+        min-width: 0;
+
+        > p {
+          @include typography.nowrap;
+
+          &.title {
+            @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+              @include typography.size(15);
+            }
+          }
+
+          &.artist {
+            @include typography.size(12);
+
+            @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+              @include typography.size(13);
+            }
+          }
+
+          &.album {
+            display: none;
+
+            @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$sm-h) {
+              display: block;
+              @include typography.size(13);
+            }
+          }
+        }
+      }
+
+      > .duration {
+        @include typography.size(12);
+
+        @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
+          @include typography.size(13);
+        }
+      }
     }
   }
 }

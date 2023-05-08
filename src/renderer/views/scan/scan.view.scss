@@ -16,14 +16,14 @@
   }
 
   > .title {
-    @include typography.large;
+    @include typography.size(18);
     margin-bottom: 1em;
   }
 
   > .file {
     $line-height: 1.3em;
     @include typography.clamp(3);
-    @include typography.small;
+    @include typography.size(12);
 
     line-height: $line-height;
     margin-top: 0.5em;

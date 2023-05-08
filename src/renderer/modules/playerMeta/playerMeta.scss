@@ -11,11 +11,11 @@
     }
 
     &.artist {
-      @include typography.small;
+      @include typography.size(12);
     }
 
     &.label {
-      @include typography.small;
+      @include typography.size(12);
       display: none;
 
       @media (min-height: breakpoint.$sm-h) {

@@ -2,7 +2,7 @@
 
 .PlayerSlider {
   > .time {
-    @include typography.small;
+    @include typography.size(12);
 
     display: flex;
     justify-content: space-between;

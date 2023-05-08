@@ -25,7 +25,7 @@ body > header {
   }
 
   > .title {
-    @include typography.normal;
+    @include typography.size(13);
     @include typography.nowrap;
     -webkit-app-region: drag;
     text-align: center;

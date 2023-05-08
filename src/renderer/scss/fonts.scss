@@ -1,3 +1,5 @@
+@use 'utils';
+
 @font-face {
   font-family: NotoSansJP;
   src:
@@ -5,6 +7,7 @@
     local('NotoSansJP-Light'),
     url('./fonts/NotoSansJP-Light.otf');
   font-weight: 300;
+  letter-spacing: utils.rem(0.5);
 }
 
 @font-face {
@@ -14,6 +17,7 @@
     local('NotoSansJP-Regular'),
     url('./fonts/NotoSansJP-Regular.otf');
   font-weight: 400;
+  letter-spacing: utils.rem(0.5);
 }
 
 @font-face {
@@ -23,4 +27,5 @@
     local('NotoSansJP-Medium'),
     url('./fonts/NotoSansJP-Medium.otf');
   font-weight: 500;
+  letter-spacing: utils.rem(0.5);
 }

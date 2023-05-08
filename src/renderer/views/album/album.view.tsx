@@ -8,7 +8,7 @@ import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
-import useMediaQueryList from '../../hooks/useMediaQuery';
+import useMediaQuery from '../../hooks/useMediaQuery';
 import { addToPlaylist, setPlaylist } from '../../state/actions/playlist.actions';
 import { searchAlbums } from '../../state/actions/search.actions';
 import { albumSelector, albumsSelector } from '../../state/selectors/album.selectors';
@@ -98,7 +98,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
     searchAlbums('');
   });
 
-  useMediaQueryList([
+  useMediaQuery([
     createMediaQuery({ axis: 'min-width', breakpoint: 'xs-w' }, { axis: 'min-height', breakpoint: 'xs-h' }),
     createMediaQuery({ axis: 'min-width', breakpoint: 'sm-w' }, { axis: 'min-height', breakpoint: 'sm-h' }),
     createMediaQuery({ axis: 'min-width', breakpoint: 'md-w' }, { axis: 'min-height', breakpoint: 'md-h' }),

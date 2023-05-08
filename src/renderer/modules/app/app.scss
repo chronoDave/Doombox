@@ -9,7 +9,7 @@ body {
   fill: var(--text);
   background-color: var(--bg);
   overflow: hidden;
-  @include typography.normal;
+  @include typography.size(13);
 
   > main {
     display: flex;
