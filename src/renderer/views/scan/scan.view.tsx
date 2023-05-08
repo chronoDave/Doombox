@@ -37,7 +37,7 @@ const ScanView: Component<ScanViewProps> = () => {
         <div class='Scan'>
           {state.process === '' ? [
             <Loader bars={bars} />,
-            <h1>Loading</h1>
+            <h1>Loading...</h1>
           ] : [
             <h1 class='title'>{state.process} ({state.scanned} / {state.size})</h1>,
             <p>{cur} / {max}</p>,
