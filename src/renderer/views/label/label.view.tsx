@@ -79,6 +79,10 @@ const LabelView: Component<LabelViewProps> = () => {
     }
   });
 
+  component.unmount(() => {
+    searchLabels('');
+  });
+
   labelSearchSelector.subscribe(component);
   labelsSelector.subscribe(component);
   labelSelector.subscribe(component);

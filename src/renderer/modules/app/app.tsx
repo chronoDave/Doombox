@@ -60,7 +60,7 @@ const App: Component<AppProps> = () => {
                 <li key={id} class={cx({ active: id === view })}>
                   <button
                     type='button'
-                    aria-label={`navigate to library ${id}`}
+                    aria-label={`${id} view`}
                     onclick={() => setViewApp(id)}
                   >
                     <Icon id={icon} />

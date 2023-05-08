@@ -94,6 +94,10 @@ const AlbumView: Component<AlbumViewProps> = () => {
     }
   });
 
+  component.unmount(() => {
+    searchAlbums('');
+  });
+
   useMediaQueryList([
     createMediaQuery({ axis: 'min-width', breakpoint: 'xs-w' }, { axis: 'min-height', breakpoint: 'xs-h' }),
     createMediaQuery({ axis: 'min-width', breakpoint: 'sm-w' }, { axis: 'min-height', breakpoint: 'sm-h' }),

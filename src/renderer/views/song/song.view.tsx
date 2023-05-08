@@ -89,6 +89,10 @@ const SongView: Component<SongViewProps> = () => {
     }
   });
 
+  component.unmount(() => {
+    searchSongs('');
+  });
+
   songSearchSelector.subscribe(component);
   songSelector.subscribe(component);
   songsSelector.subscribe(component);
