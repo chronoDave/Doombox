@@ -22,7 +22,7 @@ export const setPlaylist = (ids: string[]) => {
   store.dispatch(produce(draft => {
     draft.playlist.songs = ids;
     draft.playlist.index = 0;
-  }), 'playlist.add');
+  }), 'playlist.set');
 
   play(ids[0]);
 };

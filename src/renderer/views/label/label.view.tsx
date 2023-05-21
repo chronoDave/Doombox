@@ -61,7 +61,7 @@ const LabelView: Component<LabelViewProps> = () => {
                   <button
                     id={label._id}
                     type='button'
-                    onclick={() => addToPlaylist(label.songs)}
+                    onclick={() => setPlaylist(label.songs)}
                   >
                     <div class='metadata'>
                       <p>{romajiSelector.get(label.label)}</p>
