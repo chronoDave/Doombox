@@ -25,6 +25,7 @@ const VirtualGrid = <T extends any>(
     render(props) {
       const grid = createVirtualGrid({
         data: props.list,
+        overscroll: 1,
         scroll: ref.value?.scrollTop ?? 0,
         container: {
           width: ref.value?.clientWidth ?? 0,

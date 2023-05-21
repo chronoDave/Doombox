@@ -18,6 +18,7 @@ export type VirtualList<T> = {
 export type VirtualListOptions<T> = {
   data: T[]
   scroll: number
+  overscroll: number
   height: {
     item: number
     container: number
@@ -50,10 +51,10 @@ const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualList<T> =>
   return ({
     height: columns[columns.length - 1]?.position.top ?? 0,
     columns: columns.slice(
-      Math.max(0, min - 1),
-      Math.min(columns.length - 1, max === -1 ?
+      Math.max(0, min - options.overscroll),
+      max === -1 ?
         columns.length :
-        max + 1)
+        Math.min(columns.length, max + options.overscroll)
     )
   });
 };

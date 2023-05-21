@@ -24,6 +24,7 @@ const VirtualList = <T extends any>(
     render(props) {
       const list = createVirtualList({
         data: props.list,
+        overscroll: 1,
         scroll: ref.value?.scrollTop ?? 0,
         height: {
           item: props.item.height,

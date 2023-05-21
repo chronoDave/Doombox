@@ -20,6 +20,7 @@ export type VirtualGrid<T> = {
 export type VirtualGridOptions<T> = {
   data: T[],
   scroll: number
+  overscroll: number
   container: {
     width: number
     height: number
@@ -64,10 +65,10 @@ const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> =>
   return ({
     height: cells[cells.length - 1]?.position.top ?? 0,
     cells: cells.slice(
-      Math.max(0, min - rows),
-      Math.min(cells.length, max === -1 ?
+      Math.max(0, min - (rows * options.overscroll)),
+      max === -1 ?
         cells.length :
-        max + rows)
+        Math.min(cells.length, max + (rows * options.overscroll))
     )
   });
 };
