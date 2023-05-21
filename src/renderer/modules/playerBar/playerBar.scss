@@ -1,0 +1,28 @@
+@use 'typography';
+
+.PlayerBar {
+  display: grid;
+  grid-template-columns: auto 2fr 1fr auto;
+  gap: 8px;
+
+  > .meta {
+    @include typography.nowrap;
+    display: flex;
+    flex-direction: column;
+
+    &.hidden > * {
+      display: none;
+    }
+  }
+
+  > .PlayerSlider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    > .time {
+      gap: 4px;
+      align-items: center;
+    }
+  }
+}

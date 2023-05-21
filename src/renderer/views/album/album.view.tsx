@@ -37,10 +37,10 @@ const AlbumView: Component<AlbumViewProps> = () => {
         .flat();
 
       return (
-        <div class="AlbumView">
+        <div class="View AlbumView">
           <h1 class='sr-only'>Album view</h1>
           <InputSearch
-            placeholder='search for label'
+            placeholder='search for album'
             onsubmit={query => searchAlbums(query)}
           />
           <div class='toolbar'>

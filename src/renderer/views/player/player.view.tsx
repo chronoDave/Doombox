@@ -25,7 +25,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
       const playlist = playlistSelector.get();
 
       return (
-        <div class='PlayerView'>
+        <div class='View PlayerView'>
           <div class='panel meta'>
             <PlayerCover />
             <PlayerMeta />

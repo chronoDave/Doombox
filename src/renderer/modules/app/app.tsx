@@ -21,6 +21,7 @@ import PlaylistView from '../../views/playlist/playlist.view';
 import ScanView from '../../views/scan/scan.view';
 import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
+import PlayerBar from '../playerBar/playerBar';
 import Settings from '../settings/settings';
 
 import './app.scss';
@@ -54,6 +55,7 @@ const App: Component<AppProps> = () => {
       return (
         <main>
           {views[view].view}
+          {[AppView.Song, AppView.Album, AppView.Label].includes(view) ? <PlayerBar /> : null}
           <nav aria-label="app">
             <ul>
               {Object.values(views).map(({ id, icon }) => (

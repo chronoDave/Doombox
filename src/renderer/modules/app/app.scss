@@ -20,9 +20,18 @@ body {
     max-height: 100%;
     overflow: auto;
 
-    > div {
+    > .View {
       flex-grow: 1;
       overflow: auto;
+    }
+
+    > .PlayerBar {
+      display: none;
+      padding: 4px 8px;
+
+      @media (min-height: breakpoint.$md-h) and (min-width: breakpoint.$sm-w) {
+        display: grid;
+      }
     }
 
     > nav {

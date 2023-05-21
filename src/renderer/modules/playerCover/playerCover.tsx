@@ -27,7 +27,7 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
           {(
             themePlayer.cover === 'cover' &&
             current?.image
-          ) ? <img src={current.image} alt='' /> : null}
+          ) ? <img src={thumbSelector.get(current.image, Thumb.Player)} alt='' /> : null}
         </div>
       );
     }

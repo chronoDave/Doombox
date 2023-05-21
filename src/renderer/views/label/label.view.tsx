@@ -30,7 +30,7 @@ const LabelView: Component<LabelViewProps> = () => {
         .flat();
 
       return (
-        <div class="LabelView">
+        <div class="View LabelView">
           <h1 class='sr-only'>Label view</h1>
           <InputSearch
             placeholder='search for label'

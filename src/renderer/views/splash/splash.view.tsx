@@ -16,7 +16,7 @@ const SplashView: Component<SplashViewProps> = () => {
   const component = new forgo.Component<SplashViewProps>({
     render() {
       return (
-        <div class="Splash">
+        <div class="View SplashView">
           <Loader bars={bars} />
           <h1 class="title">Loading...</h1>
         </div>

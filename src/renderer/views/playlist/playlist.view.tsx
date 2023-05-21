@@ -8,7 +8,7 @@ const PlaylistView: Component<PlaylistViewProps> = () => {
   const component = new forgo.Component<PlaylistViewProps>({
     render() {
       return (
-        <div>PlaylistView</div>
+        <div class="View">PlaylistView</div>
       );
     }
   });

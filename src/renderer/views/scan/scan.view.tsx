@@ -34,7 +34,7 @@ const ScanView: Component<ScanViewProps> = () => {
   const component = new forgo.Component<ScanViewProps>({
     render() {
       return (
-        <div class='Scan'>
+        <div class='View ScanView'>
           {state.process === '' ? [
             <Loader bars={bars} />,
             <h1>Loading...</h1>

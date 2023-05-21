@@ -35,7 +35,7 @@ const SongView: Component<SongViewProps> = () => {
         .reduce((acc, cur) => acc + (songSelector.get(cur).duration ?? 0), 0);
 
       return (
-        <div class="SongView">
+        <div class="View SongView">
           <h1 class='sr-only'>Song view</h1>
           <InputSearch
             placeholder='search for songs'
