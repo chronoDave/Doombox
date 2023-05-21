@@ -70,35 +70,35 @@ export const volume = (n: number) => {
 };
 
 export const skip = (n: number) => {
-  const { playlist } = store.get();
-  if (playlist.songs.length === 0) return;
+  const { queue } = store.get();
+  if (queue.songs.length === 0) return;
 
-  const i = clamp(0, playlist.songs.length - 1, n);
-  const id = playlist.songs[i];
+  const i = clamp(0, queue.songs.length - 1, n);
+  const id = queue.songs[i];
 
   store.dispatch(produce(draft => {
-    draft.playlist.index = i;
+    draft.queue.index = i;
   }), 'player.skip');
 
   play(id);
 };
 
 export const next = () => {
-  const { player, playlist } = store.get();
-  if (playlist.songs.length === 0) return;
+  const { player, queue } = store.get();
+  if (queue.songs.length === 0) return;
 
-  let i = playlist.index + 1;
-  if (i === playlist.songs.length) i = player.loop ? 0 : playlist.songs.length - 1;
+  let i = queue.index + 1;
+  if (i === queue.songs.length) i = player.loop ? 0 : queue.songs.length - 1;
 
   skip(i);
 };
 
 export const previous = () => {
-  const { player, playlist } = store.get();
-  if (playlist.songs.length === 0) return;
+  const { player, queue } = store.get();
+  if (queue.songs.length === 0) return;
 
-  let i = playlist.index - 1;
-  if (i < 0) i = player.loop ? playlist.songs.length - 1 : 0;
+  let i = queue.index - 1;
+  if (i < 0) i = player.loop ? queue.songs.length - 1 : 0;
 
   skip(i);
 };

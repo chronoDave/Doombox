@@ -9,7 +9,7 @@ import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import { addToPlaylist, setPlaylist } from '../../state/actions/playlist.actions';
+import { addToQueue, setQueue } from '../../state/actions/queue.actions';
 import { searchAlbums } from '../../state/actions/search.actions';
 import { albumSelector, albumsSelector } from '../../state/selectors/album.selectors';
 import { thumbSelector } from '../../state/selectors/app.selectors';
@@ -49,10 +49,10 @@ const AlbumView: Component<AlbumViewProps> = () => {
               <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
             </p>
             <div class='actions'>
-              <button type='button' onclick={() => setPlaylist(getSongs(albums))}>
+              <button type='button' onclick={() => setQueue(getSongs(albums))}>
                 <Icon id='playlistPlay' />
               </button>
-              <button type='button' onclick={() => addToPlaylist(getSongs(albums))}>
+              <button type='button' onclick={() => addToQueue(getSongs(albums))}>
                 <Icon id='playlistAdd' />
               </button>
             </div>
@@ -70,7 +70,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
                   <button
                     id={album._id}
                     type='button'
-                    onclick={() => setPlaylist(album.songs)}
+                    onclick={() => setQueue(album.songs)}
                     class={cx(playerSongSelector.get()?.album === album.album && 'active')}
                   >
                     <img

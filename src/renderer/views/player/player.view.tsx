@@ -10,7 +10,7 @@ import PlayerCover from '../../modules/playerCover/playerCover';
 import PlayerMeta from '../../modules/playerMeta/playerMeta';
 import PlayerSlider from '../../modules/playerSlider/playerSlider';
 import * as player from '../../state/actions/player.actions';
-import { playlistIndexSelector, playlistSelector } from '../../state/selectors/playlist.selectors';
+import { queueIndexSelector, queueSelector } from '../../state/selectors/queue.selectors';
 import { songSelector } from '../../state/selectors/song.selectors';
 import { romajiSelector } from '../../state/selectors/user.selectors';
 import cx from '../../utils/cx/cx';
@@ -22,7 +22,7 @@ export type PlayerViewProps = {};
 const PlayerView: Component<PlayerViewProps> = () => {
   const component = new forgo.Component<PlayerViewProps>({
     render() {
-      const playlist = playlistSelector.get();
+      const queue = queueSelector.get();
 
       return (
         <div class='View PlayerView'>
@@ -33,7 +33,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
             <PlayerControls />
           </div>
           <VirtualList
-            list={playlist}
+            list={queue}
             item={{
               height: 38,
               render: (id, i) => {
@@ -43,7 +43,7 @@ const PlayerView: Component<PlayerViewProps> = () => {
                   <button
                     id={song._id}
                     type='button'
-                    class={cx(playlistIndexSelector.get() === i && 'active')}
+                    class={cx(queueIndexSelector.get() === i && 'active')}
                     onclick={() => player.skip(i)}
                   >
                     <div class='metadata'>
@@ -63,9 +63,9 @@ const PlayerView: Component<PlayerViewProps> = () => {
     }
   });
 
-  playlistSelector.subscribe(component);
+  queueSelector.subscribe(component);
   songSelector.subscribe(component);
-  playlistIndexSelector.subscribe(component);
+  queueIndexSelector.subscribe(component);
   romajiSelector.subscribe(component);
 
   return component;

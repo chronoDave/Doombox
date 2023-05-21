@@ -24,7 +24,7 @@ export type State = {
     autoplay: boolean
     volume: number
   },
-  playlist: {
+  queue: {
     index: number
     songs: string[]
   },

@@ -7,7 +7,7 @@ import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
-import { addToPlaylist, setPlaylist } from '../../state/actions/playlist.actions';
+import { addToQueue, setQueue } from '../../state/actions/queue.actions';
 import { searchLabels } from '../../state/actions/search.actions';
 import { labelSelector, labelsSelector } from '../../state/selectors/label.selectors';
 import { labelSearchSelector } from '../../state/selectors/search.selectors';
@@ -42,10 +42,10 @@ const LabelView: Component<LabelViewProps> = () => {
               <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
             </p>
             <div class='actions'>
-              <button type='button' onclick={() => setPlaylist(getSongs(labels))}>
+              <button type='button' onclick={() => setQueue(getSongs(labels))}>
                 <Icon id='playlistPlay' />
               </button>
-              <button type='button' onclick={() => addToPlaylist(getSongs(labels))}>
+              <button type='button' onclick={() => addToQueue(getSongs(labels))}>
                 <Icon id='playlistAdd' />
               </button>
             </div>
@@ -61,7 +61,7 @@ const LabelView: Component<LabelViewProps> = () => {
                   <button
                     id={label._id}
                     type='button'
-                    onclick={() => setPlaylist(label.songs)}
+                    onclick={() => setQueue(label.songs)}
                   >
                     <div class='metadata'>
                       <p>{romajiSelector.get(label.label)}</p>

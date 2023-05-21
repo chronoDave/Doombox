@@ -10,7 +10,7 @@ import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualList from '../../components/virtualList/virtualList';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import * as player from '../../state/actions/player.actions';
-import { addToPlaylist, setPlaylist } from '../../state/actions/playlist.actions';
+import { addToQueue, setQueue } from '../../state/actions/queue.actions';
 import { searchSongs } from '../../state/actions/search.actions';
 import { thumbSelector } from '../../state/selectors/app.selectors';
 import { playerIdSelector } from '../../state/selectors/player.selectors';
@@ -47,10 +47,10 @@ const SongView: Component<SongViewProps> = () => {
               <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
             </p>
             <div class='actions'>
-              <button type='button' onclick={() => setPlaylist(songs)}>
+              <button type='button' onclick={() => setQueue(songs)}>
                 <Icon id='playlistPlay' />
               </button>
-              <button type='button' onclick={() => addToPlaylist(songs)}>
+              <button type='button' onclick={() => addToQueue(songs)}>
                 <Icon id='playlistAdd' />
               </button>
             </div>

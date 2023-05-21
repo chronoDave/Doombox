@@ -17,7 +17,7 @@ import cx from '../../utils/cx/cx';
 import AlbumView from '../../views/album/album.view';
 import LabelView from '../../views/label/label.view';
 import PlayerView from '../../views/player/player.view';
-import PlaylistView from '../../views/playlist/playlist.view';
+import QueueView from '../../views/queue/queue.view';
 import ScanView from '../../views/scan/scan.view';
 import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
@@ -36,7 +36,7 @@ type Views = Record<AppView, {
 
 const App: Component<AppProps> = () => {
   const views: Views = {
-    playlist: { id: AppView.Playlist, view: <PlaylistView />, icon: 'playlistMusic' },
+    queue: { id: AppView.Queue, view: <QueueView />, icon: 'playlistMusic' },
     player: { id: AppView.Player, view: <PlayerView />, icon: 'playCircle' },
     song: { id: AppView.Song, view: <SongView />, icon: 'musicNote' },
     album: { id: AppView.Album, view: <AlbumView />, icon: 'musicBox' },

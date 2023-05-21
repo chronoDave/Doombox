@@ -15,7 +15,7 @@ export default new Store<State>({
       thumbs: null
     }
   },
-  playlist: {
+  queue: {
     index: 0,
     songs: []
   },
