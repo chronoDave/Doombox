@@ -15,6 +15,7 @@
   "scripts": {
     "lint:eslint": "eslint src test",
     "lint:tsc": "tsc --noEmit",
+    "lint:scss": "stylelint src/renderer/**/*.scss",
     "lint": "npm run lint:tsc && npm run lint:eslint",
     "start:app": "node scripts/esbuild.js -w",
     "start:renderer": "webpack --mode development -w",
@@ -58,6 +59,8 @@
     "nodemon": "^2.0.19",
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
+    "stylelint": "^15.6.2",
+    "stylelint-config-standard-scss": "^9.0.0",
     "tape": "^5.5.3",
     "typescript": "^4.7.4",
     "webpack": "^5.76.0",

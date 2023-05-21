@@ -15,7 +15,7 @@
     flex-shrink: 0;
     aspect-ratio: 1/1;
 
-    &:after {
+    &::after {
       content: '';
       position: absolute;
       width: 8px;
@@ -26,7 +26,7 @@
       transition: background-color transition.$fast;
     }
 
-    &:checked:after {
+    &:checked::after {
       background-color: var(--text);
     }
   }

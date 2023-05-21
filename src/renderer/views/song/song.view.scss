@@ -110,8 +110,9 @@
             display: none;
 
             @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$sm-h) {
-              display: block;
               @include typography.size(13);
+
+              display: block;
             }
           }
         }
