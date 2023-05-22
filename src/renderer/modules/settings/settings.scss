@@ -3,7 +3,7 @@
 @use 'breakpoint.scss';
 @use 'transition.scss';
 
-.Settings {
+.SettingsView {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: flex-start;
@@ -51,6 +51,10 @@
   > [role='tabpanel'] {
     padding: 8px 12px;
     overflow: auto;
+
+    &.hidden {
+      display: none;
+    }
 
     @media (min-width: breakpoint.$md-w) {
       padding: 16px 32px;

@@ -1,6 +1,6 @@
 import type { LibraryDatabase } from './types';
 
-import { app, ipcMain, nativeTheme, Menu } from 'electron';
+import { app, ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
 
@@ -74,7 +74,6 @@ const router = {
 /** Initialize app */
 Object.values(library).forEach(db => db.open());
 nativeTheme.themeSource = storage.theme.get().theme;
-Menu.setApplicationMenu(null);
 
 /** Launch */
 app.whenReady()

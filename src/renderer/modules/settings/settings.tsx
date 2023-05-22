@@ -29,7 +29,7 @@ const Settings: Component<SettingsProps> = () => {
       const view = settingsViewSelector.get();
 
       return (
-        <div class='Settings' id="settings">
+        <div class='View SettingsView' id="settings">
           <ul
             aria-label="settings"
             role="tablist"
