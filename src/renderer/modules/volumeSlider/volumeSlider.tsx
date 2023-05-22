@@ -30,13 +30,7 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
           <button type='button' onclick={() => player.mute()}>
             <Icon id={getIcon()} />
           </button>
-          <Slider
-            min={0}
-            max={100}
-            value={volume}
-            step={1}
-            onchange={player.volume}
-          />
+          <Slider value={volume} onchange={player.volume} />
           <span>{Math.round(volume)}</span>
         </div>
       );

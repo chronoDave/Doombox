@@ -1,37 +1,42 @@
+@use 'layer.scss';
+
 .Slider {
   position: relative;
   width: 100%;
-  height: var(--size-thumb);
   cursor: pointer;
-  overflow: hidden;
 
   > .track {
     position: absolute;
-    height: var(--size-track);
-    left: 0;
-    right: 0;
+    width: 100%;
     top: 50%;
     transform: translateY(-50%);
     background-color: var(--primary-hover);
+    pointer-events: none;
+
+    > .trail {
+      position: absolute;
+      height: inherit;
+      background-color: var(--primary);
+    }
   }
 
   > .thumb {
-    position: relative;
-    transform: translate(calc(-1 * (100% - var(--x))), -50%);
-    height: var(--size-track);
-    top: 50%;
-    background-color: var(--primary);
+    position: absolute;
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: var(--text);
+    pointer-events: none;
+  }
 
-    &::after {
-      position: absolute;
-      content: '';
-      right: 0;
-      background-color: var(--text);
-      top: 50%;
-      width: var(--size-thumb);
-      height: var(--size-thumb);
-      transform: translate(calc(100% - var(--x)), -50%);
-      border-radius: 50%;
+  &:focus-visible {
+    outline: none;
+
+    > .thumb {
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+      isolation: isolate;
+      z-index: layer.$focus;
     }
   }
 }

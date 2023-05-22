@@ -21,10 +21,9 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
       return (
         <div class='PlayerSlider'>
           <Slider
-            min={0}
-            step={1}
             max={duration}
             value={position}
+            ariaValue={x => timeToHhMmSs(secToTime(x))}
             onchange={seek}
           />
           <div class='time'>

@@ -3,86 +3,116 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import clamp from '../../../utils/number/clamp';
-import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import debounce from '../../utils/debounce';
 
 import './slider.scss';
 
-export type SliderProps = {
+export type SliderEvent = {
+  target: HTMLElement,
   value: number
-  min: number
-  max: number
-  step: number
+};
+
+export type SliderProps = {
+  size?: {
+    track?: number
+    thumb?: number
+  }
+  value: number
+  ariaValue?: (value: number) => string
+  min?: number
+  max?: number
+  step?: number
   onchange: (value: number) => void
 };
 
 const Slider: Component<SliderProps> = () => {
-  const size = { thumb: 12, track: 6 };
   let dragging = false;
 
-  const handleSeek = (
-    event: { target: HTMLElement, x: number },
-    props: SliderProps
-  ) => {
+  const normalizeProps = (props: SliderProps) => ({
+    ...props,
+    min: props.min ?? 0,
+    max: props.max ?? 100,
+    step: props.step ?? 1,
+    size: {
+      thumb: props.size?.thumb ?? 16,
+      track: props.size?.track ?? 8
+    }
+  });
+
+  const handleSeek = debounce((props: SliderProps, event: SliderEvent) => {
+    const { min, max, size } = normalizeProps(props);
     const { left, width } = event.target.getBoundingClientRect();
-    const rel = Math.max(0, (left - event.x) * -1);
-    const offset = (rel / width); // <0,1>
+    const rel = Math.max(0, (left - event.value) * -1);
+    const offset = rel / width; // <0,1>
     const offsetThumb = ((size.thumb / 2) / width) * -offset;
 
-    props.onchange(clamp(props.min, props.max, (props.max * (offset - offsetThumb))));
-  };
-
-  const handlePointerMove = (
-    event: { target: HTMLElement, x: number },
-    props: SliderProps
-  ) => requestAnimationFrame(() => dragging && handleSeek(event, props));
+    props.onchange(clamp(min, max, (max * (offset - offsetThumb))));
+  });
 
   const component = new forgo.Component<SliderProps>({
     render(props) {
-      const offset = props.value === 0 || props.max === 0 ?
+      const {
+        min,
+        max,
+        step,
+        size
+      } = normalizeProps(props);
+      const handlePointerMove = (event: SliderEvent) => dragging && handleSeek(props, event);
+
+      const offset = props.value === 0 || max === 0 ?
         0 :
-        props.value / props.max;
+        props.value / max;
 
       return (
         <div
           class='Slider'
-          style={{
-            '--size-track': `${size.track}px`,
-            '--size-thumb': `${size.thumb}px`
-          }}
+          style={{ height: `${size.thumb}px` }}
           role='slider'
           tabindex={0}
-          aria-valuemin={props.min}
-          aria-valuemax={props.max}
+          aria-valuemin={min}
+          aria-valuemax={max}
           aria-valuenow={props.value}
-          aria-valuetext={timeToHhMmSs(secToTime(props.value))}
+          aria-valuetext={props.ariaValue?.(props.value) ?? props.value}
+          onpointerdown={() => { dragging = true; }}
           onpointerup={() => { dragging = false; }}
           onpointerout={() => { dragging = false; }}
           ondragstart={event => event.preventDefault()}
           onkeydown={event => {
-            if (event.key === 'Home') props.onchange(props.min);
-            if (event.key === 'End') props.onchange(props.max);
+            if (event.key === 'Home') props.onchange(min);
+            if (event.key === 'End') props.onchange(max);
             if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
-              props.onchange(Math.max(props.min, props.value - props.step));
+              props.onchange(Math.max(min, props.value - step));
             }
             if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
-              props.onchange(Math.min(props.max, props.value + props.step));
+              props.onchange(Math.min(max, props.value + step));
             }
           }}
           onpointermove={event => handlePointerMove({
             target: event.currentTarget,
-            x: event.clientX
-          }, props)}
-          onclick={event => handleSeek({
+            value: event.clientX
+          })}
+          onclick={event => handleSeek(props, {
             target: event.currentTarget,
-            x: event.clientX
-          }, props)}
+            value: event.clientX
+          })}
         >
-          <div class='track' />
+          <div
+            class='track'
+            style={{ height: `${size.track}px` }}
+          >
+            <div
+              class='trail'
+              style={{
+                width: `calc(${offset * 100}% - ${(size.track / 2) * (offset - 0.5)}px)`
+              }}
+            />
+          </div>
           <div
             class='thumb'
-            style={{ '--x': `${offset * 100}%` }}
-            onpointerdown={() => { dragging = true; }}
+            style={{
+              left: `${offset * 100}%`,
+              transform: `translateX(-${offset * 100}%)`
+            }}
           />
         </div>
       );
