@@ -2,19 +2,21 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import InputFolders from '../../../components/inputFolders/inputFolders';
+import InputFolders from '../../components/inputFolders/inputFolders';
 import {
   addFolders,
   rebuildLibrary,
   reindexLibrary,
   removeFolders
-} from '../../../state/actions/library.actions';
-import { userLibrarySelector } from '../../../state/selectors/user.selectors';
+} from '../../state/actions/library.actions';
+import { userLibrarySelector } from '../../state/selectors/user.selectors';
 
-export type LibraryViewProps = {};
+import './settingsLibrary.scss';
 
-const LibraryView: Component<LibraryViewProps> = () => {
-  const component = new forgo.Component<LibraryViewProps>({
+export type SettingsLibraryProps = {};
+
+const SettingsLibrary: Component<SettingsLibraryProps> = () => {
+  const component = new forgo.Component<SettingsLibraryProps>({
     render() {
       const userLibrary = userLibrarySelector.get();
 
@@ -40,4 +42,4 @@ const LibraryView: Component<LibraryViewProps> = () => {
   return userLibrarySelector.subscribe(component);
 };
 
-export default LibraryView;
+export default SettingsLibrary;

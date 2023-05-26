@@ -1,30 +1,30 @@
-import type { SettingsView } from '../../../types/views';
+import type { SettingsView as View } from '../../../types/views';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import AppearanceView from '../../modules/settingsAppearance/settingsAppearance';
+import LibraryView from '../../modules/settingsLibrary/settingsLibrary';
 import { setViewSettings } from '../../state/actions/view.actions';
 import { settingsViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx/cx';
-import AppearanceView from '../../views/settings/appearance/appearance.view';
-import LibraryView from '../../views/settings/library/library.view';
 
-import './settings.scss';
+import './settings.view.scss';
 
-export type SettingsProps = {};
+export type SettingsViewProps = {};
 
-const Settings: Component<SettingsProps> = () => {
-  const views: Record<SettingsView, forgo.Component> = {
+const SettingsView: Component<SettingsViewProps> = () => {
+  const views: Record<View, forgo.Component> = {
     appearance: <AppearanceView />,
     library: <LibraryView />
   };
 
   const handleClick = (e: UIEvent) => {
-    const view = (e.target as HTMLElement).id as SettingsView;
+    const view = (e.target as HTMLElement).id as View;
     if (view) setViewSettings(view);
   };
 
-  const component = new forgo.Component<SettingsProps>({
+  const component = new forgo.Component<SettingsViewProps>({
     render() {
       const view = settingsViewSelector.get();
 
@@ -90,4 +90,4 @@ const Settings: Component<SettingsProps> = () => {
   return settingsViewSelector.subscribe(component);
 };
 
-export default Settings;
+export default SettingsView;

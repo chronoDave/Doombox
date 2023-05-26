@@ -15,11 +15,11 @@ import LabelView from '../../views/label/label.view';
 import PlayerView from '../../views/player/player.view';
 import QueueView from '../../views/queue/queue.view';
 import ScanView from '../../views/scan/scan.view';
+import SettingsView from '../../views/settings/settings.view';
 import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
 import AppNavigation from '../appNavigation/appNavigation';
 import PlayerBar from '../playerBar/playerBar';
-import Settings from '../settings/settings';
 
 import './app.scss';
 
@@ -32,7 +32,7 @@ const App: Component<AppProps> = () => {
     [AppView.Song]: <SongView />,
     [AppView.Album]: <AlbumView />,
     [AppView.Label]: <LabelView />,
-    [AppView.Settings]: <Settings />
+    [AppView.Settings]: <SettingsView />
   };
 
   const component = new forgo.Component<AppProps>({

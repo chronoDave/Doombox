@@ -1,17 +1,19 @@
-import type { ThemeShape } from '../../../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../../types/shapes/theme.shape';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 import produce from 'immer';
 
-import InputRadioList from '../../../components/inputRadioList/inputRadioList';
-import { setTheme } from '../../../state/actions/theme.actions';
-import { themePlayerSelector, themeSelector } from '../../../state/selectors/theme.selectors';
+import InputRadioList from '../../components/inputRadioList/inputRadioList';
+import { setTheme } from '../../state/actions/theme.actions';
+import { themePlayerSelector, themeSelector } from '../../state/selectors/theme.selectors';
 
-export type AppearanceViewProps = {};
+import './settingsAppearance.scss';
 
-const AppearanceView: Component<AppearanceViewProps> = () => {
-  const component = new forgo.Component<AppearanceViewProps>({
+export type SettingsAppearanceProps = {};
+
+const SettingsAppearance: Component<SettingsAppearanceProps> = () => {
+  const component = new forgo.Component<SettingsAppearanceProps>({
     render() {
       const theme = themeSelector.get();
       const themePlayer = themePlayerSelector.get();
@@ -55,4 +57,4 @@ const AppearanceView: Component<AppearanceViewProps> = () => {
   return component;
 };
 
-export default AppearanceView;
+export default SettingsAppearance;
