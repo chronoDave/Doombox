@@ -8,12 +8,12 @@ import Slider from '../../components/slider/slider';
 import * as player from '../../state/actions/player.actions';
 import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
 
-import './volumeSlider.scss';
+import './sliderVolume.scss';
 
-export type VolumeSliderProps = {};
+export type SliderVolumeProps = {};
 
-const VolumeSlider: Component<VolumeSliderProps> = () => {
-  const component = new forgo.Component<VolumeSliderProps>({
+const SliderVolume: Component<SliderVolumeProps> = () => {
+  const component = new forgo.Component<SliderVolumeProps>({
     render() {
       const muted = playerMutedSelector.get();
       const volume = playerVolumeSelector.get();
@@ -26,7 +26,7 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
       };
 
       return (
-        <div class='VolumeSlider'>
+        <div class='SliderVolume'>
           <button type='button' onclick={() => player.mute()}>
             <Icon id={getIcon()} />
           </button>
@@ -43,4 +43,4 @@ const VolumeSlider: Component<VolumeSliderProps> = () => {
   return component;
 };
 
-export default VolumeSlider;
+export default SliderVolume;

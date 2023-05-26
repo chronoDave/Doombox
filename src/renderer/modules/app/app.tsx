@@ -18,8 +18,9 @@ import ScanView from '../../views/scan/scan.view';
 import SettingsView from '../../views/settings/settings.view';
 import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
-import AppNavigation from '../appNavigation/appNavigation';
-import PlayerBar from '../playerBar/playerBar';
+
+import AppHeader from './appHeader/appHeader';
+import AppNavigation from './appNavigation/appNavigation';
 
 import './app.scss';
 
@@ -43,13 +44,13 @@ const App: Component<AppProps> = () => {
 
       if (!ready) return <SplashView />;
       if (scanning) return <ScanView />;
-      return (
+      return [
+        <AppHeader />,
         <main>
           {views[view]}
-          {[AppView.Song, AppView.Album, AppView.Label].includes(view) ? <PlayerBar /> : null}
           <AppNavigation />
         </main>
-      );
+      ];
     }
   });
 

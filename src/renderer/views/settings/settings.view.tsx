@@ -3,11 +3,12 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import AppearanceView from '../../modules/settingsAppearance/settingsAppearance';
-import LibraryView from '../../modules/settingsLibrary/settingsLibrary';
 import { setViewSettings } from '../../state/actions/view.actions';
 import { settingsViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx/cx';
+
+import Appearance from './settingsAppearance/settingsAppearance';
+import Library from './settingsLibrary/settingsLibrary';
 
 import './settings.view.scss';
 
@@ -15,8 +16,8 @@ export type SettingsViewProps = {};
 
 const SettingsView: Component<SettingsViewProps> = () => {
   const views: Record<View, forgo.Component> = {
-    appearance: <AppearanceView />,
-    library: <LibraryView />
+    appearance: <Appearance />,
+    library: <Library />
   };
 
   const handleClick = (e: UIEvent) => {

@@ -1,12 +1,12 @@
-import type { ThemeShape } from '../../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../../../types/shapes/theme.shape';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 import produce from 'immer';
 
-import InputRadioList from '../../components/inputRadioList/inputRadioList';
-import { setTheme } from '../../state/actions/theme.actions';
-import { themePlayerSelector, themeSelector } from '../../state/selectors/theme.selectors';
+import InputRadioList from '../../../components/inputRadioList/inputRadioList';
+import { setTheme } from '../../../state/actions/theme.actions';
+import { themePlayerSelector, themeSelector } from '../../../state/selectors/theme.selectors';
 
 import './settingsAppearance.scss';
 

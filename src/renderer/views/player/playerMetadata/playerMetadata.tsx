@@ -2,14 +2,14 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { playerSongSelector } from '../../state/selectors/player.selectors';
+import { playerSongSelector } from '../../../state/selectors/player.selectors';
 
-import './playerMeta.scss';
+import './playerMetadata.scss';
 
-export type PlayerMetaProps = {};
+export type PlayerMetadataProps = {};
 
-const PlayerMeta: Component<PlayerMetaProps> = () => {
-  const component = new forgo.Component<PlayerMetaProps>({
+const PlayerMetadata: Component<PlayerMetadataProps> = () => {
+  const component = new forgo.Component<PlayerMetadataProps>({
     render() {
       const current = playerSongSelector.get();
 
@@ -26,4 +26,4 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
   return playerSongSelector.subscribe(component);
 };
 
-export default PlayerMeta;
+export default PlayerMetadata;

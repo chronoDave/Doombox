@@ -2,11 +2,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { Thumb } from '../../../types/library';
-import { thumbSelector } from '../../state/selectors/app.selectors';
-import { playerSongSelector } from '../../state/selectors/player.selectors';
-import { themePlayerSelector } from '../../state/selectors/theme.selectors';
-import cx from '../../utils/cx/cx';
+import { Thumb } from '../../../../types/library';
+import { thumbSelector } from '../../../state/selectors/app.selectors';
+import { playerSongSelector } from '../../../state/selectors/player.selectors';
+import { themePlayerSelector } from '../../../state/selectors/theme.selectors';
+import cx from '../../../utils/cx/cx';
 
 import './playerCover.scss';
 

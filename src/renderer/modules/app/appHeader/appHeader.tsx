@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../components/icon/icon';
-import { playerSongSelector } from '../../state/selectors/player.selectors';
+import Icon from '../../../components/icon/icon';
+import { playerSongSelector } from '../../../state/selectors/player.selectors';
 
 import './appHeader.scss';
 

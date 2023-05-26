@@ -1,12 +1,12 @@
-import type { IconProps } from '../../components/icon/icon';
+import type { IconProps } from '../../../components/icon/icon';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../components/icon/icon';
-import { createPopup } from '../../components/popup/popup';
-import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
-import VolumeSlider from '../volumeSlider/volumeSlider';
+import Icon from '../../../components/icon/icon';
+import { createPopup } from '../../../components/popup/popup';
+import SliderVolume from '../../../modules/sliderVolume/sliderVolume';
+import { playerMutedSelector, playerVolumeSelector } from '../../../state/selectors/player.selectors';
 
 import './playerVolume.scss';
 
@@ -41,7 +41,7 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
               popup = createPopup({
                 anchor: event.currentTarget,
                 position: 'top-left'
-              }, <VolumeSlider />);
+              }, <SliderVolume />);
             }
           }}
         >
