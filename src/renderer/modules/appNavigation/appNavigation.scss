@@ -1,0 +1,20 @@
+@use 'utils';
+@use 'breakpoint';
+
+.AppNavigation {
+  display: flex;
+  gap: 0.5em;
+  background-color: var(--app-bar);
+
+  > button {
+    padding: 0.5em;
+
+    &:last-child {
+      margin-left: auto;
+    }
+
+    &.active {
+      fill: var(--text);
+    }
+  }
+}

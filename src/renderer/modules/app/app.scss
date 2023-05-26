@@ -1,6 +1,5 @@
 @use 'typography';
 @use 'breakpoint';
-@use 'utils';
 
 body {
   @include typography.caption;
@@ -31,40 +30,6 @@ body {
 
       @media (min-height: breakpoint.$md-h) and (min-width: breakpoint.$sm-w) {
         display: grid;
-      }
-    }
-
-    > nav {
-      background-color: var(--app-bar);
-
-      > ul {
-        display: flex;
-
-        > li {
-          display: inline-flex;
-
-          > button {
-            padding: 4px 8px;
-
-            @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
-              padding: 8px 12px;
-            }
-
-            > .Icon {
-              @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
-                width: utils.pxToRem(20);
-              }
-            }
-          }
-
-          &.active > button {
-            fill: var(--text);
-          }
-
-          &:last-child {
-            margin-left: auto;
-          }
-        }
       }
     }
   }
