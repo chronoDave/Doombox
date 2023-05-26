@@ -3,10 +3,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { Thumb } from '../../../types/library';
-import ImageBlur from '../../components/imageBlur/imageBlur';
 import { thumbSelector } from '../../state/selectors/app.selectors';
 import { playerSongSelector } from '../../state/selectors/player.selectors';
 import { themePlayerSelector } from '../../state/selectors/theme.selectors';
+import cx from '../../utils/cx/cx';
 
 import './playerCover.scss';
 
@@ -18,16 +18,24 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
       const themePlayer = themePlayerSelector.get();
       const current = playerSongSelector.get();
 
+      const src = thumbSelector.get(Thumb.Player, current?.image);
+
       return (
         <div class='PlayerCover'>
-          {(
-            themePlayer.cover === 'contain' &&
-            current?.image
-          ) ? <ImageBlur src={thumbSelector.get(current.image, Thumb.Player)} alt='' padding={16} /> : null}
-          {(
-            themePlayer.cover === 'cover' &&
-            current?.image
-          ) ? <img src={thumbSelector.get(current.image, Thumb.Player)} alt='' /> : null}
+          {themePlayer.cover === 'contain' && (
+            <img
+              src={src}
+              loading='lazy'
+              alt=''
+              class='bg'
+            />
+          )}
+          <img
+            src={src}
+            loading='lazy'
+            alt=''
+            class={cx(themePlayer.cover === 'contain' && 'contain')}
+          />
         </div>
       );
     }

@@ -64,7 +64,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
               height: width + 42,
               render: id => {
                 const album = albumSelector.get(id);
-                const thumbs = thumbSelector.get(album.image, Thumb.Album);
+                const thumbs = thumbSelector.get(Thumb.Album, album.image);
 
                 return (
                   <button

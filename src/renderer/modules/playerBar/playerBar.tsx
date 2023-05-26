@@ -21,7 +21,7 @@ const PlayerBar: Component<PlayerBarProps> = () => {
       return (
         <div class="PlayerBar">
           <img
-            src={thumbSelector.get(current?.image ?? null, Thumb.Player)}
+            src={thumbSelector.get(Thumb.Player, current?.image)}
             alt=''
             height={32}
           />

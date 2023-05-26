@@ -72,7 +72,7 @@ const SongView: Component<SongViewProps> = () => {
                     <img
                       width={Thumb.Song}
                       height={Thumb.Song}
-                      src={thumbSelector.get(song.image, Thumb.Song)}
+                      src={thumbSelector.get(Thumb.Song, song.image)}
                       alt=''
                       loading='lazy'
                     />

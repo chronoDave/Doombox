@@ -11,7 +11,7 @@ export const scanningSelector =
   createPropertySelector(store)(state => state.app.scanning);
 
 export const thumbSelector = createSelector(store)(
-  (id: string | null, size: Thumb) => {
+  (size: Thumb, id?: string | null) => {
     const { thumbs } = store.get().app.directory;
 
     return (thumbs && id) ?
