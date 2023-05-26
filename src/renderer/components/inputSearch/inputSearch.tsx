@@ -17,7 +17,13 @@ const InputSearch: Component<InputSearchProps> = () => {
     render(props) {
       return (
         <div class='InputSearch'>
-          <Icon id='search' />
+          <button
+            type='button'
+            aria-label='search'
+            onclick={() => ref.value && props.onsubmit(ref.value.value)}
+          >
+            <Icon id='search' />
+          </button>
           <input
             ref={ref}
             type='search'
@@ -31,6 +37,7 @@ const InputSearch: Component<InputSearchProps> = () => {
           />
           <button
             type='button'
+            aria-label='clear search'
             onclick={() => {
               if (ref.value) {
                 ref.value.value = '';

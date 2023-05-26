@@ -1,12 +1,21 @@
+@use 'typography';
+
 .InputSearch {
+  @include typography.body;
   display: flex;
   align-items: center;
   background-color: var(--popup);
-  padding: 4px;
-  gap: 4px;
+  gap: 0.5em;
 
+  > button {
+    height: 100%;
+    aspect-ratio: 1/1;
+  }
+  
   > input {
+    padding: 0.5em 0;
     flex-grow: 1;
+    min-width: 0;
 
     &::placeholder {
       color: var(--hover);
