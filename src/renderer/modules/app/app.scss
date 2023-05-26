@@ -3,6 +3,7 @@
 @use 'utils';
 
 body {
+  @include typography.caption;
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -11,7 +12,6 @@ body {
   fill: var(--text);
   background-color: var(--bg);
   overflow: hidden;
-  @include typography.size(13);
 
   > main {
     display: flex;
@@ -52,7 +52,7 @@ body {
 
             > .Icon {
               @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
-                width: utils.rem(20);
+                width: utils.pxToRem(20);
               }
             }
           }

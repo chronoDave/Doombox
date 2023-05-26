@@ -42,10 +42,10 @@
         padding: 4px;
 
         > .Icon {
-          width: utils.rem(20);
+          width: utils.pxToRem(20);
 
           @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
-            width: utils.rem(24);
+            width: utils.pxToRem(24);
           }
         }
       }
@@ -94,24 +94,19 @@
 
           &.title {
             @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
-              @include typography.size(15);
+              @include typography.body;
             }
           }
 
           &.artist {
-            @include typography.size(12);
-
-            @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
-              @include typography.size(13);
-            }
+            @include typography.caption;
           }
 
           &.album {
+            @include typography.caption;
             display: none;
 
             @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$sm-h) {
-              @include typography.size(13);
-
               display: block;
             }
           }
@@ -119,11 +114,7 @@
       }
 
       > .duration {
-        @include typography.size(12);
-
-        @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$sm-h) {
-          @include typography.size(13);
-        }
+        @include typography.caption;
       }
     }
   }

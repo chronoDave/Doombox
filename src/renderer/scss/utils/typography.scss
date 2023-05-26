@@ -1,8 +1,15 @@
 @use './utils.scss';
 
-@mixin size($size) {
-  font-family: NotoSansJP, sans-serif;
-  font-size: utils.rem($size);
+@mixin body {
+  font-size: utils.pxToRem(14);
+}
+
+@mixin caption {
+  font-size: utils.pxToRem(13);
+}
+
+@mixin heading {
+  font-size: utils.pxToRem(18);
 }
 
 @mixin nowrap {

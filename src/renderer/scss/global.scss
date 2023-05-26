@@ -1,5 +1,9 @@
 @use 'layer.scss';
 
+html {
+  font-family: NotoSansJP, sans-serif;
+}
+
 *::-webkit-scrollbar {
   width: 12px;
   background-color: var(--scrollbar);

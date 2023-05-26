@@ -9,8 +9,9 @@ module.exports = {
         'appearance'
       ]
     }],
+    'declaration-empty-line-before': null,
     'at-rule-empty-line-before': null,
-    'function-name-case': 'lower',
+    'function-name-case': null,
     'selector-type-case': 'lower',
     'value-keyword-case': 'lower',
     'import-notation': 'string',

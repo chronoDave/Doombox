@@ -61,7 +61,7 @@
     }
 
     > .title {
-      @include typography.size(18);
+      @include typography.heading;
       margin-bottom: 8px;
     }
   }

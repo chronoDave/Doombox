@@ -4,7 +4,7 @@
   position: relative;
 
   > .Popup {
-    @include typography.size(13);
+    @include typography.caption;
     padding: 4px 0;
   
     > ul > .MenuItem {
