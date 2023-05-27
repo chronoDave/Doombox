@@ -1,26 +1,26 @@
 @use 'typography';
 @use 'breakpoint';
 
-.PlayerMeta {
+.PlayerMetadata {
   > span {
     @include typography.nowrap;
+    @include typography.caption;
     display: block;
 
     &.title {
+      @include typography.body;
       font-weight: 500;
     }
 
-    &.artist {
-      @include typography.caption;
+    &.queue {
+      display: flex;
+      align-items: center;
+      gap: 0.25em;
+      margin-top: 0.375em;
     }
 
-    &.label {
-      @include typography.caption;
-      display: none;
-
-      @media (min-height: breakpoint.$sm-h) {
-        display: block;
-      }
+    + span {
+      margin-top: 0.125em;
     }
   }
 }
