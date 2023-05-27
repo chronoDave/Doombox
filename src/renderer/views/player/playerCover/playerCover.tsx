@@ -22,14 +22,14 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
 
       return (
         <div class='PlayerCover'>
-          {themePlayer.cover === 'contain' && (
+          {themePlayer.cover === 'contain' ? (
             <img
               src={src}
               loading='lazy'
               alt=''
               class='bg'
             />
-          )}
+          ) : null}
           <img
             src={src}
             loading='lazy'
