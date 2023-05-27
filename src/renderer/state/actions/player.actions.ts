@@ -88,7 +88,10 @@ export const next = () => {
   if (queue.songs.length === 0) return;
 
   let i = queue.index + 1;
-  if (i === queue.songs.length) i = player.loop ? 0 : queue.songs.length - 1;
+  if (i === queue.songs.length) {
+    i = player.loop ? 0 : queue.songs.length - 1;
+    if (!player.loop) return;
+  }
 
   skip(i);
 };
@@ -98,7 +101,10 @@ export const previous = () => {
   if (queue.songs.length === 0) return;
 
   let i = queue.index - 1;
-  if (i < 0) i = player.loop ? queue.songs.length - 1 : 0;
+  if (i < 0) {
+    i = player.loop ? queue.songs.length - 1 : 0;
+    if (!player.loop) return;
+  }
 
   skip(i);
 };
