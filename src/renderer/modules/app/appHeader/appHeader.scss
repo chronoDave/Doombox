@@ -41,15 +41,15 @@ body > header {
     position: relative;
     flex-shrink: 0;
     height: 100%;
-
+    
     > ul {
       display: flex;
       align-items: center;
       height: 100%;
-
+      
       > li {
         height: 100%;
-
+        
         > button {
           width: 40px;
           height: 100%;

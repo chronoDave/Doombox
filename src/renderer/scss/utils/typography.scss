@@ -2,7 +2,7 @@
 @use 'breakpoint';
 
 @mixin icon {
-  font-size: utils.pxToRem(16);
+  font-size: utils.pxToRem(14);
 }
 
 @mixin icon-dynamic {

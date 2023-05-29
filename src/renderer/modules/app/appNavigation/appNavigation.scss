@@ -3,11 +3,10 @@
 
 .AppNavigation {
   display: flex;
-  gap: 0.5em;
   background-color: var(--app-bar);
 
   > button {
-    padding: 0.5em;
+    padding: 0.5em 0.75em;
 
     &:last-child {
       margin-left: auto;
