@@ -1,7 +1,6 @@
 import produce from 'immer';
 
 import { AudioStatus } from '../../lib/audio';
-import { queueIdSelector } from '../selectors/queue.selectors';
 import store from '../store';
 
 import { play } from './player.actions';
@@ -25,14 +24,4 @@ export const setQueue = (ids: string[]) => {
   }), 'queue.set');
 
   play(ids[0]);
-};
-
-export const next = () => {
-  if (store.get().queue.index < store.get().queue.songs.length) {
-    store.dispatch(produce(draft => {
-      draft.queue.index += 1;
-    }), 'queue.next');
-
-    play(queueIdSelector.get());
-  }
 };
