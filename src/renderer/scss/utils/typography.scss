@@ -1,4 +1,21 @@
-@use './utils.scss';
+@use 'utils';
+@use 'breakpoint';
+
+@mixin icon {
+  font-size: utils.pxToRem(16);
+}
+
+@mixin icon-dynamic {
+  @include icon;
+
+  @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+    font-size: utils.pxToRem(18);
+  }
+
+  @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$lg-h) {
+    font-size: utils.pxToRem(20);
+  }
+}
 
 @mixin body {
   font-size: utils.pxToRem(14);
@@ -8,8 +25,32 @@
   font-size: utils.pxToRem(13);
 }
 
+@mixin caption-dynamic {
+  @include caption;
+
+  @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+    font-size: utils.pxToRem(14);
+  }
+
+  @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$lg-h) {
+    font-size: utils.pxToRem(16);
+  }
+}
+
 @mixin heading {
   font-size: utils.pxToRem(18);
+}
+
+@mixin heading-dynamic {
+  @include heading;
+
+  @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+    font-size: utils.pxToRem(24);
+  }
+
+  @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$lg-h) {
+    font-size: utils.pxToRem(36);
+  }
 }
 
 @mixin nowrap {

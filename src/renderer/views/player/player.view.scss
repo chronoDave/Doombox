@@ -6,43 +6,31 @@
   display: flex;
   flex-direction: column;
 
-  > .metadata {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 0;
-    flex-grow: 1;
+  @media (aspect-ratio >= 1 / 1) {
+    flex-direction: row;
+  }
 
-    > .PlayerCover {
-      flex-grow: 1;
+  > .PlayerCover {
+    flex: 1;
+  }
+
+  > .panel {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+
+    @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+      padding: 16px;
+    }
+
+    @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$lg-h) {
+      padding: 32px;
     }
 
     > .PlayerMetadata {
-      padding: 8px;
-      min-width: 0;
-
-      > span {
-        @include typography.nowrap;
-      }
-    }
-    
-    @media (aspect-ratio < 1 / 1) {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  > .controls {
-    padding: 4px 8px;
-
-    > .buttons {
-      display: flex;
-      gap: 0.25em;
-      justify-content: center;
-      font-size: utils.pxToRem(16);
-
-      > button {
-        padding: 0.25em;
-      }
+      flex-grow: 1;
     }
   }
 }

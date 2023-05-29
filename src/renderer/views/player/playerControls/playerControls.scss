@@ -1,0 +1,22 @@
+@use 'utils';
+@use 'typography';
+@use 'breakpoint';
+
+.PlayerControls {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+
+  @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+    gap: 8px;
+  }
+
+  @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$lg-h) {
+    gap: 16px;
+  }
+
+  > button {
+    @include typography.icon-dynamic;
+    padding: 0.25em;
+  }
+}

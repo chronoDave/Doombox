@@ -4,19 +4,12 @@
 .PlayerMetadata {
   > span {
     @include typography.nowrap;
-    @include typography.caption;
+    @include typography.caption-dynamic;
     display: block;
 
     &.title {
-      @include typography.body;
+      @include typography.heading-dynamic;
       font-weight: 500;
-    }
-
-    &.queue {
-      display: flex;
-      align-items: center;
-      gap: 0.25em;
-      margin-top: 0.375em;
     }
 
     + span {

@@ -18,5 +18,7 @@ module.exports = {
     // SCSS
     'scss/double-slash-comment-empty-line-before': null,
     'scss/dollar-variable-empty-line-before': null,
+    'scss/at-import-no-partial-leading-underscore': true,
+    'scss/at-import-partial-extension': 'never'
   }
 }

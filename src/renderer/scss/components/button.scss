@@ -1,5 +1,6 @@
-@use 'utils.scss';
-@use 'transition.scss';
+@use 'utils';
+@use 'transition';
+@use 'typography';
 
 button {
   display: inline-flex;
@@ -13,6 +14,7 @@ button {
   }
 
   &:has(svg) {
+    @include typography.icon;
     fill: var(--text-inactive);
 
     > svg > path {

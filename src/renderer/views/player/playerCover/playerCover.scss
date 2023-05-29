@@ -1,3 +1,5 @@
+@use 'breakpoint';
+
 .PlayerCover {
   display: flex;
   min-height: 0;
@@ -21,8 +23,16 @@
 
     &.contain {
       object-fit: contain;
-      padding: 8px;
+      padding: 4px;
       isolation: isolate;
+
+      @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+        padding: 8px;
+      }
+    
+      @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$lg-h) {
+        padding: 16px;
+      }
     }
   }
 }
