@@ -48,10 +48,10 @@ const SongView: Component<SongViewProps> = () => {
             </p>
             <div class='actions'>
               <button type='button' onclick={() => setQueue(songs)}>
-                <Icon id='playlistPlay' />
+                <Icon id='listPlay' />
               </button>
               <button type='button' onclick={() => addToQueue(songs)}>
-                <Icon id='playlistAdd' />
+                <Icon id='listAdd' />
               </button>
             </div>
           </div>

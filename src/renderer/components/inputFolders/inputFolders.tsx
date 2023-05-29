@@ -54,7 +54,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
                 selected.clear();
               }}
             >
-              <Icon id='folderRemove' />
+              <Icon id='folderMinus' />
             </button>
             <button
               type='button'

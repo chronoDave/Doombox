@@ -15,11 +15,11 @@ export type AppNavigationProps = {};
 
 const AppNavigation: Component<AppNavigationProps> = () => {
   const views: Record<AppView, IconProps['id']> = {
-    [AppView.Queue]: 'playlistMusic',
-    [AppView.Player]: 'playCircle',
+    [AppView.Queue]: 'listMusic',
+    [AppView.Player]: 'circlePlay',
     [AppView.Song]: 'musicNote',
-    [AppView.Album]: 'musicBox',
-    [AppView.Label]: 'accountMusic',
+    [AppView.Album]: 'boxMusic',
+    [AppView.Label]: 'personMusic',
     [AppView.Settings]: 'cog'
   };
 

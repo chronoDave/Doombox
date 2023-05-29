@@ -50,10 +50,10 @@ const AlbumView: Component<AlbumViewProps> = () => {
             </p>
             <div class='actions'>
               <button type='button' onclick={() => setQueue(getSongs(albums))}>
-                <Icon id='playlistPlay' />
+                <Icon id='listPlay' />
               </button>
               <button type='button' onclick={() => addToQueue(getSongs(albums))}>
-                <Icon id='playlistAdd' />
+                <Icon id='listAdd' />
               </button>
             </div>
           </div>

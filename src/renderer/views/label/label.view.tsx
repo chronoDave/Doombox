@@ -38,15 +38,15 @@ const LabelView: Component<LabelViewProps> = () => {
           />
           <div class='toolbar'>
             <p class='status'>
-              <span><Icon id='accountMusic' />{labels.length}</span>
+              <span><Icon id='personMusic' />{labels.length}</span>
               <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
             </p>
             <div class='actions'>
               <button type='button' onclick={() => setQueue(getSongs(labels))}>
-                <Icon id='playlistPlay' />
+                <Icon id='listPlay' />
               </button>
               <button type='button' onclick={() => addToQueue(getSongs(labels))}>
-                <Icon id='playlistAdd' />
+                <Icon id='listAdd' />
               </button>
             </div>
           </div>
