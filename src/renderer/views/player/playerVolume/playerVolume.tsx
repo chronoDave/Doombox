@@ -40,7 +40,7 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
             } else {
               popup = createPopup({
                 anchor: event.currentTarget,
-                position: 'top-left'
+                position: 'top'
               }, <SliderVolume />);
             }
           }}

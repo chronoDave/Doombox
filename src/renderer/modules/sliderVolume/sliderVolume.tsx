@@ -19,7 +19,7 @@ const SliderVolume: Component<SliderVolumeProps> = () => {
       const volume = playerVolumeSelector.get();
 
       const getIcon = (): IconProps['id'] => {
-        if (muted) return 'mute';
+        if (muted) return 'volumeOff';
         if (volume >= 66) return 'volumeHigh';
         if (volume >= 33) return 'volumeMedium';
         return 'volumeLow';
