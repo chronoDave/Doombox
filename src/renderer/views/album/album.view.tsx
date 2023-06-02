@@ -3,13 +3,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { Thumb } from '../../../types/library';
-import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
-import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import { addToQueue, setQueue } from '../../state/actions/queue.actions';
+import { setQueue } from '../../state/actions/queue.actions';
 import { searchAlbums } from '../../state/actions/search.actions';
 import { albumSelector, albumsSelector } from '../../state/selectors/album.selectors';
 import { thumbSelector } from '../../state/selectors/app.selectors';
@@ -29,39 +26,18 @@ const AlbumView: Component<AlbumViewProps> = () => {
     render() {
       const search = albumSearchSelector.get();
       const albums = (search ?? albumsSelector.get());
-      const duration = albums
-        .reduce((acc, cur) => acc + (albumSelector.get(cur).duration ?? 0), 0);
-
-      const getSongs = (ids: string[]) => ids
-        .map(id => albumSelector.get(id).songs)
-        .flat();
 
       return (
         <div class="View AlbumView">
-          <h1 class='sr-only'>Album view</h1>
           <InputSearch
             placeholder='search for album'
             onsubmit={query => searchAlbums(query)}
           />
-          <div class='toolbar'>
-            <p class='status'>
-              <span><Icon id='musicBox' />{albums.length}</span>
-              <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
-            </p>
-            <div class='actions'>
-              <button type='button' onclick={() => setQueue(getSongs(albums))}>
-                <Icon id='listPlay' />
-              </button>
-              <button type='button' onclick={() => addToQueue(getSongs(albums))}>
-                <Icon id='listAdd' />
-              </button>
-            </div>
-          </div>
           <VirtualGrid
             list={albums}
             item={{
               width,
-              height: width + 42,
+              height: width * 0.25,
               render: id => {
                 const album = albumSelector.get(id);
                 const thumbs = thumbSelector.get(Thumb.Album, album.image);
@@ -81,8 +57,8 @@ const AlbumView: Component<AlbumViewProps> = () => {
                       height={Thumb.Album}
                     />
                     <div class='metadata'>
-                      <p>{album.album}</p>
-                      <p>{album.albumartist}</p>
+                      <p class='album'>{album.album}</p>
+                      <p class='albumartist'>{album.albumartist}</p>
                     </div>
                   </button>
                 );
@@ -105,7 +81,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
     createMediaQuery({ axis: 'min-width', breakpoint: 'lg-w' }, { axis: 'min-height', breakpoint: 'lg-h' }),
     createMediaQuery({ axis: 'min-width', breakpoint: 'xl-w' }, { axis: 'min-height', breakpoint: 'xl-h' })
   ])(i => {
-    width = 96 + i * 24;
+    width = 192 + 64 * i;
   })(component);
 
   albumSearchSelector.subscribe(component);
