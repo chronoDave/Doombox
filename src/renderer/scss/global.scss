@@ -13,14 +13,6 @@ html {
   background-color: var(--scrollbar-thumb);
 }
 
-*:focus-visible {
-  position: relative;
-  outline: 2px solid var(--text);
-  outline-offset: 2px;
-  isolation: isolate;
-  z-index: layer.$focus;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
