@@ -5,13 +5,35 @@ import produce from 'immer';
 
 import difference from '../../../utils/array/difference';
 import unique from '../../../utils/array/unique';
-import levenshteinDistance from '../../../utils/string/levenshteinDistance';
 import store from '../store';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
-  draft.entities.song = new Map(library.songs.map(song => [song._id, song]));
-  draft.entities.album = new Map(library.albums.map(album => [album._id, album]));
-  draft.entities.label = new Map(library.labels.map(label => [label._id, label]));
+  draft.entities.song = new Map(library.songs
+    .sort((a, b) => {
+      if (!a.label || !b.label) return 0;
+      if (a.label !== b.label) return a.label.localeCompare(b.label);
+      if (!a.year || !b.year) return 0;
+      if (a.year !== b.year) return a.year - b.year;
+      if (!a.album || !b.album) return 0;
+      if (a.album !== b.album) return a.album.localeCompare(b.album);
+      if (!a.track.no || !b.track.no) return 0;
+      return a.track.no - b.track.no;
+    })
+    .map(song => [song._id, song]));
+  draft.entities.album = new Map(library.albums
+    .sort((a, b) => {
+      if (!a.label || !b.label) return 0;
+      if (a.label !== b.label) return a.label.localeCompare(b.label);
+      if (!a.year || !b.year) return 0;
+      return a.year - b.year;
+    })
+    .map(album => [album._id, album]));
+  draft.entities.label = new Map(library.labels
+    .sort((a, b) => {
+      if (!a.label || !b.label) return 0;
+      return a.label.localeCompare(b.label);
+    })
+    .map(label => [label._id, label]));
 }), 'library.dispatchLibrary');
 
 export const fetchLibrary = async () => {
@@ -82,30 +104,4 @@ export const removeFolders = async (folders: string[]) => {
   store.dispatch(produce(draft => {
     draft.app.scanning = false;
   }), 'library.removeFolders');
-};
-
-export const searchSongs = async (query: string) => {
-  if (query === '') {
-    store.dispatch(produce(draft => {
-      draft.search.songs = null;
-    }), 'library.searchSongs');
-  } else {
-    const songs = await window.ipc.search.song({
-      $string: {
-        title: query
-      }
-    });
-
-    store.dispatch(produce(draft => {
-      draft.search.songs = songs
-        .map(song => ({
-          song,
-          distance: song.title ?
-            levenshteinDistance(song.title, query) :
-            Number.MAX_SAFE_INTEGER
-        }))
-        .sort((a, b) => a.distance - b.distance)
-        .map(({ song }) => song._id);
-    }), 'library.searchSongs');
-  }
 };
