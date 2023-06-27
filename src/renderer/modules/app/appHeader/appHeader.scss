@@ -5,7 +5,10 @@ body > header {
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: var(--app-bar);
+
+  @include utils.colorScheme(var(--grey100), var(--grey700)) using ($color) {
+    background-color: $color;
+  }
 
   > img {
     -webkit-app-region: drag;

@@ -11,3 +11,13 @@
     }
   }
 }
+
+@mixin colorScheme($dark, $light) {
+  @media (prefers-color-scheme: dark) {
+    @content($dark);
+  }
+
+  @media (prefers-color-scheme: light) {
+    @content($light);
+  }
+}
