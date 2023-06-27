@@ -1,6 +1,5 @@
-@use 'utils';
 @use 'typography';
-@use 'breakpoint';
+@use 'breakpoints';
 
 .AlbumView {
   display: flex;
@@ -11,7 +10,7 @@
     height: 100%;
     padding: 1px;
 
-    @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+    @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
       padding: 4px;
     }
 

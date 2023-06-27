@@ -4,7 +4,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 
 module.exports = (env, argv) => [{
-  /** Renderer */
   name: 'renderer',
   target: 'electron-renderer',
   devtool: 'cheap-source-map',
@@ -43,8 +42,7 @@ module.exports = (env, argv) => [{
             sassOptions: {
               sourceMap: argv.mode === 'development',
               includePaths: [
-                path.resolve(__dirname, 'src/renderer/scss/utils'),
-                path.resolve(__dirname, 'src/renderer/scss/partials')
+                path.resolve(__dirname, 'src/renderer/scss/core')
               ],
               style: argv.mode === 'development' ?
                 'expanded' :

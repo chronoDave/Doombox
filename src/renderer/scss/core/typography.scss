@@ -1,0 +1,72 @@
+@use 'breakpoints';
+@use 'sass:math';
+
+@function pxToRem($size) {
+  @return #{math.div($size, 16)}rem;
+}
+
+@mixin icon {
+  font-size: pxToRem(14);
+}
+
+@mixin icon-dynamic {
+  @include icon;
+
+  @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
+    font-size: pxToRem(18);
+  }
+
+  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
+    font-size: pxToRem(20);
+  }
+}
+
+@mixin body {
+  font-size: pxToRem(14);
+}
+
+@mixin caption {
+  font-size: pxToRem(13);
+}
+
+@mixin caption-dynamic {
+  @include caption;
+
+  @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
+    font-size: pxToRem(14);
+  }
+
+  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
+    font-size: pxToRem(16);
+  }
+}
+
+@mixin heading {
+  font-size: pxToRem(18);
+}
+
+@mixin heading-dynamic {
+  @include heading;
+
+  @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
+    font-size: pxToRem(24);
+  }
+
+  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
+    font-size: pxToRem(36);
+  }
+}
+
+@mixin nowrap {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin clamp($n) {
+  display: -webkit-box;
+  -webkit-line-clamp: $n;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}

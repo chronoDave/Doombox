@@ -1,6 +1,5 @@
-@use 'breakpoint';
+@use 'breakpoints';
 @use 'typography';
-@use 'utils';
 
 .PlayerView {
   display: flex;
@@ -21,11 +20,11 @@
     flex-direction: column;
     padding: 8px;
 
-    @media (min-width: breakpoint.$sm-w) and (min-height: breakpoint.$md-h) {
+    @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
       padding: 16px;
     }
 
-    @media (min-width: breakpoint.$md-w) and (min-height: breakpoint.$lg-h) {
+    @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
       padding: 32px;
     }
 

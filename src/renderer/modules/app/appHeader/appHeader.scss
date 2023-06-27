@@ -1,12 +1,12 @@
-@use 'utils.scss';
-@use 'typography.scss';
+@use 'typography';
+@use 'mixins';
 
 body > header {
   display: flex;
   align-items: center;
   gap: 4px;
 
-  @include utils.colorScheme(var(--grey100), var(--grey700)) using ($color) {
+  @include mixins.theme(var(--grey100), var(--grey700)) using ($color) {
     background-color: $color;
   }
 
@@ -57,7 +57,7 @@ body > header {
           width: 40px;
           height: 100%;
 
-          @include utils.hover {
+          @include mixins.hover {
             &.close {
               fill: var(--text-error);
               background-color: var(--error);

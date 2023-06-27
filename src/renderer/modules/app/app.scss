@@ -1,5 +1,5 @@
 @use 'typography';
-@use 'breakpoint';
+@use 'breakpoints';
 
 body {
   @include typography.caption;
@@ -28,7 +28,7 @@ body {
       display: none;
       padding: 4px 8px;
 
-      @media (min-height: breakpoint.$md-h) and (min-width: breakpoint.$sm-w) {
+      @media (min-height: breakpoints.$md-h) and (min-width: breakpoints.$sm-w) {
         display: grid;
       }
     }

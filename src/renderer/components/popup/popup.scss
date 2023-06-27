@@ -1,9 +1,9 @@
-@use 'shadow.scss';
-@use 'layer.scss';
+@use 'shadows.scss';
+@use 'layers.scss';
 
 .Popup {
   position: absolute;
   background-color: var(--popup);
-  box-shadow: shadow.$medium;
-  z-index: layer.$popup;
+  box-shadow: shadows.$medium;
+  z-index: layers.$popup;
 }

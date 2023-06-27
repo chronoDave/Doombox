@@ -1,4 +1,4 @@
-@use 'layer.scss';
+@use 'layers.scss';
 
 .Slider {
   position: relative;
@@ -36,7 +36,7 @@
       outline: 2px solid var(--text);
       outline-offset: 2px;
       isolation: isolate;
-      z-index: layer.$focus;
+      z-index: layers.$focus;
     }
   }
 }

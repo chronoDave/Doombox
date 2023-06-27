@@ -1,7 +1,7 @@
-@use 'utils.scss';
-@use 'typography.scss';
-@use 'breakpoint.scss';
-@use 'transition.scss';
+@use 'mixins';
+@use 'typography';
+@use 'breakpoints';
+@use 'transitions';
 
 .SettingsView {
   > .Tabs {
@@ -16,13 +16,13 @@
       height: 100%;
       background-color: var(--settings-menu);
       
-      @media (min-width: breakpoint.$sm-w) {
+      @media (min-width: breakpoints.$sm-w) {
         padding: 16px;
       }
   
       > li {
         + li {
-          @media (min-width: breakpoint.$sm-w) {   
+          @media (min-width: breakpoints.$sm-w) {   
             margin-top: 2px;
           }
         }
@@ -30,14 +30,14 @@
         > button {
           padding: 8px 12px;
           width: 100%;
-          transition: background-color transition.$fast;
+          transition: background-color transitions.$fast;
           justify-content: flex-start;
   
-          @include utils.hover {
+          @include mixins.hover {
             background-color: var(--primary-hover);
           }
           
-          @media (min-width: breakpoint.$sm-w) {
+          @media (min-width: breakpoints.$sm-w) {
             border-radius: 4px;
           }
   
@@ -58,7 +58,7 @@
         display: none;
       }
   
-      @media (min-width: breakpoint.$md-w) {
+      @media (min-width: breakpoints.$md-w) {
         padding: 16px 32px;
       }
   
@@ -78,17 +78,17 @@
       border-radius: 4px;
       color: var(--text-inactive);
   
-      @media (min-width: breakpoint.$md-w) {
+      @media (min-width: breakpoints.$md-w) {
         margin: 16px 20px;
       }
   
-      @include utils.hover {
+      @include mixins.hover {
         color: var(--text);
         background-color: unset;
       }
   
       > span {
-        transition: color transition.$fast;
+        transition: color transitions.$fast;
       }
     }
   }

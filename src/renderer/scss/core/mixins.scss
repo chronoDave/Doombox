@@ -1,9 +1,5 @@
 @use 'sass:math';
 
-@function pxToRem($size) {
-  @return #{math.div($size, 16)}rem;
-}
-
 @mixin hover() {
   @media (hover: hover) {
     &:not([disabled]):hover {
@@ -12,7 +8,7 @@
   }
 }
 
-@mixin colorScheme($dark, $light) {
+@mixin theme($dark, $light) {
   @media (prefers-color-scheme: dark) {
     @content($dark);
   }

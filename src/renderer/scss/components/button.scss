@@ -1,14 +1,14 @@
-@use 'utils';
-@use 'transition';
+@use 'mixins';
+@use 'transitions';
 @use 'typography';
 
 button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  transition: background-color transition.$fast;
+  transition: background-color transitions.$fast;
 
-  @include utils.hover {
+  @include mixins.hover {
     cursor: pointer;
     background-color: var(--hover);
   }
@@ -18,10 +18,10 @@ button {
     fill: var(--text-inactive);
 
     > svg > path {
-      transition: fill transition.$fast;
+      transition: fill transitions.$fast;
     }
 
-    @include utils.hover {
+    @include mixins.hover {
       fill: var(--text);
     }
   }
