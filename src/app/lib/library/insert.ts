@@ -40,7 +40,7 @@ const insert = (props: InsertProps) =>
         });
       }, { concurrency: 16 });
 
-      await props.library.songs.insert(songs);
+      props.library.songs.insert(songs);
     };
 
 export default insert;
