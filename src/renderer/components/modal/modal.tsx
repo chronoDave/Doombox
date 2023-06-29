@@ -7,8 +7,6 @@ import createFocusTrap from '../../utils/focusTrap/focusTrap';
 import portal from '../../utils/portal/portal';
 import Icon from '../icon/icon';
 
-import './modal.scss';
-
 export type DialogProps = {
   id: string
   title: string

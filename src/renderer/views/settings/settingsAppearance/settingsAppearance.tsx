@@ -8,8 +8,6 @@ import InputRadioList from '../../../components/inputRadioList/inputRadioList';
 import { setTheme } from '../../../state/actions/theme.actions';
 import { themePlayerSelector, themeSelector } from '../../../state/selectors/theme.selectors';
 
-import './settingsAppearance.scss';
-
 export type SettingsAppearanceProps = {};
 
 const SettingsAppearance: Component<SettingsAppearanceProps> = () => {

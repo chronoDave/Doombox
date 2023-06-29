@@ -12,8 +12,6 @@ import useIpc from '../../hooks/useIpc';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import createMediaQuery from '../../utils/mediaQuery';
 
-import './scan.view.scss';
-
 export type ScanViewProps = {};
 
 const ScanView: Component<ScanViewProps> = () => {

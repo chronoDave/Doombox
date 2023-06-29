@@ -1,6 +1,12 @@
 @use 'breakpoints';
 @use 'typography';
 
+@use './playerControls/playerControls.scss';
+@use './playerCover/playerCover.scss';
+@use './playerMetadata/playerMetadata.scss';
+@use './playerSlider/playerSlider.scss';
+@use './playerVolume/playerVolume.scss';
+
 .PlayerView {
   display: flex;
   flex-direction: column;

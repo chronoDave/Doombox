@@ -20,8 +20,6 @@ import { romajiSelector } from '../../state/selectors/user.selectors';
 import cx from '../../utils/cx/cx';
 import createMediaQuery from '../../utils/mediaQuery';
 
-import './song.view.scss';
-
 export type SongViewProps = {};
 
 const SongView: Component<SongViewProps> = () => {

@@ -3,8 +3,6 @@ import * as forgo from 'forgo';
 import createVirtualList from '../../utils/createVirtualList';
 import debounce from '../../utils/debounce';
 
-import './virtualList.scss';
-
 export type VirtualListProps<T> = {
   list: T[]
   item: {

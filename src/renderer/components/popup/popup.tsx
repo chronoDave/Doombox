@@ -5,8 +5,6 @@ import * as forgo from 'forgo';
 import debounce from '../../utils/debounce';
 import portal from '../../utils/portal/portal';
 
-import './popup.scss';
-
 type Position =
   'top-left' |
   'top' |

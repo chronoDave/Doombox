@@ -22,8 +22,6 @@ import SplashView from '../../views/splash/splash.view';
 import AppHeader from './appHeader/appHeader';
 import AppNavigation from './appNavigation/appNavigation';
 
-import './app.scss';
-
 export type AppProps = {};
 
 const App: Component<AppProps> = () => {

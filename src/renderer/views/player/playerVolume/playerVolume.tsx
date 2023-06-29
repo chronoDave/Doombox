@@ -8,8 +8,6 @@ import { createPopup } from '../../../components/popup/popup';
 import SliderVolume from '../../../modules/sliderVolume/sliderVolume';
 import { playerMutedSelector, playerVolumeSelector } from '../../../state/selectors/player.selectors';
 
-import './playerVolume.scss';
-
 export type PlayerVolumeProps = {};
 
 const PlayerVolume: Component<PlayerVolumeProps> = () => {

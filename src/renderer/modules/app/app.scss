@@ -1,6 +1,9 @@
 @use 'typography';
 @use 'breakpoints';
 
+@use './appHeader/appHeader.scss';
+@use './appNavigation/appNavigation.scss';
+
 body {
   @include typography.caption;
   display: flex;

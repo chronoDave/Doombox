@@ -2,8 +2,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import './inputRadio.scss';
-
 export type InputRadioProps = {
   id: string
   label: string

@@ -5,8 +5,6 @@ import * as forgo from 'forgo';
 
 import InputRadio from '../inputRadio/inputRadio';
 
-import './inputRadioList.scss';
-
 export type InputRadioListProps = {
   id: string
   label: string

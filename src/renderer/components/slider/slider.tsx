@@ -5,8 +5,6 @@ import * as forgo from 'forgo';
 import clamp from '../../../utils/number/clamp';
 import debounce from '../../utils/debounce';
 
-import './slider.scss';
-
 export type SliderEvent = {
   target: HTMLElement,
   value: number

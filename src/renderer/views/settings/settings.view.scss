@@ -3,6 +3,9 @@
 @use 'breakpoints';
 @use 'transitions';
 
+@use './settingsAppearance/settingsAppearance.scss';
+@use './settingsLibrary/settingsLibrary.scss';
+
 .SettingsView {
   > .Tabs {
     display: grid;

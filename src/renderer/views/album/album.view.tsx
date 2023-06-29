@@ -15,8 +15,6 @@ import { albumSearchSelector } from '../../state/selectors/search.selectors';
 import cx from '../../utils/cx/cx';
 import createMediaQuery from '../../utils/mediaQuery';
 
-import './album.view.scss';
-
 export type AlbumViewProps = {};
 
 const AlbumView: Component<AlbumViewProps> = () => {

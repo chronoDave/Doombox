@@ -8,8 +8,6 @@ import Slider from '../../components/slider/slider';
 import * as player from '../../state/actions/player.actions';
 import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
 
-import './sliderVolume.scss';
-
 export type SliderVolumeProps = {};
 
 const SliderVolume: Component<SliderVolumeProps> = () => {

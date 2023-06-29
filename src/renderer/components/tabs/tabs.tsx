@@ -3,8 +3,6 @@ import * as forgo from 'forgo';
 import wrap from '../../../utils/number/wrap';
 import cx from '../../utils/cx/cx';
 
-import './tabs.scss';
-
 export type Tab = {
   label: string | forgo.Component
   render: forgo.Component

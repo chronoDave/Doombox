@@ -4,8 +4,6 @@ import * as forgo from 'forgo';
 
 import { playerSongSelector } from '../../../state/selectors/player.selectors';
 
-import './playerMetadata.scss';
-
 export type PlayerMetadataProps = {};
 
 const PlayerMetadata: Component<PlayerMetadataProps> = () => {

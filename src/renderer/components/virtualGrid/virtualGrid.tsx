@@ -3,8 +3,6 @@ import * as forgo from 'forgo';
 import createVirtualGrid from '../../utils/createVirtualGrid';
 import debounce from '../../utils/debounce';
 
-import './virtualGrid.scss';
-
 export type VirtualGridProps<T> = {
   list: T[]
   item: {

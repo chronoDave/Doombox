@@ -9,8 +9,6 @@ import { setViewApp } from '../../../state/actions/view.actions';
 import { appViewSelector } from '../../../state/selectors/view.selectors';
 import cx from '../../../utils/cx/cx';
 
-import './appNavigation.scss';
-
 export type AppNavigationProps = {};
 
 const AppNavigation: Component<AppNavigationProps> = () => {

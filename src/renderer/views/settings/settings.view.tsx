@@ -12,8 +12,6 @@ import { settingsViewSelector } from '../../state/selectors/view.selectors';
 import Appearance from './settingsAppearance/settingsAppearance';
 import Library from './settingsLibrary/settingsLibrary';
 
-import './settings.view.scss';
-
 export type SettingsViewProps = {};
 
 const SettingsView: Component<SettingsViewProps> = () => {

@@ -2,8 +2,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import './loader.scss';
-
 export type LoaderProps = {
   bars: number
 };

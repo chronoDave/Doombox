@@ -22,6 +22,8 @@ module.exports = {
       }
     },
     'import/core-modules': [
+      'sass',
+      'minimist',
       'esbuild',
       'jsdom',
       'electron',
@@ -116,6 +118,12 @@ module.exports = {
     'class-methods-use-this': ['error', {
       exceptMethods: ['view']
     }],
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        group: ['*.scss'],
+        message: 'scss imports are not allowed'
+      }]
+    }],
     'no-unused-vars': 'off',
     'no-promise-executor-return': 'off',
     'linebreak-style': 'off',
@@ -186,11 +194,6 @@ module.exports = {
     'import/order': ['error', {
       'newlines-between': 'always',
       warnOnUnassignedImports: true,
-      pathGroups: [{
-        pattern: './**/*.scss',
-        group: 'index',
-        position: 'after'
-      }],
       alphabetize: {
         order: 'asc',
         caseInsensitive: true
