@@ -25,7 +25,7 @@ test('[parser.parse] emits parse event', async t => {
   const parser = new Parser();
 
   const events: Array<Parameters<ParserEvents['parse']>[0]> = [];
-  parser.on('parse', events.push);
+  parser.on('parse', payload => events.push(payload));
 
   await parser.parse([file]);
 

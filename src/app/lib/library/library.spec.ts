@@ -6,7 +6,7 @@ import Parser from '../parser/parser';
 
 import Library from './library';
 
-test('[library.getAlbums] groups songs into albums', async t => {
+test('[library.groupAlbums] groups songs into albums', async t => {
   const parser = new Parser();
   const folder = await glob('**/*.mp3', {
     absolute: true,
@@ -14,7 +14,7 @@ test('[library.getAlbums] groups songs into albums', async t => {
   });
   const { songs } = await parser.parse(folder);
 
-  const albums = Library.getAlbums(songs);
+  const albums = Library.groupAlbums(songs);
 
   t.equal(albums.length, 1, 'groups albums');
   t.equal(Math.round(albums[0].duration ?? 0), 1422, 'sums duration');
@@ -22,7 +22,7 @@ test('[library.getAlbums] groups songs into albums', async t => {
   t.end();
 });
 
-test('[library.getLabels] groups albums into labels', async t => {
+test('[library.groupLabels] groups albums into labels', async t => {
   const parser = new Parser();
   const folder = await glob('**/*.mp3', {
     absolute: true,
@@ -30,8 +30,8 @@ test('[library.getLabels] groups albums into labels', async t => {
   });
   const { songs } = await parser.parse(folder);
 
-  const albums = Library.getAlbums(songs);
-  const labels = Library.getLabels(albums);
+  const albums = Library.groupAlbums(songs);
+  const labels = Library.groupLabels(albums);
 
   t.equal(labels.length, 1, 'groups labels');
   t.equal(labels[0].albums.length, 1, 'has albums');
