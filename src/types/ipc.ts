@@ -20,12 +20,11 @@ export enum IpcChannel {
   Cache = 'cache',
   Window = 'window',
   Library = 'library',
-  Scan = 'scan',
   Receive = 'on',
   Search = 'search'
 }
 
-export type IpcChannelReceive<T extends IpcChannel> = `${IpcChannel.Receive}.${T}`;
+export type IpcChannelReceive<T extends IpcRoute> = `${IpcChannel.Receive}.${T}`;
 
 export enum IpcRoute {
   SelectFolders = 'selectFolders',
@@ -41,7 +40,8 @@ export enum IpcRoute {
   Close = 'close',
   Song = 'song',
   Album = 'album',
-  Label = 'label'
+  Label = 'label',
+  Image = 'image'
 }
 
 /** Events */
@@ -52,9 +52,14 @@ export type IpcEvent = {
 
 /** Payloads */
 export type IpcPayloadReceive = {
-  [IpcChannel.Scan]: {
-    process: string
+  [IpcRoute.Song]: {
     file: string
+    cur: number
+    size: number
+  },
+  [IpcRoute.Image]: {
+    file: string
+    cur: number
     size: number
   }
 };

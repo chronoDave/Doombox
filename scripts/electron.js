@@ -6,13 +6,15 @@ let app;
 const run = () => {
   console.log('[electron] starting electron');
 
-  return execFile('node', [
+  const childProcess = execFile('node', [
     path.resolve(__dirname, '../node_modules/electron/cli.js'),
     'build/app/app.js'
-  ], (err, stdout, stderr) => {
-    if (stderr) console.error(stderr);
-    console.log(stdout);
-  });
+  ]);
+
+  childProcess.stdout.on('data', console.log);
+  childProcess.stderr.on('data', console.error);
+
+  return childProcess;
 };
 
 app = run();

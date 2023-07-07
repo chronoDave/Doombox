@@ -1,4 +1,4 @@
-import type { LibraryDatabase } from './types';
+import type { Album, Label, Song } from '../types/library';
 
 import { app, ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
@@ -18,7 +18,9 @@ import createLibraryController from './controllers/library.controller';
 import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
+import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
+import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
 import createWindow from './lib/window';
 import ipcRouterFactory from './utils/createIpcRouter';
@@ -31,15 +33,23 @@ if (IS_DEV) {
   fs.mkdirSync(PATH.LOGS, { recursive: true });
 }
 
-fs.mkdirSync(PATH.THUMBS, { recursive: true });
-
 /** Initialize entities */
 const logger = new Logger({ root: PATH.LOGS });
-const library: LibraryDatabase = {
-  songs: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'songs' } }),
-  albums: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'albums' } }),
-  labels: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } })
+
+const db: {
+  song: LeafDB<Song>,
+  album: LeafDB<Album>,
+  label: LeafDB<Label>
+} = {
+  song: new LeafDB({ strict: true, storage: { root: PATH.APP_DATA, name: 'songs' } }),
+  album: new LeafDB({ strict: true, storage: { root: PATH.APP_DATA, name: 'albums' } }),
+  label: new LeafDB({ strict: true, storage: { root: PATH.APP_DATA, name: 'labels' } })
 };
+const library = new Library({
+  parser: new Parser(),
+  root: PATH.THUMBS,
+  db
+});
 const storage = {
   app: new Storage({ name: 'app', shape: appShape, root: PATH.APP_DATA }),
   theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.APP_DATA }),
@@ -51,7 +61,6 @@ const createIpcRouter = ipcRouterFactory(logger);
 const router = {
   library: createIpcRouter(createLibraryController({
     library,
-    root: PATH.THUMBS,
     storage: storage.user
   })),
   user: createIpcRouter(createUserController({
@@ -72,7 +81,7 @@ const router = {
 };
 
 /** Initialize app */
-Object.values(library).forEach(db => db.open());
+Object.values(db).forEach(x => x.open());
 nativeTheme.themeSource = storage.theme.get().theme;
 
 /** Launch */

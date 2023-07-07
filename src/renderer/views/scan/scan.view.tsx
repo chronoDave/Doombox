@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { IpcChannel } from '../../../types/ipc';
+import { IpcRoute } from '../../../types/ipc';
 import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Loader from '../../components/loader/loader';
@@ -51,13 +51,29 @@ const ScanView: Component<ScanViewProps> = () => {
     }
   });
 
-  useIpc(IpcChannel.Scan, payload => {
-    if (payload.process !== state.process) {
+  useIpc(IpcRoute.Image, payload => {
+    if (state.process !== 'Scanning images...') {
       state.time.cur = 0;
       state.time.max = 0;
-      state.process = payload.process;
       state.scanned = 0;
+      state.process = 'Scanning images...';
     }
+
+    if (payload.size !== state.size) state.size = payload.size;
+    if (payload.file !== state.file) {
+      state.scanned += 1;
+      state.file = payload.file;
+    }
+  })(component);
+
+  useIpc(IpcRoute.Song, payload => {
+    if (state.process !== 'Scanning songs...') {
+      state.time.cur = 0;
+      state.time.max = 0;
+      state.scanned = 0;
+      state.process = 'Scanning songs...';
+    }
+
     if (payload.size !== state.size) state.size = payload.size;
     if (payload.file !== state.file) {
       state.scanned += 1;

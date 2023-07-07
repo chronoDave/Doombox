@@ -80,7 +80,8 @@ const ipc: IpcApi = {
     set: invoke(IpcChannel.Cache, IpcRoute.Set)
   },
   on: {
-    scan: receive(IpcChannel.Scan)
+    song: receive(IpcRoute.Song),
+    image: receive(IpcRoute.Image)
   }
 };
 
