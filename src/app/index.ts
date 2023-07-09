@@ -76,7 +76,7 @@ const router = {
     directory: { thumbs: PATH.THUMBS }
   })),
   search: createIpcRouter(createSearchController({
-    library
+    db
   }))
 };
 

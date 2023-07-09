@@ -1,13 +1,18 @@
 import type { IpcChannel, IpcInvokeController } from '../../types/ipc';
-import type { LibraryDatabase } from '../types';
+import type { Album, Label, Song } from '../../types/library';
+import type LeafDB from 'leaf-db';
 
 export type SongControllerProps = {
-  library: LibraryDatabase
+  db: {
+    song: LeafDB<Song>
+    album: LeafDB<Album>
+    label: LeafDB<Label>
+  }
 };
 
 export default (props: SongControllerProps) =>
   (): IpcInvokeController[IpcChannel.Search] => ({
-    song: async query => props.library.songs.find(query),
-    album: async query => props.library.albums.find(query),
-    label: async query => props.library.labels.find(query)
+    song: async query => props.db.song.find(query),
+    album: async query => props.db.album.find(query),
+    label: async query => props.db.label.find(query)
   });
