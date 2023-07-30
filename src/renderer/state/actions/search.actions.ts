@@ -9,25 +9,12 @@ export const searchSongs = async (query: string) => {
       draft.search.songs = null;
     }), 'search.searchSongs');
   } else {
-    const songs = await window.ipc.search.song({
-      $or: [{
-        $string: {
-          title: query
-        }
-      }, {
-        $string: {
-          artist: query
-        }
-      }, {
-        $string: {
-          album: query
-        }
-      }, {
-        $string: {
-          albumartist: query
-        }
-      }]
-    });
+    const songs = await window.ipc.search.song([
+      { title: { $text: query } },
+      { artist: { $text: query } },
+      { album: { $text: query } },
+      { albumartist: { $text: query } }
+    ]);
 
     store.dispatch(produce(draft => {
       draft.search.songs = songs
@@ -49,21 +36,11 @@ export const searchAlbums = async (query: string) => {
       draft.search.albums = null;
     }), 'search.searchAlbums');
   } else {
-    const albums = await window.ipc.search.album({
-      $or: [{
-        $string: {
-          album: query
-        }
-      }, {
-        $string: {
-          albumartist: query
-        }
-      }, {
-        $string: {
-          label: query
-        }
-      }]
-    });
+    const albums = await window.ipc.search.album([
+      { album: { $text: query } },
+      { albumartist: { $text: query } },
+      { label: { $text: query } }
+    ]);
 
     store.dispatch(produce(draft => {
       draft.search.albums = albums
@@ -85,11 +62,7 @@ export const searchLabels = async (query: string) => {
       draft.search.labels = null;
     }), 'search.searchLabels');
   } else {
-    const labels = await window.ipc.search.label({
-      $string: {
-        label: query
-      }
-    });
+    const labels = await window.ipc.search.label([{ label: { $text: query } }]);
 
     store.dispatch(produce(draft => {
       draft.search.labels = labels

@@ -86,9 +86,9 @@ export type IpcInvokeController = {
     [IpcRoute.Directory]: () => Promise<{ thumbs: string }>
   },
   [IpcChannel.Search]: {
-    [IpcRoute.Song]: (payload: Query) => Promise<Song[]>
-    [IpcRoute.Album]: (payload: Query) => Promise<Album[]>
-    [IpcRoute.Label]: (payload: Query) => Promise<Label[]>
+    [IpcRoute.Song]: (payload: Array<Query<Song>>) => Promise<Song[]>
+    [IpcRoute.Album]: (payload: Array<Query<Album>>) => Promise<Album[]>
+    [IpcRoute.Label]: (payload: Array<Query<Label>>) => Promise<Label[]>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>

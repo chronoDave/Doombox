@@ -12,7 +12,7 @@ export type SongControllerProps = {
 
 export default (props: SongControllerProps) =>
   (): IpcInvokeController[IpcChannel.Search] => ({
-    song: async query => props.db.song.find(query),
-    album: async query => props.db.album.find(query),
-    label: async query => props.db.label.find(query)
+    song: async queries => props.db.song.select(...queries),
+    album: async queries => props.db.album.select(...queries),
+    label: async queries => props.db.label.select(...queries)
   });

@@ -26,13 +26,13 @@ export default (props: LibraryControllerProps) =>
     return ({
       get: () => props.library.all(),
       reindex: async folders => {
-        const oldSongs = await props.library.songs();
+        const oldSongs = props.library.songs();
         const oldFiles = oldSongs.map(song => song.file);
         const files = await globMp3(folders);
         const stale = oldSongs.filter(song => !files.includes(song.file));
         const fresh = difference(files, oldFiles);
 
-        await props.library.delete(stale.map(song => song._id));
+        props.library.delete(stale.map(song => song._id));
         return props.library.insert(fresh);
       },
       rebuild: async () => {
@@ -41,7 +41,7 @@ export default (props: LibraryControllerProps) =>
         return props.library.insert(files);
       },
       add: async folders => {
-        const current = await props.library.songs();
+        const current = props.library.songs();
         const files = await globMp3(folders);
         const fresh = files.filter(file => current.every(song => song.file !== file));
         return props.library.insert(fresh);
@@ -50,7 +50,7 @@ export default (props: LibraryControllerProps) =>
         const stale = await globMp3(folders);
         const fresh = await globMp3(props.storage.get().library.folders);
 
-        await Promise.all(stale.map(file => props.library.deleteOne({ file })));
+        props.library.delete(stale);
         return props.library.insert(fresh);
       }
     });

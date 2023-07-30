@@ -41,9 +41,9 @@ const db: {
   album: LeafDB<Album>,
   label: LeafDB<Label>
 } = {
-  song: new LeafDB({ strict: true, storage: { root: PATH.APP_DATA, name: 'songs' } }),
-  album: new LeafDB({ strict: true, storage: { root: PATH.APP_DATA, name: 'albums' } }),
-  label: new LeafDB({ strict: true, storage: { root: PATH.APP_DATA, name: 'labels' } })
+  song: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'songs' } }),
+  album: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'albums' } }),
+  label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } })
 };
 const library = new Library({
   parser: new Parser(),

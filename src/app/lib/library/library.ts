@@ -1,7 +1,6 @@
 import type { IpcRoute, IpcPayloadReceive } from '../../../types/ipc';
 import type { Album, Label, Song } from '../../../types/library';
 import type Parser from '../parser/parser';
-import type { Query } from 'leaf-db';
 
 import fs from 'fs';
 import LeafDB from 'leaf-db';
@@ -53,7 +52,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
 
   static groupAlbums(x: Song[]): Album[] {
     return Object.entries(group(x, 'album')).map(([album, songs]) => ({
-      _id: LeafDB.generateId(),
+      _id: LeafDB.id(),
       image: songs[0].image,
       songs: songs
         .sort((a, b) => {
@@ -79,7 +78,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
 
   static groupLabels(x: Album[]): Label[] {
     return Object.entries(group(x, 'label')).map(([label, albums]) => ({
-      _id: LeafDB.generateId(),
+      _id: LeafDB.id(),
       albums: albums
         .sort((a, b) => {
           if (a.label !== b.label && a.label && b.label) {
@@ -123,15 +122,11 @@ export default class Library extends EventEmitter<LibraryEvents> {
   }
 
   songs() {
-    return this._db.song.find({});
+    return this._db.song.select({});
   }
 
   delete(ids: string[]) {
-    return this._db.song.delete(ids);
-  }
-
-  deleteOne(query: Query) {
-    return this._db.song.deleteOne(query);
+    return this._db.song.delete(...ids.map(_id => ({ _id })));
   }
 
   drop() {
@@ -145,9 +140,9 @@ export default class Library extends EventEmitter<LibraryEvents> {
 
   async all() {
     return Promise.all([
-      this._db.song.find({}),
-      this._db.album.find({}),
-      this._db.label.find({})
+      this._db.song.select({}),
+      this._db.album.select({}),
+      this._db.label.select({})
     ]).then(([songs, albums, labels]) => ({ songs, albums, labels }));
   }
 

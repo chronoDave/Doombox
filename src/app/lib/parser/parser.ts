@@ -30,7 +30,7 @@ export default class Parser extends EventEmitter<ParserEvents> {
     const cdid = nativeTag('TXXX:CDID');
 
     return ({
-      _id: LeafDB.generateId(),
+      _id: LeafDB.id(),
       file,
       image: Array.isArray(metadata.common.picture) ?
         metadata.common.picture[0].data.toString('base64') :
@@ -60,7 +60,7 @@ export default class Parser extends EventEmitter<ParserEvents> {
       const song = await Parser.parseFile(file);
 
       if (song.image) {
-        if (!images.has(song.image)) images.set(song.image, LeafDB.generateId());
+        if (!images.has(song.image)) images.set(song.image, LeafDB.id());
         song.image = images.get(song.image) ?? null;
       }
 
