@@ -67,7 +67,6 @@
     "howler": "^2.2.3",
     "immer": "^9.0.15",
     "leaf-db": "^10.0.2",
-    "lodash.get": "^4.4.2",
     "music-metadata": "^8.1.0",
     "p-map": "^5.5.0",
     "sharp": "^0.30.7",
