@@ -22,7 +22,7 @@
     "build:test": "node scripts/tape.js",
     "build:app": "node scripts/app.js",
     "build:electron": "electron-builder -p=never -c .electron.config.js",
-    "build": "npm run build:app && npm run build:renderer && npm run build:electron",
+    "build": "npm run build:app && npm run build:electron",
     "test:app": "npm run build:test && tape build/test/app/**/*.spec.js",
     "test:utils": "npm run build:test && tape build/test/utils/**/*.spec.js",
     "test:renderer": "npm run build:test && tape build/test/renderer/**/*.spec.js",

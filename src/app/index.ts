@@ -52,8 +52,8 @@ const library = new Library({
 });
 const storage = {
   app: new Storage({ name: 'app', shape: appShape, root: PATH.APP_DATA }),
-  theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.APP_DATA }),
-  user: new Storage({ name: 'user', shape: userShape, root: PATH.APP_DATA }),
+  theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.USER_DATA }),
+  user: new Storage({ name: 'user', shape: userShape, root: PATH.USER_DATA }),
   cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
 };
 
@@ -81,12 +81,13 @@ const router = {
 };
 
 /** Initialize app */
-Object.values(db).forEach(x => x.open());
 nativeTheme.themeSource = storage.theme.get().theme;
 
 /** Launch */
 app.whenReady()
   .then(() => {
+    Object.values(db).forEach(x => x.open());
+
     ipcMain.handle(IpcChannel.App, router.app);
     ipcMain.handle(IpcChannel.User, router.user);
     ipcMain.handle(IpcChannel.Theme, router.theme);
@@ -108,6 +109,10 @@ app.whenReady()
     app.on('child-process-gone', (e, d) => {
       logger.error(new Error(JSON.stringify(d)));
       app.quit();
+    });
+
+    app.on('quit', () => {
+      Object.values(db).forEach(x => x.close());
     });
 
     return null;

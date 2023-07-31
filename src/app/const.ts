@@ -8,13 +8,13 @@ const USER_DATA = IS_DEV ?
   app.getPath('userData');
 const APP_DATA = IS_DEV ?
   path.resolve(__dirname, '../../data/appData') :
-  app.getPath('appData');
+  USER_DATA;
 const ASSETS = IS_DEV ?
   path.resolve(__dirname, './assets') :
   path.resolve(app.getAppPath(), 'assets');
 const LOGS = IS_DEV ?
   path.resolve(__dirname, '../../data/logs') :
-  app.getPath('logs');
+  path.resolve(app.getPath('logs'), app.getName());
 
 export const PATH = {
   USER_DATA,
