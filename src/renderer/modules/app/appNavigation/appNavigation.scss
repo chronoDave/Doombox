@@ -1,16 +1,21 @@
+@use 'typography';
+
 .AppNavigation {
   display: flex;
+  flex-direction: column;
   background-color: var(--app-bar);
 
   > button {
-    padding: 0.5em 0.75em;
+    font-size: typography.pxToRem(14);
+    padding: 6px 10px;
 
     &:last-child {
-      margin-left: auto;
+      margin-top: auto;
     }
 
     &.active {
       fill: var(--text);
+      background-color: var(--primary);
     }
   }
 }

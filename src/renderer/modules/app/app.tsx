@@ -45,8 +45,8 @@ const App: Component<AppProps> = () => {
       return [
         <AppHeader />,
         <main>
-          {views[view]}
           <AppNavigation />
+          {views[view]}
         </main>
       ];
     }
