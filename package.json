@@ -31,7 +31,6 @@
   "devDependencies": {
     "@types/howler": "^2.2.7",
     "@types/jsdom": "^20.0.0",
-    "@types/lodash.get": "^4.4.7",
     "@types/node": "^20.1.0",
     "@types/sharp": "^0.30.5",
     "@types/tape": "^4.13.2",
