@@ -13,19 +13,24 @@ const compile = file => {
   const { name } = path.parse(file.in);
 
   console.time(`[sass] built ${file.in} in`);
-  const { css, sourceMap } = sass.compile(path.resolve(root, file.in), {
-    sourceMap: !!dev,
-    style: dev ?
-      'expanded' :
-      'compressed',
-    loadPaths: [
-      path.resolve(root, 'src/renderer/scss/core')
-    ]
-  });
-  console.timeEnd(`[sass] built ${file.in} in`);
+  try {
+    const { css, sourceMap } = sass.compile(path.resolve(root, file.in), {
+      sourceMap: !!dev,
+      style: dev ?
+        'expanded' :
+        'compressed',
+      loadPaths: [
+        path.resolve(root, 'src/renderer/scss/core')
+      ]
+    });
+    console.timeEnd(`[sass] built ${file.in} in`);
 
-  fs.writeFileSync(path.resolve(root, file.out, `${name}.css`), css);
-  if (sourceMap?.file) fs.writeFileSync(path.resolve(root, file.out, `${name}.min.css`), sourceMap.file);
+    fs.writeFileSync(path.resolve(root, file.out, `${name}.css`), css);
+    if (sourceMap?.file) fs.writeFileSync(path.resolve(root, file.out, `${name}.min.css`), sourceMap.file);
+  } catch (err) {
+    console.timeEnd(`[sass] built ${file.in} in`);
+    console.error(err);
+  }
 };
 
 module.exports = files => {
