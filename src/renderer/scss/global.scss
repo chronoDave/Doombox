@@ -1,4 +1,4 @@
-@use 'layers.scss';
+@use 'layers';
 
 html {
   font-family: NotoSansJP, sans-serif;
@@ -6,11 +6,11 @@ html {
 
 *::-webkit-scrollbar {
   width: 12px;
-  background-color: var(--scrollbar);
+  background-color: var(--surface-high);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
+  background-color: var(--text-inactive);
 }
 
 .sr-only {

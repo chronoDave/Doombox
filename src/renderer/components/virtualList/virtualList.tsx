@@ -1,10 +1,12 @@
 import * as forgo from 'forgo';
 
 import createVirtualList from '../../utils/createVirtualList';
+import cx from '../../utils/cx/cx';
 import debounce from '../../utils/debounce';
 
 export type VirtualListProps<T> = {
   list: T[]
+  classes?: string
   item: {
     height: number
     render: (data: T, i: number) => forgo.Component | forgo.Component[]
@@ -36,7 +38,7 @@ const VirtualList = <T extends any>(
       }
 
       return (
-        <div class='VirtualList' ref={ref}>
+        <div class={cx('VirtualList', props.classes)} ref={ref}>
           <ul style={{ height: `${list.height}px` }}>
             {list.columns.map(column => (
               <li

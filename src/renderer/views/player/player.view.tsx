@@ -2,6 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Queue from '../../modules/queue/queue';
+
 import PlayerControls from './playerControls/playerControls';
 import PlayerCover from './playerCover/playerCover';
 import PlayerMetadata from './playerMetadata/playerMetadata';
@@ -14,11 +16,14 @@ const PlayerView: Component<PlayerViewProps> = () => {
     render() {
       return (
         <div class='View PlayerView'>
+          <div class="cover">
           <PlayerCover />
+          <Queue />
+          </div>
           <div class='panel'>
             <PlayerMetadata />
-            <PlayerSlider />
             <PlayerControls />
+            <PlayerSlider />
           </div>
         </div>
       );

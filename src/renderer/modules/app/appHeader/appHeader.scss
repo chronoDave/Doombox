@@ -5,10 +5,8 @@ body > header {
   display: flex;
   align-items: center;
   gap: 4px;
-
-  @include mixins.theme(var(--grey100), var(--grey700)) using ($color) {
-    background-color: $color;
-  }
+  color: var(--text);
+  background-color: var(--surface-high);
 
   > img {
     -webkit-app-region: drag;
@@ -35,11 +33,6 @@ body > header {
     flex-grow: 1;
   }
 
-  > button {
-    width: 40px;
-    height: 100%;
-  }
-
   > nav {
     position: relative;
     flex-shrink: 0;
@@ -56,17 +49,12 @@ body > header {
         > button {
           width: 40px;
           height: 100%;
-
+          
           @include mixins.hover {
             &.close {
               fill: var(--text-error);
               background-color: var(--error);
             }
-          }
-
-          &[aria-expanded='true'] {
-            fill: var(--text);
-            background-color: var(--hover);
           }
         }
       }

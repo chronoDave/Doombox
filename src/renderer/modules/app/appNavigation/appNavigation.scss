@@ -3,7 +3,7 @@
 .AppNavigation {
   display: flex;
   flex-direction: column;
-  background-color: var(--app-bar);
+  background-color: var(--surface-medium);
 
   > button {
     font-size: typography.pxToRem(14);

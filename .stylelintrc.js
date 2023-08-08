@@ -4,6 +4,7 @@ module.exports = {
     'color-named': 'never',
     'selector-class-pattern': null,
     'declaration-no-important': true,
+    'hue-degree-notation': 'number',
     'property-no-vendor-prefix': [true, {
       ignoreProperties: [
         'appearance'

@@ -10,7 +10,7 @@ button {
 
   @include mixins.hover {
     cursor: pointer;
-    background-color: var(--hover);
+    background-color: var(--text-inactive);
   }
 
   &:has(svg) {

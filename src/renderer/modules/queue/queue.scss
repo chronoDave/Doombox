@@ -1,0 +1,29 @@
+@use 'typography';
+
+.Queue > ul > li > button {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 4px;
+  padding: 2px 4px;
+  width: 100%;
+  justify-content: flex-start;
+  
+  &.active {
+    background-color: var(--primary);
+    color: var(--text-primary);
+  }
+  
+  > dl {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px;
+
+    > .metadata {
+      min-width: 0;
+
+      > dd {
+        @include typography.nowrap;
+      }
+    }
+  }
+}

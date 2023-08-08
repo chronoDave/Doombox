@@ -1,61 +1,37 @@
 :root {
+  --black: hsl(230 8% 8%); // 0
+  --dark-0: hsl(220 8% 9%); // 1
+  --dark-1: hsl(210 8% 10%); // 1
+  --dark-2: hsl(210 8% 12%); // 2
+  --dark-3: hsl(210 8% 15%); // 3
+  --dark-4: hsl(210 8% 20%); // 5
+  --dark-5: hsl(210 8% 28%); // 8
+  --white: hsl(240 2% 98%); // 0
+  --light-0: hsl(230 2% 97%); // 1
+  --light-1: hsl(220 2% 96%); // 1
+  --light-2: hsl(210 2% 94%); // 2
+  --light-3: hsl(210 2% 91%); // 3
+  --light-4: hsl(210 2% 86%); // 5
+  --light-5: hsl(210 2% 78%); // 8
+  --primary: hsl(268 26% 41%);
+  --error: hsl(0 85% 61%);
+
   @media (prefers-color-scheme: dark) {
-    // colours
-    --black: #040405;
-    --white: #f6f6f7;
-    --hover: #f6f6f71a; // 10%
-    --overlay: #04040580; // 50%
-    --grey100: #18191c;
-    --grey200: #202225;
-    --grey300: #272a2e;
-    --grey400: #3b3f45;
-    --grey500: #4F545C;
-    --grey600: #b9bbbe;
-    --grey700: #dcddde;
-    --primary: #664d82;
-    --primary-hover: #664d8255; // 33%
-    --error: #f04747;
-    // components
-    --bg: var(--grey200);
-    --popup: var(--grey300);
-    --app-bar: var(--grey100);
-    --text: var(--grey700);
-    --text-inactive: var(--grey500);
-    --text-error: var(--white);
-    --text-primary: var(--white);
-    --settings: var(--grey300);
-    --settings-menu: var(--grey200);
-    --scrollbar: var(--grey400);
-    --scrollbar-thumb: var(--grey500);
+    --text: var(--light-4);
+    --text-inactive: var(--dark-5);
+    --surface-low: var(--dark-1);
+    --surface-medium: var(--dark-2);
+    --surface-high: var(--dark-3);
   }
 
   @media (prefers-color-scheme: light) {
-    // colours
-    --black: #060607;
-    --white: #f8f9f9;
-    --hover: #06060713; // 4%
-    --overlay: var(--hover);
-    --grey100: #23262a;
-    --grey200: #2e3338;
-    --grey300: #4f5660;
-    --grey400: #747f8d;
-    --grey500: #9099a4;
-    --grey600: #d7dbde;
-    --grey700: #e8eaec;
-    --primary: #664d82;
-    --primary-hover: #664d8255; // 33%
-    --error: #f04747;
-    // components
-    --bg: var(--white);
-    --popup: var(--grey700);
-    --app-bar: var(--grey700);
-    --text: var(--grey100);
-    --text-inactive: var(--grey300);
-    --text-error: var(--white);
-    --text-primary: var(--white);
-    --settings: var(--white);
-    --settings-menu: var(--grey600);
-    --scrollbar: var(--grey600);
-    --scrollbar-thumb: var(--grey500);
+    --text: var(--dark-4);
+    --text-inactive: var(--dark-2);
+    --surface-low: var(--light-0);
+    --surface-medium: var(--light-1);
+    --surface-high: var(--light-2);
   }
+
+  --text-primary: var(--white);
+  --text-error: var(--white);
 }

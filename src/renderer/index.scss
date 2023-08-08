@@ -25,11 +25,12 @@
 
 @use './modules/app/app.scss';
 @use './modules/sliderVolume/sliderVolume.scss';
+@use './modules/queue/queue.scss';
 
 @use './views/album/album.view.scss';
 @use './views/label/label.view.scss';
 @use './views/player/player.view.scss';
-@use './views/queue/queue.view.scss';
+@use './views/queue/queue.view.scss' as queueView;
 @use './views/scan/scan.view.scss';
 @use './views/settings/settings.view.scss';
 @use './views/song/song.view.scss';

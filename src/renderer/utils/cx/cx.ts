@@ -1,6 +1,6 @@
 import isObject from '../../../utils/validation/isObject';
 
-const cx = (...args: Array<string | boolean | Record<string, boolean>>): string => args
+const cx = (...args: Array<string | undefined | boolean | Record<string, boolean>>): string => args
   .reduce<string[]>((acc, cur) => {
     if (typeof cur === 'string') acc.push(cur);
     if (isObject(cur)) {

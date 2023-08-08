@@ -25,3 +25,14 @@ export const setQueue = (ids: string[]) => {
 
   play(ids[0]);
 };
+
+export const setQueueIndex = (id: string) => {
+  const { songs } = store.get().queue;
+  const i = Math.max(0, songs.findIndex(song => song === id));
+
+  store.dispatch(produce(draft => {
+    draft.queue.index = i;
+  }), 'queue.setIndex');
+
+  play(songs[i]);
+};
