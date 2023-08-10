@@ -17,8 +17,8 @@ const PlayerView: Component<PlayerViewProps> = () => {
       return (
         <div class='View PlayerView'>
           <div class="cover">
-          <PlayerCover />
-          <Queue />
+            <PlayerCover />
+            <Queue />
           </div>
           <div class='panel'>
             <PlayerMetadata />

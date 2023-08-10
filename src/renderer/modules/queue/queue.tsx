@@ -1,8 +1,6 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
-import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 
 import VirtualList from '../../components/virtualList/virtualList';
 import { setQueueIndex } from '../../state/actions/queue.actions';
