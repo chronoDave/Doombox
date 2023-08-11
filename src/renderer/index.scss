@@ -6,32 +6,3 @@
 @use './scss/components/button.scss';
 @use './scss/components/fieldset.scss';
 @use './scss/components/image.scss';
-
-@use './components/icon/icon.scss';
-@use './components/inputCheckbox/inputCheckbox.scss';
-@use './components/inputFolders/inputFolders.scss';
-@use './components/inputRadio/inputRadio.scss';
-@use './components/inputRadioList/inputRadioList.scss';
-@use './components/inputSearch/inputSearch.scss';
-@use './components/loader/loader.scss';
-@use './components/menu/menu.scss';
-@use './components/modal/modal.scss';
-@use './components/popup/popup.scss';
-@use './components/progress/progress.scss';
-@use './components/slider/slider.scss';
-@use './components/tabs/tabs.scss';
-@use './components/virtualGrid/virtualGrid.scss';
-@use './components/virtualList/virtualList.scss';
-
-@use './modules/app/app.scss';
-@use './modules/sliderVolume/sliderVolume.scss';
-@use './modules/queue/queue.scss';
-
-@use './views/album/album.view.scss';
-@use './views/label/label.view.scss';
-@use './views/player/player.view.scss';
-@use './views/queue/queue.view.scss' as queueView;
-@use './views/scan/scan.view.scss';
-@use './views/settings/settings.view.scss';
-@use './views/song/song.view.scss';
-@use './views/splash/splash.view.scss';

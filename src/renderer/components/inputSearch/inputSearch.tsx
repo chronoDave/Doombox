@@ -4,6 +4,8 @@ import * as forgo from 'forgo';
 
 import Icon from '../icon/icon';
 
+import './inputSearch.scss';
+
 export type InputSearchProps = {
   placeholder: string
   onsubmit: (query: string) => void

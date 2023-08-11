@@ -6,6 +6,8 @@ import Loader from '../../components/loader/loader';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import createMediaQuery from '../../utils/mediaQuery';
 
+import './splash.view.scss';
+
 export type SplashViewProps = {};
 
 const SplashView: Component<SplashViewProps> = () => {

@@ -13,6 +13,8 @@ import { labelSelector, labelsSelector } from '../../state/selectors/label.selec
 import { labelSearchSelector } from '../../state/selectors/search.selectors';
 import { romajiSelector } from '../../state/selectors/user.selectors';
 
+import './label.view.scss';
+
 export type LabelViewProps = {};
 
 const LabelView: Component<LabelViewProps> = () => {

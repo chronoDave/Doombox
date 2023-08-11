@@ -4,6 +4,8 @@ import * as forgo from 'forgo';
 
 import cx from '../../utils/cx/cx';
 
+import './icon.scss';
+
 export const icons = {
   // Multimedia
   play: 'M8,5.14V19.14L19,12.14L8,5.14Z',

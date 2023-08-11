@@ -8,6 +8,8 @@ import { playerSongSelector } from '../../../state/selectors/player.selectors';
 import { themePlayerSelector } from '../../../state/selectors/theme.selectors';
 import cx from '../../../utils/cx/cx';
 
+import './playerCover.scss';
+
 export type PlayerCoverProps = {};
 
 const PlayerCover: Component<PlayerCoverProps> = () => {

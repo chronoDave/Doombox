@@ -8,6 +8,8 @@ import { queueSelector, queueIdSelector } from '../../state/selectors/queue.sele
 import { songSelector } from '../../state/selectors/song.selectors';
 import cx from '../../utils/cx/cx';
 
+import './queue.scss';
+
 export type QueueProps = {};
 
 const Queue: Component<QueueProps> = () => {

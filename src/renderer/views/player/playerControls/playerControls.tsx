@@ -8,6 +8,8 @@ import { next, pause, previous } from '../../../state/actions/player.actions';
 import { playerStatusSelector } from '../../../state/selectors/player.selectors';
 import PlayerVolume from '../playerVolume/playerVolume';
 
+import './playerControls.scss';
+
 export type PlayerControlsProps = {};
 
 const PlayerControls: Component<PlayerControlsProps> = () => {

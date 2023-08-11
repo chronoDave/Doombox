@@ -1,10 +1,10 @@
 const esbuild = require('esbuild');
 
-module.exports = (config, options) => esbuild.context(config)
-  .then(async context => {
-    if (options?.watch) return context.watch();
+module.exports = async (config, options) => {
+  if (options.watch) {
+    const context = await esbuild.context(config);
+    return context.watch();
+  }
 
-    await context.rebuild();
-    return context.dispose();
-  })
-  .catch(console.error);
+  return esbuild.build(config);
+};

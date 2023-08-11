@@ -9,6 +9,8 @@ import PlayerCover from './playerCover/playerCover';
 import PlayerMetadata from './playerMetadata/playerMetadata';
 import PlayerSlider from './playerSlider/playerSlider';
 
+import './player.view.scss';
+
 export type PlayerViewProps = {};
 
 const PlayerView: Component<PlayerViewProps> = () => {

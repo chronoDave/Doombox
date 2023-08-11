@@ -11,6 +11,8 @@ import {
 } from '../../../state/actions/library.actions';
 import { userLibrarySelector } from '../../../state/selectors/user.selectors';
 
+import './settingsLibrary.scss';
+
 export type SettingsLibraryProps = {};
 
 const SettingsLibrary: Component<SettingsLibraryProps> = () => {

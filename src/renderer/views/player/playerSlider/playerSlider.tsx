@@ -8,6 +8,8 @@ import Slider from '../../../components/slider/slider';
 import { seek } from '../../../state/actions/player.actions';
 import { playerDurationSelector, playerPositionSelector } from '../../../state/selectors/player.selectors';
 
+import './playerSlider.scss';
+
 export type PlayerSliderProps = {};
 
 const PlayerSlider: Component<PlayerSliderProps> = () => {

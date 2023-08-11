@@ -5,6 +5,8 @@ import * as forgo from 'forgo';
 import Icon from '../icon/icon';
 import InputCheckbox from '../inputCheckbox/inputCheckbox';
 
+import './inputFolders.scss';
+
 export type InputFoldersProps = {
   label: string
   folders: string[]

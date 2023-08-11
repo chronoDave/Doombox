@@ -4,6 +4,8 @@ import createVirtualList from '../../utils/createVirtualList';
 import cx from '../../utils/cx/cx';
 import debounce from '../../utils/debounce';
 
+import './virtualList.scss';
+
 export type VirtualListProps<T> = {
   list: T[]
   classes?: string

@@ -11,6 +11,8 @@ import { queueSelector } from '../../state/selectors/queue.selectors';
 import { songSelector } from '../../state/selectors/song.selectors';
 import cx from '../../utils/cx/cx';
 
+import './queue.view.scss';
+
 export type QueueViewProps = {};
 
 const QueueView: Component<QueueViewProps> = () => {

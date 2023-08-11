@@ -2,6 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import './progress.scss';
+
 export type ProgressProps = {
   value: number
   max: number

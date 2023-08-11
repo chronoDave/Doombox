@@ -118,12 +118,6 @@ module.exports = {
     'class-methods-use-this': ['error', {
       exceptMethods: ['view']
     }],
-    'no-restricted-imports': ['error', {
-      patterns: [{
-        group: ['*.scss'],
-        message: 'scss imports are not allowed'
-      }]
-    }],
     'no-unused-vars': 'off',
     'no-promise-executor-return': 'off',
     'linebreak-style': 'off',
@@ -137,6 +131,7 @@ module.exports = {
       ignoreTemplateLiterals: true,
       ignoreComments: true
     }],
+    'no-restricted-syntax': 'off',
     'arrow-parens': ['error', 'as-needed'],
     'implicit-arrow-linebreak': 'off',
     'no-underscore-dangle': 'off',
@@ -198,6 +193,11 @@ module.exports = {
         order: 'asc',
         caseInsensitive: true
       },
+      pathGroups: [{
+        pattern: './*.scss',
+        group: 'index',
+        position: 'before'
+      }],
       pathGroupsExcludedImportTypes: ['builtin'],
       groups: [
         'type',

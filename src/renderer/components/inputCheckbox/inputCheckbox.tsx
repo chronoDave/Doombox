@@ -2,6 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import './inputCheckbox.scss';
+
 export type InputCheckboxProps = {
   id: string
   label: string

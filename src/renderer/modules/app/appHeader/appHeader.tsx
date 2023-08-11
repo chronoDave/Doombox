@@ -5,6 +5,8 @@ import * as forgo from 'forgo';
 import Icon from '../../../components/icon/icon';
 import { playerSongSelector } from '../../../state/selectors/player.selectors';
 
+import './appHeader.scss';
+
 export type AppBarProps = {};
 
 const AppBar: Component<AppBarProps> = () => {

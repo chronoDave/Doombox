@@ -8,6 +8,8 @@ import createClickAwayListener from '../../utils/clickAwayListener/clickAwayList
 import Icon from '../icon/icon';
 import { createPopup } from '../popup/popup';
 
+import './menu.scss';
+
 export type MenuItemProps = {
   icon?: IconProps['id']
   label: string
