@@ -18,7 +18,7 @@ export const setViewApp = (view: AppView) => {
   }
 };
 
-export const setViewSettings = (view: SettingsView) => {
+export const setViewSettings = (view: SettingsView | null) => {
   const current = store.get();
   if (current.view.settings !== view) {
     store.dispatch(produce(draft => {

@@ -30,7 +30,7 @@ export type State = {
   },
   view: {
     app: AppView
-    settings: SettingsView
+    settings: SettingsView | null
   }
   entities: {
     song: Map<string, Song>

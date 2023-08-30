@@ -3,9 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { AppView } from '../../../../types/views';
+import { AppView, SettingsView } from '../../../../types/views';
 import Icon from '../../../components/icon/icon';
-import { setViewApp } from '../../../state/actions/view.actions';
+import { setViewApp, setViewSettings } from '../../../state/actions/view.actions';
 import { appViewSelector } from '../../../state/selectors/view.selectors';
 import cx from '../../../utils/cx/cx';
 
@@ -19,8 +19,7 @@ const AppNavigation: Component<AppNavigationProps> = () => {
     [AppView.Player]: 'circlePlay',
     [AppView.Song]: 'musicNote',
     [AppView.Album]: 'boxMusic',
-    [AppView.Label]: 'personMusic',
-    [AppView.Settings]: 'cog'
+    [AppView.Label]: 'personMusic'
   };
 
   const component = new forgo.Component<AppNavigationProps>({
@@ -40,6 +39,13 @@ const AppNavigation: Component<AppNavigationProps> = () => {
               <Icon id={icon} />
             </button>
           ))}
+          <button
+            type='button'
+            aria-label='Open settings'
+            onclick={() => setViewSettings(SettingsView.Library)}
+          >
+            <Icon id='cog' />
+          </button>
         </nav>
       );
     }

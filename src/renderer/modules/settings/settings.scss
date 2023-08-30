@@ -3,47 +3,55 @@
 @use 'breakpoints';
 @use 'transitions';
 
-@use './settingsAppearance/settingsAppearance.scss';
-@use './settingsLibrary/settingsLibrary.scss';
+.Settings {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--surface-low);
+  transition: opacity transitions.$medium;
+  gap: 8px;
 
-.SettingsView {
   > .Tabs {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: flex-start;
     background-color: var(--settings);
-  
+
     > [role='tablist'] {
       position: sticky;
       top: 0;
       height: 100%;
       background-color: var(--settings-menu);
-      
+
       @media (min-width: breakpoints.$sm-w) {
         padding: 16px;
       }
-  
+
       > li {
         + li {
-          @media (min-width: breakpoints.$sm-w) {   
+          @media (min-width: breakpoints.$sm-w) {
             margin-top: 2px;
           }
         }
-  
+
         > button {
           padding: 8px 12px;
           width: 100%;
           transition: background-color transitions.$fast;
           justify-content: flex-start;
-  
+
           @include mixins.hover {
             background-color: var(--primary-hover);
           }
-          
+
           @media (min-width: breakpoints.$sm-w) {
             border-radius: 4px;
           }
-  
+
           &[aria-selected='true'] {
             background-color: var(--primary);
             color: var(--text-primary);
@@ -52,25 +60,25 @@
         }
       }
     }
-  
+
     > [role='tabpanel'] {
       padding: 8px 12px;
       overflow: auto;
-  
+
       &.hidden {
         display: none;
       }
-  
+
       @media (min-width: breakpoints.$md-w) {
         padding: 16px 32px;
       }
-  
+
       > .title {
         @include typography.heading;
         margin-bottom: 8px;
       }
     }
-  
+
     > button {
       position: sticky;
       flex-direction: column;
@@ -80,19 +88,26 @@
       gap: 2px;
       border-radius: 4px;
       color: var(--text-inactive);
-  
+
       @media (min-width: breakpoints.$md-w) {
         margin: 16px 20px;
       }
-  
+
       @include mixins.hover {
         color: var(--text);
         background-color: unset;
       }
-  
+
       > span {
         transition: color transitions.$fast;
       }
+    }
+  }
+
+  > .actions {
+    > button {
+      padding: 8px;
+      flex-direction: column;
     }
   }
 }

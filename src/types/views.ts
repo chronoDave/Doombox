@@ -3,8 +3,7 @@ export enum AppView {
   Player = 'player',
   Song = 'song',
   Album = 'album',
-  Label = 'label',
-  Settings = 'settings'
+  Label = 'label'
 }
 
 export enum SettingsView {

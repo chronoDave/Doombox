@@ -5,8 +5,7 @@ export type PortalOptions = {
 };
 
 export default (element: forgo.ForgoNode, options?: PortalOptions) => {
-  const anchor = options?.anchor ?? document.body;
-
+  const anchor = options?.anchor ?? document.querySelector('main') ?? document.body;
   const root = document.createElement('div');
   root.classList.add('portal');
 

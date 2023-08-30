@@ -17,6 +17,7 @@ body {
     flex-grow: 1;
     max-height: 100%;
     overflow: auto;
+    position: relative;
 
     > .View {
       flex-grow: 1;
