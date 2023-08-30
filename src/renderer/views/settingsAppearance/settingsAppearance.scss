@@ -1,3 +1,5 @@
 .SettingsAppearance {
-  
+  > .Label + .Label {
+    margin-top: 0.5em;
+  }
 }

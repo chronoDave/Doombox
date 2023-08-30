@@ -3,7 +3,7 @@ import type { State } from '../types/state';
 import cacheShape from '../../types/shapes/cache.shape';
 import themeShape from '../../types/shapes/theme.shape';
 import userShape from '../../types/shapes/user.shape';
-import { AppView } from '../../types/views';
+import { AppView, SettingsView } from '../../types/views';
 import { AudioStatus } from '../lib/audio';
 import Store from '../lib/store';
 
@@ -31,7 +31,7 @@ export default new Store<State>({
   },
   view: {
     app: AppView.Player,
-    settings: null
+    settings: SettingsView.Appearance
   },
   search: {
     songs: null,

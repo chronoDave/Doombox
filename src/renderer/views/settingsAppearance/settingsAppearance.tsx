@@ -8,6 +8,9 @@ import InputRadioList from '../../components/inputRadioList/inputRadioList';
 import { setTheme } from '../../state/actions/theme.actions';
 import { themePlayerSelector, themeSelector } from '../../state/selectors/theme.selectors';
 
+import Select, { SelectOption } from '../../components/select/select';
+import Label from '../../components/label/label';
+
 import './settingsAppearance.scss';
 
 export type SettingsAppearanceProps = {};
@@ -19,33 +22,34 @@ const SettingsAppearance: Component<SettingsAppearanceProps> = () => {
       const themePlayer = themePlayerSelector.get();
 
       return (
-        <div>
-          <InputRadioList
-            id="theme"
-            label="theme"
-            value={theme}
-            onchange={value => setTheme(produce(draft => {
-              draft.theme = value as ThemeShape['theme'];
-            }))}
-            options={['dark', 'light', 'system'].map(value => ({
-              id: value,
-              value,
-              label: value
-            }))}
-          />
-          <InputRadioList
-            id="player.cover"
-            label="player.cover"
-            value={themePlayer.cover}
-            onchange={value => setTheme(produce(draft => {
-              draft.player.cover = value as ThemeShape['player']['cover'];
-            }))}
-            options={['cover', 'contain'].map(value => ({
-              id: value,
-              value,
-              label: value
-            }))}
-          />
+        <div class='SettingsAppearance'>
+          <Label title='Theme'>
+            <Select
+              id='theme'
+              value={theme}
+              onChange={value => setTheme(produce(draft => {
+                draft.theme = value as ThemeShape['theme'];
+              }))}
+              options={[
+                { value: 'dark', label: 'dark' },
+                { value: 'light', label: 'light' },
+                { value: 'system', label: 'system' }
+              ]}
+            />
+          </Label>
+          <Label title='Album display'>
+            <Select
+              id='playerCover'
+              value={themePlayer.cover}
+              onChange={value => setTheme(produce(draft => {
+                draft.player.cover = value as ThemeShape['player']['cover'];
+              }))}
+              options={[
+                { value: 'cover', label: 'cover' },
+                { value: 'contain', label: 'contain' }
+              ]}
+            />
+          </Label>
         </div>
       );
     }
