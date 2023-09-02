@@ -1,37 +1,41 @@
-.LabelView {
-  display: flex;
-  flex-direction: column;
+@use 'layers';
 
-  > .toolbar {
+@include layers.views {
+  .LabelView {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 
-    > .status {
+    > .toolbar {
       display: flex;
-      gap: 8px;
-      margin: 4px 0;
+      justify-content: space-between;
 
-      > span {
+      > .status {
         display: flex;
-        align-items: center;
-        gap: 2px;
+        gap: 8px;
+        margin: 4px 0;
+
+        > span {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+        }
+      }
+
+      > .actions {
+        display: flex;
+        gap: 4px;
+
+        > button {
+          padding: 4px;
+        }
       }
     }
 
-    > .actions {
+    > .VirtualList > ul > li > button {
       display: flex;
-      gap: 4px;
-
-      > button {
-        padding: 4px;
-      }
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
     }
-  }
-
-  > .VirtualList > ul > li > button {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
   }
 }

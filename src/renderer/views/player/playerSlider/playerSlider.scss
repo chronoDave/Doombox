@@ -1,10 +1,14 @@
 @use 'typography';
 
-.PlayerSlider {
-  > .time {
-    @include typography.caption;
+@use 'layers';
 
-    display: flex;
-    justify-content: space-between;
+@include layers.views {
+  .PlayerSlider {
+    > .time {
+      @include typography.caption;
+
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }

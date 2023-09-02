@@ -1,19 +1,23 @@
 @use 'typography';
 @use 'breakpoints';
 
-.PlayerMetadata {
-  > span {
-    @include typography.nowrap;
-    @include typography.caption-dynamic;
-    display: block;
+@use 'layers';
 
-    &.title {
-      @include typography.heading-dynamic;
-      font-weight: 500;
-    }
+@include layers.views {
+  .PlayerMetadata {
+    > span {
+      @include typography.nowrap;
+      @include typography.caption-dynamic;
+      display: block;
 
-    + span {
-      margin-top: 0.125em;
+      &.title {
+        @include typography.heading-dynamic;
+        font-weight: 500;
+      }
+
+      + span {
+        margin-top: 0.125em;
+      }
     }
   }
 }

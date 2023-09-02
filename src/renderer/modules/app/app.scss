@@ -1,35 +1,39 @@
 @use 'typography';
 @use 'breakpoints';
 
-body {
-  @include typography.caption;
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  color: var(--text);
-  fill: var(--text);
-  background-color: var(--surface-low);
-  overflow: hidden;
+@use 'layers';
 
-  > main {
+@include layers.modules {
+  body {
+    @include typography.caption;
     display: flex;
-    flex-grow: 1;
-    max-height: 100%;
-    overflow: auto;
-    position: relative;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    color: var(--text);
+    fill: var(--text);
+    background-color: var(--surface-low);
+    overflow: hidden;
 
-    > .View {
+    > main {
+      display: flex;
       flex-grow: 1;
+      max-height: 100%;
       overflow: auto;
-    }
+      position: relative;
 
-    > .PlayerBar {
-      display: none;
-      padding: 4px 8px;
+      > .View {
+        flex-grow: 1;
+        overflow: auto;
+      }
 
-      @media (min-height: breakpoints.$md-h) and (min-width: breakpoints.$sm-w) {
-        display: grid;
+      > .PlayerBar {
+        display: none;
+        padding: 4px 8px;
+
+        @media (min-height: breakpoints.$md-h) and (min-width: breakpoints.$sm-w) {
+          display: grid;
+        }
       }
     }
   }

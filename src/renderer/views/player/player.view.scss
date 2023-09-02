@@ -7,32 +7,36 @@
 @use './playerSlider/playerSlider.scss';
 @use './playerVolume/playerVolume.scss';
 
-.PlayerView {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+@use 'layers';
 
-  > .cover {
+@include layers.views {
+  .PlayerView {
     display: grid;
-    grid-template-rows: repeat(2, 1fr);
-    min-height: 0;
-  }
+    grid-template-columns: repeat(2, 1fr);
 
-  > .panel {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 8px;
-
-    @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
-      padding: 16px;
+    > .cover {
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+      min-height: 0;
     }
 
-    @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
-      padding: 32px;
-    }
+    > .panel {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 8px;
 
-    > .PlayerMetadata {
-      flex-grow: 1;
+      @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
+        padding: 16px;
+      }
+
+      @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
+        padding: 32px;
+      }
+
+      > .PlayerMetadata {
+        flex-grow: 1;
+      }
     }
   }
 }

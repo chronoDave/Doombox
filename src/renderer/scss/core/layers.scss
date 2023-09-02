@@ -1,3 +1,21 @@
 $backdrop: 100;
 $popup: 200;
 $focus: 1000;
+
+@mixin components {
+  @layer components {
+    @content;
+  }
+}
+
+@mixin modules {
+  @layer modules {
+    @content;
+  }
+}
+
+@mixin views {
+  @layer views {
+    @content;
+  }
+}

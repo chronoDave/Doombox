@@ -1,1 +1,5 @@
-.Select {}
+@use 'layers';
+
+@include layers.components {
+  .Select {}
+}

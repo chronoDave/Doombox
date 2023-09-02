@@ -1,7 +1,11 @@
-.Label {
-  display: block;
+@use 'layers';
 
-  > .label {
-    margin-bottom: 0.25em;
+@include layers.components {
+  .Label {
+    display: block;
+
+    > .label {
+      margin-bottom: 0.25em;
+    }
   }
 }

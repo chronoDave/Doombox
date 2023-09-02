@@ -1,9 +1,13 @@
-.Popup.PlayerVolume {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+@use 'layers';
 
-  > .Slider {
-    min-width: 120px;
+@include layers.views {
+  .Popup.PlayerVolume {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    > .Slider {
+      min-width: 120px;
+    }
   }
 }

@@ -1,20 +1,24 @@
-.Progress {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  
-  > progress {
-    position: relative;
-    flex-grow: 1;
-    height: 8px;
-    
-    &[value]::-webkit-progress-bar {
-      background-color: var(--primary-hover);
-    }
+@use 'layers';
 
-    &[value]::-webkit-progress-value {
-      background-color: var(--primary);
+@include layers.components {
+  .Progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+
+    > progress {
+      position: relative;
+      flex-grow: 1;
+      height: 8px;
+
+      &[value]::-webkit-progress-bar {
+        background-color: var(--primary-hover);
+      }
+
+      &[value]::-webkit-progress-value {
+        background-color: var(--primary);
+      }
     }
   }
 }

@@ -1,20 +1,24 @@
-.InputFolders {
-  > .options > .InputCheckbox {
-    overflow-wrap: anywhere;
+@use 'layers';
 
-    + .InputCheckbox {
-      margin-top: 4px;
+@include layers.components {
+  .InputFolders {
+    > .options > .InputCheckbox {
+      overflow-wrap: anywhere;
+
+      + .InputCheckbox {
+        margin-top: 4px;
+      }
     }
-  }
 
-  > .toolbar {
-    display: flex;
-    gap: 4px;
-    margin-top: 4px;
+    > .toolbar {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
 
-    > button {
-      aspect-ratio: 1/1;
-      padding: 4px;
+      > button {
+        aspect-ratio: 1/1;
+        padding: 4px;
+      }
     }
   }
 }

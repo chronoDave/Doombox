@@ -1,5 +1,9 @@
-.SettingsAppearance {
-  > .Label + .Label {
-    margin-top: 0.5em;
+@use 'layers';
+
+@include layers.views {
+  .SettingsAppearance {
+    > .Label + .Label {
+      margin-top: 0.5em;
+    }
   }
 }

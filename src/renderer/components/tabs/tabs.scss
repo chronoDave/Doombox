@@ -1,5 +1,9 @@
-.Tabs {
-  .panels > .panel.hidden {
-    display: none;
+@use 'layers';
+
+@include layers.components {
+  .Tabs {
+    .panels > .panel.hidden {
+      display: none;
+    }
   }
 }

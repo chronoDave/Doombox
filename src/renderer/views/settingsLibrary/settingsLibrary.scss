@@ -1,1 +1,5 @@
-.SettingsLibrary {}
+@use 'layers';
+
+@include layers.views {
+  .SettingsLibrary {}
+}

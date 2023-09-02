@@ -1,13 +1,17 @@
 @use 'typography.scss';
 
-.SplashView {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+@use 'layers';
 
-  > .title {
-    margin-top: 8px;
+@include layers.views {
+  .SplashView {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+
+    > .title {
+      margin-top: 8px;
+    }
   }
 }

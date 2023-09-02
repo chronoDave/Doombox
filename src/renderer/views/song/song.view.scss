@@ -1,111 +1,115 @@
 @use 'typography';
 @use 'breakpoints';
 
-.SongView {
-  display: flex;
-  flex-direction: column;
+@use 'layers';
 
-  > .toolbar {
+@include layers.views {
+  .SongView {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 
-    @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-      padding: 4px 8px;
-    }
-
-    > .status {
+    > .toolbar {
       display: flex;
-      gap: 8px;
-      margin: 4px 0;
+      justify-content: space-between;
 
       @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-        gap: 12px;
+        padding: 4px 8px;
       }
 
-      > span {
+      > .status {
         display: flex;
-        align-items: center;
-        gap: 2px;
+        gap: 8px;
+        margin: 4px 0;
 
         @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-          gap: 4px;
+          gap: 12px;
+        }
+
+        > span {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+
+          @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
+            gap: 4px;
+          }
+        }
+      }
+
+      > .actions {
+        display: flex;
+        gap: 4px;
+
+        > button {
+          padding: 4px;
         }
       }
     }
 
-    > .actions {
-      display: flex;
-      gap: 4px;
+    > .VirtualList > ul > li {
+      + li {
+        padding-top: 2px;
+
+        @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
+          padding-top: 4px;
+        }
+      }
 
       > button {
-        padding: 4px;
-      }
-    }
-  }
-
-  > .VirtualList > ul > li {
-    + li {
-      padding-top: 2px;
-
-      @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-        padding-top: 4px;
-      }
-    }
-
-    > button {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      width: 100%;
-      height: 100%;
-      padding: 0 2px;
-
-      @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-        padding: 0 4px;
-        gap: 8px;
-      }
-
-      &.active {
-        background-color: var(--primary);
-        color: var(--text-primary);
-      }
-
-      > img {
-        width: auto;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
         height: 100%;
-        aspect-ratio: 1 / 1;
-      }
+        padding: 0 2px;
 
-      > .metadata {
-        flex-grow: 1;
-        min-width: 0;
+        @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
+          padding: 0 4px;
+          gap: 8px;
+        }
 
-        > p {
-          @include typography.nowrap;
+        &.active {
+          background-color: var(--primary);
+          color: var(--text-primary);
+        }
 
-          &.title {
-            @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-              @include typography.body;
+        > img {
+          width: auto;
+          height: 100%;
+          aspect-ratio: 1 / 1;
+        }
+
+        > .metadata {
+          flex-grow: 1;
+          min-width: 0;
+
+          > p {
+            @include typography.nowrap;
+
+            &.title {
+              @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
+                @include typography.body;
+              }
             }
-          }
 
-          &.artist {
-            @include typography.caption;
-          }
+            &.artist {
+              @include typography.caption;
+            }
 
-          &.album {
-            @include typography.caption;
-            display: none;
+            &.album {
+              @include typography.caption;
+              display: none;
 
-            @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$sm-h) {
-              display: block;
+              @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$sm-h) {
+                display: block;
+              }
             }
           }
         }
-      }
 
-      > .duration {
-        @include typography.caption;
+        > .duration {
+          @include typography.caption;
+        }
       }
     }
   }

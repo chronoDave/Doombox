@@ -1,26 +1,28 @@
-@font-face {
-  font-family: NotoSansJP;
-  src:
-    local('Noto Sans JP Light'),
-    local('NotoSansJP-Light'),
-    url('./fonts/NotoSansJP-Light.otf');
-  font-weight: 300;
-}
+@layer theme {
+  @font-face {
+    font-family: NotoSansJP;
+    src:
+      local('Noto Sans JP Light'),
+      local('NotoSansJP-Light'),
+      url('./fonts/NotoSansJP-Light.otf');
+    font-weight: 300;
+  }
 
-@font-face {
-  font-family: NotoSansJP;
-  src:
-    local('Noto Sans JP Regular'),
-    local('NotoSansJP-Regular'),
-    url('./fonts/NotoSansJP-Regular.otf');
-  font-weight: 400;
-}
+  @font-face {
+    font-family: NotoSansJP;
+    src:
+      local('Noto Sans JP Regular'),
+      local('NotoSansJP-Regular'),
+      url('./fonts/NotoSansJP-Regular.otf');
+    font-weight: 400;
+  }
 
-@font-face {
-  font-family: NotoSansJP;
-  src:
-    local('Noto Sans JP Medium'),
-    local('NotoSansJP-Medium'),
-    url('./fonts/NotoSansJP-Medium.otf');
-  font-weight: 500;
+  @font-face {
+    font-family: NotoSansJP;
+    src:
+      local('Noto Sans JP Medium'),
+      local('NotoSansJP-Medium'),
+      url('./fonts/NotoSansJP-Medium.otf');
+    font-weight: 500;
+  }
 }

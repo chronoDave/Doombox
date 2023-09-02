@@ -1,24 +1,28 @@
 @use 'typography';
 
-.InputSearch {
-  @include typography.body;
-  display: flex;
-  align-items: center;
-  background-color: var(--popup);
-  gap: 0.5em;
+@use 'layers';
 
-  > button {
-    height: 100%;
-    aspect-ratio: 1/1;
-  }
-  
-  > input {
-    padding: 0.5em 0;
-    flex-grow: 1;
-    min-width: 0;
+@include layers.components {
+  .InputSearch {
+    @include typography.body;
+    display: flex;
+    align-items: center;
+    background-color: var(--popup);
+    gap: 0.5em;
 
-    &::placeholder {
-      color: var(--hover);
+    > button {
+      height: 100%;
+      aspect-ratio: 1/1;
+    }
+    
+    > input {
+      padding: 0.5em 0;
+      flex-grow: 1;
+      min-width: 0;
+
+      &::placeholder {
+        color: var(--hover);
+      }
     }
   }
 }

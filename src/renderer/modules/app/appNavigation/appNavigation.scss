@@ -1,21 +1,25 @@
 @use 'typography';
 
-.AppNavigation {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--surface-medium);
+@use 'layers';
 
-  > button {
-    font-size: typography.pxToRem(14);
-    padding: 6px 10px;
+@include layers.modules {
+  .AppNavigation {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface-medium);
 
-    &:last-child {
-      margin-top: auto;
-    }
+    > button {
+      font-size: typography.pxToRem(14);
+      padding: 6px 10px;
 
-    &.active {
-      fill: var(--text);
-      background-color: var(--primary);
+      &:last-child {
+        margin-top: auto;
+      }
+
+      &.active {
+        fill: var(--text);
+        background-color: var(--primary);
+      }
     }
   }
 }

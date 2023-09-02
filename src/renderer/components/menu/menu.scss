@@ -1,19 +1,23 @@
 @use 'typography.scss';
 
-.Menu {
-  position: relative;
+@use 'layers';
 
-  > .Popup {
-    @include typography.caption;
-    padding: 4px 0;
-  
-    > ul > .MenuItem {
-      padding: 2px 8px;
-  
-      > button {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
+@include layers.components {
+  .Menu {
+    position: relative;
+
+    > .Popup {
+      @include typography.caption;
+      padding: 4px 0;
+
+      > ul > .MenuItem {
+        padding: 2px 8px;
+
+        > button {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
       }
     }
   }

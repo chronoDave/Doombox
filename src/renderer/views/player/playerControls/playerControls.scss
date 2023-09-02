@@ -1,21 +1,25 @@
 @use 'typography';
 @use 'breakpoints';
 
-.PlayerControls {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
+@use 'layers';
 
-  @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
-    gap: 8px;
-  }
+@include layers.views {
+  .PlayerControls {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
 
-  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
-    gap: 16px;
-  }
+    @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
+      gap: 8px;
+    }
 
-  > button {
-    @include typography.icon-dynamic;
-    padding: 0.25em;
+    @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
+      gap: 16px;
+    }
+
+    > button {
+      @include typography.icon-dynamic;
+      padding: 0.25em;
+    }
   }
 }

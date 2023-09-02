@@ -1,8 +1,10 @@
+@use './scss/layers.scss';
 @use './scss/reset.scss';
 @use './scss/theme.scss';
 @use './scss/fonts.scss';
-@use './scss/global.scss';
+@use './scss/utilities.scss';
 
 @use './scss/components/button.scss';
 @use './scss/components/fieldset.scss';
 @use './scss/components/image.scss';
+
