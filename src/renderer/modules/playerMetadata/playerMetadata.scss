@@ -1,9 +1,8 @@
 @use 'typography';
 @use 'breakpoints';
-
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .PlayerMetadata {
     > span {
       @include typography.nowrap;

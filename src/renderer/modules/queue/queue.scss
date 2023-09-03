@@ -3,29 +3,39 @@
 @use 'layers';
 
 @include layers.modules {
-  .Queue > ul > li > button {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    gap: 4px;
-    padding: 2px 4px;
-    width: 100%;
-    justify-content: flex-start;
+  .Queue {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 
-    &.active {
-      background-color: var(--primary);
-      color: var(--text-primary);
+    > .metadata {
+      padding: 8px;
     }
 
-    > dl {
+    > .VirtualList > ul > li > button {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: repeat(2, auto);
       gap: 4px;
+      padding: 2px 4px;
+      width: 100%;
+      justify-content: flex-start;
 
-      > .metadata {
-        min-width: 0;
+      &.active {
+        background-color: var(--primary);
+        color: var(--text-primary);
+      }
 
-        > dd {
-          @include typography.nowrap;
+      > dl {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4px;
+
+        > .metadata {
+          min-width: 0;
+
+          > dd {
+            @include typography.nowrap;
+          }
         }
       }
     }

@@ -31,7 +31,7 @@ export default new Store<State>({
   },
   view: {
     app: AppView.Player,
-    settings: SettingsView.Appearance
+    settings: null
   },
   search: {
     songs: null,

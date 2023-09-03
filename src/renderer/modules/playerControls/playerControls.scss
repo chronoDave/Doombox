@@ -1,9 +1,8 @@
 @use 'typography';
 @use 'breakpoints';
-
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .PlayerControls {
     display: flex;
     gap: 4px;

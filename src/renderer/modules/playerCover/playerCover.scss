@@ -1,8 +1,7 @@
 @use 'breakpoints';
-
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .PlayerCover {
     display: flex;
     min-height: 0;

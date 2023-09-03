@@ -1,8 +1,7 @@
 @use 'typography';
-
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .PlayerSlider {
     > .time {
       @include typography.caption;

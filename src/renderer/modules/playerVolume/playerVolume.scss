@@ -1,6 +1,6 @@
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .Popup.PlayerVolume {
     display: flex;
     align-items: center;
