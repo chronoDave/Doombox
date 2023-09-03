@@ -15,11 +15,11 @@ export type AppNavigationProps = {};
 
 const AppNavigation: Component<AppNavigationProps> = () => {
   const views: Record<AppView, IconProps['id']> = {
-    [AppView.Queue]: 'listMusic',
-    [AppView.Player]: 'circlePlay',
+    [AppView.Player]: 'equalizer',
+    [AppView.Album]: 'boxesMusic',
+    [AppView.Label]: 'record',
     [AppView.Song]: 'musicNote',
-    [AppView.Album]: 'boxMusic',
-    [AppView.Label]: 'personMusic'
+    [AppView.Queue]: 'listMusic'
   };
 
   const component = new forgo.Component<AppNavigationProps>({

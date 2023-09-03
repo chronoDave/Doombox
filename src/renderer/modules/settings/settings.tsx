@@ -41,7 +41,7 @@ const Settings: Component<SettingsProps> = () => {
       }
 
       return (
-        <div ref={ref} class={cx('Settings', !view && 'hidden')}>
+        <div ref={ref} class={cx('Settings', !view && 'invisible')}>
           <Tabs
             tabs={tabs}
             active={view}

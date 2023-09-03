@@ -28,8 +28,12 @@ $breakpoints-h: (
     white-space: nowrap;
     border-width: 0;
   }
-  
+
   .hidden {
+    display: none;
+  }
+  
+  .invisible {
     opacity: 0;
     pointer-events: none;
   }
