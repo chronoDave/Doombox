@@ -12,7 +12,7 @@ test('[focusTrap] should trap focus', t => {
   if (!container) throw new Error('Invalid element');
 
   focusTrap(container, {
-    onescape: () => {}
+    onEscape: () => {}
   });
 
   tab(container);
@@ -45,7 +45,7 @@ test('[focusTrap] adds Escape listener', t => {
 
   let n = 0;
   focusTrap(container, {
-    onescape: () => { n += 1; }
+    onEscape: () => { n += 1; }
   });
 
   escape(container);

@@ -44,6 +44,7 @@ const Settings: Component<SettingsProps> = () => {
         <div ref={ref} class={cx('Settings', !view && 'invisible')}>
           <Tabs
             tabs={tabs}
+            // @ts-expect-error: Active can be null
             active={view}
             ontab={setViewSettings}
           />
