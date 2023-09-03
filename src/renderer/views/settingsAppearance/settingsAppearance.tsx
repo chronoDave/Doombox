@@ -4,12 +4,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 import produce from 'immer';
 
-import InputRadioList from '../../components/inputRadioList/inputRadioList';
+import Label from '../../components/label/label';
+import Select from '../../components/select/select';
 import { setTheme } from '../../state/actions/theme.actions';
 import { themePlayerSelector, themeSelector } from '../../state/selectors/theme.selectors';
-
-import Select, { SelectOption } from '../../components/select/select';
-import Label from '../../components/label/label';
 
 import './settingsAppearance.scss';
 
