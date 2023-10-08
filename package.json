@@ -38,7 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
     "chokidar": "^3.5.3",
-    "electron": "^22.3.24",
+    "electron": "^22.3.25",
     "electron-builder": "^24.2.1",
     "esbuild": "^0.17.18",
     "eslint": "^8.20.0",
