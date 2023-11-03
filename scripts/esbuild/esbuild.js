@@ -1,6 +1,6 @@
 const esbuild = require('esbuild');
 
-module.exports = async (config, options) => {
+module.exports = async (config, options = {}) => {
   if (options.watch) {
     const context = await esbuild.context(config);
     return context.watch();
