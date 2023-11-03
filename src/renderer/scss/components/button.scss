@@ -16,7 +16,6 @@
     }
   
     &:has(svg) {
-      @include typography.icon;
       fill: var(--text-inactive);
       color: var(--text-inactive);
       transition: background-color transitions.$fast, color transitions.$fast;

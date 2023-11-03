@@ -4,8 +4,6 @@
 @include layers.modules {
   .PlayerSlider {
     > .time {
-      @include typography.caption;
-
       display: flex;
       justify-content: space-between;
     }

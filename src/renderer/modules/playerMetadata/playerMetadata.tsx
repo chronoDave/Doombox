@@ -15,9 +15,9 @@ const PlayerMetadata: Component<PlayerMetadataProps> = () => {
 
       return (
         <div class='PlayerMetadata'>
-          <span class='title'>{current?.title ?? 'unknown'}</span>
-          <span class='artist'>{current?.artist ?? 'unknown'}</span>
-          <span class='album'>{current?.album ?? 'unknown'}</span>
+          <p class='title nowrap'>{current?.title ?? 'unknown'}</p>
+          <p class='artist nowrap'>{current?.artist ?? 'unknown'}</p>
+          <p class='album nowrap'>{current?.album ?? 'unknown'}</p>
         </div>
       );
     }

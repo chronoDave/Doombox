@@ -5,59 +5,14 @@
   @return #{math.div($size, 16)}rem;
 }
 
-@mixin icon {
-  font-size: pxToRem(14);
-}
-
-@mixin icon-dynamic {
-  @include icon;
-
-  @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
-    font-size: pxToRem(18);
-  }
-
-  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
-    font-size: pxToRem(20);
-  }
-}
-
-@mixin body {
-  font-size: pxToRem(14);
-}
-
-@mixin caption {
-  font-size: pxToRem(13);
-}
-
-@mixin caption-dynamic {
-  @include caption;
-
-  @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
-    font-size: pxToRem(14);
-  }
-
-  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
-    font-size: pxToRem(16);
-  }
-}
-
-@mixin heading {
-  font-size: pxToRem(18);
-}
-
-@mixin heading-dynamic {
-  @include heading;
-
-  @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
-    font-size: pxToRem(24);
-  }
-
-  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$lg-h) {
-    font-size: pxToRem(36);
-  }
-}
-
 @mixin nowrap {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nowrap {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -69,4 +24,36 @@
   -webkit-line-clamp: $n;
   -webkit-box-orient: vertical;  
   overflow: hidden;
+}
+
+.small {
+  font-size: pxToRem(14);
+}
+
+p, .body {
+  font-size: pxToRem(16);
+}
+
+h1, .h1 {
+  font-size: pxToRem(36);
+}
+
+h2, .h2 {
+  font-size: pxToRem(32);
+}
+
+h3, .h3 {
+  font-size: pxToRem(28);
+}
+
+h4, .h4 {
+  font-size: pxToRem(24);
+}
+
+h5, .h5 {
+  font-size: pxToRem(20);
+}
+
+h6, .h6 {
+  font-size: pxToRem(18);
 }

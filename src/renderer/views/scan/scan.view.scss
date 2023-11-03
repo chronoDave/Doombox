@@ -19,13 +19,11 @@
     }
 
     > .title {
-      @include typography.heading;
 
       margin-bottom: 1em;
     }
 
     > .file {
-      @include typography.caption;
       @include typography.clamp(3);
       $line-height: 1.3em;
 

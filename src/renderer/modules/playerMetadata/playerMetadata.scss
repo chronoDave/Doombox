@@ -6,11 +6,9 @@
   .PlayerMetadata {
     > span {
       @include typography.nowrap;
-      @include typography.caption-dynamic;
       display: block;
 
       &.title {
-        @include typography.heading-dynamic;
         font-weight: 500;
       }
 

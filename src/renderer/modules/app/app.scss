@@ -5,7 +5,6 @@
 
 @include layers.modules {
   body {
-    @include typography.caption;
     display: flex;
     flex-direction: column;
     width: 100vw;

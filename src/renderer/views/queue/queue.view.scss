@@ -24,7 +24,6 @@
         min-width: 0;
 
         > span {
-          @include typography.nowrap;
           display: block;
         }
       }

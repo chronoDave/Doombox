@@ -39,10 +39,6 @@
           &.album {
             font-weight: 500;
           }
-
-          &.albumartist {
-            @include typography.caption;
-          }
         }
       }
     }

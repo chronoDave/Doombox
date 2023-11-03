@@ -66,7 +66,7 @@ esbuild({
       depedencies: [
         'src/renderer/scss/core'
       ],
-      ignore: /\.otf$/
+      ignore: /\.ttf$/
     }),
     copy([{
       in: 'src/renderer/index.html',

@@ -220,6 +220,18 @@ module.exports = {
     'react/forbid-dom-props': ['error', {
       forbid: ['className']
     }],
+    'react/forbid-elements': ['error', {
+      forbid: [
+        ...[
+          'small',
+          'b',
+          'i'
+        ].map(element => ({
+          element,
+          message: `<${element}> violates the principle of separation between structure and presentation, use CSS instead.`
+        }))
+      ]
+    }],
     // JSX
     'react/jsx-boolean-value': ['error', 'never'],
     'react/jsx-closing-bracket-location': 'error',

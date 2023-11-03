@@ -50,9 +50,10 @@ const App: Component<AppProps> = () => {
       return [
         <AppHeader />,
         <main>
-          <AppNavigation />
-          {renderBody()}
-          <Settings />
+          {/* <AppNavigation /> */}
+          {/* {renderBody()} */}
+          {/* <Settings /> */}
+          <PlayerView />
         </main>
       ];
     }

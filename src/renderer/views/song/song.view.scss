@@ -84,20 +84,7 @@
           min-width: 0;
 
           > p {
-            @include typography.nowrap;
-
-            &.title {
-              @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-                @include typography.body;
-              }
-            }
-
-            &.artist {
-              @include typography.caption;
-            }
-
             &.album {
-              @include typography.caption;
               display: none;
 
               @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$sm-h) {
@@ -105,10 +92,6 @@
               }
             }
           }
-        }
-
-        > .duration {
-          @include typography.caption;
         }
       }
     }

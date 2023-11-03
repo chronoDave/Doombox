@@ -1,10 +1,7 @@
-@use 'typography';
-
 @use 'layers';
 
 @include layers.components {
   .InputSearch {
-    @include typography.body;
     display: flex;
     align-items: center;
     background-color: var(--popup);

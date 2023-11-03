@@ -17,7 +17,6 @@
     }
 
     > button {
-      @include typography.icon-dynamic;
       padding: 0.25em;
     }
   }
