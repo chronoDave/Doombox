@@ -21,6 +21,6 @@
 @layer modules;
 @layer views;
 
-@layer utilities {
-  @include meta.load-css('./scss/utilities.scss')
+@layer globals {
+  @include meta.load-css('./scss/globals.scss')
 }
