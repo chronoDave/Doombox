@@ -3,11 +3,16 @@
 @use 'typography';
 
 button {
-  all: unset;
+  margin: 0;
+  padding: 0;
+  border: unset;
+  color: inherit;
+  background-color: unset;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   transition: background-color transitions.$fast;
+  font-family: inherit;
 
   @include mixins.hover {
     cursor: pointer;
