@@ -14,34 +14,34 @@ html {
 
 // Headings
 h1, .h1 {
-  font-size: pxToRem(36);
+  font-size: typography.pxToRem(36);
 }
 
 h2, .h2 {
-  font-size: pxToRem(32);
+  font-size: typography.pxToRem(32);
 }
 
 h3, .h3 {
-  font-size: pxToRem(28);
+  font-size: typography.pxToRem(28);
 }
 
 h4, .h4 {
-  font-size: pxToRem(24);
+  font-size: typography.pxToRem(24);
 }
 
 h5, .h5 {
-  font-size: pxToRem(20);
+  font-size: typography.pxToRem(20);
 }
 
 h6, .h6 {
-  font-size: pxToRem(18);
+  font-size: typography.pxToRem(18);
 }
 
 // Body
 p, .body {
-  font-size: pxToRem(16);
+  font-size: typography.pxToRem(16);
 }
 
 .small {
-  font-size: pxToRem(14);
+  font-size: typography.pxToRem(14);
 }

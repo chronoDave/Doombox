@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../../components/icon/icon';
-import { playerSongSelector } from '../../../state/selectors/player.selectors';
+import Icon from '../../components/icon/icon';
+import { playerSongSelector } from '../../state/selectors/player.selectors';
 
 import './appHeader.scss';
 
@@ -29,7 +29,7 @@ const AppBar: Component<AppBarProps> = () => {
             src="icons/icon_light.png"
             alt='Doombox app icon'
           />
-          <span class="title nowrap">{title}</span>
+          <span class="title nowrap small">{title}</span>
           <nav aria-label='window'>
             <ul>
               <li>

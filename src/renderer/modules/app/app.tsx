@@ -17,10 +17,9 @@ import QueueView from '../../views/queue/queue.view';
 import ScanView from '../../views/scan/scan.view';
 import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
+import AppHeader from '../appHeader/appHeader';
+import AppNavigation from '../appNavigation/appNavigation';
 import Settings from '../settings/settings';
-
-import AppHeader from './appHeader/appHeader';
-import AppNavigation from './appNavigation/appNavigation';
 
 import './app.scss';
 
@@ -50,10 +49,9 @@ const App: Component<AppProps> = () => {
       return [
         <AppHeader />,
         <main>
-          {/* <AppNavigation /> */}
-          {/* {renderBody()} */}
-          {/* <Settings /> */}
-          <PlayerView />
+          <AppNavigation />
+          {renderBody()}
+          <Settings />
         </main>
       ];
     }

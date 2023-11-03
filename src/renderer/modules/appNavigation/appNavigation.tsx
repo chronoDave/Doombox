@@ -1,13 +1,13 @@
-import type { IconProps } from '../../../components/icon/icon';
+import type { IconProps } from '../../components/icon/icon';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { AppView, SettingsView } from '../../../../types/views';
-import Icon from '../../../components/icon/icon';
-import { setViewApp, setViewSettings } from '../../../state/actions/view.actions';
-import { appViewSelector } from '../../../state/selectors/view.selectors';
-import cx from '../../../utils/cx/cx';
+import { AppView, SettingsView } from '../../../types/views';
+import Icon from '../../components/icon/icon';
+import { setViewApp, setViewSettings } from '../../state/actions/view.actions';
+import { appViewSelector } from '../../state/selectors/view.selectors';
+import cx from '../../utils/cx/cx';
 
 import './appNavigation.scss';
 
