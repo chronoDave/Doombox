@@ -1,10 +1,8 @@
-@layer theme {
-  @font-face {
-    font-family: NotoSansJP;
-    src:
-      local('Noto Sans JP'),
-      local('NotoSansJP'),
-      url('./fonts/NotoSansJP.ttf');
-    font-weight: 400;
-  }
+@font-face {
+  font-family: NotoSansJP;
+  src:
+    local('Noto Sans JP'),
+    local('NotoSansJP'),
+    url('./fonts/NotoSansJP.ttf');
+  font-weight: 400;
 }

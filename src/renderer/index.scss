@@ -1,10 +1,23 @@
-@use './scss/layers.scss';
-@use './scss/reset.scss';
-@use './scss/theme.scss';
-@use './scss/fonts.scss';
-@use './scss/utilities.scss';
+@use 'sass:meta';
 
-@use './scss/components/button.scss';
-@use './scss/components/fieldset.scss';
-@use './scss/components/image.scss';
+@layer reset {
+  @include meta.load-css('./scss/reset.scss');
+}
 
+@layer theme {
+  @include meta.load-css('./scss/fonts.scss');
+  @include meta.load-css('./scss/theme.scss');
+}
+
+@layer components {
+  @include meta.load-css('./scss/components/button.scss');
+  @include meta.load-css('./scss/components/fieldset.scss');
+  @include meta.load-css('./scss/components/image.scss');
+}
+
+@layer modules;
+@layer views;
+
+@layer utilities {
+  @include meta.load-css('./scss/utilities.scss')
+}

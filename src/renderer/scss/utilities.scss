@@ -16,41 +16,46 @@ $breakpoints-h: (
   "xlh": breakpoints.$xl-h
 );
 
-@layer utilities {
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
 
-  .hidden {
-    display: none;
-  }
-  
-  .invisible {
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  @each $breakpoint, $width in $breakpoints-w {
-    .#{$breakpoint}-hidden {
-      @media (max-width: $width) {
-        display: none;
-      }
+.nowrap {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hidden {
+  display: none;
+}
+
+.invisible {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@each $breakpoint, $width in $breakpoints-w {
+  .#{$breakpoint}-hidden {
+    @media (max-width: $width) {
+      display: none;
     }
   }
+}
 
-  @each $breakpoint, $height in $breakpoints-h {
-    .#{$breakpoint}-hidden {
-      @media (max-height: $height) {
-        display: none;
-      }
+@each $breakpoint, $height in $breakpoints-h {
+  .#{$breakpoint}-hidden {
+    @media (max-height: $height) {
+      display: none;
     }
   }
 }

@@ -1,7 +1,3 @@
-@use 'layers';
-
-@include layers.components {
-  img {
-    max-width: 100%;
-  }
+img {
+  max-width: 100%;
 }

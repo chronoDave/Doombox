@@ -1,33 +1,30 @@
 @use 'mixins';
 @use 'transitions';
 @use 'typography';
-@use 'layers';
 
-@include layers.components {
-  button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color transitions.$fast;
-  
-    @include mixins.hover {
-      cursor: pointer;
-      background-color: var(--text-inactive);
+button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color transitions.$fast;
+
+  @include mixins.hover {
+    cursor: pointer;
+    background-color: var(--text-inactive);
+  }
+
+  &:has(svg) {
+    fill: var(--text-inactive);
+    color: var(--text-inactive);
+    transition: background-color transitions.$fast, color transitions.$fast;
+
+    > svg > path {
+      transition: fill transitions.$fast;
     }
-  
-    &:has(svg) {
-      fill: var(--text-inactive);
-      color: var(--text-inactive);
-      transition: background-color transitions.$fast, color transitions.$fast;
-  
-      > svg > path {
-        transition: fill transitions.$fast;
-      }
-  
-      @include mixins.hover {
-        fill: var(--text);
-        color: var(--text);
-      }
+
+    @include mixins.hover {
+      fill: var(--text);
+      color: var(--text);
     }
   }
 }

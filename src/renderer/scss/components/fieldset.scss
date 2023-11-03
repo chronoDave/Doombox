@@ -1,9 +1,5 @@
-@use 'layers';
-
-@include layers.components {
-  fieldset {
-    > legend {
-      margin-bottom: 4px;
-    }
+fieldset {
+  > legend {
+    margin-bottom: 4px;
   }
 }

@@ -5,48 +5,9 @@
   @return #{math.div($size, 16)}rem;
 }
 
-.nowrap {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 @mixin clamp($n) {
   display: -webkit-box;
   -webkit-line-clamp: $n;
   -webkit-box-orient: vertical;  
   overflow: hidden;
-}
-
-.small {
-  font-size: pxToRem(14);
-}
-
-p, .body {
-  font-size: pxToRem(16);
-}
-
-h1, .h1 {
-  font-size: pxToRem(36);
-}
-
-h2, .h2 {
-  font-size: pxToRem(32);
-}
-
-h3, .h3 {
-  font-size: pxToRem(28);
-}
-
-h4, .h4 {
-  font-size: pxToRem(24);
-}
-
-h5, .h5 {
-  font-size: pxToRem(20);
-}
-
-h6, .h6 {
-  font-size: pxToRem(18);
 }

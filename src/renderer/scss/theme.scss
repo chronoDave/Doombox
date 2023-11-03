@@ -1,52 +1,50 @@
-@layer theme {
-  :root {
-    --black: hsl(230 8% 8%); // 0
-    --dark-0: hsl(220 8% 9%); // 1
-    --dark-1: hsl(210 8% 10%); // 1
-    --dark-2: hsl(210 8% 12%); // 2
-    --dark-3: hsl(210 8% 15%); // 3
-    --dark-4: hsl(210 8% 20%); // 5
-    --dark-5: hsl(210 8% 28%); // 8
-    --white: hsl(240 2% 98%); // 0
-    --light-0: hsl(230 2% 97%); // 1
-    --light-1: hsl(220 2% 96%); // 1
-    --light-2: hsl(210 2% 94%); // 2
-    --light-3: hsl(210 2% 91%); // 3
-    --light-4: hsl(210 2% 86%); // 5
-    --light-5: hsl(210 2% 78%); // 8
-    --primary: hsl(268 26% 41%);
-    --error: hsl(0 85% 61%);
-  
-    @media (prefers-color-scheme: dark) {
-      --text: var(--light-4);
-      --text-inactive: var(--dark-5);
-      --surface-low: var(--dark-1);
-      --surface-medium: var(--dark-2);
-      --surface-high: var(--dark-3);
-    }
-  
-    @media (prefers-color-scheme: light) {
-      --text: var(--dark-4);
-      --text-inactive: var(--dark-2);
-      --surface-low: var(--light-0);
-      --surface-medium: var(--light-1);
-      --surface-high: var(--light-2);
-    }
-  
-    --text-primary: var(--white);
-    --text-error: var(--white);
+:root {
+  --black: hsl(230 8% 8%); // 0
+  --dark-0: hsl(220 8% 9%); // 1
+  --dark-1: hsl(210 8% 10%); // 1
+  --dark-2: hsl(210 8% 12%); // 2
+  --dark-3: hsl(210 8% 15%); // 3
+  --dark-4: hsl(210 8% 20%); // 5
+  --dark-5: hsl(210 8% 28%); // 8
+  --white: hsl(240 2% 98%); // 0
+  --light-0: hsl(230 2% 97%); // 1
+  --light-1: hsl(220 2% 96%); // 1
+  --light-2: hsl(210 2% 94%); // 2
+  --light-3: hsl(210 2% 91%); // 3
+  --light-4: hsl(210 2% 86%); // 5
+  --light-5: hsl(210 2% 78%); // 8
+  --primary: hsl(268 26% 41%);
+  --error: hsl(0 85% 61%);
+
+  @media (prefers-color-scheme: dark) {
+    --text: var(--light-4);
+    --text-inactive: var(--dark-5);
+    --surface-low: var(--dark-1);
+    --surface-medium: var(--dark-2);
+    --surface-high: var(--dark-3);
   }
 
-  html {
-    font-family: NotoSansJP, sans-serif;
+  @media (prefers-color-scheme: light) {
+    --text: var(--dark-4);
+    --text-inactive: var(--dark-2);
+    --surface-low: var(--light-0);
+    --surface-medium: var(--light-1);
+    --surface-high: var(--light-2);
   }
 
-  *::-webkit-scrollbar {
-    width: 12px;
-    background-color: var(--surface-high);
-  }
-  
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--text-inactive);
-  }
+  --text-primary: var(--white);
+  --text-error: var(--white);
+}
+
+html {
+  font-family: NotoSansJP, sans-serif;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  background-color: var(--surface-high);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--text-inactive);
 }
