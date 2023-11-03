@@ -1,4 +1,3 @@
-@use 'typography';
 @use 'mixins';
 
 @use 'layers';
@@ -29,7 +28,6 @@
     }
 
     > .title {
-      @include typography.nowrap;
       -webkit-app-region: drag;
       text-align: center;
       flex-grow: 1;

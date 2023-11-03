@@ -46,7 +46,7 @@ const Queue: Component<QueueProps> = () => {
                     <dl>
                       <div class='metadata'>
                         <dt class='sr-only'>Title</dt>
-                        <dd class='title'>{song.title}</dd>
+                        <dd class='title nowrap'>{song.title}</dd>
                         {/* <dt class='sr-only'>Artist</dt>
                       <dd class='artist'>{song.artist}</dd> */}
                         {/* <dt class='sr-only'>Album</dt>

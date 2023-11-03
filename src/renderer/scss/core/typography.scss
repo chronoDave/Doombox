@@ -5,13 +5,6 @@
   @return #{math.div($size, 16)}rem;
 }
 
-@mixin nowrap {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .nowrap {
   min-width: 0;
   overflow: hidden;

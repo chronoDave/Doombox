@@ -34,8 +34,6 @@
         padding: 8px;
 
         > p {
-          @include typography.nowrap;
-
           &.album {
             font-weight: 500;
           }

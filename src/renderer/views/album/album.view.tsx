@@ -57,7 +57,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
                       height={Thumb.Album}
                     />
                     <div class='metadata'>
-                      <p class='album'>{album.album}</p>
+                      <p class='album nowrap'>{album.album}</p>
                       <p class='albumartist'>{album.albumartist}</p>
                     </div>
                   </button>

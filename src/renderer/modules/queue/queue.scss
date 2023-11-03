@@ -1,5 +1,3 @@
-@use 'typography';
-
 @use 'layers';
 
 @include layers.modules {
@@ -32,10 +30,6 @@
 
         > .metadata {
           min-width: 0;
-
-          > dd {
-            @include typography.nowrap;
-          }
         }
       }
     }
