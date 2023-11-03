@@ -9,3 +9,19 @@ $sm-h: 320px;
 $md-h: 480px;
 $lg-h: 720px;
 $xl-h: 960px;
+
+$w: (
+  "xsw": $xs-w,
+  "smw": $sm-w,
+  "mdw": $md-w,
+  "lgw": $lg-w,
+  "xlw": $xl-w
+);
+
+$h: (
+  "xsh": $xs-h,
+  "smh": $sm-h,
+  "mdh": $md-h,
+  "lgh": $lg-h,
+  "xlh": $xl-h
+);

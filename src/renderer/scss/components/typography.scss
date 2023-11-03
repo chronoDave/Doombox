@@ -1,13 +1,18 @@
 @use 'typography';
 
-.small {
-  font-size: pxToRem(14);
+// Base
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
 }
 
-p, .body {
-  font-size: pxToRem(16);
+html {
+  font-family: NotoSansJP, sans-serif;
+  line-height: 1.5;
 }
 
+// Headings
 h1, .h1 {
   font-size: pxToRem(36);
 }
@@ -30,4 +35,13 @@ h5, .h5 {
 
 h6, .h6 {
   font-size: pxToRem(18);
+}
+
+// Body
+p, .body {
+  font-size: pxToRem(16);
+}
+
+.small {
+  font-size: pxToRem(14);
 }

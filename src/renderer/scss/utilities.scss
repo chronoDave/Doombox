@@ -1,21 +1,5 @@
 @use 'breakpoints';
 
-$breakpoints-w: (
-  "xsw": breakpoints.$xs-w,
-  "smw": breakpoints.$sm-w,
-  "mdw": breakpoints.$md-w,
-  "lgw": breakpoints.$lg-w,
-  "xlw": breakpoints.$xl-w
-);
-
-$breakpoints-h: (
-  "xsh": breakpoints.$xs-h,
-  "smh": breakpoints.$sm-h,
-  "mdh": breakpoints.$md-h,
-  "lgh": breakpoints.$lg-h,
-  "xlh": breakpoints.$xl-h
-);
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -44,7 +28,7 @@ $breakpoints-h: (
   pointer-events: none;
 }
 
-@each $breakpoint, $width in $breakpoints-w {
+@each $breakpoint, $width in breakpoints.$w {
   .#{$breakpoint}-hidden {
     @media (max-width: $width) {
       display: none;
@@ -52,7 +36,7 @@ $breakpoints-h: (
   }
 }
 
-@each $breakpoint, $height in $breakpoints-h {
+@each $breakpoint, $height in breakpoints.$h {
   .#{$breakpoint}-hidden {
     @media (max-height: $height) {
       display: none;

@@ -35,16 +35,3 @@
   --text-primary: var(--white);
   --text-error: var(--white);
 }
-
-html {
-  font-family: NotoSansJP, sans-serif;
-}
-
-*::-webkit-scrollbar {
-  width: 12px;
-  background-color: var(--surface-high);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--text-inactive);
-}
