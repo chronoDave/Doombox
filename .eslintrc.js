@@ -145,6 +145,7 @@ module.exports = {
       zones: [
         ...[
           'src/renderer/components',
+          'src/renderer/views',
           'src/renderer/hooks',
           'src/renderer/lib',
           'src/renderer/utils'
