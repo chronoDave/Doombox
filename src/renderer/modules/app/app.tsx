@@ -19,6 +19,7 @@ import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
 import AppHeader from '../appHeader/appHeader';
 import AppNavigation from '../appNavigation/appNavigation';
+import Player from '../player/player';
 import Settings from '../settings/settings';
 
 import './app.scss';
@@ -28,7 +29,6 @@ export type AppProps = {};
 const App: Component<AppProps> = () => {
   const views: Record<AppView, forgo.Component> = {
     [AppView.Queue]: <QueueView />,
-    [AppView.Player]: <PlayerView />,
     [AppView.Song]: <SongView />,
     [AppView.Album]: <AlbumView />,
     [AppView.Label]: <LabelView />
@@ -50,6 +50,7 @@ const App: Component<AppProps> = () => {
         <AppHeader />,
         <main>
           <AppNavigation />
+          <Player />
           {renderBody()}
           <Settings />
         </main>

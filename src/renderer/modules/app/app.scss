@@ -15,11 +15,10 @@
     overflow: hidden;
 
     > main {
-      display: flex;
-      flex-grow: 1;
-      max-height: 100%;
+      display: grid;
+      grid-template-columns: auto 210px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
       overflow: auto;
-      position: relative;
 
       > .View {
         flex-grow: 1;

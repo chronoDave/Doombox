@@ -1,0 +1,40 @@
+@use 'layers';
+
+@include layers.modules {
+  .Player {
+    display: flex;
+    flex-direction: column;
+
+    > .queue {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex-grow: 1;
+
+      > .header {
+        text-align: center;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .VirtualItem > button {
+        display: flex;
+        align-items: center;
+        width: inherit;
+        height: inherit;
+        gap: 0.5rem;
+
+        &.active {
+          background-color: var(--primary);
+          color: var(--text-primary);
+        }
+
+        > dl {
+          padding: 0 0.5rem;
+          flex-grow: 1;
+          min-width: 0;
+          text-align: left;
+        }
+      }
+    }
+  }
+}

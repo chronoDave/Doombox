@@ -1,6 +1,5 @@
 export enum AppView {
   Queue = 'queue',
-  Player = 'player',
   Song = 'song',
   Album = 'album',
   Label = 'label'

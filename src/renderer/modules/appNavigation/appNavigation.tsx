@@ -15,7 +15,6 @@ export type AppNavigationProps = {};
 
 const AppNavigation: Component<AppNavigationProps> = () => {
   const views: Record<AppView, IconProps['id']> = {
-    [AppView.Player]: 'equalizer',
     [AppView.Album]: 'boxesMusic',
     [AppView.Label]: 'record',
     [AppView.Song]: 'musicNote',

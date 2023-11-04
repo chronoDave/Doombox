@@ -8,6 +8,8 @@
     overflow: auto;
 
     > button {
+      padding: 0.75em 1em;
+
       &:last-child {
         margin-top: auto;
       }

@@ -5,6 +5,8 @@ import * as forgo from 'forgo';
 import { Thumb } from '../../../types/library';
 import { thumbSelector } from '../../state/selectors/app.selectors';
 import { playerSongSelector } from '../../state/selectors/player.selectors';
+import PlayerControls from '../playerControls/playerControls';
+import PlayerSlider from '../playerSlider/playerSlider';
 
 import './playerCover.scss';
 
@@ -19,18 +21,17 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
 
       return (
         <div class='PlayerCover'>
-          <img
-            src={src}
-            loading='lazy'
-            alt=''
-            class='bg'
-          />
-          <img
-            src={src}
-            loading='lazy'
-            alt=''
-            class='contain'
-          />
+          <img src={src} alt='' class='bg' />
+          <div class='body'>
+            <div class='metadata'>
+              <p class='nowrap'>{current?.title ?? 'unknown'}</p>
+              <p class='small nowrap'>{current?.artist ?? 'unknown'}</p>
+            </div>
+            <div class='controls'>
+              <PlayerControls />
+              <PlayerSlider />
+            </div>
+          </div>
         </div>
       );
     }

@@ -42,6 +42,7 @@ const VirtualList = <T extends any>(
           <ul style={{ height: `${list.height}px` }}>
             {list.columns.map(column => (
               <li
+                class='VirtualItem'
                 key={column.data}
                 style={{
                   top: `${column.position.top}px`,
