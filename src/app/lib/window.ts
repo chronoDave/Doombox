@@ -7,7 +7,7 @@ import produce from 'immer';
 import path from 'path';
 
 import { IpcChannel } from '../../types/ipc';
-import { IS_DEV } from '../../utils/const';
+import { IS_DEV, MIN_WIDTH, MIN_HEIGHT } from '../../utils/const';
 import createWindowController from '../controllers/window.controller';
 import createIpcRouter from '../utils/createIpcRouter';
 import debounce from '../utils/debounce';
@@ -24,8 +24,8 @@ export default (props: WindowProps) => {
     icon: process.platform === 'win32' ?
       path.resolve(__dirname, IS_DEV ? 'assets/dev.ico' : 'assets/app.ico') :
       path.resolve(__dirname, IS_DEV ? 'assets/dev.png' : 'assets/app.png'),
-    minWidth: 320,
-    minHeight: 240,
+    minWidth: MIN_WIDTH,
+    minHeight: MIN_HEIGHT,
     frame: process.platform === 'darwin',
     titleBarStyle: 'hidden',
     webPreferences: {

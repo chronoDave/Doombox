@@ -1,6 +1,8 @@
 import type { Constrain } from '../helpers';
 import type { Json } from '../primitives';
 
+import { MIN_WIDTH, MIN_HEIGHT } from '../../utils/const';
+
 export type AppShape = Constrain<Json, {
   window: {
     width: number
@@ -12,8 +14,8 @@ export type AppShape = Constrain<Json, {
 
 const appShape: Readonly<AppShape> = {
   window: {
-    width: 320,
-    height: 240,
+    width: MIN_WIDTH,
+    height: MIN_HEIGHT,
     x: -1,
     y: -1
   }
