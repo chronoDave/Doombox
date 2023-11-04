@@ -13,6 +13,7 @@ button {
   align-items: center;
   transition: background-color transitions.$fast;
   font-family: inherit;
+  font-size: 1rem;
 
   @include mixins.hover {
     cursor: pointer;
@@ -23,6 +24,7 @@ button {
     fill: var(--text-inactive);
     color: var(--text-inactive);
     transition: background-color transitions.$fast, color transitions.$fast;
+    padding: 0.25em;
 
     > svg > path {
       transition: fill transitions.$fast;

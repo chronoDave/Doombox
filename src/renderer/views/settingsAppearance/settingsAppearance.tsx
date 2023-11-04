@@ -7,7 +7,7 @@ import produce from 'immer';
 import Label from '../../components/label/label';
 import Select from '../../components/select/select';
 import { setTheme } from '../../state/actions/theme.actions';
-import { themePlayerSelector, themeSelector } from '../../state/selectors/theme.selectors';
+import { themeSelector } from '../../state/selectors/theme.selectors';
 
 import './settingsAppearance.scss';
 
@@ -17,7 +17,6 @@ const SettingsAppearance: Component<SettingsAppearanceProps> = () => {
   const component = new forgo.Component<SettingsAppearanceProps>({
     render() {
       const theme = themeSelector.get();
-      const themePlayer = themePlayerSelector.get();
 
       return (
         <div class='SettingsAppearance'>
@@ -35,26 +34,12 @@ const SettingsAppearance: Component<SettingsAppearanceProps> = () => {
               ]}
             />
           </Label>
-          <Label title='Album display'>
-            <Select
-              id='playerCover'
-              value={themePlayer.cover}
-              onChange={value => setTheme(produce(draft => {
-                draft.player.cover = value as ThemeShape['player']['cover'];
-              }))}
-              options={[
-                { value: 'cover', label: 'cover' },
-                { value: 'contain', label: 'contain' }
-              ]}
-            />
-          </Label>
         </div>
       );
     }
   });
 
   themeSelector.subscribe(component);
-  themePlayerSelector.subscribe(component);
 
   return component;
 };

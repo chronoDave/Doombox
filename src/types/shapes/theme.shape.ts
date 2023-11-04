@@ -4,16 +4,10 @@ import type { NativeTheme } from 'electron/main';
 
 export type ThemeShape = Constrain<Json, {
   theme: NativeTheme['themeSource']
-  player: {
-    cover: 'cover' | 'contain'
-  }
 }>;
 
 const themeShape: Readonly<ThemeShape> = {
-  theme: 'system',
-  player: {
-    cover: 'contain'
-  }
+  theme: 'system'
 };
 
 export default themeShape;

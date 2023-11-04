@@ -5,10 +5,9 @@
     display: flex;
     flex-direction: column;
     background-color: var(--surface-medium);
+    overflow: auto;
 
     > button {
-      padding: 6px 10px;
-
       &:last-child {
         margin-top: auto;
       }

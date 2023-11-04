@@ -4,62 +4,19 @@
 
 @include layers.views {
   .PlayerView {
-    display: grid;
-    grid-template-areas:
-      "cover metadata"
-      "controls controls"
-      "slider slider"
-      "queue queue";
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr auto auto;
+    display: flex;
+    flex-direction: column;
 
-    @media (min-width: breakpoints.$sm-w) {
-      grid-template-areas:
-        "cover metadata"
-        "cover controls"
-        "cover slider"
-        "queue queue";
-    }
-
-    @media (min-height: breakpoints.$sm-h) {
-      grid-template-rows: 1fr auto auto 1fr;
-    }
-
-    @media (min-height: breakpoints.$md-h) {
-      grid-template-rows: 1fr auto auto 2fr;
-    }
-
-    > .PlayerCover {
-      grid-area: cover;
-    }
-
-    > .PlayerMetadata {
-      grid-area: metadata;
-      padding: 8px;
-      min-width: 0;
-
-      @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$sm-h) {
-        padding: 16px;
-      }
-    }
-
-    > .PlayerControls {
-      grid-area: controls;
-      padding: 8px;
+    > .metadata {
+      padding: 0.25em 0.5em;
     }
 
     > .PlayerSlider {
-      grid-area: slider;
-      padding: 8px 12px;
+      padding: 0 0.5em;
     }
 
-    > .Queue {
-      display: none;
-      grid-area: queue;
-
-      @media (min-height: breakpoints.$sm-h) {
-        display: flex;
-      }
+    > .PlayerControls {
+      padding: 0.5em;
     }
   }
 }
