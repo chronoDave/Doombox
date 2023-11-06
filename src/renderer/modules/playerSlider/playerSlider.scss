@@ -6,5 +6,9 @@
     display: flex;
     align-items: center;
     gap: 0.5em;
+
+    > .Slider > .track {
+      background-color: var(--black-opaque);
+    }
   }
 }
