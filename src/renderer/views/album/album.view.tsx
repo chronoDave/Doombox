@@ -37,6 +37,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
           <InputSearch
             placeholder='search for album'
             onsubmit={query => searchAlbums(query)}
+            oninput={query => searchAlbums(query)}
           />
           <div class="toolbar">
             <p class='meta'>

@@ -9,6 +9,7 @@ import './inputSearch.scss';
 export type InputSearchProps = {
   placeholder: string
   onsubmit: (query: string) => void
+  oninput?: (query: string) => void
 };
 
 const InputSearch: Component<InputSearchProps> = () => {
@@ -28,12 +29,8 @@ const InputSearch: Component<InputSearchProps> = () => {
             ref={ref}
             type='search'
             placeholder={props.placeholder}
-            onkeydown={e => {
-              if (e.key === 'Enter' && ref.value) {
-                e.preventDefault();
-                props.onsubmit(ref.value.value);
-              }
-            }}
+            onkeyup={() => props.oninput?.(ref.value?.value ?? '')}
+            onsubmit={() => props.onsubmit(ref.value?.value ?? '')}
           />
           <button
             type='button'
