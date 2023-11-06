@@ -3,8 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import Icon from '../../components/icon/icon';
 import VirtualList from '../../components/virtualList/virtualList';
-import { setQueueIndex } from '../../state/actions/queue.actions';
+import { setQueueIndex, shuffleQueue } from '../../state/actions/queue.actions';
 import { queueDurationSelector, queueIdSelector, queueSelector } from '../../state/selectors/queue.selectors';
 import { songSelector } from '../../state/selectors/song.selectors';
 import cx from '../../utils/cx/cx';
@@ -30,8 +31,15 @@ const Player: Component<PlayerProps> = () => {
           <PlayerCover />
           <div class='queue'>
             <div class='header'>
-              <p>Queue</p>
-              <p class='small'>{queue.length} songs - {timeToHhMmSs(secToTime(duration))}</p>
+              <div class='meta'>
+                <p>Queue</p>
+                <p class='small'>{queue.length} songs - {timeToHhMmSs(secToTime(duration))}</p>
+              </div>
+              <div class='actions'>
+                <button type='button' onclick={shuffleQueue}>
+                  <Icon id='shuffle' />
+                </button>
+              </div>
             </div>
             <VirtualList
               list={queue}

@@ -1,5 +1,6 @@
 import produce from 'immer';
 
+import shuffle from '../../../utils/array/shuffle';
 import { AudioStatus } from '../../lib/audio';
 import store from '../store';
 
@@ -35,4 +36,18 @@ export const setQueueIndex = (id: string) => {
   }), 'queue.setIndex');
 
   play(songs[i]);
+};
+
+export const shuffleQueue = () => {
+  const { songs } = store.get().queue;
+  if (songs.length === 0) return;
+
+  const shuffled = shuffle(songs);
+
+  store.dispatch(produce(draft => {
+    draft.queue.songs = shuffled;
+    draft.queue.index = 0;
+  }), 'queue.shuffle');
+
+  play(shuffled[0]);
 };
