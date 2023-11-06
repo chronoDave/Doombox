@@ -4,21 +4,28 @@
   .InputSearch {
     display: flex;
     align-items: center;
-    background-color: var(--popup);
     gap: 0.5em;
 
     > button {
       height: 100%;
       aspect-ratio: 1/1;
     }
-    
+
     > input {
-      padding: 0.5em 0;
+      padding: 0.5em;
       flex-grow: 1;
       min-width: 0;
+      border: unset;
+      background-color: unset;
+      color: inherit;
+      font-size: 1rem;
+
+      &::-webkit-search-cancel-button {
+        display: none;
+      }
 
       &::placeholder {
-        color: var(--hover);
+        color: var(--text-inactive);
       }
     }
   }

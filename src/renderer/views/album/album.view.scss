@@ -8,6 +8,27 @@
     display: flex;
     flex-direction: column;
 
+    > .InputSearch {
+      padding: 0.5em;
+    }
+
+    > .toolbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.5em;
+      padding-bottom: 0.25em;
+
+      > .meta > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25em;
+
+        + span {
+          margin-left: 0.5em;
+        }
+      }
+    }
+
     > .VirtualGrid > ul > li > button {
       width: 100%;
       height: 100%;
@@ -32,12 +53,7 @@
         min-width: 0;
         width: 100%;
         padding: 8px;
-
-        > p {
-          &.album {
-            font-weight: 500;
-          }
-        }
+        text-align: left;
       }
     }
   }

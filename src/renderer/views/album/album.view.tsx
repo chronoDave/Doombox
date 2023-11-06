@@ -3,6 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { Thumb } from '../../../types/library';
+import secToTime from '../../../utils/time/secToTime';
+import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import useMediaQuery from '../../hooks/useMediaQuery';
@@ -26,6 +29,8 @@ const AlbumView: Component<AlbumViewProps> = () => {
     render() {
       const search = albumSearchSelector.get();
       const albums = (search ?? albumsSelector.get());
+      const duration = albums
+        .reduce((acc, cur) => acc + (albumSelector.get(cur).duration ?? 0), 0);
 
       return (
         <div class="View AlbumView">
@@ -33,6 +38,20 @@ const AlbumView: Component<AlbumViewProps> = () => {
             placeholder='search for album'
             onsubmit={query => searchAlbums(query)}
           />
+          <div class="toolbar">
+            <p class='meta'>
+              <span><Icon id='boxesMusic' />{albums.length}</span>
+              <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
+            </p>
+            <div class='actions'>
+              <button
+                type='button'
+                onclick={() => setQueue(albums.map(album => albumSelector.get(album).songs).flat())}
+              >
+                <Icon id='listPlay' />
+              </button>
+            </div>
+          </div>
           <VirtualGrid
             list={albums}
             item={{
@@ -58,7 +77,7 @@ const AlbumView: Component<AlbumViewProps> = () => {
                     />
                     <div class='metadata'>
                       <p class='album nowrap'>{album.album}</p>
-                      <p class='albumartist'>{album.albumartist}</p>
+                      <p class='small albumartist nowrap'>{album.albumartist ?? '-'}</p>
                     </div>
                   </button>
                 );
