@@ -6,7 +6,7 @@ import type { INativeTags } from 'music-metadata/lib/type';
 import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
 import pMap from 'p-map';
-import { isJapanese } from 'wanakana';
+import * as wanakana from 'wanakana';
 
 import EventEmitter from '../../../utils/event/eventEmitter';
 
@@ -22,7 +22,7 @@ export default class Parser extends EventEmitter<ParserEvents> {
   private readonly _transliterator: Transliterator;
 
   private _transliterate(x?: string | null) {
-    if (!x || !isJapanese(x)) return null;
+    if (!x) return null;
     return this._transliterator.transliterate(x);
   }
 

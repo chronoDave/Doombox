@@ -2,12 +2,11 @@ import glob from 'fast-glob';
 import path from 'path';
 import test from 'tape';
 
-import Parser from '../parser/parser';
-
 import Library from './library';
+import fixture from './library.fixture';
 
 test('[library.groupAlbums] groups songs into albums', async t => {
-  const parser = new Parser();
+  const parser = await fixture();
   const folder = await glob('**/*.mp3', {
     absolute: true,
     cwd: path.resolve(__dirname, '../../../../../test/assets/Bomis Prendin - TEST')
@@ -23,7 +22,7 @@ test('[library.groupAlbums] groups songs into albums', async t => {
 });
 
 test('[library.groupLabels] groups albums into labels', async t => {
-  const parser = new Parser();
+  const parser = await fixture();
   const folder = await glob('**/*.mp3', {
     absolute: true,
     cwd: path.resolve(__dirname, '../../../../../test/assets/Bomis Prendin - TEST')

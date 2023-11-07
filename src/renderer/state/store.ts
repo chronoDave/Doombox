@@ -30,7 +30,7 @@ export default new Store<State>({
     status: AudioStatus.Stopped
   },
   view: {
-    app: AppView.Player,
+    app: AppView.Album,
     settings: null
   },
   search: {

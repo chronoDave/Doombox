@@ -15,7 +15,7 @@ export default class Transliterator {
 
   tokenizeKanji(kanji: string) {
     return this._tokenizer.tokenize(kanji)
-      .map(token => wanakana.toRomaji(token.pronunciation ?? ''))
+      .map(token => wanakana.toRomaji(token.reading ?? ''))
       .join('');
   }
 

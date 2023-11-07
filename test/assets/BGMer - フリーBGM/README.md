@@ -1,0 +1,1 @@
+The songs listed in this folder have been obtained through [BGMer](https://bgmer.net).

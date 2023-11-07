@@ -43,17 +43,17 @@ const App: Component<AppProps> = () => {
       const renderBody = () => {
         if (!ready) return <SplashView />;
         if (scanning) return <ScanView />;
-        return views[appView];
+        return [
+          <AppNavigation />,
+          <Player />,
+          views[appView],
+          <Settings />
+        ];
       };
 
       return [
         <AppHeader />,
-        <main>
-          <AppNavigation />
-          <Player />
-          {renderBody()}
-          <Settings />
-        </main>
+        <main>{renderBody()}</main>
       ];
     }
   });
@@ -73,7 +73,6 @@ const App: Component<AppProps> = () => {
   readySelector.subscribe(component);
   scanningSelector.subscribe(component);
   appViewSelector.subscribe(component);
-  settingsViewSelector.subscribe(component);
 
   return component;
 };

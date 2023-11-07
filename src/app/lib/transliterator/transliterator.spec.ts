@@ -11,6 +11,12 @@ test('[transliterator.tokenizeKanji]', async t => {
     'transliterates kanji'
   );
 
+  t.equal(
+    transliterator.transliterate('梶浦 由記'),
+    'kajiura yuki',
+    'transliterates kanji'
+  );
+
   t.end();
 });
 
@@ -31,7 +37,7 @@ test('[transliterator.transliterate]', async t => {
 
   t.equal(
     transliterator.transliterate('考え🤔'),
-    'koo e 🤔',
+    'kou e 🤔',
     'ignores non-Japanese characters'
   );
 
