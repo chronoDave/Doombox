@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/howler": "^2.2.7",
     "@types/jsdom": "^20.0.0",
+    "@types/kuromoji": "^0.1.2",
     "@types/node": "^20.1.0",
     "@types/sharp": "^0.30.5",
     "@types/tape": "^4.13.2",
@@ -63,6 +64,7 @@
     "forgo": "^3.2.2",
     "howler": "^2.2.3",
     "immer": "^9.0.15",
+    "kuromoji": "^0.1.2",
     "leaf-db": "^10.0.2",
     "music-metadata": "^8.1.0",
     "p-map": "^5.5.0",

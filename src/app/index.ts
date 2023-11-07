@@ -22,6 +22,7 @@ import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
+import Transliterator from './lib/transliterator/transliterator';
 import createWindow from './lib/window';
 import ipcRouterFactory from './utils/createIpcRouter';
 
@@ -35,6 +36,7 @@ if (IS_DEV) {
 
 /** Initialize entities */
 const logger = new Logger({ root: PATH.LOGS });
+const transliterator = new Transliterator({ root: PATH.DICT });
 
 const db: {
   song: LeafDB<Song>,
@@ -46,7 +48,7 @@ const db: {
   label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } })
 };
 const library = new Library({
-  parser: new Parser(),
+  parser: new Parser({ transliterator }),
   root: PATH.THUMBS,
   db
 });

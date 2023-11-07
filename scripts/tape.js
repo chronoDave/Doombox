@@ -3,6 +3,7 @@ const path = require('path');
 
 const esbuild = require('./esbuild/esbuild');
 const clean = require('./esbuild/plugins/clean');
+const ignore = require('./esbuild/plugins/ignore');
 const log = require('./esbuild/plugins/log');
 
 const outdir = path.resolve(__dirname, '../build/test');
@@ -54,6 +55,7 @@ esbuild({
   ],
   plugins: [
     log('tape.renderer'),
+    ignore([/.scss$/]),
     clean([path.resolve(outdir, 'renderer')])
   ],
   inject: [

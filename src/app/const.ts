@@ -15,11 +15,15 @@ const ASSETS = IS_DEV ?
 const LOGS = IS_DEV ?
   path.resolve(__dirname, '../../data/logs') :
   path.resolve(app.getPath('logs'), app.getName());
+const DICT = IS_DEV ?
+  path.resolve(__dirname, '../../node_modules/kuromoji/dict') :
+  path.resolve(app.getAppPath(), 'assets/dict');
 
 export const PATH = {
   USER_DATA,
   APP_DATA,
   ASSETS,
   LOGS,
+  DICT,
   THUMBS: path.resolve(APP_DATA, 'thumbs')
 };

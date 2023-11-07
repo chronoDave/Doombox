@@ -72,7 +72,12 @@ export default class Library extends EventEmitter<LibraryEvents> {
       label: songs[0].label,
       date: songs[0].date,
       year: songs[0].year,
-      cdid: songs[0].cdid
+      cdid: songs[0].cdid,
+      romaji: {
+        album: songs[0].romaji.album,
+        albumartist: songs[0].romaji.albumartist,
+        label: songs[0].romaji.label
+      }
     }));
   }
 
@@ -105,7 +110,10 @@ export default class Library extends EventEmitter<LibraryEvents> {
         .map(album => album.songs)
         .flat(),
       label,
-      duration: sum(albums, album => album.duration ?? 0)
+      duration: sum(albums, album => album.duration ?? 0),
+      romaji: {
+        label: albums[0].romaji.label
+      }
     }));
   }
 

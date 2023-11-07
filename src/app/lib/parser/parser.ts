@@ -1,18 +1,37 @@
 import type { IpcPayloadReceive, IpcRoute } from '../../../types/ipc';
 import type { Song } from '../../../types/library';
+import type Transliterator from '../transliterator/transliterator';
 import type { INativeTags } from 'music-metadata/lib/type';
 
 import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
 import pMap from 'p-map';
+import { isJapanese } from 'wanakana';
 
 import EventEmitter from '../../../utils/event/eventEmitter';
+
+export type ParserProps = {
+  transliterator: Transliterator
+};
 
 export type ParserEvents = {
   parse: (payload: IpcPayloadReceive[IpcRoute.Song]) => void
 };
 
 export default class Parser extends EventEmitter<ParserEvents> {
+  private readonly _transliterator: Transliterator;
+
+  private _transliterate(x?: string | null) {
+    if (!x || !isJapanese(x)) return null;
+    return this._transliterator.transliterate(x);
+  }
+
+  constructor(props: ParserProps) {
+    super();
+
+    this._transliterator = props.transliterator;
+  }
+
   static getNativeTag<T extends INativeTags>(nativeTags: T) {
     return (nativeTag: keyof T) => {
       const tags = Object.values(nativeTags).flat();
@@ -22,12 +41,15 @@ export default class Parser extends EventEmitter<ParserEvents> {
     };
   }
 
-  static async parseFile(file: string): Promise<Song> {
+  async parseFile(file: string): Promise<Song> {
     const metadata = await parseFile(file);
     const nativeTag = Parser.getNativeTag(metadata.native);
 
     const date = nativeTag('TDAT');
     const cdid = nativeTag('TXXX:CDID');
+    const label = Array.isArray(metadata.common.label) ?
+      metadata.common.label[0] :
+      null;
 
     return ({
       _id: LeafDB.id(),
@@ -41,14 +63,20 @@ export default class Parser extends EventEmitter<ParserEvents> {
       title: metadata.common.title ?? null,
       album: metadata.common.album ?? null,
       albumartist: metadata.common.albumartist ?? null,
-      label: Array.isArray(metadata.common.label) ?
-        metadata.common.label[0] :
-        null,
+      label,
       track: metadata.common.track,
       disc: metadata.common.disk,
       year: metadata.common.year ?? null,
       date: metadata.common.date ?? (typeof date === 'string' ? date : null),
-      cdid: typeof cdid === 'string' ? cdid : null
+      cdid: typeof cdid === 'string' ? cdid : null,
+      // Romaji
+      romaji: {
+        artist: this._transliterate(metadata.common.artist),
+        title: this._transliterate(metadata.common.title),
+        album: this._transliterate(metadata.common.album),
+        albumartist: this._transliterate(metadata.common.albumartist),
+        label: this._transliterate(label)
+      }
     });
   }
 
@@ -57,7 +85,7 @@ export default class Parser extends EventEmitter<ParserEvents> {
     const songs = await pMap(files, async (file, i) => {
       this._emit('parse', { size: files.length, file, cur: i });
 
-      const song = await Parser.parseFile(file);
+      const song = await this.parseFile(file);
 
       if (song.image) {
         if (!images.has(song.image)) images.set(song.image, LeafDB.id());
