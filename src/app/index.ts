@@ -10,6 +10,7 @@ import cacheShape from '../types/shapes/cache.shape';
 import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
 import { IS_DEV } from '../utils/const';
+import createTokenizer from '../utils/tokenizer/kuromoji';
 
 import { PATH } from './const';
 import createAppController from './controllers/app.controller';
@@ -34,89 +35,89 @@ if (IS_DEV) {
   fs.mkdirSync(PATH.LOGS, { recursive: true });
 }
 
-/** Initialize entities */
-const logger = new Logger({ root: PATH.LOGS });
-const transliterator = new Transliterator({ root: PATH.DICT });
+const run = async () => {
+  /** Initialize entities */
+  const logger = new Logger({ root: PATH.LOGS });
+  const tokenizer = await createTokenizer(PATH.DICT);
+  const transliterator = new Transliterator({ tokenizer });
 
-const db: {
-  song: LeafDB<Song>,
-  album: LeafDB<Album>,
-  label: LeafDB<Label>
-} = {
-  song: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'songs' } }),
-  album: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'albums' } }),
-  label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } })
-};
-const library = new Library({
-  parser: new Parser({ transliterator }),
-  root: PATH.THUMBS,
-  db
-});
-const storage = {
-  app: new Storage({ name: 'app', shape: appShape, root: PATH.APP_DATA }),
-  theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.USER_DATA }),
-  user: new Storage({ name: 'user', shape: userShape, root: PATH.USER_DATA }),
-  cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
-};
-
-const createIpcRouter = ipcRouterFactory(logger);
-const router = {
-  library: createIpcRouter(createLibraryController({
-    library,
-    storage: storage.user
-  })),
-  user: createIpcRouter(createUserController({
-    storage: storage.user
-  })),
-  theme: createIpcRouter(createThemeController({
-    storage: storage.theme
-  })),
-  cache: createIpcRouter(createCacheController({
-    storage: storage.cache
-  })),
-  app: createIpcRouter(createAppController({
-    directory: { thumbs: PATH.THUMBS }
-  })),
-  search: createIpcRouter(createSearchController({
+  const db: {
+    song: LeafDB<Song>,
+    album: LeafDB<Album>,
+    label: LeafDB<Label>
+  } = {
+    song: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'songs' } }),
+    album: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'albums' } }),
+    label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } })
+  };
+  const library = new Library({
+    parser: new Parser({ transliterator }),
+    root: PATH.THUMBS,
     db
-  }))
+  });
+  const storage = {
+    app: new Storage({ name: 'app', shape: appShape, root: PATH.APP_DATA }),
+    theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.USER_DATA }),
+    user: new Storage({ name: 'user', shape: userShape, root: PATH.USER_DATA }),
+    cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
+  };
+
+  const createIpcRouter = ipcRouterFactory(logger);
+  const router = {
+    library: createIpcRouter(createLibraryController({
+      library,
+      storage: storage.user
+    })),
+    user: createIpcRouter(createUserController({
+      storage: storage.user
+    })),
+    theme: createIpcRouter(createThemeController({
+      storage: storage.theme
+    })),
+    cache: createIpcRouter(createCacheController({
+      storage: storage.cache
+    })),
+    app: createIpcRouter(createAppController({
+      directory: { thumbs: PATH.THUMBS }
+    })),
+    search: createIpcRouter(createSearchController({
+      db
+    }))
+  };
+
+  /** Initialize app */
+  nativeTheme.themeSource = storage.theme.get().theme;
+
+  /** Launch */
+  await app.whenReady();
+  Object.values(db).forEach(x => x.open());
+
+  ipcMain.handle(IpcChannel.App, router.app);
+  ipcMain.handle(IpcChannel.User, router.user);
+  ipcMain.handle(IpcChannel.Theme, router.theme);
+  ipcMain.handle(IpcChannel.Cache, router.cache);
+  ipcMain.handle(IpcChannel.Library, router.library);
+  ipcMain.handle(IpcChannel.Search, router.search);
+
+  createWindow({ storage: storage.app, logger });
+
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
+  });
+
+  app.on('render-process-gone', (e, w, d) => {
+    logger.error(new Error(JSON.stringify(d)));
+    app.quit();
+  });
+
+  app.on('child-process-gone', (e, d) => {
+    logger.error(new Error(JSON.stringify(d)));
+    app.quit();
+  });
+
+  app.on('quit', () => {
+    Object.values(db).forEach(x => x.close());
+  });
 };
 
-/** Initialize app */
-nativeTheme.themeSource = storage.theme.get().theme;
-
-/** Launch */
-app.whenReady()
-  .then(() => {
-    Object.values(db).forEach(x => x.open());
-
-    ipcMain.handle(IpcChannel.App, router.app);
-    ipcMain.handle(IpcChannel.User, router.user);
-    ipcMain.handle(IpcChannel.Theme, router.theme);
-    ipcMain.handle(IpcChannel.Cache, router.cache);
-    ipcMain.handle(IpcChannel.Library, router.library);
-    ipcMain.handle(IpcChannel.Search, router.search);
-
-    createWindow({ storage: storage.app, logger });
-
-    app.on('window-all-closed', () => {
-      if (process.platform !== 'darwin') app.quit();
-    });
-
-    app.on('render-process-gone', (e, w, d) => {
-      logger.error(new Error(JSON.stringify(d)));
-      app.quit();
-    });
-
-    app.on('child-process-gone', (e, d) => {
-      logger.error(new Error(JSON.stringify(d)));
-      app.quit();
-    });
-
-    app.on('quit', () => {
-      Object.values(db).forEach(x => x.close());
-    });
-
-    return null;
-  })
-  .catch(logger.error);
+run();
