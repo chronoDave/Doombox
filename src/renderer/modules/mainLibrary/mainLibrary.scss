@@ -1,0 +1,60 @@
+@use 'typography';
+@use 'breakpoints';
+
+@use 'layers';
+
+@include layers.views {
+  .MainLibrary {
+    display: flex;
+    flex-direction: column;
+
+    > .InputSearch {
+      padding: 0.5em;
+    }
+
+    > .toolbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.5em;
+      padding-bottom: 0.25em;
+
+      > .meta > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25em;
+
+        + span {
+          margin-left: 0.5em;
+        }
+      }
+    }
+
+    > .VirtualGrid > ul > li > button {
+      width: 100%;
+      height: 100%;
+      padding: 1px;
+
+      @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
+        padding: 4px;
+      }
+
+      &.active {
+        background-color: var(--primary);
+        color: var(--text-primary);
+      }
+
+      > img {
+        height: 100%;
+        width: auto;
+        object-fit: cover;
+      }
+
+      > .metadata {
+        min-width: 0;
+        width: 100%;
+        padding: 8px;
+        text-align: left;
+      }
+    }
+  }
+}

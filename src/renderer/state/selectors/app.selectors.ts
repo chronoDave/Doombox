@@ -10,6 +10,9 @@ export const readySelector =
 export const scanningSelector =
   createPropertySelector(store)(state => state.app.scanning);
 
+export const settingsSelector =
+  createPropertySelector(store)(state => state.app.settings);
+
 export const thumbSelector = createSelector(store)(
   (size: Thumb, id?: string | null) => {
     const { thumbs } = store.get().app.directory;

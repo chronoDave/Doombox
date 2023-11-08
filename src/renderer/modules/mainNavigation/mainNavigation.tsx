@@ -9,21 +9,21 @@ import { setViewApp, setViewSettings } from '../../state/actions/view.actions';
 import { appViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx/cx';
 
-import './appNavigation.scss';
+import './mainNavigation.scss';
 
-export type AppNavigationProps = {};
+export type MainNavigationProps = {};
 
-const AppNavigation: Component<AppNavigationProps> = () => {
+const MainNavigation: Component<MainNavigationProps> = () => {
   const views: Record<AppView, IconProps['id']> = {
     [AppView.Library]: 'listMusic'
   };
 
-  const component = new forgo.Component<AppNavigationProps>({
+  const component = new forgo.Component<MainNavigationProps>({
     render() {
       const current = appViewSelector.get();
 
       return (
-        <nav class='AppNavigation' aria-label="app">
+        <nav class='MainNavigation' aria-label="app">
           {Object.entries(views).map(([id, icon]) => (
             <button
               key={id}
@@ -50,4 +50,4 @@ const AppNavigation: Component<AppNavigationProps> = () => {
   return appViewSelector.subscribe(component);
 };
 
-export default AppNavigation;
+export default MainNavigation;

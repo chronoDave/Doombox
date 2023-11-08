@@ -8,6 +8,7 @@ export type State = {
   app: {
     ready: boolean
     scanning: boolean
+    settings: boolean
     directory: {
       thumbs: string | null
     }
@@ -30,7 +31,7 @@ export type State = {
   },
   view: {
     app: AppView
-    settings: SettingsView | null
+    settings: SettingsView
   }
   entities: {
     song: Map<string, Song>

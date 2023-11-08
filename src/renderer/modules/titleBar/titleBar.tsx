@@ -5,11 +5,11 @@ import * as forgo from 'forgo';
 import Icon from '../../components/icon/icon';
 import { playerSongSelector } from '../../state/selectors/player.selectors';
 
-import './appHeader.scss';
+import './titleBar.scss';
 
-export type AppBarProps = {};
+export type TitleBarProps = {};
 
-const AppBar: Component<AppBarProps> = () => {
+const TitleBar: Component<TitleBarProps> = () => {
   const component = new forgo.Component({
     render() {
       const current = playerSongSelector.get();
@@ -18,7 +18,7 @@ const AppBar: Component<AppBarProps> = () => {
         'Doombox';
 
       return (
-        <header>
+        <header class='TitleBar'>
           <img
             class='light'
             src="icons/icon_dark.png"
@@ -70,4 +70,4 @@ const AppBar: Component<AppBarProps> = () => {
   return playerSongSelector.subscribe(component);
 };
 
-export default AppBar;
+export default TitleBar;

@@ -18,11 +18,16 @@ export const setViewApp = (view: AppView) => {
   }
 };
 
-export const setViewSettings = (view: SettingsView | null) => {
+export const setViewSettings = (view: SettingsView) => {
   const current = store.get();
   if (current.view.settings !== view) {
     store.dispatch(produce(draft => {
       draft.view.settings = view;
+      draft.app.settings = true;
     }), 'view.setViewSettings');
   }
 };
+
+export const closeSettings = () => store.dispatch(produce(draft => {
+  draft.app.settings = false;
+}), 'view.closeSettings');

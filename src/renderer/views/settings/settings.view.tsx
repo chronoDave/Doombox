@@ -6,22 +6,22 @@ import * as forgo from 'forgo';
 import { SettingsView as View } from '../../../types/views';
 import Icon from '../../components/icon/icon';
 import Tabs from '../../components/tabs/tabs';
-import { setViewSettings } from '../../state/actions/view.actions';
+import { closeSettings, setViewSettings } from '../../state/actions/view.actions';
 import { settingsViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx/cx';
 import createFocusTrap from '../../utils/focusTrap/focusTrap';
 import Appearance from '../../views/settingsAppearance/settingsAppearance';
 import Library from '../../views/settingsLibrary/settingsLibrary';
 
-import './settings.scss';
+import './settings.view.scss';
 
-export type SettingsProps = {};
+export type SettingsViewProps = {};
 
-const Settings: Component<SettingsProps> = () => {
+const SettingsView: Component<SettingsViewProps> = () => {
   const ref: forgo.ForgoRef<HTMLElement> = {};
   let focusTrap: () => void | undefined;
 
-  const component = new forgo.Component<SettingsProps>({
+  const component = new forgo.Component<SettingsViewProps>({
     render() {
       const view = settingsViewSelector.get();
       const tabs: Record<View, Tab> = {
@@ -37,7 +37,7 @@ const Settings: Component<SettingsProps> = () => {
 
       if (view && ref.value) {
         focusTrap?.();
-        focusTrap = createFocusTrap(ref.value, { onEscape: () => setViewSettings(null) });
+        focusTrap = createFocusTrap(ref.value, { onEscape: closeSettings });
       }
 
       return (
@@ -52,7 +52,7 @@ const Settings: Component<SettingsProps> = () => {
             <button
               type='button'
               aria-label='Close settings'
-              onclick={() => setViewSettings(null)}
+              onclick={closeSettings}
             >
               <Icon id='close' />
               Esc
@@ -66,4 +66,4 @@ const Settings: Component<SettingsProps> = () => {
   return settingsViewSelector.subscribe(component);
 };
 
-export default Settings;
+export default SettingsView;

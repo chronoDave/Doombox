@@ -1,0 +1,28 @@
+@use 'typography';
+@use 'breakpoints';
+
+@use 'layers';
+
+@include layers.modules {
+  .MainView {
+    display: grid;
+    grid-template-columns: auto 210px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    overflow: auto;
+    flex-grow: 1;
+
+    > .View {
+      flex-grow: 1;
+      overflow: auto;
+    }
+
+    > .PlayerBar {
+      display: none;
+      padding: 4px 8px;
+
+      @media (min-height: breakpoints.$md-h) and (min-width: breakpoints.$sm-w) {
+        display: grid;
+      }
+    }
+  }
+}
