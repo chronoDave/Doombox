@@ -12,7 +12,7 @@ export type CacheShape = Constrain<Json, {
 }>;
 
 const cacheShape: Readonly<CacheShape> = {
-  tab: AppView.Player,
+  tab: AppView.Library,
   player: {
     volume: 1,
     muted: false

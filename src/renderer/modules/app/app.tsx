@@ -9,13 +9,9 @@ import { fetchLibrary } from '../../state/actions/library.actions';
 import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
 import { readySelector, scanningSelector } from '../../state/selectors/app.selectors';
-import { appViewSelector, settingsViewSelector } from '../../state/selectors/view.selectors';
-import AlbumView from '../../views/album/album.view';
-import LabelView from '../../views/label/label.view';
-import PlayerView from '../../views/player/player.view';
+import { appViewSelector } from '../../state/selectors/view.selectors';
 import QueueView from '../../views/queue/queue.view';
 import ScanView from '../../views/scan/scan.view';
-import SongView from '../../views/song/song.view';
 import SplashView from '../../views/splash/splash.view';
 import AppHeader from '../appHeader/appHeader';
 import AppNavigation from '../appNavigation/appNavigation';
@@ -28,10 +24,7 @@ export type AppProps = {};
 
 const App: Component<AppProps> = () => {
   const views: Record<AppView, forgo.Component> = {
-    [AppView.Queue]: <QueueView />,
-    [AppView.Song]: <SongView />,
-    [AppView.Album]: <AlbumView />,
-    [AppView.Label]: <LabelView />
+    [AppView.Library]: <QueueView />
   };
 
   const component = new forgo.Component<AppProps>({

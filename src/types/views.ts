@@ -1,8 +1,5 @@
 export enum AppView {
-  Queue = 'queue',
-  Song = 'song',
-  Album = 'album',
-  Label = 'label'
+  Library = 'library'
 }
 
 export enum SettingsView {
