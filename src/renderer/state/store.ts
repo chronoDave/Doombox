@@ -6,16 +6,15 @@ import userShape from '../../types/shapes/user.shape';
 import { AppView, SettingsView } from '../../types/views';
 import { AudioStatus } from '../lib/audio';
 import Store from '../lib/store';
+import { Route } from '../types/state';
 
 export default new Store<State>({
   app: {
-    ready: false,
-    settings: false,
-    scanning: false,
     directory: {
       thumbs: null
     }
   },
+  route: Route.Load,
   queue: {
     index: 0,
     songs: []

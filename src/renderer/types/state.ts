@@ -4,15 +4,20 @@ import type { UserShape } from '../../types/shapes/user.shape';
 import type { AppView, SettingsView } from '../../types/views';
 import type { AudioStatus } from '../lib/audio';
 
+export enum Route {
+  Load = 'load',
+  Scan = 'scan',
+  Main = 'main',
+  Settings = 'settings'
+}
+
 export type State = {
   app: {
-    ready: boolean
-    scanning: boolean
-    settings: boolean
     directory: {
       thumbs: string | null
     }
   }
+  route: Route
   player: {
     current: {
       id: string | null
