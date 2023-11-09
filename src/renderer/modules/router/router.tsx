@@ -8,12 +8,12 @@ import { fetchLibrary } from '../../state/actions/library.actions';
 import { setRoute } from '../../state/actions/route.actions';
 import { fetchTheme } from '../../state/actions/theme.actions';
 import { fetchUser } from '../../state/actions/user.actions';
-import { routeSelector } from '../../state/selectors/route.selectors';
 import { Route } from '../../types/state';
 import MainView from '../../views/main/main.view';
 import ScanView from '../../views/scan/scan.view';
 import SettingsView from '../../views/settings/settings.view';
 import SplashView from '../../views/splash/splash.view';
+import subscribe from './router.state';
 
 export type RouterProps = {};
 
@@ -27,7 +27,7 @@ const Router: Component<RouterProps> = () => {
 
   const component = new forgo.Component<RouterProps>({
     render() {
-      const route = routeSelector.get();
+      const route = subscribe(component);
 
       return routes[route];
     }
@@ -44,8 +44,6 @@ const Router: Component<RouterProps> = () => {
 
     setRoute(Route.Main);
   });
-
-  routeSelector.subscribe(component);
 
   return component;
 };

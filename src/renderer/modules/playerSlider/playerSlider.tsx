@@ -6,7 +6,8 @@ import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Slider from '../../components/slider/slider';
 import { seek } from '../../state/actions/player.actions';
-import { playerDurationSelector, playerPositionSelector } from '../../state/selectors/player.selectors';
+
+import subscribe from './playerSlider.state';
 
 import './playerSlider.scss';
 
@@ -15,8 +16,7 @@ export type PlayerSliderProps = {};
 const PlayerSlider: Component<PlayerSliderProps> = () => {
   const component = new forgo.Component<PlayerSliderProps>({
     render() {
-      const duration = playerDurationSelector.get();
-      const position = playerPositionSelector.get();
+      const { position, duration } = subscribe(component);
 
       return (
         <div class='PlayerSlider'>
@@ -32,9 +32,6 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
       );
     }
   });
-
-  playerDurationSelector.subscribe(component);
-  playerPositionSelector.subscribe(component);
 
   return component;
 };

@@ -8,6 +8,7 @@ import Label from '../../components/label/label';
 import Select from '../../components/select/select';
 import { setTheme } from '../../state/actions/theme.actions';
 import { themeSelector } from '../../state/selectors/theme.selectors';
+import subscribe from './settingsAppearance.state';
 
 import './settingsAppearance.scss';
 
@@ -16,7 +17,7 @@ export type SettingsAppearanceProps = {};
 const SettingsAppearance: Component<SettingsAppearanceProps> = () => {
   const component = new forgo.Component<SettingsAppearanceProps>({
     render() {
-      const theme = themeSelector.get();
+      const theme = subscribe(component);
 
       return (
         <div class='SettingsAppearance'>
@@ -38,8 +39,6 @@ const SettingsAppearance: Component<SettingsAppearanceProps> = () => {
       );
     }
   });
-
-  themeSelector.subscribe(component);
 
   return component;
 };

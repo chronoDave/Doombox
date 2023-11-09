@@ -3,7 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
-import { playerSongSelector } from '../../state/selectors/player.selectors';
+
+import subscribe from './titlebar.state';
 
 import './titleBar.scss';
 
@@ -12,7 +13,7 @@ export type TitleBarProps = {};
 const TitleBar: Component<TitleBarProps> = () => {
   const component = new forgo.Component({
     render() {
-      const current = playerSongSelector.get();
+      const current = subscribe(component);
       const title = current ?
         `${current.artist} - ${current.title} (${current.album})` :
         'Doombox';
@@ -67,7 +68,7 @@ const TitleBar: Component<TitleBarProps> = () => {
     }
   });
 
-  return playerSongSelector.subscribe(component);
+  return component;
 };
 
 export default TitleBar;

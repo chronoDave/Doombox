@@ -5,8 +5,9 @@ import * as forgo from 'forgo';
 import Icon from '../../components/icon/icon';
 import { AudioStatus } from '../../lib/audio';
 import { next, pause, previous } from '../../state/actions/player.actions';
-import { playerStatusSelector } from '../../state/selectors/player.selectors';
 import PlayerVolume from '../playerVolume/playerVolume';
+
+import subscribe from './playerControls.state';
 
 import './playerControls.scss';
 
@@ -15,7 +16,7 @@ export type PlayerControlsProps = {};
 const PlayerControls: Component<PlayerControlsProps> = () => {
   const component = new forgo.Component<PlayerControlsProps>({
     render() {
-      const playerStatus = playerStatusSelector.get();
+      const playerStatus = subscribe(component);
 
       return (
         <div class='PlayerControls'>
@@ -33,8 +34,6 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
       );
     }
   });
-
-  playerStatusSelector.subscribe(component);
 
   return component;
 };

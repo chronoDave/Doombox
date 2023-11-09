@@ -4,7 +4,6 @@ import cacheShape from '../../../types/shapes/cache.shape';
 import clamp from '../../../utils/number/clamp';
 import Audio, { AudioStatus } from '../../lib/audio';
 import updateCache from '../../utils/updateCache';
-import { songSelector } from '../selectors/song.selectors';
 import store from '../store';
 
 const audio = new Audio({
@@ -22,12 +21,12 @@ const audio = new Audio({
   }), 'player.status'));
 
 export const play = (id: string) => {
-  store.dispatch(produce(draft => {
+  const state = store.dispatch(produce(draft => {
     draft.player.current.id = id;
   }), 'player.play');
 
-  const { file } = songSelector.get(id);
-  audio.play(file);
+  const song = state.entities.song.get(id);
+  if (song) audio.play(song.file);
 };
 
 export const pause = () => {
@@ -59,7 +58,7 @@ export const mute = (muted?: boolean) => {
   }));
 };
 
-export const volume = (n: number) => {
+export const setVolume = (n: number) => {
   store.dispatch(produce(draft => {
     draft.player.volume = n;
   }), 'player.volume');

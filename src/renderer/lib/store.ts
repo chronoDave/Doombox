@@ -25,10 +25,12 @@ export default class Store<S extends Record<string, unknown>> {
     }
 
     this._listeners.forEach(listener => listener(prev, this._state));
+
+    return this._state;
   }
 
   subscribe(listener: (prev: S, cur: S) => void) {
-    this._listeners.add(listener);
+    if (!this._listeners.has(listener)) this._listeners.add(listener);
   }
 
   unsubscribe(listener: (prev: S, cur: S) => void) {

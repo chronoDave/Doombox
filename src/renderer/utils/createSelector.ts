@@ -1,20 +1,21 @@
 import type Store from '../lib/store';
+import type { State } from '../types/state';
 import type { Component } from 'forgo';
 
-const createSelector = <S extends Record<string, unknown>>(store: Store<S>) => <T extends Function>(
-  get: T,
-  shouldUpdate: (prev: S, cur: S) => boolean
-) => ({
-  get,
-  shouldUpdate,
-  subscribe: (component: Component) => {
-    const listener = (prev: S, cur: S) => shouldUpdate(prev, cur) && component.update();
+import deepEqual from 'fast-deep-equal';
 
-    component.mount(() => store.subscribe(listener));
-    component.unmount(() => store.unsubscribe(listener));
+const createSelector = <S extends State>(store: Store<S>) =>
+  <T extends (state: S) => any>(get: T, shouldUpdate?: (prev: S, cur: S) => boolean) =>
+    (component: Component): ReturnType<T> => {
+      const listener = (prev: S, cur: S) => (
+        shouldUpdate?.(prev, cur) ||
+        !deepEqual(get(prev), get(cur))
+      ) && component.update();
 
-    return component;
-  }
-});
+      component.mount(() => store.subscribe(listener));
+      component.unmount(() => store.unsubscribe(listener));
+
+      return get(store.get());
+    };
 
 export default createSelector;

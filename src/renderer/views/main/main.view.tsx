@@ -6,7 +6,8 @@ import { AppView } from '../../../types/views';
 import MainLibrary from '../../modules/mainLibrary/mainLibrary';
 import MainNavigation from '../../modules/mainNavigation/mainNavigation';
 import Player from '../../modules/player/player';
-import { appViewSelector } from '../../state/selectors/view.selectors';
+
+import subscribe from './main.state';
 
 import './main.view.scss';
 
@@ -19,19 +20,17 @@ const MainView: Component<MainViewProps> = () => {
 
   const component = new forgo.Component<MainViewProps>({
     render() {
-      const appView = appViewSelector.get();
+      const view = subscribe(component);
 
       return (
         <main class='MainView'>
           <MainNavigation />
           <Player />
-          {views[appView]}
+          {views[view]}
         </main>
       );
     }
   });
-
-  appViewSelector.subscribe(component);
 
   return component;
 };

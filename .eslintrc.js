@@ -155,7 +155,6 @@ module.exports = {
           message: 'Should be stateless'
         })),
         ...[
-          'src/renderer/modules',
           'src/renderer/views'
         ].map(target => ({
           target,

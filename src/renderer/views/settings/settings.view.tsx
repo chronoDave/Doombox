@@ -7,11 +7,11 @@ import { SettingsView as View } from '../../../types/views';
 import Icon from '../../components/icon/icon';
 import Tabs from '../../components/tabs/tabs';
 import { closeSettings, setViewSettings } from '../../state/actions/view.actions';
-import { settingsViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx/cx';
 import createFocusTrap from '../../utils/focusTrap/focusTrap';
 import Appearance from '../../views/settingsAppearance/settingsAppearance';
 import Library from '../../views/settingsLibrary/settingsLibrary';
+import subscribe from './settings.state';
 
 import './settings.view.scss';
 
@@ -23,7 +23,7 @@ const SettingsView: Component<SettingsViewProps> = () => {
 
   const component = new forgo.Component<SettingsViewProps>({
     render() {
-      const view = settingsViewSelector.get();
+      const view = subscribe(component);
       const tabs: Record<View, Tab> = {
         [View.Appearance]: {
           label: <Icon id='palette' />,
@@ -63,7 +63,7 @@ const SettingsView: Component<SettingsViewProps> = () => {
     }
   });
 
-  return settingsViewSelector.subscribe(component);
+  return component;
 };
 
 export default SettingsView;

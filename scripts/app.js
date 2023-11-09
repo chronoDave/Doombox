@@ -12,6 +12,7 @@ const { w, dev } = minimist(process.argv.slice(2));
 const common = {
   bundle: true,
   minify: !dev,
+  keepNames: dev,
   define: {
     'process.env.NODE_ENV': w ?
       '"development"' :

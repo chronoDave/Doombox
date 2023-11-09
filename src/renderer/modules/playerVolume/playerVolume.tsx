@@ -5,8 +5,9 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import { createPopup } from '../../components/popup/popup';
-import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
 import SliderVolume from '../sliderVolume/sliderVolume';
+
+import subscribe from './playerVolume.state';
 
 import './playerVolume.scss';
 
@@ -17,8 +18,7 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
 
   const component = new forgo.Component<PlayerVolumeProps>({
     render() {
-      const muted = playerMutedSelector.get();
-      const volume = playerVolumeSelector.get();
+      const { muted, volume } = subscribe(component);
 
       const getIcon = (): IconProps['id'] => {
         if (muted) return 'volumeOff';
@@ -54,9 +54,6 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
   component.unmount(() => {
     popup?.();
   });
-
-  playerMutedSelector.subscribe(component);
-  playerVolumeSelector.subscribe(component);
 
   return component;
 };

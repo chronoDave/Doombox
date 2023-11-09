@@ -3,6 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { Thumb } from '../../../types/library';
+import sum from '../../../utils/array/sum';
 import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import Icon from '../../components/icon/icon';
@@ -11,12 +12,10 @@ import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import { setQueue } from '../../state/actions/queue.actions';
 import { searchAlbums } from '../../state/actions/search.actions';
-import { albumSelector, albumsSelector } from '../../state/selectors/album.selectors';
-import { thumbSelector } from '../../state/selectors/app.selectors';
-import { playerSongSelector } from '../../state/selectors/player.selectors';
-import { albumSearchSelector } from '../../state/selectors/search.selectors';
 import cx from '../../utils/cx/cx';
 import createMediaQuery from '../../utils/mediaQuery';
+
+import subscribe from './mainLibrary.state';
 
 import './mainLibrary.scss';
 
@@ -27,10 +26,8 @@ const MainLibrary: Component<MainLibraryProps> = () => {
 
   const component = new forgo.Component<MainLibraryProps>({
     render() {
-      const search = albumSearchSelector.get();
-      const albums = (search ?? albumsSelector.get());
-      const duration = albums
-        .reduce((acc, cur) => acc + (albumSelector.get(cur).duration ?? 0), 0);
+      const { albums, current } = subscribe(component);
+      const duration = sum(albums, album => album.duration ?? 0);
 
       return (
         <div class="MainLibrary">
@@ -47,7 +44,7 @@ const MainLibrary: Component<MainLibraryProps> = () => {
             <div class='actions'>
               <button
                 type='button'
-                onclick={() => setQueue(albums.map(album => albumSelector.get(album).songs).flat())}
+                onclick={() => setQueue(albums.map(album => album.songs).flat())}
               >
                 <Icon id='listPlay' />
               </button>
@@ -58,31 +55,26 @@ const MainLibrary: Component<MainLibraryProps> = () => {
             item={{
               width,
               height: width * 0.25,
-              render: id => {
-                const album = albumSelector.get(id);
-                const thumbs = thumbSelector.get(Thumb.Album, album.image);
-
-                return (
-                  <button
-                    id={album._id}
-                    type='button'
-                    onclick={() => setQueue(album.songs)}
-                    class={cx(playerSongSelector.get()?.album === album.album && 'active')}
-                  >
-                    <img
-                      loading='lazy'
-                      src={thumbs}
-                      alt=''
-                      width={Thumb.Album}
-                      height={Thumb.Album}
-                    />
-                    <div class='metadata'>
-                      <p class='album nowrap'>{album.album}</p>
-                      <p class='small albumartist nowrap'>{album.albumartist ?? '-'}</p>
-                    </div>
-                  </button>
-                );
-              }
+              render: album => (
+                <button
+                  id={album._id}
+                  type='button'
+                  onclick={() => setQueue(album.songs)}
+                  class={cx(current === album.album && 'active')}
+                >
+                  <img
+                    loading='lazy'
+                    src={album.image!}
+                    alt=''
+                    width={Thumb.Album}
+                    height={Thumb.Album}
+                  />
+                  <div class='metadata'>
+                    <p class='album nowrap'>{album.album}</p>
+                    <p class='small albumartist nowrap'>{album.albumartist ?? '-'}</p>
+                  </div>
+                </button>
+              )
             }}
           />
         </div>
@@ -103,12 +95,6 @@ const MainLibrary: Component<MainLibraryProps> = () => {
   ])(i => {
     width = 192 + 64 * i;
   })(component);
-
-  albumSearchSelector.subscribe(component);
-  albumsSelector.subscribe(component);
-  albumSelector.subscribe(component);
-  thumbSelector.subscribe(component);
-  playerSongSelector.subscribe(component);
 
   return component;
 };

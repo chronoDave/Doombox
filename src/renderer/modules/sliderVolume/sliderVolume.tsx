@@ -5,8 +5,9 @@ import * as forgo from 'forgo';
 
 import Icon from '../../components/icon/icon';
 import Slider from '../../components/slider/slider';
-import * as player from '../../state/actions/player.actions';
-import { playerMutedSelector, playerVolumeSelector } from '../../state/selectors/player.selectors';
+import { setVolume, mute } from '../../state/actions/player.actions';
+
+import subscribe from './sliderVolume.state';
 
 import './sliderVolume.scss';
 
@@ -15,8 +16,7 @@ export type SliderVolumeProps = {};
 const SliderVolume: Component<SliderVolumeProps> = () => {
   const component = new forgo.Component<SliderVolumeProps>({
     render() {
-      const muted = playerMutedSelector.get();
-      const volume = playerVolumeSelector.get();
+      const { muted, volume } = subscribe(component);
 
       const getIcon = (): IconProps['id'] => {
         if (muted) return 'volumeOff';
@@ -27,18 +27,15 @@ const SliderVolume: Component<SliderVolumeProps> = () => {
 
       return (
         <div class='SliderVolume'>
-          <button type='button' onclick={() => player.mute()}>
+          <button type='button' onclick={() => mute()}>
             <Icon id={getIcon()} />
           </button>
-          <Slider value={volume} onchange={player.volume} />
+          <Slider value={volume} onchange={setVolume} />
           <span>{Math.round(volume)}</span>
         </div>
       );
     }
   });
-
-  playerMutedSelector.subscribe(component);
-  playerVolumeSelector.subscribe(component);
 
   return component;
 };

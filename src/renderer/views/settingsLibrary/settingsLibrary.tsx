@@ -9,7 +9,7 @@ import {
   reindexLibrary,
   removeFolders
 } from '../../state/actions/library.actions';
-import { userLibrarySelector } from '../../state/selectors/user.selectors';
+import subscribe from './settingsLibrary.state';
 
 import './settingsLibrary.scss';
 
@@ -18,12 +18,12 @@ export type SettingsLibraryProps = {};
 const SettingsLibrary: Component<SettingsLibraryProps> = () => {
   const component = new forgo.Component<SettingsLibraryProps>({
     render() {
-      const userLibrary = userLibrarySelector.get();
+      const library = subscribe(component);
 
       return (
         <div>
           <InputFolders
-            folders={userLibrary.folders}
+            folders={library.folders}
             label='folders'
             onadd={addFolders}
             onremove={removeFolders}
@@ -39,7 +39,7 @@ const SettingsLibrary: Component<SettingsLibraryProps> = () => {
     }
   });
 
-  return userLibrarySelector.subscribe(component);
+  return component;
 };
 
 export default SettingsLibrary;

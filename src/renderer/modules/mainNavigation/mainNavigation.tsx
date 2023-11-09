@@ -6,8 +6,9 @@ import * as forgo from 'forgo';
 import { AppView, SettingsView } from '../../../types/views';
 import Icon from '../../components/icon/icon';
 import { setViewApp, setViewSettings } from '../../state/actions/view.actions';
-import { appViewSelector } from '../../state/selectors/view.selectors';
 import cx from '../../utils/cx/cx';
+
+import subscribe from './mainNavigation.state';
 
 import './mainNavigation.scss';
 
@@ -20,7 +21,7 @@ const MainNavigation: Component<MainNavigationProps> = () => {
 
   const component = new forgo.Component<MainNavigationProps>({
     render() {
-      const current = appViewSelector.get();
+      const current = subscribe(component);
 
       return (
         <nav class='MainNavigation' aria-label="app">
@@ -47,7 +48,7 @@ const MainNavigation: Component<MainNavigationProps> = () => {
     }
   });
 
-  return appViewSelector.subscribe(component);
+  return component;
 };
 
 export default MainNavigation;
