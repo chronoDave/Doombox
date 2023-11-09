@@ -7,8 +7,8 @@ import {
   rebuildLibrary,
   reindexLibrary,
   removeFolders
-} from '../../actions/library.actions';
-import InputFolders from '../../components/inputFolders/inputFolders';
+} from '../../../actions/library.actions';
+import InputFolders from '../../../components/inputFolders/inputFolders';
 
 import subscribe from './settingsLibrary.state';
 

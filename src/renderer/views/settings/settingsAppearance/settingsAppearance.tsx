@@ -1,12 +1,12 @@
-import type { ThemeShape } from '../../../types/shapes/theme.shape';
+import type { ThemeShape } from '../../../../types/shapes/theme.shape';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 import produce from 'immer';
 
-import { setTheme } from '../../actions/theme.actions';
-import Label from '../../components/label/label';
-import Select from '../../components/select/select';
+import { setTheme } from '../../../actions/theme.actions';
+import Label from '../../../components/label/label';
+import Select from '../../../components/select/select';
 
 import subscribe from './settingsAppearance.state';
 

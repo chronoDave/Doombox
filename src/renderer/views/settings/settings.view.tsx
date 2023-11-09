@@ -9,10 +9,10 @@ import Icon from '../../components/icon/icon';
 import Tabs from '../../components/tabs/tabs';
 import cx from '../../utils/cx/cx';
 import createFocusTrap from '../../utils/focusTrap/focusTrap';
-import Appearance from '../settingsAppearance/settingsAppearance';
-import Library from '../settingsLibrary/settingsLibrary';
 
 import subscribe from './settings.state';
+import Appearance from './settingsAppearance/settingsAppearance';
+import Library from './settingsLibrary/settingsLibrary';
 
 import './settings.view.scss';
 
