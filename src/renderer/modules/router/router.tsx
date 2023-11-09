@@ -2,17 +2,18 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { fetchDirectory } from '../../state/actions/app.actions';
-import { fetchCache } from '../../state/actions/cache.actions';
-import { fetchLibrary } from '../../state/actions/library.actions';
-import { setRoute } from '../../state/actions/route.actions';
-import { fetchTheme } from '../../state/actions/theme.actions';
-import { fetchUser } from '../../state/actions/user.actions';
+import { fetchDirectory } from '../../actions/app.actions';
+import { fetchCache } from '../../actions/cache.actions';
+import { fetchLibrary } from '../../actions/library.actions';
+import { setRoute } from '../../actions/route.actions';
+import { fetchTheme } from '../../actions/theme.actions';
+import { fetchUser } from '../../actions/user.actions';
 import { Route } from '../../types/state';
 import MainView from '../../views/main/main.view';
 import ScanView from '../../views/scan/scan.view';
 import SettingsView from '../../views/settings/settings.view';
 import SplashView from '../../views/splash/splash.view';
+
 import subscribe from './router.state';
 
 export type RouterProps = {};

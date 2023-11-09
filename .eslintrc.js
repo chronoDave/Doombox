@@ -151,16 +151,8 @@ module.exports = {
           'src/renderer/utils'
         ].map(target => ({
           target,
-          from: 'src/renderer/state',
+          from: 'src/renderer/store',
           message: 'Should be stateless'
-        })),
-        ...[
-          'src/renderer/views'
-        ].map(target => ({
-          target,
-          from: 'src/renderer/state',
-          except: ['./selectors', './actions'],
-          message: 'State should not be accessed directly, use selectors or actions instead.'
         })),
         {
           target: 'src/renderer',

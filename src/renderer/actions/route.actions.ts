@@ -1,4 +1,4 @@
-import type { Route } from '../../types/state';
+import type { Route } from '../types/state';
 
 import produce from 'immer';
 

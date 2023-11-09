@@ -1,11 +1,12 @@
-import type { Library } from '../../../types/library';
-import type { State } from '../../types/state';
+import type { Library } from '../../types/library';
+import type { State } from '../types/state';
 
 import produce from 'immer';
 
-import difference from '../../../utils/array/difference';
-import unique from '../../../utils/array/unique';
+import difference from '../../utils/array/difference';
+import unique from '../../utils/array/unique';
 import store from '../store';
+import { Route } from '../types/state';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.song = new Map(library.songs
@@ -43,7 +44,7 @@ export const fetchLibrary = async () => {
 
 export const reindexLibrary = async () => {
   store.dispatch(produce(draft => {
-    draft.app.scanning = true;
+    draft.route = Route.Scan;
   }), 'library.reindexLibrary');
 
   const library = await window.ipc.library
@@ -51,20 +52,20 @@ export const reindexLibrary = async () => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.scanning = false;
+    draft.route = Route.Main;
   }), 'library.reindexLibrary');
 };
 
 export const rebuildLibrary = async () => {
   store.dispatch(produce(draft => {
-    draft.app.scanning = true;
+    draft.route = Route.Scan;
   }), 'library.rebuildLibrary');
 
   const library = await window.ipc.library.rebuild();
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.scanning = false;
+    draft.route = Route.Main;
   }), 'library.rebuildLibrary');
 };
 
@@ -75,7 +76,7 @@ export const addFolders = async (folders: string[]) => {
 
   const user = await window.ipc.user.set(state.user);
   store.dispatch(produce(draft => {
-    draft.app.scanning = true;
+    draft.route = Route.Scan;
     draft.user.library.folders = user.library.folders;
   }), 'library.addFolders');
 
@@ -83,7 +84,7 @@ export const addFolders = async (folders: string[]) => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.scanning = false;
+    draft.route = Route.Main;
   }), 'library.addFolders');
 };
 
@@ -94,7 +95,7 @@ export const removeFolders = async (folders: string[]) => {
 
   const user = await window.ipc.user.set(state.user);
   store.dispatch(produce(draft => {
-    draft.app.scanning = true;
+    draft.route = Route.Scan;
     draft.user.library.folders = user.library.folders;
   }), 'library.removeFolders');
 
@@ -102,6 +103,6 @@ export const removeFolders = async (folders: string[]) => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.scanning = false;
+    draft.route = Route.Main;
   }), 'library.removeFolders');
 };

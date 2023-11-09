@@ -1,7 +1,7 @@
 import type { Album } from '../../../types/library';
 
 import { Thumb } from '../../../types/library';
-import store from '../../state/store';
+import store from '../../store';
 import createSelector from '../../utils/createSelector';
 
 export default createSelector(store)(state => {

@@ -1,7 +1,7 @@
 import produce from 'immer';
 
-import shuffle from '../../../utils/array/shuffle';
-import { AudioStatus } from '../../lib/audio';
+import shuffle from '../../utils/array/shuffle';
+import { AudioStatus } from '../lib/audio';
 import store from '../store';
 
 import { play } from './player.actions';

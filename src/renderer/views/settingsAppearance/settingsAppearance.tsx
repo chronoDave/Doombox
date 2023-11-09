@@ -4,10 +4,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 import produce from 'immer';
 
+import { setTheme } from '../../actions/theme.actions';
 import Label from '../../components/label/label';
 import Select from '../../components/select/select';
-import { setTheme } from '../../state/actions/theme.actions';
-import { themeSelector } from '../../state/selectors/theme.selectors';
+
 import subscribe from './settingsAppearance.state';
 
 import './settingsAppearance.scss';

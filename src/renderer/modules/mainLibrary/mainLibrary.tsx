@@ -6,12 +6,12 @@ import { Thumb } from '../../../types/library';
 import sum from '../../../utils/array/sum';
 import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import { setQueue } from '../../actions/queue.actions';
+import { searchAlbums } from '../../actions/search.actions';
 import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import { setQueue } from '../../state/actions/queue.actions';
-import { searchAlbums } from '../../state/actions/search.actions';
 import cx from '../../utils/cx/cx';
 import createMediaQuery from '../../utils/mediaQuery';
 

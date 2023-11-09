@@ -2,13 +2,14 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import InputFolders from '../../components/inputFolders/inputFolders';
 import {
   addFolders,
   rebuildLibrary,
   reindexLibrary,
   removeFolders
-} from '../../state/actions/library.actions';
+} from '../../actions/library.actions';
+import InputFolders from '../../components/inputFolders/inputFolders';
+
 import subscribe from './settingsLibrary.state';
 
 import './settingsLibrary.scss';

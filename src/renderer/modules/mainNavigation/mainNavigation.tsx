@@ -4,8 +4,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { AppView, SettingsView } from '../../../types/views';
+import { setViewApp, setViewSettings } from '../../actions/view.actions';
 import Icon from '../../components/icon/icon';
-import { setViewApp, setViewSettings } from '../../state/actions/view.actions';
 import cx from '../../utils/cx/cx';
 
 import subscribe from './mainNavigation.state';

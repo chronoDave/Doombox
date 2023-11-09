@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import levenshteinDistance from '../../../utils/string/levenshteinDistance';
+import levenshteinDistance from '../../utils/string/levenshteinDistance';
 import store from '../store';
 
 export const searchSongs = async (query: string) => {

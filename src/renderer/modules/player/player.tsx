@@ -2,15 +2,16 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import sum from '../../../utils/array/sum';
 import secToTime from '../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import { setQueueIndex, shuffleQueue } from '../../actions/queue.actions';
 import Icon from '../../components/icon/icon';
 import VirtualList from '../../components/virtualList/virtualList';
-import { setQueueIndex, shuffleQueue } from '../../state/actions/queue.actions';
 import cx from '../../utils/cx/cx';
 import PlayerCover from '../playerCover/playerCover';
+
 import subscribe from './player.state';
-import sum from '../../../utils/array/sum';
 
 import './player.scss';
 

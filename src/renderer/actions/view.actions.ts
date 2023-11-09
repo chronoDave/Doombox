@@ -1,10 +1,10 @@
-import type { AppView, SettingsView } from '../../../types/views';
+import type { AppView, SettingsView } from '../../types/views';
 
 import produce from 'immer';
 
-import { Route } from '../../types/state';
-import updateCache from '../../utils/updateCache';
 import store from '../store';
+import { Route } from '../types/state';
+import updateCache from '../utils/updateCache';
 
 export const setViewApp = (view: AppView) => {
   const current = store.get();

@@ -3,9 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import { setVolume, mute } from '../../actions/player.actions';
 import Icon from '../../components/icon/icon';
 import Slider from '../../components/slider/slider';
-import { setVolume, mute } from '../../state/actions/player.actions';
 
 import subscribe from './sliderVolume.state';
 

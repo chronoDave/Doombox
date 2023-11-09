@@ -4,13 +4,14 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { SettingsView as View } from '../../../types/views';
+import { closeSettings, setViewSettings } from '../../actions/view.actions';
 import Icon from '../../components/icon/icon';
 import Tabs from '../../components/tabs/tabs';
-import { closeSettings, setViewSettings } from '../../state/actions/view.actions';
 import cx from '../../utils/cx/cx';
 import createFocusTrap from '../../utils/focusTrap/focusTrap';
-import Appearance from '../../views/settingsAppearance/settingsAppearance';
-import Library from '../../views/settingsLibrary/settingsLibrary';
+import Appearance from '../settingsAppearance/settingsAppearance';
+import Library from '../settingsLibrary/settingsLibrary';
+
 import subscribe from './settings.state';
 
 import './settings.view.scss';
@@ -44,7 +45,6 @@ const SettingsView: Component<SettingsViewProps> = () => {
         <div ref={ref} class={cx('Settings', !view && 'invisible')}>
           <Tabs
             tabs={tabs}
-            // @ts-expect-error: Active can be null
             active={view}
             ontab={setViewSettings}
           />

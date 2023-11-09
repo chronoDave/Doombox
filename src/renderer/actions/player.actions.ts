@@ -1,10 +1,10 @@
 import produce from 'immer';
 
-import cacheShape from '../../../types/shapes/cache.shape';
-import clamp from '../../../utils/number/clamp';
-import Audio, { AudioStatus } from '../../lib/audio';
-import updateCache from '../../utils/updateCache';
+import cacheShape from '../../types/shapes/cache.shape';
+import clamp from '../../utils/number/clamp';
+import Audio, { AudioStatus } from '../lib/audio';
 import store from '../store';
+import updateCache from '../utils/updateCache';
 
 const audio = new Audio({
   ...store.get().user.player,
