@@ -1,0 +1,21 @@
+@use 'mixins';
+@use 'typography';
+@use 'breakpoints';
+@use 'transitions';
+
+@use 'layers';
+
+@include layers.modules {
+  .Settings {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+
+    > .body {
+      padding: 1em;
+    }
+
+    > .actions {
+      padding: 1em;
+    }
+  }
+}

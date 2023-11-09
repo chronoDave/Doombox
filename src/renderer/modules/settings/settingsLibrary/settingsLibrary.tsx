@@ -22,7 +22,7 @@ const SettingsLibrary: Component<SettingsLibraryProps> = () => {
       const library = subscribe(component);
 
       return (
-        <div>
+        <div class='SettingsLibrary'>
           <InputFolders
             folders={library.folders}
             label='folders'

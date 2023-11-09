@@ -3,9 +3,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { AppView, SettingsView } from '../../../../types/views';
-import { setViewApp, setViewSettings } from '../../../actions/view.actions';
+import { AppView } from '../../../../types/views';
+import { setRoute } from '../../../actions/route.actions';
+import { setViewApp } from '../../../actions/view.actions';
 import Icon from '../../../components/icon/icon';
+import { Route } from '../../../types/state';
 import cx from '../../../utils/cx/cx';
 
 import subscribe from './navigation.state';
@@ -39,7 +41,7 @@ const Navigation: Component<NavigationProps> = () => {
           <button
             type='button'
             aria-label='Open settings'
-            onclick={() => setViewSettings(SettingsView.Library)}
+            onclick={() => setRoute(Route.Settings)}
           >
             <Icon id='cog' />
           </button>

@@ -1,9 +1,0 @@
-@use 'layers';
-
-@include layers.components {
-  .Tabs {
-    .panels > .panel.hidden {
-      display: none;
-    }
-  }
-}

@@ -3,7 +3,6 @@ import type { AppView, SettingsView } from '../../types/views';
 import produce from 'immer';
 
 import store from '../store';
-import { Route } from '../types/state';
 import updateCache from '../utils/updateCache';
 
 export const setViewApp = (view: AppView) => {
@@ -24,11 +23,6 @@ export const setViewSettings = (view: SettingsView) => {
   if (current.view.settings !== view) {
     store.dispatch(produce(draft => {
       draft.view.settings = view;
-      draft.route = Route.Settings;
     }), 'view.setViewSettings');
   }
 };
-
-export const closeSettings = () => store.dispatch(produce(draft => {
-  draft.route = Route.Main;
-}), 'view.closeSettings');

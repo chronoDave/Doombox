@@ -12,7 +12,7 @@ import { Route } from '../../../types/state';
 import LoadView from '../../../views/load/load.view';
 import MainView from '../../../views/main/main.view';
 import Scan from '../../scan/scan';
-import SettingsView from '../../../views/settings/settings.view';
+import Settings from '../../settings/settings';
 
 import subscribe from './appRouter.state';
 
@@ -23,7 +23,7 @@ const Router: Component<RouterProps> = () => {
     [Route.Load]: <LoadView />,
     [Route.Scan]: <Scan />,
     [Route.Main]: <MainView />,
-    [Route.Settings]: <SettingsView />
+    [Route.Settings]: <Settings />
   };
 
   const component = new forgo.Component<RouterProps>({
@@ -43,7 +43,7 @@ const Router: Component<RouterProps> = () => {
       fetchDirectory()
     ]);
 
-    setRoute(Route.Main);
+    setRoute(Route.Settings);
   });
 
   return component;
