@@ -10,20 +10,20 @@ import Icon from '../../../components/icon/icon';
 import VirtualList from '../../../components/virtualList/virtualList';
 import cx from '../../../utils/cx/cx';
 
-import subscribe from './queue.state';
+import subscribe from './libraryQueue.state';
 
-import './queue.scss';
+import './libraryQueue.scss';
 
-export type QueueProps = {};
+export type LibraryQueueProps = {};
 
-const Queue: Component<QueueProps> = () => {
-  const component = new forgo.Component<QueueProps>({
+const LibraryQueue: Component<LibraryQueueProps> = () => {
+  const component = new forgo.Component<LibraryQueueProps>({
     render() {
       const { queue, current } = subscribe(component);
       const duration = sum(queue, song => song.duration ?? 0);
 
       return (
-        <div class='Queue'>
+        <div class='LibraryQueue'>
           <div class='header'>
             <div class='meta'>
               <p>Queue</p>
@@ -64,4 +64,4 @@ const Queue: Component<QueueProps> = () => {
   return component;
 };
 
-export default Queue;
+export default LibraryQueue;

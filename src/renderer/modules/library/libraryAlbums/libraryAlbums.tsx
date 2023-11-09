@@ -15,22 +15,22 @@ import useMediaQuery from '../../../hooks/useMediaQuery';
 import cx from '../../../utils/cx/cx';
 import createMediaQuery from '../../../utils/mediaQuery';
 
-import subscribe from './library.state';
+import subscribe from './libraryAlbums.state';
 
-import './library.scss';
+import './libraryAlbums.scss';
 
-export type LibraryProps = {};
+export type LibraryAlbumsProps = {};
 
-const Library: Component<LibraryProps> = () => {
+const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
   let width = 0;
 
-  const component = new forgo.Component<LibraryProps>({
+  const component = new forgo.Component<LibraryAlbumsProps>({
     render() {
       const { albums, current } = subscribe(component);
       const duration = sum(albums, album => album.duration ?? 0);
 
       return (
-        <div class="Library">
+        <div class="LibraryAlbums">
           <InputSearch
             placeholder='search for album'
             onsubmit={query => searchAlbums(query)}
@@ -99,4 +99,4 @@ const Library: Component<LibraryProps> = () => {
   return component;
 };
 
-export default Library;
+export default LibraryAlbums;

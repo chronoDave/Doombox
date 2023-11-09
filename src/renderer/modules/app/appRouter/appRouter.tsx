@@ -9,7 +9,7 @@ import { setRoute } from '../../../actions/route.actions';
 import { fetchTheme } from '../../../actions/theme.actions';
 import { fetchUser } from '../../../actions/user.actions';
 import { Route } from '../../../types/state';
-import MainView from '../../../views/main/main.view';
+import Library from '../../library/library';
 import Load from '../../load/load';
 import Scan from '../../scan/scan';
 import Settings from '../../settings/settings';
@@ -22,7 +22,7 @@ const Router: Component<RouterProps> = () => {
   const routes: Record<Route, forgo.Component> = {
     [Route.Load]: <Load />,
     [Route.Scan]: <Scan />,
-    [Route.Main]: <MainView />,
+    [Route.Library]: <Library />,
     [Route.Settings]: <Settings />
   };
 
@@ -43,7 +43,7 @@ const Router: Component<RouterProps> = () => {
       fetchDirectory()
     ]);
 
-    setRoute(Route.Load);
+    setRoute(Route.Library);
   });
 
   return component;

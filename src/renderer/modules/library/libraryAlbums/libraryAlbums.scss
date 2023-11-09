@@ -4,9 +4,10 @@
 @use 'layers';
 
 @include layers.views {
-  .Library {
+  .LibraryAlbums {
     display: flex;
     flex-direction: column;
+    min-height: 0;
 
     > .InputSearch {
       padding: 0.5em;

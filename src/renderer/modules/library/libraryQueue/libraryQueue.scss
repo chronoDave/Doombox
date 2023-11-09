@@ -1,7 +1,7 @@
 @use 'layers';
 
 @include layers.modules {
-  .Queue {
+  .LibraryQueue {
     display: flex;
     flex-direction: column;
     min-height: 0;

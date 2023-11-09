@@ -1,7 +1,7 @@
 @use 'layers';
 
 @include layers.modules {
-  .Navigation {
+  .LibraryNavigation {
     display: flex;
     flex-direction: column;
     background-color: var(--surface-medium);

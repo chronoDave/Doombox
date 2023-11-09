@@ -2,10 +2,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import PlayerControls from '../playerControls/playerControls';
-import PlayerCover from '../playerCover/playerCover';
-import PlayerMeta from '../playerMeta/playerMeta';
-import PlayerSlider from '../playerSlider/playerSlider';
+import PlayerControls from './playerControls/playerControls';
+import PlayerCover from './playerCover/playerCover';
+import PlayerMeta from './playerMeta/playerMeta';
+import PlayerSlider from './playerSlider/playerSlider';
 
 import './player.scss';
 

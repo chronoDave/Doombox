@@ -4,14 +4,17 @@
 @use 'layers';
 
 @include layers.modules {
-  .MainView {
+  .Library {
     display: grid;
     grid-template-columns: auto 210px minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
-    overflow: auto;
-    flex-grow: 1;
 
     > .panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    > .body {
       display: flex;
       flex-direction: column;
     }
