@@ -3,12 +3,11 @@
 @use 'layers';
 
 @include layers.views {
-  .LoadView {
+  .Load {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
 
     > .title {
       margin-top: 8px;

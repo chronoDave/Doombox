@@ -9,8 +9,8 @@ import { setRoute } from '../../../actions/route.actions';
 import { fetchTheme } from '../../../actions/theme.actions';
 import { fetchUser } from '../../../actions/user.actions';
 import { Route } from '../../../types/state';
-import LoadView from '../../../views/load/load.view';
 import MainView from '../../../views/main/main.view';
+import Load from '../../load/load';
 import Scan from '../../scan/scan';
 import Settings from '../../settings/settings';
 
@@ -20,7 +20,7 @@ export type RouterProps = {};
 
 const Router: Component<RouterProps> = () => {
   const routes: Record<Route, forgo.Component> = {
-    [Route.Load]: <LoadView />,
+    [Route.Load]: <Load />,
     [Route.Scan]: <Scan />,
     [Route.Main]: <MainView />,
     [Route.Settings]: <Settings />
@@ -43,7 +43,7 @@ const Router: Component<RouterProps> = () => {
       fetchDirectory()
     ]);
 
-    setRoute(Route.Settings);
+    setRoute(Route.Load);
   });
 
   return component;

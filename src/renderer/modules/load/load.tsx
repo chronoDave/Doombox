@@ -6,7 +6,7 @@ import Loader from '../../components/loader/loader';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import createMediaQuery from '../../utils/mediaQuery';
 
-import './load.view.scss';
+import './load.scss';
 
 export type LoadViewProps = {};
 
@@ -16,10 +16,10 @@ const LoadView: Component<LoadViewProps> = () => {
   const component = new forgo.Component<LoadViewProps>({
     render() {
       return (
-        <div class="View LoadView">
+        <main class="Load">
           <Loader bars={bars} />
-          <h1 class="title">Loading...</h1>
-        </div>
+          <h1 class="title h4">Loading...</h1>
+        </main>
       );
     }
   });
