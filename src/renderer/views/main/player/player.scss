@@ -2,7 +2,7 @@
 @use 'layers';
 
 @include layers.modules {
-  .PlayerCover {
+  .Player {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -22,7 +22,7 @@
       isolation: isolate;
       aspect-ratio: 1/1;
 
-      > .metadata {
+      > .PlayerMeta {
         align-self: center;
         text-align: center;
         min-width: 0;

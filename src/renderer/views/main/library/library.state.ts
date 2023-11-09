@@ -1,8 +1,8 @@
-import type { Album } from '../../../types/library';
+import type { Album } from '../../../../types/library';
 
-import { Thumb } from '../../../types/library';
-import store from '../../store';
-import createSelector from '../../utils/createSelector';
+import { Thumb } from '../../../../types/library';
+import store from '../../../store';
+import createSelector from '../../../utils/createSelector';
 
 export default createSelector(store)(state => {
   const getThumb = (id: string | null) => (id && state.app.directory.thumbs) ?

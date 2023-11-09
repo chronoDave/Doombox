@@ -2,9 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { next, pause, previous } from '../../actions/player.actions';
-import Icon from '../../components/icon/icon';
-import { AudioStatus } from '../../lib/audio';
+import { next, pause, previous } from '../../../actions/player.actions';
+import Icon from '../../../components/icon/icon';
+import { AudioStatus } from '../../../lib/audio';
 import PlayerVolume from '../playerVolume/playerVolume';
 
 import subscribe from './playerControls.state';

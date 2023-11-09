@@ -2,35 +2,35 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { Thumb } from '../../../types/library';
-import sum from '../../../utils/array/sum';
-import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
-import { setQueue } from '../../actions/queue.actions';
-import { searchAlbums } from '../../actions/search.actions';
-import Icon from '../../components/icon/icon';
-import InputSearch from '../../components/inputSearch/inputSearch';
-import VirtualGrid from '../../components/virtualGrid/virtualGrid';
-import useMediaQuery from '../../hooks/useMediaQuery';
-import cx from '../../utils/cx/cx';
-import createMediaQuery from '../../utils/mediaQuery';
+import { Thumb } from '../../../../types/library';
+import sum from '../../../../utils/array/sum';
+import secToTime from '../../../../utils/time/secToTime';
+import timeToHhMmSs from '../../../../utils/time/timeToHhMmSs';
+import { setQueue } from '../../../actions/queue.actions';
+import { searchAlbums } from '../../../actions/search.actions';
+import Icon from '../../../components/icon/icon';
+import InputSearch from '../../../components/inputSearch/inputSearch';
+import VirtualGrid from '../../../components/virtualGrid/virtualGrid';
+import useMediaQuery from '../../../hooks/useMediaQuery';
+import cx from '../../../utils/cx/cx';
+import createMediaQuery from '../../../utils/mediaQuery';
 
-import subscribe from './mainLibrary.state';
+import subscribe from './library.state';
 
-import './mainLibrary.scss';
+import './library.scss';
 
-export type MainLibraryProps = {};
+export type LibraryProps = {};
 
-const MainLibrary: Component<MainLibraryProps> = () => {
+const Library: Component<LibraryProps> = () => {
   let width = 0;
 
-  const component = new forgo.Component<MainLibraryProps>({
+  const component = new forgo.Component<LibraryProps>({
     render() {
       const { albums, current } = subscribe(component);
       const duration = sum(albums, album => album.duration ?? 0);
 
       return (
-        <div class="MainLibrary">
+        <div class="Library">
           <InputSearch
             placeholder='search for album'
             onsubmit={query => searchAlbums(query)}
@@ -99,4 +99,4 @@ const MainLibrary: Component<MainLibraryProps> = () => {
   return component;
 };
 
-export default MainLibrary;
+export default Library;

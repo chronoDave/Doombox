@@ -1,11 +1,12 @@
-import type { IconProps } from '../../components/icon/icon';
+import type { IconProps } from '../../../components/icon/icon';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../components/icon/icon';
-import { createPopup } from '../../components/popup/popup';
-import SliderVolume from '../sliderVolume/sliderVolume';
+import { mute, setVolume } from '../../../actions/player.actions';
+import Icon from '../../../components/icon/icon';
+import { createPopup } from '../../../components/popup/popup';
+import Slider from '../../../components/slider/slider';
 
 import subscribe from './playerVolume.state';
 
@@ -41,7 +42,15 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
               popup = createPopup({
                 anchor: event.currentTarget,
                 position: 'top'
-              }, <SliderVolume />);
+              }, (
+                <div class='SliderVolume'>
+                  <button type='button' onclick={() => mute()}>
+                    <Icon id={getIcon()} />
+                  </button>
+                  <Slider value={volume} onchange={setVolume} />
+                  <span>{Math.round(volume)}</span>
+                </div>
+              ));
             }
           }}
         >

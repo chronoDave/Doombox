@@ -1,30 +1,30 @@
-import type { IconProps } from '../../components/icon/icon';
+import type { IconProps } from '../../../components/icon/icon';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { AppView, SettingsView } from '../../../types/views';
-import { setViewApp, setViewSettings } from '../../actions/view.actions';
-import Icon from '../../components/icon/icon';
-import cx from '../../utils/cx/cx';
+import { AppView, SettingsView } from '../../../../types/views';
+import { setViewApp, setViewSettings } from '../../../actions/view.actions';
+import Icon from '../../../components/icon/icon';
+import cx from '../../../utils/cx/cx';
 
-import subscribe from './mainNavigation.state';
+import subscribe from './navigation.state';
 
-import './mainNavigation.scss';
+import './navigation.scss';
 
-export type MainNavigationProps = {};
+export type NavigationProps = {};
 
-const MainNavigation: Component<MainNavigationProps> = () => {
+const Navigation: Component<NavigationProps> = () => {
   const views: Record<AppView, IconProps['id']> = {
     [AppView.Library]: 'listMusic'
   };
 
-  const component = new forgo.Component<MainNavigationProps>({
+  const component = new forgo.Component<NavigationProps>({
     render() {
       const current = subscribe(component);
 
       return (
-        <nav class='MainNavigation' aria-label="app">
+        <nav class='Navigation' aria-label="app">
           {Object.entries(views).map(([id, icon]) => (
             <button
               key={id}
@@ -51,4 +51,4 @@ const MainNavigation: Component<MainNavigationProps> = () => {
   return component;
 };
 
-export default MainNavigation;
+export default Navigation;

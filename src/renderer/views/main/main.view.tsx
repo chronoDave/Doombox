@@ -3,11 +3,12 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { AppView } from '../../../types/views';
-import MainLibrary from '../../modules/mainLibrary/mainLibrary';
-import MainNavigation from '../../modules/mainNavigation/mainNavigation';
-import Player from '../../modules/player/player';
 
+import Library from './library/library';
 import subscribe from './main.state';
+import Navigation from './navigation/navigation';
+import Player from './player/player';
+import Queue from './queue/queue';
 
 import './main.view.scss';
 
@@ -15,7 +16,7 @@ export type MainViewProps = {};
 
 const MainView: Component<MainViewProps> = () => {
   const views: Record<AppView, forgo.Component> = {
-    [AppView.Library]: <MainLibrary />
+    [AppView.Library]: <Library />
   };
 
   const component = new forgo.Component<MainViewProps>({
@@ -24,8 +25,11 @@ const MainView: Component<MainViewProps> = () => {
 
       return (
         <main class='MainView'>
-          <MainNavigation />
-          <Player />
+          <Navigation />
+          <div class='panel'>
+            <Player />
+            <Queue />
+          </div>
           {views[view]}
         </main>
       );

@@ -2,10 +2,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
-import { seek } from '../../actions/player.actions';
-import Slider from '../../components/slider/slider';
+import secToTime from '../../../../utils/time/secToTime';
+import timeToHhMmSs from '../../../../utils/time/timeToHhMmSs';
+import { seek } from '../../../actions/player.actions';
+import Slider from '../../../components/slider/slider';
 
 import subscribe from './playerSlider.state';
 

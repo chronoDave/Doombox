@@ -4,7 +4,7 @@
 @use 'layers';
 
 @include layers.views {
-  .MainLibrary {
+  .Library {
     display: flex;
     flex-direction: column;
 

@@ -11,18 +11,9 @@
     overflow: auto;
     flex-grow: 1;
 
-    > .View {
-      flex-grow: 1;
-      overflow: auto;
-    }
-
-    > .PlayerBar {
-      display: none;
-      padding: 4px 8px;
-
-      @media (min-height: breakpoints.$md-h) and (min-width: breakpoints.$sm-w) {
-        display: grid;
-      }
+    > .panel {
+      display: flex;
+      flex-direction: column;
     }
   }
 }
