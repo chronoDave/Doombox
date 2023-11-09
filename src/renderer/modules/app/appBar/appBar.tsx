@@ -2,15 +2,15 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../components/icon/icon';
+import Icon from '../../../components/icon/icon';
 
-import subscribe from './titlebar.state';
+import subscribe from './appBar.state';
 
-import './titleBar.scss';
+import './appBar.scss';
 
-export type TitleBarProps = {};
+export type AppBarProps = {};
 
-const TitleBar: Component<TitleBarProps> = () => {
+const AppBar: Component<AppBarProps> = () => {
   const component = new forgo.Component({
     render() {
       const current = subscribe(component);
@@ -19,7 +19,7 @@ const TitleBar: Component<TitleBarProps> = () => {
         'Doombox';
 
       return (
-        <header class='TitleBar'>
+        <header class='AppBar'>
           <img
             class='light'
             src="icons/icon_dark.png"
@@ -71,4 +71,4 @@ const TitleBar: Component<TitleBarProps> = () => {
   return component;
 };
 
-export default TitleBar;
+export default AppBar;

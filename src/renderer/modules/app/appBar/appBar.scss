@@ -2,7 +2,7 @@
 @use 'layers';
 
 @include layers.modules {
-  .TitleBar {
+  .AppBar {
     display: flex;
     align-items: center;
     gap: 4px;
