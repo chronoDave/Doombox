@@ -12,7 +12,7 @@ import useIpc from '../../hooks/useIpc';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import createMediaQuery from '../../utils/mediaQuery';
 
-import './scan.view.scss';
+import './scan.scss';
 
 export type ScanViewProps = {};
 
@@ -34,12 +34,12 @@ const ScanView: Component<ScanViewProps> = () => {
   const component = new forgo.Component<ScanViewProps>({
     render() {
       return (
-        <div class='View ScanView'>
+        <section class='Scan'>
           {state.process === '' ? [
             <Loader bars={bars} />,
-            <h1>Loading...</h1>
+            <h1 class='h4'>Loading...</h1>
           ] : [
-            <h1 class='title'>{state.process} ({state.scanned} / {state.size})</h1>,
+            <h1 class='h4 title'>{state.process} ({state.scanned} / {state.size})</h1>,
             <p>{cur} / {max}</p>,
             <Progress
               value={state.scanned}
@@ -48,7 +48,7 @@ const ScanView: Component<ScanViewProps> = () => {
             />,
             <p class='file'>{state.file}</p>
           ]}
-        </div>
+        </section>
       );
     }
   });

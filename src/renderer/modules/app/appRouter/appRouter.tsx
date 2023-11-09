@@ -11,7 +11,7 @@ import { fetchUser } from '../../../actions/user.actions';
 import { Route } from '../../../types/state';
 import LoadView from '../../../views/load/load.view';
 import MainView from '../../../views/main/main.view';
-import ScanView from '../../../views/scan/scan.view';
+import Scan from '../../scan/scan';
 import SettingsView from '../../../views/settings/settings.view';
 
 import subscribe from './appRouter.state';
@@ -21,7 +21,7 @@ export type RouterProps = {};
 const Router: Component<RouterProps> = () => {
   const routes: Record<Route, forgo.Component> = {
     [Route.Load]: <LoadView />,
-    [Route.Scan]: <ScanView />,
+    [Route.Scan]: <Scan />,
     [Route.Main]: <MainView />,
     [Route.Settings]: <SettingsView />
   };

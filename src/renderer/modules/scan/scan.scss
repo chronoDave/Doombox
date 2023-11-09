@@ -4,12 +4,11 @@
 @use 'layers';
 
 @include layers.views {
-  .ScanView {
+  .Scan {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-grow: 1;
     padding: 16px;
     text-align: center;
 
@@ -19,7 +18,6 @@
     }
 
     > .title {
-
       margin-bottom: 1em;
     }
 

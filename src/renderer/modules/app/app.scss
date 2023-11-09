@@ -10,5 +10,10 @@
     fill: var(--text);
     background-color: var(--surface-low);
     overflow: hidden;
+
+    > section {
+      flex-grow: 1;
+      overflow: auto;
+    }
   }
 }
