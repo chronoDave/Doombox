@@ -6,17 +6,17 @@ import Loader from '../../components/loader/loader';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import createMediaQuery from '../../utils/mediaQuery';
 
-import './splash.view.scss';
+import './load.view.scss';
 
-export type SplashViewProps = {};
+export type LoadViewProps = {};
 
-const SplashView: Component<SplashViewProps> = () => {
+const LoadView: Component<LoadViewProps> = () => {
   let bars = 12;
 
-  const component = new forgo.Component<SplashViewProps>({
+  const component = new forgo.Component<LoadViewProps>({
     render() {
       return (
-        <div class="View SplashView">
+        <div class="View LoadView">
           <Loader bars={bars} />
           <h1 class="title">Loading...</h1>
         </div>
@@ -35,4 +35,4 @@ const SplashView: Component<SplashViewProps> = () => {
   })(component);
 };
 
-export default SplashView;
+export default LoadView;

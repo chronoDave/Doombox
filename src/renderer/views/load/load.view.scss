@@ -3,7 +3,7 @@
 @use 'layers';
 
 @include layers.views {
-  .SplashView {
+  .LoadView {
     display: flex;
     flex-direction: column;
     justify-content: center;

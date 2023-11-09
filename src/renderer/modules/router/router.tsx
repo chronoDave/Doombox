@@ -9,10 +9,10 @@ import { setRoute } from '../../actions/route.actions';
 import { fetchTheme } from '../../actions/theme.actions';
 import { fetchUser } from '../../actions/user.actions';
 import { Route } from '../../types/state';
+import LoadView from '../../views/load/load.view';
 import MainView from '../../views/main/main.view';
 import ScanView from '../../views/scan/scan.view';
 import SettingsView from '../../views/settings/settings.view';
-import SplashView from '../../views/splash/splash.view';
 
 import subscribe from './router.state';
 
@@ -20,7 +20,7 @@ export type RouterProps = {};
 
 const Router: Component<RouterProps> = () => {
   const routes: Record<Route, forgo.Component> = {
-    [Route.Load]: <SplashView />,
+    [Route.Load]: <LoadView />,
     [Route.Scan]: <ScanView />,
     [Route.Main]: <MainView />,
     [Route.Settings]: <SettingsView />
