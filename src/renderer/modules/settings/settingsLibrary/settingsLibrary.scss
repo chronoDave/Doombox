@@ -1,5 +1,5 @@
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .SettingsLibrary {}
 }

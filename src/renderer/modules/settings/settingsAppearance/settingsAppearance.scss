@@ -1,6 +1,6 @@
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .SettingsAppearance {
     > .Label + .Label {
       margin-top: 0.5em;

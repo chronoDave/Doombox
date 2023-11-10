@@ -3,7 +3,7 @@
 
 @use 'layers';
 
-@include layers.views {
+@include layers.modules {
   .LibraryAlbums {
     display: flex;
     flex-direction: column;

@@ -1,5 +1,3 @@
-@use 'breakpoints';
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -26,20 +24,4 @@
 .invisible {
   opacity: 0;
   pointer-events: none;
-}
-
-@each $breakpoint, $width in breakpoints.$w {
-  .#{$breakpoint}-hidden {
-    @media (max-width: $width) {
-      display: none;
-    }
-  }
-}
-
-@each $breakpoint, $height in breakpoints.$h {
-  .#{$breakpoint}-hidden {
-    @media (max-height: $height) {
-      display: none;
-    }
-  }
 }

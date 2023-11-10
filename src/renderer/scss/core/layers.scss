@@ -13,9 +13,3 @@ $focus: 1000;
     @content;
   }
 }
-
-@mixin views {
-  @layer views {
-    @content;
-  }
-}

@@ -7,7 +7,7 @@ import type { AudioStatus } from '../lib/audio';
 export enum Route {
   Load = 'load',
   Scan = 'scan',
-  Main = 'main',
+  Library = 'library',
   Settings = 'settings'
 }
 
