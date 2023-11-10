@@ -62,6 +62,12 @@ const ipc: IpcApi = {
     reindex: invoke(IpcChannel.Library, IpcRoute.Reindex),
     get: invoke(IpcChannel.Library, IpcRoute.Get)
   },
+  playlist: {
+    add: invoke(IpcChannel.Playlist, IpcRoute.Add),
+    get: invoke(IpcChannel.Playlist, IpcRoute.Get),
+    remove: invoke(IpcChannel.Playlist, IpcRoute.Remove),
+    update: invoke(IpcChannel.Playlist, IpcRoute.Update)
+  },
   window: {
     minimize: send(IpcChannel.Window, IpcRoute.Minimize),
     maximize: send(IpcChannel.Window, IpcRoute.Maximize),

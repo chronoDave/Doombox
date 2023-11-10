@@ -1,0 +1,28 @@
+@use 'layers';
+
+@include layers.modules {
+  .LibraryPlaylist {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding: 0.5em 1em;
+
+    > ul {
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      margin-top: 0.5em;
+
+      > li {
+        + li {
+          margin-top: 0.25em;
+        }
+
+        > button {
+          display: block;
+          text-align: left;
+        }
+      }
+    }
+  }
+}

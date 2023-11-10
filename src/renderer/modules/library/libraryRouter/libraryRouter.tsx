@@ -4,6 +4,7 @@ import * as forgo from 'forgo';
 
 import { AppView } from '../../../../types/views';
 import LibraryAlbums from '../libraryAlbums/libraryAlbums';
+import LibraryPlaylist from '../libraryPlaylist/libraryPlaylist';
 
 import subscribe from './libraryRouter.state';
 
@@ -11,7 +12,8 @@ export type LibraryRouterProps = {};
 
 const LibraryRouter: Component<LibraryRouterProps> = () => {
   const views: Record<AppView, forgo.Component> = {
-    [AppView.Album]: <LibraryAlbums />
+    [AppView.Album]: <LibraryAlbums />,
+    [AppView.Playlist]: <LibraryPlaylist />
   };
 
   const component = new forgo.Component<LibraryRouterProps>({

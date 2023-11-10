@@ -18,6 +18,7 @@ export type LibraryNavigationProps = {};
 
 const LibraryNavigation: Component<LibraryNavigationProps> = () => {
   const views: Record<AppView, IconProps['id']> = {
+    [AppView.Playlist]: 'star',
     [AppView.Album]: 'listMusic'
   };
 

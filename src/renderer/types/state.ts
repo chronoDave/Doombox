@@ -1,4 +1,5 @@
 import type { Album, Label, Song } from '../../types/library';
+import type { Playlist } from '../../types/playlist';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
 import type { AppView, SettingsView } from '../../types/views';
@@ -42,6 +43,7 @@ export type State = {
     song: Map<string, Song>
     album: Map<string, Album>
     label: Map<string, Label>
+    playlist: Map<string, Playlist>
   }
   search: {
     songs: string[] | null

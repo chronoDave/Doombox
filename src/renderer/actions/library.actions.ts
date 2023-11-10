@@ -52,7 +52,7 @@ export const reindexLibrary = async () => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.route = Route.Main;
+    draft.route = Route.Library;
   }), 'library.reindexLibrary');
 };
 
@@ -65,7 +65,7 @@ export const rebuildLibrary = async () => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.route = Route.Main;
+    draft.route = Route.Library;
   }), 'library.rebuildLibrary');
 };
 
@@ -84,7 +84,7 @@ export const addFolders = async (folders: string[]) => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.route = Route.Main;
+    draft.route = Route.Library;
   }), 'library.addFolders');
 };
 
@@ -103,6 +103,6 @@ export const removeFolders = async (folders: string[]) => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.route = Route.Main;
+    draft.route = Route.Library;
   }), 'library.removeFolders');
 };

@@ -1,4 +1,5 @@
 import type { Album, Label, Song } from '../types/library';
+import type { Playlist } from '../types/playlist';
 
 import { app, ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
@@ -16,6 +17,7 @@ import { PATH } from './const';
 import createAppController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
+import createPlaylistController from './controllers/playlist.controller';
 import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
@@ -44,11 +46,13 @@ const run = async () => {
   const db: {
     song: LeafDB<Song>,
     album: LeafDB<Album>,
-    label: LeafDB<Label>
+    label: LeafDB<Label>,
+    playlist: LeafDB<Playlist>
   } = {
     song: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'songs' } }),
     album: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'albums' } }),
-    label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } })
+    label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } }),
+    playlist: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'playlists' } })
   };
   const library = new Library({
     parser: new Parser({ transliterator }),
@@ -67,6 +71,9 @@ const run = async () => {
     library: createIpcRouter(createLibraryController({
       library,
       storage: storage.user
+    })),
+    playlist: createIpcRouter(createPlaylistController({
+      db: db.playlist
     })),
     user: createIpcRouter(createUserController({
       storage: storage.user
@@ -98,6 +105,7 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Cache, router.cache);
   ipcMain.handle(IpcChannel.Library, router.library);
   ipcMain.handle(IpcChannel.Search, router.search);
+  ipcMain.handle(IpcChannel.Playlist, router.playlist);
 
   createWindow({ storage: storage.app, logger });
 

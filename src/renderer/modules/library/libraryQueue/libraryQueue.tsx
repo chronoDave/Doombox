@@ -5,6 +5,7 @@ import * as forgo from 'forgo';
 import sum from '../../../../utils/array/sum';
 import secToTime from '../../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../../utils/time/timeToHhMmSs';
+import { createPlaylist } from '../../../actions/playlist.actions';
 import { setQueueIndex, shuffleQueue } from '../../../actions/queue.actions';
 import Icon from '../../../components/icon/icon';
 import VirtualList from '../../../components/virtualList/virtualList';
@@ -32,6 +33,9 @@ const LibraryQueue: Component<LibraryQueueProps> = () => {
             <div class='actions'>
               <button type='button' onclick={shuffleQueue}>
                 <Icon id='shuffle' />
+              </button>
+              <button type='button' onclick={() => createPlaylist(queue.map(song => song._id))}>
+                <Icon id='listAdd' />
               </button>
             </div>
           </div>
