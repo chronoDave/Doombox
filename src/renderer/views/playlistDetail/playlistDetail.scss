@@ -1,0 +1,75 @@
+@use 'layers';
+
+@include layers.modules {
+  .PlaylistDetail {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background-color: var(--surface-medium);
+
+    > .header {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 1em 0.5em;
+
+      > .title {
+        display: flex;
+        min-width: 0;
+
+        > input {
+          border: 2px solid var(--surface-medium);
+
+          &:hover {
+            border-color: var(--surface-high);
+          }
+        }
+      }
+
+      > .actions {
+        display: flex;
+        align-self: flex-end;
+      }
+    }
+
+    > .body {
+      display: flex;
+      flex-grow: 1;
+      min-height: 0;
+      overflow: auto;
+
+      .VirtualItem {
+        display: flex;
+        min-width: 0;
+
+        > button {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-grow: 1;
+          gap: 1em;
+          padding-left: 1em;
+          min-width: 0;
+
+          &.active {
+            background-color: var(--primary);
+            color: var(--primary-text);
+          }
+
+          > span {
+            min-width: 1em;
+            flex-shrink: 0;
+            text-align: right;
+          }
+
+          > .meta {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}

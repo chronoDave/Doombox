@@ -15,8 +15,8 @@ export default (props: PlaylistControllerProps) =>
       title: 'New playlist',
       songs
     }])[0],
-    update: async playlist => {
-      props.db.update(playlist, { _id: playlist._id });
+    update: async ({ _id, ...playlist }) => {
+      props.db.update(playlist, { _id });
       return props.db.select({});
     },
     remove: async _id => {

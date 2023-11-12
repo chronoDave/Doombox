@@ -20,3 +20,19 @@ export const createPlaylist = async (songs: string[]) => {
     draft.entities.playlist.set(playlist._id, playlist);
   }), 'playlist.createPlaylist');
 };
+
+export const updatePlaylist = async (playlist: Playlist) => {
+  await window.ipc.playlist.update(playlist);
+
+  store.dispatch(produce(draft => {
+    draft.entities.playlist.set(playlist._id, playlist);
+  }), 'playlist.updatePlaylist');
+};
+
+export const deletePlaylist = async (id: string) => {
+  await window.ipc.playlist.remove(id);
+
+  store.dispatch(produce(draft => {
+    draft.entities.playlist.delete(id);
+  }), 'playlist.deletePlaylist');
+};

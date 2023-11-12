@@ -1,0 +1,25 @@
+@use 'layers';
+
+@include layers.modules {
+  .PlaylistOverview {
+    display: flex;
+    flex-direction: column;
+    
+    > .header {
+      padding: 1em 0.5em;
+    }
+
+    > .body {
+      flex-grow: 1;
+      min-height: 0;
+      overflow: auto;
+
+      > ul > li > button {
+        display: block;
+        text-align: left;
+        padding: 0.25em 0.75em;
+        width: 100%;
+      }
+    }
+  }
+}
