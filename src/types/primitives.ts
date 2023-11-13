@@ -20,3 +20,8 @@ export type Time = {
   m: number
   h: number
 };
+
+export type Rect = {
+  width: number
+  height: number
+};
