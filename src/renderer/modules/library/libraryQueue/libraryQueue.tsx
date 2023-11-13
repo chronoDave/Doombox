@@ -28,7 +28,7 @@ const LibraryQueue: Component<LibraryQueueProps> = () => {
           <div class='header'>
             <div class='meta'>
               <p>Queue</p>
-              <p class='small'>{queue.length} songs - {timeToHhMmSs(secToTime(duration))}</p>
+              <p class='small'>{queue.length} songs <span class='dot' aria-hidden='true'>&bull;</span> {timeToHhMmSs(secToTime(duration))}</p>
             </div>
             <div class='actions'>
               <button type='button' onclick={shuffleQueue}>

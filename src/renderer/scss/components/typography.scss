@@ -45,3 +45,8 @@ p, .body {
 .small {
   font-size: typography.pxToRem(14);
 }
+
+// Elements
+.dot {
+  padding-inline: 0.25em;
+}

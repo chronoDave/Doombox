@@ -8,6 +8,7 @@ import './virtualGrid.scss';
 export type VirtualGridProps<T> = {
   list: T[]
   item: {
+    id?: (data: T) => string
     width: number
     height?: number
     render: (data: T, index: number) => forgo.Component | forgo.Component[]
@@ -47,7 +48,8 @@ const VirtualGrid = <T extends any>(
           <ul style={{ height: `${grid.height}px` }}>
             {grid.cells.map(cell => (
               <li
-                key={cell.data}
+                class='VirtualItem'
+                key={props.item.id?.(cell.data) ?? cell.data}
                 style={{
                   top: `${cell.position.top}px`,
                   left: `${cell.position.left}px`,

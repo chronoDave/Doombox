@@ -29,33 +29,5 @@
         }
       }
     }
-
-    > .VirtualGrid > ul > li > button {
-      width: 100%;
-      height: 100%;
-      padding: 1px;
-
-      @media (min-width: breakpoints.$sm-w) and (min-height: breakpoints.$md-h) {
-        padding: 4px;
-      }
-
-      &.active {
-        background-color: var(--primary);
-        color: var(--text-primary);
-      }
-
-      > img {
-        height: 100%;
-        width: auto;
-        object-fit: cover;
-      }
-
-      > .metadata {
-        min-width: 0;
-        width: 100%;
-        padding: 8px;
-        text-align: left;
-      }
-    }
   }
 }

@@ -11,9 +11,7 @@ import { searchAlbums } from '../../../actions/search.actions';
 import Icon from '../../../components/icon/icon';
 import InputSearch from '../../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../../components/virtualGrid/virtualGrid';
-import useMediaQuery from '../../../hooks/useMediaQuery';
 import cx from '../../../utils/cx/cx';
-import createMediaQuery from '../../../utils/mediaQuery';
 
 import subscribe from './libraryAlbums.state';
 
@@ -22,8 +20,6 @@ import './libraryAlbums.scss';
 export type LibraryAlbumsProps = {};
 
 const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
-  let width = 0;
-
   const component = new forgo.Component<LibraryAlbumsProps>({
     render() {
       const { albums, current } = subscribe(component);
@@ -53,8 +49,9 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
           <VirtualGrid
             list={albums}
             item={{
-              width,
-              height: width * 0.25,
+              id: album => album._id,
+              width: 96,
+              height: 96,
               render: album => (
                 <button
                   id={album._id}
@@ -85,16 +82,6 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
   component.unmount(() => {
     searchAlbums('');
   });
-
-  useMediaQuery([
-    createMediaQuery({ axis: 'min-width', breakpoint: 'xs-w' }, { axis: 'min-height', breakpoint: 'xs-h' }),
-    createMediaQuery({ axis: 'min-width', breakpoint: 'sm-w' }, { axis: 'min-height', breakpoint: 'sm-h' }),
-    createMediaQuery({ axis: 'min-width', breakpoint: 'md-w' }, { axis: 'min-height', breakpoint: 'md-h' }),
-    createMediaQuery({ axis: 'min-width', breakpoint: 'lg-w' }, { axis: 'min-height', breakpoint: 'lg-h' }),
-    createMediaQuery({ axis: 'min-width', breakpoint: 'xl-w' }, { axis: 'min-height', breakpoint: 'xl-h' })
-  ])(i => {
-    width = 192 + 64 * i;
-  })(component);
 
   return component;
 };
