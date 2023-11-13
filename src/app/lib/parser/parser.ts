@@ -6,7 +6,6 @@ import type { INativeTags } from 'music-metadata/lib/type';
 import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
 import pMap from 'p-map';
-import * as wanakana from 'wanakana';
 
 import EventEmitter from '../../../utils/event/eventEmitter';
 

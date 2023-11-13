@@ -42,7 +42,8 @@ export default new Store<State>({
   entities: {
     song: new Map(),
     album: new Map(),
-    label: new Map()
+    label: new Map(),
+    playlist: new Map()
   },
   theme: themeShape,
   user: userShape
