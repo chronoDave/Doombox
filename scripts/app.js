@@ -23,60 +23,65 @@ const common = {
   }
 };
 
-// App
-esbuild({
-  ...common,
-  entryPoints: [
-    { in: 'src/app/index.ts', out: 'app' },
-    { in: 'src/app/preload.ts', out: 'preload' }
-  ],
-  external: [
-    'electron',
-    'sharp',
-    'fs-events'
-  ],
-  platform: 'node',
-  outdir: 'build/app',
-  outbase: 'src/app',
-  plugins: [
-    log('app'),
-    copy([{
-      in: 'src/app/assets',
-      out: 'build/app/assets'
-    }])
-  ]
-}, { watch: w });
-
-// Renderer
-esbuild({
-  ...common,
-  entryPoints: [
-    'src/renderer/index.tsx',
-    { in: 'src/renderer/index.scss', out: 'base' }
-  ],
-  outdir: 'build/app/renderer',
-  outbase: 'src/renderer',
-  metafile: true,
-  plugins: [
-    log('renderer'),
-    clean(['build/renderer']),
-    sass({
-      style: dev ?
-        'expanded' :
-        'compressed',
-      depedencies: [
-        'src/renderer/scss/core'
-      ],
-      ignore: /\.ttf$/
-    }),
-    copy([{
-      in: 'src/renderer/index.html',
-      out: 'build/app/renderer/index.html'
-    }, {
-      in: 'src/renderer/assets/fonts',
-      out: 'build/app/renderer/fonts'
-    }, {
-      in: 'src/renderer/assets/icons',
-      out: 'build/app/renderer/icons'
-    }])]
-}, { watch: w });
+return Promise.all([
+  // App
+  esbuild({
+    ...common,
+    entryPoints: [
+      { in: 'src/app/index.ts', out: 'app' },
+      { in: 'src/app/preload.ts', out: 'preload' }
+    ],
+    external: [
+      'electron',
+      'sharp',
+      'fs-events'
+    ],
+    platform: 'node',
+    outdir: 'build/app',
+    outbase: 'src/app',
+    plugins: [
+      log('app'),
+      copy([{
+        in: 'src/app/assets',
+        out: 'build/app/assets'
+      }])
+    ]
+  }, { watch: w }),
+  // Renderer
+  esbuild({
+    ...common,
+    entryPoints: [
+      'src/renderer/index.tsx',
+      { in: 'src/renderer/index.scss', out: 'base' }
+    ],
+    outdir: 'build/app/renderer',
+    outbase: 'src/renderer',
+    metafile: true,
+    plugins: [
+      log('renderer'),
+      clean(['build/renderer']),
+      sass({
+        style: dev ?
+          'expanded' :
+          'compressed',
+        depedencies: [
+          'src/renderer/scss/core'
+        ],
+        ignore: /\.ttf$/
+      }),
+      copy([{
+        in: 'src/renderer/index.html',
+        out: 'build/app/renderer/index.html'
+      }, {
+        in: 'src/renderer/assets/fonts',
+        out: 'build/app/renderer/fonts'
+      }, {
+        in: 'src/renderer/assets/icons',
+        out: 'build/app/renderer/icons'
+      }])]
+  }, { watch: w })
+])
+  .then(() => {
+    if (!w) return process.exit();
+    return null;
+  });
