@@ -42,8 +42,8 @@ const LibraryQueue: Component<LibraryQueueProps> = () => {
           <VirtualList
             list={queue}
             item={{
-              height: 48,
-              render: song => (
+              height: () => 48,
+              render: ({ data: song }) => (
                 <button
                   id={song._id}
                   type='button'

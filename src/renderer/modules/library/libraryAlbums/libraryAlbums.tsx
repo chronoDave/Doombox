@@ -2,7 +2,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { Thumb } from '../../../../types/library';
 import sum from '../../../../utils/array/sum';
 import secToTime from '../../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../../utils/time/timeToHhMmSs';
@@ -10,20 +9,25 @@ import { addToQueue, setQueue } from '../../../actions/queue.actions';
 import { searchAlbums } from '../../../actions/search.actions';
 import Icon from '../../../components/icon/icon';
 import InputSearch from '../../../components/inputSearch/inputSearch';
-import VirtualGrid from '../../../components/virtualGrid/virtualGrid';
-import cx from '../../../utils/cx/cx';
 import VirtualList from '../../../components/virtualList/virtualList';
 
 import subscribe from './libraryAlbums.state';
 
 import './libraryAlbums.scss';
 
+/**
+ * TODO:
+ *  - Remove item event listeners (performance)
+ *  - Implement search
+ *  - Add album highlight
+ */
+
 export type LibraryAlbumsProps = {};
 
 const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
   const component = new forgo.Component<LibraryAlbumsProps>({
     render() {
-      const { labels, current } = subscribe(component);
+      const { labels } = subscribe(component);
       const duration = sum(labels, label => label.duration ?? 0);
 
       return (
@@ -54,8 +58,6 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
               height: (label, container) => {
                 const columns = Math.max(1, Math.floor(container.width / 256));
                 const items = Math.max(1, Math.ceil(label.albums.length / columns));
-
-                console.log(label.label, columns);
 
                 return 48 + items * 96;
               },

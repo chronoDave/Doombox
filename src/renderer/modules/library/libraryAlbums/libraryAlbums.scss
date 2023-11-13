@@ -58,6 +58,10 @@
           align-items: center;
           height: var(--height);
 
+          > .meta > p {
+            @include typography.clamp(2);
+          }
+
           > button {
             height: 100%;
             aspect-ratio: 1/1;

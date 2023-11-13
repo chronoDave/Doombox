@@ -62,8 +62,8 @@ const PlaylistDetail: Component<PlaylistDetailProps> = () => {
             <VirtualList
               list={props.playlist.songs}
               item={{
-                height: 52,
-                render: (id, i) => {
+                height: () => 52,
+                render: ({ data: id, i }) => {
                   const song = props.songs.get(id);
 
                   return (
