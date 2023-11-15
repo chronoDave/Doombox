@@ -37,6 +37,7 @@ return Promise.all([
       'fs-events'
     ],
     platform: 'node',
+    sourcemap: !!w,
     outdir: 'build/app',
     outbase: 'src/app',
     plugins: [
@@ -56,6 +57,7 @@ return Promise.all([
     ],
     outdir: 'build/app/renderer',
     outbase: 'src/renderer',
+    sourcemap: !!w,
     metafile: true,
     plugins: [
       log('renderer'),

@@ -24,6 +24,7 @@ import './libraryAlbums.scss';
 /**
  * TODO:
  *  - Implement search
+ *  - Implement mixed sized grid virtualization
  */
 
 export type LibraryAlbumsProps = {};

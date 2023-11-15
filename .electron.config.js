@@ -55,7 +55,7 @@ module.exports = {
     '!**/*',
     'LICENSE',
     'package.json',
-    { from: 'build/app' },
+    { from: 'build/app', filter: '!**/*.*.map' },
     { from: 'node_modules/sharp/build', to: 'node_modules/sharp/build' },
     { from: 'node_modules/kuromoji/dict', to: 'assets/dict' },
     ...crawlDeps('sharp')
