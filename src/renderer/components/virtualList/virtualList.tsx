@@ -9,6 +9,7 @@ import './virtualList.scss';
 
 export type VirtualListProps<T> = {
   list: T[]
+  onclick?: (source: HTMLElement, event: forgo.JSX.TargetedEvent<HTMLElement>) => void
   item: {
     id?: (data: T) => string
     height: (data: T, container: Rect) => number
@@ -45,7 +46,17 @@ const VirtualList = <T extends any>(
       }
 
       return (
-        <div class='VirtualList' ref={ref}>
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+          class='VirtualList'
+          ref={ref}
+          onclick={event => {
+            if (event.target) props.onclick?.(event.target as HTMLElement, event);
+          }}
+          onkeydown={event => {
+            if (event.key === 'Enter' && event.target) props.onclick?.(event.target as HTMLElement, event);
+          }}
+        >
           <ul style={{ height: `${list.height}px` }}>
             {list.columns.map(column => (
               <li

@@ -7,33 +7,17 @@ import difference from '../../utils/array/difference';
 import unique from '../../utils/array/unique';
 import store from '../store';
 import { Route } from '../types/state';
+import { sortAlbums, sortLabels, sortSongs } from '../utils/sort';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.song = new Map(library.songs
-    .sort((a, b) => {
-      if (!a.label || !b.label) return 0;
-      if (a.label !== b.label) return a.label.localeCompare(b.label);
-      if (!a.year || !b.year) return 0;
-      if (a.year !== b.year) return a.year - b.year;
-      if (!a.album || !b.album) return 0;
-      if (a.album !== b.album) return a.album.localeCompare(b.album);
-      if (!a.track.no || !b.track.no) return 0;
-      return a.track.no - b.track.no;
-    })
+    .sort(sortSongs)
     .map(song => [song._id, song]));
   draft.entities.album = new Map(library.albums
-    .sort((a, b) => {
-      if (!a.label || !b.label) return 0;
-      if (a.label !== b.label) return a.label.localeCompare(b.label);
-      if (!a.year || !b.year) return 0;
-      return a.year - b.year;
-    })
+    .sort(sortAlbums)
     .map(album => [album._id, album]));
   draft.entities.label = new Map(library.labels
-    .sort((a, b) => {
-      if (!a.label || !b.label) return 0;
-      return a.label.localeCompare(b.label);
-    })
+    .sort(sortLabels)
     .map(label => [label._id, label]));
 }), 'library.dispatchLibrary');
 

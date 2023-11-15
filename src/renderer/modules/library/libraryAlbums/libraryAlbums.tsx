@@ -5,11 +5,17 @@ import * as forgo from 'forgo';
 import sum from '../../../../utils/array/sum';
 import secToTime from '../../../../utils/time/secToTime';
 import timeToHhMmSs from '../../../../utils/time/timeToHhMmSs';
-import { addToQueue, setQueue } from '../../../actions/queue.actions';
+import {
+  addLabelToQueue,
+  playAlbum,
+  playLabel,
+  setQueue
+} from '../../../actions/queue.actions';
 import { searchAlbums } from '../../../actions/search.actions';
 import Icon from '../../../components/icon/icon';
 import InputSearch from '../../../components/inputSearch/inputSearch';
 import VirtualList from '../../../components/virtualList/virtualList';
+import cx from '../../../utils/cx/cx';
 
 import subscribe from './libraryAlbums.state';
 
@@ -17,17 +23,32 @@ import './libraryAlbums.scss';
 
 /**
  * TODO:
- *  - Remove item event listeners (performance)
  *  - Implement search
- *  - Add album highlight
  */
 
 export type LibraryAlbumsProps = {};
 
+enum Action {
+  PlayLabel = 'play-label',
+  AddLabel = 'add-label',
+  PlayAlbum = 'play-album'
+}
+
 const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
+  const actions: Record<Action, (id: string) => void> = {
+    [Action.PlayAlbum]: playAlbum,
+    [Action.PlayLabel]: playLabel,
+    [Action.AddLabel]: addLabelToQueue
+  };
+
+  const isAction = (x?: string): x is Action => {
+    if (!x) return false;
+    return x in actions;
+  };
+
   const component = new forgo.Component<LibraryAlbumsProps>({
     render() {
-      const { labels } = subscribe(component);
+      const { labels, current } = subscribe(component);
       const duration = sum(labels, label => label.duration ?? 0);
 
       return (
@@ -53,6 +74,12 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
           </div>
           <VirtualList
             list={labels}
+            onclick={source => {
+              const action = source.closest<HTMLButtonElement>('[data-action]')?.dataset.action;
+              const id = source.closest<HTMLElement>('[data-id]')?.dataset.id;
+
+              if (isAction(action) && id) actions[action](id);
+            }}
             item={{
               id: label => label._id,
               height: (label, container) => {
@@ -62,17 +89,21 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
                 return 48 + items * 96;
               },
               render: ({ data: label, container }) => (
-                <article style={`--columns: ${Math.floor(container.width / 256)}; --height: ${96}px`}>
+                <article
+                  class='LibraryItem'
+                  data-id={label._id}
+                  style={`--columns: ${Math.floor(container.width / 256)}; --height: ${96}px`}
+                >
                   <div class='header'>
                     <div class='meta'>
                       <p class='nowrap'>{label.label}</p>
                       <p class='nowrap small'>{label.albums.length} albums<span class='dot' aria-hidden='true'>&bull;</span>{timeToHhMmSs(secToTime(label.duration ?? 0))}</p>
                     </div>
                     <div class='actions'>
-                      <button type='button' onclick={() => setQueue(label.songs)}>
+                      <button type='button' data-action={Action.PlayLabel} aria-label='Play label'>
                         <Icon id='listPlay' />
                       </button>
-                      <button type='button' onclick={() => addToQueue(label.songs)}>
+                      <button type='button' data-action={Action.AddLabel} aria-label='Add label to queue'>
                         <Icon id='listAdd' />
                       </button>
                     </div>
@@ -80,8 +111,12 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
                   </div>
                   <ol>
                     {label.albums.map(album => (
-                      <li key={album._id}>
-                        <button type='button' onclick={() => setQueue(album.songs)}>
+                      <li
+                        key={album._id}
+                        data-id={album._id}
+                        class={cx((current && album.songs.includes(current)) && 'active')}
+                      >
+                        <button type='button' data-action={Action.PlayAlbum} aria-label='Play album'>
                           <img src={album.image} alt='' width={96} height={96} />
                         </button>
                         <div class='meta'>

@@ -1,21 +1,24 @@
 import produce from 'immer';
 
 import shuffle from '../../utils/array/shuffle';
-import { AudioStatus } from '../lib/audio';
+import { hasAutoplay, populateSongs } from '../selectors';
 import store from '../store';
 
 import { play } from './player.actions';
 
 export const addToQueue = (ids: string[]) => {
-  const autplay =
-    store.get().queue.songs.length === 0 &&
-    store.get().player.status !== AudioStatus.Playing;
-
   store.dispatch(produce(draft => {
     draft.queue.songs.push(...ids);
   }), 'queue.add');
 
-  if (autplay) play(ids[0]);
+  if (hasAutoplay(store.get())) play(ids[0]);
+};
+
+export const addLabelToQueue = (id: string) => {
+  const label = store.get().entities.label.get(id);
+  if (!label) return;
+
+  addToQueue(populateSongs(store.get())(label.songs).map(song => song._id));
 };
 
 export const setQueue = (ids: string[]) => {
@@ -25,6 +28,36 @@ export const setQueue = (ids: string[]) => {
   }), 'queue.set');
 
   play(ids[0]);
+};
+
+export const playLabel = (id: string) => {
+  const label = store.get().entities.label.get(id);
+  if (!label) return;
+
+  const songs = populateSongs(store.get())(label.songs)
+    .map(song => song._id);
+
+  store.dispatch(produce(draft => {
+    draft.queue.songs = songs;
+    draft.queue.index = 0;
+  }), 'queue.playLabel');
+
+  play(songs[0]);
+};
+
+export const playAlbum = (id: string) => {
+  const album = store.get().entities.album.get(id);
+  if (!album) return;
+
+  const songs = populateSongs(store.get())(album.songs)
+    .map(song => song._id);
+
+  store.dispatch(produce(draft => {
+    draft.queue.songs = songs;
+    draft.queue.index = 0;
+  }), 'queue.playAlbum');
+
+  play(songs[0]);
 };
 
 export const setQueueIndex = (id: string) => {

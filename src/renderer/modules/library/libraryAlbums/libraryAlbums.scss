@@ -58,6 +58,11 @@
           align-items: center;
           height: var(--height);
 
+          &.active {
+            background-color: var(--primary);
+            color: var(--text-primary);
+          }
+
           > .meta > p {
             @include typography.clamp(2);
           }

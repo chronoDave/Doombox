@@ -3,6 +3,7 @@ import type { Album } from '../../../../types/library';
 import { currentPlayerSelector, thumbSelector } from '../../../selectors';
 import store from '../../../store';
 import createSelector from '../../../utils/createSelector';
+import { sortAlbums } from '../../../utils/sort';
 
 export default createSelector(store)(state => {
   const labels = Array.from(
@@ -20,16 +21,9 @@ export default createSelector(store)(state => {
           });
           return acc;
         }, [])
-        .sort((a, b) => {
-          if (!a.year || !b.year) return 0;
-          if (a.year !== b.year) return a.year - b.year;
-          if (!a.cdid || !b.cdid) return 0;
-          if (a.cdid !== b.cdid) a.cdid.localeCompare(b.cdid);
-          if (!a.album || !b.album) return 0;
-          return a.album.localeCompare(b.album);
-        })
+        .sort(sortAlbums)
     })
   );
 
-  return ({ labels, current: currentPlayerSelector(state)()?.album });
+  return ({ labels, current: currentPlayerSelector(state)()?._id });
 });
