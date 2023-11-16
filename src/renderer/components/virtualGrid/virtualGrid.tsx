@@ -6,12 +6,16 @@ import debounce from '../../utils/debounce';
 import './virtualGrid.scss';
 
 export type VirtualGridProps<T> = {
-  list: T[]
-  item: {
+  data: T[]
+  onclick?: (
+    target: HTMLElement,
+    event: forgo.JSX.TargetedEvent<HTMLElement>
+  ) => void
+  cell: {
     id?: (data: T) => string
-    width: number
-    height?: number
-    render: (data: T, index: number) => forgo.Component | forgo.Component[]
+    width: (data: T) => number | null
+    height: (data: T) => number
+    render: (data: T) => forgo.Component | forgo.Component[]
   }
 };
 
@@ -20,44 +24,46 @@ const VirtualGrid = <T extends any>(
 ): forgo.Component<VirtualGridProps<T>> => {
   const { signal, abort } = new AbortController();
   const ref: forgo.ForgoRef<HTMLDivElement> = {};
-
-  let prev = 0;
   const component = new forgo.Component<VirtualGridProps<T>>({
     render(props) {
       const grid = createVirtualGrid({
-        data: props.list,
-        overscroll: 1,
+        data: props.data,
         scroll: ref.value?.scrollTop ?? 0,
         container: {
           width: ref.value?.clientWidth ?? 0,
           height: ref.value?.clientHeight ?? 0
         },
-        item: {
-          width: props.item.width,
-          height: props.item.height
+        cell: {
+          width: props.cell.width,
+          height: props.cell.height
         }
       });
 
-      if (grid.height !== prev) {
-        prev = grid.height;
-        if (ref.value) ref.value.scrollTop = 0;
-      }
-
       return (
-        <div class="VirtualGrid" ref={ref}>
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+          ref={ref}
+          class="VirtualGrid"
+          onclick={event => {
+            if (event.target) props.onclick?.(event.target as HTMLElement, event);
+          }}
+          onkeydown={event => {
+            if (event.key === 'Enter' && event.target) props.onclick?.(event.target as HTMLElement, event);
+          }}
+        >
           <ul style={{ height: `${grid.height}px` }}>
             {grid.cells.map(cell => (
               <li
                 class='VirtualItem'
-                key={props.item.id?.(cell.data) ?? cell.data}
+                key={props.cell.id?.(cell.data) ?? cell.data}
                 style={{
-                  top: `${cell.position.top}px`,
-                  left: `${cell.position.left}px`,
-                  width: `${cell.position.width}px`,
-                  height: `${cell.position.height}px`
+                  top: `${cell.y}px`,
+                  left: `${cell.x}px`,
+                  width: `${cell.width}px`,
+                  height: `${cell.height}px`
                 }}
               >
-                {props.item.render(cell.data, cell.index)}
+                {props.cell.render(cell.data)}
               </li>
             ))}
           </ul>

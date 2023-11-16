@@ -2,10 +2,12 @@
 
 @include layers.components {
   .VirtualGrid {
+    display: flex;
     flex-grow: 1;
     overflow-y: scroll;
 
     > ul {
+      flex-grow: 1;
       position: relative;
 
       > li {

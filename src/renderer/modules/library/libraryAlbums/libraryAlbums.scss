@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
+    flex-grow: 1;
 
     > .InputSearch {
       padding: 0.5em;
@@ -30,8 +31,8 @@
       }
     }
 
-    > .VirtualList .VirtualItem > article {
-      > .header {
+    > .VirtualGrid .VirtualItem > article {
+      &.label {
         display: flex;
         align-items: center;
         gap: 0.5em;
@@ -47,30 +48,26 @@
           background-color: var(--text-inactive);
           flex-shrink: 1;
         }
-      }
+      } 
+      
+      &.album {
+        display: flex;
+        align-items: center;
+        height: var(--height);
 
-      > ol {
-        display: grid;
-        grid-template-columns: repeat(var(--columns), 1fr);
+        &.active {
+          background-color: var(--primary);
+          color: var(--text-primary);
+        }
 
-        > li {
-          display: flex;
-          align-items: center;
-          height: var(--height);
+        > .meta > p {
+          @include typography.clamp(2);
+        }
 
-          &.active {
-            background-color: var(--primary);
-            color: var(--text-primary);
-          }
-
-          > .meta > p {
-            @include typography.clamp(2);
-          }
-
-          > button {
-            height: 100%;
-            aspect-ratio: 1/1;
-          }
+        > button {
+          height: 100%;
+          aspect-ratio: 1/1;
+          flex-shrink: 0;
         }
       }
     }

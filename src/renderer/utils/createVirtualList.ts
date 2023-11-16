@@ -41,12 +41,12 @@ const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualList<T> =>
 
   const min = binarySearchLeft(
     columns,
-    options.scroll,
+    () => options.scroll,
     column => column.position.top
   );
   const max = binarySearchLeft(
     columns,
-    options.scroll + options.container.height,
+    () => options.scroll + options.container.height,
     column => column.position.top
   );
 

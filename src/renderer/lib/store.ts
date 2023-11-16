@@ -1,4 +1,5 @@
 import { IS_DEV } from '../../utils/const';
+import measure from '../utils/measure';
 
 export default class Store<S extends Record<string, unknown>> {
   private readonly _listeners: Set<(prev: S, cur: S) => void>;
@@ -15,7 +16,7 @@ export default class Store<S extends Record<string, unknown>> {
 
   dispatch(reducer: (state: S) => S, action: string) {
     const prev = this._state;
-    this._state = reducer(prev);
+    this._state = measure(() => reducer(prev), `[dispatch] ${action}`);
 
     if (IS_DEV) {
       console.group(`[dispatch] ${action}`);

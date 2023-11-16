@@ -1,4 +1,4 @@
 import store from '../../../store';
 import createSelector from '../../../utils/createSelector';
 
-export default createSelector(store)(state => state.player.status);
+export default createSelector(store, 'playerControls')(state => state.player.status);

@@ -14,7 +14,7 @@ import {
 import { searchAlbums } from '../../../actions/search.actions';
 import Icon from '../../../components/icon/icon';
 import InputSearch from '../../../components/inputSearch/inputSearch';
-import VirtualList from '../../../components/virtualList/virtualList';
+import VirtualGrid from '../../../components/virtualGrid/virtualGrid';
 import cx from '../../../utils/cx/cx';
 
 import subscribe from './libraryAlbums.state';
@@ -24,7 +24,6 @@ import './libraryAlbums.scss';
 /**
  * TODO:
  *  - Implement search
- *  - Implement mixed sized grid virtualization
  */
 
 export type LibraryAlbumsProps = {};
@@ -73,62 +72,53 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
               </button>
             </div>
           </div>
-          <VirtualList
-            list={labels}
+          <VirtualGrid
+            data={labels.map(label => [label, ...label.albums]).flat()}
             onclick={source => {
               const action = source.closest<HTMLButtonElement>('[data-action]')?.dataset.action;
               const id = source.closest<HTMLElement>('[data-id]')?.dataset.id;
 
               if (isAction(action) && id) actions[action](id);
             }}
-            item={{
-              id: label => label._id,
-              height: (label, container) => {
-                const columns = Math.max(1, Math.floor(container.width / 256));
-                const items = Math.max(1, Math.ceil(label.albums.length / columns));
-
-                return 48 + items * 96;
-              },
-              render: ({ data: label, container }) => (
-                <article
-                  class='LibraryItem'
-                  data-id={label._id}
-                  style={`--columns: ${Math.floor(container.width / 256)}; --height: ${96}px`}
-                >
-                  <div class='header'>
-                    <div class='meta'>
-                      <p class='nowrap'>{label.label}</p>
-                      <p class='nowrap small'>{label.albums.length} albums<span class='dot' aria-hidden='true'>&bull;</span>{timeToHhMmSs(secToTime(label.duration ?? 0))}</p>
-                    </div>
-                    <div class='actions'>
-                      <button type='button' data-action={Action.PlayLabel} aria-label='Play label'>
-                        <Icon id='listPlay' />
-                      </button>
-                      <button type='button' data-action={Action.AddLabel} aria-label='Add label to queue'>
-                        <Icon id='listAdd' />
-                      </button>
-                    </div>
-                    <span class='hr' aria-hidden='true' />
-                  </div>
-                  <ol>
-                    {label.albums.map(album => (
-                      <li
-                        key={album._id}
-                        data-id={album._id}
-                        class={cx((current && album.songs.includes(current)) && 'active')}
-                      >
-                        <button type='button' data-action={Action.PlayAlbum} aria-label='Play album'>
-                          <img src={album.image} alt='' width={96} height={96} />
+            cell={{
+              id: cell => cell._id,
+              width: cell => 'albums' in cell ? null : 256,
+              height: cell => 'albums' in cell ? 48 : 96,
+              render: cell => {
+                if ('albums' in cell) {
+                  return (
+                    <article class='label' data-id={cell._id}>
+                      <div class='meta'>
+                        <p class='nowrap'>{cell.label}</p>
+                        <p class='nowrap small'>{cell.albums.length} albums<span class='dot' aria-hidden='true'>&bull;</span>{timeToHhMmSs(secToTime(cell.duration ?? 0))}</p>
+                      </div>
+                      <div class='actions'>
+                        <button type='button' data-action={Action.PlayLabel} aria-label='Play label'>
+                          <Icon id='listPlay' />
                         </button>
-                        <div class='meta'>
-                          <p>{album.album}</p>
-                          <p class='small'>{album.albumartist ?? '-'}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </article>
-              )
+                        <button type='button' data-action={Action.AddLabel} aria-label='Add label to queue'>
+                          <Icon id='listAdd' />
+                        </button>
+                      </div>
+                      <span class='hr' />
+                    </article>
+                  );
+                }
+                return (
+                  <article
+                    data-id={cell._id}
+                    class={cx('album', (current && cell.songs.includes(current)) && 'active')}
+                  >
+                    <button type='button' data-action={Action.PlayAlbum} aria-label='Play album'>
+                      <img src={cell.image} alt='' width={96} height={96} />
+                    </button>
+                    <div class='meta'>
+                      <p>{cell.album}</p>
+                      <p class='small'>{cell.albumartist ?? '-'}</p>
+                    </div>
+                  </article>
+                );
+              }
             }}
           />
         </div>

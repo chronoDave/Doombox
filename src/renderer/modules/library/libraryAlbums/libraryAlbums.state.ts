@@ -5,7 +5,7 @@ import store from '../../../store';
 import createSelector from '../../../utils/createSelector';
 import { sortAlbums } from '../../../utils/sort';
 
-export default createSelector(store)(state => {
+export default createSelector(store, 'libraryAlbums')(state => {
   const labels = Array.from(
     state.entities.label.values(),
     label => ({

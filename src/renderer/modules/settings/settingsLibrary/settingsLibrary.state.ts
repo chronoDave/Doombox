@@ -1,4 +1,4 @@
 import store from '../../../store';
 import createSelector from '../../../utils/createSelector';
 
-export default createSelector(store)(state => state.user.library);
+export default createSelector(store, 'settingsLibrary')(state => state.user.library);
