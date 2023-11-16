@@ -68,7 +68,7 @@
     "leaf-db": "^10.0.3",
     "music-metadata": "^8.1.0",
     "p-map": "^5.5.0",
-    "sharp": "^0.30.7",
+    "sharp": "^0.32.6",
     "tabbable": "^6.1.2",
     "wanakana": "^5.1.0"
   }
