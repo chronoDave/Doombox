@@ -1,7 +1,7 @@
-import type { Rect } from '../../types/primitives';
+import type { Rect } from '../../../types/primitives';
 
-import { binarySearchLeft } from '../../utils/array/binarySearch';
-import fill from '../../utils/array/fill';
+import { binarySearchLeft } from '../../../utils/array/binarySearch';
+import fill from '../../../utils/array/fill';
 
 export type Cell<T> = {
   data: T
@@ -26,7 +26,7 @@ export type VirtualGridOptions<T> = {
   }
 };
 
-const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> => {
+export const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> => {
   const getWidth = (data: T) => {
     const width = options.cell.width(data);
     if (!width) return options.container.width;
@@ -77,5 +77,3 @@ const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> =>
     )
   });
 };
-
-export default createVirtualGrid;

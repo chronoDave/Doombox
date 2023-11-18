@@ -93,10 +93,10 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
                         <p class='nowrap small'>{cell.albums.length} albums<span class='dot' aria-hidden='true'>&bull;</span>{timeToHhMmSs(secToTime(cell.duration ?? 0))}</p>
                       </div>
                       <div class='actions'>
-                        <button type='button' data-action={Action.PlayLabel} aria-label='Play label'>
+                        <button type='button' data-action={Action.PlayLabel} aria-label={`Play ${cell.label}`}>
                           <Icon id='listPlay' />
                         </button>
-                        <button type='button' data-action={Action.AddLabel} aria-label='Add label to queue'>
+                        <button type='button' data-action={Action.AddLabel} aria-label={`Add ${cell.label} to queue`}>
                           <Icon id='listAdd' />
                         </button>
                       </div>
@@ -109,7 +109,7 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
                     data-id={cell._id}
                     class={cx('album', (current && cell.songs.includes(current)) && 'active')}
                   >
-                    <button type='button' data-action={Action.PlayAlbum} aria-label='Play album'>
+                    <button type='button' data-action={Action.PlayAlbum} aria-label={`Play ${cell.album}`}>
                       <img src={cell.image} alt='' width={96} height={96} />
                     </button>
                     <div class='meta'>

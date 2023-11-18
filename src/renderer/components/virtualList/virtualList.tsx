@@ -1,19 +1,21 @@
-import type { Rect } from '../../../types/primitives';
-
 import * as forgo from 'forgo';
 
-import createVirtualList from '../../utils/createVirtualList';
 import debounce from '../../utils/debounce';
+
+import { createVirtualList } from './virtualList.utils';
 
 import './virtualList.scss';
 
 export type VirtualListProps<T> = {
-  list: T[]
-  onclick?: (source: HTMLElement, event: forgo.JSX.TargetedEvent<HTMLElement>) => void
-  item: {
+  data: T[]
+  onclick?: (
+    target: HTMLElement,
+    event: forgo.JSX.TargetedEvent<HTMLElement>
+  ) => void
+  cell: {
     id?: (data: T) => string
-    height: (data: T, container: Rect) => number
-    render: (item: { data: T, container: Rect, i: number }) => forgo.Component | forgo.Component[]
+    height: (data: T) => number
+    render: (data: T, i: number) => forgo.Component | forgo.Component[]
   }
 };
 
@@ -31,12 +33,11 @@ const VirtualList = <T extends any>(
         height: ref.value?.clientHeight ?? 0
       };
       const list = createVirtualList({
-        data: props.list,
-        overscroll: 1,
+        data: props.data,
         scroll: ref.value?.scrollTop ?? 0,
         container,
-        item: {
-          height: props.item.height
+        cell: {
+          height: props.cell.height
         }
       });
 
@@ -58,16 +59,16 @@ const VirtualList = <T extends any>(
           }}
         >
           <ul style={{ height: `${list.height}px` }}>
-            {list.columns.map(column => (
+            {list.cells.map((cell, i) => (
               <li
                 class='VirtualItem'
-                key={props.item.id?.(column.data) ?? column.data}
+                key={props.cell.id?.(cell.data) ?? cell.data}
                 style={{
-                  top: `${column.position.top}px`,
-                  height: `${column.position.height}px`
+                  top: `${cell.y}px`,
+                  height: `${cell.height}px`
                 }}
               >
-                {props.item.render({ data: column.data, i: column.index, container })}
+                {props.cell.render(cell.data, i)}
               </li>
             ))}
           </ul>

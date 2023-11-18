@@ -12,6 +12,14 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.25rem 0.5rem;
+
+      > .meta {
+        min-width: 0;
+      }
+
+      > .actions {
+        flex-shrink: 0;
+      }
     }
 
     .VirtualItem > button {

@@ -60,10 +60,10 @@ const PlaylistDetail: Component<PlaylistDetailProps> = () => {
           </header>
           <div class='body'>
             <VirtualList
-              list={props.playlist.songs}
-              item={{
+              data={props.playlist.songs}
+              cell={{
                 height: () => 52,
-                render: ({ data: id, i }) => {
+                render: (id, i) => {
                   const song = props.songs.get(id);
 
                   return (

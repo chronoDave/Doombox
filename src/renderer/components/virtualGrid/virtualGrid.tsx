@@ -1,7 +1,8 @@
 import * as forgo from 'forgo';
 
-import createVirtualGrid from '../../utils/createVirtualGrid';
 import debounce from '../../utils/debounce';
+
+import { createVirtualGrid } from './virtualGrid.utils';
 
 import './virtualGrid.scss';
 
@@ -15,7 +16,7 @@ export type VirtualGridProps<T> = {
     id?: (data: T) => string
     width: (data: T) => number | null
     height: (data: T) => number
-    render: (data: T) => forgo.Component | forgo.Component[]
+    render: (data: T, i: number) => forgo.Component | forgo.Component[]
   }
 };
 
@@ -52,7 +53,7 @@ const VirtualGrid = <T extends any>(
           }}
         >
           <ul style={{ height: `${grid.height}px` }}>
-            {grid.cells.map(cell => (
+            {grid.cells.map((cell, i) => (
               <li
                 class='VirtualItem'
                 key={props.cell.id?.(cell.data) ?? cell.data}
@@ -63,7 +64,7 @@ const VirtualGrid = <T extends any>(
                   height: `${cell.height}px`
                 }}
               >
-                {props.cell.render(cell.data)}
+                {props.cell.render(cell.data, i)}
               </li>
             ))}
           </ul>
