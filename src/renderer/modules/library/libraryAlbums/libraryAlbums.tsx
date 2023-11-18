@@ -13,18 +13,12 @@ import {
 } from '../../../actions/queue.actions';
 import { searchAlbums } from '../../../actions/search.actions';
 import Icon from '../../../components/icon/icon';
-import InputSearch from '../../../components/inputSearch/inputSearch';
 import VirtualGrid from '../../../components/virtualGrid/virtualGrid';
 import cx from '../../../utils/cx/cx';
 
 import subscribe from './libraryAlbums.state';
 
 import './libraryAlbums.scss';
-
-/**
- * TODO:
- *  - Implement search
- */
 
 export type LibraryAlbumsProps = {};
 
@@ -53,11 +47,6 @@ const LibraryAlbums: Component<LibraryAlbumsProps> = () => {
 
       return (
         <div class="LibraryAlbums">
-          <InputSearch
-            placeholder='search for album'
-            onsubmit={query => searchAlbums(query)}
-            oninput={query => searchAlbums(query)}
-          />
           <div class="toolbar">
             <p class='meta'>
               <span><Icon id='boxesMusic' />{labels.length}</span>
