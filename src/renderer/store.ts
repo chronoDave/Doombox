@@ -31,7 +31,7 @@ export default new Store<State>({
     status: AudioStatus.Stopped
   },
   view: {
-    app: AppView.Album,
+    app: AppView.Library,
     settings: SettingsView.Appearance
   },
   search: {

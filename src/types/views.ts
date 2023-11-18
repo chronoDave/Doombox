@@ -1,5 +1,5 @@
 export enum AppView {
-  Album = 'album',
+  Library = 'library',
   Playlist = 'playlist'
 }
 

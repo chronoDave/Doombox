@@ -1,0 +1,22 @@
+@use 'typography';
+@use 'breakpoints';
+
+@use 'layers';
+
+@include layers.modules {
+  .App {
+    display: grid;
+    grid-template-columns: auto 210px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+
+    > .panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    > .body {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

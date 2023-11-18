@@ -1,9 +1,9 @@
-import type { Album } from '../../../../types/library';
+import type { Album } from '../../../types/library';
 
-import { currentPlayerSelector, thumbSelector } from '../../../selectors';
-import store from '../../../store';
-import createSelector from '../../../utils/createSelector';
-import { sortAlbums } from '../../../utils/sort';
+import { currentPlayerSelector, thumbSelector } from '../../selectors';
+import store from '../../store';
+import createSelector from '../../utils/createSelector';
+import { sortAlbums } from '../../utils/sort';
 
 export default createSelector(store, 'libraryAlbums')(state => {
   const labels = Array.from(

@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { Route } from '../../../types/state';
-import Library from '../../library/library';
+import App from '../../app/app';
 import Load from '../../load/load';
 import Scan from '../../scan/scan';
 import Settings from '../../settings/settings';
@@ -16,7 +16,7 @@ const WindowRouter: Component<WindowRouterProps> = () => {
   const routes: Record<Route, forgo.Component> = {
     [Route.Load]: <Load />,
     [Route.Scan]: <Scan />,
-    [Route.App]: <Library />,
+    [Route.App]: <App />,
     [Route.Settings]: <Settings />
   };
 
