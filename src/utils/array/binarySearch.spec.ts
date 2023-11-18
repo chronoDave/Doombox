@@ -6,7 +6,7 @@ test('[binarySearchLeft] finds element', t => {
   const arr = [1, 2, 3, 5, 7, 9, 10];
 
   t.equal(
-    binarySearchLeft(arr, 3),
+    binarySearchLeft(arr, () => 3),
     2,
     'returns index'
   );
@@ -18,7 +18,7 @@ test('[binarySearchLeft] finds leftmost duplicate', t => {
   const arr = [1, 2, 2, 2, 3, 5, 7, 9, 10];
 
   t.equal(
-    binarySearchLeft(arr, 2),
+    binarySearchLeft(arr, () => 2),
     1,
     'returns duplicate index'
   );
@@ -30,7 +30,7 @@ test('[binarySearchRight] finds element', t => {
   const arr = [1, 2, 3, 5, 7, 9, 10];
 
   t.equal(
-    binarySearchRight(arr, 3),
+    binarySearchRight(arr, () => 3),
     2,
     'returns index'
   );
@@ -42,7 +42,7 @@ test('[binarySearchRight] finds leftmost duplicate', t => {
   const arr = [1, 2, 2, 2, 3, 5, 7, 9, 10];
 
   t.equal(
-    binarySearchRight(arr, 2),
+    binarySearchRight(arr, () => 2),
     3,
     'returns duplicate index'
   );

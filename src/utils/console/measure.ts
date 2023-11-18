@@ -1,4 +1,4 @@
-import { IS_DEV } from '../../utils/const';
+import { IS_DEV } from '../const';
 
 export default <T>(observe: () => T, label: string) => {
   if (!IS_DEV) return observe();

@@ -1,5 +1,5 @@
+import measure from '../../utils/console/measure';
 import { IS_DEV } from '../../utils/const';
-import measure from '../utils/measure';
 
 export default class Store<S extends Record<string, unknown>> {
   private readonly _listeners: Set<(prev: S, cur: S) => void>;
