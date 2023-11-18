@@ -6,14 +6,14 @@ import * as forgo from 'forgo';
 import PlaylistDetail from '../../../views/playlistDetail/playlistDetail';
 import PlaylistOverview from '../../../views/playlistOverview/playlistOverview';
 
-import subscribe from './libraryPlaylist.state';
+import subscribe from './appPlaylist.state';
 
-export type LibraryPlaylistProps = {};
+export type AppPlaylistProps = {};
 
-const LibraryPlaylist: Component<LibraryPlaylistProps> = () => {
+const AppPlaylist: Component<AppPlaylistProps> = () => {
   let playlist: Playlist | null = null;
 
-  const component = new forgo.Component<LibraryPlaylistProps>({
+  const component = new forgo.Component<AppPlaylistProps>({
     render() {
       const { playlists, songs, current } = subscribe(component);
 
@@ -39,4 +39,4 @@ const LibraryPlaylist: Component<LibraryPlaylistProps> = () => {
   return component;
 };
 
-export default LibraryPlaylist;
+export default AppPlaylist;

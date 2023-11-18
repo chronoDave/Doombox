@@ -10,24 +10,24 @@ import Icon from '../../../components/icon/icon';
 import { Route } from '../../../types/state';
 import cx from '../../../utils/cx/cx';
 
-import subscribe from './libraryNavigation.state';
+import subscribe from './appNav.state';
 
-import './libraryNavigation.scss';
+import './appNav.scss';
 
-export type LibraryNavigationProps = {};
+export type AppNavProps = {};
 
-const LibraryNavigation: Component<LibraryNavigationProps> = () => {
+const AppNav: Component<AppNavProps> = () => {
   const views: Record<AppView, IconProps['id']> = {
     [AppView.Playlist]: 'star',
     [AppView.Library]: 'listMusic'
   };
 
-  const component = new forgo.Component<LibraryNavigationProps>({
+  const component = new forgo.Component<AppNavProps>({
     render() {
       const current = subscribe(component);
 
       return (
-        <nav class='LibraryNavigation' aria-label="library">
+        <nav class='AppNav' aria-label="library">
           {Object.entries(views).map(([id, icon]) => (
             <button
               key={id}
@@ -54,4 +54,4 @@ const LibraryNavigation: Component<LibraryNavigationProps> = () => {
   return component;
 };
 
-export default LibraryNavigation;
+export default AppNav;

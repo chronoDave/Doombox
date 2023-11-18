@@ -11,17 +11,17 @@ import Icon from '../../../components/icon/icon';
 import VirtualList from '../../../components/virtualList/virtualList';
 import cx from '../../../utils/cx/cx';
 
-import subscribe from './libraryQueue.state';
+import subscribe from './appQueue.state';
 
-import './libraryQueue.scss';
+import './appQueue.scss';
 
-export type LibraryQueueProps = {};
+export type AppQueueProps = {};
 
 enum Action {
   SetQueueIndex = 'set-queue-index'
 }
 
-const LibraryQueue: Component<LibraryQueueProps> = () => {
+const AppQueue: Component<AppQueueProps> = () => {
   const actions: Record<Action, (id: string) => void> = {
     [Action.SetQueueIndex]: setQueueIndex
   };
@@ -31,13 +31,13 @@ const LibraryQueue: Component<LibraryQueueProps> = () => {
     return x in actions;
   };
 
-  const component = new forgo.Component<LibraryQueueProps>({
+  const component = new forgo.Component<AppQueueProps>({
     render() {
       const { queue, current } = subscribe(component);
       const duration = sum(queue, song => song.duration ?? 0);
 
       return (
-        <div class='LibraryQueue'>
+        <div class='AppQueue'>
           <div class='header'>
             <div class='meta'>
               <p>Queue</p>
@@ -91,4 +91,4 @@ const LibraryQueue: Component<LibraryQueueProps> = () => {
   return component;
 };
 
-export default LibraryQueue;
+export default AppQueue;

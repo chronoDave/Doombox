@@ -4,9 +4,9 @@ import * as forgo from 'forgo';
 
 import Player from '../player/player';
 
-import LibraryNavigation from './libraryNavigation/libraryNavigation';
-import LibraryQueue from './libraryQueue/libraryQueue';
-import LibraryRouter from './libraryRouter/libraryRouter';
+import AppNavigation from './appNav/appNav';
+import AppQueue from './appQueue/appQueue';
+import AppRouter from './appRouter/appRouter';
 
 import './app.scss';
 
@@ -17,12 +17,12 @@ const App: Component<AppProps> = () => {
     render() {
       return (
         <main class='App'>
-          <LibraryNavigation />
+          <AppNavigation />
           <div class='panel'>
             <Player />
-            <LibraryQueue />
+            <AppQueue />
           </div>
-          <LibraryRouter />
+          <AppRouter />
         </main>
       );
     }
