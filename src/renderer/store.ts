@@ -11,11 +11,11 @@ import { Route } from './types/state';
 
 export default new Store<State>({
   app: {
+    route: Route.Load,
     directory: {
       thumbs: null
     }
   },
-  route: Route.Load,
   queue: {
     index: 0,
     songs: []

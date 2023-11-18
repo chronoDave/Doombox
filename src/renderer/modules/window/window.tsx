@@ -11,19 +11,19 @@ import { fetchTheme } from '../../actions/theme.actions';
 import { fetchUser } from '../../actions/user.actions';
 import { Route } from '../../types/state';
 
-import AppBar from './appBar/appBar';
-import AppRouter from './appRouter/appRouter';
+import WindowBar from './windowBar/windowBar';
+import WindowRouter from './windowRouter/windowRouter';
 
-import './app.scss';
+import './window.scss';
 
-export type AppProps = {};
+export type WindowProps = {};
 
-const App: Component<AppProps> = () => {
-  const component = new forgo.Component<AppProps>({
+const Window: Component<WindowProps> = () => {
+  const component = new forgo.Component<WindowProps>({
     render() {
       return [
-        <AppBar />,
-        <AppRouter />
+        <WindowBar />,
+        <WindowRouter />
       ];
     }
   });
@@ -38,10 +38,10 @@ const App: Component<AppProps> = () => {
       fetchDirectory()
     ]);
 
-    setRoute(Route.Library);
+    setRoute(Route.App);
   });
 
   return component;
 };
 
-export default App;
+export default Window;

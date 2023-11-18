@@ -8,17 +8,17 @@ import type { AudioStatus } from '../lib/audio';
 export enum Route {
   Load = 'load',
   Scan = 'scan',
-  Library = 'library',
+  App = 'app',
   Settings = 'settings'
 }
 
 export type State = {
   app: {
+    route: Route
     directory: {
       thumbs: string | null
     }
   }
-  route: Route
   player: {
     current: {
       id: string | null

@@ -24,7 +24,7 @@ const SettingsView: Component<SettingsViewProps> = () => {
             <button
               type='button'
               aria-label='Close settings'
-              onclick={() => setRoute(Route.Library)}
+              onclick={() => setRoute(Route.App)}
             >
               <Icon id='close' />
               Esc

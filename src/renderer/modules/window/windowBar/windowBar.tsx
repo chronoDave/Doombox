@@ -4,13 +4,13 @@ import * as forgo from 'forgo';
 
 import Icon from '../../../components/icon/icon';
 
-import subscribe from './appBar.state';
+import subscribe from './windowBar.state';
 
-import './appBar.scss';
+import './windowBar.scss';
 
-export type AppBarProps = {};
+export type WindowBarProps = {};
 
-const AppBar: Component<AppBarProps> = () => {
+const WindowBar: Component<WindowBarProps> = () => {
   const component = new forgo.Component({
     render() {
       const current = subscribe(component);
@@ -19,7 +19,7 @@ const AppBar: Component<AppBarProps> = () => {
         'Doombox';
 
       return (
-        <header class='AppBar'>
+        <header class='WindowBar'>
           <img
             class='light'
             src="icons/icon_dark.png"
@@ -71,4 +71,4 @@ const AppBar: Component<AppBarProps> = () => {
   return component;
 };
 
-export default AppBar;
+export default WindowBar;

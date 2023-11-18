@@ -8,19 +8,19 @@ import Load from '../../load/load';
 import Scan from '../../scan/scan';
 import Settings from '../../settings/settings';
 
-import subscribe from './appRouter.state';
+import subscribe from './windowRouter.state';
 
-export type RouterProps = {};
+export type WindowRouterProps = {};
 
-const Router: Component<RouterProps> = () => {
+const WindowRouter: Component<WindowRouterProps> = () => {
   const routes: Record<Route, forgo.Component> = {
     [Route.Load]: <Load />,
     [Route.Scan]: <Scan />,
-    [Route.Library]: <Library />,
+    [Route.App]: <Library />,
     [Route.Settings]: <Settings />
   };
 
-  const component = new forgo.Component<RouterProps>({
+  const component = new forgo.Component<WindowRouterProps>({
     render() {
       const route = subscribe(component);
 
@@ -31,4 +31,4 @@ const Router: Component<RouterProps> = () => {
   return component;
 };
 
-export default Router;
+export default WindowRouter;

@@ -1,7 +1,7 @@
 import * as forgo from 'forgo';
 import { enableMapSet } from 'immer';
 
-import App from './modules/app/app';
+import Window from './modules/window/window';
 
 enableMapSet();
-forgo.mount(<App />, document.body);
+forgo.mount(<Window />, document.body);
