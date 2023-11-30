@@ -1,25 +1,14 @@
 @use 'layers';
 
 @include layers.modules {
-  .AppQueue {
+  .Queue {
     display: flex;
     flex-direction: column;
     min-height: 0;
     flex-grow: 1;
 
     > .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       padding: 0.25rem 0.5rem;
-
-      > .meta {
-        min-width: 0;
-      }
-
-      > .actions {
-        flex-shrink: 0;
-      }
     }
 
     .VirtualItem > button {

@@ -3,9 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Player from '../player/player';
+import Queue from '../queue/queue';
 
 import AppNavigation from './appNav/appNav';
-import AppQueue from './appQueue/appQueue';
 import AppRouter from './appRouter/appRouter';
 
 import './app.scss';
@@ -20,7 +20,7 @@ const App: Component<AppProps> = () => {
           <AppNavigation />
           <div class='panel'>
             <Player />
-            <AppQueue />
+            <Queue />
           </div>
           <AppRouter />
         </main>

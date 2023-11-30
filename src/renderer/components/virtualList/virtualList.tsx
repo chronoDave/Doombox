@@ -58,7 +58,7 @@ const VirtualList = <T extends any>(
             if (event.key === 'Enter' && event.target) props.onclick?.(event.target as HTMLElement, event);
           }}
         >
-          <ul style={{ height: `${list.height}px` }}>
+          <ol style={{ height: `${list.height}px` }}>
             {list.cells.map((cell, i) => (
               <li
                 class='VirtualItem'
@@ -71,7 +71,7 @@ const VirtualList = <T extends any>(
                 {props.cell.render(cell.data, i)}
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       );
     }

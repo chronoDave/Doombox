@@ -2,26 +2,24 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import sum from '../../../../utils/array/sum';
-import secToTime from '../../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../../utils/time/timeToHhMmSs';
-import { createPlaylist } from '../../../actions/playlist.actions';
-import { setQueueIndex, shuffleQueue } from '../../../actions/queue.actions';
-import Icon from '../../../components/icon/icon';
-import VirtualList from '../../../components/virtualList/virtualList';
-import cx from '../../../utils/cx/cx';
+import sum from '../../../utils/array/sum';
+import secToTime from '../../../utils/time/secToTime';
+import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import { setQueueIndex } from '../../actions/queue.actions';
+import VirtualList from '../../components/virtualList/virtualList';
+import cx from '../../utils/cx/cx';
 
-import subscribe from './appQueue.state';
+import subscribe from './queue.state';
 
-import './appQueue.scss';
+import './queue.scss';
 
-export type AppQueueProps = {};
+export type QueueProps = {};
 
 enum Action {
   SetQueueIndex = 'set-queue-index'
 }
 
-const AppQueue: Component<AppQueueProps> = () => {
+const Queue: Component<QueueProps> = () => {
   const actions: Record<Action, (id: string) => void> = {
     [Action.SetQueueIndex]: setQueueIndex
   };
@@ -31,30 +29,16 @@ const AppQueue: Component<AppQueueProps> = () => {
     return x in actions;
   };
 
-  const component = new forgo.Component<AppQueueProps>({
+  const component = new forgo.Component<QueueProps>({
     render() {
       const { queue, current } = subscribe(component);
       const duration = sum(queue, song => song.duration ?? 0);
 
       return (
-        <div class='AppQueue'>
+        <div class='Queue'>
           <div class='header'>
-            <div class='meta'>
-              <p>Queue</p>
-              <p class='small nowrap'>{queue.length} songs <span class='dot' aria-hidden='true'>&bull;</span> {timeToHhMmSs(secToTime(duration))}</p>
-            </div>
-            <div class='actions'>
-              <button type='button' onclick={shuffleQueue} aria-label='Shuffle queue'>
-                <Icon id='shuffle' />
-              </button>
-              <button
-                type='button'
-                onclick={() => createPlaylist(queue.map(song => song._id))}
-                aria-label='Create playlist from queue'
-              >
-                <Icon id='listAdd' />
-              </button>
-            </div>
+            <p>Queue</p>
+            <p class='small nowrap'>{queue.length} songs <span class='dot' aria-hidden='true'>&bull;</span> {timeToHhMmSs(secToTime(duration))}</p>
           </div>
           <VirtualList
             data={queue}
@@ -91,4 +75,4 @@ const AppQueue: Component<AppQueueProps> = () => {
   return component;
 };
 
-export default AppQueue;
+export default Queue;

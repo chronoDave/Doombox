@@ -1,7 +1,7 @@
-import type { Song } from '../../../../types/library';
+import type { Song } from '../../../types/library';
 
-import store from '../../../store';
-import createSelector from '../../../utils/createSelector';
+import store from '../../store';
+import createSelector from '../../utils/createSelector';
 
 export default createSelector(store, 'appQueue')(state => ({
   current: state.queue.songs[state.queue.index],
