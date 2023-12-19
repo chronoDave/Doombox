@@ -1,0 +1,15 @@
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  color: var(--text);
+  fill: var(--text);
+  background-color: var(--surface-low);
+  overflow: hidden;
+
+  > main {
+    flex-grow: 1;
+    overflow: auto;
+  }
+}

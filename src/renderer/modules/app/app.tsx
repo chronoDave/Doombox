@@ -5,8 +5,16 @@ import * as forgo from 'forgo';
 import Player from '../player/player';
 import Queue from '../queue/queue';
 
-import AppNavigation from './appNav/appNav';
-import AppRouter from './appRouter/appRouter';
+import { fetchDirectory } from '../../actions/app.actions';
+import { fetchCache } from '../../actions/cache.actions';
+import { fetchLibrary } from '../../actions/library.actions';
+import { fetchPlaylists } from '../../actions/playlist.actions';
+import { setRoute } from '../../actions/route.actions';
+import { fetchTheme } from '../../actions/theme.actions';
+import { fetchUser } from '../../actions/user.actions';
+import { Route } from '../../types/state';
+
+import Library from '../library/library';
 
 import './app.scss';
 
@@ -17,15 +25,27 @@ const App: Component<AppProps> = () => {
     render() {
       return (
         <main class='App'>
-          <AppNavigation />
           <div class='panel'>
             <Player />
             <Queue />
           </div>
-          <AppRouter />
+          <Library />
         </main>
       );
     }
+  });
+
+  component.mount(async () => {
+    await Promise.all([
+      fetchLibrary(),
+      fetchTheme(),
+      fetchUser(),
+      fetchCache(),
+      fetchPlaylists(),
+      fetchDirectory()
+    ]);
+
+    setRoute(Route.App);
   });
 
   return component;

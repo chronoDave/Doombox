@@ -19,6 +19,7 @@ import cx from '../../utils/cx/cx';
 import subscribe from './library.state';
 
 import './library.scss';
+import InputSearch from '../../components/inputSearch/inputSearch';
 
 export type LibraryProps = {};
 
@@ -47,19 +48,11 @@ const Library: Component<LibraryProps> = () => {
 
       return (
         <div class="Library">
-          <div class="toolbar">
-            <p class='meta'>
-              <span><Icon id='boxesMusic' />{labels.length}</span>
-              <span><Icon id='stopwatch' />{timeToHhMmSs(secToTime(duration))}</span>
-            </p>
-            <div class='actions'>
-              <button
-                type='button'
-                onclick={() => setQueue(labels.map(label => label.songs).flat())}
-              >
-                <Icon id='listPlay' />
-              </button>
-            </div>
+          <div class="search">
+            <InputSearch
+              placeholder='Search...'
+              onsubmit={() => {}}
+            />
           </div>
           <VirtualGrid
             data={labels.map(label => [label, ...label.albums]).flat()}
@@ -71,8 +64,8 @@ const Library: Component<LibraryProps> = () => {
             }}
             cell={{
               id: cell => cell._id,
-              width: cell => 'albums' in cell ? null : 256,
-              height: cell => 'albums' in cell ? 48 : 96,
+              width: cell => 'albums' in cell ? null : 72,
+              height: cell => 'albums' in cell ? 48 : 72,
               render: cell => {
                 if ('albums' in cell) {
                   return (
@@ -99,12 +92,8 @@ const Library: Component<LibraryProps> = () => {
                     class={cx('album', (current && cell.songs.includes(current)) && 'active')}
                   >
                     <button type='button' data-action={Action.PlayAlbum} aria-label={`Play ${cell.album}`}>
-                      <img src={cell.image} alt='' width={96} height={96} />
+                      <img src={cell.image} alt='' width={72} height={72} />
                     </button>
-                    <div class='meta'>
-                      <p>{cell.album}</p>
-                      <p class='small'>{cell.albumartist ?? '-'}</p>
-                    </div>
                   </article>
                 );
               }
