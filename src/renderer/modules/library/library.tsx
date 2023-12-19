@@ -20,6 +20,7 @@ import subscribe from './library.state';
 
 import './library.scss';
 import InputSearch from '../../components/inputSearch/inputSearch';
+import Glyph from '../../components/glyph/glyph';
 
 export type LibraryProps = {};
 
@@ -69,21 +70,19 @@ const Library: Component<LibraryProps> = () => {
               render: cell => {
                 if ('albums' in cell) {
                   return (
-                    <article class='label' data-id={cell._id}>
+                    <button
+                      type='button'
+                      class='label'
+                      data-id={cell._id}
+                      data-action={Action.PlayLabel}
+                      aria-label={`Play ${cell.label}`}
+                    >
                       <div class='meta'>
                         <p class='nowrap'>{cell.label}</p>
-                        <p class='nowrap small'>{cell.albums.length} albums<span class='dot' aria-hidden='true'>&bull;</span>{timeToShort(secToTime(cell.duration ?? 0))}</p>
-                      </div>
-                      <div class='actions'>
-                        <button type='button' data-action={Action.PlayLabel} aria-label={`Play ${cell.label}`}>
-                          <Icon id='listPlay' />
-                        </button>
-                        <button type='button' data-action={Action.AddLabel} aria-label={`Add ${cell.label} to queue`}>
-                          <Icon id='listAdd' />
-                        </button>
+                        <p class='nowrap small'>{cell.albums.length} albums<Glyph id='dot' />{cell.songs.length} tracks<Glyph id='dot' />{timeToShort(secToTime(cell.duration ?? 0))}</p>
                       </div>
                       <span class='hr' />
-                    </article>
+                    </button>
                   );
                 }
                 return (
