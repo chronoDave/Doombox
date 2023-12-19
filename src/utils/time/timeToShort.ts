@@ -1,10 +1,10 @@
 import type { Time } from '../../types/primitives';
 
-export type TimeToHhMmSsOptions = {
+export type TimeToShort = {
   fullTime: boolean
 };
 
-export default (time: Time, options?: TimeToHhMmSsOptions) => {
+export default (time: Time, options?: TimeToShort) => {
   const pad = (n: number) => `${n}`.padStart(2, '0');
 
   return [

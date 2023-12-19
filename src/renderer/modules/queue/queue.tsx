@@ -4,11 +4,11 @@ import * as forgo from 'forgo';
 
 import sum from '../../../utils/array/sum';
 import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
 import { setQueueIndex } from '../../actions/queue.actions';
 import VirtualList from '../../components/virtualList/virtualList';
 import cx from '../../utils/cx/cx';
 
+import timeToLong from '../../../utils/time/timeToLong';
 import subscribe from './queue.state';
 
 import './queue.scss';
@@ -36,9 +36,9 @@ const Queue: Component<QueueProps> = () => {
 
       return (
         <div class='Queue'>
-          <div class='header'>
+          <div class='header center'>
             <p>Queue</p>
-            <p class='small nowrap'>{queue.length} songs <span class='dot' aria-hidden='true'>&bull;</span> {timeToHhMmSs(secToTime(duration))}</p>
+            <p class='small nowrap'>{queue.length} tracks <span class='dot' aria-hidden='true'>&bull;</span> {timeToLong(secToTime(duration))}</p>
           </div>
           <VirtualList
             data={queue}

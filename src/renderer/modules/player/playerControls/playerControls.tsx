@@ -3,6 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { next, pause, previous } from '../../../actions/player.actions';
+import { shuffleQueue } from '../../../actions/queue.actions';
 import Icon from '../../../components/icon/icon';
 import { AudioStatus } from '../../../lib/audio';
 import PlayerVolume from '../playerVolume/playerVolume';
@@ -29,6 +30,9 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
           </button>
           <button type='button' onclick={next}>
             <Icon id='next' />
+          </button>
+          <button type='button' onclick={shuffleQueue}>
+            <Icon id='shuffle' />
           </button>
         </div>
       );

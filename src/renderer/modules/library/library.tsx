@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import sum from '../../../utils/array/sum';
 import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import timeToShort from '../../../utils/time/timeToShort';
 import {
   addLabelToQueue,
   playAlbum,
@@ -72,7 +72,7 @@ const Library: Component<LibraryProps> = () => {
                     <article class='label' data-id={cell._id}>
                       <div class='meta'>
                         <p class='nowrap'>{cell.label}</p>
-                        <p class='nowrap small'>{cell.albums.length} albums<span class='dot' aria-hidden='true'>&bull;</span>{timeToHhMmSs(secToTime(cell.duration ?? 0))}</p>
+                        <p class='nowrap small'>{cell.albums.length} albums<span class='dot' aria-hidden='true'>&bull;</span>{timeToShort(secToTime(cell.duration ?? 0))}</p>
                       </div>
                       <div class='actions'>
                         <button type='button' data-action={Action.PlayLabel} aria-label={`Play ${cell.label}`}>

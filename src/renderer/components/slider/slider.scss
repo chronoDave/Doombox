@@ -28,6 +28,7 @@
       border-radius: 50%;
       background-color: var(--text);
       pointer-events: none;
+      z-index: layers.$hover;
     }
 
     &:focus-visible {
@@ -37,7 +38,6 @@
         outline: 2px solid var(--text);
         outline-offset: 2px;
         isolation: isolate;
-        z-index: layers.$focus;
       }
     }
   }

@@ -4,8 +4,14 @@
 @include layers.modules {
   .PlayerSlider {
     display: flex;
-    align-items: center;
-    gap: 0.5em;
+    flex-direction: column;
+    gap: 0.25em;
+
+    > .time {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.5em;
+    }
 
     > .Slider > .track {
       background-color: var(--black-opaque);

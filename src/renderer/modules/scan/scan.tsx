@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import { IpcRoute } from '../../../types/ipc';
 import secToTime from '../../../utils/time/secToTime';
-import timeToHhMmSs from '../../../utils/time/timeToHhMmSs';
+import timeToShort from '../../../utils/time/timeToShort';
 import Loader from '../../components/loader/loader';
 import Progress from '../../components/progress/progress';
 import { useInterval } from '../../hooks/useInterval';
@@ -26,9 +26,9 @@ const ScanView: Component<ScanViewProps> = () => {
     time: { cur: 0, max: 0 }
   };
 
-  const cur = timeToHhMmSs(secToTime(state.time.cur));
+  const cur = timeToShort(secToTime(state.time.cur));
   const max = Number.isFinite(state.time.max) ?
-    timeToHhMmSs(secToTime(state.time.max)) :
+    timeToShort(secToTime(state.time.max)) :
     '\u221e';
 
   const component = new forgo.Component<ScanViewProps>({

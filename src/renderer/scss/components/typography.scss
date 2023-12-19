@@ -46,6 +46,14 @@ p, .body {
   font-size: typography.pxToRem(13);
 }
 
+.muted {
+  color: var(--text-inactive);
+}
+
+.center {
+  text-align: center;
+}
+
 // Elements
 .dot {
   padding-inline: 0.25em;

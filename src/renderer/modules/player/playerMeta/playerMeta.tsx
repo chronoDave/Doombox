@@ -11,12 +11,20 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
     render() {
       const current = subscribe(component);
 
+      if (!current?.title || !current.artist) {
+        return (
+          <div class='PlayerMeta'>
+            <p class="muted">No song(s) selected</p>
+          </div>
+        );
+      }
+
       return (
         <dl class='PlayerMeta'>
           <dt class='sr-only'>title</dt>
-          <dd>{current?.title ?? 'unknown'}</dd>
+          <dd>{current.title ?? 'unknown'}</dd>
           <dt class='sr-only'>Artist</dt>
-          <dd>{current?.artist ?? 'unknown'}</dd>
+          <dd>{current.artist ?? 'unknown'}</dd>
         </dl>
       );
     }
