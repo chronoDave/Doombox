@@ -7,7 +7,14 @@ import difference from '../../utils/array/difference';
 import unique from '../../utils/array/unique';
 import store from '../store';
 import { Route } from '../types/state';
-import { sortAlbums, sortLabels, sortSongs } from '../utils/sort';
+import {
+  sortAlbums,
+  sortDistanceAlbums,
+  sortDistanceLabels,
+  sortDistanceSongs,
+  sortLabels,
+  sortSongs
+} from '../utils/sort';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.song = new Map(library.songs
@@ -89,4 +96,37 @@ export const removeFolders = async (folders: string[]) => {
   store.dispatch(produce(draft => {
     draft.app.route = Route.App;
   }), 'library.removeFolders');
+};
+
+export const search = async (query: string) => {
+  if (query === '') {
+    store.dispatch(produce(draft => {
+      draft.search.songs = null;
+    }), 'library.search');
+  } else {
+    const library = await window.ipc.library.search([
+      { title: { $text: query } },
+      { artist: { $text: query } },
+      { album: { $text: query } },
+      { albumartist: { $text: query } },
+      { romaji: { title: { $text: query } } },
+      { romaji: { artist: { $text: query } } },
+      { romaji: { album: { $text: query } } },
+      { romaji: { albumartist: { $text: query } } }
+    ]);
+
+    console.log(library);
+
+    store.dispatch(produce(draft => {
+      draft.entities.song = new Map(library.songs
+        .sort(sortDistanceSongs(query))
+        .map(song => [song._id, song]));
+      draft.entities.album = new Map(library.albums
+        .sort(sortDistanceAlbums(query))
+        .map(album => [album._id, album]));
+      draft.entities.label = new Map(library.labels
+        .sort(sortDistanceLabels(query))
+        .map(label => [label._id, label]));
+    }), 'library.search');
+  }
 };

@@ -18,7 +18,6 @@ import createAppController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
 import createPlaylistController from './controllers/playlist.controller';
-import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
 import Library from './lib/library/library';
@@ -70,7 +69,8 @@ const run = async () => {
   const router = {
     library: createIpcRouter(createLibraryController({
       library,
-      storage: storage.user
+      storage: storage.user,
+      db
     })),
     playlist: createIpcRouter(createPlaylistController({
       db: db.playlist
@@ -86,9 +86,6 @@ const run = async () => {
     })),
     app: createIpcRouter(createAppController({
       directory: { thumbs: PATH.THUMBS }
-    })),
-    search: createIpcRouter(createSearchController({
-      db
     }))
   };
 
@@ -104,7 +101,6 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Theme, router.theme);
   ipcMain.handle(IpcChannel.Cache, router.cache);
   ipcMain.handle(IpcChannel.Library, router.library);
-  ipcMain.handle(IpcChannel.Search, router.search);
   ipcMain.handle(IpcChannel.Playlist, router.playlist);
 
   createWindow({ storage: storage.app, logger });

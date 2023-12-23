@@ -4,7 +4,6 @@ import * as forgo from 'forgo';
 
 import Player from '../player/player';
 import Queue from '../queue/queue';
-
 import { fetchDirectory } from '../../actions/app.actions';
 import { fetchCache } from '../../actions/cache.actions';
 import { fetchLibrary } from '../../actions/library.actions';
@@ -13,7 +12,6 @@ import { setRoute } from '../../actions/route.actions';
 import { fetchTheme } from '../../actions/theme.actions';
 import { fetchUser } from '../../actions/user.actions';
 import { Route } from '../../types/state';
-
 import Library from '../library/library';
 
 import './app.scss';

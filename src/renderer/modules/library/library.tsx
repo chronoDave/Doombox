@@ -8,19 +8,17 @@ import timeToShort from '../../../utils/time/timeToShort';
 import {
   addLabelToQueue,
   playAlbum,
-  playLabel,
-  setQueue
+  playLabel
 } from '../../actions/queue.actions';
-import { searchAlbums } from '../../actions/search.actions';
-import Icon from '../../components/icon/icon';
+import { search } from '../../actions/library.actions';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import cx from '../../utils/cx/cx';
+import InputSearch from '../../components/inputSearch/inputSearch';
+import Glyph from '../../components/glyph/glyph';
 
 import subscribe from './library.state';
 
 import './library.scss';
-import InputSearch from '../../components/inputSearch/inputSearch';
-import Glyph from '../../components/glyph/glyph';
 
 export type LibraryProps = {};
 
@@ -45,14 +43,14 @@ const Library: Component<LibraryProps> = () => {
   const component = new forgo.Component<LibraryProps>({
     render() {
       const { labels, current } = subscribe(component);
-      const duration = sum(labels, label => label.duration ?? 0);
+      // const duration = sum(labels, label => label.duration ?? 0);
 
       return (
         <div class="Library">
           <div class="search">
             <InputSearch
               placeholder='Search...'
-              onsubmit={() => {}}
+              onsubmit={search}
             />
           </div>
           <VirtualGrid
@@ -104,7 +102,7 @@ const Library: Component<LibraryProps> = () => {
   });
 
   component.unmount(() => {
-    searchAlbums('');
+    search('');
   });
 
   return component;

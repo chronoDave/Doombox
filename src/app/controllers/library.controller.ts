@@ -1,17 +1,24 @@
 import type { IpcInvokeController, IpcChannel } from '../../types/ipc';
+import type { Album, Label, Song } from '../../types/library';
 import type { UserShape } from '../../types/shapes/user.shape';
-import type Library from '../lib/library/library';
 import type Storage from '../lib/storage/storage';
 import type { WebContents } from 'electron';
+import type LeafDB from 'leaf-db';
 
 import { IpcRoute } from '../../types/ipc';
 import difference from '../../utils/array/difference';
 import globs from '../../utils/glob/globs';
+import Library from '../lib/library/library';
 import createIpcSend from '../utils/ipcSend';
 
 export type LibraryControllerProps = {
   storage: Storage<UserShape>
   library: Library
+  db: {
+    song: LeafDB<Song>
+    album: LeafDB<Album>
+    label: LeafDB<Label>
+  }
 };
 
 export default (props: LibraryControllerProps) =>
@@ -52,6 +59,13 @@ export default (props: LibraryControllerProps) =>
 
         props.library.delete(stale);
         return props.library.insert(fresh);
+      },
+      search: async queries => {
+        const songs = props.db.song.select(...queries);
+        const albums = Library.groupAlbums(songs);
+        const labels = Library.groupLabels(albums);
+
+        return ({ songs, albums, labels });
       }
     });
   };

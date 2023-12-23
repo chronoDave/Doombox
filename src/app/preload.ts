@@ -46,11 +46,6 @@ const receive = <T extends keyof IpcReceiveController>(channel: T) =>
   };
 
 const ipc: IpcApi = {
-  search: {
-    song: invoke(IpcChannel.Search, IpcRoute.Song),
-    album: invoke(IpcChannel.Search, IpcRoute.Album),
-    label: invoke(IpcChannel.Search, IpcRoute.Label)
-  },
   app: {
     selectFolders: invoke(IpcChannel.App, IpcRoute.SelectFolders),
     directory: invoke(IpcChannel.App, IpcRoute.Directory)
@@ -60,7 +55,8 @@ const ipc: IpcApi = {
     remove: invoke(IpcChannel.Library, IpcRoute.Remove),
     rebuild: invoke(IpcChannel.Library, IpcRoute.Rebuild),
     reindex: invoke(IpcChannel.Library, IpcRoute.Reindex),
-    get: invoke(IpcChannel.Library, IpcRoute.Get)
+    get: invoke(IpcChannel.Library, IpcRoute.Get),
+    search: invoke(IpcChannel.Library, IpcRoute.Search)
   },
   playlist: {
     add: invoke(IpcChannel.Playlist, IpcRoute.Add),

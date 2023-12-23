@@ -1,9 +1,4 @@
-import type {
-  Album,
-  Label,
-  Library,
-  Song
-} from './library';
+import type { Library, Song } from './library';
 import type { Playlist } from './playlist';
 import type { Shape } from './primitives';
 import type { CacheShape } from './shapes/cache.shape';
@@ -22,7 +17,6 @@ export enum IpcChannel {
   Window = 'window',
   Library = 'library',
   Receive = 'on',
-  Search = 'search',
   Playlist = 'playlist'
 }
 
@@ -44,7 +38,8 @@ export enum IpcRoute {
   Song = 'song',
   Album = 'album',
   Label = 'label',
-  Image = 'image'
+  Image = 'image',
+  Search = 'search'
 }
 
 /** Events */
@@ -85,28 +80,24 @@ export type IpcSendController = {
 /** Renderer to main (two-way) */
 export type IpcInvokeController = {
   [IpcChannel.App]: {
-    [IpcRoute.SelectFolders]: () => Promise<string[]>,
+    [IpcRoute.SelectFolders]: () => Promise<string[]>
     [IpcRoute.Directory]: () => Promise<{ thumbs: string }>
-  },
-  [IpcChannel.Search]: {
-    [IpcRoute.Song]: (payload: Array<Query<Song>>) => Promise<Song[]>
-    [IpcRoute.Album]: (payload: Array<Query<Album>>) => Promise<Album[]>
-    [IpcRoute.Label]: (payload: Array<Query<Label>>) => Promise<Label[]>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
-  [IpcChannel.Cache]: IpcControllerStorage<CacheShape>,
+  [IpcChannel.Cache]: IpcControllerStorage<CacheShape>
   [IpcChannel.Library]: {
     [IpcRoute.Add]: (folders: string[]) => Promise<Library>
     [IpcRoute.Remove]: (payload: string[]) => Promise<Library>
     [IpcRoute.Get]: () => Promise<Library>
     [IpcRoute.Reindex]: (folders: string[]) => Promise<Library>
     [IpcRoute.Rebuild]: () => Promise<Library>
-  },
+    [IpcRoute.Search]: (queries: Array<Query<Song>>) => Promise<Library>
+  }
   [IpcChannel.Playlist]: {
     [IpcRoute.Add]: (songs: string[]) => Promise<Playlist>,
-    [IpcRoute.Update]: (playlist: Playlist) => Promise<Playlist[]>,
-    [IpcRoute.Remove]: (id: string) => Promise<Playlist[]>,
+    [IpcRoute.Update]: (playlist: Playlist) => Promise<Playlist[]>
+    [IpcRoute.Remove]: (id: string) => Promise<Playlist[]>
     [IpcRoute.Get]: () => Promise<Playlist[]>
   }
 };

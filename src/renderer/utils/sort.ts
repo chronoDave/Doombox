@@ -1,5 +1,7 @@
 import type { Album, Label, Song } from '../../types/library';
 
+import levenshteinDistance from '../../utils/string/levenshteinDistance';
+
 export const sortSongs = (a: Song, b: Song) => {
   if (!a.label || !b.label) return 0;
   if (a.label !== b.label) return a.label.localeCompare(b.label);
@@ -21,4 +23,28 @@ export const sortAlbums = (a: Album, b: Album) => {
 export const sortLabels = (a: Label, b: Label) => {
   if (!a.label || !b.label) return 0;
   return a.label.localeCompare(b.label);
+};
+
+export const sortDistanceSongs = (query: string) => (a: Song, b: Song) => {
+  const distance = (x: Song) => x.title ?
+    levenshteinDistance(x.title, query) :
+    Number.MAX_SAFE_INTEGER;
+
+  return distance(a) - distance(b);
+};
+
+export const sortDistanceAlbums = (query: string) => (a: Album, b: Album) => {
+  const distance = (x: Album) => x.album ?
+    levenshteinDistance(x.album, query) :
+    Number.MAX_SAFE_INTEGER;
+
+  return distance(a) - distance(b);
+};
+
+export const sortDistanceLabels = (query: string) => (a: Label, b: Label) => {
+  const distance = (x: Label) => x.label ?
+    levenshteinDistance(x.label, query) :
+    Number.MAX_SAFE_INTEGER;
+
+  return distance(a) - distance(b);
 };
