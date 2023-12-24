@@ -8,10 +8,7 @@ import './virtualGrid.scss';
 
 export type VirtualGridProps<T> = {
   data: T[]
-  onclick?: (
-    target: HTMLElement,
-    event: forgo.JSX.TargetedEvent<HTMLElement>
-  ) => void
+  onclick?: (action: string, id: string) => void
   cell: {
     id?: (data: T) => string
     width: (data: T) => number | null
@@ -27,6 +24,18 @@ const VirtualGrid = <T extends any>(
   const ref: forgo.ForgoRef<HTMLDivElement> = {};
   const component = new forgo.Component<VirtualGridProps<T>>({
     render(props) {
+      const handleClick = (target: HTMLElement | null) => {
+        const closest = target?.closest<HTMLElement>('[data-action]');
+
+        if (
+          (closest?.classList.contains('VirtualItem') || closest?.closest('.VirtualItem')) &&
+          closest.dataset.action &&
+          closest.dataset.id
+        ) {
+          props.onclick?.(closest.dataset.action, closest.dataset.id);
+        }
+      };
+
       const grid = createVirtualGrid({
         data: props.data,
         scroll: ref.value?.scrollTop ?? 0,
@@ -45,11 +54,9 @@ const VirtualGrid = <T extends any>(
         <div
           ref={ref}
           class="VirtualGrid"
-          onclick={event => {
-            if (event.target) props.onclick?.(event.target as HTMLElement, event);
-          }}
+          onclick={event => handleClick(event.target as HTMLElement | null)}
           onkeydown={event => {
-            if (event.key === 'Enter' && event.target) props.onclick?.(event.target as HTMLElement, event);
+            if (event.key === 'Enter' && event.target) handleClick(event.target as HTMLElement);
           }}
         >
           <ul style={{ height: `${grid.height}px` }}>

@@ -18,32 +18,35 @@ const InputSearch: Component<InputSearchProps> = () => {
     render(props) {
       return (
         <div class='InputSearch'>
-          <button
-            type='button'
-            aria-label='search'
-            onclick={() => ref.value && props.onsubmit(ref.value.value)}
-          >
-            <Icon id='search' />
-          </button>
           <input
             ref={ref}
             type='search'
             placeholder={props.placeholder}
-            onkeyup={() => props.oninput?.(ref.value?.value ?? '')}
-            onsubmit={() => props.onsubmit(ref.value?.value ?? '')}
-          />
-          <button
-            type='button'
-            aria-label='clear search'
-            onclick={() => {
-              if (ref.value) {
-                ref.value.value = '';
-                props.onsubmit(ref.value.value);
+            onkeyup={event => {
+              if (event.key === 'Enter') {
+                props.onsubmit(ref.value?.value ?? '');
+              } else {
+                props.oninput?.(ref.value?.value ?? '');
               }
             }}
-          >
-            <Icon id='close' />
-          </button>
+            onsubmit={() => props.onsubmit(ref.value?.value ?? '')}
+          />
+          {ref.value?.value ? (
+            <button
+              type='button'
+              aria-label='clear search'
+              onclick={() => {
+                if (ref.value) {
+                  ref.value.value = '';
+                  props.onsubmit(ref.value.value);
+                }
+              }}
+            >
+              <Icon id='close' />
+            </button>
+          ) : (
+            <Icon id='search' />
+          )}
         </div>
       );
     }

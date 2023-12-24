@@ -53,49 +53,7 @@ const Library: Component<LibraryProps> = () => {
               onsubmit={search}
             />
           </div>
-          <VirtualGrid
-            data={labels.map(label => [label, ...label.albums]).flat()}
-            onclick={source => {
-              const action = source.closest<HTMLButtonElement>('[data-action]')?.dataset.action;
-              const id = source.closest<HTMLElement>('[data-id]')?.dataset.id;
 
-              if (isAction(action) && id) actions[action](id);
-            }}
-            cell={{
-              id: cell => cell._id,
-              width: cell => 'albums' in cell ? null : 72,
-              height: cell => 'albums' in cell ? 48 : 72,
-              render: cell => {
-                if ('albums' in cell) {
-                  return (
-                    <button
-                      type='button'
-                      class='label'
-                      data-id={cell._id}
-                      data-action={Action.PlayLabel}
-                      aria-label={`Play ${cell.label}`}
-                    >
-                      <div class='meta'>
-                        <p class='nowrap'>{cell.label}</p>
-                        <p class='nowrap small'>{cell.albums.length} albums<Glyph id='dot' />{cell.songs.length} tracks<Glyph id='dot' />{timeToShort(secToTime(cell.duration ?? 0))}</p>
-                      </div>
-                      <span class='hr' />
-                    </button>
-                  );
-                }
-                return (
-                  <article
-                    data-id={cell._id}
-                    class={cx('album', (current && cell.songs.includes(current)) && 'active')}
-                  >
-                    <button type='button' data-action={Action.PlayAlbum} aria-label={`Play ${cell.album}`}>
-                      <img src={cell.image} alt='' width={72} height={72} />
-                    </button>
-                  </article>
-                );
-              }
-            }}
-          />
         </div>
       );
     }

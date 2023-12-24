@@ -1,0 +1,21 @@
+@use 'typography';
+
+.GridLabelAlbum {
+  display: flex;
+  align-items: center;
+  height: var(--height);
+
+  &.active {
+    background-color: var(--primary);
+    color: var(--text-primary);
+  }
+
+  > .meta > p {
+    @include typography.clamp(2);
+  }
+
+  > button {
+    height: 100%;
+    flex-shrink: 0;
+  }
+}

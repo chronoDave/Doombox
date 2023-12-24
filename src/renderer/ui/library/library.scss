@@ -1,0 +1,27 @@
+@use 'layers';
+
+@include layers.modules {
+  .Library {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex-grow: 1;
+
+    > .toolbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.5em;
+      padding-bottom: 0.25em;
+
+      > .meta > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25em;
+
+        + span {
+          margin-left: 0.5em;
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,10 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
+
 import Player from '../../modules/player/player';
 import Queue from '../../modules/queue/queue';
-import Library from '../../modules/library/library';
+import Library from '../library/library';
 
 import './home.scss';
 

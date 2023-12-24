@@ -24,10 +24,10 @@ export type Song = {
   }
 };
 
-export type Album = {
+export type Album<T extends string | Song = string> = {
   _id: string
   image: string | null
-  songs: string[]
+  songs: T[]
   // Metadata
   duration: number | null
   albumartist: string | null
@@ -44,10 +44,10 @@ export type Album = {
   }
 };
 
-export type Label = {
+export type Label<T extends string | Album = string, K extends string | Song = string> = {
   _id: string
-  albums: string[]
-  songs: string[]
+  albums: T[]
+  songs: K[]
   // Metadata
   label: string
   duration: number | null
