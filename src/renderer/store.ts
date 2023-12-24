@@ -3,15 +3,14 @@ import type { State } from './types/state';
 import cacheShape from '../types/shapes/cache.shape';
 import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
-import { AppView, SettingsView } from '../types/views';
 
 import { AudioStatus } from './lib/audio';
 import Store from './lib/store';
-import { Route } from './types/state';
+import * as Route from './types/route';
 
 export default new Store<State>({
   app: {
-    route: Route.Load,
+    route: Route.App.Load,
     directory: {
       thumbs: null
     }
@@ -29,10 +28,6 @@ export default new Store<State>({
       duration: 0
     },
     status: AudioStatus.Stopped
-  },
-  view: {
-    app: AppView.Library,
-    settings: SettingsView.Appearance
   },
   search: {
     songs: null,

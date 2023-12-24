@@ -2,17 +2,17 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Player from '../player/player';
-import Queue from '../queue/queue';
 import { fetchDirectory } from '../../actions/app.actions';
 import { fetchCache } from '../../actions/cache.actions';
 import { fetchLibrary } from '../../actions/library.actions';
 import { fetchPlaylists } from '../../actions/playlist.actions';
-import { setRoute } from '../../actions/route.actions';
+import { setRouteApp } from '../../actions/route.actions';
 import { fetchTheme } from '../../actions/theme.actions';
 import { fetchUser } from '../../actions/user.actions';
-import { Route } from '../../types/state';
-import Library from '../library/library';
+import * as Route from '../../types/route';
+
+import AppRouter from './appRouter/appRouter';
+import AppBar from './appBar/appBar';
 
 import './app.scss';
 
@@ -21,15 +21,10 @@ export type AppProps = {};
 const App: Component<AppProps> = () => {
   const component = new forgo.Component<AppProps>({
     render() {
-      return (
-        <main class='App'>
-          <div class='panel'>
-            <Player />
-            <Queue />
-          </div>
-          <Library />
-        </main>
-      );
+      return [
+        <AppBar />,
+        <AppRouter />
+      ];
     }
   });
 
@@ -43,7 +38,7 @@ const App: Component<AppProps> = () => {
       fetchDirectory()
     ]);
 
-    setRoute(Route.App);
+    setRouteApp(Route.App.Home);
   });
 
   return component;

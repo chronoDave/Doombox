@@ -6,7 +6,7 @@ import produce from 'immer';
 import difference from '../../utils/array/difference';
 import unique from '../../utils/array/unique';
 import store from '../store';
-import { Route } from '../types/state';
+import * as Route from '../types/route';
 import {
   sortAlbums,
   sortDistanceAlbums,
@@ -35,7 +35,7 @@ export const fetchLibrary = async () => {
 
 export const reindexLibrary = async () => {
   store.dispatch(produce(draft => {
-    draft.app.route = Route.Scan;
+    draft.app.route = Route.App.Scan;
   }), 'library.reindexLibrary');
 
   const library = await window.ipc.library
@@ -43,20 +43,20 @@ export const reindexLibrary = async () => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.route = Route.App;
+    draft.app.route = Route.App.Home;
   }), 'library.reindexLibrary');
 };
 
 export const rebuildLibrary = async () => {
   store.dispatch(produce(draft => {
-    draft.app.route = Route.Scan;
+    draft.app.route = Route.App.Scan;
   }), 'library.rebuildLibrary');
 
   const library = await window.ipc.library.rebuild();
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.route = Route.App;
+    draft.app.route = Route.App.Home;
   }), 'library.rebuildLibrary');
 };
 
@@ -67,7 +67,7 @@ export const addFolders = async (folders: string[]) => {
 
   const user = await window.ipc.user.set(state.user);
   store.dispatch(produce(draft => {
-    draft.app.route = Route.Scan;
+    draft.app.route = Route.App.Scan;
     draft.user.library.folders = user.library.folders;
   }), 'library.addFolders');
 
@@ -75,7 +75,7 @@ export const addFolders = async (folders: string[]) => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.route = Route.App;
+    draft.app.route = Route.App.Home;
   }), 'library.addFolders');
 };
 
@@ -86,7 +86,7 @@ export const removeFolders = async (folders: string[]) => {
 
   const user = await window.ipc.user.set(state.user);
   store.dispatch(produce(draft => {
-    draft.app.route = Route.Scan;
+    draft.app.route = Route.App.Scan;
     draft.user.library.folders = user.library.folders;
   }), 'library.removeFolders');
 
@@ -94,7 +94,7 @@ export const removeFolders = async (folders: string[]) => {
 
   dispatchLibrary(library);
   store.dispatch(produce(draft => {
-    draft.app.route = Route.App;
+    draft.app.route = Route.App.Home;
   }), 'library.removeFolders');
 };
 
@@ -114,8 +114,6 @@ export const search = async (query: string) => {
       { romaji: { album: { $text: query } } },
       { romaji: { albumartist: { $text: query } } }
     ]);
-
-    console.log(library);
 
     store.dispatch(produce(draft => {
       draft.entities.song = new Map(library.songs

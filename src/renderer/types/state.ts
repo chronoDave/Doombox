@@ -1,20 +1,13 @@
+import type * as Route from './route';
 import type { Album, Label, Song } from '../../types/library';
 import type { Playlist } from '../../types/playlist';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
-import type { AppView, SettingsView } from '../../types/views';
 import type { AudioStatus } from '../lib/audio';
-
-export enum Route {
-  Load = 'load',
-  Scan = 'scan',
-  App = 'app',
-  Settings = 'settings'
-}
 
 export type State = {
   app: {
-    route: Route
+    route: Route.App
     directory: {
       thumbs: string | null
     }
@@ -34,10 +27,6 @@ export type State = {
   queue: {
     index: number
     songs: string[]
-  },
-  view: {
-    app: AppView
-    settings: SettingsView
   }
   entities: {
     song: Map<string, Song>

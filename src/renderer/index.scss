@@ -19,9 +19,7 @@
   @include meta.load-css('./scss/components/input.scss');
 }
 
-@layer modules {
-  @include meta.load-css('./scss/modules/body.scss');
-}
+@layer modules;
 
 @layer globals {
   @include meta.load-css('./scss/globals.scss')

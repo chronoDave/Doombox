@@ -4,7 +4,7 @@
 @use 'layers';
 
 @include layers.modules {
-  .App {
+  .Home {
     display: grid;
     grid-template-columns: 210px minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
