@@ -5,5 +5,9 @@ import produce from 'immer';
 import store from '../store';
 
 export const setRouteApp = (route: Route.App) => store.dispatch(produce(draft => {
-  draft.app.route = route;
-}), 'app.route');
+  draft.route.app = route;
+}), 'route.app');
+
+export const setRouteSearch = (route: Route.Search) => store.dispatch(produce(draft => {
+  draft.route.search = route;
+}), 'route.search');

@@ -20,7 +20,7 @@ export type VirtualGridProps<T> = {
 const VirtualGrid = <T extends any>(
   initial: VirtualGridProps<T>
 ): forgo.Component<VirtualGridProps<T>> => {
-  const { signal, abort } = new AbortController();
+  const abortController = new AbortController();
   const ref: forgo.ForgoRef<HTMLDivElement> = {};
   const component = new forgo.Component<VirtualGridProps<T>>({
     render(props) {
@@ -94,15 +94,15 @@ const VirtualGrid = <T extends any>(
         prevHeight = window.innerHeight;
         update();
       }
-    }, { passive: true, signal });
+    }, { passive: true, signal: abortController.signal });
 
-    ref.value?.addEventListener('scroll', update, { passive: true, signal });
+    ref.value?.addEventListener('scroll', update, { passive: true, signal: abortController.signal });
 
     update();
   });
 
   component.unmount(() => {
-    abort();
+    abortController.abort();
   });
 
   return component;

@@ -3,3 +3,9 @@ export enum App {
   Scan = 'scan',
   Home = 'home'
 }
+
+export enum Search {
+  Label = 'label',
+  Album = 'album',
+  Song = 'song'
+}

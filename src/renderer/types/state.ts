@@ -7,10 +7,13 @@ import type { AudioStatus } from '../lib/audio';
 
 export type State = {
   app: {
-    route: Route.App
     directory: {
       thumbs: string | null
     }
+  }
+  route: {
+    app: Route.App
+    search: Route.Search
   }
   player: {
     current: {
@@ -35,9 +38,10 @@ export type State = {
     playlist: Map<string, Playlist>
   }
   search: {
-    songs: string[] | null
-    albums: string[] | null
-    labels: string[] | null
+    query: string | null
+    songs: Song[]
+    albums: Album[]
+    labels: Label[]
   }
   theme: ThemeShape
   user: UserShape

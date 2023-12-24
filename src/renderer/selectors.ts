@@ -1,10 +1,9 @@
 import type { State } from './types/state';
-import type { Song } from '../types/library';
+import type { Album, Label, Song } from '../types/library';
 
 import { Thumb } from '../types/library';
 
 import { AudioStatus } from './lib/audio';
-import { sortSongs } from './utils/sort';
 
 export const thumbSelector = (state: State) => (id: string | null) => {
   if (!id || !state.app.directory.thumbs) return 'icons/icon_light.png';
@@ -19,9 +18,22 @@ export const hasAutoplay = (state: State) => () =>
   state.player.status !== AudioStatus.Playing;
 
 export const populateSongs = (state: State) => (songs: string[]) => songs
-  .reduce<Song[]>((acc, cur) => {
+  .reduce<Array<Song & { image: string }>>((acc, cur) => {
     const song = state.entities.song.get(cur);
-    if (song) acc.push(song);
+    if (song) acc.push({ ...song, image: thumbSelector(state)(song.image) });
     return acc;
-  }, [])
-  .sort(sortSongs);
+  }, []);
+
+export const populateAlbums = (state: State) => (albums: string[]) => albums
+  .reduce<Array<Album & { image: string }>>((acc, cur) => {
+    const album = state.entities.album.get(cur);
+    if (album) acc.push({ ...album, image: thumbSelector(state)(album.image) });
+    return acc;
+  }, []);
+
+export const populateLabels = (state: State) => (labels: string[]) => labels
+  .reduce<Label[]>((acc, cur) => {
+    const label = state.entities.label.get(cur);
+    if (label) acc.push(label);
+    return acc;
+  }, []);

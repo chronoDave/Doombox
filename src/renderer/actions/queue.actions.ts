@@ -3,6 +3,7 @@ import produce from 'immer';
 import shuffle from '../../utils/array/shuffle';
 import { hasAutoplay, populateSongs } from '../selectors';
 import store from '../store';
+import { sortSongs } from '../utils/sort';
 
 import { play } from './player.actions';
 
@@ -18,7 +19,7 @@ export const addLabelToQueue = (id: string) => {
   const label = store.get().entities.label.get(id);
   if (!label) return;
 
-  addToQueue(populateSongs(store.get())(label.songs).map(song => song._id));
+  addToQueue(populateSongs(store.get())(label.songs).sort(sortSongs).map(song => song._id));
 };
 
 export const setQueue = (ids: string[]) => {
@@ -35,6 +36,7 @@ export const playLabel = (id: string) => {
   if (!label) return;
 
   const songs = populateSongs(store.get())(label.songs)
+    .sort(sortSongs)
     .map(song => song._id);
 
   store.dispatch(produce(draft => {
@@ -50,6 +52,7 @@ export const playAlbum = (id: string) => {
   if (!album) return;
 
   const songs = populateSongs(store.get())(album.songs)
+    .sort(sortSongs)
     .map(song => song._id);
 
   store.dispatch(produce(draft => {

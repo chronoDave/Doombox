@@ -10,10 +10,13 @@ import * as Route from './types/route';
 
 export default new Store<State>({
   app: {
-    route: Route.App.Load,
     directory: {
       thumbs: null
     }
+  },
+  route: {
+    app: Route.App.Load,
+    search: Route.Search.Label
   },
   queue: {
     index: 0,
@@ -30,9 +33,10 @@ export default new Store<State>({
     status: AudioStatus.Stopped
   },
   search: {
-    songs: null,
-    albums: null,
-    labels: null
+    query: null,
+    songs: [],
+    albums: [],
+    labels: []
   },
   entities: {
     song: new Map(),

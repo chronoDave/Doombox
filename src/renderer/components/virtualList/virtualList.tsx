@@ -8,10 +8,7 @@ import './virtualList.scss';
 
 export type VirtualListProps<T> = {
   data: T[]
-  onclick?: (
-    target: HTMLElement,
-    event: forgo.JSX.TargetedEvent<HTMLElement>
-  ) => void
+  onclick?: (action: string, id: string) => void
   cell: {
     id?: (data: T) => string
     height: (data: T) => number
@@ -28,6 +25,18 @@ const VirtualList = <T extends any>(
   let prev = 0;
   const component = new forgo.Component<VirtualListProps<T>>({
     render(props) {
+      const handleClick = (target: HTMLElement | null) => {
+        const closest = target?.closest<HTMLElement>('[data-action]');
+
+        if (
+          (closest?.classList.contains('VirtualItem') || closest?.closest('.VirtualItem')) &&
+          closest.dataset.action &&
+          closest.dataset.id
+        ) {
+          props.onclick?.(closest.dataset.action, closest.dataset.id);
+        }
+      };
+
       const container = {
         width: ref.value?.clientWidth ?? 0,
         height: ref.value?.clientHeight ?? 0
@@ -51,11 +60,9 @@ const VirtualList = <T extends any>(
         <div
           class='VirtualList'
           ref={ref}
-          onclick={event => {
-            if (event.target) props.onclick?.(event.target as HTMLElement, event);
-          }}
+          onclick={event => handleClick(event.target as HTMLElement | null)}
           onkeydown={event => {
-            if (event.key === 'Enter' && event.target) props.onclick?.(event.target as HTMLElement, event);
+            if (event.key === 'Enter' && event.target) handleClick(event.target as HTMLElement);
           }}
         >
           <ol style={{ height: `${list.height}px` }}>
