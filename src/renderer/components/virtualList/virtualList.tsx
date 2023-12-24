@@ -19,7 +19,7 @@ export type VirtualListProps<T> = {
 const VirtualList = <T extends any>(
   initial: VirtualListProps<T>
 ): forgo.Component<VirtualListProps<T>> => {
-  const { signal, abort } = new AbortController();
+  const abortController = new AbortController();
   const ref: forgo.ForgoRef<HTMLDivElement> = {};
 
   let prev = 0;
@@ -95,15 +95,15 @@ const VirtualList = <T extends any>(
         prevWidth = window.innerWidth;
         update();
       }
-    }, { passive: true, signal });
+    }, { passive: true, signal: abortController.signal });
 
-    ref.value?.addEventListener('scroll', update, { passive: true, signal });
+    ref.value?.addEventListener('scroll', update, { passive: true, signal: abortController.signal });
 
     update();
   });
 
   component.unmount(() => {
-    abort();
+    abortController.abort();
   });
 
   return component;
