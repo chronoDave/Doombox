@@ -19,7 +19,8 @@
   --error: hsl(0 85% 61%);
 
   @media (prefers-color-scheme: dark) {
-    --text: var(--light-4);
+    --text: var(--light-3);
+    --text-half: var(--light-5);
     --text-inactive: var(--dark-5);
     --surface-low: var(--dark-1);
     --surface-medium: var(--dark-2);
@@ -28,6 +29,7 @@
 
   @media (prefers-color-scheme: light) {
     --text: var(--dark-4);
+    --text-half: var(--dark-2);
     --text-inactive: var(--dark-2);
     --surface-low: var(--light-0);
     --surface-medium: var(--light-1);
