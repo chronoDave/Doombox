@@ -46,10 +46,10 @@ export const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualLis
   return ({
     height: columns[columns.length - 1]?.y ?? 0,
     cells: columns.slice(
-      Math.max(0, min),
+      Math.max(0, min - 1),
       max === -1 ?
         columns.length :
-        Math.min(columns.length, max)
+        Math.min(columns.length, max + 1)
     )
   });
 };

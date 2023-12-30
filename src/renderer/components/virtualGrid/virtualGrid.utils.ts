@@ -70,10 +70,10 @@ export const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGri
   return ({
     height: cells[cells.length - 1]?.y ?? 0,
     cells: cells.slice(
-      Math.max(0, min),
+      Math.max(0, min - 1),
       max === -1 ?
         cells.length :
-        Math.min(cells.length, max)
+        Math.min(cells.length, max + 1)
     )
   });
 };
