@@ -5,6 +5,7 @@ import produce from 'immer';
 
 import difference from '../../utils/array/difference';
 import unique from '../../utils/array/unique';
+import { thumbSelector } from '../selectors';
 import store from '../store';
 import * as Route from '../types/route';
 import {
@@ -117,10 +118,12 @@ export const search = async (query: string) => {
 
     store.dispatch(produce(draft => {
       draft.search.query = query;
+      draft.route.search = Route.Search.Song;
       draft.search.songs = library.songs
         .sort(sortDistanceSongs(query));
       draft.search.albums = library.albums
-        .sort(sortDistanceAlbums(query));
+        .sort(sortDistanceAlbums(query))
+        .map(album => ({ ...album, image: thumbSelector(draft)(album.image) }));
       draft.search.labels = library.labels
         .sort(sortDistanceLabels(query));
     }), 'library.search');

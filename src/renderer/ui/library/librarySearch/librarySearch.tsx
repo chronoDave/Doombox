@@ -29,11 +29,11 @@ const LibrarySearch: Component<LibrarySearchProps> = () => {
             <nav class='bar' aria-label='Search'>
               <button
                 type='button'
-                onclick={() => setRouteSearch(Route.Search.Label)}
-                aria-label='Label'
-                class={cx(state.route === Route.Search.Label && 'active')}
+                onclick={() => setRouteSearch(Route.Search.Song)}
+                aria-label='Song'
+                class={cx(state.route === Route.Search.Song && 'active')}
               >
-                <Icon id='record' />
+                <Icon id='musicNote' />
               </button>
               <button
                 type='button'
@@ -45,11 +45,11 @@ const LibrarySearch: Component<LibrarySearchProps> = () => {
               </button>
               <button
                 type='button'
-                onclick={() => setRouteSearch(Route.Search.Song)}
-                aria-label='Song'
-                class={cx(state.route === Route.Search.Song && 'active')}
+                onclick={() => setRouteSearch(Route.Search.Label)}
+                aria-label='Label'
+                class={cx(state.route === Route.Search.Label && 'active')}
               >
-                <Icon id='musicNote' />
+                <Icon id='record' />
               </button>
             </nav>)}
         </div>

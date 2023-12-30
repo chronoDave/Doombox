@@ -22,7 +22,25 @@ const ListAlbum: Component<ListAlbumProps> = () => {
           cell={{
             id: cell => cell._id,
             height: () => 48,
-            render: cell => <div class='ListAlbum'>{cell.album}</div>
+            render: cell => (
+              <button
+                class='ListAlbum'
+                type='button'
+                data-id={cell._id}
+                data-action='album-play'
+              >
+                <img
+                  src={cell.image!}
+                  alt=''
+                  width={48}
+                  height={48}
+                />
+                <div class='body'>
+                  <p class='title nowrap'>{cell.album}</p>
+                  <p class='subtitle nowrap'>{cell.albumartist}</p>
+                </div>
+              </button>
+            )
           }}
         />
       );
