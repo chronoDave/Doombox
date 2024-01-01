@@ -9,12 +9,7 @@
     grid-template-columns: 210px minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
 
-    > .panel {
-      display: flex;
-      flex-direction: column;
-    }
-
-    > .body {
+    > .player {
       display: flex;
       flex-direction: column;
     }
