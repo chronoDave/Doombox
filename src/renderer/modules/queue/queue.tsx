@@ -4,31 +4,18 @@ import * as forgo from 'forgo';
 
 import sum from '../../../utils/array/sum';
 import secToTime from '../../../utils/time/secToTime';
+import timeToLong from '../../../utils/time/timeToLong';
 import { setQueueIndex } from '../../actions/queue.actions';
 import VirtualList from '../../components/virtualList/virtualList';
 import cx from '../../utils/cx/cx';
 
-import timeToLong from '../../../utils/time/timeToLong';
 import subscribe from './queue.state';
 
 import './queue.scss';
 
 export type QueueProps = {};
 
-enum Action {
-  SetQueueIndex = 'set-queue-index'
-}
-
 const Queue: Component<QueueProps> = () => {
-  const actions: Record<Action, (id: string) => void> = {
-    [Action.SetQueueIndex]: setQueueIndex
-  };
-
-  const isAction = (x?: string): x is Action => {
-    if (!x) return false;
-    return x in actions;
-  };
-
   const component = new forgo.Component<QueueProps>({
     render() {
       const { queue, current } = subscribe(component);
@@ -42,20 +29,16 @@ const Queue: Component<QueueProps> = () => {
           </div>
           <VirtualList
             data={queue}
-            onclick={source => {
-              const action = source.closest<HTMLButtonElement>('[data-action]')?.dataset.action;
-              const id = source.closest<HTMLElement>('[data-id]')?.dataset.id;
-
-              if (isAction(action) && id) actions[action](id);
-            }}
+            onclick={data => data.id && setQueueIndex(data.id)}
             cell={{
+              id: song => song._id,
               height: () => 48,
+              data: song => ({ id: song._id }),
               render: song => (
                 <button
-                  data-id={song._id}
-                  data-action={Action.SetQueueIndex}
                   type='button'
                   class={cx(song._id === current && 'active')}
+                  aria-label='Set queue index'
                 >
                   <dl>
                     <dt class='sr-only'>Title</dt>

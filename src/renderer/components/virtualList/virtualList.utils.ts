@@ -35,7 +35,7 @@ export const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualLis
       data,
       y,
       height: options.cell.height(data),
-      dataset: Object.fromEntries(Object.entries(options.cell.dataset?.(data) ?? {}).map(([key, value]) => [`data_${key}`, value]))
+      dataset: Object.fromEntries(Object.entries(options.cell.dataset?.(data) ?? {}).map(([key, value]) => [`data-${key}`, value]))
     });
   });
 
