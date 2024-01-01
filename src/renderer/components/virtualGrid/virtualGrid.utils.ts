@@ -22,7 +22,7 @@ export type VirtualGridOptions<T> = {
   container: Rect
   cell: {
     width: (data: T) => number | null
-    height: (data: T) => number
+    height: (data: T) => number | null
   }
 };
 
@@ -48,13 +48,13 @@ export const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGri
         (prev?.y ?? 0) + (prev?.height ?? 0) :
         (prev?.y ?? 0),
       width,
-      height: options.cell.height(data)
+      height: options.cell.height(data) ?? width
     });
   });
 
   const min = binarySearchLeft(
     cells,
-    cell => options.scroll - options.cell.height(cell.data),
+    cell => options.scroll - cell.height,
     cell => cell.y
   );
   const max = binarySearchLeft(
@@ -62,7 +62,7 @@ export const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGri
     cell => (
       options.scroll +
       options.container.height +
-      options.cell.height(cell.data)
+      cell.height
     ),
     cell => cell.y
   );

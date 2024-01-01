@@ -1,21 +1,13 @@
 @use 'typography';
 
 .LibraryGridAlbum {
-  display: flex;
-  align-items: center;
-  height: var(--height);
+  height: 100%;
+  flex-shrink: 0;
+  padding-left: 2px;
+  padding-bottom: 2px;
 
-  &.active {
-    background-color: var(--primary);
-    color: var(--text-primary);
-  }
-
-  > .meta > p {
-    @include typography.clamp(2);
-  }
-
-  > button {
-    height: 100%;
-    flex-shrink: 0;
+  > img {
+    width: 100%;
+    aspect-ratio: 1/1;
   }
 }

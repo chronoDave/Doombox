@@ -31,7 +31,7 @@ const GridLabel: Component<GridLabelProps> = () => {
           cell={{
             id: cell => cell._id,
             width: cell => 'albums' in cell ? null : 72,
-            height: cell => 'albums' in cell ? 48 : 72,
+            height: cell => 'albums' in cell ? 48 : null,
             render: cell => {
               if ('albums' in cell) return <LibraryGridLabel action={Action.PlayLabel} label={cell} />;
               return (

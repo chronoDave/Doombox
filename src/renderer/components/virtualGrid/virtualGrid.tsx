@@ -12,7 +12,7 @@ export type VirtualGridProps<T> = {
   cell: {
     id?: (data: T) => string
     width: (data: T) => number | null
-    height: (data: T) => number
+    height: (data: T) => number | null
     render: (data: T, i: number) => forgo.Component | forgo.Component[]
   }
 };
