@@ -16,7 +16,7 @@ export default new Store<State>({
   },
   route: {
     app: Route.App.Load,
-    search: Route.Search.Label
+    search: null
   },
   queue: {
     index: 0,
@@ -33,7 +33,6 @@ export default new Store<State>({
     status: AudioStatus.Stopped
   },
   search: {
-    query: null,
     songs: [],
     albums: [],
     labels: []

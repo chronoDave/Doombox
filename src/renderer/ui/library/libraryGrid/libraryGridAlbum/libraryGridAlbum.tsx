@@ -1,29 +1,29 @@
-import type { Album } from '../../../../types/library';
+import type { Album } from '../../../../../types/library';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import cx from '../../../utils/cx/cx';
+import cx from '../../../../utils/cx/cx';
 
-import './gridLabelAlbum.scss';
+import './libraryGridAlbum.scss';
 
-export type GridLabelAlbumProps = {
+export type LibraryGridAlbumProps = {
   album: Album & { image: string }
-  current?: string
-  onclick: string
+  current: string | null
+  action: string
 };
 
-const GridLabelAlbum: Component<GridLabelAlbumProps> = () => {
-  const component = new forgo.Component<GridLabelAlbumProps>({
+const GridLabelAlbum: Component<LibraryGridAlbumProps> = () => {
+  const component = new forgo.Component<LibraryGridAlbumProps>({
     render(props) {
       return (
         <button
           type='button'
           data-id={props.album._id}
-          data-action={props.onclick}
+          data-action={props.action}
           aria-label={`Play ${props.album.album}`}
           class={cx(
-            'GridLabelAlbum',
+            'LibraryGridAlbum',
             props.current && props.album.songs.includes(props.current) && 'active'
           )}
         >

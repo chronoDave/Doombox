@@ -102,7 +102,7 @@ export const removeFolders = async (folders: string[]) => {
 export const search = async (query: string) => {
   if (query === '') {
     store.dispatch(produce(draft => {
-      draft.search.query = null;
+      draft.route.search = null;
     }), 'library.search');
   } else {
     const library = await window.ipc.library.search([
@@ -117,7 +117,6 @@ export const search = async (query: string) => {
     ]);
 
     store.dispatch(produce(draft => {
-      draft.search.query = query;
       draft.route.search = Route.Search.Song;
       draft.search.songs = library.songs
         .sort(sortDistanceSongs(query));

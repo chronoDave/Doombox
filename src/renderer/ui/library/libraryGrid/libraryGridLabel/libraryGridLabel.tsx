@@ -1,28 +1,28 @@
-import type { Album, Label } from '../../../../types/library';
+import type { Album, Label } from '../../../../../types/library';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import secToTime from '../../../../utils/time/secToTime';
-import timeToShort from '../../../../utils/time/timeToShort';
-import Glyph from '../../glyph/glyph';
+import secToTime from '../../../../../utils/time/secToTime';
+import timeToShort from '../../../../../utils/time/timeToShort';
+import Glyph from '../../../../components/glyph/glyph';
 
-import './gridLabelHeader.scss';
+import './libraryGridLabel.scss';
 
-export type GridLabelHeaderProps = {
+export type LibraryGridLabelProps = {
   label: Label<string | Album>
-  onclick: string
+  action: string
 };
 
-const GridLabelHeader: Component<GridLabelHeaderProps> = () => {
-  const component = new forgo.Component<GridLabelHeaderProps>({
+const LibraryGridLabel: Component<LibraryGridLabelProps> = () => {
+  const component = new forgo.Component<LibraryGridLabelProps>({
     render(props) {
       return (
         <button
           type='button'
-          class='GridLabelHeader'
+          class='LibraryGridLabel'
           data-id={props.label._id}
-          data-action={props.onclick}
+          data-action={props.action}
           aria-label={`Play ${props.label.label}`}
         >
           <div class='meta'>
@@ -38,4 +38,4 @@ const GridLabelHeader: Component<GridLabelHeaderProps> = () => {
   return component;
 };
 
-export default GridLabelHeader;
+export default LibraryGridLabel;

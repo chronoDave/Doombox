@@ -13,7 +13,7 @@ export type State = {
   }
   route: {
     app: Route.App
-    search: Route.Search
+    search: Route.Search | null
   }
   player: {
     current: {
@@ -38,7 +38,6 @@ export type State = {
     playlist: Map<string, Playlist>
   }
   search: {
-    query: string | null
     songs: Song[]
     albums: Album[]
     labels: Label[]

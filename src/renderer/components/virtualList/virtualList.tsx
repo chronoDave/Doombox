@@ -8,9 +8,10 @@ import './virtualList.scss';
 
 export type VirtualListProps<T> = {
   data: T[]
-  onclick?: (action: string, id: string) => void
+  onclick?: (dataset: DOMStringMap) => void
   cell: {
     id?: (data: T) => string
+    data?: (data: T) => Record<string, string>
     height: (data: T) => number
     render: (data: T, i: number) => forgo.Component | forgo.Component[]
   }
@@ -26,15 +27,11 @@ const VirtualList = <T extends any>(
   const component = new forgo.Component<VirtualListProps<T>>({
     render(props) {
       const handleClick = (target: HTMLElement | null) => {
-        const closest = target?.closest<HTMLElement>('[data-action]');
+        const item = target?.classList.contains('VirtualItem') ?
+          target :
+          target?.closest<HTMLElement>('.VirtualItem');
 
-        if (
-          (closest?.classList.contains('VirtualItem') || closest?.closest('.VirtualItem')) &&
-          closest.dataset.action &&
-          closest.dataset.id
-        ) {
-          props.onclick?.(closest.dataset.action, closest.dataset.id);
-        }
+        if (item) props.onclick?.(item.dataset);
       };
 
       const container = {
@@ -46,7 +43,8 @@ const VirtualList = <T extends any>(
         scroll: ref.value?.scrollTop ?? 0,
         container,
         cell: {
-          height: props.cell.height
+          height: props.cell.height,
+          dataset: props.cell.data
         }
       });
 
@@ -74,6 +72,7 @@ const VirtualList = <T extends any>(
                   top: `${cell.y}px`,
                   height: `${cell.height}px`
                 }}
+                {...(cell.dataset ?? {})}
               >
                 {props.cell.render(cell.data, i)}
               </li>

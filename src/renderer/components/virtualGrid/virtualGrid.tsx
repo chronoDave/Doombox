@@ -8,7 +8,7 @@ import './virtualGrid.scss';
 
 export type VirtualGridProps<T> = {
   data: T[]
-  onclick?: (action: string, id: string) => void
+  onclick?: (dataset: DOMStringMap) => void
   cell: {
     id?: (data: T) => string
     width: (data: T) => number | null
@@ -28,12 +28,9 @@ const VirtualGrid = <T extends any>(
         const closest = target?.closest<HTMLElement>('[data-action]');
 
         if (
-          (closest?.classList.contains('VirtualItem') || closest?.closest('.VirtualItem')) &&
-          closest.dataset.action &&
-          closest.dataset.id
-        ) {
-          props.onclick?.(closest.dataset.action, closest.dataset.id);
-        }
+          closest?.classList.contains('VirtualItem') ||
+          closest?.closest('.VirtualItem')
+        ) props.onclick?.(closest.dataset);
       };
 
       const grid = createVirtualGrid({
