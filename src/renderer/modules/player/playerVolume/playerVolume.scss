@@ -1,13 +1,10 @@
 @use 'layers';
 
 @include layers.modules {
-  .Popup.PlayerVolume {
+  .PopupPlayerVolume {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 4px;
-
-    > .Slider {
-      min-width: 120px;
-    }
   }
 }

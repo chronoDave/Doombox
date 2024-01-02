@@ -41,13 +41,10 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
             } else {
               popup = createPopup({
                 anchor: event.currentTarget,
-                position: 'top'
+                position: 'top-left'
               }, (
-                <div class='SliderVolume'>
-                  <button type='button' onclick={() => mute()}>
-                    <Icon id={getIcon()} />
-                  </button>
-                  <Slider value={volume} onchange={setVolume} />
+                <div class='PopupPlayerVolume'>
+                  <Slider vertical value={volume} onchange={setVolume} />
                   <span>{Math.round(volume)}</span>
                 </div>
               ));

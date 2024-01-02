@@ -1,5 +1,4 @@
-@use 'shadows.scss';
-
+@use 'shadows';
 @use 'layers';
 
 @include layers.components {
@@ -8,5 +7,37 @@
     background-color: var(--popup);
     box-shadow: shadows.$medium;
     z-index: layers.$popup;
+
+    &.top-left {
+      transform: translateY(-100%);
+    }
+
+    &.top {
+      transform: translate(-50%, -100%);
+    }
+
+    &.top-right {
+      transform: translate(-100%);
+    }
+
+    &.right {
+      transform: translate(-100%, -50%);
+    }
+
+    &.bottom-right {
+      transform: translateY(100%);
+    }
+
+    &.bottom {
+      transform: translate(-50%, -100%);
+    }
+
+    &.bottom-left {
+      transform: translateY(100%);
+    }
+
+    &.left {
+      transform: translate(100%, -50%);
+    }
   }
 }
