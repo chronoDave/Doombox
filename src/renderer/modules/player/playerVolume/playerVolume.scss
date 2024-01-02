@@ -1,10 +1,17 @@
 @use 'layers';
 
 @include layers.modules {
-  .PopupPlayerVolume {
+  .PlayerVolume {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+
+    > .label {
+      display: none;
+    }
+
+    &:hover > .label {
+      display: block;
+    }
   }
 }

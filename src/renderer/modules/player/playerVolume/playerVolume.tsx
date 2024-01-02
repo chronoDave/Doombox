@@ -5,8 +5,7 @@ import * as forgo from 'forgo';
 
 import { mute, setVolume } from '../../../actions/player.actions';
 import Icon from '../../../components/icon/icon';
-import { createPopup } from '../../../components/popup/popup';
-import Slider from '../../../components/slider/slider';
+import debounce from '../../../utils/debounce';
 
 import subscribe from './playerVolume.state';
 
@@ -15,11 +14,12 @@ import './playerVolume.scss';
 export type PlayerVolumeProps = {};
 
 const PlayerVolume: Component<PlayerVolumeProps> = () => {
-  let popup: null | (() => void);
-
   const component = new forgo.Component<PlayerVolumeProps>({
     render() {
       const { muted, volume } = subscribe(component);
+      const handleScroll = debounce((event: forgo.JSX.TargetedWheelEvent<HTMLButtonElement>) => {
+        if (event.deltaY !== 0) setVolume(event.deltaY > 0 ? volume - 1 : volume + 1);
+      });
 
       const getIcon = (): IconProps['id'] => {
         if (muted) return 'volumeOff';
@@ -30,35 +30,16 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
 
       return (
         <button
-          type='button'
           class='PlayerVolume'
-          onclick={event => {
-            event.stopPropagation();
-
-            if (popup) {
-              popup?.();
-              popup = null;
-            } else {
-              popup = createPopup({
-                anchor: event.currentTarget,
-                position: 'top-left'
-              }, (
-                <div class='PopupPlayerVolume'>
-                  <Slider vertical value={volume} onchange={setVolume} />
-                  <span>{Math.round(volume)}</span>
-                </div>
-              ));
-            }
-          }}
+          type='button'
+          onclick={() => mute()}
+          onwheel={handleScroll}
         >
+          <span class='label'>{volume}</span>
           <Icon id={getIcon()} />
         </button>
       );
     }
-  });
-
-  component.unmount(() => {
-    popup?.();
   });
 
   return component;

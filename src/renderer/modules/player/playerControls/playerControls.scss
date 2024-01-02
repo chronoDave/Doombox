@@ -5,8 +5,9 @@
 @include layers.modules {
   .PlayerControls {
     display: flex;
-    gap: 0.25em;
+    align-items: flex-end;
     justify-content: center;
+    gap: 0.25em;
 
     > button {
       fill: var(--light-3);
