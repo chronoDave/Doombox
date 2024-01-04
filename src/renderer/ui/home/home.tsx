@@ -6,6 +6,8 @@ import Player from '../../modules/player/player';
 import Queue from '../../modules/queue/queue';
 import Library from '../library/library';
 
+import HomeNavigation from './homeNavigation/homeNavigation';
+
 import './home.scss';
 
 export type HomeProps = {};
@@ -15,6 +17,7 @@ const Home: Component<HomeProps> = () => {
     render() {
       return (
         <main class='Home'>
+          <HomeNavigation />
           <div class='player'>
             <Player />
             <Queue />

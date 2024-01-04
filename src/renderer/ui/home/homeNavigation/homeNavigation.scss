@@ -1,0 +1,20 @@
+@use 'typography';
+@use 'breakpoints';
+
+@use 'layers';
+
+@include layers.modules {
+  .HomeNavigation {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      padding: 8px;
+
+      &.active {
+        background-color: var(--primary);
+        fill: var(--text-primary);
+      }
+    }
+  }
+}

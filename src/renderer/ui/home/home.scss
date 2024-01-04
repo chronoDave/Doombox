@@ -6,7 +6,7 @@
 @include layers.modules {
   .Home {
     display: grid;
-    grid-template-columns: 180px minmax(0, 1fr);
+    grid-template-columns: auto 180px minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
     gap: 1px;
 

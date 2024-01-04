@@ -13,6 +13,7 @@ export type State = {
   }
   route: {
     app: Route.App
+    home: Route.Home
     search: Route.Search | null
   }
   player: {

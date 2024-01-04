@@ -9,3 +9,8 @@ export enum Search {
   Album = 'album',
   Song = 'song'
 }
+
+export enum Home {
+  Library = 'library',
+  Playlist = 'playlist'
+}

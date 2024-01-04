@@ -16,6 +16,7 @@ export default new Store<State>({
   },
   route: {
     app: Route.App.Load,
+    home: Route.Home.Library,
     search: null
   },
   queue: {
