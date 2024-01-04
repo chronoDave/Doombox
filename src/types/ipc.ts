@@ -92,7 +92,7 @@ export type IpcInvokeController = {
     [IpcRoute.Get]: () => Promise<Library>
     [IpcRoute.Reindex]: (folders: string[]) => Promise<Library>
     [IpcRoute.Rebuild]: () => Promise<Library>
-    [IpcRoute.Search]: (queries: Array<Query<Song>>) => Promise<Library>
+    [IpcRoute.Search]: (query: string) => Promise<Library>
   }
   [IpcChannel.Playlist]: {
     [IpcRoute.Add]: (songs: string[]) => Promise<Playlist>,

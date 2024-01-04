@@ -17,6 +17,7 @@ const SearchSong: Component<SearchSongProps> = () => {
     render() {
       const songs = subscribe(component);
 
+      if (songs.length === 0) return <p>No songs found</p>;
       return (
         <VirtualList
           data={songs}

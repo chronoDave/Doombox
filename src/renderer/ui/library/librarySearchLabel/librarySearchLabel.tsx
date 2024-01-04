@@ -19,6 +19,7 @@ const SearchLabel: Component<SearchLabelProps> = () => {
     render() {
       const labels = subscribe(component);
 
+      if (labels.length === 0) return <p>No labels found</p>;
       return (
         <VirtualList
           data={labels}

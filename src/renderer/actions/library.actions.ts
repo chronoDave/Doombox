@@ -105,16 +105,7 @@ export const search = async (query: string) => {
       draft.route.search = null;
     }), 'library.search');
   } else {
-    const library = await window.ipc.library.search([
-      { title: { $text: query } },
-      { artist: { $text: query } },
-      { album: { $text: query } },
-      { albumartist: { $text: query } },
-      { romaji: { title: { $text: query } } },
-      { romaji: { artist: { $text: query } } },
-      { romaji: { album: { $text: query } } },
-      { romaji: { albumartist: { $text: query } } }
-    ]);
+    const library = await window.ipc.library.search(query);
 
     store.dispatch(produce(draft => {
       draft.route.search = Route.Search.Song;

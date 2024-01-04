@@ -16,6 +16,7 @@ const SearchAlbum: Component<SearchAlbumProps> = () => {
     render() {
       const albums = subscribe(component);
 
+      if (albums.length === 0) return <p>No albums found</p>;
       return (
         <VirtualList
           data={albums}

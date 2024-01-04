@@ -60,10 +60,23 @@ export default (props: LibraryControllerProps) =>
         props.library.delete(stale);
         return props.library.insert(fresh);
       },
-      search: async queries => {
-        const songs = props.db.song.select(...queries);
-        const albums = Library.groupAlbums(songs);
-        const labels = Library.groupLabels(albums);
+      search: async query => {
+        const songs = props.db.song.select(...[
+          { title: { $text: query } },
+          { artist: { $text: query } },
+          { romaji: { title: { $text: query } } },
+          { romaji: { artist: { $text: query } } }
+        ]);
+        const albums = props.db.album.select(...[
+          { album: { $text: query } },
+          { albumartist: { $text: query } },
+          { romaji: { album: { $text: query } } },
+          { romaji: { albumartist: { $text: query } } }
+        ]);
+        const labels = props.db.label.select(...[
+          { label: { $text: query } },
+          { romaji: { label: { $text: query } } }
+        ]);
 
         return ({ songs, albums, labels });
       }
