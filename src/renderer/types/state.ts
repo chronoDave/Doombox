@@ -15,6 +15,7 @@ export type State = {
     app: Route.App
     home: Route.Home
     search: Route.Search | null
+    settings: Route.Settings | null
   }
   player: {
     current: {

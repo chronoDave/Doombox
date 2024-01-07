@@ -3,9 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { SettingsView } from '../../../../types/views';
-import { setViewSettings } from '../../../actions/view.actions';
+import { setRouteSettings } from '../../../actions/route.actions';
 import Icon from '../../../components/icon/icon';
+import * as Routes from '../../../types/route';
 import cx from '../../../utils/cx/cx';
 
 import subscribe from './settingsNavigation.state';
@@ -15,9 +15,9 @@ import './settingsNavigation.scss';
 export type SettingsNavigationProps = {};
 
 const SettingsNavigation: Component<SettingsNavigationProps> = () => {
-  const routes: Record<SettingsView, IconProps['id']> = {
-    [SettingsView.Appearance]: 'palette',
-    [SettingsView.Library]: 'listMusic'
+  const routes: Record<Routes.Settings, IconProps['id']> = {
+    [Routes.Settings.Appearance]: 'palette',
+    [Routes.Settings.Library]: 'listMusic'
   };
 
   const component = new forgo.Component<SettingsNavigationProps>({
@@ -27,12 +27,12 @@ const SettingsNavigation: Component<SettingsNavigationProps> = () => {
       return (
         <nav class='SettingsNavigation'>
           <ul>
-            {Object.entries(routes).map(([view, icon]) => (
-              <li key={view} class={cx(view === active && 'active')}>
+            {Object.entries(routes).map(([route, icon]) => (
+              <li key={route} class={cx(route === active && 'active')}>
                 <button
                   type='button'
-                  aria-label={view}
-                  onclick={() => setViewSettings(view as SettingsView)}
+                  aria-label={route}
+                  onclick={() => setRouteSettings(route as Routes.Settings)}
                 >
                   <Icon id={icon} />
                 </button>

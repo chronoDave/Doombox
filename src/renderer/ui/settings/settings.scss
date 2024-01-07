@@ -7,8 +7,11 @@
 
 @include layers.modules {
   .Settings {
+    position: absolute;
+    inset: 0;
     display: grid;
     grid-template-columns: auto 1fr auto;
+    background-color: var(--surface-medium);
 
     > .body {
       padding: 1em;

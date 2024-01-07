@@ -14,3 +14,8 @@ export enum Home {
   Library = 'library',
   Playlist = 'playlist'
 }
+
+export enum Settings {
+  Appearance = 'appearance',
+  Library = 'library'
+}

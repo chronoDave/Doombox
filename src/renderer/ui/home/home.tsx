@@ -5,6 +5,7 @@ import * as forgo from 'forgo';
 import Player from '../../modules/player/player';
 import Queue from '../../modules/queue/queue';
 import Library from '../library/library';
+import Settings from '../settings/settings';
 
 import HomeNavigation from './homeNavigation/homeNavigation';
 
@@ -23,6 +24,7 @@ const Home: Component<HomeProps> = () => {
             <Queue />
           </div>
           <Library />
+          <Settings />
         </main>
       );
     }

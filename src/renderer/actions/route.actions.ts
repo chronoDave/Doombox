@@ -15,3 +15,7 @@ export const setRouteSearch = (route: Route.Search) => store.dispatch(produce(dr
 export const setRouteHome = (route: Route.Home) => store.dispatch(produce(draft => {
   draft.route.home = route;
 }), 'route.home');
+
+export const setRouteSettings = (route: Route.Settings | null) => store.dispatch(produce(draft => {
+  draft.route.settings = route;
+}), 'route.settings');
