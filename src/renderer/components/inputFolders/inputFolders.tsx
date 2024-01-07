@@ -54,7 +54,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
                 selected.clear();
               }}
             >
-              <Icon id='folderMinus' />
+              <Icon id='folder-minus' />
             </button>
             <button
               type='button'
@@ -64,7 +64,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
                 if (folders.length > 0) props.onadd(folders);
               }}
             >
-              <Icon id='folderPlus' />
+              <Icon id='folder-plus' />
             </button>
           </div>
         </fieldset>

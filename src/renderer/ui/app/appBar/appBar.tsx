@@ -39,7 +39,7 @@ const AppBar: Component<AppBarProps> = () => {
                   aria-label='minimize app'
                   onclick={window.ipc.window.minimize}
                 >
-                  <Icon id='minimize' />
+                  <Icon id='window-minimize' />
                 </button>
               </li>
               <li>
@@ -48,7 +48,7 @@ const AppBar: Component<AppBarProps> = () => {
                   aria-label='maximize app'
                   onclick={window.ipc.window.maximize}
                 >
-                  <Icon id='maximize' />
+                  <Icon id='window-maximize' />
                 </button>
               </li>
               <li>
@@ -58,7 +58,7 @@ const AppBar: Component<AppBarProps> = () => {
                   aria-label='close app'
                   onclick={window.ipc.window.close}
                 >
-                  <Icon id='close' />
+                  <Icon id='window-close' />
                 </button>
               </li>
             </ul>

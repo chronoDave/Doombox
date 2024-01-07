@@ -22,10 +22,10 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
       });
 
       const getIcon = (): IconProps['id'] => {
-        if (muted) return 'volumeOff';
-        if (volume >= 66) return 'volumeHigh';
-        if (volume >= 33) return 'volumeMedium';
-        return 'volumeLow';
+        if (muted) return 'volume-mute';
+        if (volume >= 66) return 'volume-high';
+        if (volume >= 33) return 'volume-medium';
+        return 'volume-low';
       };
 
       return (

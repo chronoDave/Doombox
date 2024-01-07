@@ -28,7 +28,7 @@ const Collapse: Component<CollapseProps> = () => {
             } }
           >
             {props.title}
-            <Icon id={expanded ? 'chevronUp' : 'chevronDown'} />
+            <Icon id={expanded ? 'chevron-up' : 'chevron-down'} />
           </button>
           <div id={props.id} class='body'>
             {props.children}

@@ -1,6 +1,7 @@
 import type { IpcInvokeController, IpcChannel } from '../../types/ipc';
 import type { Album, Label, Song } from '../../types/library';
 import type { UserShape } from '../../types/shapes/user.shape';
+import type Library from '../lib/library/library';
 import type Storage from '../lib/storage/storage';
 import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
@@ -8,7 +9,6 @@ import type LeafDB from 'leaf-db';
 import { IpcRoute } from '../../types/ipc';
 import difference from '../../utils/array/difference';
 import globs from '../../utils/glob/globs';
-import Library from '../lib/library/library';
 import createIpcSend from '../utils/ipcSend';
 
 export type LibraryControllerProps = {

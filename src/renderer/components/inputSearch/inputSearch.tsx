@@ -45,7 +45,7 @@ const InputSearch: Component<InputSearchProps> = () => {
               <Icon id='close' />
             </button>
           ) : (
-            <Icon id='search' />
+            <Icon id='magnify' />
           )}
         </div>
       );

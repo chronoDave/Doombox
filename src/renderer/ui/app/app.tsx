@@ -11,8 +11,8 @@ import { fetchTheme } from '../../actions/theme.actions';
 import { fetchUser } from '../../actions/user.actions';
 import * as Route from '../../types/route';
 
-import AppRouter from './appRouter/appRouter';
 import AppBar from './appBar/appBar';
+import AppRouter from './appRouter/appRouter';
 
 import './app.scss';
 

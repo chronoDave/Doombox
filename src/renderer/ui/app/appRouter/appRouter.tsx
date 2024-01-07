@@ -3,11 +3,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import * as Route from '../../../types/route';
+import Home from '../../home/home';
+import Load from '../../load/load';
+import Scan from '../../scan/scan';
 
 import subscribe from './appRouter.state';
-import Home from '../../home/home';
-import Scan from '../../scan/scan';
-import Load from '../../load/load';
 
 export type AppRouterProps = {};
 

@@ -26,7 +26,7 @@ const LibrarySearchNav: Component<LibrarySearchNavProps> = () => {
             aria-label='Song'
             class={cx(route === Route.Search.Song && 'active')}
           >
-            <Icon id='musicNote' />
+            <Icon id='music-note' />
           </button>
           <button
             type='button'
@@ -34,7 +34,7 @@ const LibrarySearchNav: Component<LibrarySearchNavProps> = () => {
             aria-label='Album'
             class={cx(route === Route.Search.Album && 'active')}
           >
-            <Icon id='boxMusic' />
+            <Icon id='music-box' />
           </button>
           <button
             type='button'
@@ -42,7 +42,7 @@ const LibrarySearchNav: Component<LibrarySearchNavProps> = () => {
             aria-label='Label'
             class={cx(route === Route.Search.Label && 'active')}
           >
-            <Icon id='record' />
+            <Icon id='record-circle' />
           </button>
         </nav>
       );

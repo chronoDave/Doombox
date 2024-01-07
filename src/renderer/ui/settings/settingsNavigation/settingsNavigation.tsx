@@ -17,7 +17,7 @@ export type SettingsNavigationProps = {};
 const SettingsNavigation: Component<SettingsNavigationProps> = () => {
   const routes: Record<Routes.Settings, IconProps['id']> = {
     [Routes.Settings.Appearance]: 'palette',
-    [Routes.Settings.Library]: 'listMusic'
+    [Routes.Settings.Library]: 'playlist-music'
   };
 
   const component = new forgo.Component<SettingsNavigationProps>({

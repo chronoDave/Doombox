@@ -31,7 +31,7 @@ const HomeNavigation: Component<HomeNavigationProps> = () => {
                   onclick={() => setRouteHome(Route.Home.Library)}
                   class={cx(!state.route.settings && state.route.home === Route.Home.Library && 'active')}
                 >
-                  <Icon id='boxMusic' />
+                  <Icon id='music-box' />
                 </button>
               </li>
               <li>
@@ -41,7 +41,7 @@ const HomeNavigation: Component<HomeNavigationProps> = () => {
                   onclick={() => setRouteHome(Route.Home.Playlist)}
                   class={cx(!state.route.settings && state.route.home === Route.Home.Playlist && 'active')}
                 >
-                  <Icon id='listMusic' />
+                  <Icon id='playlist-music' />
                 </button>
               </li>
               {state.playlists.map(playlist => (
@@ -66,7 +66,7 @@ const HomeNavigation: Component<HomeNavigationProps> = () => {
                   aria-label='create playlist'
                   onclick={() => createPlaylist()}
                 >
-                  <Icon id='listAdd' />
+                  <Icon id='playlist-plus' />
                 </button>
               </li>
               <li>
