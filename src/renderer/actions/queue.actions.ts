@@ -8,6 +8,8 @@ import { sortSongs } from '../utils/sort';
 import { play } from './player.actions';
 
 export const addToQueue = (ids: string[]) => {
+  if (ids.length === 0) return;
+
   store.dispatch(produce(draft => {
     draft.queue.songs.push(...ids);
   }), 'queue.add');

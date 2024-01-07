@@ -13,7 +13,7 @@ export const fetchPlaylists = async () => {
   dispatchPlaylists(playlists);
 };
 
-export const createPlaylist = async (songs: string[]) => {
+export const createPlaylist = async (songs?: string[]) => {
   const playlist = await window.ipc.playlist.add(songs);
 
   store.dispatch(produce(draft => {

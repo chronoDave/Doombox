@@ -15,6 +15,21 @@
         background-color: var(--primary);
         fill: var(--text-primary);
       }
+
+      &.playlist {
+        width: 100%;
+        padding: 0;
+
+        > .icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          width: 100%;
+          aspect-ratio: 1/1;
+          background-color: var(--surface-high);
+        }
+      }
     }
   }
 }

@@ -13,7 +13,7 @@ export default (props: PlaylistControllerProps) =>
     add: async songs => props.db.insert([{
       _id: LeafDB.id(),
       title: 'New playlist',
-      songs
+      songs: songs ?? []
     }])[0],
     update: async ({ _id, ...playlist }) => {
       props.db.update(playlist, { _id });

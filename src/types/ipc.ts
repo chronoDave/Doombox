@@ -1,11 +1,10 @@
-import type { Library, Song } from './library';
+import type { Library } from './library';
 import type { Playlist } from './playlist';
 import type { Shape } from './primitives';
 import type { CacheShape } from './shapes/cache.shape';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
 import type { IpcMainInvokeEvent } from 'electron';
-import type { Query } from 'leaf-db';
 
 export type IpcRouter = (event: IpcMainInvokeEvent, ...args: unknown[]) => unknown;
 
@@ -95,7 +94,7 @@ export type IpcInvokeController = {
     [IpcRoute.Search]: (query: string) => Promise<Library>
   }
   [IpcChannel.Playlist]: {
-    [IpcRoute.Add]: (songs: string[]) => Promise<Playlist>,
+    [IpcRoute.Add]: (songs?: string[]) => Promise<Playlist>,
     [IpcRoute.Update]: (playlist: Playlist) => Promise<Playlist[]>
     [IpcRoute.Remove]: (id: string) => Promise<Playlist[]>
     [IpcRoute.Get]: () => Promise<Playlist[]>
