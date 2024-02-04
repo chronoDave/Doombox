@@ -62,9 +62,3 @@ export type Library = {
   albums: Album[],
   labels: Label[]
 };
-
-export enum Thumb {
-  Song = 96,
-  Album = 384,
-  Player = 512
-}

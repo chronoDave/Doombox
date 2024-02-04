@@ -113,7 +113,7 @@ export const search = async (query: string) => {
         .sort(sortDistanceSongs(query));
       draft.search.albums = library.albums
         .sort(sortDistanceAlbums(query))
-        .map(album => ({ ...album, image: thumbSelector(draft)(album.image) }));
+        .map(album => ({ ...album, image: thumbSelector(draft)(128)(album.image) }));
       draft.search.labels = library.labels
         .sort(sortDistanceLabels(query));
     }), 'library.search');

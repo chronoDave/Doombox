@@ -8,7 +8,6 @@ import pMap from 'p-map';
 import path from 'path';
 import sharp from 'sharp';
 
-import { Thumb } from '../../../types/library';
 import sum from '../../../utils/array/sum';
 import group from '../../../utils/collection/group';
 import EventEmitter from '../../../utils/event/eventEmitter';
@@ -38,16 +37,15 @@ export default class Library extends EventEmitter<LibraryEvents> {
   private readonly _parser: Parser;
 
   private _insertImage(image: [b64: string, id: string]) {
+    const root = path.join(this._root, image[1]);
+    fs.mkdirSync(root);
+
     const writeImage = (size: number) => sharp(Buffer.from(image[0], 'base64'))
       .jpeg({ progressive: true })
       .resize({ width: size, height: size })
-      .toFile(path.join(this._root, `${image[1]}x${size}.jpg`));
+      .toFile(path.join(root, `${size}.jpg`));
 
-    return Promise.all([
-      writeImage(Thumb.Song),
-      writeImage(Thumb.Album),
-      writeImage(Thumb.Player)
-    ]);
+    return Promise.all([96, 128, 192, 256, 384, 512].map(writeImage));
   }
 
   static groupAlbums(x: Song[]): Album[] {

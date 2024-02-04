@@ -3,7 +3,9 @@ import produce from 'immer';
 import cacheShape from '../../types/shapes/cache.shape';
 import clamp from '../../utils/number/clamp';
 import Audio, { AudioStatus } from '../lib/audio';
+import { thumbSelector } from '../selectors';
 import store from '../store';
+import readFile from '../utils/fileReader';
 import updateCache from '../utils/updateCache';
 
 const audio = new Audio({
@@ -20,15 +22,39 @@ const audio = new Audio({
     draft.player.status = status;
   }), 'player.status'));
 
-export const play = (id: string) => {
+export const play = async (id: string) => {
   const state = store.dispatch(produce(draft => {
     draft.player.current.id = id;
   }), 'player.play');
 
   const song = state.entities.song.get(id);
+
   if (song) {
     window.ipc.player.play();
     audio.play(song.file);
+
+    const metadata = {
+      artist: song.artist ?? 'Unknown',
+      title: song.title ?? 'Unknown',
+      album: song.album ?? 'Unknown'
+    };
+
+    if (song.image) {
+      const artwork = await Promise.all([96, 128, 192, 256, 384, 512].map(async size => {
+        const response = await fetch(thumbSelector(state)(size)(song.image));
+        const blob = await response.blob();
+        const src = await readFile(blob);
+
+        return ({ src, sizes: `${size}x${size}`, type: blob.type });
+      }));
+
+      navigator.mediaSession.metadata = new MediaMetadata({
+        ...metadata,
+        artwork: artwork ?? []
+      });
+    } else {
+      navigator.mediaSession.metadata = new MediaMetadata(metadata);
+    }
   }
 };
 
@@ -125,3 +151,8 @@ window.ipc.on.play(() => pause());
 window.ipc.on.pause(() => pause());
 window.ipc.on.previous(previous);
 window.ipc.on.next(next);
+
+navigator.mediaSession.setActionHandler('play', () => pause());
+navigator.mediaSession.setActionHandler('pause', () => pause());
+navigator.mediaSession.setActionHandler('previoustrack', () => previous());
+navigator.mediaSession.setActionHandler('nexttrack', () => next());
