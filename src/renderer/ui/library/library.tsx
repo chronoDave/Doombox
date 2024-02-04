@@ -2,7 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { search } from '../../actions/library.actions';
+import { search, shuffleLibrary } from '../../actions/library.actions';
+import Icon from '../../components/icon/icon';
 import InputSearch from '../../components/inputSearch/inputSearch';
 import * as Route from '../../types/route';
 
@@ -24,7 +25,16 @@ const Library: Component<LibraryProps> = () => {
 
       return (
         <div class='Library'>
-          <InputSearch placeholder='Search...' onsubmit={search} />
+          <div class='toolbar'>
+            <InputSearch placeholder='Search...' onsubmit={search} />
+            <button
+              type='button'
+              aria-label='Shuffle library'
+              onclick={shuffleLibrary}
+            >
+              <Icon id='shuffle-variant' />
+            </button>
+          </div>
           {route ? <LibrarySearchNav /> : null}
           {route === Route.Search.Song ? <LibrarySearchSong /> : null}
           {route === Route.Search.Album ? <LibrarySearchAlbum /> : null}

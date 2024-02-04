@@ -10,17 +10,15 @@
     > .toolbar {
       display: flex;
       justify-content: space-between;
-      padding: 0 0.5em;
-      padding-bottom: 0.25em;
 
-      > .meta > span {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.25em;
+      > .InputSearch {
+        flex-shrink: 1;
+        min-width: 0;
+      }
 
-        + span {
-          margin-left: 0.5em;
-        }
+      > button {
+        aspect-ratio: 1/1;
+        height: 100%;
       }
     }
   }

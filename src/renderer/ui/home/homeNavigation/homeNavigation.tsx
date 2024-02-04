@@ -44,7 +44,7 @@ const HomeNavigation: Component<HomeNavigationProps> = () => {
                   <Icon id='playlist-music' />
                 </button>
               </li>
-              {state.playlists.map(playlist => (
+              {/* {state.playlists.map(playlist => (
                 <li key={playlist._id}>
                   <button
                     type='button'
@@ -59,8 +59,8 @@ const HomeNavigation: Component<HomeNavigationProps> = () => {
                     )}
                   </button>
                 </li>
-              ))}
-              <li>
+              ))} */}
+              {/* <li>
                 <button
                   type='button'
                   aria-label='create playlist'
@@ -68,7 +68,7 @@ const HomeNavigation: Component<HomeNavigationProps> = () => {
                 >
                   <Icon id='playlist-plus' />
                 </button>
-              </li>
+              </li> */}
               <li>
                 <button
                   type='button'

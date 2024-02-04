@@ -4,6 +4,7 @@ import type { State } from '../types/state';
 import produce from 'immer';
 
 import difference from '../../utils/array/difference';
+import shuffle from '../../utils/array/shuffle';
 import unique from '../../utils/array/unique';
 import { thumbSelector } from '../selectors';
 import store from '../store';
@@ -16,6 +17,8 @@ import {
   sortLabels,
   sortSongs
 } from '../utils/sort';
+
+import { setQueue } from './queue.actions';
 
 const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.song = new Map(library.songs
@@ -118,4 +121,8 @@ export const search = async (query: string) => {
         .sort(sortDistanceLabels(query));
     }), 'library.search');
   }
+};
+
+export const shuffleLibrary = () => {
+  setQueue(shuffle(Array.from(store.get().entities.song.keys())));
 };
