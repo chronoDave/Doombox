@@ -83,7 +83,16 @@ const ipc: IpcApi = {
   },
   on: {
     song: receive(IpcRoute.Song),
-    image: receive(IpcRoute.Image)
+    image: receive(IpcRoute.Image),
+    play: receive(IpcRoute.Play),
+    pause: receive(IpcRoute.Pause),
+    next: receive(IpcRoute.Next),
+    previous: receive(IpcRoute.Previous),
+    shuffle: receive(IpcRoute.Shuffle)
+  },
+  player: {
+    play: send(IpcChannel.Player, IpcRoute.Play),
+    pause: send(IpcChannel.Player, IpcRoute.Pause)
   }
 };
 

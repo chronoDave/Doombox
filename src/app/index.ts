@@ -17,6 +17,7 @@ import { PATH } from './const';
 import createAppController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
+import createPlayerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
@@ -65,6 +66,7 @@ const run = async () => {
     cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
   };
 
+  const window = createWindow({ storage: storage.app, logger });
   const createIpcRouter = ipcRouterFactory(logger);
   const router = {
     library: createIpcRouter(createLibraryController({
@@ -86,6 +88,9 @@ const run = async () => {
     })),
     app: createIpcRouter(createAppController({
       directory: { thumbs: PATH.THUMBS }
+    })),
+    player: createIpcRouter(createPlayerController({
+      window
     }))
   };
 
@@ -102,8 +107,7 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Cache, router.cache);
   ipcMain.handle(IpcChannel.Library, router.library);
   ipcMain.handle(IpcChannel.Playlist, router.playlist);
-
-  createWindow({ storage: storage.app, logger });
+  ipcMain.on(IpcChannel.Player, router.player);
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();

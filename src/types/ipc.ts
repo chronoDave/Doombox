@@ -16,7 +16,8 @@ export enum IpcChannel {
   Window = 'window',
   Library = 'library',
   Receive = 'on',
-  Playlist = 'playlist'
+  Playlist = 'playlist',
+  Player = 'player'
 }
 
 export type IpcChannelReceive<T extends IpcRoute> = `${IpcChannel.Receive}.${T}`;
@@ -38,7 +39,12 @@ export enum IpcRoute {
   Album = 'album',
   Label = 'label',
   Image = 'image',
-  Search = 'search'
+  Search = 'search',
+  Play = 'play',
+  Pause = 'pause',
+  Next = 'next',
+  Previous = 'previous',
+  Shuffle = 'shuffle'
 }
 
 /** Events */
@@ -58,7 +64,12 @@ export type IpcPayloadReceive = {
     file: string
     cur: number
     size: number
-  }
+  },
+  [IpcRoute.Play]: {},
+  [IpcRoute.Pause]: {},
+  [IpcRoute.Next]: {},
+  [IpcRoute.Previous]: {},
+  [IpcRoute.Shuffle]: {}
 };
 
 /** Controller */
@@ -73,6 +84,10 @@ export type IpcSendController = {
     [IpcRoute.Minimize]: () => void
     [IpcRoute.Maximize]: () => void
     [IpcRoute.Close]: () => void
+  }
+  [IpcChannel.Player]: {
+    [IpcRoute.Play]: () => void
+    [IpcRoute.Pause]: () => void
   }
 };
 

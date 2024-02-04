@@ -26,7 +26,10 @@ export const play = (id: string) => {
   }), 'player.play');
 
   const song = state.entities.song.get(id);
-  if (song) audio.play(song.file);
+  if (song) {
+    window.ipc.player.play();
+    audio.play(song.file);
+  }
 };
 
 export const pause = () => {
@@ -34,8 +37,10 @@ export const pause = () => {
 
   if (player.status === AudioStatus.Playing) {
     audio.pause();
+    window.ipc.player.pause();
   } else {
     audio.resume();
+    window.ipc.player.play();
   }
 };
 
@@ -115,3 +120,8 @@ store.subscribe((prev, cur) => (
   cur.player.status === AudioStatus.Ended &&
   cur.user.player.autoplay
 ) && next());
+
+window.ipc.on.play(() => pause());
+window.ipc.on.pause(() => pause());
+window.ipc.on.previous(previous);
+window.ipc.on.next(next);

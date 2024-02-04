@@ -89,3 +89,5 @@ export const shuffleQueue = () => {
 
   play(shuffled[0]);
 };
+
+window.ipc.on.shuffle(shuffleQueue);
