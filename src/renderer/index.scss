@@ -17,6 +17,7 @@
   @include meta.load-css('./scss/components/scrollbar.scss');
   @include meta.load-css('./scss/components/list.scss');
   @include meta.load-css('./scss/components/input.scss');
+  @include meta.load-css('./scss/components/panel.scss');
 }
 
 @layer modules;

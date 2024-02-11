@@ -22,9 +22,9 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
       return (
         <dl class='PlayerMeta'>
           <dt class='sr-only'>title</dt>
-          <dd>{current.title ?? 'unknown'}</dd>
+          <dd class='nowrap'>{current.title ?? 'unknown'}</dd>
           <dt class='sr-only'>Artist</dt>
-          <dd>{current.artist ?? 'unknown'}</dd>
+          <dd class='nowrap'>{current.artist ?? 'unknown'}</dd>
         </dl>
       );
     }

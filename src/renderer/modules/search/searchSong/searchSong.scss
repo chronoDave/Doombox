@@ -1,0 +1,11 @@
+.SearchSong {
+  display: block;
+  width: 100%;
+  padding: 2px 4px;
+  text-align: left;
+  min-width: 0;
+
+  > .subtitle {
+    color: var(--text-half);
+  }
+}

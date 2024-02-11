@@ -1,35 +1,32 @@
 @use 'breakpoints';
-@use 'layers';
 
-@include layers.modules {
-  .Player {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
+.Player {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
 
-    > .bg {
-      position: absolute;
+  > .bg {
+    position: absolute;
+  }
+
+  > .body {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    background-color: var(--black-opaque);
+    color: var(--white);
+    isolation: isolate;
+    aspect-ratio: 1/1;
+
+    > .PlayerMeta {
+      align-self: center;
+      text-align: center;
+      min-width: 0;
     }
 
-    > .body {
-      display: grid;
-      grid-template-rows: 1fr auto;
-      background-color: var(--black-opaque);
-      color: var(--white);
-      isolation: isolate;
-      aspect-ratio: 1/1;
-
-      > .PlayerMeta {
-        align-self: center;
-        text-align: center;
-        min-width: 0;
-      }
-
-      > .controls > .PlayerControls {
-        margin-bottom: 0.5rem;
-      }
+    > .controls > .PlayerControls {
+      margin-bottom: 0.5rem;
     }
   }
 }

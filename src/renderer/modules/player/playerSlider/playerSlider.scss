@@ -1,20 +1,17 @@
 @use 'typography';
-@use 'layers';
 
-@include layers.modules {
-  .PlayerSlider {
+.PlayerSlider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+
+  > .time {
     display: flex;
-    flex-direction: column;
-    gap: 0.25em;
+    justify-content: space-between;
+    padding: 0 0.5em;
+  }
 
-    > .time {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 0.5em;
-    }
-
-    > .Slider > .track {
-      background-color: var(--black-opaque);
-    }
+  > .Slider > .track {
+    background-color: var(--black-opaque);
   }
 }

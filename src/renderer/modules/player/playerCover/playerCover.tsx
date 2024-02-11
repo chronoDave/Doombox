@@ -11,7 +11,29 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
     render() {
       const src = subscribe(component);
 
-      return <img src={src} alt='' class='bg' />;
+      return (
+        <picture class='bg'>
+          <source
+            srcset={src.lg}
+            media="(min-width: 960px) and (min-height: 720px)"
+            width={384}
+            height={384}
+          />
+          <source
+            srcset={src.md}
+            media="(min-width: 720px) and (min-height: 480px)"
+            width={256}
+            height={256}
+          />
+          <img
+            src={src.xs}
+            alt=''
+            class='bg'
+            width={192}
+            height={192}
+          />
+        </picture>
+      );
     }
   });
 

@@ -1,20 +1,14 @@
-@use 'typography';
-@use 'breakpoints';
-@use 'layers';
+.PlayerControls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.25em;
 
-@include layers.modules {
-  .PlayerControls {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 0.25em;
+  > button {
+    fill: var(--light-3);
 
-    > button {
-      fill: var(--light-3);
-
-      &:hover {
-        fill: var(--white);
-      }
+    &:hover {
+      fill: var(--white);
     }
   }
 }

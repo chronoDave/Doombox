@@ -1,0 +1,60 @@
+@use 'mixins';
+
+.AppBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text);
+  background-color: var(--surface-high);
+
+  > img {
+    -webkit-app-region: drag;
+    flex-shrink: 0;
+
+    @media (prefers-color-scheme: dark) {
+      &.light {
+        display: none
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      &.dark {
+        display: none
+      }
+    }
+  }
+
+  > .title {
+    -webkit-app-region: drag;
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  > nav {
+    position: relative;
+    flex-shrink: 0;
+    height: 100%;
+
+    > ul {
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      > li {
+        height: 100%;
+
+        > button {
+          width: 40px;
+          height: 100%;
+
+          @include mixins.hover {
+            &.close {
+              fill: var(--text-error);
+              background-color: var(--error);
+            }
+          }
+        }
+      }
+    }
+  }
+}

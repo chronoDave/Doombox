@@ -1,0 +1,8 @@
+.panel {
+  display: flex;
+  min-height: 0;
+
+  &.column {
+    flex-direction: column;
+  }
+}

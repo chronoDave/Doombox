@@ -1,0 +1,14 @@
+.SearchAlbum {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+
+  > .body {
+    margin-left: 4px;
+    min-width: 0;
+
+    > .subtitle {
+      color: var(--text-half);
+    }
+  }
+}

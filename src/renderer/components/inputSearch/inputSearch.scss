@@ -1,32 +1,17 @@
-@use 'layers';
+.InputSearch {
+  padding: 0.5em;
+  flex-grow: 1;
+  min-width: 0;
+  border: unset;
+  background-color: unset;
+  color: inherit;
+  font-size: 1rem;
 
-@include layers.components {
-  .InputSearch {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
 
-    > button {
-      height: 100%;
-      aspect-ratio: 1/1;
-    }
-
-    > input {
-      padding: 0.5em;
-      flex-grow: 1;
-      min-width: 0;
-      border: unset;
-      background-color: unset;
-      color: inherit;
-      font-size: 1rem;
-
-      &::-webkit-search-cancel-button {
-        display: none;
-      }
-
-      &::placeholder {
-        color: var(--text-inactive);
-      }
-    }
+  &::placeholder {
+    color: var(--text-inactive);
   }
 }

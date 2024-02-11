@@ -1,17 +1,13 @@
-@use 'layers';
+.PlayerVolume {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-@include layers.modules {
-  .PlayerVolume {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  > .label {
+    display: none;
+  }
 
-    > .label {
-      display: none;
-    }
-
-    &:hover > .label {
-      display: block;
-    }
+  &:hover > .label {
+    display: block;
   }
 }

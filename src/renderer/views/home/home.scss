@@ -1,0 +1,15 @@
+@use 'breakpoints';
+
+.Home {
+  display: grid;
+  grid-template-columns: 192px minmax(0, 1fr);
+  gap: 1px;
+
+  @media (min-width: breakpoints.$md-w) and (min-height: breakpoints.$md-h) {
+    grid-template-columns: 256px minmax(0, 1fr);
+  }
+
+  @media (min-width: breakpoints.$lg-w) and (min-height: breakpoints.$lg-h) {
+    grid-template-columns: 384px minmax(0, 1fr);
+  }
+}

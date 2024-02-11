@@ -17,8 +17,8 @@ export default new Store<State>({
   route: {
     app: Route.App.Load,
     home: Route.Home.Library,
-    search: null,
-    settings: null
+    search: Route.Search.Song,
+    settings: Route.Settings.Library
   },
   queue: {
     index: 0,

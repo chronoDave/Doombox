@@ -1,0 +1,13 @@
+.LibraryLabel {
+  text-align: left;
+  align-self: start;
+  width: 100%;
+  gap: 1em;
+
+  > .hr {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: var(--text-inactive);
+  }
+}
