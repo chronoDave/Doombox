@@ -20,7 +20,6 @@ const SettingsRouter: Component<SettingsRouterProps> = () => {
     render() {
       const route = subscribe(component);
 
-      if (!route) return null;
       return (
         <div class='body'>
           {routes[route]}

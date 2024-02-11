@@ -2,10 +2,10 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { setRouteSettings } from '../../actions/route.actions';
+import { setRouteApp } from '../../actions/route.actions';
 import Icon from '../../components/icon/icon';
+import * as Route from '../../types/route';
 
-import subscribe from './settings.state';
 import SettingsNav from './settingsNav/settingsNav';
 import SettingsRouter from './settingsRouter/settingsRouter';
 
@@ -16,9 +16,6 @@ export type SettingsViewProps = {};
 const SettingsView: Component<SettingsViewProps> = () => {
   const component = new forgo.Component<SettingsViewProps>({
     render() {
-      const route = subscribe(component);
-
-      if (!route) return null;
       return (
         <div class='Settings'>
           <SettingsNav />
@@ -27,7 +24,7 @@ const SettingsView: Component<SettingsViewProps> = () => {
             <button
               type='button'
               aria-label='Close settings'
-              onclick={() => setRouteSettings(null)}
+              onclick={() => setRouteApp(Route.App.Home)}
             >
               <Icon id='close' />
               Esc

@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { search, shuffleLibrary } from '../../../actions/library.actions';
-import { setRouteHome, setRouteSettings } from '../../../actions/route.actions';
+import { setRouteApp, setRouteHome } from '../../../actions/route.actions';
 import Icon from '../../../components/icon/icon';
 import InputSearch from '../../../components/inputSearch/inputSearch';
 import * as Route from '../../../types/route';
@@ -48,7 +48,7 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
           <button
             type='button'
             aria-label='settings'
-            onclick={() => setRouteSettings(Route.Settings.Library)}
+            onclick={() => setRouteApp(Route.App.Settings)}
             class={cx(state.route.settings && 'active')}
           >
             <Icon id='cog' />
