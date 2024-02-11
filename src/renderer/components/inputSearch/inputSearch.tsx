@@ -1,6 +1,7 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
+import Icon from '../icon/icon';
 
 import './inputSearch.scss';
 
@@ -15,20 +16,32 @@ const InputSearch: Component<InputSearchProps> = () => {
   const component = new forgo.Component<InputSearchProps>({
     render(props) {
       return (
-        <input
-          class='InputSearch'
-          ref={ref}
-          type='search'
-          placeholder={props.placeholder ?? 'Search...'}
-          onkeyup={event => {
-            if (event.key === 'Enter') {
-              props.onsubmit(ref.value?.value ?? '');
-            } else {
-              props.oninput?.(ref.value?.value ?? '');
-            }
-          }}
-          onsubmit={() => props.onsubmit(ref.value?.value ?? '')}
-        />
+        <div class='InputSearch' role='search'>
+          <input
+            ref={ref}
+            type='search'
+            placeholder={props.placeholder ?? 'Search...'}
+            onkeyup={event => {
+              if (event.key === 'Enter') {
+                props.onsubmit(ref.value?.value ?? '');
+              } else {
+                props.oninput?.(ref.value?.value ?? '');
+              }
+            }}
+            onsubmit={() => props.onsubmit(ref.value?.value ?? '')}
+          />
+          {ref.value?.value && (
+            <button
+              type='button'
+              onclick={() => {
+                ref.value!.value = '';
+                props.onsubmit(ref.value!.value);
+              }}
+            >
+              <Icon id='close' />
+            </button>
+          )}
+        </div>
       );
     }
   });

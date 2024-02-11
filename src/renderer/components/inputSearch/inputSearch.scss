@@ -1,17 +1,23 @@
 .InputSearch {
-  padding: 0.5em;
-  flex-grow: 1;
+  display: flex;
+  align-items: center;
   min-width: 0;
-  border: unset;
-  background-color: unset;
-  color: inherit;
-  font-size: 1rem;
 
-  &::-webkit-search-cancel-button {
-    display: none;
-  }
-
-  &::placeholder {
-    color: var(--text-inactive);
+  > input {
+    padding: 0.5em;
+    flex-grow: 1;
+    min-width: 0;
+    border: unset;
+    background-color: unset;
+    color: inherit;
+    font-size: 1rem;
+  
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  
+    &::placeholder {
+      color: var(--text-inactive);
+    }
   }
 }
