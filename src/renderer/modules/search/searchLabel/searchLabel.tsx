@@ -23,7 +23,7 @@ const SearchLabel: Component<SearchLabelProps> = () => {
       return (
         <VirtualList
           data={labels}
-          onclick={data => data.id && playLabel(data.id)}
+          onclick={playLabel}
           cell={{
             id: label => label._id,
             height: () => 48,

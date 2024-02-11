@@ -21,13 +21,10 @@ const SearchSong: Component<SearchSongProps> = () => {
       return (
         <VirtualList
           data={songs}
-          onclick={data => data.id && play(data.id)}
+          onclick={play}
           cell={{
             id: song => song._id,
             height: () => 52,
-            data: song => ({
-              id: song._id
-            }),
             render: song => (
               <button class='SearchSong' type='button'>
                 <p class='title nowrap'>{song.title}</p>

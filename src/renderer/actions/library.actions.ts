@@ -125,5 +125,5 @@ export const search = async (query: string) => {
 };
 
 export const shuffleLibrary = () => {
-  setQueue(shuffle(Array.from(store.get().entities.song.keys())));
+  setQueue(shuffle(Array.from(store.get().entities.song.keys())), 'Library');
 };

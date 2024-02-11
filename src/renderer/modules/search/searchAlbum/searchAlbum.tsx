@@ -20,7 +20,7 @@ const SearchAlbum: Component<SearchAlbumProps> = () => {
       return (
         <VirtualList
           data={albums}
-          onclick={data => data.id && playAlbum(data.id)}
+          onclick={playAlbum}
           cell={{
             id: album => album._id,
             height: () => 48,

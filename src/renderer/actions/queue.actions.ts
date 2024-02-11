@@ -24,10 +24,11 @@ export const addLabelToQueue = (id: string) => {
   addToQueue(populateSongs(store.get())(label.songs).sort(sortSongs).map(song => song._id));
 };
 
-export const setQueue = (ids: string[]) => {
+export const setQueue = (ids: string[], title?: string) => {
   store.dispatch(produce(draft => {
     draft.queue.songs = ids;
     draft.queue.index = 0;
+    draft.queue.title = title ?? 'Queue';
   }), 'queue.set');
 
   play(ids[0]);
@@ -44,6 +45,7 @@ export const playLabel = (id: string) => {
   store.dispatch(produce(draft => {
     draft.queue.songs = songs;
     draft.queue.index = 0;
+    draft.queue.title = label.label;
   }), 'queue.playLabel');
 
   play(songs[0]);
@@ -60,6 +62,7 @@ export const playAlbum = (id: string) => {
   store.dispatch(produce(draft => {
     draft.queue.songs = songs;
     draft.queue.index = 0;
+    draft.queue.title = album.album ?? 'Queue';
   }), 'queue.playAlbum');
 
   play(songs[0]);

@@ -8,10 +8,9 @@ import './virtualList.scss';
 
 export type VirtualListProps<T> = {
   data: T[]
-  onclick?: (dataset: DOMStringMap) => void
+  onclick?: (id: string) => void
   cell: {
-    id?: (data: T) => string
-    data?: (data: T) => Record<string, string>
+    id: (data: T) => string
     height: (data: T) => number
     render: (data: T, i: number) => forgo.Component | forgo.Component[]
   }
@@ -31,7 +30,7 @@ const VirtualList = <T extends any>(
           target :
           target?.closest<HTMLElement>('.VirtualItem');
 
-        if (item) props.onclick?.(item.dataset);
+        if (item) props.onclick?.(item.dataset.id!);
       };
 
       const container = {
@@ -44,7 +43,7 @@ const VirtualList = <T extends any>(
         container,
         cell: {
           height: props.cell.height,
-          dataset: props.cell.data
+          id: props.cell.id
         }
       });
 
@@ -67,12 +66,12 @@ const VirtualList = <T extends any>(
             {list.cells.map((cell, i) => (
               <li
                 class='VirtualItem'
-                key={props.cell.id?.(cell.data) ?? cell.data}
+                key={cell.id}
                 style={{
                   top: `${cell.y}px`,
                   height: `${cell.height}px`
                 }}
-                {...(cell.dataset ?? {})}
+                data-id={cell.id}
               >
                 {props.cell.render(cell.data, i)}
               </li>

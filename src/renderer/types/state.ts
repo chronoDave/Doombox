@@ -30,6 +30,7 @@ export type State = {
     volume: number
   },
   queue: {
+    title: string
     index: number
     songs: string[]
   }

@@ -21,6 +21,7 @@ export default new Store<State>({
     settings: Route.Settings.Library
   },
   queue: {
+    title: 'Queue',
     index: 0,
     songs: []
   },

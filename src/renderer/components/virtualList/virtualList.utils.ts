@@ -5,7 +5,7 @@ import fill from '../../../utils/array/fill';
 
 export type Cell<T> = {
   data: T
-  dataset: { [key: `data_${string}`]: string }
+  id: string
   y: number
   height: number
 };
@@ -20,7 +20,7 @@ export type VirtualListOptions<T> = {
   scroll: number
   container: Rect
   cell: {
-    dataset?: (data: T) => Record<string, string>
+    id: (data: T) => string
     height: (data: T) => number
   }
 };
@@ -35,7 +35,7 @@ export const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualLis
       data,
       y,
       height: options.cell.height(data),
-      dataset: Object.fromEntries(Object.entries(options.cell.dataset?.(data) ?? {}).map(([key, value]) => [`data-${key}`, value]))
+      id: options.cell.id(data)
     });
   });
 

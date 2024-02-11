@@ -18,26 +18,25 @@ export type QueueProps = {};
 const Queue: Component<QueueProps> = () => {
   const component = new forgo.Component<QueueProps>({
     render() {
-      const { queue, current } = subscribe(component);
-      const duration = sum(queue, song => song.duration ?? 0);
+      const state = subscribe(component);
+      const duration = sum(state.queue, song => song.duration ?? 0);
 
       return (
         <div class='Queue'>
           <div class='header center'>
-            <p>Queue</p>
-            <p class='small nowrap'>{queue.length} tracks <span class='dot' aria-hidden='true'>&bull;</span> {timeToLong(secToTime(duration))}</p>
+            <p class='nowrap'>{state.title}</p>
+            <p class='small nowrap'>{state.queue.length} tracks <span class='dot' aria-hidden='true'>&bull;</span> {timeToLong(secToTime(duration))}</p>
           </div>
           <VirtualList
-            data={queue}
-            onclick={data => data.id && setQueueIndex(data.id)}
+            data={state.queue}
+            onclick={setQueueIndex}
             cell={{
               id: song => song._id,
               height: () => 48,
-              data: song => ({ id: song._id }),
               render: song => (
                 <button
                   type='button'
-                  class={cx(song._id === current && 'active')}
+                  class={cx(song._id === state.current && 'active')}
                   aria-label='Set queue index'
                 >
                   <dl>
