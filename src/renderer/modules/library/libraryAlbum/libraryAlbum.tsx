@@ -3,12 +3,14 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Icon from '../../../components/icon/icon';
 import cx from '../../../utils/cx/cx';
 
 import './libraryAlbum.scss';
 
 export type LibraryAlbumProps = {
-  album: Album & { image: string }
+  album: Album
+  image: (id: string, size: number) => string
   current: string | null
   action: string
 };
@@ -27,7 +29,30 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
             props.current && props.album.songs.includes(props.current) && 'active'
           )}
         >
-          <img src={props.album.image} alt='' width={72} height={72} />
+          {props.album.image ? (
+            <picture>
+              <source
+                srcset={props.image(props.album.image, 256)}
+                media="(min-width: 960px) and (min-height: 720px)"
+                width={256}
+                height={256}
+              />
+              <source
+                srcset={props.image(props.album.image, 192)}
+                media="(min-width: 720px) and (min-height: 480px)"
+                width={192}
+                height={192}
+              />
+              <img
+                srcset={props.image(props.album.image, 128)}
+                alt=''
+                width={128}
+                height={128}
+              />
+            </picture>
+          ) : (
+            <Icon id='music-note' />
+          )}
         </button>
       );
     }

@@ -3,6 +3,10 @@
   justify-content: flex-start;
   text-align: left;
 
+  > img {
+    padding: 1px;
+  }
+
   > .body {
     margin-left: 4px;
     min-width: 0;

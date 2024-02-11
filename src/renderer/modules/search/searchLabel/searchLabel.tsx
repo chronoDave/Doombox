@@ -5,7 +5,6 @@ import * as forgo from 'forgo';
 import secToTime from '../../../../utils/time/secToTime';
 import timeToShort from '../../../../utils/time/timeToShort';
 import { playLabel } from '../../../actions/queue.actions';
-import Glyph from '../../../components/glyph/glyph';
 import VirtualList from '../../../components/virtualList/virtualList';
 
 import subscribe from './searchLabel.state';
@@ -34,7 +33,7 @@ const SearchLabel: Component<SearchLabelProps> = () => {
                 data-id={label._id}
               >
                 <p class='title nowrap'>{label.label}</p>
-                <p class='subtitle nowrap'>{label.albums.length} album{label.albums.length > 1 ? 's' : ''}<Glyph id='dot' />{label.songs.length} track{label.songs.length > 1 ? 's' : ''}<Glyph id='dot' />{timeToShort(secToTime(label.duration ?? 0))}</p>
+                <p class='subtitle nowrap'>{label.albums.length} album{label.albums.length > 1 ? 's' : ''}<span class='glyph dot' />{label.songs.length} track{label.songs.length > 1 ? 's' : ''}<span class='glyph dot' />{timeToShort(secToTime(label.duration ?? 0))}</p>
               </button>
             )
           }}

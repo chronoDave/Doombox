@@ -23,7 +23,7 @@ const Library: Component<LibraryProps> = () => {
 
       return (
         <VirtualGrid
-          data={state.labels.map(label => [label, ...label.albums]).flat()}
+          data={state.data}
           onclick={data => {
             if (data.id && data.action === Action.PlayAlbum) playAlbum(data.id);
             if (data.id && data.action === Action.PlayLabel) playLabel(data.id);
@@ -33,11 +33,20 @@ const Library: Component<LibraryProps> = () => {
             width: cell => 'albums' in cell ? null : 72,
             height: cell => 'albums' in cell ? 48 : null,
             render: cell => {
-              if ('albums' in cell) return <LibraryLabel action={Action.PlayLabel} label={cell} />;
+              if ('albums' in cell) {
+                return (
+                  <LibraryLabel
+                    action={Action.PlayLabel}
+                    label={cell}
+                    current={state.current}
+                  />
+                );
+              }
               return (
                 <LibraryAlbum
                   action={Action.PlayAlbum}
                   album={cell}
+                  image={state.image}
                   current={state.current}
                 />
               );

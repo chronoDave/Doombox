@@ -53,3 +53,11 @@ p, .body {
 .center {
   text-align: center;
 }
+
+.glyph {
+  padding: 0 .5em;
+
+  &.dot::after {
+    content: '•';
+  }
+}

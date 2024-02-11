@@ -3,7 +3,7 @@ import produce from 'immer';
 import cacheShape from '../../types/shapes/cache.shape';
 import clamp from '../../utils/number/clamp';
 import Audio, { AudioStatus } from '../lib/audio';
-import { thumbSelector } from '../selectors';
+import { imageSelector } from '../selectors';
 import store from '../store';
 import readFile from '../utils/fileReader';
 import updateCache from '../utils/updateCache';
@@ -41,7 +41,7 @@ export const play = async (id: string) => {
 
     if (song.image) {
       const artwork = await Promise.all([96, 128, 192, 256, 384, 512].map(async size => {
-        const response = await fetch(thumbSelector(state)(size)(song.image));
+        const response = await fetch(imageSelector(state)(song.image!, size));
         const blob = await response.blob();
         const src = await readFile(blob);
 

@@ -25,7 +25,7 @@ const Queue: Component<QueueProps> = () => {
         <div class='Queue'>
           <div class='header center'>
             <p class='nowrap'>{state.title}</p>
-            <p class='small nowrap'>{state.queue.length} tracks <span class='dot' aria-hidden='true'>&bull;</span> {timeToLong(secToTime(duration))}</p>
+            <p class='small nowrap'>{state.queue.length} tracks<span class='glyph dot' />{timeToLong(secToTime(duration))}</p>
           </div>
           <VirtualList
             data={state.queue}

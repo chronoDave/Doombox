@@ -3,7 +3,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { play } from '../../../actions/player.actions';
-import Glyph from '../../../components/glyph/glyph';
 import VirtualList from '../../../components/virtualList/virtualList';
 
 import subscribe from './searchSong.state';
@@ -27,8 +26,16 @@ const SearchSong: Component<SearchSongProps> = () => {
             height: () => 52,
             render: song => (
               <button class='SearchSong' type='button'>
-                <p class='title nowrap'>{song.title}</p>
-                <p class='subtitle nowrap'>{song.artist}<Glyph id='dot' />{song.album}</p>
+                <img
+                  src={song.image!}
+                  alt=''
+                  width={48}
+                  height={48}
+                />
+                <div class='body'>
+                  <p class='title nowrap'>{song.title}</p>
+                  <p class='subtitle nowrap'>{song.artist}</p>
+                </div>
               </button>
             )
           }}

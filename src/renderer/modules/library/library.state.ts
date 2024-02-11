@@ -1,11 +1,14 @@
-import { populateAlbums } from '../../selectors';
+import { imageSelector, populateAlbums } from '../../selectors';
 import store from '../../store';
 import createSelector from '../../utils/createSelector';
 
 export default createSelector(store, 'library')(state => ({
   current: state.player.current.id,
-  labels: Array.from(state.entities.label.values()).map(label => ({
-    ...label,
-    albums: populateAlbums(state)(label.albums)
-  }))
+  image: imageSelector(state),
+  data: Array.from(state.entities.label.values())
+    .map(label => [
+      label,
+      populateAlbums(state)(label.albums)
+    ])
+    .flat(2)
 }));
