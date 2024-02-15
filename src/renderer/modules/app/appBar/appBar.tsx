@@ -30,7 +30,7 @@ const AppBar: Component<AppBarProps> = () => {
             src="icons/icon_light.png"
             alt='Doombox app icon'
           />
-          <span class="title nowrap small">{title}</span>
+          <span class="title nowrap">{title}</span>
           <nav aria-label='window'>
             <ul>
               <li>

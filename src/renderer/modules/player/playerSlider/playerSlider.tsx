@@ -21,8 +21,8 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
       return (
         <div class='PlayerSlider'>
           <div class='time'>
-            <span class="small">{timeToShort(secToTime(position))}</span>
-            <span class="small">-{timeToShort(secToTime(duration - position))}</span>
+            <span>{timeToShort(secToTime(position))}</span>
+            <span>-{timeToShort(secToTime(duration - position))}</span>
           </div>
           <Slider
             max={duration}

@@ -1,63 +1,7 @@
 @use 'typography';
 
-// Base
-h1, h2, h3, h4, h5, h6, p {
-  margin: 0;
-  padding: 0;
-  font-weight: 400;
-}
-
 html {
   font-family: NotoSansJP, sans-serif;
-  line-height: 1.4;
-}
-
-// Headings
-h1, .h1 {
-  font-size: typography.pxToRem(32);
-}
-
-h2, .h2 {
-  font-size: typography.pxToRem(28);
-}
-
-h3, .h3 {
-  font-size: typography.pxToRem(24);
-}
-
-h4, .h4 {
-  font-size: typography.pxToRem(20);
-}
-
-h5, .h5 {
-  font-size: typography.pxToRem(18);
-}
-
-h6, .h6 {
-  font-size: typography.pxToRem(16);
-}
-
-// Body
-p, .body {
-  font-size: typography.pxToRem(14);
-}
-
-.small {
-  font-size: typography.pxToRem(13);
-}
-
-.muted {
-  color: var(--text-inactive);
-}
-
-.center {
-  text-align: center;
-}
-
-.glyph {
-  padding: 0 .5em;
-
-  &.dot::after {
-    content: '•';
-  }
+  line-height: 1.5;
+  font-size: 14px;
 }

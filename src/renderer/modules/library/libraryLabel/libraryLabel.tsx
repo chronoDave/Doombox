@@ -28,7 +28,7 @@ const LibraryLabel: Component<LibraryLabelProps> = () => {
         >
           <div class='meta'>
             <p class='nowrap'>{props.label.label}</p>
-            <p class='nowrap small'>{props.label.albums.length} albums<span class='glyph dot' />{props.label.songs.length} tracks<span class='glyph dot' />{timeToShort(secToTime(props.label.duration ?? 0))}</p>
+            <p class='nowrap'>{props.label.albums.length} albums<span class='glyph dot' />{props.label.songs.length} tracks<span class='glyph dot' />{timeToShort(secToTime(props.label.duration ?? 0))}</p>
           </div>
           <span class='hr' />
         </button>
