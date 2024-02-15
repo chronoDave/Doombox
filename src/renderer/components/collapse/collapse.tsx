@@ -20,6 +20,7 @@ const Collapse: Component<CollapseProps> = () => {
         <div class='Collapse'>
           <button
             type='button'
+            class='button'
             aria-expanded={expanded}
             aria-controls={props.id}
             onclick={() => {

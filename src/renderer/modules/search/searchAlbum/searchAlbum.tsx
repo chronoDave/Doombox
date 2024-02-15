@@ -26,7 +26,7 @@ const SearchAlbum: Component<SearchAlbumProps> = () => {
             height: () => 48,
             render: album => (
               <button
-                class='SearchAlbum'
+                class='SearchAlbum button'
                 type='button'
                 data-id={album._id}
               >

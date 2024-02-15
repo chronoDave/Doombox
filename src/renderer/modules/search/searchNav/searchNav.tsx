@@ -24,7 +24,7 @@ const SearchNav: Component<SearchNavProps> = () => {
             type='button'
             onclick={() => setRouteSearch(Route.Search.Song)}
             aria-label='Song'
-            class={cx(route === Route.Search.Song && 'active')}
+            class={cx('button', route === Route.Search.Song && 'active')}
           >
             <Icon id='music-note' />
           </button>
@@ -32,7 +32,7 @@ const SearchNav: Component<SearchNavProps> = () => {
             type='button'
             onclick={() => setRouteSearch(Route.Search.Album)}
             aria-label='Album'
-            class={cx(route === Route.Search.Album && 'active')}
+            class={cx('button', route === Route.Search.Album && 'active')}
           >
             <Icon id='music-box' />
           </button>
@@ -40,7 +40,7 @@ const SearchNav: Component<SearchNavProps> = () => {
             type='button'
             onclick={() => setRouteSearch(Route.Search.Label)}
             aria-label='Label'
-            class={cx(route === Route.Search.Label && 'active')}
+            class={cx('button', route === Route.Search.Label && 'active')}
           >
             <Icon id='record-circle' />
           </button>

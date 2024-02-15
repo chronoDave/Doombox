@@ -25,7 +25,7 @@ const SearchSong: Component<SearchSongProps> = () => {
             id: song => song._id,
             height: () => 52,
             render: song => (
-              <button class='SearchSong' type='button'>
+              <button class='SearchSong button' type='button'>
                 <img
                   src={song.image!}
                   alt=''

@@ -30,7 +30,7 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
 
       return (
         <button
-          class='PlayerVolume'
+          class='PlayerVolume button'
           type='button'
           onclick={() => mute()}
           onwheel={handleScroll}

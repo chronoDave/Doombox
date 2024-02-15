@@ -27,10 +27,18 @@ const SettingsLibrary: Component<SettingsLibraryProps> = () => {
             onadd={addFolders}
             onremove={removeFolders}
           />
-          <button type='button' onclick={() => reindexLibrary()}>
+          <button
+            class='button'
+            type='button'
+            onclick={reindexLibrary}
+          >
             Reindex library
           </button>
-          <button type='button' onclick={() => rebuildLibrary()}>
+          <button
+            class='button'
+            type='button'
+            onclick={rebuildLibrary}
+          >
             Rebuild library
           </button>
         </div>

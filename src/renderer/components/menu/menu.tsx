@@ -55,9 +55,8 @@ const Menu: Component<MenuProps> = () => {
             <button
               type='button'
               role='menuitem'
+              class='button'
               onclick={event => {
-                console.log('hit');
-
                 item.onclick(event);
                 if (!item.disableAutoclose) handleClose(event, props);
               }}
@@ -91,7 +90,7 @@ const Menu: Component<MenuProps> = () => {
         <button
           id={`menu-button-${props.id}`}
           type='button'
-          class='Menu'
+          class='Menu button'
           aria-haspopup='true'
           aria-label={`opens ${props.id} menu`}
           aria-expanded={open}

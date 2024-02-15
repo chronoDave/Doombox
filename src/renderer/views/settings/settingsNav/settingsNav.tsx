@@ -30,6 +30,7 @@ const SettingsNav: Component<SettingsNavProps> = () => {
             {Object.entries(routes).map(([route, icon]) => (
               <li key={route} class={cx(route === active && 'active')}>
                 <button
+                  class='button'
                   type='button'
                   aria-label={route}
                   onclick={() => setRouteSettings(route as Routes.Settings)}

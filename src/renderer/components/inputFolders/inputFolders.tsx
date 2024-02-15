@@ -46,6 +46,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
           </div>
           <div class='toolbar'>
             <button
+              class='button'
               type='button'
               aria-label='remove selected folders'
               disabled={selected.size === 0}
@@ -57,6 +58,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
               <Icon id='folder-minus' />
             </button>
             <button
+              class='button'
               type='button'
               aria-label='add folders'
               onclick={async () => {

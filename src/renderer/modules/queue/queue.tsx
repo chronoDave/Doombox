@@ -36,7 +36,7 @@ const Queue: Component<QueueProps> = () => {
               render: song => (
                 <button
                   type='button'
-                  class={cx(song._id === state.current && 'active')}
+                  class={cx('button', song._id === state.current && 'active')}
                   aria-label='Set queue index'
                 >
                   <dl>

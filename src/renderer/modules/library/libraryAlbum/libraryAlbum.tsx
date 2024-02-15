@@ -25,6 +25,7 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
           data-action={props.action}
           aria-label={`Play ${props.album.album}`}
           class={cx(
+            'button',
             'LibraryAlbum',
             props.current && props.album.songs.includes(props.current) && 'active'
           )}

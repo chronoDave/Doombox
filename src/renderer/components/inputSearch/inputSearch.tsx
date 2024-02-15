@@ -1,6 +1,7 @@
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
+
 import Icon from '../icon/icon';
 
 import './inputSearch.scss';
@@ -32,6 +33,7 @@ const InputSearch: Component<InputSearchProps> = () => {
           />
           {ref.value?.value && (
             <button
+              class='button'
               type='button'
               onclick={() => {
                 ref.value!.value = '';

@@ -22,16 +22,32 @@ const PlayerControls: Component<PlayerControlsProps> = () => {
       return (
         <div class='PlayerControls'>
           <PlayerVolume />
-          <button type='button' onclick={previous}>
+          <button
+            class='button'
+            type='button'
+            onclick={previous}
+          >
             <Icon id='skip-previous' />
           </button>
-          <button type='button' onclick={pause}>
+          <button
+            class='button'
+            type='button'
+            onclick={pause}
+          >
             <Icon id={playerStatus === AudioStatus.Playing ? 'pause' : 'play'} />
           </button>
-          <button type='button' onclick={next}>
+          <button
+            class='button'
+            type='button'
+            onclick={next}
+          >
             <Icon id='skip-next' />
           </button>
-          <button type='button' onclick={shuffleQueue}>
+          <button
+            class='button'
+            type='button'
+            onclick={shuffleQueue}
+          >
             <Icon id='shuffle' />
           </button>
         </div>

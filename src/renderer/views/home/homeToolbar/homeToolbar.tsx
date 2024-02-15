@@ -29,7 +29,7 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
             type='button'
             aria-label='library'
             onclick={() => setRouteHome(Route.Home.Library)}
-            class={cx(state.route.home === Route.Home.Library && 'active')}
+            class={cx('button', state.route.home === Route.Home.Library && 'active')}
           >
             <Icon id='music-box' />
           </button>
@@ -37,19 +37,19 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
             type='button'
             aria-label='playlist'
             onclick={() => setRouteHome(Route.Home.Playlist)}
-            class={cx(state.route.home === Route.Home.Playlist && 'active')}
+            class={cx('button', state.route.home === Route.Home.Playlist && 'active')}
           >
             <Icon id='playlist-music' />
           </button>
           <InputSearch onsubmit={search} />
-          <button type='button' onclick={shuffleLibrary}>
+          <button class='button' type='button' onclick={shuffleLibrary}>
             <Icon id='shuffle-variant' />
           </button>
           <button
             type='button'
             aria-label='settings'
             onclick={() => setRouteApp(Route.App.Settings)}
-            class={cx(state.route.settings && 'active')}
+            class={cx('button', state.route.settings && 'active')}
           >
             <Icon id='cog' />
           </button>

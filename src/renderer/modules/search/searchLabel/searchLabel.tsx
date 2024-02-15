@@ -28,7 +28,7 @@ const SearchLabel: Component<SearchLabelProps> = () => {
             height: () => 48,
             render: label => (
               <button
-                class='SearchLabel'
+                class='SearchLabel button'
                 type='button'
                 data-id={label._id}
               >

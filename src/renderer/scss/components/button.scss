@@ -2,18 +2,11 @@
 @use 'transitions';
 @use 'typography';
 
-button {
-  margin: 0;
-  padding: 0;
-  border: unset;
-  color: inherit;
-  background-color: unset;
+.button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   transition: background-color transitions.$fast;
-  font-family: inherit;
-  font-size: 1rem;
 
   @include mixins.hover {
     cursor: pointer;

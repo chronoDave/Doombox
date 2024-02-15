@@ -23,6 +23,7 @@ const SettingsView: Component<SettingsViewProps> = () => {
           <div class='actions'>
             <button
               type='button'
+              class='button'
               aria-label='Close settings'
               onclick={() => setRouteApp(Route.App.Home)}
             >

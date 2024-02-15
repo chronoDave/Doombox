@@ -21,7 +21,7 @@ const LibraryLabel: Component<LibraryLabelProps> = () => {
       return (
         <button
           type='button'
-          class={cx('LibraryLabel', props.current && props.label.songs.includes(props.current) && 'active')}
+          class={cx('LibraryLabel', 'button', props.current && props.label.songs.includes(props.current) && 'active')}
           data-id={props.label._id}
           data-action={props.action}
           aria-label={`Play ${props.label.label}`}
