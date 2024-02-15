@@ -1,18 +1,18 @@
 .SettingsNav {
+  display: flex;
+  flex-direction: column;
   background-color: var(--surface-medium);
 
-  > ul > li {
+  > button {
+    padding: 0.75em 1em;
+  }
+
+  &.active {
+    background-color: var(--primary);
+
     > button {
-      padding: 0.75em 1em;
-    }
-
-    &.active {
-      background-color: var(--primary);
-
-      > button {
-        color: var(--text-primary);
-        fill: var(--text-primary);
-      }
+      color: var(--text-primary);
+      fill: var(--text-primary);
     }
   }
 }

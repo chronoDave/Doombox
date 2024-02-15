@@ -26,20 +26,17 @@ const SettingsNav: Component<SettingsNavProps> = () => {
 
       return (
         <nav class='SettingsNav'>
-          <ul>
-            {Object.entries(routes).map(([route, icon]) => (
-              <li key={route} class={cx(route === active && 'active')}>
-                <button
-                  class='button'
-                  type='button'
-                  aria-label={route}
-                  onclick={() => setRouteSettings(route as Routes.Settings)}
-                >
-                  <Icon id={icon} />
-                </button>
-              </li>
-            ))}
-          </ul>
+          {Object.entries(routes).map(([route, icon]) => (
+            <button
+              key={route}
+              class={cx('button', route === active && 'active')}
+              type='button'
+              aria-label={route}
+              onclick={() => setRouteSettings(route as Routes.Settings)}
+            >
+              <Icon id={icon} />
+            </button>
+          ))}
         </nav>
       );
     }

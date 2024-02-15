@@ -32,38 +32,30 @@ const AppBar: Component<AppBarProps> = () => {
           />
           <span class="title nowrap">{title}</span>
           <nav aria-label='window'>
-            <ul>
-              <li>
-                <button
-                  type='button'
-                  aria-label='minimize app'
-                  onclick={window.ipc.window.minimize}
-                  class='button'
-                >
-                  <Icon id='window-minimize' />
-                </button>
-              </li>
-              <li>
-                <button
-                  type='button'
-                  aria-label='maximize app'
-                  onclick={window.ipc.window.maximize}
-                  class='button'
-                >
-                  <Icon id='window-maximize' />
-                </button>
-              </li>
-              <li>
-                <button
-                  type='button'
-                  class='button close'
-                  aria-label='close app'
-                  onclick={window.ipc.window.close}
-                >
-                  <Icon id='window-close' />
-                </button>
-              </li>
-            </ul>
+            <button
+              type='button'
+              aria-label='minimize app'
+              onclick={window.ipc.window.minimize}
+              class='button'
+            >
+              <Icon id='window-minimize' />
+            </button>
+            <button
+              type='button'
+              aria-label='maximize app'
+              onclick={window.ipc.window.maximize}
+              class='button'
+            >
+              <Icon id='window-maximize' />
+            </button>
+            <button
+              type='button'
+              class='button close'
+              aria-label='close app'
+              onclick={window.ipc.window.close}
+            >
+              <Icon id='window-close' />
+            </button>
           </nav>
         </header>
       );
