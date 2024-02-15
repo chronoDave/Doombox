@@ -1,20 +1,16 @@
-@use 'layers';
+.Menu {
+  position: relative;
 
-@include layers.components {
-  .Menu {
-    position: relative;
+  > .Popup {
+    padding: 4px 0;
 
-    > .Popup {
-      padding: 4px 0;
+    > ul > .MenuItem {
+      padding: 2px 8px;
 
-      > ul > .MenuItem {
-        padding: 2px 8px;
-
-        > button {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-        }
+      > button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
       }
     }
   }

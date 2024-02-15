@@ -1,8 +1,4 @@
-@use 'layers';
-
-@include layers.components {
-  .Icon {
-    width: 1.5em;
-    aspect-ratio: 1/1;
-  }
+.Icon {
+  width: 1.5em;
+  aspect-ratio: 1/1;
 }

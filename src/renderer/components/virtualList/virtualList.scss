@@ -1,18 +1,14 @@
-@use 'layers';
+.VirtualList {
+  flex-grow: 1;
+  overflow: auto;
 
-@include layers.components {
-  .VirtualList {
-    flex-grow: 1;
-    overflow: auto;
+  > ol {
+    position: relative;
 
-    > ol {
-      position: relative;
-
-      > li {
-        list-style: none;
-        position: absolute;
-        width: 100%;
-      }
+    > li {
+      list-style: none;
+      position: absolute;
+      width: 100%;
     }
   }
 }

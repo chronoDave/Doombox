@@ -2,8 +2,6 @@ import type { Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import './select.scss';
-
 export type SelectOption = {
   value: string
   label: string

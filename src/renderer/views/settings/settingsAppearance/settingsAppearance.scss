@@ -1,9 +1,5 @@
-@use 'layers';
-
-@include layers.modules {
-  .SettingsAppearance {
-    > .Label + .Label {
-      margin-top: 0.5em;
-    }
+.SettingsAppearance {
+  > .Label + .Label {
+    margin-top: 0.5em;
   }
 }

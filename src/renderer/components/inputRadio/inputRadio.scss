@@ -1,44 +1,40 @@
 @use 'transitions';
 
-@use 'layers';
+.InputRadio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  cursor: pointer;
 
-@include layers.components {
-  .InputRadio {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    width: fit-content;
-    cursor: pointer;
+  > input {
+    position: relative;
+    border: 2px solid var(--text);
+    width: 16px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
 
-    > input {
-      position: relative;
-      border: 2px solid var(--text);
-      width: 16px;
-      flex-shrink: 0;
+    &::after {
+      content: '';
+      position: absolute;
+      width: 8px;
       aspect-ratio: 1/1;
-
-      &::after {
-        content: '';
-        position: absolute;
-        width: 8px;
-        aspect-ratio: 1/1;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        transition: background-color transitions.$fast;
-      }
-
-      &:checked::after {
-        background-color: var(--text);
-      }
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: background-color transitions.$fast;
     }
 
-    > input {
-      border-radius: 50%;
+    &:checked::after {
+      background-color: var(--text);
+    }
+  }
 
-      &:after {
-        border-radius: 50%;
-      }
+  > input {
+    border-radius: 50%;
+
+    &:after {
+      border-radius: 50%;
     }
   }
 }

@@ -1,33 +1,28 @@
-@use 'typography.scss';
-@use 'breakpoints.scss';
+@use 'typography';
 
-@use 'layers';
+.Scan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
 
-@include layers.modules {
-  .Scan {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    text-align: center;
+  > .Loader {
+    height: 30px;
+    margin-bottom: 8px
+  }
 
-    > .Loader {
-      height: 30px;
-      margin-bottom: 8px
-    }
+  > .title {
+    margin-bottom: 1em;
+  }
 
-    > .title {
-      margin-bottom: 1em;
-    }
+  > .file {
+    @include typography.clamp(3);
+    $line-height: 1.3em;
 
-    > .file {
-      @include typography.clamp(3);
-      $line-height: 1.3em;
-
-      line-height: $line-height;
-      margin-top: 0.5em;
-      height: $line-height * 3;
-    }
+    line-height: $line-height;
+    margin-top: 0.5em;
+    height: $line-height * 3;
   }
 }

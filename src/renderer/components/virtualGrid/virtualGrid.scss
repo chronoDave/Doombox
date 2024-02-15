@@ -1,19 +1,15 @@
-@use 'layers';
+.VirtualGrid {
+  display: flex;
+  flex-grow: 1;
+  overflow-y: scroll;
 
-@include layers.components {
-  .VirtualGrid {
-    display: flex;
+  > ul {
     flex-grow: 1;
-    overflow-y: scroll;
+    position: relative;
 
-    > ul {
-      flex-grow: 1;
-      position: relative;
-
-      > li {
-        position: absolute;
-        overflow: hidden;
-      }
+    > li {
+      position: absolute;
+      overflow: hidden;
     }
   }
 }

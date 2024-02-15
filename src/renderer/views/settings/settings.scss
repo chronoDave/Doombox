@@ -3,22 +3,18 @@
 @use 'breakpoints';
 @use 'transitions';
 
-@use 'layers';
+.Settings {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  background-color: var(--surface-medium);
 
-@include layers.modules {
-  .Settings {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    background-color: var(--surface-medium);
+  > .body {
+    padding: 1em;
+  }
 
-    > .body {
-      padding: 1em;
-    }
-
-    > .actions {
-      padding: 1em;
-    }
+  > .actions {
+    padding: 1em;
   }
 }

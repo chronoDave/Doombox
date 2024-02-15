@@ -1,15 +1,11 @@
-@use 'layers';
+.Collapse {
+  > button {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5em;
 
-@include layers.components {
-  .Collapse {
-    > button {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.5em;
-
-      &[aria-expanded="false"] ~ .body {
-        display: none;
-      }
+    &[aria-expanded="false"] ~ .body {
+      display: none;
     }
   }
 }

@@ -1,11 +1,7 @@
-@use 'layers';
-
-@include layers.components {
-  .InputRadioList {
-    > .options {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+.InputRadioList {
+  > .options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 }

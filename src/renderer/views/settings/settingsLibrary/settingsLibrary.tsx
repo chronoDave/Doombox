@@ -12,8 +12,6 @@ import InputFolders from '../../../components/inputFolders/inputFolders';
 
 import subscribe from './settingsLibrary.state';
 
-import './settingsLibrary.scss';
-
 export type SettingsLibraryProps = {};
 
 const SettingsLibrary: Component<SettingsLibraryProps> = () => {

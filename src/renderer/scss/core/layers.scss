@@ -2,15 +2,3 @@ $hover: 50;
 $backdrop: 100;
 $popup: 200;
 $focus: 1000;
-
-@mixin components {
-  @layer components {
-    @content;
-  }
-}
-
-@mixin modules {
-  @layer modules {
-    @content;
-  }
-}

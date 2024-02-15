@@ -1,26 +1,18 @@
 @use 'sass:meta';
 
-@layer reset {
-  @include meta.load-css('./scss/reset.scss');
-}
+@include meta.load-css('./scss/reset.scss');
 
-@layer theme {
-  @include meta.load-css('./scss/theme/fonts.scss');
-  @include meta.load-css('./scss/theme/colours.scss');
-}
+@include meta.load-css('./scss/theme/fonts.scss');
+@include meta.load-css('./scss/theme/colours.scss');
 
-@layer components {
-  @include meta.load-css('./scss/components/typography.scss');
-  @include meta.load-css('./scss/components/button.scss');
-  @include meta.load-css('./scss/components/fieldset.scss');
-  @include meta.load-css('./scss/components/image.scss');
-  @include meta.load-css('./scss/components/scrollbar.scss');
-  @include meta.load-css('./scss/components/list.scss');
-  @include meta.load-css('./scss/components/input.scss');
-  @include meta.load-css('./scss/components/panel.scss');
-}
-
-@layer modules;
+@include meta.load-css('./scss/components/typography.scss');
+@include meta.load-css('./scss/components/button.scss');
+@include meta.load-css('./scss/components/fieldset.scss');
+@include meta.load-css('./scss/components/image.scss');
+@include meta.load-css('./scss/components/scrollbar.scss');
+@include meta.load-css('./scss/components/list.scss');
+@include meta.load-css('./scss/components/input.scss');
+@include meta.load-css('./scss/components/panel.scss');
 
 @layer globals {
   @include meta.load-css('./scss/globals.scss')

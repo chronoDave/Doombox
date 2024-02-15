@@ -1,44 +1,42 @@
 @use 'layers';
 
-@include layers.components {
-  .Slider {
-    position: relative;
+.Slider {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+
+  > .track {
+    position: absolute;
     width: 100%;
-    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--text-inactive);
+    pointer-events: none;
 
-    > .track {
+    > .trail {
       position: absolute;
-      width: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: var(--text-inactive);
-      pointer-events: none;
-
-      > .trail {
-        position: absolute;
-        height: inherit;
-        background-color: var(--primary);
-      }
+      height: inherit;
+      background-color: var(--primary);
     }
+  }
+
+  > .thumb {
+    position: absolute;
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: var(--text);
+    pointer-events: none;
+    z-index: layers.$hover;
+  }
+
+  &:focus-visible {
+    outline: none;
 
     > .thumb {
-      position: absolute;
-      height: 100%;
-      aspect-ratio: 1/1;
-      border-radius: 50%;
-      background-color: var(--text);
-      pointer-events: none;
-      z-index: layers.$hover;
-    }
-
-    &:focus-visible {
-      outline: none;
-
-      > .thumb {
-        outline: 2px solid var(--text);
-        outline-offset: 2px;
-        isolation: isolate;
-      }
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+      isolation: isolate;
     }
   }
 }
