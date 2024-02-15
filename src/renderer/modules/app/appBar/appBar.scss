@@ -1,9 +1,10 @@
 @use 'mixins';
+@use 'typography';
 
 .AppBar {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.125em;
   color: var(--text);
   background-color: var(--surface-high);
 
@@ -40,6 +41,7 @@
     > button {
       width: 40px;
       height: 100%;
+      font-size: typography.pxToRem(16);
 
       @include mixins.hover {
         &.close {

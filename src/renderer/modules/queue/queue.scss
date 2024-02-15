@@ -1,11 +1,9 @@
 .Queue {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
   flex-grow: 1;
 
   > .header {
     padding: 0.25rem 0.5rem;
+    text-align: center;
   }
 
   .VirtualItem > button {

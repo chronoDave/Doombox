@@ -22,17 +22,17 @@ const Queue: Component<QueueProps> = () => {
       const duration = sum(state.queue, song => song.duration ?? 0);
 
       return (
-        <div class='Queue'>
+        <div class='Queue panel column'>
           <div class='header'>
             <p class='nowrap'>{state.title}</p>
-            <p class='nowrap'>{state.queue.length} tracks<span class='glyph dot' />{timeToLong(secToTime(duration))}</p>
+            <p class='small nowrap'>{state.queue.length} tracks<span class='glyph dot' />{timeToLong(secToTime(duration))}</p>
           </div>
           <VirtualList
             data={state.queue}
             onclick={setQueueIndex}
             cell={{
               id: song => song._id,
-              height: () => 48,
+              height: () => 44,
               render: song => (
                 <button
                   type='button'
@@ -43,7 +43,7 @@ const Queue: Component<QueueProps> = () => {
                     <dt class='sr-only'>Title</dt>
                     <dd class='nowrap'>{song.title}</dd>
                     <dt class='sr-only'>Artist</dt>
-                    <dd class='nowrap'>{song.artist}</dd>
+                    <dd class='small nowrap'>{song.artist}</dd>
                   </dl>
                 </button>
               )

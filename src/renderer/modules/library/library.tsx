@@ -31,7 +31,7 @@ const Library: Component<LibraryProps> = () => {
           cell={{
             id: cell => cell._id,
             width: cell => 'albums' in cell ? null : 72,
-            height: cell => 'albums' in cell ? 48 : null,
+            height: cell => 'albums' in cell ? 40 : null,
             render: cell => {
               if ('albums' in cell) {
                 return (

@@ -20,6 +20,19 @@ button {
   padding: unset;
   border: unset;
   background: unset;
-  color: unset;
   font: inherit;
+  color: inherit;
+}
+
+ul, ol, dl {
+  margin: unset;
+  padding: unset;
+}
+
+dd {
+  margin: unset;
+}
+
+li {
+  list-style: none;
 }

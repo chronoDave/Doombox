@@ -18,6 +18,7 @@
     color: var(--text-inactive);
     transition: background-color transitions.$fast, color transitions.$fast;
     padding: 0.25em;
+    font-size: typography.pxToRem(18);
 
     > svg > path {
       transition: fill transitions.$fast;
