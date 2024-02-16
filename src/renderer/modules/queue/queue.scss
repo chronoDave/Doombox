@@ -12,11 +12,9 @@
     width: inherit;
     height: inherit;
     gap: 0.5rem;
-    background-color: var(--surface-medium);
 
     &.active {
       background-color: var(--primary);
-      color: var(--text-primary);
     }
 
     > dl {

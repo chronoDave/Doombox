@@ -6,7 +6,7 @@
   align-items: center;
   gap: 0.125em;
   color: var(--text);
-  background-color: var(--surface-high);
+  border-bottom: 1px solid var(--panel);
 
   > img {
     -webkit-app-region: drag;
@@ -45,8 +45,7 @@
 
       @include mixins.hover {
         &.close {
-          fill: var(--text-error);
-          background-color: var(--error);
+          background-color: var(--primary);
         }
       }
     }

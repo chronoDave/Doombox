@@ -14,8 +14,6 @@
   > .body {
     display: grid;
     grid-template-rows: 1fr auto;
-    background-color: var(--black-opaque);
-    color: var(--white);
     isolation: isolate;
     aspect-ratio: 1/1;
 

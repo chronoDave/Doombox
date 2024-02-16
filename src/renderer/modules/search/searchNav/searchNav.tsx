@@ -9,8 +9,6 @@ import cx from '../../../utils/cx/cx';
 
 import subscribe from './searchNav.state';
 
-import './searchNav.scss';
-
 export type SearchNavProps = {};
 
 const SearchNav: Component<SearchNavProps> = () => {

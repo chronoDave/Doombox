@@ -10,18 +10,17 @@
 
   @include mixins.hover {
     cursor: pointer;
-    background-color: var(--text-inactive);
+    background-color: var(--panel);
   }
 
   &:has(svg) {
-    fill: var(--text-inactive);
     color: var(--text-inactive);
     transition: background-color transitions.$fast, color transitions.$fast;
     padding: 0.25em;
     font-size: typography.pxToRem(18);
 
     > svg > path {
-      fill: currentColor;
+      fill: currentcolor;
       transition: fill transitions.$fast;
     }
 
