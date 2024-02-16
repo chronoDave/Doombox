@@ -21,6 +21,7 @@
     font-size: typography.pxToRem(18);
 
     > svg > path {
+      fill: currentColor;
       transition: fill transitions.$fast;
     }
 

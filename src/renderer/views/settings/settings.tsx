@@ -17,7 +17,7 @@ const SettingsView: Component<SettingsViewProps> = () => {
   const component = new forgo.Component<SettingsViewProps>({
     render() {
       return (
-        <div class='Settings'>
+        <main class='Settings'>
           <SettingsNav />
           <SettingsRouter />
           <div class='actions'>
@@ -31,7 +31,7 @@ const SettingsView: Component<SettingsViewProps> = () => {
               Esc
             </button>
           </div>
-        </div>
+        </main>
       );
     }
   });

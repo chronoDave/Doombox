@@ -5,14 +5,10 @@
 
   > button {
     padding: 0.75em 1em;
-  }
 
-  &.active {
-    background-color: var(--primary);
-
-    > button {
+    &.active {
+      background-color: var(--primary);
       color: var(--text-primary);
-      fill: var(--text-primary);
     }
   }
 }

@@ -4,8 +4,6 @@
 @use 'transitions';
 
 .Settings {
-  position: absolute;
-  inset: 0;
   display: grid;
   grid-template-columns: auto 1fr auto;
   background-color: var(--surface-medium);
