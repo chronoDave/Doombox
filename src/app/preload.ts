@@ -46,9 +46,9 @@ const receive = <T extends keyof IpcReceiveController>(channel: T) =>
   };
 
 const ipc: IpcApi = {
+  dir: JSON.parse(process.argv.slice(-1)[0]),
   app: {
-    selectFolders: invoke(IpcChannel.App, IpcRoute.SelectFolders),
-    directory: invoke(IpcChannel.App, IpcRoute.Directory)
+    selectFolders: invoke(IpcChannel.App, IpcRoute.SelectFolders)
   },
   library: {
     add: invoke(IpcChannel.Library, IpcRoute.Add),

@@ -2,7 +2,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { fetchDirectory } from '../../actions/app.actions';
 import { fetchCache } from '../../actions/cache.actions';
 import { fetchLibrary } from '../../actions/library.actions';
 import { fetchPlaylists } from '../../actions/playlist.actions';
@@ -34,8 +33,7 @@ const App: Component<AppProps> = () => {
       fetchTheme(),
       fetchUser(),
       fetchCache(),
-      fetchPlaylists(),
-      fetchDirectory()
+      fetchPlaylists()
     ]);
 
     setRouteApp(Route.App.Home);

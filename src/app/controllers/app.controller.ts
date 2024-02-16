@@ -2,11 +2,7 @@ import type { IpcChannel, IpcInvokeController } from '../../types/ipc';
 
 import { dialog } from 'electron';
 
-export type AppControllerProps = {
-  directory: { thumbs: string }
-};
-
-export default (props: AppControllerProps) => (): IpcInvokeController[IpcChannel.App] => ({
+export default () => (): IpcInvokeController[IpcChannel.App] => ({
   selectFolders: () => dialog.showOpenDialog({
     title: 'Select folder',
     properties: [
@@ -15,6 +11,5 @@ export default (props: AppControllerProps) => (): IpcInvokeController[IpcChannel
       'openDirectory'
     ]
   })
-    .then(x => x.filePaths),
-  directory: async () => props.directory
+    .then(x => x.filePaths)
 });

@@ -9,11 +9,6 @@ import Store from './lib/store';
 import * as Route from './types/route';
 
 export default new Store<State>({
-  app: {
-    directory: {
-      thumbs: null
-    }
-  },
   route: {
     app: Route.App.Load,
     home: Route.Home.Library,

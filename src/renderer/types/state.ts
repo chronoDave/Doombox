@@ -6,11 +6,6 @@ import type { UserShape } from '../../types/shapes/user.shape';
 import type { AudioStatus } from '../lib/audio';
 
 export type State = {
-  app: {
-    directory: {
-      thumbs: string | null
-    }
-  }
   route: {
     app: Route.App
     home: Route.Home

@@ -46,7 +46,6 @@ const Library: Component<LibraryProps> = () => {
                 <LibraryAlbum
                   action={Action.PlayAlbum}
                   album={cell}
-                  image={state.image}
                   current={state.current}
                 />
               );

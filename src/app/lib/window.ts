@@ -14,6 +14,7 @@ import debounce from '../utils/debounce';
 
 export type WindowProps = {
   storage: Storage<AppShape>,
+  thumbs: string,
   logger: Logger
 };
 
@@ -30,6 +31,7 @@ export default (props: WindowProps) => {
     titleBarStyle: 'hidden',
     webPreferences: {
       enableWebSQL: false,
+      additionalArguments: [JSON.stringify({ thumbs: props.thumbs })],
       preload: path.resolve(__dirname, 'preload.js')
     }
   });

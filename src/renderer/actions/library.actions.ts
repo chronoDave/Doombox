@@ -118,7 +118,7 @@ export const search = async (query: string) => {
         .map(song => ({
           ...song,
           image: song.image ?
-            imageSelector(draft)(song.image, 128) :
+            imageSelector(song.image, 128) :
             null
         }));
       draft.search.albums = library.albums
@@ -126,7 +126,7 @@ export const search = async (query: string) => {
         .map(album => ({
           ...album,
           image: album.image ?
-            imageSelector(draft)(album.image, 128) :
+            imageSelector(album.image, 128) :
             null
         }));
       draft.search.labels = library.labels

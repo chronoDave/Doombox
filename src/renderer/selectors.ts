@@ -3,8 +3,8 @@ import type { Album, Label, Song } from '../types/library';
 
 import { AudioStatus } from './lib/audio';
 
-export const imageSelector = (state: State) => (id: string, size: number) =>
-  new URL(`${id}/${size}.jpg`, `${state.app.directory.thumbs}/`).href;
+export const imageSelector = (id: string, size: number) =>
+  new URL(`${id}/${size}.jpg`, `${window.ipc.dir.thumbs}/`).href;
 
 export const currentPlayerSelector = (state: State) => () =>
   state.entities.song.get(state.player.current.id ?? '');

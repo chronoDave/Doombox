@@ -25,7 +25,6 @@ export type IpcChannelReceive<T extends IpcRoute> = `${IpcChannel.Receive}.${T}`
 export enum IpcRoute {
   SelectFolders = 'selectFolders',
   Add = 'add',
-  Directory = 'directory',
   Remove = 'remove',
   Rebuild = 'rebuild',
   Reindex = 'reindex',
@@ -95,7 +94,6 @@ export type IpcSendController = {
 export type IpcInvokeController = {
   [IpcChannel.App]: {
     [IpcRoute.SelectFolders]: () => Promise<string[]>
-    [IpcRoute.Directory]: () => Promise<{ thumbs: string }>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
@@ -123,4 +121,8 @@ export type IpcReceiveController = {
 
 export type IpcApi = IpcSendController & IpcInvokeController & {
   [IpcChannel.Receive]: IpcReceiveController
+} & {
+  dir: {
+    thumbs: string
+  }
 };

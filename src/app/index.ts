@@ -66,7 +66,11 @@ const run = async () => {
     cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
   };
 
-  const window = createWindow({ storage: storage.app, logger });
+  const window = createWindow({
+    storage: storage.app,
+    thumbs: PATH.THUMBS,
+    logger
+  });
   const createIpcRouter = ipcRouterFactory(logger);
   const router = {
     library: createIpcRouter(createLibraryController({
@@ -86,9 +90,7 @@ const run = async () => {
     cache: createIpcRouter(createCacheController({
       storage: storage.cache
     })),
-    app: createIpcRouter(createAppController({
-      directory: { thumbs: PATH.THUMBS }
-    })),
+    app: createIpcRouter(createAppController()),
     player: createIpcRouter(createPlayerController({
       window
     }))
