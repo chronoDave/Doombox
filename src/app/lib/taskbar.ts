@@ -14,24 +14,24 @@ export default (window: BrowserWindow) => (props: { playing: boolean }) => {
   window.setThumbarButtons([{
     tooltip: 'Previous',
     icon: createIcon('skip_previous'),
-    click: ipcSend(IpcRoute.Previous)
+    click: () => ipcSend(IpcRoute.Previous)
   }, {
     tooltip: 'Play',
     flags: props.playing ? ['hidden'] : undefined,
     icon: createIcon('play'),
-    click: ipcSend(IpcRoute.Play)
+    click: () => ipcSend(IpcRoute.Play)
   }, {
     tooltip: 'Pause',
     flags: !props.playing ? ['hidden'] : undefined,
     icon: createIcon('pause'),
-    click: ipcSend(IpcRoute.Pause)
+    click: () => ipcSend(IpcRoute.Pause)
   }, {
     tooltip: 'Next',
     icon: createIcon('skip_next'),
-    click: ipcSend(IpcRoute.Next)
+    click: () => ipcSend(IpcRoute.Next)
   }, {
     tooltip: 'Shuffle',
     icon: createIcon('shuffle'),
-    click: ipcSend(IpcRoute.Shuffle)
+    click: () => ipcSend(IpcRoute.Shuffle)
   }]);
 };

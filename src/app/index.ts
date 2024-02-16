@@ -4,6 +4,7 @@ import type { Playlist } from '../types/playlist';
 import { app, ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
+import path from 'path';
 
 import { IpcChannel } from '../types/ipc';
 import appShape from '../types/shapes/app.shape';
@@ -26,8 +27,8 @@ import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
 import Transliterator from './lib/transliterator/transliterator';
-import createWindow from './lib/window';
-import ipcRouterFactory from './utils/createIpcRouter';
+import createWindow from './lib/window/window';
+import createIpcRouter from './utils/createIpcRouter';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -66,43 +67,51 @@ const run = async () => {
     cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
   };
 
+  const ipcRouter = createIpcRouter(logger);
   const window = createWindow({
-    storage: storage.app,
-    thumbs: PATH.THUMBS,
-    logger
+    ipcRouter,
+    file: path.resolve(__dirname, 'renderer/index.html'),
+    backgroundColor: 'black',
+    preload: {
+      url: path.resolve(__dirname, 'preload.js'),
+      args: { thumbs: PATH.THUMBS }
+    },
+    size: {
+      width: storage.app.get().window.width,
+      height: storage.app.get().window.height
+    },
+    position: {
+      x: storage.app.get().window.x,
+      y: storage.app.get().window.y
+    }
   });
-  const createIpcRouter = ipcRouterFactory(logger);
   const router = {
-    library: createIpcRouter(createLibraryController({
+    library: ipcRouter(createLibraryController({
       library,
       storage: storage.user,
       db
     })),
-    playlist: createIpcRouter(createPlaylistController({
+    playlist: ipcRouter(createPlaylistController({
       db: db.playlist
     })),
-    user: createIpcRouter(createUserController({
+    user: ipcRouter(createUserController({
       storage: storage.user
     })),
-    theme: createIpcRouter(createThemeController({
+    theme: ipcRouter(createThemeController({
       storage: storage.theme
     })),
-    cache: createIpcRouter(createCacheController({
+    cache: ipcRouter(createCacheController({
       storage: storage.cache
     })),
-    app: createIpcRouter(createAppController()),
-    player: createIpcRouter(createPlayerController({
+    app: ipcRouter(createAppController()),
+    player: ipcRouter(createPlayerController({
       window
     }))
   };
 
   /** Initialize app */
   nativeTheme.themeSource = storage.theme.get().theme;
-
-  /** Launch */
-  await app.whenReady();
   Object.values(db).forEach(x => x.open());
-
   ipcMain.handle(IpcChannel.App, router.app);
   ipcMain.handle(IpcChannel.User, router.user);
   ipcMain.handle(IpcChannel.Theme, router.theme);
@@ -110,6 +119,9 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Library, router.library);
   ipcMain.handle(IpcChannel.Playlist, router.playlist);
   ipcMain.on(IpcChannel.Player, router.player);
+
+  /** Launch */
+  await app.whenReady();
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
