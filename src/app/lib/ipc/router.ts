@@ -1,8 +1,8 @@
-import type { IpcRoute } from '../../types/ipc';
-import type Logger from '../lib/logger/logger';
+import type { IpcRoute } from '../../../types/ipc';
+import type Logger from '../logger/logger';
 import type { IpcMainInvokeEvent, WebContents } from 'electron';
 
-import isIpcEvent from '../../lib/validation/isIpcEvent';
+import isIpcEvent from '../../../lib/validation/isIpcEvent';
 
 export default (logger: Logger) =>
   (createController: (sender: WebContents) => ({ [key in IpcRoute]?: Function })) =>

@@ -4,7 +4,8 @@ import { nativeImage } from 'electron';
 import path from 'path';
 
 import { IpcRoute } from '../../types/ipc';
-import createIpcSend from '../utils/ipcSend';
+
+import createIpcSend from './ipc/send';
 
 export default (window: BrowserWindow) => (props: { playing: boolean }) => {
   const ipcSend = createIpcSend(window.webContents);

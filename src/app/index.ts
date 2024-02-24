@@ -21,6 +21,7 @@ import createPlayerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
+import createIpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
@@ -28,7 +29,6 @@ import Storage from './lib/storage/storage';
 import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
 import createWindow from './lib/window/window';
-import createIpcRouter from './utils/createIpcRouter';
 
 /** Initialize directories */
 if (IS_DEV) {

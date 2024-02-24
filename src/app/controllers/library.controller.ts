@@ -10,7 +10,7 @@ import { glob } from 'fast-glob';
 
 import difference from '../../lib/array/difference';
 import { IpcRoute } from '../../types/ipc';
-import createIpcSend from '../utils/ipcSend';
+import createIpcSend from '../lib/ipc/send';
 
 export type LibraryControllerProps = {
   storage: Storage<UserShape>

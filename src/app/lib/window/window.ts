@@ -1,4 +1,4 @@
-import type createIpcRouter from '../../utils/createIpcRouter';
+import type createIpcRouter from '../ipc/router';
 
 import { BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
