@@ -2,8 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import secToTime from '../../../../lib/time/secToTime';
-import timeToShort from '../../../../lib/time/timeToShort';
+import Time from '../../../../lib/time/time';
 import { seek } from '../../../actions/player.actions';
 import Slider from '../../../components/slider/slider';
 
@@ -21,13 +20,13 @@ const PlayerSlider: Component<PlayerSliderProps> = () => {
       return (
         <div class='PlayerSlider'>
           <div class='time'>
-            <span>{timeToShort(secToTime(position))}</span>
-            <span>-{timeToShort(secToTime(duration - position))}</span>
+            <span>{new Time(position).toShort()}</span>
+            <span>-{new Time(duration - position).toShort()}</span>
           </div>
           <Slider
             max={duration}
             value={position}
-            ariaValue={x => timeToShort(secToTime(x))}
+            ariaValue={x => new Time(x).toShort()}
             onchange={seek}
             size={{ track: 6, thumb: 8 }}
           />

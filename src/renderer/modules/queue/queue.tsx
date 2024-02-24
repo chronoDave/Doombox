@@ -3,8 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { sumSelect } from '../../../lib/math/sum';
-import secToTime from '../../../lib/time/secToTime';
-import timeToLong from '../../../lib/time/timeToLong';
+import Time from '../../../lib/time/time';
 import { setQueueIndex } from '../../actions/queue.actions';
 import VirtualList from '../../components/virtualList/virtualList';
 import cx from '../../utils/cx/cx';
@@ -25,7 +24,7 @@ const Queue: Component<QueueProps> = () => {
         <div class='Queue panel column'>
           <div class='header'>
             <p class='nowrap'>{state.title}</p>
-            <p class='small nowrap'>{state.queue.length} tracks<span class='glyph dot' />{timeToLong(secToTime(duration))}</p>
+            <p class='small nowrap'>{state.queue.length} tracks<span class='glyph dot' />{new Time(duration).toLong()}</p>
           </div>
           <VirtualList
             data={state.queue}

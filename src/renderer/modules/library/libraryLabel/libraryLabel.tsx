@@ -3,8 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import secToTime from '../../../../lib/time/secToTime';
-import timeToShort from '../../../../lib/time/timeToShort';
+import Time from '../../../../lib/time/time';
 import cx from '../../../utils/cx/cx';
 
 import './libraryLabel.scss';
@@ -28,7 +27,7 @@ const LibraryLabel: Component<LibraryLabelProps> = () => {
         >
           <div class='meta'>
             <p class='nowrap'>{props.label.label}</p>
-            <p class='nowrap small'>{props.label.albums.length} albums<span class='glyph dot' />{props.label.songs.length} tracks<span class='glyph dot' />{timeToShort(secToTime(props.label.duration ?? 0))}</p>
+            <p class='nowrap small'>{props.label.albums.length} albums<span class='glyph dot' />{props.label.songs.length} tracks<span class='glyph dot' />{new Time(props.label.duration ?? 0).toShort()}</p>
           </div>
           <span class='hr' />
         </button>

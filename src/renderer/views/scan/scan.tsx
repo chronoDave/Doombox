@@ -2,8 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import secToTime from '../../../lib/time/secToTime';
-import timeToShort from '../../../lib/time/timeToShort';
+import Time from '../../../lib/time/time';
 import { IpcRoute } from '../../../types/ipc';
 import Loader from '../../components/loader/loader';
 import Progress from '../../components/progress/progress';
@@ -26,9 +25,9 @@ const ScanView: Component<ScanViewProps> = () => {
     time: { cur: 0, max: 0 }
   };
 
-  const cur = timeToShort(secToTime(state.time.cur));
+  const cur = new Time(state.time.cur).toShort();
   const max = Number.isFinite(state.time.max) ?
-    timeToShort(secToTime(state.time.max)) :
+    new Time(state.time.max).toShort() :
     '\u221e';
 
   const component = new forgo.Component<ScanViewProps>({
