@@ -6,8 +6,9 @@ import type Storage from '../lib/storage/storage';
 import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
 
+import { glob } from 'fast-glob';
+
 import difference from '../../lib/array/difference';
-import globs from '../../lib/glob/globs';
 import { IpcRoute } from '../../types/ipc';
 import createIpcSend from '../utils/ipcSend';
 
@@ -23,7 +24,10 @@ export type LibraryControllerProps = {
 
 export default (props: LibraryControllerProps) =>
   (sender: WebContents): IpcInvokeController[IpcChannel.Library] => {
-    const globMp3 = globs('**/*.mp3');
+    const getFiles = (folders: string[]) => Promise
+      .all(folders.map(cwd => glob('**/*.mp3', { cwd, absolute: true })))
+      .then(files => files.flat());
+
     const ipcSend = createIpcSend(sender);
 
     props.library
@@ -35,7 +39,7 @@ export default (props: LibraryControllerProps) =>
       reindex: async folders => {
         const oldSongs = props.library.songs();
         const oldFiles = oldSongs.map(song => song.file);
-        const files = await globMp3(folders);
+        const files = await getFiles(folders);
         const stale = oldSongs.filter(song => !files.includes(song.file));
         const fresh = difference(files, oldFiles);
 
@@ -44,18 +48,18 @@ export default (props: LibraryControllerProps) =>
       },
       rebuild: async () => {
         props.library.drop();
-        const files = await globMp3(props.storage.get().library.folders);
+        const files = await getFiles(props.storage.get().library.folders);
         return props.library.insert(files);
       },
       add: async folders => {
         const current = props.library.songs();
-        const files = await globMp3(folders);
+        const files = await getFiles(folders);
         const fresh = files.filter(file => current.every(song => song.file !== file));
         return props.library.insert(fresh);
       },
       remove: async folders => {
-        const stale = await globMp3(folders);
-        const fresh = await globMp3(props.storage.get().library.folders);
+        const stale = await getFiles(folders);
+        const fresh = await getFiles(props.storage.get().library.folders);
 
         props.library.delete(stale);
         return props.library.insert(fresh);

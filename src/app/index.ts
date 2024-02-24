@@ -7,7 +7,6 @@ import LeafDB from 'leaf-db';
 import path from 'path';
 
 import { IS_DEV } from '../lib/const';
-import createTokenizer from '../lib/tokenizer/kuromoji';
 import { IpcChannel } from '../types/ipc';
 import appShape from '../types/shapes/app.shape';
 import cacheShape from '../types/shapes/cache.shape';
@@ -26,6 +25,7 @@ import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
+import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
 import createWindow from './lib/window/window';
 import createIpcRouter from './utils/createIpcRouter';

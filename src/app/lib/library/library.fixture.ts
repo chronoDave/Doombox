@@ -1,7 +1,7 @@
 import path from 'path';
 
-import createTokenizer from '../../../lib/tokenizer/kuromoji';
 import Parser from '../parser/parser';
+import createTokenizer from '../tokenizer/tokenizer';
 import Transliterator from '../transliterator/transliterator';
 
 export default async () => {
