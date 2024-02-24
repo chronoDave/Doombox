@@ -4,7 +4,7 @@ import type { Component } from 'forgo';
 
 import deepEqual from 'fast-deep-equal';
 
-import measure from '../../utils/console/measure';
+import measure from '../../lib/console/measure';
 
 const createSelector = <S extends State>(store: Store<S>, id: string) =>
   <T extends (state: S) => any>(get: T, shouldUpdate?: (prev: S, cur: S) => boolean) =>

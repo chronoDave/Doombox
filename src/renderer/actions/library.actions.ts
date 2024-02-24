@@ -3,9 +3,9 @@ import type { State } from '../types/state';
 
 import produce from 'immer';
 
-import difference from '../../utils/array/difference';
-import shuffle from '../../utils/array/shuffle';
-import unique from '../../utils/array/unique';
+import difference from '../../lib/array/difference';
+import shuffle from '../../lib/array/shuffle';
+import unique from '../../lib/array/unique';
 import { imageSelector } from '../selectors';
 import store from '../store';
 import * as Route from '../types/route';

@@ -1,7 +1,7 @@
 import produce from 'immer';
 
+import clamp from '../../lib/number/clamp';
 import cacheShape from '../../types/shapes/cache.shape';
-import clamp from '../../utils/number/clamp';
 import Audio, { AudioStatus } from '../lib/audio';
 import { imageSelector } from '../selectors';
 import store from '../store';

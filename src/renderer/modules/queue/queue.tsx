@@ -2,9 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import sum from '../../../utils/array/sum';
-import secToTime from '../../../utils/time/secToTime';
-import timeToLong from '../../../utils/time/timeToLong';
+import sum from '../../../lib/array/sum';
+import secToTime from '../../../lib/time/secToTime';
+import timeToLong from '../../../lib/time/timeToLong';
 import { setQueueIndex } from '../../actions/queue.actions';
 import VirtualList from '../../components/virtualList/virtualList';
 import cx from '../../utils/cx/cx';

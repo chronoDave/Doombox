@@ -1,6 +1,6 @@
 import { tabbable } from 'tabbable';
 
-import { IS_JSDOM } from '../../../utils/const';
+import { IS_JSDOM } from '../../../lib/const';
 
 export type FocusTrapOptions = {
   onEscape: (event: KeyboardEvent) => void

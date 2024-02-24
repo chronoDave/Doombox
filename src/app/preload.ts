@@ -8,8 +8,8 @@ import type {
 
 import { contextBridge, ipcRenderer } from 'electron';
 
+import { IS_DEV } from '../lib/const';
 import { IpcRoute, IpcChannel } from '../types/ipc';
-import { IS_DEV } from '../utils/const';
 
 const send = (
   channel: IpcChannel,

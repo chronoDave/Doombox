@@ -7,7 +7,7 @@ import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
 import pMap from 'p-map';
 
-import EventEmitter from '../../../utils/event/eventEmitter';
+import EventEmitter from '../../../lib/event/eventEmitter';
 
 export type ParserProps = {
   transliterator: Transliterator

@@ -1,6 +1,6 @@
 import path from 'path';
 
-import createTokenizer from '../../../utils/tokenizer/kuromoji';
+import createTokenizer from '../../../lib/tokenizer/kuromoji';
 import Parser from '../parser/parser';
 import Transliterator from '../transliterator/transliterator';
 

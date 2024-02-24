@@ -3,8 +3,8 @@ import type createIpcRouter from '../../utils/createIpcRouter';
 import { BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 
+import { IS_DEV, MIN_HEIGHT, MIN_WIDTH } from '../../../lib/const';
 import { IpcChannel } from '../../../types/ipc';
-import { IS_DEV, MIN_HEIGHT, MIN_WIDTH } from '../../../utils/const';
 
 import createController from './window.controller';
 

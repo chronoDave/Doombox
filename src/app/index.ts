@@ -6,13 +6,13 @@ import fs from 'fs';
 import LeafDB from 'leaf-db';
 import path from 'path';
 
+import { IS_DEV } from '../lib/const';
+import createTokenizer from '../lib/tokenizer/kuromoji';
 import { IpcChannel } from '../types/ipc';
 import appShape from '../types/shapes/app.shape';
 import cacheShape from '../types/shapes/cache.shape';
 import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
-import { IS_DEV } from '../utils/const';
-import createTokenizer from '../utils/tokenizer/kuromoji';
 
 import { PATH } from './const';
 import createAppController from './controllers/app.controller';

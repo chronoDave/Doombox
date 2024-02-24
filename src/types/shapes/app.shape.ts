@@ -1,7 +1,7 @@
 import type { Constrain } from '../helpers';
 import type { Json } from '../primitives';
 
-import { MIN_WIDTH, MIN_HEIGHT } from '../../utils/const';
+import { MIN_WIDTH, MIN_HEIGHT } from '../../lib/const';
 
 export type AppShape = Constrain<Json, {
   window: {

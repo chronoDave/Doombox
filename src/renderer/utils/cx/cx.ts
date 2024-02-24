@@ -1,4 +1,4 @@
-import isObject from '../../../utils/validation/isObject';
+import isObject from '../../../lib/validation/isObject';
 
 const cx = (...args: Array<
   string | undefined | null | boolean | Record<string, boolean>

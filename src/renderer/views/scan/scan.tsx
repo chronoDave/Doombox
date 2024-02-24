@@ -2,9 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import secToTime from '../../../lib/time/secToTime';
+import timeToShort from '../../../lib/time/timeToShort';
 import { IpcRoute } from '../../../types/ipc';
-import secToTime from '../../../utils/time/secToTime';
-import timeToShort from '../../../utils/time/timeToShort';
 import Loader from '../../components/loader/loader';
 import Progress from '../../components/progress/progress';
 import { useInterval } from '../../hooks/useInterval';

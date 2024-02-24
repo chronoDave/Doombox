@@ -1,6 +1,6 @@
 import type { Album, Label, Song } from '../../types/library';
 
-import levenshteinDistance from '../../utils/string/levenshteinDistance';
+import levenshteinDistance from '../../lib/string/levenshteinDistance';
 
 export const sortSongs = (a: Song, b: Song) => {
   if (!a.label || !b.label) return 0;

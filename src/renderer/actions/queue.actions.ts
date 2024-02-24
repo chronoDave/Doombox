@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import shuffle from '../../utils/array/shuffle';
+import shuffle from '../../lib/array/shuffle';
 import { hasAutoplay, populateSongs } from '../selectors';
 import store from '../store';
 import { sortSongs } from '../utils/sort';

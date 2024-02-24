@@ -6,9 +6,9 @@ import type Storage from '../lib/storage/storage';
 import type { WebContents } from 'electron';
 import type LeafDB from 'leaf-db';
 
+import difference from '../../lib/array/difference';
+import globs from '../../lib/glob/globs';
 import { IpcRoute } from '../../types/ipc';
-import difference from '../../utils/array/difference';
-import globs from '../../utils/glob/globs';
 import createIpcSend from '../utils/ipcSend';
 
 export type LibraryControllerProps = {

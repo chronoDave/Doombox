@@ -8,9 +8,9 @@ import pMap from 'p-map';
 import path from 'path';
 import sharp from 'sharp';
 
-import sum from '../../../utils/array/sum';
-import group from '../../../utils/collection/group';
-import EventEmitter from '../../../utils/event/eventEmitter';
+import sum from '../../../lib/array/sum';
+import group from '../../../lib/collection/group';
+import EventEmitter from '../../../lib/event/eventEmitter';
 
 export type LibraryProps = {
   parser: Parser
