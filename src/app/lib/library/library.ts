@@ -8,9 +8,9 @@ import pMap from 'p-map';
 import path from 'path';
 import sharp from 'sharp';
 
-import sum from '../../../lib/array/sum';
 import group from '../../../lib/collection/group';
 import EventEmitter from '../../../lib/event/eventEmitter';
+import { sumSelect } from '../../../lib/math/sum';
 
 export type LibraryProps = {
   parser: Parser
@@ -64,7 +64,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
           return 1;
         })
         .map(song => song._id),
-      duration: sum(songs, song => song.duration ?? 0),
+      duration: sumSelect(songs, song => song.duration ?? 0),
       albumartist: songs[0].albumartist,
       album,
       label: songs[0].label,
@@ -108,7 +108,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
         .map(album => album.songs)
         .flat(),
       label,
-      duration: sum(albums, album => album.duration ?? 0),
+      duration: sumSelect(albums, album => album.duration ?? 0),
       romaji: {
         label: albums[0].romaji.label
       }

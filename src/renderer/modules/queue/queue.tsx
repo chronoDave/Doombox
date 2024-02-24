@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import sum from '../../../lib/array/sum';
+import { sumSelect } from '../../../lib/math/sum';
 import secToTime from '../../../lib/time/secToTime';
 import timeToLong from '../../../lib/time/timeToLong';
 import { setQueueIndex } from '../../actions/queue.actions';
@@ -19,7 +19,7 @@ const Queue: Component<QueueProps> = () => {
   const component = new forgo.Component<QueueProps>({
     render() {
       const state = subscribe(component);
-      const duration = sum(state.queue, song => song.duration ?? 0);
+      const duration = sumSelect(state.queue, song => song.duration ?? 0);
 
       return (
         <div class='Queue panel column'>
