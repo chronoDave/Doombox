@@ -8,7 +8,7 @@ import type LeafDB from 'leaf-db';
 
 import { glob } from 'fast-glob';
 
-import difference from '../../lib/array/difference';
+import difference from '../../lib/list/difference';
 import { IpcRoute } from '../../types/ipc';
 import createIpcSend from '../lib/ipc/send';
 

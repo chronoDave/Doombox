@@ -1,7 +1,7 @@
 import type { Rect } from '../../../types/primitives';
 
-import { binarySearchLeft } from '../../../lib/array/binarySearch';
-import fill from '../../../lib/array/fill';
+import { binarySearchLeft } from '../../../lib/list/binarySearch';
+import fill from '../../../lib/list/fill';
 
 export type Cell<T> = {
   data: T
