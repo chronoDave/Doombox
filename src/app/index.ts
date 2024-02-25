@@ -4,7 +4,6 @@ import type { Playlist } from '../types/playlist';
 import { app, ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
-import path from 'path';
 
 import { IS_DEV } from '../lib/const';
 import { IpcChannel } from '../types/ipc';
@@ -21,6 +20,7 @@ import createPlayerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
+import createWindowController from './controllers/window.controller';
 import createIpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
@@ -28,7 +28,7 @@ import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
 import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
-import createWindow from './lib/window/window';
+import createWindowHome from './windows/home/home';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -68,14 +68,9 @@ const run = async () => {
   };
 
   const ipcRouter = createIpcRouter(logger);
-  const window = createWindow({
-    ipcRouter,
-    file: path.resolve(__dirname, 'renderer/index.html'),
-    backgroundColor: 'black',
-    preload: {
-      url: path.resolve(__dirname, 'preload.js'),
-      args: { thumbs: PATH.THUMBS }
-    },
+  const windowHome = createWindowHome({
+    path: { thumbs: PATH.THUMBS },
+    backgroundColor: '#000',
     size: {
       width: storage.app.get().window.width,
       height: storage.app.get().window.height
@@ -105,7 +100,10 @@ const run = async () => {
     })),
     app: ipcRouter(createAppController()),
     player: ipcRouter(createPlayerController({
-      window
+      window: windowHome
+    })),
+    window: ipcRouter(createWindowController({
+      window: windowHome
     }))
   };
 
@@ -119,6 +117,7 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Library, router.library);
   ipcMain.handle(IpcChannel.Playlist, router.playlist);
   ipcMain.on(IpcChannel.Player, router.player);
+  ipcMain.on(IpcChannel.Window, router.window);
 
   /** Launch */
   await app.whenReady();

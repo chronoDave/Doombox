@@ -4,12 +4,12 @@ import type {
   IpcChannelReceive,
   IpcPayloadReceive,
   IpcReceiveController
-} from '../types/ipc';
+} from '../../../types/ipc';
 
 import { contextBridge, ipcRenderer } from 'electron';
 
-import { IS_DEV } from '../lib/const';
-import { IpcRoute, IpcChannel } from '../types/ipc';
+import { IS_DEV } from '../../../lib/const';
+import { IpcRoute, IpcChannel } from '../../../types/ipc';
 
 const send = (
   channel: IpcChannel,

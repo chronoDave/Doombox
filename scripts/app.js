@@ -29,7 +29,7 @@ return Promise.all([
     ...common,
     entryPoints: [
       { in: 'src/app/index.ts', out: 'app' },
-      { in: 'src/app/preload.ts', out: 'preload' }
+      { in: 'src/app/windows/home/preload.ts', out: 'preload/index' }
     ],
     external: [
       'electron',

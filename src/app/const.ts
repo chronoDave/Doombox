@@ -26,4 +26,4 @@ export const PATH = {
   LOGS,
   DICT,
   THUMBS: path.resolve(APP_DATA, 'thumbs')
-};
+} as const;

@@ -1,21 +1,15 @@
-import type createIpcRouter from '../ipc/router';
-
-import { BrowserWindow, ipcMain } from 'electron';
+import { BrowserWindow } from 'electron';
 import path from 'path';
 
 import { IS_DEV, MIN_HEIGHT, MIN_WIDTH } from '../../../lib/const';
-import { IpcChannel } from '../../../types/ipc';
-
-import createController from './window.controller';
 
 export type WindowProps = {
-  ipcRouter: ReturnType<typeof createIpcRouter>
   file: string | { url: string, watch: string },
   backgroundColor: string
-  preload?: string | { url: string, args: Record<string, unknown> }
+  preload?: string | { url: string, data: Record<string, unknown> }
   size?: { width: number, height: number },
   position?: { x: number, y: number },
-  modal?: boolean
+  parent?: BrowserWindow
 };
 
 export default (props: WindowProps) => {
@@ -28,7 +22,8 @@ export default (props: WindowProps) => {
     minHeight: MIN_HEIGHT,
     width: props.size?.width,
     height: props.size?.height,
-    modal: props.modal,
+    modal: !!props.parent,
+    parent: props.parent,
     x: props.position?.x,
     y: props.position?.y,
     frame: false,
@@ -39,7 +34,7 @@ export default (props: WindowProps) => {
     webPreferences: {
       enableWebSQL: false,
       additionalArguments: props.preload && typeof props.preload !== 'string' ?
-        [JSON.stringify(props.preload.args)] :
+        [JSON.stringify(props.preload.data)] :
         [],
       preload: typeof props.preload === 'string' ?
         props.preload :
@@ -47,15 +42,9 @@ export default (props: WindowProps) => {
     }
   });
 
-  // Window
-  window.loadFile(typeof props.file === 'string' ? props.file : props.file.url);
   window.on('ready-to-show', window.show);
+  window.loadFile(typeof props.file === 'string' ? props.file : props.file.url);
 
-  // IPC
-  const router = props.ipcRouter(() => createController(window));
-  ipcMain.on(IpcChannel.Window, router);
-
-  // Debug
   if (IS_DEV) {
     // eslint-disable-next-line global-require
     require('chokidar')
