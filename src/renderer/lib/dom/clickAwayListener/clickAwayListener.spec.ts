@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { click } from '../../../../test/lib/dom/mouse';
+import { click } from '../../../../../test/lib/dom/mouse';
 
 import clickAwayListener from './clickAwayListener';
 import fixture from './clickAwayListener.fixture';

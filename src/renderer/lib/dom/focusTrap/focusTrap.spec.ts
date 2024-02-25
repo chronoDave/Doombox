@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import { escape, shiftTab, tab } from '../../../../test/lib/dom/keyboard';
+import { escape, shiftTab, tab } from '../../../../../test/lib/dom/keyboard';
 
 import focusTrap from './focusTrap';
 import fixture from './focusTrap.fixture';

@@ -5,7 +5,7 @@ import produce from 'immer';
 import clamp from '../../lib/math/clamp';
 import cacheShape from '../../types/shapes/cache.shape';
 import Audio, { AudioStatus } from '../lib/audio/audio';
-import readFile from '../lib/fileReader/fileReader';
+import readFile from '../lib/dom/fileReader/fileReader';
 import { imageSelector } from '../selectors';
 import store from '../store';
 
