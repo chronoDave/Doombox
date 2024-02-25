@@ -9,6 +9,7 @@ import type LeafDB from 'leaf-db';
 import { glob } from 'fast-glob';
 
 import difference from '../../lib/list/difference';
+import levenshteinDistance from '../../lib/string/levenshteinDistance';
 import { IpcRoute } from '../../types/ipc';
 import createIpcSend from '../lib/ipc/send';
 
@@ -70,17 +71,38 @@ export default (props: LibraryControllerProps) =>
           { artist: { $text: query } },
           { romaji: { title: { $text: query } } },
           { romaji: { artist: { $text: query } } }
-        ]);
+        ])
+          .sort((a, b) => {
+            const distance = (x: Song) => x.title ?
+              levenshteinDistance(x.title, query) :
+              Number.MAX_SAFE_INTEGER;
+
+            return distance(a) - distance(b);
+          });
         const albums = props.db.album.select(...[
           { album: { $text: query } },
           { albumartist: { $text: query } },
           { romaji: { album: { $text: query } } },
           { romaji: { albumartist: { $text: query } } }
-        ]);
+        ])
+          .sort((a, b) => {
+            const distance = (x: Album) => x.album ?
+              levenshteinDistance(x.album, query) :
+              Number.MAX_SAFE_INTEGER;
+
+            return distance(a) - distance(b);
+          });
         const labels = props.db.label.select(...[
           { label: { $text: query } },
           { romaji: { label: { $text: query } } }
-        ]);
+        ])
+          .sort((a, b) => {
+            const distance = (x: Label) => x.label ?
+              levenshteinDistance(x.label, query) :
+              Number.MAX_SAFE_INTEGER;
+
+            return distance(a) - distance(b);
+          });
 
         return ({ songs, albums, labels });
       }

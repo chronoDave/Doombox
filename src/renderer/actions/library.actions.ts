@@ -7,11 +7,8 @@ import difference from '../../lib/list/difference';
 import shuffle from '../../lib/list/shuffle';
 import unique from '../../lib/list/unique';
 import sortAlbums from '../lib/sort/sortAlbums';
-import sortAlbumsQuery from '../lib/sort/sortAlbumsQuery';
 import sortLabels from '../lib/sort/sortLabels';
-import sortLabelsQuery from '../lib/sort/sortLabelsQuery';
 import sortSongs from '../lib/sort/sortSongs';
-import sortSongsQuery from '../lib/sort/sortSongsQuery';
 import { imageSelector } from '../selectors';
 import store from '../store';
 import * as Route from '../types/route';
@@ -112,7 +109,6 @@ export const search = async (query: string) => {
       draft.route.home = Route.Home.Search;
       draft.route.search = Route.Search.Song;
       draft.search.songs = library.songs
-        .sort(sortSongsQuery(query))
         .map(song => ({
           ...song,
           image: song.image ?
@@ -120,15 +116,13 @@ export const search = async (query: string) => {
             null
         }));
       draft.search.albums = library.albums
-        .sort(sortAlbumsQuery(query))
         .map(album => ({
           ...album,
           image: album.image ?
             imageSelector(album.image, 128) :
             null
         }));
-      draft.search.labels = library.labels
-        .sort(sortLabelsQuery(query));
+      draft.search.labels = library.labels;
     }), 'library.search');
   }
 };
