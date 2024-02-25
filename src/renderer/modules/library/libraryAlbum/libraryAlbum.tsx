@@ -4,7 +4,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../../../components/icon/icon';
-import cx from '../../../lib/cx/cx';
+import cx from '../../../lib/css/cx';
 import { imageSelector } from '../../../selectors';
 
 import './libraryAlbum.scss';
