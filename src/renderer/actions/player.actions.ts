@@ -1,12 +1,18 @@
+import type { CacheShape } from '../../types/shapes/cache.shape';
+
 import produce from 'immer';
 
 import clamp from '../../lib/math/clamp';
 import cacheShape from '../../types/shapes/cache.shape';
-import Audio, { AudioStatus } from '../lib/audio';
+import Audio, { AudioStatus } from '../lib/audio/audio';
+import readFile from '../lib/fileReader/fileReader';
 import { imageSelector } from '../selectors';
 import store from '../store';
-import readFile from '../utils/fileReader';
-import updateCache from '../utils/updateCache';
+
+const updateCache = async (reducer: (state: CacheShape) => CacheShape) => {
+  const cache = await window.ipc.cache.get();
+  return window.ipc.cache.set(reducer(cache));
+};
 
 const audio = new Audio({
   ...store.get().user.player,

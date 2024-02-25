@@ -1,5 +1,5 @@
-import type Store from '../lib/store';
-import type { State } from '../types/state';
+import type Store from './store';
+import type { State } from '../../types/state';
 import type { Component } from 'forgo';
 
 import deepEqual from 'fast-deep-equal';

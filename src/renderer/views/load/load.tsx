@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import Loader from '../../components/loader/loader';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import createMediaQuery from '../../utils/mediaQuery';
+import createMediaQuery from '../../lib/css/mediaQuery';
 
 import './load.scss';
 

@@ -6,7 +6,7 @@ import { sumSelect } from '../../../lib/math/sum';
 import Time from '../../../lib/time/time';
 import { setQueueIndex } from '../../actions/queue.actions';
 import VirtualList from '../../components/virtualList/virtualList';
-import cx from '../../utils/cx/cx';
+import cx from '../../lib/cx/cx';
 
 import subscribe from './queue.state';
 

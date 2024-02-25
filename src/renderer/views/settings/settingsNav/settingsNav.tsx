@@ -5,8 +5,8 @@ import * as forgo from 'forgo';
 
 import { setRouteSettings } from '../../../actions/route.actions';
 import Icon from '../../../components/icon/icon';
+import cx from '../../../lib/cx/cx';
 import * as Routes from '../../../types/route';
-import cx from '../../../utils/cx/cx';
 
 import subscribe from './settingsNav.state';
 

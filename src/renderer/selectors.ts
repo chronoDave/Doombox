@@ -1,7 +1,7 @@
 import type { State } from './types/state';
 import type { Album, Label, Song } from '../types/library';
 
-import { AudioStatus } from './lib/audio';
+import { AudioStatus } from './lib/audio/audio';
 
 export const imageSelector = (id: string, size: number) =>
   new URL(`${id}/${size}.jpg`, `${window.ipc.dir.thumbs}/`).href;

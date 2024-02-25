@@ -4,7 +4,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Time from '../../../../lib/time/time';
-import cx from '../../../utils/cx/cx';
+import cx from '../../../lib/cx/cx';
 
 import './libraryLabel.scss';
 

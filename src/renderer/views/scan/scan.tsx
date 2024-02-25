@@ -9,7 +9,7 @@ import Progress from '../../components/progress/progress';
 import { useInterval } from '../../hooks/useInterval';
 import useIpc from '../../hooks/useIpc';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import createMediaQuery from '../../utils/mediaQuery';
+import createMediaQuery from '../../lib/css/mediaQuery';
 
 import './scan.scss';
 

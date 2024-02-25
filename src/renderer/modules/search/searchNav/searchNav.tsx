@@ -4,8 +4,8 @@ import * as forgo from 'forgo';
 
 import { setRouteSearch } from '../../../actions/route.actions';
 import Icon from '../../../components/icon/icon';
+import cx from '../../../lib/cx/cx';
 import * as Route from '../../../types/route';
-import cx from '../../../utils/cx/cx';
 
 import subscribe from './searchNav.state';
 

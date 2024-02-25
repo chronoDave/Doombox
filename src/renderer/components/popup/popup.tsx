@@ -2,9 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import cx from '../../utils/cx/cx';
-import debounce from '../../utils/debounce';
-import portal from '../../utils/portal/portal';
+import cx from '../../lib/cx/cx';
+import debounce from '../../lib/fn/debounce';
+import portal from '../../lib/portal/portal';
 
 import './popup.scss';
 

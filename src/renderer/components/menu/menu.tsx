@@ -4,7 +4,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import createClickAwayListener from '../../utils/clickAwayListener/clickAwayListener';
+import createClickAwayListener from '../../lib/clickAwayListener/clickAwayListener';
 import Icon from '../icon/icon';
 import { createPopup } from '../popup/popup';
 

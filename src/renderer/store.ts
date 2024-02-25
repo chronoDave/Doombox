@@ -4,8 +4,8 @@ import cacheShape from '../types/shapes/cache.shape';
 import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
 
-import { AudioStatus } from './lib/audio';
-import Store from './lib/store';
+import { AudioStatus } from './lib/audio/audio';
+import Store from './lib/store/store';
 import * as Route from './types/route';
 
 export default new Store<State>({

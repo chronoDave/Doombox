@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 
 import { mute, setVolume } from '../../../actions/player.actions';
 import Icon from '../../../components/icon/icon';
-import debounce from '../../../utils/debounce';
+import debounce from '../../../lib/fn/debounce';
 
 import subscribe from './playerVolume.state';
 

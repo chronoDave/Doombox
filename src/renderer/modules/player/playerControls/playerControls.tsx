@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 import { next, pause, previous } from '../../../actions/player.actions';
 import { shuffleQueue } from '../../../actions/queue.actions';
 import Icon from '../../../components/icon/icon';
-import { AudioStatus } from '../../../lib/audio';
+import { AudioStatus } from '../../../lib/audio/audio';
 import PlayerVolume from '../playerVolume/playerVolume';
 
 import subscribe from './playerControls.state';

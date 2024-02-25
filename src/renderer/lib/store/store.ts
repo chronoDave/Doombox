@@ -1,4 +1,4 @@
-import { IS_DEV } from '../../lib/const';
+import { IS_DEV } from '../../../lib/const';
 
 export default class Store<S extends Record<string, unknown>> {
   private readonly _listeners: Set<(prev: S, cur: S) => void>;

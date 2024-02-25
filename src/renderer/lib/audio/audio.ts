@@ -1,6 +1,6 @@
 import { Howl } from 'howler';
 
-import EventEmitter from '../../lib/eventEmitter/eventEmitter';
+import EventEmitter from '../../../lib/eventEmitter/eventEmitter';
 
 export enum AudioStatus {
   Playing = 'playing',
@@ -16,9 +16,9 @@ export type AudioEvents = {
 };
 
 export type AudioOptions = {
-  volume: number
-  autoplay: boolean
-  muted: boolean
+  volume?: number
+  autoplay?: boolean
+  muted?: boolean
 };
 
 export default class Audio extends EventEmitter<AudioEvents> {
@@ -37,12 +37,12 @@ export default class Audio extends EventEmitter<AudioEvents> {
     this._autoplay = autoplay;
   }
 
-  constructor(options: AudioOptions) {
+  constructor(options?: AudioOptions) {
     super();
 
-    this._volume = options.volume;
-    this._autoplay = options.autoplay;
-    this._muted = options.muted;
+    this._volume = options?.volume ?? 100;
+    this._autoplay = options?.autoplay ?? true;
+    this._muted = options?.muted ?? false;
   }
 
   play(file: string) {

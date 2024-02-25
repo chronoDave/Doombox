@@ -1,6 +1,6 @@
 import * as forgo from 'forgo';
 
-import debounce from '../../utils/debounce';
+import debounce from '../../lib/fn/debounce';
 
 import { createVirtualList } from './virtualList.utils';
 

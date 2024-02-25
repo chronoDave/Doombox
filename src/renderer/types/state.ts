@@ -3,7 +3,7 @@ import type { Album, Label, Song } from '../../types/library';
 import type { Playlist } from '../../types/playlist';
 import type { ThemeShape } from '../../types/shapes/theme.shape';
 import type { UserShape } from '../../types/shapes/user.shape';
-import type { AudioStatus } from '../lib/audio';
+import type { AudioStatus } from '../lib/audio/audio';
 
 export type State = {
   route: {

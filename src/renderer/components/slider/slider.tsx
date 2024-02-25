@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import clamp from '../../../lib/math/clamp';
-import debounce from '../../utils/debounce';
+import debounce from '../../lib/fn/debounce';
 
 import './slider.scss';
 
