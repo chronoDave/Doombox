@@ -4,8 +4,6 @@ import type { Component } from 'forgo';
 
 import deepEqual from 'fast-deep-equal';
 
-import measure from '../../lib/console/measure';
-
 const createSelector = <S extends State>(store: Store<S>, id: string) =>
   <T extends (state: S) => any>(get: T, shouldUpdate?: (prev: S, cur: S) => boolean) =>
     (component: Component): ReturnType<T> => {
@@ -17,7 +15,8 @@ const createSelector = <S extends State>(store: Store<S>, id: string) =>
       component.mount(() => store.subscribe(listener));
       component.unmount(() => store.unsubscribe(listener));
 
-      return measure(() => get(store.get()), `[selector] ${id}`);
+      console.log(id);
+      return get(store.get());
     };
 
 export default createSelector;

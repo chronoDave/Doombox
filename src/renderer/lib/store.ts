@@ -1,4 +1,3 @@
-import measure from '../../lib/console/measure';
 import { IS_DEV } from '../../lib/const';
 
 export default class Store<S extends Record<string, unknown>> {
@@ -16,7 +15,7 @@ export default class Store<S extends Record<string, unknown>> {
 
   dispatch(reducer: (state: S) => S, action: string) {
     const prev = this._state;
-    this._state = measure(() => reducer(prev), `[dispatch] ${action}`);
+    this._state = reducer(prev);
 
     if (IS_DEV) {
       console.group(`[dispatch] ${action}`);
