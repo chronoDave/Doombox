@@ -25,12 +25,12 @@ export default class Time {
   toShort(options?: { minify?: boolean }) {
     const pad = (n: number) => `${n}`.padStart(2, '0');
 
-    const h = (!options?.minify || this._h > 0) && pad(this._h);
+    const h = (options?.minify === false || this._h > 0) && pad(this._h);
     const m = pad(this._m);
     const s = pad(this._s);
 
     return h ?
-      `${h} ${m} ${s}` :
-      `${m} ${s}`;
+      `${h}:${m}:${s}` :
+      `${m}:${s}`;
   }
 }

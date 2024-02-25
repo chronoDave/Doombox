@@ -7,7 +7,7 @@ import LeafDB from 'leaf-db';
 import { parseFile } from 'music-metadata';
 import pMap from 'p-map';
 
-import EventEmitter from '../../../lib/event/eventEmitter';
+import EventEmitter from '../../../lib/eventEmitter/eventEmitter';
 
 export type ParserProps = {
   transliterator: Transliterator
@@ -82,7 +82,7 @@ export default class Parser extends EventEmitter<ParserEvents> {
   async parse(files: string[]) {
     const images = new Map<string, string>();
     const songs = await pMap(files, async (file, i) => {
-      this._emit('parse', { size: files.length, file, cur: i });
+      this.emit('parse', { size: files.length, file, cur: i });
 
       const song = await this.parseFile(file);
 

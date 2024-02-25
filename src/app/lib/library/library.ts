@@ -9,7 +9,7 @@ import path from 'path';
 import sharp from 'sharp';
 
 import group from '../../../lib/collection/group';
-import EventEmitter from '../../../lib/event/eventEmitter';
+import EventEmitter from '../../../lib/eventEmitter/eventEmitter';
 import { sumSelect } from '../../../lib/math/sum';
 
 export type LibraryProps = {
@@ -122,7 +122,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
     this._root = props.root;
     this._parser = props.parser;
 
-    this._parser.on('parse', payload => this._emit('song', payload));
+    this._parser.on('parse', payload => this.emit('song', payload));
 
     fs.mkdirSync(this._root, { recursive: true });
   }
@@ -156,7 +156,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
     const { songs, images } = await this._parser.parse(files);
     await pMap(images.entries(), (image, i) => {
       this._insertImage(image);
-      this._emit('image', {
+      this.emit('image', {
         file: image[1],
         cur: i,
         size: images.size

@@ -14,7 +14,7 @@ esbuild({
       cwd: __dirname,
       absolute: true
     }),
-    ...glob.sync('../src/utils/**/*.spec.{ts,tsx}', {
+    ...glob.sync('../src/lib/**/*.spec.{ts,tsx}', {
       cwd: __dirname,
       absolute: true
     })

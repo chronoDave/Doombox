@@ -1,6 +1,6 @@
 import { Howl } from 'howler';
 
-import EventEmitter from '../../lib/event/eventEmitter';
+import EventEmitter from '../../lib/eventEmitter/eventEmitter';
 
 export enum AudioStatus {
   Playing = 'playing',
@@ -53,30 +53,30 @@ export default class Audio extends EventEmitter<AudioEvents> {
       volume: this._volume,
       autoplay: this._autoplay,
       mute: this._muted,
-      onload: () => this._emit('duration', this._howl?.duration() ?? 0),
+      onload: () => this.emit('duration', this._howl?.duration() ?? 0),
       onplay: () => {
         if (this._interval) window.clearInterval(this._interval);
         this._interval = window.setInterval(() => {
-          this._emit('position', this._howl?.seek() ?? 0);
+          this.emit('position', this._howl?.seek() ?? 0);
         }, 1000);
 
-        this._emit('position', this._howl?.seek() ?? 0);
-        this._emit('status', AudioStatus.Playing);
+        this.emit('position', this._howl?.seek() ?? 0);
+        this.emit('status', AudioStatus.Playing);
       },
       onpause: () => {
         if (this._interval) window.clearInterval(this._interval);
 
-        this._emit('status', AudioStatus.Paused);
+        this.emit('status', AudioStatus.Paused);
       },
       onstop: () => {
         if (this._interval) window.clearInterval(this._interval);
 
-        this._emit('status', AudioStatus.Stopped);
+        this.emit('status', AudioStatus.Stopped);
       },
       onend: () => {
         if (this._interval) window.clearInterval(this._interval);
 
-        this._emit('status', AudioStatus.Ended);
+        this.emit('status', AudioStatus.Ended);
       }
     });
   }
