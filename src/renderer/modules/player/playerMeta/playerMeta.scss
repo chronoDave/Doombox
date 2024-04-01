@@ -1,0 +1,11 @@
+.PlayerMeta {
+  padding: 1rem;
+
+  > dd {
+    margin-bottom: 0.25em;
+
+    &:last-of-type {
+      margin-bottom: unset;
+    }
+  }
+}

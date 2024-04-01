@@ -9,6 +9,8 @@ import * as Route from '../../../types/route';
 
 import subscribe from './searchNav.state';
 
+import './searchNav.scss';
+
 export type SearchNavProps = {};
 
 const SearchNav: Component<SearchNavProps> = () => {
@@ -25,6 +27,7 @@ const SearchNav: Component<SearchNavProps> = () => {
             class={cx('button', route === Route.Search.Song && 'active')}
           >
             <Icon id='music-note' />
+            <span>Songs</span>
           </button>
           <button
             type='button'
@@ -33,6 +36,7 @@ const SearchNav: Component<SearchNavProps> = () => {
             class={cx('button', route === Route.Search.Album && 'active')}
           >
             <Icon id='music-box' />
+            <span>Albums</span>
           </button>
           <button
             type='button'
@@ -41,6 +45,7 @@ const SearchNav: Component<SearchNavProps> = () => {
             class={cx('button', route === Route.Search.Label && 'active')}
           >
             <Icon id='record-circle' />
+            <span>Labels</span>
           </button>
         </nav>
       );

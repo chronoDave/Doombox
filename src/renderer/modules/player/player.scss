@@ -7,7 +7,7 @@
   overflow: hidden;
   flex-shrink: 0;
 
-  > .bg {
+  > .PlayerCover {
     position: absolute;
   }
 
@@ -19,12 +19,7 @@
 
     > .PlayerMeta {
       align-self: center;
-      text-align: center;
       min-width: 0;
-    }
-
-    > .controls > .PlayerControls {
-      margin-bottom: 0.5rem;
     }
   }
 }

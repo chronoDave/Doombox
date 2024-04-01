@@ -1,4 +1,12 @@
 .HomeToolbar {
   display: flex;
   align-items: center;
+
+  > .button {
+    padding: 0.5em;
+  }
+
+  > .InputSearch {
+    flex-grow: 1;
+  }
 }

@@ -2,7 +2,7 @@
 @use 'sass:math';
 
 @function pxToRem($size) {
-  @return #{math.div($size, 16)}rem;
+  @return #{math.div($size, 14)}rem;
 }
 
 @mixin clamp($n) {

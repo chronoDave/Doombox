@@ -4,6 +4,8 @@ import * as forgo from 'forgo';
 
 import subscribe from './playerCover.state';
 
+import './playerCover.scss';
+
 export type PlayerCoverProps = {};
 
 const PlayerCover: Component<PlayerCoverProps> = () => {
@@ -12,18 +14,18 @@ const PlayerCover: Component<PlayerCoverProps> = () => {
       const src = subscribe(component);
 
       return (
-        <picture class='bg'>
+        <picture class='PlayerCover'>
           <source
             srcset={src.lg}
             media="(min-width: 960px) and (min-height: 720px)"
-            width={384}
-            height={384}
+            width={256}
+            height={256}
           />
           <source
             srcset={src.md}
             media="(min-width: 720px) and (min-height: 480px)"
-            width={256}
-            height={256}
+            width={224}
+            height={224}
           />
           <img
             src={src.xs}

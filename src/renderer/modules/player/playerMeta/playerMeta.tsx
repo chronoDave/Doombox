@@ -4,6 +4,8 @@ import * as forgo from 'forgo';
 
 import subscribe from './playerMeta.state';
 
+import './playerMeta.scss';
+
 export type PlayerMetaProps = {};
 
 const PlayerMeta: Component<PlayerMetaProps> = () => {
@@ -13,18 +15,20 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
 
       if (!current?.title || !current.artist) {
         return (
-          <div class='PlayerMeta'>
+          <div class='PlayerMeta center'>
             <p class="muted">No song(s) selected</p>
           </div>
         );
       }
 
       return (
-        <dl class='PlayerMeta'>
-          <dt class='sr-only'>title</dt>
-          <dd class='nowrap'>{current.title ?? 'unknown'}</dd>
+        <dl class='PlayerMeta center'>
+          <dt class='sr-only'>Title</dt>
+          <dd class='nowrap'>{current.title ?? 'Unknown'}</dd>
           <dt class='sr-only'>Artist</dt>
-          <dd class='nowrap'>{current.artist ?? 'unknown'}</dd>
+          <dd class='nowrap small'>{current.artist ?? 'Unknown'}</dd>
+          <dt class='sr-only'>Album</dt>
+          <dd class='nowrap small'>{current.album ?? 'Unknown'}</dd>
         </dl>
       );
     }

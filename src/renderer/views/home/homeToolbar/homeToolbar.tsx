@@ -49,7 +49,7 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
             type='button'
             aria-label='settings'
             onclick={() => setRouteApp(Route.App.Settings)}
-            class={cx('button', state.route.settings && 'active')}
+            class='button'
           >
             <Icon id='cog' />
           </button>

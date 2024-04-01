@@ -1,20 +1,21 @@
 :root {
   @media (prefers-color-scheme: dark) {
-    --text: #e8e8e9;
+    --text: #edf2f5;
+    --text-inactive: rgb(from var(--text) r g b / 25%);
     --background: #1c1f21;
     --primary: #674d84;
-    --secondary: #633e75;
-    --accent: #9f62ac;
+    --secondary: #503e6b;
+    --accent: #a67bb3;
+    --panel: rgb(from var(--text) r g b / 5%);
   }
 
   @media (prefers-color-scheme: light) {
-    --text: #161617;
-    --background: #dee1e3;
+    --text: #09070c;
+    --text-inactive: rgb(from var(--text) r g b / 25%);
+    --background: #fcfbfd;
     --primary: #957bb2;
-    --secondary: #af8ac1;
-    --accent: #8f539d;
+    --secondary: #d0aeca;
+    --accent: #b580a3;
+    --panel: rgb(from var(--background) r g b / 5%);
   }
-
-  --text-inactive: color-mix(in srgb, var(--background) 50%, var(--text));
-  --panel: color-mix(in srgb, var(--background) 90%, var(--text));
 }

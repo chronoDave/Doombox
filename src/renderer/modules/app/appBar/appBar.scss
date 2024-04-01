@@ -6,7 +6,7 @@
   align-items: center;
   gap: 0.125em;
   color: var(--text);
-  border-bottom: 1px solid var(--panel);
+  background-color: var(--panel);
 
   > img {
     -webkit-app-region: drag;
@@ -39,13 +39,12 @@
     height: 100%;
 
     > button {
-      width: 40px;
       height: 100%;
-      font-size: typography.pxToRem(16);
+      width: 3rem;
 
       @include mixins.hover {
         &.close {
-          background-color: var(--primary);
+          background-color: var(--secondary);
         }
       }
     }

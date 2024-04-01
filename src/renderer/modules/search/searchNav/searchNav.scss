@@ -1,0 +1,14 @@
+.SearchNav {
+  background-color: var(--panel);
+  gap: 0.25em;
+  margin-bottom: 2px;
+
+  > .button {
+    padding: 0.5em;
+
+    > span {
+      font-size: 1rem;
+      margin-left: 0.5em;
+    }
+  }
+}
