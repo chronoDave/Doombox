@@ -4,6 +4,7 @@ import * as forgo from 'forgo';
 
 import { playAlbum, playLabel } from '../../actions/queue.actions';
 import VirtualGrid from '../../components/virtualGrid/virtualGrid';
+import useMediaQuery from '../../hooks/useMediaQuery';
 
 import subscribe from './library.state';
 import LibraryAlbum from './libraryAlbum/libraryAlbum';
@@ -17,6 +18,8 @@ enum Action {
 }
 
 const Library: Component<LibraryProps> = () => {
+  let width = 72;
+
   const component = new forgo.Component<LibraryProps>({
     render() {
       const state = subscribe(component);
@@ -30,7 +33,7 @@ const Library: Component<LibraryProps> = () => {
           }}
           cell={{
             id: cell => cell._id,
-            width: cell => 'albums' in cell ? null : 72,
+            width: cell => 'albums' in cell ? null : width,
             height: cell => 'albums' in cell ? 48 : null,
             render: cell => {
               if ('albums' in cell) {
@@ -55,6 +58,13 @@ const Library: Component<LibraryProps> = () => {
       );
     }
   });
+
+  useMediaQuery([
+    '(min-width: 720px) and (min-height: 480px)',
+    '(min-width: 960px) and (min-height: 720px)'
+  ])(i => {
+    width = 72 + (32 * (i + 1));
+  })(component);
 
   return component;
 };

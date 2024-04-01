@@ -17,8 +17,14 @@ export default <T extends string>(queries: T[]) =>
         controller.abort();
       });
 
-      const active = (mqls.length - 1) - [...mqls].reverse().findIndex(mql => mql.matches);
-      onmatch(active);
+      let matches = mqls.length - 1;
+      for (let i = 0; i < mqls.length; i += 1) {
+        if (!mqls[i].matches) {
+          matches = i - 1;
+          break;
+        }
+      }
+      onmatch(matches);
 
       return component;
     };
