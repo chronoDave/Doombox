@@ -37,7 +37,7 @@ export const play = async (id: string) => {
 
   if (song) {
     window.ipc.player.play();
-    audio.play(song.file);
+    audio.play(song.file.replace(/#/g, '%23'));
 
     const metadata = {
       artist: song.artist ?? 'Unknown',
