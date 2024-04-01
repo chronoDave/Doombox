@@ -1,4 +1,4 @@
-import type { Library } from './library';
+import type { Album, Library } from './library';
 import type { Playlist } from './playlist';
 import type { Shape } from './primitives';
 import type { CacheShape } from './shapes/cache.shape';
@@ -17,7 +17,8 @@ export enum IpcChannel {
   Library = 'library',
   Receive = 'on',
   Playlist = 'playlist',
-  Player = 'player'
+  Player = 'player',
+  Search = 'search'
 }
 
 export type IpcChannelReceive<T extends IpcRoute> = `${IpcChannel.Receive}.${T}`;
@@ -111,6 +112,9 @@ export type IpcInvokeController = {
     [IpcRoute.Update]: (playlist: Playlist) => Promise<Playlist[]>
     [IpcRoute.Remove]: (id: string) => Promise<Playlist[]>
     [IpcRoute.Get]: () => Promise<Playlist[]>
+  }
+  [IpcChannel.Search]: {
+    [IpcRoute.Album]: (song: string) => Promise<Album>
   }
 };
 

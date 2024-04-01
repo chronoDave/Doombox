@@ -2,6 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import { playAlbum } from '../../../actions/queue.actions';
+import { searchAlbum } from '../../../actions/search.actions';
+
 import subscribe from './playerMeta.state';
 
 import './playerMeta.scss';
@@ -28,7 +31,20 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
           <dt class='sr-only'>Artist</dt>
           <dd class='nowrap small'>{current.artist ?? 'Unknown'}</dd>
           <dt class='sr-only'>Album</dt>
-          <dd class='nowrap small'>{current.album ?? 'Unknown'}</dd>
+          <dd class='nowrap small'>
+            <button
+              class='link'
+              type='button'
+              aria-label={`Play ${current.album}`}
+              disabled={!current.album}
+              onclick={async () => {
+                const album = await searchAlbum(current._id);
+                playAlbum(album._id);
+              }}
+            >
+              {current.album ?? 'Unknown'}
+            </button>
+          </dd>
         </dl>
       );
     }

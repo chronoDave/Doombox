@@ -18,6 +18,7 @@ import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
 import createPlayerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
+import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
 import createWindowController from './controllers/window.controller';
@@ -104,6 +105,9 @@ const run = async () => {
     })),
     window: ipcRouter(createWindowController({
       window: windowHome
+    })),
+    search: ipcRouter(createSearchController({
+      db
     }))
   };
 
@@ -116,6 +120,7 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Cache, router.cache);
   ipcMain.handle(IpcChannel.Library, router.library);
   ipcMain.handle(IpcChannel.Playlist, router.playlist);
+  ipcMain.handle(IpcChannel.Search, router.search);
   ipcMain.on(IpcChannel.Player, router.player);
   ipcMain.on(IpcChannel.Window, router.window);
 
