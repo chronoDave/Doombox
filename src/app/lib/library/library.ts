@@ -155,12 +155,13 @@ export default class Library extends EventEmitter<LibraryEvents> {
   async insert(files: string[]) {
     const { songs, images } = await this._parser.parse(files);
     await pMap(images.entries(), (image, i) => {
-      this._insertImage(image);
       this.emit('image', {
         file: image[1],
         cur: i,
         size: images.size
       });
+
+      return this._insertImage(image);
     }, { concurrency: 16 });
 
     const albums = Library.groupAlbums(songs);
