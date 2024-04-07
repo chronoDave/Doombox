@@ -1,7 +1,16 @@
+@use 'sass:list';
 @use 'typography';
 
 html {
   font-family: NotoSansJP, sans-serif;
   line-height: 1.4;
   font-size: 14px;
+}
+
+$headings: h6, h5, h4, h3, h2, h1;
+@each $heading in $headings {
+  #{$heading}, .#{$heading} {
+    font-weight: 400;
+    font-size: 1em + (0.125em * list.index($headings, $heading));
+  }
 }

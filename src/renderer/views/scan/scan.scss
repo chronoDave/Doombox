@@ -7,6 +7,7 @@
   justify-content: center;
   padding: 16px;
   text-align: center;
+  flex-grow: 1;
 
   > .Loader {
     height: 30px;
@@ -21,6 +22,7 @@
     @include typography.clamp(3);
     $line-height: 1.3em;
 
+    line-break: anywhere;
     line-height: $line-height;
     margin-top: 0.5em;
     height: $line-height * 3;
