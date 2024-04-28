@@ -52,8 +52,8 @@ return Promise.all([
   esbuild({
     ...common,
     entryPoints: [
-      'src/renderer/index.tsx',
-      { in: 'src/renderer/index.scss', out: 'base' }
+      'src/renderer/app/index.tsx',
+      { in: 'src/renderer/app/index.scss', out: 'base' }
     ],
     outdir: 'build/app/renderer',
     outbase: 'src/renderer',
@@ -67,18 +67,18 @@ return Promise.all([
           'expanded' :
           'compressed',
         depedencies: [
-          'src/renderer/scss/core'
+          'src/renderer/app/scss/core'
         ],
         ignore: /\.ttf$/
       }),
       copy([{
-        in: 'src/renderer/index.html',
+        in: 'src/renderer/app/index.html',
         out: 'build/app/renderer/index.html'
       }, {
-        in: 'src/renderer/assets/fonts',
+        in: 'src/renderer/app/assets/fonts',
         out: 'build/app/renderer/fonts'
       }, {
-        in: 'src/renderer/assets/icons',
+        in: 'src/renderer/app/assets/icons',
         out: 'build/app/renderer/icons'
       }])]
   }, { watch: w })
