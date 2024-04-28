@@ -12,6 +12,7 @@ export type Cell<T> = {
 
 export type VirtualList<T> = {
   height: number
+  columns: Array<Cell<T>>
   cells: Array<Cell<T>>
 };
 
@@ -39,6 +40,7 @@ export const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualLis
     });
   });
 
+  const last: Cell<T> | undefined = columns[columns.length - 1];
   const min = binarySearchLeft(
     columns,
     () => options.scroll,
@@ -51,7 +53,10 @@ export const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualLis
   );
 
   return ({
-    height: columns[columns.length - 1]?.y ?? 0,
+    columns,
+    height: last ?
+      last.y + last.height :
+      0,
     cells: columns.slice(
       Math.max(0, min - 1),
       max === -1 ?

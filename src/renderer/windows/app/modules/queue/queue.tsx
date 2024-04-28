@@ -33,20 +33,25 @@ const Queue: Component<QueueProps> = () => {
             cell={{
               id: song => song._id,
               height: () => 44,
-              render: song => (
-                <button
-                  type='button'
-                  class={cx('button', song._id === state.current && 'active')}
-                  aria-label='Set queue index'
-                >
-                  <dl>
-                    <dt class='sr-only'>Title</dt>
-                    <dd class='nowrap'>{song.title}</dd>
-                    <dt class='sr-only'>Artist</dt>
-                    <dd class='small nowrap'>{song.artist}</dd>
-                  </dl>
-                </button>
-              )
+              render: ({ data: song, scrollTo }) => {
+                const active = song._id === state.current;
+                scrollTo(state.queue.findIndex(x => x._id === state.current));
+
+                return (
+                  <button
+                    type='button'
+                    class={cx('button', active && 'active')}
+                    aria-label='Set queue index'
+                  >
+                    <dl>
+                      <dt class='sr-only'>Title</dt>
+                      <dd class='nowrap'>{song.title}</dd>
+                      <dt class='sr-only'>Artist</dt>
+                      <dd class='small nowrap'>{song.artist}</dd>
+                    </dl>
+                  </button>
+                );
+              }
             }}
           />
         </div >

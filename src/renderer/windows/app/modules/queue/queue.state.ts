@@ -5,6 +5,7 @@ import createSelector from '@doombox/renderer/store/selector';
 import store from '../../store';
 
 export default createSelector(store, 'queue')(state => ({
+  index: state.queue.index,
   current: state.queue.songs[state.queue.index],
   title: state.queue.title,
   queue: state.queue.songs.reduce<Song[]>((acc, cur) => {

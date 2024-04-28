@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import shuffle from '@doombox/lib/list/shuffle';
+import random from '@doombox/lib/math/random';
 
 import sortSongs from '../lib/sort/sortSongs';
 import { hasAutoplay, populateSongs } from '../selectors';
@@ -84,14 +84,12 @@ export const shuffleQueue = () => {
   const { songs } = store.get().queue;
   if (songs.length === 0) return;
 
-  const shuffled = shuffle(songs);
-
+  const n = random(0, songs.length - 1);
   store.dispatch(produce(draft => {
-    draft.queue.songs = shuffled;
-    draft.queue.index = 0;
+    draft.queue.index = n;
   }), 'queue.shuffle');
 
-  play(shuffled[0]);
+  play(songs[n]);
 };
 
 window.ipc.on.shuffle(shuffleQueue);

@@ -1,6 +1,7 @@
 import * as forgo from 'forgo';
 
-import debounce from '../../lib/fn/debounce';
+import { sumSelect } from '@doombox/lib/math/sum';
+import debounce from '@doombox/renderer/fn/debounce';
 
 import { createVirtualList } from './virtualList.utils';
 
@@ -9,10 +10,15 @@ import './virtualList.scss';
 export type VirtualListProps<T> = {
   data: T[]
   onclick?: (id: string) => void
+  scrollTo?: number
   cell: {
     id: (data: T) => string
     height: (data: T) => number
-    render: (data: T, i: number) => forgo.Component | forgo.Component[]
+    render: (props: {
+      data: T,
+      scrollTo: (n: number) => void
+      index: number
+    }) => forgo.Component | forgo.Component[]
   }
 };
 
@@ -23,6 +29,7 @@ const VirtualList = <T extends any>(
   const ref: forgo.ForgoRef<HTMLDivElement> = {};
 
   let prev = 0;
+  let scrolled = 0;
   const component = new forgo.Component<VirtualListProps<T>>({
     render(props) {
       const handleClick = (target: HTMLElement | null) => {
@@ -73,7 +80,20 @@ const VirtualList = <T extends any>(
                 }}
                 data-id={cell.id}
               >
-                {props.cell.render(cell.data, i)}
+                {props.cell.render({
+                  data: cell.data,
+                  index: i,
+                  scrollTo: n => {
+                    if (scrolled !== n) {
+                      scrolled = n;
+                      const top = (n === list.columns.length - 1 ?
+                        list.height :
+                        sumSelect(list.columns.slice(0, n), x => x.height));
+
+                      ref.value?.scrollTo({ top });
+                    }
+                  }
+                })}
               </li>
             ))}
           </ol>
