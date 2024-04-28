@@ -14,7 +14,7 @@ export type HomeProps = {
 export default (props: HomeProps) => createWindow({
   file: path.resolve(__dirname, 'renderer/app/index.html'),
   preload: {
-    url: path.resolve(__dirname, 'preload/index.js'),
+    url: path.resolve(__dirname, 'preload/app.js'),
     data: { thumbs: props.path.thumbs }
   },
   backgroundColor: props.backgroundColor,

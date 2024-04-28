@@ -1,13 +1,21 @@
+const fs = require('fs');
+const path = require('path');
+
 const copy = require('../plugins/copy');
 const log = require('../plugins/log');
 
 const common = require('./common');
 
+const windows = fs.readdirSync(path.resolve(__dirname, '../../../src/app/windows'));
+
 module.exports = options => ({
   ...common(options),
   entryPoints: [
     { in: 'src/app/index.ts', out: 'app' },
-    { in: 'src/app/windows/home/preload.ts', out: 'preload/index' }
+    ...windows.map(window => ({
+      in: `src/app/windows/${window}/preload.ts`,
+      out: `preload/${window}`
+    }))
   ],
   external: [
     'electron',

@@ -29,7 +29,8 @@ import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
 import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
-import createWindowHome from './windows/home/home';
+import createWindowApp from './windows/app/app';
+import createWindowSettings from './windows/settings/settings';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -69,8 +70,19 @@ const run = async () => {
   };
 
   const ipcRouter = createIpcRouter(logger);
-  const windowHome = createWindowHome({
+  const windowApp = createWindowApp({
     path: { thumbs: PATH.THUMBS },
+    backgroundColor: '#000',
+    size: {
+      width: storage.app.get().window.width,
+      height: storage.app.get().window.height
+    },
+    position: {
+      x: storage.app.get().window.x,
+      y: storage.app.get().window.y
+    }
+  });
+  const windowSettings = createWindowSettings({
     backgroundColor: '#000',
     size: {
       width: storage.app.get().window.width,
@@ -102,10 +114,10 @@ const run = async () => {
     })),
     app: ipcRouter(createAppController()),
     player: ipcRouter(createPlayerController({
-      window: windowHome
+      window: windowApp
     })),
     window: ipcRouter(createWindowController({
-      window: windowHome
+      window: windowApp
     })),
     search: ipcRouter(createSearchController({
       db
