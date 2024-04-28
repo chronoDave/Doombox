@@ -1,89 +1,16 @@
 const minimist = require('minimist');
 
+const app = require('./esbuild/config/app');
+const renderer = require('./esbuild/config/renderer');
 const esbuild = require('./esbuild/esbuild');
-const clean = require('./esbuild/plugins/clean');
-const copy = require('./esbuild/plugins/copy');
-const log = require('./esbuild/plugins/log');
-const sass = require('./esbuild/plugins/sass');
 
-const { w, dev } = minimist(process.argv.slice(2));
-
-// Shared
-const common = {
-  bundle: true,
-  minify: !dev,
-  keepNames: dev,
-  define: {
-    'process.env.NODE_ENV': w ?
-      '"development"' :
-      '"production"',
-    'process.env.DOM': dev ?
-      '"development"' :
-      '"production"'
-  }
-};
+const options = minimist(process.argv.slice(2));
 
 return Promise.all([
-  // App
-  esbuild({
-    ...common,
-    entryPoints: [
-      { in: 'src/app/index.ts', out: 'app' },
-      { in: 'src/app/windows/home/preload.ts', out: 'preload/index' }
-    ],
-    external: [
-      'electron',
-      'sharp',
-      'fs-events'
-    ],
-    platform: 'node',
-    sourcemap: !!w,
-    outdir: 'build/app',
-    outbase: 'src/app',
-    plugins: [
-      log('app'),
-      copy([{
-        in: 'src/app/assets',
-        out: 'build/app/assets'
-      }])
-    ]
-  }, { watch: w }),
-  // Renderer
-  esbuild({
-    ...common,
-    entryPoints: [
-      'src/renderer/windows/app/index.tsx',
-      { in: 'src/renderer/windows/app/index.scss', out: 'base' }
-    ],
-    outdir: 'build/windows/app/renderer',
-    outbase: 'src/renderer/windows',
-    sourcemap: !!w,
-    metafile: true,
-    plugins: [
-      log('renderer'),
-      clean(['build/renderer']),
-      sass({
-        style: dev ?
-          'expanded' :
-          'compressed',
-        depedencies: [
-          'src/renderer/windows/app/scss/core'
-        ],
-        ignore: /\.ttf$/
-      }),
-      copy([{
-        in: 'src/renderer/windows/app/index.html',
-        out: 'build/app/renderer/index.html'
-      }, {
-        in: 'src/renderer/windows/app/assets/fonts',
-        out: 'build/app/renderer/fonts'
-      }, {
-        in: 'src/renderer/windows/app/assets/icons',
-        out: 'build/app/renderer/icons'
-      }])]
-  }, { watch: w })
+  esbuild(app(options), { watch: options.w }),
+  esbuild(renderer(options), { watch: options.w })
 ])
   .then(() => {
-    if (!w) return process.exit();
+    if (!options.w) return process.exit();
     return null;
   });

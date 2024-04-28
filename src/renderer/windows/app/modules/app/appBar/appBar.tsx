@@ -22,12 +22,12 @@ const AppBar: Component<AppBarProps> = () => {
         <header class='AppBar'>
           <img
             class='light'
-            src="icons/icon_dark.png"
+            src="../icons/icon_dark.png"
             alt='Doombox app icon'
           />
           <img
             class='dark'
-            src="icons/icon_light.png"
+            src="../icons/icon_light.png"
             alt='Doombox app icon'
           />
           <span class="title nowrap">{title}</span>

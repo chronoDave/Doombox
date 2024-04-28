@@ -12,7 +12,7 @@ export type HomeProps = {
 };
 
 export default (props: HomeProps) => createWindow({
-  file: path.resolve(__dirname, 'renderer/index.html'),
+  file: path.resolve(__dirname, 'renderer/app/index.html'),
   preload: {
     url: path.resolve(__dirname, 'preload/index.js'),
     data: { thumbs: props.path.thumbs }
