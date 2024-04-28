@@ -52,11 +52,11 @@ return Promise.all([
   esbuild({
     ...common,
     entryPoints: [
-      'src/renderer/app/index.tsx',
-      { in: 'src/renderer/app/index.scss', out: 'base' }
+      'src/renderer/windows/app/index.tsx',
+      { in: 'src/renderer/windows/app/index.scss', out: 'base' }
     ],
-    outdir: 'build/app/renderer',
-    outbase: 'src/renderer',
+    outdir: 'build/windows/app/renderer',
+    outbase: 'src/renderer/windows',
     sourcemap: !!w,
     metafile: true,
     plugins: [
@@ -67,18 +67,18 @@ return Promise.all([
           'expanded' :
           'compressed',
         depedencies: [
-          'src/renderer/app/scss/core'
+          'src/renderer/windows/app/scss/core'
         ],
         ignore: /\.ttf$/
       }),
       copy([{
-        in: 'src/renderer/app/index.html',
+        in: 'src/renderer/windows/app/index.html',
         out: 'build/app/renderer/index.html'
       }, {
-        in: 'src/renderer/app/assets/fonts',
+        in: 'src/renderer/windows/app/assets/fonts',
         out: 'build/app/renderer/fonts'
       }, {
-        in: 'src/renderer/app/assets/icons',
+        in: 'src/renderer/windows/app/assets/icons',
         out: 'build/app/renderer/icons'
       }])]
   }, { watch: w })

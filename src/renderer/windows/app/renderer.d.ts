@@ -1,4 +1,4 @@
-import type { IpcApi } from '../../types/ipc';
+import type { IpcApi } from '@doombox/types/ipc';
 
 declare global {
   interface Window {
