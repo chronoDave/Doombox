@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import VirtualList from '@doombox/components/virtualList/virtualList';
 
-import { playAlbum } from '../../../actions/queue.actions';
+import { addAlbumToQueue, playAlbum } from '../../../actions/queue.actions';
 
 import subscribe from './searchAlbum.state';
 
@@ -21,11 +21,17 @@ const SearchAlbum: Component<SearchAlbumProps> = () => {
       return (
         <VirtualList
           data={albums}
-          onclick={playAlbum}
+          onclick={(id, event) => {
+            if (event.shiftKey) {
+              addAlbumToQueue(id);
+            } else {
+              playAlbum(id);
+            }
+          }}
           cell={{
             id: album => album._id,
             height: () => 48,
-            render: album => (
+            render: ({ data: album }) => (
               <button
                 class='SearchAlbum button'
                 type='button'

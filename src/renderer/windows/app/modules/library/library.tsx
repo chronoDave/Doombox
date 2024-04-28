@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import VirtualGrid from '@doombox/components/virtualGrid/virtualGrid';
 
-import { playAlbum, playLabel } from '../../actions/queue.actions';
+import { addAlbumToQueue, playAlbum, playLabel } from '../../actions/queue.actions';
 import useMediaQuery from '../../hooks/useMediaQuery';
 
 import subscribe from './library.state';
@@ -28,8 +28,14 @@ const Library: Component<LibraryProps> = () => {
       return (
         <VirtualGrid
           data={state.data}
-          onclick={data => {
-            if (data.id && data.action === Action.PlayAlbum) playAlbum(data.id);
+          onclick={(data, event) => {
+            if (data.id && data.action === Action.PlayAlbum) {
+              if (event.shiftKey) {
+                addAlbumToQueue(data.id);
+              } else {
+                playAlbum(data.id);
+              }
+            }
             if (data.id && data.action === Action.PlayLabel) playLabel(data.id);
           }}
           cell={{

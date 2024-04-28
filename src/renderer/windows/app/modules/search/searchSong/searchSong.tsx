@@ -5,6 +5,7 @@ import * as forgo from 'forgo';
 import VirtualList from '@doombox/components/virtualList/virtualList';
 
 import { play } from '../../../actions/player.actions';
+import { addToQueue } from '../../../actions/queue.actions';
 
 import subscribe from './searchSong.state';
 
@@ -21,11 +22,17 @@ const SearchSong: Component<SearchSongProps> = () => {
       return (
         <VirtualList
           data={songs}
-          onclick={play}
+          onclick={(id, event) => {
+            if (event.shiftKey) {
+              addToQueue([id]);
+            } else {
+              play(id);
+            }
+          }}
           cell={{
             id: song => song._id,
             height: () => 52,
-            render: song => (
+            render: ({ data: song }) => (
               <button class='SearchSong button' type='button'>
                 <img
                   src={song.image!}

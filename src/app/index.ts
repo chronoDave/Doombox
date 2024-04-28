@@ -30,7 +30,6 @@ import Storage from './lib/storage/storage';
 import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
 import createWindowApp from './windows/app/app';
-import createWindowSettings from './windows/settings/settings';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -82,17 +81,6 @@ const run = async () => {
       y: storage.app.get().window.y
     }
   });
-  // const windowSettings = createWindowSettings({
-  //   backgroundColor: '#000',
-  //   size: {
-  //     width: storage.app.get().window.width,
-  //     height: storage.app.get().window.height
-  //   },
-  //   position: {
-  //     x: storage.app.get().window.x,
-  //     y: storage.app.get().window.y
-  //   }
-  // });
 
   const router = {
     library: ipcRouter(createLibraryController({

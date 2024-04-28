@@ -15,14 +15,24 @@ export const addToQueue = (ids: string[]) => {
     draft.queue.songs.push(...ids);
   }), 'queue.add');
 
-  if (hasAutoplay(store.get())) play(ids[0]);
+  if (
+    !store.get().player.current.id &&
+    hasAutoplay(store.get())
+  ) play(ids[0]);
 };
 
 export const addLabelToQueue = (id: string) => {
   const label = store.get().entities.label.get(id);
   if (!label) return;
 
-  addToQueue(populateSongs(store.get())(label.songs).sort(sortSongs).map(song => song._id));
+  addToQueue(label.songs);
+};
+
+export const addAlbumToQueue = (id: string) => {
+  const album = store.get().entities.album.get(id);
+  if (!album) return;
+
+  addToQueue(album.songs);
 };
 
 export const setQueue = (ids: string[], title?: string) => {

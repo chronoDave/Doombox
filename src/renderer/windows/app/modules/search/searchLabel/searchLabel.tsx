@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 import VirtualList from '@doombox/components/virtualList/virtualList';
 import Time from '@doombox/lib/time/time';
 
-import { playLabel } from '../../../actions/queue.actions';
+import { addLabelToQueue, playLabel } from '../../../actions/queue.actions';
 
 import subscribe from './searchLabel.state';
 
@@ -22,11 +22,17 @@ const SearchLabel: Component<SearchLabelProps> = () => {
       return (
         <VirtualList
           data={labels}
-          onclick={playLabel}
+          onclick={(id, event) => {
+            if (event.shiftKey) {
+              addLabelToQueue(id);
+            } else {
+              playLabel(id);
+            }
+          }}
           cell={{
             id: label => label._id,
             height: () => 48,
-            render: label => (
+            render: ({ data: label }) => (
               <button
                 class='SearchLabel button'
                 type='button'

@@ -9,7 +9,13 @@ import './virtualList.scss';
 
 export type VirtualListProps<T> = {
   data: T[]
-  onclick?: (id: string) => void
+  onclick?: (
+    id: string,
+    event: (
+      forgo.JSX.TargetedKeyboardEvent<HTMLDivElement> |
+      forgo.JSX.TargetedMouseEvent<HTMLDivElement>
+    )
+  ) => void
   scrollTo?: number
   cell: {
     id: (data: T) => string
@@ -32,12 +38,18 @@ const VirtualList = <T extends any>(
   let scrolled = 0;
   const component = new forgo.Component<VirtualListProps<T>>({
     render(props) {
-      const handleClick = (target: HTMLElement | null) => {
+      const handleClick = (
+        target: HTMLElement | null,
+        event: (
+          forgo.JSX.TargetedKeyboardEvent<HTMLDivElement> |
+          forgo.JSX.TargetedMouseEvent<HTMLDivElement>
+        )
+      ) => {
         const item = target?.classList.contains('VirtualItem') ?
           target :
           target?.closest<HTMLElement>('.VirtualItem');
 
-        if (item) props.onclick?.(item.dataset.id!);
+        if (item) props.onclick?.(item.dataset.id!, event);
       };
 
       const container = {
@@ -64,9 +76,9 @@ const VirtualList = <T extends any>(
         <div
           class='VirtualList'
           ref={ref}
-          onclick={event => handleClick(event.target as HTMLElement | null)}
+          onclick={event => handleClick(event.target as HTMLElement | null, event)}
           onkeydown={event => {
-            if (event.key === 'Enter' && event.target) handleClick(event.target as HTMLElement);
+            if (event.key === 'Enter' && event.target) handleClick(event.target as HTMLElement, event);
           }}
         >
           <ol style={{ height: `${list.height}px` }}>
