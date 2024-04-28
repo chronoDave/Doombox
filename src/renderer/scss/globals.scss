@@ -12,6 +12,18 @@
   border-width: 0;
 }
 
+.light-only {
+  @media (prefers-color-scheme: dark) {
+    display: none;
+  }
+}
+
+.dark-only {
+  @media (prefers-color-scheme: light) {
+    display: none;
+  }
+}
+
 .nowrap {
   min-width: 0;
   overflow: hidden;

@@ -1,7 +1,6 @@
 @use 'mixins';
-@use 'typography';
 
-.AppBar {
+body > header {
   display: flex;
   align-items: center;
   gap: 0.125em;
@@ -11,18 +10,6 @@
   > img {
     -webkit-app-region: drag;
     flex-shrink: 0;
-
-    @media (prefers-color-scheme: dark) {
-      &.light {
-        display: none
-      }
-    }
-
-    @media (prefers-color-scheme: light) {
-      &.dark {
-        display: none
-      }
-    }
   }
 
   > .title {

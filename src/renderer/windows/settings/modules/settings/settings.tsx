@@ -2,6 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Window from '@doombox/components/window/window';
+
 import Navigation from './navigation/navigation';
 import Router from './router/router';
 
@@ -13,10 +15,17 @@ const Settings: Component<SettingsProps> = () => {
   const component = new forgo.Component<SettingsProps>({
     render() {
       return (
-        <main class='Settings'>
-          <Navigation />
-          <Router />
-        </main>
+        <Window
+          title='Settings'
+          onclose={console.log}
+          onminimize={console.log}
+          onmaximize={console.log}
+        >
+          <main class='Settings'>
+            <Navigation />
+            <Router />
+          </main>
+        </Window>
       );
     }
   });

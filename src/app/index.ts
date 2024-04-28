@@ -81,6 +81,7 @@ const run = async () => {
       y: storage.app.get().window.y
     }
   });
+
   const router = {
     library: ipcRouter(createLibraryController({
       library,
