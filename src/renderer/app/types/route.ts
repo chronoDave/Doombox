@@ -1,8 +1,7 @@
 export enum App {
   Load = 'load',
   Scan = 'scan',
-  Home = 'home',
-  Settings = 'settings'
+  Home = 'home'
 }
 
 export enum Home {
@@ -15,9 +14,4 @@ export enum Search {
   Label = 'label',
   Album = 'album',
   Song = 'song'
-}
-
-export enum Settings {
-  Appearance = 'appearance',
-  Library = 'library'
 }

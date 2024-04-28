@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import { search, shuffleLibrary } from '../../../actions/library.actions';
-import { setRouteApp, setRouteHome } from '../../../actions/route.actions';
+import { setRouteHome } from '../../../actions/route.actions';
 import Icon from '../../../components/icon/icon';
 import InputSearch from '../../../components/inputSearch/inputSearch';
 import cx from '../../../lib/css/cx';
@@ -44,14 +44,6 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
           <InputSearch onsubmit={search} />
           <button class='button' type='button' onclick={shuffleLibrary}>
             <Icon id='shuffle-variant' />
-          </button>
-          <button
-            type='button'
-            aria-label='settings'
-            onclick={() => setRouteApp(Route.App.Settings)}
-            class='button'
-          >
-            <Icon id='cog' />
           </button>
         </nav>
       );
