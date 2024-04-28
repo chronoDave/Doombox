@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../../../components/icon/icon';
+import Icon from '@doombox/components/icon/icon';
 
 import subscribe from './appBar.state';
 

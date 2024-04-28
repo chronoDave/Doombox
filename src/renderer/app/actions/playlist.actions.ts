@@ -1,4 +1,4 @@
-import type { Playlist } from '../../../types/playlist';
+import type { Playlist } from '@doombox/types/playlist';
 
 import produce from 'immer';
 

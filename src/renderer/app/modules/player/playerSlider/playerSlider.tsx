@@ -2,8 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Time from '../../../../../lib/time/time';
-import Slider from '../../../../components/slider/slider';
+import Slider from '@doombox/components/slider/slider';
+import Time from '@doombox/lib/time/time';
+
 import { seek } from '../../../actions/player.actions';
 
 import subscribe from './playerSlider.state';

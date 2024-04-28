@@ -1,7 +1,8 @@
 import produce from 'immer';
 
-import difference from '../../../../lib/list/difference';
-import unique from '../../../../lib/list/unique';
+import difference from '@doombox/lib/list/difference';
+import unique from '@doombox/lib/list/unique';
+
 import store from '../store';
 
 const set = (folders: string[], label: string) => {

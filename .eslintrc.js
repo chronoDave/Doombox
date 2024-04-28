@@ -1,3 +1,7 @@
+const fs = require('fs');
+
+const tsconfig = JSON.parse(fs.readFileSync('./tsconfig.json'));
+
 module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: [
@@ -19,6 +23,12 @@ module.exports = {
     'import/resolver': {
       node: {
         extensions: ['.js', '.ts', '.tsx']
+      },
+      alias: {
+        map: Object.entries(tsconfig.compilerOptions.paths)
+          .filter(([k]) => k[0] === '@')
+          .map(([k, v]) => [k.slice(0, -2), v[0].slice(0, -2)]),
+        extensions: ['.ts', '.tsx']
       }
     },
     'import/core-modules': [
@@ -142,28 +152,15 @@ module.exports = {
     }],
     // Import
     'import/no-restricted-paths': ['error', {
-      zones: [
-        ...[
-          'src/renderer/components',
-          'src/renderer/views',
-          'src/renderer/hooks',
-          'src/renderer/lib',
-          'src/renderer/utils'
-        ].map(target => ({
-          target,
-          from: 'src/renderer/store',
-          message: 'Should be stateless'
-        })),
-        {
-          target: 'src/renderer',
-          from: 'src/app',
-          message: 'Renderer should not directly import from app'
-        }, {
-          target: 'src/app',
-          from: 'src/renderer',
-          message: 'App should not directly import from renderer'
-        }
-      ]
+      zones: [{
+        target: 'src/renderer',
+        from: 'src/app',
+        message: 'Renderer should not directly import from app'
+      }, {
+        target: 'src/app',
+        from: 'src/renderer',
+        message: 'App should not directly import from renderer'
+      }]
     }],
     'import/no-self-import': 'error',
     'import/no-cycle': 'error',

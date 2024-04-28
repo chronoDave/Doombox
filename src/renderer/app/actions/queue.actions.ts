@@ -1,6 +1,7 @@
 import produce from 'immer';
 
-import shuffle from '../../../lib/list/shuffle';
+import shuffle from '@doombox/lib/list/shuffle';
+
 import sortSongs from '../lib/sort/sortSongs';
 import { hasAutoplay, populateSongs } from '../selectors';
 import store from '../store';

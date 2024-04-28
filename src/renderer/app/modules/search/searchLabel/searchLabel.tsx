@@ -2,8 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Time from '../../../../../lib/time/time';
-import VirtualList from '../../../../components/virtualList/virtualList';
+import VirtualList from '@doombox/components/virtualList/virtualList';
+import Time from '@doombox/lib/time/time';
+
 import { playLabel } from '../../../actions/queue.actions';
 
 import subscribe from './searchLabel.state';

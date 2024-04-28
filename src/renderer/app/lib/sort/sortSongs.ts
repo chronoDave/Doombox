@@ -1,4 +1,4 @@
-import type { Song } from '../../../../types/library';
+import type { Song } from '@doombox/types/library';
 
 export default (a: Song, b: Song) => {
   if (!a.label || !b.label) return 0;

@@ -1,5 +1,5 @@
 import type { State } from './types/state';
-import type { Album, Label, Song } from '../../types/library';
+import type { Album, Label, Song } from '@doombox/types/library';
 
 import { AudioStatus } from './lib/audio/audio';
 

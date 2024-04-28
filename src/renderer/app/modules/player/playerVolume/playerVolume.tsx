@@ -1,10 +1,11 @@
-import type { IconProps } from '../../../../components/icon/icon';
+import type { IconProps } from '@doombox/components/icon/icon';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Icon from '../../../../components/icon/icon';
-import debounce from '../../../../lib/fn/debounce';
+import Icon from '@doombox/components/icon/icon';
+import debounce from '@doombox/renderer/fn/debounce';
+
 import { mute, setVolume } from '../../../actions/player.actions';
 
 import subscribe from './playerVolume.state';

@@ -1,10 +1,11 @@
-import type { ThemeShape } from '../../../../types/shapes/theme.shape';
+import type { ThemeShape } from '@doombox/types/shapes/theme.shape';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Label from '../../../components/label/label';
-import Select from '../../../components/select/select';
+import Label from '@doombox/components/label/label';
+import Select from '@doombox/components/select/select';
+
 import { set } from '../../state/actions/theme';
 
 import subscribe from './appearance.state';

@@ -1,4 +1,4 @@
-import type { Album } from '../../../../types/library';
+import type { Album } from '@doombox/types/library';
 
 export default (a: Album, b: Album) => {
   if (!a.label || !b.label) return 0;

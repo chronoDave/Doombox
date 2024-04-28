@@ -1,4 +1,4 @@
-import type { IpcReceiveController, IpcPayloadReceive } from '../../../types/ipc';
+import type { IpcReceiveController, IpcPayloadReceive } from '@doombox/types/ipc';
 import type { Component } from 'forgo';
 
 const useIpc = <T extends keyof IpcReceiveController>(

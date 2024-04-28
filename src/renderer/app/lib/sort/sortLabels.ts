@@ -1,4 +1,4 @@
-import type { Label } from '../../../../types/library';
+import type { Label } from '@doombox/types/library';
 
 export default (a: Label, b: Label) => {
   if (!a.label || !b.label) return 0;

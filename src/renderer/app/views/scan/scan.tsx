@@ -2,11 +2,12 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Time from '../../../../lib/time/time';
-import { IpcRoute } from '../../../../types/ipc';
-import Loader from '../../../components/loader/loader';
-import Progress from '../../../components/progress/progress';
-import createMediaQuery from '../../../lib/css/mediaQuery';
+import Loader from '@doombox/components/loader/loader';
+import Progress from '@doombox/components/progress/progress';
+import Time from '@doombox/lib/time/time';
+import createMediaQuery from '@doombox/renderer/css/mediaQuery';
+import { IpcRoute } from '@doombox/types/ipc';
+
 import { useInterval } from '../../hooks/useInterval';
 import useIpc from '../../hooks/useIpc';
 import useMediaQuery from '../../hooks/useMediaQuery';

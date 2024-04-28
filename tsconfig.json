@@ -22,7 +22,11 @@
 
     "outDir": "build",
     "paths": {
-      "strtok3/core": ["./node_modules/strtok3/lib/core"]
+      "strtok3/core": ["./node_modules/strtok3/lib/core"],
+      "@doombox/lib/*": ["./src/lib/*"],
+      "@doombox/types/*": ["./src/types/*"],
+      "@doombox/components/*": ["./src/renderer/components/*"],
+      "@doombox/renderer/*": ["./src/renderer/lib/*"]
     }
   },
   "include": [
@@ -32,5 +36,5 @@
     ".eslintrc.js",
     ".electron.config.js",
     "webpack.config.js"
-  ],
+  ]
 }

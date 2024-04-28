@@ -1,5 +1,5 @@
-import type { ThemeShape } from '../../../types/shapes/theme.shape';
-import type { UserShape } from '../../../types/shapes/user.shape';
+import type { ThemeShape } from '@doombox/types/shapes/theme.shape';
+import type { UserShape } from '@doombox/types/shapes/user.shape';
 
 export enum Route {
   Appearance = 'appearance',

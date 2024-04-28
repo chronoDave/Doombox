@@ -2,8 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Loader from '../../../components/loader/loader';
-import createMediaQuery from '../../../lib/css/mediaQuery';
+import Loader from '@doombox/components/loader/loader';
+import createMediaQuery from '@doombox/renderer/css/mediaQuery';
+
 import useMediaQuery from '../../hooks/useMediaQuery';
 
 import './load.scss';

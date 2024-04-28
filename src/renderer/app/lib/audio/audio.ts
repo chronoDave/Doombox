@@ -1,6 +1,6 @@
 import { Howl } from 'howler';
 
-import EventEmitter from '../../../../lib/eventEmitter/eventEmitter';
+import EventEmitter from '@doombox/lib/eventEmitter/eventEmitter';
 
 export enum AudioStatus {
   Playing = 'playing',

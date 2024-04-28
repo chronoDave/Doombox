@@ -1,9 +1,9 @@
 import type { State } from './types/state';
 
-import cacheShape from '../../types/shapes/cache.shape';
-import themeShape from '../../types/shapes/theme.shape';
-import userShape from '../../types/shapes/user.shape';
-import Store from '../lib/store/store';
+import Store from '@doombox/renderer/store/store';
+import cacheShape from '@doombox/types/shapes/cache.shape';
+import themeShape from '@doombox/types/shapes/theme.shape';
+import userShape from '@doombox/types/shapes/user.shape';
 
 import { AudioStatus } from './lib/audio/audio';
 import * as Route from './types/route';

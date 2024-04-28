@@ -1,6 +1,7 @@
-import type { Song } from '../../../../types/library';
+import type { Song } from '@doombox/types/library';
 
-import createSelector from '../../../lib/store/selector';
+import createSelector from '@doombox/renderer/store/selector';
+
 import store from '../../store';
 
 export default createSelector(store, 'queue')(state => ({

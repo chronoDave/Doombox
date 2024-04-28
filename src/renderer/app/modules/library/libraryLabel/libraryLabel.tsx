@@ -1,10 +1,10 @@
-import type { Label } from '../../../../../types/library';
+import type { Label } from '@doombox/types/library';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Time from '../../../../../lib/time/time';
-import cx from '../../../../lib/css/cx';
+import Time from '@doombox/lib/time/time';
+import cx from '@doombox/renderer/css/cx';
 
 import './libraryLabel.scss';
 

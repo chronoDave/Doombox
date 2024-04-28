@@ -1,11 +1,12 @@
-import type { Library } from '../../../types/library';
 import type { State } from '../types/state';
+import type { Library } from '@doombox/types/library';
 
 import produce from 'immer';
 
-import difference from '../../../lib/list/difference';
-import shuffle from '../../../lib/list/shuffle';
-import unique from '../../../lib/list/unique';
+import difference from '@doombox/lib/list/difference';
+import shuffle from '@doombox/lib/list/shuffle';
+import unique from '@doombox/lib/list/unique';
+
 import sortAlbums from '../lib/sort/sortAlbums';
 import sortLabels from '../lib/sort/sortLabels';
 import sortSongs from '../lib/sort/sortSongs';

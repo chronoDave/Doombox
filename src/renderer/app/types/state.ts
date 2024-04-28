@@ -1,9 +1,9 @@
 import type * as Route from './route';
-import type { Album, Label, Song } from '../../../types/library';
-import type { Playlist } from '../../../types/playlist';
-import type { ThemeShape } from '../../../types/shapes/theme.shape';
-import type { UserShape } from '../../../types/shapes/user.shape';
 import type { AudioStatus } from '../lib/audio/audio';
+import type { Album, Label, Song } from '@doombox/types/library';
+import type { Playlist } from '@doombox/types/playlist';
+import type { ThemeShape } from '@doombox/types/shapes/theme.shape';
+import type { UserShape } from '@doombox/types/shapes/user.shape';
 
 export type State = {
   route: {
