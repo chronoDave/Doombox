@@ -1,6 +1,6 @@
 import type { Song } from '../../../../types/library';
 
-import createSelector from '../../lib/store/selector';
+import createSelector from '../../../lib/store/selector';
 import store from '../../store';
 
 export default createSelector(store, 'queue')(state => ({

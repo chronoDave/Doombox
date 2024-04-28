@@ -2,9 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Icon from '../../../../components/icon/icon';
+import cx from '../../../../lib/css/cx';
 import { setRouteSearch } from '../../../actions/route.actions';
-import Icon from '../../../components/icon/icon';
-import cx from '../../../lib/css/cx';
 import * as Route from '../../../types/route';
 
 import subscribe from './searchNav.state';

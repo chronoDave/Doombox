@@ -1,4 +1,4 @@
-import createSelector from '../../lib/store/selector';
+import createSelector from '../../../lib/store/selector';
 import { populateAlbums } from '../../selectors';
 import store from '../../store';
 

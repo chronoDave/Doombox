@@ -2,9 +2,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Loader from '../../components/loader/loader';
+import Loader from '../../../components/loader/loader';
+import createMediaQuery from '../../../lib/css/mediaQuery';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import createMediaQuery from '../../lib/css/mediaQuery';
 
 import './load.scss';
 

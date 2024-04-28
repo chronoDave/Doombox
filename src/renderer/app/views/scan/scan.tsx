@@ -4,12 +4,12 @@ import * as forgo from 'forgo';
 
 import Time from '../../../../lib/time/time';
 import { IpcRoute } from '../../../../types/ipc';
-import Loader from '../../components/loader/loader';
-import Progress from '../../components/progress/progress';
+import Loader from '../../../components/loader/loader';
+import Progress from '../../../components/progress/progress';
+import createMediaQuery from '../../../lib/css/mediaQuery';
 import { useInterval } from '../../hooks/useInterval';
 import useIpc from '../../hooks/useIpc';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import createMediaQuery from '../../lib/css/mediaQuery';
 
 import './scan.scss';
 

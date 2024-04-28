@@ -3,8 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Time from '../../../../../lib/time/time';
+import Slider from '../../../../components/slider/slider';
 import { seek } from '../../../actions/player.actions';
-import Slider from '../../../components/slider/slider';
 
 import subscribe from './playerSlider.state';
 

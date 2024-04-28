@@ -2,11 +2,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Icon from '../../../../components/icon/icon';
+import InputSearch from '../../../../components/inputSearch/inputSearch';
+import cx from '../../../../lib/css/cx';
 import { search, shuffleLibrary } from '../../../actions/library.actions';
 import { setRouteHome } from '../../../actions/route.actions';
-import Icon from '../../../components/icon/icon';
-import InputSearch from '../../../components/inputSearch/inputSearch';
-import cx from '../../../lib/css/cx';
 import * as Route from '../../../types/route';
 
 import subscribe from './homeToolbar.state';

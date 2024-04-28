@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import VirtualGrid from '../../../components/virtualGrid/virtualGrid';
 import { playAlbum, playLabel } from '../../actions/queue.actions';
-import VirtualGrid from '../../components/virtualGrid/virtualGrid';
 import useMediaQuery from '../../hooks/useMediaQuery';
 
 import subscribe from './library.state';

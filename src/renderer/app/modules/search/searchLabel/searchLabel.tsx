@@ -3,8 +3,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Time from '../../../../../lib/time/time';
+import VirtualList from '../../../../components/virtualList/virtualList';
 import { playLabel } from '../../../actions/queue.actions';
-import VirtualList from '../../../components/virtualList/virtualList';
 
 import subscribe from './searchLabel.state';
 

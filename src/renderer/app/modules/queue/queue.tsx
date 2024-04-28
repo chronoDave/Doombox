@@ -4,9 +4,9 @@ import * as forgo from 'forgo';
 
 import { sumSelect } from '../../../../lib/math/sum';
 import Time from '../../../../lib/time/time';
+import VirtualList from '../../../components/virtualList/virtualList';
+import cx from '../../../lib/css/cx';
 import { setQueueIndex } from '../../actions/queue.actions';
-import VirtualList from '../../components/virtualList/virtualList';
-import cx from '../../lib/css/cx';
 
 import subscribe from './queue.state';
 

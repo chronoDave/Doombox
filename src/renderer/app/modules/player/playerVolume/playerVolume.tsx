@@ -1,11 +1,11 @@
-import type { IconProps } from '../../../components/icon/icon';
+import type { IconProps } from '../../../../components/icon/icon';
 import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import Icon from '../../../../components/icon/icon';
+import debounce from '../../../../lib/fn/debounce';
 import { mute, setVolume } from '../../../actions/player.actions';
-import Icon from '../../../components/icon/icon';
-import debounce from '../../../lib/fn/debounce';
 
 import subscribe from './playerVolume.state';
 

@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
+import VirtualList from '../../../../components/virtualList/virtualList';
 import { playAlbum } from '../../../actions/queue.actions';
-import VirtualList from '../../../components/virtualList/virtualList';
 
 import subscribe from './searchAlbum.state';
 
