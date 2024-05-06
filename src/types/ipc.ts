@@ -18,7 +18,8 @@ export enum IpcChannel {
   Receive = 'on',
   Playlist = 'playlist',
   Player = 'player',
-  Search = 'search'
+  Search = 'search',
+  Main = 'main'
 }
 
 export type IpcChannelReceive<T extends IpcRoute> = `${IpcChannel.Receive}.${T}`;
@@ -44,7 +45,8 @@ export enum IpcRoute {
   Pause = 'pause',
   Next = 'next',
   Previous = 'previous',
-  Shuffle = 'shuffle'
+  Shuffle = 'shuffle',
+  Settings = 'settings'
 }
 
 /** Events */
@@ -88,6 +90,9 @@ export type IpcSendController = {
   [IpcChannel.Player]: {
     [IpcRoute.Play]: () => void
     [IpcRoute.Pause]: () => void
+  }
+  [IpcChannel.Main]: {
+    [IpcRoute.Settings]: () => void
   }
 };
 

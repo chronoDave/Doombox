@@ -16,6 +16,7 @@ import { PATH } from './const';
 import createAppController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
+import createMainController from './controllers/main.controller';
 import createPlayerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
 import createSearchController from './controllers/search.controller';
@@ -30,6 +31,7 @@ import Storage from './lib/storage/storage';
 import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
 import createWindowApp from './windows/app/app';
+import createWindowSettings from './windows/settings/settings';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -101,6 +103,17 @@ const run = async () => {
       storage: storage.cache
     })),
     app: ipcRouter(createAppController()),
+    main: ipcRouter(createMainController({ settings: createWindowSettings({
+      backgroundColor: '#000',
+      size: {
+        width: storage.app.get().window.width,
+        height: storage.app.get().window.height
+      },
+      position: {
+        x: storage.app.get().window.x,
+        y: storage.app.get().window.y
+      }
+    }) })),
     player: ipcRouter(createPlayerController({
       window: windowApp
     })),
@@ -124,6 +137,10 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Search, router.search);
   ipcMain.on(IpcChannel.Player, router.player);
   ipcMain.on(IpcChannel.Window, router.window);
+  ipcMain.on(IpcChannel.App, router.app);
+  ipcMain.on(IpcChannel.Main, router.main);
+
+  windowApp.on('ready-to-show', windowApp.show);
 
   /** Launch */
   await app.whenReady();

@@ -42,7 +42,6 @@ export default (props: WindowProps) => {
     }
   });
 
-  window.on('ready-to-show', window.show);
   window.loadFile(typeof props.file === 'string' ? props.file : props.file.url);
 
   if (IS_DEV) {

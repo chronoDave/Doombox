@@ -47,6 +47,9 @@ const receive = <T extends keyof IpcReceiveController>(channel: T) =>
 
 const ipc: IpcApi = {
   dir: JSON.parse(process.argv.slice(-1)[0]),
+  main: {
+    settings: send(IpcChannel.Main, IpcRoute.Settings)
+  },
   search: {
     album: invoke(IpcChannel.Search, IpcRoute.Album)
   },
