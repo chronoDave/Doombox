@@ -17,9 +17,9 @@ const Settings: Component<SettingsProps> = () => {
       return (
         <Window
           title='Settings'
-          onclose={console.log}
-          onminimize={console.log}
-          onmaximize={console.log}
+          onclose={window.ipc.window.close}
+          onminimize={window.ipc.window.minimize}
+          onmaximize={window.ipc.window.maximize}
         >
           <main class='Settings'>
             <Navigation />

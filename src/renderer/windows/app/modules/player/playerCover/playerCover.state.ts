@@ -8,8 +8,8 @@ export default createSelector(store, 'playerCover')(state => {
   if (!current?._id) return Object.fromEntries(['xs', 'md', 'lg'].map(size => [size, '../icons/icon_light.png']));
 
   return ({
-    xs: new URL(`${current.image}/192.jpg`, `${window.ipc.dir.thumbs}/`).href,
-    md: new URL(`${current.image}/256.jpg`, `${window.ipc.dir.thumbs}/`).href,
-    lg: new URL(`${current.image}/384.jpg`, `${window.ipc.dir.thumbs}/`).href
+    xs: new URL(`${current.image}/192.jpg`, `${window.dir.thumbs}/`).href,
+    md: new URL(`${current.image}/256.jpg`, `${window.dir.thumbs}/`).href,
+    lg: new URL(`${current.image}/384.jpg`, `${window.dir.thumbs}/`).href
   });
 });

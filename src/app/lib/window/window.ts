@@ -96,16 +96,23 @@ export default class Window {
 
     this._window.on('resize', () => this._onresize());
     this._window.on('move', () => this._onmove());
+    this._window.on('closed', () => {
+
+    });
 
     ipcMain.on(
       IpcChannel.Window,
-      ipcRouter(props.logger)<IpcSendController[IpcChannel.Window]>(() => ({
-        minimize: () => this._window.minimize(),
-        maximize: () => this._window.isMaximized() ?
-          this._window.unmaximize() :
-          this._window.maximize(),
-        close: () => this._window.close()
-      }))
+      (event, ...args) => {
+        if (event.sender.id !== this._window.id) return;
+
+        ipcRouter(props.logger)<IpcSendController[IpcChannel.Window]>(() => ({
+          minimize: () => this._window.minimize(),
+          maximize: () => this._window.isMaximized() ?
+            this._window.unmaximize() :
+            this._window.maximize(),
+          close: () => this._window.close()
+        }))(event, ...args);
+      }
     );
 
     if (IS_DEV) {
@@ -124,15 +131,13 @@ export default class Window {
   async show() {
     if (!this._ready) {
       return new Promise<void>(resolve => {
-        this._window.on('ready-to-show', () => {
+        this._window.once('ready-to-show', () => {
           this._window.show();
           resolve();
         });
       });
     }
 
-    return this._window.isVisible() ?
-      this._window.focus() :
-      this._window.show();
+    return this._window.show();
   }
 }
