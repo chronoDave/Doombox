@@ -5,7 +5,7 @@ import type { IpcMainInvokeEvent, WebContents } from 'electron';
 import isIpcEvent from '../../../lib/validation/isIpcEvent';
 
 export default (logger: Logger) =>
-  (createController: (sender: WebContents) => ({ [key in IpcRoute]?: Function })) =>
+  <T extends ({ [key in IpcRoute]?: Function })>(createController: (sender: WebContents) => T) =>
     (event: IpcMainInvokeEvent, ...args: unknown[]) => {
       if (!isIpcEvent(args[0])) {
         const err = new Error(`Invalid ipc event: ${JSON.stringify(args[0])}`);

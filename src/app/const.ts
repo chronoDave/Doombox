@@ -25,5 +25,6 @@ export const PATH = {
   ASSETS,
   LOGS,
   DICT,
-  THUMBS: path.resolve(APP_DATA, 'thumbs')
+  THUMBS: path.resolve(APP_DATA, 'thumbs'),
+  CACHE: path.resolve(APP_DATA, 'cache')
 } as const;

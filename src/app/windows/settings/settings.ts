@@ -1,19 +1,27 @@
-import type { WindowProps } from '../../lib/window/window';
+import type Logger from '../../lib/logger/logger';
 
 import path from 'path';
 
-import createWindow from '../../lib/window/window';
+import Window from '../../lib/window/window';
 
-export type SettingsProps = {
-  backgroundColor: string,
-  size: WindowProps['size'],
-  position: WindowProps['position'],
+export type SettingsWindowProps = {
+  logger: Logger
+  root: string
 };
 
-export default (props: SettingsProps) => createWindow({
-  file: path.resolve(__dirname, 'renderer/settings/index.html'),
-  preload: path.resolve(__dirname, 'preload/settings.js'),
-  backgroundColor: props.backgroundColor,
-  size: props.size,
-  position: props.position
-});
+export default class SettingsWindow extends Window {
+  constructor(props: SettingsWindowProps) {
+    super({
+      logger: props.logger,
+      cache: {
+        root: props.root,
+        name: 'settings'
+      },
+      title: 'Settings - Doombox',
+      file: {
+        html: path.resolve(__dirname, 'renderer/settings/index.html'),
+        preload: path.resolve(__dirname, 'preload/settings.js')
+      }
+    });
+  }
+}

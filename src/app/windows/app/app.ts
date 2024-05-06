@@ -1,23 +1,82 @@
-import type { WindowProps } from '../../lib/window/window';
+import type Logger from '../../lib/logger/logger';
+import type { IpcSendController } from '@doombox/types/ipc';
 
+import { ipcMain, nativeImage } from 'electron';
 import path from 'path';
 
-import createWindow from '../../lib/window/window';
+import { IpcRoute, IpcChannel } from '@doombox/types/ipc';
 
-export type HomeProps = {
-  path: { thumbs: string },
-  backgroundColor: string,
-  size: WindowProps['size'],
-  position: WindowProps['position']
+import createIpcRouter from '../../lib/ipc/router';
+import createIpcSend from '../../lib/ipc/send';
+import Window from '../../lib/window/window';
+
+export type AppWindowProps = {
+  dir: {
+    cache: string
+    thumbs: string
+  }
+  logger: Logger
 };
 
-export default (props: HomeProps) => createWindow({
-  file: path.resolve(__dirname, 'renderer/app/index.html'),
-  preload: {
-    url: path.resolve(__dirname, 'preload/app.js'),
-    data: { thumbs: props.path.thumbs }
-  },
-  backgroundColor: props.backgroundColor,
-  size: props.size,
-  position: props.position
-});
+export default class AppWindow extends Window {
+  private _updateToolbar(props: { playing: boolean }) {
+    const ipcSend = createIpcSend(this._window.webContents);
+    const createIcon = (id: string) =>
+      nativeImage.createFromPath(path.resolve(__dirname, `assets/icons/${id}-white.png`));
+
+    this._window.setThumbarButtons([{
+      tooltip: 'Previous',
+      icon: createIcon('skip_previous'),
+      click: () => ipcSend(IpcRoute.Previous)
+    }, {
+      tooltip: 'Play',
+      flags: props.playing ? ['hidden'] : undefined,
+      icon: createIcon('play'),
+      click: () => ipcSend(IpcRoute.Play)
+    }, {
+      tooltip: 'Pause',
+      flags: !props.playing ? ['hidden'] : undefined,
+      icon: createIcon('pause'),
+      click: () => ipcSend(IpcRoute.Pause)
+    }, {
+      tooltip: 'Next',
+      icon: createIcon('skip_next'),
+      click: () => ipcSend(IpcRoute.Next)
+    }, {
+      tooltip: 'Shuffle',
+      icon: createIcon('shuffle'),
+      click: () => ipcSend(IpcRoute.Shuffle)
+    }]);
+  }
+
+  constructor(props: AppWindowProps) {
+    super({
+      logger: props.logger,
+      cache: {
+        root: props.dir.cache,
+        name: 'app'
+      },
+      title: 'Doombox',
+      file: {
+        html: path.resolve(__dirname, 'renderer/app/index.html'),
+        preload: path.resolve(__dirname, 'preload/app.js')
+      },
+      data: JSON.stringify({ dir: { thumbs: props.dir.thumbs } })
+    });
+
+    const ipcRouter = createIpcRouter(props.logger);
+
+    ipcMain.on(
+      IpcChannel.Player,
+      ipcRouter<IpcSendController[IpcChannel.Player]>(() => ({
+        play: () => this._updateToolbar({ playing: true }),
+        pause: () => this._updateToolbar({ playing: false })
+      }))
+    );
+  }
+
+  async show() {
+    await super.show();
+    this._updateToolbar({ playing: false });
+  }
+}

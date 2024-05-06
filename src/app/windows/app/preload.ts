@@ -46,9 +46,8 @@ const receive = <T extends keyof IpcReceiveController>(channel: T) =>
   };
 
 const ipc: IpcApi = {
-  dir: JSON.parse(process.argv.slice(-1)[0]),
-  main: {
-    settings: send(IpcChannel.Main, IpcRoute.Settings)
+  router: {
+    settings: send(IpcChannel.Router, IpcRoute.Settings)
   },
   search: {
     album: invoke(IpcChannel.Search, IpcRoute.Album)
@@ -103,3 +102,10 @@ const ipc: IpcApi = {
 };
 
 contextBridge.exposeInMainWorld('ipc', ipc);
+
+const raw = process.argv.slice(-1)[0];
+if (raw) {
+  Object.entries(JSON.parse(raw)).forEach(([key, value]) => {
+    contextBridge.exposeInMainWorld(key, value);
+  });
+}

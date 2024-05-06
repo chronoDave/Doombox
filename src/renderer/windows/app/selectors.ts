@@ -4,7 +4,7 @@ import type { Album, Label, Song } from '@doombox/types/library';
 import { AudioStatus } from './lib/audio/audio';
 
 export const imageSelector = (id: string, size: number) =>
-  new URL(`${id}/${size}.jpg`, `${window.ipc.dir.thumbs}/`).href;
+  new URL(`${id}/${size}.jpg`, `${window.dir.thumbs}/`).href;
 
 export const currentPlayerSelector = (state: State) => () =>
   state.entities.song.get(state.player.current.id ?? '');

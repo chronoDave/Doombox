@@ -46,7 +46,7 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
           <button class='button' type='button' onclick={shuffleLibrary}>
             <Icon id='shuffle-variant' />
           </button>
-          <button class='button' type='button' onclick={() => window.ipc.main.settings()} aria-label='Open settings'>
+          <button class='button' type='button' onclick={() => window.ipc.router.settings()} aria-label='Open settings'>
             <Icon id='cog' />
           </button>
         </nav>

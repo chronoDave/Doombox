@@ -7,7 +7,6 @@ import LeafDB from 'leaf-db';
 
 import { IS_DEV } from '../lib/const';
 import { IpcChannel } from '../types/ipc';
-import appShape from '../types/shapes/app.shape';
 import cacheShape from '../types/shapes/cache.shape';
 import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
@@ -16,13 +15,11 @@ import { PATH } from './const';
 import createAppController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
-import createMainController from './controllers/main.controller';
-import createPlayerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
+import createRouterController from './controllers/router.controller';
 import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
-import createWindowController from './controllers/window.controller';
 import createIpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
@@ -30,8 +27,8 @@ import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
 import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
-import createWindowApp from './windows/app/app';
-import createWindowSettings from './windows/settings/settings';
+import AppWindow from './windows/app/app';
+import SettingsWindow from './windows/settings/settings';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -40,6 +37,8 @@ if (IS_DEV) {
   fs.mkdirSync(PATH.ASSETS, { recursive: true });
   fs.mkdirSync(PATH.LOGS, { recursive: true });
 }
+
+fs.mkdirSync(PATH.CACHE, { recursive: true });
 
 const run = async () => {
   /** Initialize entities */
@@ -64,25 +63,17 @@ const run = async () => {
     db
   });
   const storage = {
-    app: new Storage({ name: 'app', shape: appShape, root: PATH.APP_DATA }),
     theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.USER_DATA }),
     user: new Storage({ name: 'user', shape: userShape, root: PATH.USER_DATA }),
     cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
   };
 
+  const window = {
+    app: new AppWindow({ dir: { cache: PATH.CACHE, thumbs: PATH.THUMBS }, logger }),
+    settings: new SettingsWindow({ root: PATH.CACHE, logger })
+  };
+
   const ipcRouter = createIpcRouter(logger);
-  const windowApp = createWindowApp({
-    path: { thumbs: PATH.THUMBS },
-    backgroundColor: '#000',
-    size: {
-      width: storage.app.get().window.width,
-      height: storage.app.get().window.height
-    },
-    position: {
-      x: storage.app.get().window.x,
-      y: storage.app.get().window.y
-    }
-  });
 
   const router = {
     library: ipcRouter(createLibraryController({
@@ -103,22 +94,8 @@ const run = async () => {
       storage: storage.cache
     })),
     app: ipcRouter(createAppController()),
-    main: ipcRouter(createMainController({ settings: createWindowSettings({
-      backgroundColor: '#000',
-      size: {
-        width: storage.app.get().window.width,
-        height: storage.app.get().window.height
-      },
-      position: {
-        x: storage.app.get().window.x,
-        y: storage.app.get().window.y
-      }
-    }) })),
-    player: ipcRouter(createPlayerController({
-      window: windowApp
-    })),
-    window: ipcRouter(createWindowController({
-      window: windowApp
+    router: ipcRouter(createRouterController({
+      settings: window.settings
     })),
     search: ipcRouter(createSearchController({
       db
@@ -135,15 +112,8 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Library, router.library);
   ipcMain.handle(IpcChannel.Playlist, router.playlist);
   ipcMain.handle(IpcChannel.Search, router.search);
-  ipcMain.on(IpcChannel.Player, router.player);
-  ipcMain.on(IpcChannel.Window, router.window);
   ipcMain.on(IpcChannel.App, router.app);
-  ipcMain.on(IpcChannel.Main, router.main);
-
-  windowApp.on('ready-to-show', windowApp.show);
-
-  /** Launch */
-  await app.whenReady();
+  ipcMain.on(IpcChannel.Router, router.router);
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
@@ -162,6 +132,10 @@ const run = async () => {
   app.on('quit', () => {
     Object.values(db).forEach(x => x.close());
   });
+
+  /** Launch */
+  await app.whenReady();
+  await window.app.show();
 };
 
 run();
