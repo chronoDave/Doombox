@@ -5,7 +5,7 @@
 @include meta.load-css('./theme/fonts.scss');
 @include meta.load-css('./theme/colours.scss');
 
-@include meta.load-css('./components/typography.scss');
+@include meta.load-css('./components/text.scss');
 @include meta.load-css('./components/button.scss');
 @include meta.load-css('./components/fieldset.scss');
 @include meta.load-css('./components/image.scss');

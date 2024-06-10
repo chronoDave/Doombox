@@ -1,61 +1,34 @@
-const fs = require('fs');
 const fsp = require('fs/promises');
 const path = require('path');
 const sass = require('sass');
-const { fileURLToPath, pathToFileURL } = require('url');
+const { fileURLToPath } = require('url');
 
-const getLastModified = async files => {
-  const stats = await Promise.all(files.map(file => fsp.stat(file)));
-  return stats.reduce((acc, cur) => Math.max(acc, cur.mtimeMs), 0);
+const getLastModified = async (file, depedencies = []) => {
+  const stats = await Promise.all([file, ...depedencies].map(x => fsp.stat(x)));
+
+  return stats.reduce((acc, cur) => acc + cur, 0);
 };
 
-const createRender = options => async (css, file) => {
-  const result = await sass.compileStringAsync(css, {
-    style: options.style,
-    loadPaths: options.depedencies.map(depedency => path.resolve(process.cwd(), depedency)),
-    importer: {
-      load: async url => ({
-        contents: await fsp.readFile(fileURLToPath(url), 'utf-8'),
-        syntax: url.pathname.endsWith('.scss') ? 'scss' : 'indented'
-      }),
-      canonicalize: url => {
-        const depedencies = [
-          path.parse(file).dir,
-          ...options.depedencies
-        ];
-
-        for (const depedency of depedencies) {
-          const dir = path.resolve(depedency, url);
-          const isValid = fs.existsSync(dir);
-
-          if (isValid) return pathToFileURL(dir);
-        }
-
-        return null;
-      }
-    }
-  });
-
-  return ({
-    css,
-    output: {
-      loader: 'css',
-      watchFiles: result.loadedUrls.map(fileURLToPath),
-      contents: result.css
-    },
-    depedencies: result.loadedUrls,
-    lastModified: await getLastModified(result.loadedUrls)
-  });
-};
+const compile = (file, depedencies = []) => sass.compile(file, {
+  loadPaths: depedencies.map(depedency => path.resolve(process.cwd(), depedency))
+});
 
 module.exports = options => ({
   name: 'sass',
   setup: build => {
     const cache = new Map();
-    const render = async (css, file) => {
-      const result = await createRender(options, cache)(css, file);
-      cache.set(file, result);
-      return result.output;
+
+    const render = (file, lastModified) => {
+      const { css, loadedUrls } = compile(file, options.depedencies);
+      const result = {
+        contents: css,
+        loader: 'css',
+        watchFiles: loadedUrls.map(fileURLToPath)
+      };
+
+      cache.set({ lastModified, result });
+
+      return result;
     };
 
     if (options.ignore) {
@@ -67,18 +40,21 @@ module.exports = options => ({
 
     build.onLoad({ filter: /\.scss$/ }, async args => {
       try {
-        const css = await fsp.readFile(args.path, 'utf-8');
         const cached = cache.get(args.path);
+        const lastModified = await getLastModified(args.path, options.depedencies);
 
-        if (!cached || cached.css !== css) return await render(css, args.path);
-
-        const lastModified = await getLastModified(cached.depedencies);
-        if (lastModified !== cached.lastModified) return await render(css, args.path);
-
-        return cached.output;
+        if (cached && cached.lastModified !== lastModified) return cached.result;
+        return render(args.path, lastModified);
       } catch (err) {
         cache.delete(args.path);
-        throw err;
+
+        return {
+          errors: [{
+            text: err.message,
+            location: null,
+            detail: err
+          }]
+        };
       }
     });
   }
