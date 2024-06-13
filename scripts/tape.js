@@ -8,7 +8,19 @@ const log = require('./esbuild/plugins/log');
 
 const outdir = path.resolve(__dirname, '../build/test');
 
+const common = {
+  outbase: 'src',
+  bundle: true,
+  outdir,
+  legalComments: 'none',
+  define: {
+    'process.env.NODE_ENV': '"development"',
+    'process.env.DOM': '"development"'
+  }
+};
+
 esbuild({
+  ...common,
   entryPoints: [
     ...glob.sync('../src/app/**/*.spec.{ts,tsx}', {
       cwd: __dirname,
@@ -19,21 +31,13 @@ esbuild({
       absolute: true
     })
   ],
-  bundle: true,
   external: [
     'tape',
     'electron',
     'sharp',
     'kuromoji'
   ],
-  define: {
-    'process.env.NODE_ENV': '"development"',
-    'process.env.DOM': '"development"'
-  },
-  legalComments: 'none',
   platform: 'node',
-  outdir,
-  outbase: 'src',
   plugins: [
     log('tape.app'),
     clean([
@@ -41,14 +45,12 @@ esbuild({
       path.resolve(outdir, 'utils')
     ])
   ]
-});
-
-esbuild({
+}, {
+  ...common,
   entryPoints: glob.sync('../src/renderer/**/*.spec.{ts,tsx}', {
     cwd: __dirname,
     absolute: true
   }),
-  bundle: true,
   external: [
     'tape',
     'jsdom'
@@ -61,12 +63,5 @@ esbuild({
   inject: [
     path.resolve(__dirname, '../test/shims/dom.js')
   ],
-  define: {
-    'process.env.NODE_ENV': '"development"',
-    'process.env.DOM': '"development"'
-  },
-  legalComments: 'none',
-  platform: 'browser',
-  outdir,
-  outbase: 'src'
+  platform: 'browser'
 });
