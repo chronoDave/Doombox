@@ -1,5 +1,3 @@
-import createSelector from '@doombox/renderer/store/selector';
-
 import store from '../../state/store';
 
-export default createSelector(store, 'appearance')(state => state.theme);
+export default store.select(state => state.theme);

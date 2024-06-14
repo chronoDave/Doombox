@@ -4,7 +4,7 @@ import produce from 'immer';
 
 import store from '../store';
 
-const dispatchPlaylists = (playlists: Playlist[]) => store.dispatch(produce(draft => {
+const dispatchPlaylists = (playlists: Playlist[]) => store.set(produce(draft => {
   draft.entities.playlist = new Map(playlists.map(playlist => [playlist._id, playlist]));
 }), 'playlist.dispatchPlaylists');
 
@@ -16,7 +16,7 @@ export const fetchPlaylists = async () => {
 export const createPlaylist = async (songs?: string[]) => {
   const playlist = await window.ipc.playlist.add(songs);
 
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.entities.playlist.set(playlist._id, playlist);
   }), 'playlist.createPlaylist');
 };
@@ -24,7 +24,7 @@ export const createPlaylist = async (songs?: string[]) => {
 export const updatePlaylist = async (playlist: Playlist) => {
   await window.ipc.playlist.update(playlist);
 
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.entities.playlist.set(playlist._id, playlist);
   }), 'playlist.updatePlaylist');
 };
@@ -32,7 +32,7 @@ export const updatePlaylist = async (playlist: Playlist) => {
 export const deletePlaylist = async (id: string) => {
   await window.ipc.playlist.remove(id);
 
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.entities.playlist.delete(id);
   }), 'playlist.deletePlaylist');
 };

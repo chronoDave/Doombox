@@ -1,8 +1,6 @@
-import createSelector from '@doombox/renderer/store/selector';
-
 import store from '../../../store';
 
-export default createSelector(store, 'playerMeta')(state => {
+export default store.select(state => {
   const { id } = state.player.current;
 
   if (!id) return null;

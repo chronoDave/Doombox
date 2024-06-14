@@ -11,7 +11,7 @@ export type PlayerCoverProps = {};
 const PlayerCover: Component<PlayerCoverProps> = () => {
   const component = new forgo.Component<PlayerCoverProps>({
     render() {
-      const src = subscribe(component);
+      const src = subscribe('PlayerCover', component);
 
       return (
         <picture class='PlayerCover'>

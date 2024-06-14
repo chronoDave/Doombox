@@ -18,7 +18,7 @@ export type PlayerControlsProps = {};
 const PlayerControls: Component<PlayerControlsProps> = () => {
   const component = new forgo.Component<PlayerControlsProps>({
     render() {
-      const playerStatus = subscribe(component);
+      const playerStatus = subscribe('PlayerControls', component);
 
       return (
         <div class='PlayerControls'>

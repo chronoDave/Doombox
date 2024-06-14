@@ -15,7 +15,7 @@ export type SearchAlbumProps = {};
 const SearchAlbum: Component<SearchAlbumProps> = () => {
   const component = new forgo.Component<SearchAlbumProps>({
     render() {
-      const albums = subscribe(component);
+      const albums = subscribe('SearchAlbum', component);
 
       if (albums.length === 0) return <p>No albums found</p>;
       return (

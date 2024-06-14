@@ -23,7 +23,7 @@ const Library: Component<LibraryProps> = () => {
 
   const component = new forgo.Component<LibraryProps>({
     render() {
-      const state = subscribe(component);
+      const state = subscribe('Library', component);
 
       return (
         <VirtualGrid

@@ -18,7 +18,7 @@ const Router: Component<RouterProps> = () => {
 
   const component = new forgo.Component<RouterProps>({
     render() {
-      const route = subscribe(component);
+      const route = subscribe('Router', component);
 
       return (
         <div class='body'>

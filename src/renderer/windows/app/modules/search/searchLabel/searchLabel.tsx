@@ -16,7 +16,7 @@ export type SearchLabelProps = {};
 const SearchLabel: Component<SearchLabelProps> = () => {
   const component = new forgo.Component<SearchLabelProps>({
     render() {
-      const labels = subscribe(component);
+      const labels = subscribe('SearchLabel', component);
 
       if (labels.length === 0) return <p>No labels found</p>;
       return (

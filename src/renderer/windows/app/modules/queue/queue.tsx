@@ -18,7 +18,7 @@ export type QueueProps = {};
 const Queue: Component<QueueProps> = () => {
   const component = new forgo.Component<QueueProps>({
     render() {
-      const state = subscribe(component);
+      const state = subscribe('Queue', component);
       const duration = sumSelect(state.queue, song => song.duration ?? 0);
 
       return (

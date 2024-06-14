@@ -5,9 +5,9 @@ import produce from 'immer';
 import store from '../store';
 
 export const set = (theme: ThemeShape['theme']) => {
-  store.dispatch(produce(draft => {
+  const state = store.set(produce(draft => {
     draft.theme.theme = theme;
   }), 'theme.set');
 
-  window.ipc.theme.set(store.get().theme);
+  window.ipc.theme.set(state.theme);
 };

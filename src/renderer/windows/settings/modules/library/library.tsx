@@ -13,7 +13,7 @@ export type LibraryProps = {};
 const Library: Component<LibraryProps> = () => {
   const component = new forgo.Component<LibraryProps>({
     render() {
-      const library = subscribe(component);
+      const library = subscribe('Library', component);
 
       return (
         <div class='Library'>

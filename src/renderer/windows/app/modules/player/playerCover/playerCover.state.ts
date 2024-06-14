@@ -1,8 +1,6 @@
-import createSelector from '@doombox/renderer/store/selector';
-
 import store from '../../../store';
 
-export default createSelector(store, 'playerCover')(state => {
+export default store.select(state => {
   const current = state.entities.song.get(state.player.current.id ?? '');
 
   if (!current?._id) return Object.fromEntries(['xs', 'md', 'lg'].map(size => [size, '../icons/icon_light.png']));

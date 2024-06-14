@@ -1,8 +1,6 @@
-import createSelector from '@doombox/renderer/store/selector';
-
 import store from '../../store';
 
-export default createSelector(store, 'app')(state => {
+export default store.select(state => {
   const current = state.entities.song.get(state.player.current.id ?? '');
 
   return current ?

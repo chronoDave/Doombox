@@ -1,10 +1,8 @@
 import type { Song } from '@doombox/types/library';
 
-import createSelector from '@doombox/renderer/store/selector';
-
 import store from '../../store';
 
-export default createSelector(store, 'queue')(state => ({
+export default store.select(state => ({
   index: state.queue.index,
   current: state.queue.songs[state.queue.index],
   title: state.queue.title,

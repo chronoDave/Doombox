@@ -4,6 +4,6 @@ import produce from 'immer';
 
 import store from '../store';
 
-export const set = (route: Route) => store.dispatch(produce(draft => {
+export const set = (route: Route) => store.set(produce(draft => {
   draft.route = route;
 }), 'route.set');

@@ -17,7 +17,7 @@ export type SearchNavProps = {};
 const SearchNav: Component<SearchNavProps> = () => {
   const component = new forgo.Component<SearchNavProps>({
     render() {
-      const route = subscribe(component);
+      const route = subscribe('SearchNav', component);
 
       return (
         <nav class='SearchNav' aria-label='Search panels'>

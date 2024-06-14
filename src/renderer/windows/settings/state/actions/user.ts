@@ -5,20 +5,13 @@ import unique from '@doombox/lib/list/unique';
 
 import store from '../store';
 
-const set = (folders: string[], label: string) => {
-  store.dispatch(produce(draft => {
-    draft.user.library.folders = folders;
-  }), label);
+const set = (id: string) => (next: (folders: string[]) => string[]) => {
+  const state = store.set(produce(draft => {
+    draft.user.library.folders = next(draft.user.library.folders);
+  }), `user.${id}`);
 
-  window.ipc.user.set(store.get().user);
+  window.ipc.user.set(state.user);
 };
 
-export const add = (folders: string[]) => set(unique(
-  store.get().user.library.folders,
-  folders
-), 'library.add');
-
-export const remove = (folders: string[]) => set(difference(
-  store.get().user.library.folders,
-  folders
-), 'library.remove');
+export const add = (folders: string[]) => set('add')(unique(folders));
+export const remove = (folders: string[]) => set('remove')(difference(folders));

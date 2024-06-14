@@ -1,4 +1,6 @@
 const glob = require('fast-glob');
+const fs = require('fs');
+const path = require('path');
 
 const esbuild = require('./esbuild/esbuild');
 const copy = require('./esbuild/plugins/copy');
@@ -28,7 +30,7 @@ esbuild({
   ...common,
   entryPoints: [
     { in: 'src/app/index.ts', out: 'app' },
-    ...glob.sync('../src/app/windows/*.ts').map(window => ({
+    ...fs.readdirSync(path.resolve(__dirname, '../src/app/windows')).map(window => ({
       in: `src/app/windows/${window}/preload.ts`,
       out: `preload/${window}`
     }))
@@ -52,7 +54,7 @@ esbuild({
   ...common,
   entryPoints: [
     { in: 'src/renderer/scss/index.scss', out: 'core' },
-    ...glob.sync('../src/renderer/windows/*.ts')
+    ...fs.readdirSync(path.resolve(__dirname, '../src/renderer/windows'))
       .map(window => `src/renderer/windows/${window}/index.tsx`)
   ],
   outdir: 'build/app/renderer',
@@ -71,7 +73,7 @@ esbuild({
       in: 'src/renderer/assets/icons',
       out: 'build/app/renderer/icons'
     },
-    ...glob.sync('../src/renderer/windows/*.ts')
+    ...fs.readdirSync(path.resolve(__dirname, '../src/renderer/windows'))
       .map(window => ({
         in: `src/renderer/windows/${window}/index.html`,
         out: `build/app/renderer/${window}/index.html`

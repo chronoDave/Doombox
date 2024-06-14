@@ -20,7 +20,7 @@ const SearchRouter: Component<SearchRouterProps> = () => {
 
   const component = new forgo.Component<SearchRouterProps>({
     render() {
-      const view = subscribe(component);
+      const view = subscribe('SearchRouter', component);
 
       return views[view];
     }

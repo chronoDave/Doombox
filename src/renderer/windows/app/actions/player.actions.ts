@@ -3,6 +3,7 @@ import type { CacheShape } from '@doombox/types/shapes/cache.shape';
 import produce from 'immer';
 
 import clamp from '@doombox/lib/math/clamp';
+import wrap from '@doombox/lib/math/wrap';
 import readFile from '@doombox/renderer/dom/fileReader/fileReader';
 import cacheShape from '@doombox/types/shapes/cache.shape';
 
@@ -15,22 +16,19 @@ const updateCache = async (reducer: (state: CacheShape) => CacheShape) => {
   return window.ipc.cache.set(reducer(cache));
 };
 
-const audio = new Audio({
-  ...store.get().user.player,
-  ...cacheShape.player
-})
-  .on('duration', duration => store.dispatch(produce(draft => {
+const audio = new Audio(cacheShape.player)
+  .on('duration', duration => store.set(produce(draft => {
     draft.player.current.duration = duration;
   }), 'player.duration'))
-  .on('position', position => store.dispatch(produce(draft => {
+  .on('position', position => store.set(produce(draft => {
     draft.player.current.position = position;
   }), 'player.position'))
-  .on('status', status => store.dispatch(produce(draft => {
+  .on('status', status => store.set(produce(draft => {
     draft.player.status = status;
   }), 'player.status'));
 
 export const play = async (id: string) => {
-  const state = store.dispatch(produce(draft => {
+  const state = store.set(produce(draft => {
     draft.player.current.id = id;
   }), 'player.play');
 
@@ -66,9 +64,11 @@ export const play = async (id: string) => {
 };
 
 export const pause = () => {
-  const { player } = store.get();
+  const state = store.set(produce(draft => {
+    draft.player.muted = !draft.player.muted;
+  }), 'pause');
 
-  if (player.status === AudioStatus.Playing) {
+  if (state.player.status === AudioStatus.Playing) {
     audio.pause();
     window.ipc.player.pause();
   } else {
@@ -78,28 +78,27 @@ export const pause = () => {
 };
 
 export const seek = (position: number) => {
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.player.current.position = position;
   }), 'player.seek');
   audio.seek(position);
 };
 
 export const mute = (muted?: boolean) => {
-  const isMuted = muted ?? !store.get().player.muted;
+  const state = store.set(produce(draft => {
+    draft.player.muted = muted ?? !draft.player.muted;
+  }), 'mute');
 
-  store.dispatch(produce(draft => {
-    draft.player.muted = isMuted;
-  }), 'player.mute');
-  audio.mute(isMuted);
+  audio.mute(state.player.muted);
   updateCache(produce(draft => {
-    draft.player.muted = isMuted;
+    draft.player.muted = state.player.muted;
   }));
 };
 
 export const setVolume = (n: number) => {
   const volume = clamp(0, 100, n);
 
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.player.volume = volume;
   }), 'player.volume');
   audio.volume = volume;
@@ -109,46 +108,37 @@ export const setVolume = (n: number) => {
 };
 
 export const skip = (n: number) => {
-  const { queue } = store.get();
-  if (queue.songs.length === 0) return;
-
-  const i = clamp(0, queue.songs.length - 1, n);
-  const id = queue.songs[i];
-
-  store.dispatch(produce(draft => {
-    draft.queue.index = i;
+  const state = store.set(produce(draft => {
+    draft.queue.index = clamp(0, draft.queue.songs.length - 1, n);
   }), 'player.skip');
+  const id = state.queue.songs[state.queue.index];
 
   play(id);
 };
 
 export const next = () => {
-  const { player, queue } = store.get();
-  if (queue.songs.length === 0) return;
+  const state = store.set(produce(draft => {
+    draft.queue.index = draft.player.loop ?
+      wrap(0, draft.queue.songs.length - 1, draft.queue.index + 1) :
+      Math.max(draft.queue.songs.length - 1, draft.queue.index + 1);
+  }), 'player.next');
+  const id = state.queue.songs[state.queue.index];
 
-  let i = queue.index + 1;
-  if (i === queue.songs.length) {
-    i = player.loop ? 0 : queue.songs.length - 1;
-    if (!player.loop) return;
-  }
-
-  skip(i);
+  play(id);
 };
 
 export const previous = () => {
-  const { player, queue } = store.get();
-  if (queue.songs.length === 0) return;
+  const state = store.set(produce(draft => {
+    draft.queue.index = draft.player.loop ?
+      wrap(0, draft.queue.songs.length - 1, draft.queue.index - 1) :
+      Math.min(0, draft.queue.index - 1);
+  }), 'player.previous');
+  const id = state.queue.songs[state.queue.index];
 
-  let i = queue.index - 1;
-  if (i < 0) {
-    i = player.loop ? queue.songs.length - 1 : 0;
-    if (!player.loop) return;
-  }
-
-  skip(i);
+  play(id);
 };
 
-store.subscribe((prev, cur) => (
+store.on((prev, cur) => (
   prev.player.status !== cur.player.status &&
   cur.player.status === AudioStatus.Ended &&
   cur.user.player.autoplay

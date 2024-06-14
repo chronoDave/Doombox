@@ -1,39 +1,34 @@
-import { IS_DEV } from '../../../lib/const';
+import type { State, Subscriber } from '@doombox/lib/store/store';
+import type { Component } from 'forgo';
 
-export default class Store<S extends Record<string, unknown>> {
-  private readonly _listeners: Set<(prev: S, cur: S) => void>;
-  private _state: S;
+import deepEqual from 'fast-deep-equal';
 
-  constructor(state: S) {
-    this._state = state;
-    this._listeners = new Set();
-  }
+import Store from '@doombox/lib/store/store';
 
-  get() {
-    return this._state;
-  }
+export default class RendererStore<S extends State> extends Store<S> {
+  select<T>(
+    selector: (state: S) => T,
+    shouldUpdate?: (cur: S, next: S) => boolean
+  ) {
+    return (id: string, component: Component): T => {
+      const subscriber: Subscriber<S> = (cur, next) => {
+        console.time(`[shouldUpdate] ${id}`);
+        console.log(cur, next);
+        const updated =
+          shouldUpdate?.(cur, next) ||
+          !deepEqual(selector(cur), selector(next));
+        console.timeEnd(`[shouldUpdate] ${id}`);
 
-  dispatch(reducer: (state: S) => S, action: string) {
-    const prev = this._state;
-    this._state = reducer(prev);
+        if (updated) {
+          console.log(`[update] ${id}`);
+          component.update();
+        }
+      };
 
-    if (IS_DEV) {
-      console.group(`[dispatch] ${action}`);
-      console.log('[state.old]', prev);
-      console.log('[state.new]', this._state);
-      console.groupEnd();
-    }
+      component.mount(() => this.on(subscriber));
+      component.unmount(() => this.off(subscriber));
 
-    this._listeners.forEach(listener => listener(prev, this._state));
-
-    return this._state;
-  }
-
-  subscribe(listener: (prev: S, cur: S) => void) {
-    if (!this._listeners.has(listener)) this._listeners.add(listener);
-  }
-
-  unsubscribe(listener: (prev: S, cur: S) => void) {
-    this._listeners.delete(listener);
+      return selector(this._state);
+    };
   }
 }

@@ -23,7 +23,7 @@ const Navigation: Component<NavigationProps> = () => {
 
   const component = new forgo.Component<NavigationProps>({
     render() {
-      const active = subscribe(component);
+      const active = subscribe('Navigation', component);
 
       return (
         <nav class='Navigation'>

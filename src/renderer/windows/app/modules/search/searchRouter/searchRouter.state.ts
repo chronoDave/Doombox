@@ -1,5 +1,3 @@
-import createSelector from '@doombox/renderer/store/selector';
-
 import store from '../../../store';
 
-export default createSelector(store, 'searchRouter')(state => state.route.search);
+export default store.select(state => state.route.search);

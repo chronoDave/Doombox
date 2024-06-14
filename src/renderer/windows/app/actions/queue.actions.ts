@@ -11,32 +11,33 @@ import { play } from './player.actions';
 export const addToQueue = (ids: string[]) => {
   if (ids.length === 0) return;
 
-  store.dispatch(produce(draft => {
+  const state = store.set(produce(draft => {
     draft.queue.songs.push(...ids);
   }), 'queue.add');
 
-  if (
-    !store.get().player.current.id &&
-    hasAutoplay(store.get())
-  ) play(ids[0]);
+  if (!state.player.current.id && hasAutoplay(state)) play(ids[0]);
 };
 
 export const addLabelToQueue = (id: string) => {
-  const label = store.get().entities.label.get(id);
-  if (!label) return;
+  const state = store.set(produce(draft => {
+    const label = draft.entities.label.get(id);
+    if (label) draft.queue.songs.push(...label.songs);
+  }), 'queue.addLabel');
 
-  addToQueue(label.songs);
+  if (!state.player.current.id && hasAutoplay(state)) play(state.queue.songs[0]);
 };
 
 export const addAlbumToQueue = (id: string) => {
-  const album = store.get().entities.album.get(id);
-  if (!album) return;
+  const state = store.set(produce(draft => {
+    const album = draft.entities.album.get(id);
+    if (album) draft.queue.songs.push(...album.songs);
+  }), 'queue.addAlbum');
 
-  addToQueue(album.songs);
+  if (!state.player.current.id && hasAutoplay(state)) play(state.queue.songs[0]);
 };
 
 export const setQueue = (ids: string[], title?: string) => {
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.queue.songs = ids;
     draft.queue.index = 0;
     draft.queue.title = title ?? 'Queue';
@@ -46,60 +47,57 @@ export const setQueue = (ids: string[], title?: string) => {
 };
 
 export const playLabel = (id: string) => {
-  const label = store.get().entities.label.get(id);
-  if (!label) return;
+  const state = store.set(produce(draft => {
+    const label = draft.entities.label.get(id);
 
-  const songs = populateSongs(store.get())(label.songs)
-    .sort(sortSongs)
-    .map(song => song._id);
+    if (label) {
+      const songs = populateSongs(draft)(label.songs)
+        .sort(sortSongs)
+        .map(song => song._id);
 
-  store.dispatch(produce(draft => {
-    draft.queue.songs = songs;
-    draft.queue.index = 0;
-    draft.queue.title = label.label;
+      draft.queue.songs = songs;
+      draft.queue.index = 0;
+      draft.queue.title = label.label;
+    }
   }), 'queue.playLabel');
 
-  play(songs[0]);
+  play(state.queue.songs[0]);
 };
 
 export const playAlbum = (id: string) => {
-  const album = store.get().entities.album.get(id);
-  if (!album) return;
+  const state = store.set(produce(draft => {
+    const album = draft.entities.album.get(id);
 
-  const songs = populateSongs(store.get())(album.songs)
-    .sort(sortSongs)
-    .map(song => song._id);
+    if (album) {
+      const songs = populateSongs(draft)(album.songs)
+        .sort(sortSongs)
+        .map(song => song._id);
 
-  store.dispatch(produce(draft => {
-    draft.queue.songs = songs;
-    draft.queue.index = 0;
-    draft.queue.title = album.album ?? 'Queue';
+      draft.queue.songs = songs;
+      draft.queue.index = 0;
+      draft.queue.title = album.album ?? '???';
+    }
   }), 'queue.playAlbum');
 
-  play(songs[0]);
+  play(state.queue.songs[0]);
 };
 
 export const setQueueIndex = (id: string) => {
-  const { songs } = store.get().queue;
-  const i = Math.max(0, songs.findIndex(song => song === id));
+  const state = store.set(produce(draft => {
+    const i = Math.max(0, draft.queue.songs.findIndex(song => song === id));
 
-  store.dispatch(produce(draft => {
     draft.queue.index = i;
   }), 'queue.setIndex');
 
-  play(songs[i]);
+  play(state.queue.songs[state.queue.index]);
 };
 
 export const shuffleQueue = () => {
-  const { songs } = store.get().queue;
-  if (songs.length === 0) return;
-
-  const n = random(0, songs.length - 1);
-  store.dispatch(produce(draft => {
-    draft.queue.index = n;
+  const state = store.set(produce(draft => {
+    draft.queue.index = random(0, draft.queue.songs.length - 1);
   }), 'queue.shuffle');
 
-  play(songs[n]);
+  play(state.queue.songs[0]);
 };
 
 window.ipc.on.shuffle(shuffleQueue);

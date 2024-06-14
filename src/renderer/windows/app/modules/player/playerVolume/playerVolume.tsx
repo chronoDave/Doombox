@@ -17,7 +17,7 @@ export type PlayerVolumeProps = {};
 const PlayerVolume: Component<PlayerVolumeProps> = () => {
   const component = new forgo.Component<PlayerVolumeProps>({
     render() {
-      const { muted, volume } = subscribe(component);
+      const { muted, volume } = subscribe('PlayerVolume', component);
       const handleScroll = debounce((event: forgo.JSX.TargetedWheelEvent<HTMLButtonElement>) => {
         if (event.deltaY !== 0) setVolume(event.deltaY > 0 ? volume - 1 : volume + 1);
       });

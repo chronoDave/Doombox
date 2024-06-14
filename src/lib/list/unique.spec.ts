@@ -7,7 +7,7 @@ test('[unique] returns unique values', t => {
   const b = [3, 4, 5];
 
   t.deepEqual(
-    unique(a, b),
+    unique(a)(b),
     [1, 2, 3, 4, 5],
     'unique'
   );

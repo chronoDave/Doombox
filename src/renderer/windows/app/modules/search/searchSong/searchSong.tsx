@@ -16,7 +16,7 @@ export type SearchSongProps = {};
 const SearchSong: Component<SearchSongProps> = () => {
   const component = new forgo.Component<SearchSongProps>({
     render() {
-      const songs = subscribe(component);
+      const songs = subscribe('SearchSong', component);
 
       if (songs.length === 0) return <p>No songs found</p>;
       return (

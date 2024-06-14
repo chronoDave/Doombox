@@ -1,4 +1,3 @@
-import type { State } from '../types/state';
 import type { Library } from '@doombox/types/library';
 
 import produce from 'immer';
@@ -14,9 +13,9 @@ import { imageSelector } from '../selectors';
 import store from '../store';
 import * as Route from '../types/route';
 
-import { setQueue } from './queue.actions';
+import { play } from './player.actions';
 
-const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
+const dispatch = (library: Library) => store.set(produce(draft => {
   draft.entities.song = new Map(library.songs
     .sort(sortSongs)
     .map(song => [song._id, song]));
@@ -26,87 +25,86 @@ const dispatchLibrary = (library: Library) => store.dispatch(produce(draft => {
   draft.entities.label = new Map(library.labels
     .sort(sortLabels)
     .map(label => [label._id, label]));
-}), 'library.dispatchLibrary');
+}), 'library.dispatch');
 
 export const fetchLibrary = async () => {
   const library = await window.ipc.library.get();
-  dispatchLibrary(library);
+  dispatch(library);
 };
 
 export const reindexLibrary = async () => {
-  store.dispatch(produce(draft => {
+  const state = store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
-  }), 'library.reindexLibrary');
+  }), 'library.reindex');
 
-  const library = await window.ipc.library
-    .reindex(store.get().user.library.folders);
+  const library = await window.ipc.library.reindex(state.user.library.folders);
 
-  dispatchLibrary(library);
-  store.dispatch(produce(draft => {
+  dispatch(library);
+  store.set(produce(draft => {
     draft.route.app = Route.App.Home;
-  }), 'library.reindexLibrary');
+  }), 'library.reindex');
 };
 
 export const rebuildLibrary = async () => {
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
   }), 'library.rebuildLibrary');
 
   const library = await window.ipc.library.rebuild();
 
-  dispatchLibrary(library);
-  store.dispatch(produce(draft => {
+  dispatch(library);
+  store.set(produce(draft => {
     draft.route.app = Route.App.Home;
   }), 'library.rebuildLibrary');
 };
 
 export const addFolders = async (folders: string[]) => {
-  const state = produce<State>(draft => {
-    draft.user.library.folders = unique(draft.user.library.folders, folders);
-  })(store.get());
+  const state = store.set(produce(draft => {
+    draft.user.library.folders = unique(draft.user.library.folders)(folders);
+  }), 'library.addFolders');
 
   const user = await window.ipc.user.set(state.user);
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
     draft.user.library.folders = user.library.folders;
   }), 'library.addFolders');
 
   const library = await window.ipc.library.add(user.library.folders);
 
-  dispatchLibrary(library);
-  store.dispatch(produce(draft => {
+  dispatch(library);
+  store.set(produce(draft => {
     draft.route.app = Route.App.Home;
   }), 'library.addFolders');
 };
 
 export const removeFolders = async (folders: string[]) => {
-  const state = produce<State>(draft => {
-    draft.user.library.folders = difference(draft.user.library.folders, folders);
-  })(store.get());
+  const state = store.set(produce(draft => {
+    draft.user.library.folders = difference(draft.user.library.folders)(folders);
+  }), 'library.removeFolders');
 
   const user = await window.ipc.user.set(state.user);
-  store.dispatch(produce(draft => {
+  store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
     draft.user.library.folders = user.library.folders;
   }), 'library.removeFolders');
 
   const library = await window.ipc.library.rebuild();
 
-  dispatchLibrary(library);
-  store.dispatch(produce(draft => {
+  dispatch(library);
+  store.set(produce(draft => {
     draft.route.app = Route.App.Home;
   }), 'library.removeFolders');
 };
 
 export const search = async (query: string) => {
   if (query === '') {
-    store.dispatch(produce(draft => {
+    store.set(produce(draft => {
       draft.route.home = Route.Home.Library;
     }), 'library.search');
   } else {
     const library = await window.ipc.library.search(query);
 
-    store.dispatch(produce(draft => {
+    store.set(produce(draft => {
       draft.route.home = Route.Home.Search;
       draft.route.search = Route.Search.Song;
       draft.search.songs = library.songs
@@ -129,5 +127,11 @@ export const search = async (query: string) => {
 };
 
 export const shuffleLibrary = () => {
-  setQueue(shuffle(Array.from(store.get().entities.song.keys())), 'Library');
+  const state = store.set(produce(draft => {
+    draft.queue.songs = shuffle(Array.from(draft.entities.song.keys()));
+    draft.queue.index = 0;
+    draft.queue.title = 'Queue';
+  }), 'library.shuffleLibrary');
+
+  play(state.queue.songs[0]);
 };

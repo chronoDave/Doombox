@@ -9,18 +9,18 @@ import * as Route from '../../../types/route';
 
 import subscribe from './homeRouter.state';
 
-export type HomerouterProps = {};
+export type HomeRouterProps = {};
 
-const Homerouter: Component<HomerouterProps> = () => {
+const HomeRouter: Component<HomeRouterProps> = () => {
   const views: Record<Route.Home, forgo.Component> = {
     [Route.Home.Library]: <Library />,
     [Route.Home.Playlist]: <Playlist />,
     [Route.Home.Search]: <Search />
   };
 
-  const component = new forgo.Component<HomerouterProps>({
+  const component = new forgo.Component<HomeRouterProps>({
     render() {
-      const view = subscribe(component);
+      const view = subscribe('HomeRouter', component);
 
       return views[view];
     }
@@ -29,4 +29,4 @@ const Homerouter: Component<HomerouterProps> = () => {
   return component;
 };
 
-export default Homerouter;
+export default HomeRouter;
