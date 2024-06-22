@@ -24,7 +24,7 @@ import createIpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
-import Storage from './lib/storage/storage';
+import storageFactory from './lib/storage/storage';
 import createTokenizer from './lib/tokenizer/tokenizer';
 import Transliterator from './lib/transliterator/transliterator';
 import AppWindow from './windows/app/app';
@@ -45,6 +45,7 @@ const run = async () => {
   const logger = new Logger({ root: PATH.LOGS });
   const tokenizer = await createTokenizer(PATH.DICT);
   const transliterator = new Transliterator({ tokenizer });
+  const createStorage = storageFactory(PATH.USER_DATA);
 
   const db: {
     song: LeafDB<Song>,
@@ -63,9 +64,9 @@ const run = async () => {
     db
   });
   const storage = {
-    theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.USER_DATA }),
-    user: new Storage({ name: 'user', shape: userShape, root: PATH.USER_DATA }),
-    cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
+    theme: createStorage('theme', themeShape),
+    user: createStorage('user', userShape),
+    cache: createStorage('cache', cacheShape)
   };
 
   const window = {
@@ -87,9 +88,7 @@ const run = async () => {
     user: ipcRouter(createUserController({
       storage: storage.user
     })),
-    theme: ipcRouter(createThemeController({
-      storage: storage.theme
-    })),
+    theme: ipcRouter(createThemeController(storage.theme)),
     cache: ipcRouter(createCacheController({
       storage: storage.cache
     })),
@@ -103,7 +102,10 @@ const run = async () => {
   };
 
   /** Initialize app */
-  nativeTheme.themeSource = storage.theme.get().theme;
+  storage.theme.select(state => state.theme)(theme => {
+    nativeTheme.themeSource = theme;
+  });
+
   Object.values(db).forEach(x => x.open());
   ipcMain.handle(IpcChannel.App, router.app);
   ipcMain.handle(IpcChannel.User, router.user);

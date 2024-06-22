@@ -1,6 +1,8 @@
 import type { State } from './types/state';
+import type { Reducer } from '@doombox/lib/store/store';
+import type * as forgo from 'forgo';
 
-import Store from '@doombox/renderer/store/store';
+import Store from '@doombox/lib/store/store';
 import cacheShape from '@doombox/types/shapes/cache.shape';
 import themeShape from '@doombox/types/shapes/theme.shape';
 import userShape from '@doombox/types/shapes/user.shape';
@@ -8,7 +10,7 @@ import userShape from '@doombox/types/shapes/user.shape';
 import { AudioStatus } from './lib/audio/audio';
 import * as Route from './types/route';
 
-export default new Store<State>({
+const store = new Store<State>({
   route: {
     app: Route.App.Load,
     home: Route.Home.Library,
@@ -43,3 +45,9 @@ export default new Store<State>({
   theme: themeShape,
   user: userShape
 });
+
+export const select = <T>(reducer: Reducer<State, T>) =>
+  (component: forgo.Component) =>
+    store.select(reducer)(state => component.update({ state }));
+
+export default store;

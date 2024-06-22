@@ -27,8 +27,8 @@ export default class Stack<T> {
     return this;
   }
 
-  peek(i: number) {
-    if (i >= this._arr.length) return null;
-    return this._arr[i];
+  peek(i?: number) {
+    if (!i) return this._arr[this._i];
+    return this._arr[wrap(0, this._arr.length - 1, this._i + i)];
   }
 }

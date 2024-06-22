@@ -21,7 +21,7 @@ test('[stack.push] loops when max size is exceeded', t => {
 
   t.equal(stack.size, 2, 'does not exceed max size');
   t.deepEqual(
-    [stack.peek(0), stack.peek(1)],
+    [stack.peek(), stack.peek(-1)],
     [3, 2],
     'wraps'
   );
@@ -37,7 +37,7 @@ test('[stack.pop] removes from stack', t => {
     .pop();
 
   t.equal(stack.size, 0, 'removes from stack');
-  t.equal(stack.peek(0), null, 'removes from stack');
+  t.equal(stack.peek(), null, 'removes from stack');
 
   t.end();
 });

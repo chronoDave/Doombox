@@ -46,7 +46,8 @@ export enum IpcRoute {
   Next = 'next',
   Previous = 'previous',
   Shuffle = 'shuffle',
-  Settings = 'settings'
+  Settings = 'settings',
+  Select = 'select'
 }
 
 /** Events */
@@ -75,9 +76,9 @@ export type IpcPayloadReceive = {
 };
 
 /** Controller */
-export type IpcControllerStorage<T extends Shape> = {
-  [IpcRoute.Get]: () => Promise<T>
-  [IpcRoute.Set]: (payload: T) => Promise<T>
+export type IpcControllerStorage<S extends Shape> = {
+  [IpcRoute.Select]: <T>(selector: (state: S) => T) => T
+  [IpcRoute.Set]: (payload: S) => void
 };
 
 /** Renderer to main (one-way) */

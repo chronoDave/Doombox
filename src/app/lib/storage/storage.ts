@@ -1,50 +1,20 @@
-import type { Shape } from '../../../types/primitives';
+import type { Shape } from '@doombox/types/primitives';
 
 import merge from 'deepmerge';
 import fs from 'fs';
 import path from 'path';
 
-import parse from '../../../lib/shape/parse';
+import parse from '@doombox/lib/shape/parse';
+import Store from '@doombox/lib/store/store';
 
-export type StorageProps<T> = {
-  root: string
-  name: string
-  shape: T
+export default (root: string) => <S extends Shape>(name: string, shape: S) => {
+  const file = path.resolve(root, `${name}.json`);
+  const json = parse<S>(fs.readFileSync(file, 'utf-8'));
+  const initial = json ? merge<S>(shape, json) : shape;
+
+  const store = new Store(initial).subscribe(state => {
+    fs.writeFileSync(file, JSON.stringify(state, null, '\t'));
+  });
+
+  return store;
 };
-
-export default class Storage<T extends Shape> {
-  private readonly _root: string;
-
-  protected readonly _file: string;
-  protected _data: T;
-
-  private _read() {
-    try {
-      return parse<T>(fs.readFileSync(this._file, 'utf-8'));
-    } catch (err) {
-      return null; // File does not exist
-    }
-  }
-
-  constructor(props: StorageProps<T>) {
-    this._root = props.root;
-    this._data = props.shape;
-    this._file = path.join(this._root, `${props.name}.json`);
-
-    const json = this._read();
-    if (json) this._data = merge<T>(this._data, json);
-
-    Object.seal(this._data);
-  }
-
-  get() {
-    return this._data;
-  }
-
-  set(state: T) {
-    this._data = state;
-    fs.writeFileSync(this._file, JSON.stringify(this._data, null, '\t'));
-
-    return this._data;
-  }
-}
