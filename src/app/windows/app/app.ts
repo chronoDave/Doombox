@@ -51,7 +51,6 @@ export default class AppWindow extends Window {
 
   constructor(props: AppWindowProps) {
     super({
-      logger: props.logger,
       cache: {
         root: props.dir.cache,
         name: 'app'

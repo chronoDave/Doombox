@@ -1,8 +1,6 @@
-import type Logger from '../logger/logger';
-import type { IpcSendController } from '@doombox/types/ipc';
 import type { WindowShape } from '@doombox/types/shapes/window.shape';
 
-import { BrowserWindow, ipcMain, nativeTheme } from 'electron';
+import { BrowserWindow, nativeTheme } from 'electron';
 import produce from 'immer';
 import path from 'path';
 
@@ -13,15 +11,12 @@ import {
   THEME_DARK,
   THEME_LIGHT
 } from '@doombox/lib/const';
-import { IpcChannel } from '@doombox/types/ipc';
 import windowShape from '@doombox/types/shapes/window.shape';
 
 import debounce from '../../../lib/function/debounce';
-import ipcRouter from '../ipc/router';
 import Storage from '../storage/storage';
 
 export type WindowProps = {
-  logger: Logger
   cache: {
     root: string
     name: string
@@ -96,24 +91,6 @@ export default class Window {
 
     this._window.on('resize', () => this._onresize());
     this._window.on('move', () => this._onmove());
-    this._window.on('closed', () => {
-
-    });
-
-    ipcMain.on(
-      IpcChannel.Window,
-      (event, ...args) => {
-        if (event.sender.id !== this._window.id) return;
-
-        ipcRouter(props.logger)<IpcSendController[IpcChannel.Window]>(() => ({
-          minimize: () => this._window.minimize(),
-          maximize: () => this._window.isMaximized() ?
-            this._window.unmaximize() :
-            this._window.maximize(),
-          close: () => this._window.close()
-        }))(event, ...args);
-      }
-    );
 
     if (IS_DEV) {
       // eslint-disable-next-line global-require

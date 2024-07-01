@@ -12,7 +12,6 @@ export type SettingsWindowProps = {
 export default class SettingsWindow extends Window {
   constructor(props: SettingsWindowProps) {
     super({
-      logger: props.logger,
       cache: {
         root: props.root,
         name: 'settings'

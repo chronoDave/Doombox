@@ -1,7 +1,7 @@
 import type { Album, Label, Song } from '../types/library';
 import type { Playlist } from '../types/playlist';
 
-import { app, ipcMain, nativeTheme } from 'electron';
+import { app, BrowserWindow, ipcMain, nativeTheme } from 'electron';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
 
@@ -114,6 +114,20 @@ const run = async () => {
   ipcMain.handle(IpcChannel.Search, router.search);
   ipcMain.on(IpcChannel.App, router.app);
   ipcMain.on(IpcChannel.Router, router.router);
+
+  ipcMain.on(IpcChannel.Window, (event, ...args) => {
+    const _window = BrowserWindow.fromWebContents(event.sender);
+
+    if (args[0].action === 'close') _window?.close();
+    if (args[0].action === 'minimize') _window?.minimize();
+    if (args[0].action === 'maximize') {
+      if (_window?.isMaximized()) {
+        _window?.unmaximize();
+      } else {
+        _window?.maximize();
+      }
+    }
+  });
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
