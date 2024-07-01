@@ -6,9 +6,9 @@ test('[store] listens and dispatches', t => {
   const store = new Store({ x: 1 });
 
   store
-    .on(state => {
+    .on((prev, cur) => {
       t.pass('listens to dispatch');
-      t.deepEqual(state, { x: 2 }, 'updates state');
+      t.deepEqual(cur, { x: 2 }, 'updates state');
       t.end();
     })
     .set(() => ({ x: 2 }));
