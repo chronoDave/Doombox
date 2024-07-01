@@ -1,7 +1,7 @@
 import type { Album, Label, Song } from '../types/library';
 import type { Playlist } from '../types/playlist';
 
-import { app, BrowserWindow, ipcMain, nativeTheme } from 'electron';
+import { app, BrowserWindow, nativeTheme } from 'electron';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
 
@@ -22,7 +22,7 @@ import createRouterController from './controllers/router.controller';
 import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
-import createIpcRouter from './lib/ipc/router';
+import IpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
@@ -45,6 +45,7 @@ const run = async () => {
   const logger = new Logger({ root: PATH.LOGS });
   const tokenizer = await Tokenizer.create(PATH.DICT);
   const transliterator = new Transliterator(tokenizer);
+  const ipcRouter = new IpcRouter();
 
   const db: {
     song: LeafDB<Song>,
@@ -69,65 +70,36 @@ const run = async () => {
   };
 
   const window = {
-    app: new AppWindow({ dir: { cache: PATH.CACHE, thumbs: PATH.THUMBS }, logger }),
+    app: new AppWindow({ dir: { cache: PATH.CACHE, thumbs: PATH.THUMBS } }),
     settings: new SettingsWindow({ root: PATH.CACHE, logger })
-  };
-
-  const ipcRouter = createIpcRouter(logger);
-
-  const router = {
-    library: ipcRouter(createLibraryController({
-      library,
-      storage: storage.user,
-      db
-    })),
-    playlist: ipcRouter(createPlaylistController({
-      db: db.playlist
-    })),
-    user: ipcRouter(createUserController({
-      storage: storage.user
-    })),
-    theme: ipcRouter(createThemeController({
-      storage: storage.theme
-    })),
-    cache: ipcRouter(createCacheController({
-      storage: storage.cache
-    })),
-    app: ipcRouter(createAppController()),
-    router: ipcRouter(createRouterController({
-      settings: window.settings
-    })),
-    search: ipcRouter(createSearchController({
-      db
-    }))
   };
 
   /** Initialize app */
   nativeTheme.themeSource = storage.theme.get().theme;
   Object.values(db).forEach(x => x.open());
-  ipcMain.handle(IpcChannel.App, router.app);
-  ipcMain.handle(IpcChannel.User, router.user);
-  ipcMain.handle(IpcChannel.Theme, router.theme);
-  ipcMain.handle(IpcChannel.Cache, router.cache);
-  ipcMain.handle(IpcChannel.Library, router.library);
-  ipcMain.handle(IpcChannel.Playlist, router.playlist);
-  ipcMain.handle(IpcChannel.Search, router.search);
-  ipcMain.on(IpcChannel.App, router.app);
-  ipcMain.on(IpcChannel.Router, router.router);
 
-  ipcMain.on(IpcChannel.Window, (event, ...args) => {
-    const _window = BrowserWindow.fromWebContents(event.sender);
+  ipcRouter
+    .transfer(IpcChannel.App, createAppController())
+    .transfer(IpcChannel.User, createUserController({ storage: storage.user }))
+    .transfer(IpcChannel.Theme, createThemeController({ storage: storage.theme }))
+    .transfer(IpcChannel.Cache, createCacheController({ storage: storage.cache }))
+    .transfer(IpcChannel.Library, createLibraryController({ library, storage: storage.user, db }))
+    .transfer(IpcChannel.Playlist, createPlaylistController({ db: db.playlist }))
+    .transfer(IpcChannel.Search, createSearchController({ db }))
+    .receive(IpcChannel.App, createAppController())
+    .receive(IpcChannel.Router, createRouterController({ settings: window.settings }))
+    .receive(IpcChannel.Window, sender => {
+      const _window = BrowserWindow.fromWebContents(sender);
 
-    if (args[0].action === 'close') _window?.close();
-    if (args[0].action === 'minimize') _window?.minimize();
-    if (args[0].action === 'maximize') {
-      if (_window?.isMaximized()) {
-        _window?.unmaximize();
-      } else {
-        _window?.maximize();
-      }
-    }
-  });
+      return {
+        close: () => _window?.close(),
+        minimize: () => _window?.minimize(),
+        maximize: () => _window?.isMaximized() ?
+          _window.unmaximize() :
+          _window?.maximize()
+      };
+    })
+    .on('error', logger.error);
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();

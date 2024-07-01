@@ -1,12 +1,9 @@
-import type Logger from '../../lib/logger/logger';
-import type { IpcSendController } from '@doombox/types/ipc';
-
-import { ipcMain, nativeImage } from 'electron';
+import { nativeImage } from 'electron';
 import path from 'path';
 
 import { IpcRoute, IpcChannel } from '@doombox/types/ipc';
 
-import createIpcRouter from '../../lib/ipc/router';
+import Router from '../../lib/ipc/router';
 import createIpcSend from '../../lib/ipc/send';
 import Window from '../../lib/window/window';
 
@@ -15,7 +12,6 @@ export type AppWindowProps = {
     cache: string
     thumbs: string
   }
-  logger: Logger
 };
 
 export default class AppWindow extends Window {
@@ -63,15 +59,11 @@ export default class AppWindow extends Window {
       data: JSON.stringify({ dir: { thumbs: props.dir.thumbs } })
     });
 
-    const ipcRouter = createIpcRouter(props.logger);
-
-    ipcMain.on(
-      IpcChannel.Player,
-      ipcRouter<IpcSendController[IpcChannel.Player]>(() => ({
-        play: () => this._updateToolbar({ playing: true }),
-        pause: () => this._updateToolbar({ playing: false })
-      }))
-    );
+    const router = new Router();
+    router.receive(IpcChannel.Player, () => ({
+      play: () => this._updateToolbar({ playing: true }),
+      pause: () => this._updateToolbar({ playing: false })
+    }));
   }
 
   async show() {
