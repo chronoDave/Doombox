@@ -1,7 +1,7 @@
 import type { Album, Label, Song } from '../types/library';
 import type { Playlist } from '../types/playlist';
 
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, nativeTheme } from 'electron';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
 
@@ -22,6 +22,7 @@ import createRouterController from './controllers/router.controller';
 import createSearchController from './controllers/search.controller';
 import createThemeController from './controllers/theme.controller';
 import createUserController from './controllers/user.controller';
+import windowController from './controllers/window.controller';
 import IpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
@@ -86,19 +87,8 @@ const run = async () => {
     .transfer(IpcChannel.Library, createLibraryController({ library, storage: storage.user, db }))
     .transfer(IpcChannel.Playlist, createPlaylistController({ db: db.playlist }))
     .transfer(IpcChannel.Search, createSearchController({ db }))
-    .receive(IpcChannel.App, createAppController())
     .receive(IpcChannel.Router, createRouterController({ settings: window.settings }))
-    .receive(IpcChannel.Window, sender => {
-      const _window = BrowserWindow.fromWebContents(sender);
-
-      return {
-        close: () => _window?.close(),
-        minimize: () => _window?.minimize(),
-        maximize: () => _window?.isMaximized() ?
-          _window.unmaximize() :
-          _window?.maximize()
-      };
-    })
+    .receive(IpcChannel.Window, windowController)
     .on('error', logger.error);
 
   app.on('window-all-closed', () => {

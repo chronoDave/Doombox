@@ -1,7 +1,7 @@
-import type { IpcChannel, IpcEvent } from '@doombox/types/ipc';
+import type { IpcChannel, IpcEvent, IpcSendController } from '@doombox/types/ipc';
 import type { WebContents } from 'electron';
 
-import { ipcMain } from 'electron';
+import { BrowserWindow, ipcMain } from 'electron';
 
 import EventEmitter from '@doombox/lib/eventEmitter/eventEmitter';
 import isObject from '@doombox/lib/validation/isObject';
@@ -23,17 +23,21 @@ export default class Router extends EventEmitter<RouterEvents> {
   }
 
   /** Renderer to main (one-way) */
-  receive<T extends Controller>(
-    channel: IpcChannel,
-    controller: (sender: WebContents) => T
+  receive<T extends keyof IpcSendController>(
+    channel: T,
+    controller: IpcSendController[T]
   ) {
     ipcMain.on(channel, (event, ...args) => {
       if (!Router.isEvent(args[0])) return this.emit('error', new Error(`Invalid event: ${JSON.stringify(args[0])}`));
 
       const { action, payload } = args[0];
-      if (!(action in controller(event.sender))) return this.emit('error', new Error(`Invalid route: ${JSON.stringify(action)}`));
+      if (!(action in controller)) return this.emit('error', new Error(`Invalid route: ${JSON.stringify(action)}`));
 
-      return controller(event.sender)[action]?.(payload);
+      // @ts-expect-error: Won't type narrow correctly, caught by 'in' check
+      return (controller[action])({
+        payload,
+        window: BrowserWindow.fromWebContents(event.sender)
+      });
     });
 
     return this;

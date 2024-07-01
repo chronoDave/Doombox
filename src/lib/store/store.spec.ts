@@ -11,7 +11,7 @@ test('[store] listens and dispatches', t => {
       t.deepEqual(cur, { x: 2 }, 'updates state');
       t.end();
     })
-    .set(() => ({ x: 2 }));
+    .set(() => ({ x: 2 }), '');
 });
 
 test('[store] removes listeners', t => {
@@ -29,5 +29,5 @@ test('[store] removes listeners', t => {
       t.equal(x, 1, 'does not fire event');
       t.end();
     })
-    .set(() => ({ x }));
+    .set(() => ({ x }), '');
 });

@@ -42,7 +42,7 @@ export default (props: LibraryControllerProps) =>
         const oldFiles = oldSongs.map(song => song.file);
         const files = await getFiles(folders);
         const stale = oldSongs.filter(song => !files.includes(song.file));
-        const fresh = difference(files, oldFiles);
+        const fresh = difference(files)(oldFiles);
 
         props.library.delete(stale.map(song => song._id));
         return props.library.insert(fresh);

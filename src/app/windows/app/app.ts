@@ -60,10 +60,10 @@ export default class AppWindow extends Window {
     });
 
     const router = new Router();
-    router.receive(IpcChannel.Player, () => ({
+    router.receive(IpcChannel.Player, {
       play: () => this._updateToolbar({ playing: true }),
       pause: () => this._updateToolbar({ playing: false })
-    }));
+    });
   }
 
   async show() {

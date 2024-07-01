@@ -5,6 +5,6 @@ export type RouterControllerProps = {
   settings: Window
 };
 
-export default (props: RouterControllerProps) => (): IpcSendController[IpcChannel.Router] => ({
+export default (props: RouterControllerProps): IpcSendController[IpcChannel.Router] => ({
   settings: () => props.settings.show()
 });

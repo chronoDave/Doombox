@@ -4,9 +4,7 @@ import type { Shape } from './primitives';
 import type { CacheShape } from './shapes/cache.shape';
 import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
-import type { IpcMainInvokeEvent } from 'electron';
-
-export type IpcRouter = (event: IpcMainInvokeEvent, ...args: unknown[]) => unknown;
+import type { BrowserWindow } from 'electron';
 
 export enum IpcChannel {
   App = 'app',
@@ -81,18 +79,23 @@ export type IpcControllerStorage<T extends Shape> = {
 };
 
 /** Renderer to main (one-way) */
+export type IpcSendHandler<T = void> = (event: {
+  payload: T,
+  window: BrowserWindow | null
+}) => void;
+
 export type IpcSendController = {
   [IpcChannel.Window]: {
-    [IpcRoute.Minimize]: () => void
-    [IpcRoute.Maximize]: () => void
-    [IpcRoute.Close]: () => void
+    [IpcRoute.Minimize]: IpcSendHandler
+    [IpcRoute.Maximize]: IpcSendHandler
+    [IpcRoute.Close]: IpcSendHandler
   }
   [IpcChannel.Player]: {
-    [IpcRoute.Play]: () => void
-    [IpcRoute.Pause]: () => void
+    [IpcRoute.Play]: IpcSendHandler
+    [IpcRoute.Pause]: IpcSendHandler
   }
   [IpcChannel.Router]: {
-    [IpcRoute.Settings]: () => void
+    [IpcRoute.Settings]: IpcSendHandler
   }
 };
 
@@ -128,6 +131,12 @@ export type IpcReceiveController = {
   [T in keyof IpcPayloadReceive]: (cb: (payload: IpcPayloadReceive[T]) => void) => () => void
 };
 
-export type IpcApi = IpcSendController & IpcInvokeController & {
+export type IpcApi = {
+  [Channel in keyof IpcSendController]: {
+    [Route in keyof IpcSendController[Channel]]: (
+      payload: Parameters<IpcSendController[Channel][Route] extends IpcSendHandler ? IpcSendController[Channel][Route] : never>[0]['payload']
+    ) => void
+  }
+} & IpcInvokeController & {
   [IpcChannel.Receive]: IpcReceiveController
 };
