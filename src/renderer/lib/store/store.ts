@@ -12,15 +12,15 @@ export default class RendererStore<S extends State> extends Store<S> {
   ) {
     return (id: string, component: Component): T => {
       const subscriber: Subscriber<S> = (cur, next) => {
-        console.time(`[shouldUpdate] ${id}`);
-        console.log(cur, next);
+        // console.time(`[shouldUpdate] ${id}`);
+        // console.log(cur, next);
         const updated =
           shouldUpdate?.(cur, next) ||
           !deepEqual(selector(cur), selector(next));
-        console.timeEnd(`[shouldUpdate] ${id}`);
+        // console.timeEnd(`[shouldUpdate] ${id}`);
 
         if (updated) {
-          console.log(`[update] ${id}`);
+          // console.log(`[update] ${id}`);
           component.update();
         }
       };

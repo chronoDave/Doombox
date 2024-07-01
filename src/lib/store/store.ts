@@ -19,9 +19,9 @@ export default class Store<S extends State> {
   set(reducer: Reducer<S>, id: string) {
     const prev = this._state;
 
-    if (IS_DEV) console.time(`[store] ${id}`);
+    // if (IS_DEV) console.time(`[store] ${id}`);
     this._state = reducer(this._state);
-    if (IS_DEV) console.timeEnd(`[store] ${id}`);
+    // if (IS_DEV) console.timeEnd(`[store] ${id}`);
 
     this._subscribers.forEach(subscriber => subscriber(prev, this._state));
 

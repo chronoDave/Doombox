@@ -26,7 +26,11 @@ export const transfer = <T extends keyof TransferController>(
 
 export const subscribe = <T extends keyof SubscriptionController>(channel: T) =>
   (subscriber: (payload: SubscriptionController[T]) => void): () => void => {
-    const listener = (...args: any[]) => subscriber(args[1]);
+    const listener = (...args: any[]) => {
+      console.log(channel);
+      subscriber(args[1]);
+    }
+
 
     ipcRenderer.on(channel, listener);
     return () => ipcRenderer.off(channel, listener);

@@ -21,25 +21,25 @@ export default class AppWindow extends Window {
     this.window.setThumbarButtons([{
       tooltip: 'Previous',
       icon: createIcon('skip_previous'),
-      click: () => ipcSend('previous')
+      click: () => ipcSend('previous')()
     }, {
       tooltip: 'Play',
       flags: props.playing ? ['hidden'] : undefined,
       icon: createIcon('play'),
-      click: () => ipcSend('play')
+      click: () => ipcSend('play')()
     }, {
       tooltip: 'Pause',
       flags: !props.playing ? ['hidden'] : undefined,
       icon: createIcon('pause'),
-      click: () => ipcSend('pause')
+      click: () => ipcSend('pause')()
     }, {
       tooltip: 'Next',
       icon: createIcon('skip_next'),
-      click: () => ipcSend('next')
+      click: () => ipcSend('next')()
     }, {
       tooltip: 'Shuffle',
       icon: createIcon('shuffle'),
-      click: () => ipcSend('shuffle')
+      click: () => ipcSend('shuffle')()
     }]);
   }
 
