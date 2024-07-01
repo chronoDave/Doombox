@@ -16,11 +16,11 @@ export type AppWindowProps = {
 
 export default class AppWindow extends Window {
   private _updateToolbar(props: { playing: boolean }) {
-    const ipcSend = createIpcSend(this._window.webContents);
+    const ipcSend = createIpcSend(this.window.webContents);
     const createIcon = (id: string) =>
       nativeImage.createFromPath(path.resolve(__dirname, `assets/icons/${id}-white.png`));
 
-    this._window.setThumbarButtons([{
+    this.window.setThumbarButtons([{
       tooltip: 'Previous',
       icon: createIcon('skip_previous'),
       click: () => ipcSend(IpcRoute.Previous)

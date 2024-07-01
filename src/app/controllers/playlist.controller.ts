@@ -7,20 +7,20 @@ export type PlaylistControllerProps = {
   db: LeafDB<Playlist>
 };
 
-export default (props: PlaylistControllerProps) =>
-  (): IpcInvokeController[IpcChannel.Playlist] => ({
+export default (props: PlaylistControllerProps): IpcInvokeController[IpcChannel.Playlist] =>
+  ({
     get: async () => props.db.select({}),
-    add: async songs => props.db.insert([{
+    add: async ({ payload }) => props.db.insert([{
       _id: LeafDB.id(),
       title: 'New playlist',
-      songs: songs ?? [],
+      songs: payload ?? [],
       image: null
     }])[0],
-    update: async ({ _id, ...playlist }) => {
+    update: async ({ payload: { _id, ...playlist } }) => {
       props.db.update(playlist, { _id });
       return props.db.select({});
     },
-    remove: async _id => {
+    remove: async ({ payload: _id }) => {
       props.db.delete({ _id });
       return props.db.select({});
     }

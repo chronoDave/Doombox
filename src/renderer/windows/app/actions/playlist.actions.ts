@@ -14,6 +14,7 @@ export const fetchPlaylists = async () => {
 };
 
 export const createPlaylist = async (songs?: string[]) => {
+  if (!songs) return;
   const playlist = await window.ipc.playlist.add(songs);
 
   store.set(produce(draft => {

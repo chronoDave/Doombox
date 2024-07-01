@@ -10,9 +10,9 @@ export type SearchControllerProps = {
   }
 };
 
-export default (props: SearchControllerProps) =>
-  (): IpcInvokeController[IpcChannel.Search] => ({
-    album: async (song: string) => props.db.album.select({
-      songs: { $has: song }
+export default (props: SearchControllerProps): IpcInvokeController[IpcChannel.Search] =>
+  ({
+    album: async ({ payload }) => props.db.album.select({
+      songs: { $has: payload }
     })[0]
   });

@@ -33,7 +33,7 @@ const Library: Component<LibraryProps> = () => {
           <button
             class='button'
             type='button'
-            onclick={window.ipc.library.rebuild}
+            onclick={() => window.ipc.library.rebuild()}
           >
             Rebuild library
           </button>

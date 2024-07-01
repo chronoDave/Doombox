@@ -72,12 +72,6 @@ export type IpcPayloadReceive = {
   [IpcRoute.Shuffle]: {}
 };
 
-/** Controller */
-export type IpcControllerStorage<T extends Shape> = {
-  [IpcRoute.Get]: () => Promise<T>
-  [IpcRoute.Set]: (payload: T) => Promise<T>
-};
-
 /** Renderer to main (one-way) */
 export type IpcSendHandler<T = void> = (event: {
   payload: T,
@@ -100,29 +94,39 @@ export type IpcSendController = {
 };
 
 /** Renderer to main (two-way) */
+export type IpcInvokeHandler<P, T> = (event: {
+  payload: T,
+  window: BrowserWindow | null
+}) => Promise<P>;
+
+export type IpcControllerStorage<T extends Shape> = {
+  [IpcRoute.Get]: IpcInvokeHandler<T, void>
+  [IpcRoute.Set]: IpcInvokeHandler<T, T>
+};
+
 export type IpcInvokeController = {
   [IpcChannel.App]: {
-    [IpcRoute.SelectFolders]: () => Promise<string[]>
+    [IpcRoute.SelectFolders]: IpcInvokeHandler<string[], void>
   }
   [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
   [IpcChannel.User]: IpcControllerStorage<UserShape>
   [IpcChannel.Cache]: IpcControllerStorage<CacheShape>
   [IpcChannel.Library]: {
-    [IpcRoute.Add]: (folders: string[]) => Promise<Library>
-    [IpcRoute.Remove]: (payload: string[]) => Promise<Library>
-    [IpcRoute.Get]: () => Promise<Library>
-    [IpcRoute.Reindex]: (folders: string[]) => Promise<Library>
-    [IpcRoute.Rebuild]: () => Promise<Library>
-    [IpcRoute.Search]: (query: string) => Promise<Library>
+    [IpcRoute.Add]: IpcInvokeHandler<Library, string[]>
+    [IpcRoute.Remove]: IpcInvokeHandler<Library, string[]>
+    [IpcRoute.Get]: IpcInvokeHandler<Library, void>
+    [IpcRoute.Reindex]: IpcInvokeHandler<Library, string[]>
+    [IpcRoute.Rebuild]: IpcInvokeHandler<Library, void>
+    [IpcRoute.Search]: IpcInvokeHandler<Library, string>
   }
   [IpcChannel.Playlist]: {
-    [IpcRoute.Add]: (songs?: string[]) => Promise<Playlist>,
-    [IpcRoute.Update]: (playlist: Playlist) => Promise<Playlist[]>
-    [IpcRoute.Remove]: (id: string) => Promise<Playlist[]>
-    [IpcRoute.Get]: () => Promise<Playlist[]>
+    [IpcRoute.Add]: IpcInvokeHandler<Playlist, string[]>
+    [IpcRoute.Update]: IpcInvokeHandler<Playlist[], Playlist>
+    [IpcRoute.Remove]: IpcInvokeHandler<Playlist[], string>
+    [IpcRoute.Get]: IpcInvokeHandler<Playlist[], void>
   }
   [IpcChannel.Search]: {
-    [IpcRoute.Album]: (song: string) => Promise<Album>
+    [IpcRoute.Album]: IpcInvokeHandler<Album, string>
   }
 };
 
@@ -137,6 +141,17 @@ export type IpcApi = {
       payload: Parameters<IpcSendController[Channel][Route] extends IpcSendHandler ? IpcSendController[Channel][Route] : never>[0]['payload']
     ) => void
   }
-} & IpcInvokeController & {
+} & {
+  [Channel in keyof IpcInvokeController]: {
+    [Route in keyof IpcInvokeController[Channel]]: (
+      payload: IpcInvokeController[Channel][Route] extends IpcInvokeHandler<infer T, infer K> ?
+        K :
+        never
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ) => IpcInvokeController[Channel][Route] extends IpcInvokeHandler<infer T, infer K> ?
+      Promise<T> :
+      never
+  }
+} & {
   [IpcChannel.Receive]: IpcReceiveController
 };

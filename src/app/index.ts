@@ -14,7 +14,7 @@ import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
 
 import { PATH } from './const';
-import createAppController from './controllers/app.controller';
+import appController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
 import createPlaylistController from './controllers/playlist.controller';
@@ -80,11 +80,16 @@ const run = async () => {
   Object.values(db).forEach(x => x.open());
 
   ipcRouter
-    .transfer(IpcChannel.App, createAppController())
+    .transfer(IpcChannel.App, appController)
     .transfer(IpcChannel.User, createUserController({ storage: storage.user }))
     .transfer(IpcChannel.Theme, createThemeController({ storage: storage.theme }))
     .transfer(IpcChannel.Cache, createCacheController({ storage: storage.cache }))
-    .transfer(IpcChannel.Library, createLibraryController({ library, storage: storage.user, db }))
+    .transfer(IpcChannel.Library, createLibraryController({
+      library,
+      window: window.app.window,
+      storage: storage.user,
+      db
+    }))
     .transfer(IpcChannel.Playlist, createPlaylistController({ db: db.playlist }))
     .transfer(IpcChannel.Search, createSearchController({ db }))
     .receive(IpcChannel.Router, createRouterController({ settings: window.settings }))

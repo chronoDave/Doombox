@@ -6,7 +6,7 @@ export type UserControllerProps = {
   storage: Storage<UserShape>
 };
 
-export default (props: UserControllerProps) => (): IpcInvokeController[IpcChannel.User] => ({
+export default (props: UserControllerProps): IpcInvokeController[IpcChannel.User] => ({
   get: async () => props.storage.get(),
-  set: async payload => props.storage.set(payload)
+  set: async ({ payload }) => props.storage.set(payload)
 });

@@ -35,7 +35,7 @@ export default class Window {
   private readonly _onmove: () => void;
   private _ready?: boolean;
 
-  protected readonly _window: BrowserWindow;
+  readonly window: BrowserWindow;
 
   constructor(props: WindowProps) {
     this._cache = new Storage({
@@ -44,7 +44,7 @@ export default class Window {
       root: props.cache.root
     });
 
-    this._window = new BrowserWindow({
+    this.window = new BrowserWindow({
       title: props.title,
       icon: process.platform === 'win32' ?
         path.resolve(__dirname, IS_DEV ? 'assets/dev.ico' : 'assets/app.ico') :
@@ -70,7 +70,7 @@ export default class Window {
     });
 
     this._onresize = debounce(() => {
-      const { width, height } = this._window.getBounds();
+      const { width, height } = this.window.getBounds();
       this._cache.set(produce<WindowShape>(draft => {
         draft.width = width;
         draft.height = height;
@@ -78,19 +78,19 @@ export default class Window {
     }, 100);
 
     this._onmove = debounce(() => {
-      const [x, y] = this._window.getPosition();
+      const [x, y] = this.window.getPosition();
       this._cache.set(produce<WindowShape>(draft => {
         draft.x = x;
         draft.y = y;
       })(this._cache.get()));
     }, 100);
 
-    this._window.on('ready-to-show', () => {
+    this.window.on('ready-to-show', () => {
       this._ready = true;
     });
 
-    this._window.on('resize', () => this._onresize());
-    this._window.on('move', () => this._onmove());
+    this.window.on('resize', () => this._onresize());
+    this.window.on('move', () => this._onmove());
 
     if (IS_DEV) {
       // eslint-disable-next-line global-require
@@ -99,22 +99,22 @@ export default class Window {
           `${path.dirname(props.file.html)}/**/*`,
           props.file.preload
         ])
-        .on('change', () => this._window.reload());
+        .on('change', () => this.window.reload());
     }
 
-    this._window.loadFile(props.file.html);
+    this.window.loadFile(props.file.html);
   }
 
   async show() {
     if (!this._ready) {
       return new Promise<void>(resolve => {
-        this._window.once('ready-to-show', () => {
-          this._window.show();
+        this.window.once('ready-to-show', () => {
+          this.window.show();
           resolve();
         });
       });
     }
 
-    return this._window.show();
+    return this.window.show();
   }
 }

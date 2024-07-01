@@ -6,8 +6,8 @@ export type CacheControllerProps = {
   storage: Storage<CacheShape>
 };
 
-export default (props: CacheControllerProps) =>
-  (): IpcInvokeController[IpcChannel.Cache] => ({
+export default (props: CacheControllerProps): IpcInvokeController[IpcChannel.Cache] =>
+  ({
     get: async () => props.storage.get(),
-    set: async payload => props.storage.set(payload)
+    set: async ({ payload }) => props.storage.set(payload)
   });
