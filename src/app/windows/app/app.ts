@@ -1,8 +1,6 @@
 import { nativeImage } from 'electron';
 import path from 'path';
 
-import { IpcRoute, IpcChannel } from '@doombox/types/ipc';
-
 import Router from '../../lib/ipc/router';
 import createIpcSend from '../../lib/ipc/send';
 import Window from '../../lib/window/window';
@@ -23,25 +21,25 @@ export default class AppWindow extends Window {
     this.window.setThumbarButtons([{
       tooltip: 'Previous',
       icon: createIcon('skip_previous'),
-      click: () => ipcSend(IpcRoute.Previous)
+      click: () => ipcSend('previous')
     }, {
       tooltip: 'Play',
       flags: props.playing ? ['hidden'] : undefined,
       icon: createIcon('play'),
-      click: () => ipcSend(IpcRoute.Play)
+      click: () => ipcSend('play')
     }, {
       tooltip: 'Pause',
       flags: !props.playing ? ['hidden'] : undefined,
       icon: createIcon('pause'),
-      click: () => ipcSend(IpcRoute.Pause)
+      click: () => ipcSend('pause')
     }, {
       tooltip: 'Next',
       icon: createIcon('skip_next'),
-      click: () => ipcSend(IpcRoute.Next)
+      click: () => ipcSend('next')
     }, {
       tooltip: 'Shuffle',
       icon: createIcon('shuffle'),
-      click: () => ipcSend(IpcRoute.Shuffle)
+      click: () => ipcSend('shuffle')
     }]);
   }
 
@@ -60,7 +58,7 @@ export default class AppWindow extends Window {
     });
 
     const router = new Router();
-    router.receive(IpcChannel.Player, {
+    router.receive('player', {
       play: () => this._updateToolbar({ playing: true }),
       pause: () => this._updateToolbar({ playing: false })
     });

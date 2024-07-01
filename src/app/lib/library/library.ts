@@ -1,6 +1,6 @@
-import type { IpcRoute, IpcPayloadReceive } from '../../../types/ipc';
 import type { Album, Label, Song } from '../../../types/library';
 import type Parser from '../parser/parser';
+import type { SubscriptionController } from '@doombox/types/ipc';
 
 import fs from 'fs';
 import LeafDB from 'leaf-db';
@@ -23,8 +23,8 @@ export type LibraryProps = {
 };
 
 export type LibraryEvents = {
-  image: (payload: IpcPayloadReceive[IpcRoute.Image]) => void
-  song: (payload: IpcPayloadReceive[IpcRoute.Song]) => void
+  image: (payload: SubscriptionController['image']) => void
+  song: (payload: SubscriptionController['song']) => void
 };
 
 export default class Library extends EventEmitter<LibraryEvents> {

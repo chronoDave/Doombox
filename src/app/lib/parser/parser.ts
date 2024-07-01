@@ -1,5 +1,5 @@
 import type Transliterator from '../../../lib/transliterator/transliterator';
-import type { IpcPayloadReceive, IpcRoute } from '../../../types/ipc';
+import type { SubscriptionController } from '../../../types/ipc';
 import type { Song } from '../../../types/library';
 import type { INativeTags } from 'music-metadata/lib/type';
 
@@ -14,7 +14,7 @@ export type ParserProps = {
 };
 
 export type ParserEvents = {
-  parse: (payload: IpcPayloadReceive[IpcRoute.Song]) => void
+  parse: (payload: SubscriptionController['song']) => void
 };
 
 export default class Parser extends EventEmitter<ParserEvents> {

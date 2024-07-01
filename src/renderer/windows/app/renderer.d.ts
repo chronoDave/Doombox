@@ -1,8 +1,8 @@
-import type { IpcApi } from '@doombox/types/ipc';
+import type { Api } from '@doombox/types/ipc';
 
 declare global {
   interface Window {
-    ipc: IpcApi
+    ipc: Api
     dir: {
       thumbs: string
     }

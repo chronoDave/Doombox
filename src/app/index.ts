@@ -8,15 +8,14 @@ import LeafDB from 'leaf-db';
 import { IS_DEV } from '../lib/const';
 import Tokenizer from '../lib/tokenizer/tokenizer';
 import Transliterator from '../lib/transliterator/transliterator';
-import { IpcChannel } from '../types/ipc';
 import cacheShape from '../types/shapes/cache.shape';
 import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
 
 import { PATH } from './const';
-import appController from './controllers/app.controller';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
+import osController from './controllers/os.controller';
 import createPlaylistController from './controllers/playlist.controller';
 import createRouterController from './controllers/router.controller';
 import createSearchController from './controllers/search.controller';
@@ -80,20 +79,20 @@ const run = async () => {
   Object.values(db).forEach(x => x.open());
 
   ipcRouter
-    .transfer(IpcChannel.App, appController)
-    .transfer(IpcChannel.User, createUserController({ storage: storage.user }))
-    .transfer(IpcChannel.Theme, createThemeController({ storage: storage.theme }))
-    .transfer(IpcChannel.Cache, createCacheController({ storage: storage.cache }))
-    .transfer(IpcChannel.Library, createLibraryController({
+    .transfer('os', osController)
+    .transfer('user', createUserController({ storage: storage.user }))
+    .transfer('theme', createThemeController({ storage: storage.theme }))
+    .transfer('cache', createCacheController({ storage: storage.cache }))
+    .transfer('library', createLibraryController({
       library,
       window: window.app.window,
       storage: storage.user,
       db
     }))
-    .transfer(IpcChannel.Playlist, createPlaylistController({ db: db.playlist }))
-    .transfer(IpcChannel.Search, createSearchController({ db }))
-    .receive(IpcChannel.Router, createRouterController({ settings: window.settings }))
-    .receive(IpcChannel.Window, windowController)
+    .transfer('playlist', createPlaylistController({ db: db.playlist }))
+    .transfer('search', createSearchController({ db }))
+    .receive('router', createRouterController({ settings: window.settings }))
+    .receive('window', windowController)
     .on('error', logger.error);
 
   app.on('window-all-closed', () => {

@@ -62,7 +62,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
               type='button'
               aria-label='add folders'
               onclick={async () => {
-                const folders = await window.ipc.app.selectFolders();
+                const folders = await window.ipc.os.folders();
                 if (folders.length > 0) props.onadd(folders);
               }}
             >

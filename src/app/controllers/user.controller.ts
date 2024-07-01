@@ -1,4 +1,4 @@
-import type { IpcChannel, IpcInvokeController } from '../../types/ipc';
+import type { TransferController } from '../../types/ipc';
 import type { UserShape } from '../../types/shapes/user.shape';
 import type Storage from '../lib/storage/storage';
 
@@ -6,7 +6,7 @@ export type UserControllerProps = {
   storage: Storage<UserShape>
 };
 
-export default (props: UserControllerProps): IpcInvokeController[IpcChannel.User] => ({
+export default (props: UserControllerProps): TransferController['user'] => ({
   get: async () => props.storage.get(),
-  set: async ({ payload }) => props.storage.set(payload)
+  set: async user => props.storage.set(user)
 });

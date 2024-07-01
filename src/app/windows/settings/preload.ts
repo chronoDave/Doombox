@@ -1,22 +1,12 @@
-import type { IpcEvent } from '@doombox/types/ipc';
+import { contextBridge } from 'electron';
 
-import { contextBridge, ipcRenderer } from 'electron';
-
-import { IpcChannel, IpcRoute } from '@doombox/types/ipc';
-
-const send = (
-  channel: IpcChannel,
-  action: IpcRoute
-) => (payload?: unknown) => {
-  const event: IpcEvent = { action, payload };
-  ipcRenderer.send(channel, event);
-};
+import { send } from '../../lib/ipc/api';
 
 const ipc = {
   window: {
-    minimize: send(IpcChannel.Window, IpcRoute.Minimize),
-    maximize: send(IpcChannel.Window, IpcRoute.Maximize),
-    close: send(IpcChannel.Window, IpcRoute.Close)
+    minimize: send('window', 'minimize'),
+    maximize: send('window', 'maximize'),
+    close: send('window', 'close')
   }
 };
 

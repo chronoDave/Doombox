@@ -6,152 +6,105 @@ import type { ThemeShape } from './shapes/theme.shape';
 import type { UserShape } from './shapes/user.shape';
 import type { BrowserWindow } from 'electron';
 
-export enum IpcChannel {
-  App = 'app',
-  User = 'user',
-  Theme = 'theme',
-  Cache = 'cache',
-  Window = 'window',
-  Library = 'library',
-  Receive = 'on',
-  Playlist = 'playlist',
-  Player = 'player',
-  Search = 'search',
-  Router = 'router'
-}
-
-export type IpcChannelReceive<T extends IpcRoute> = `${IpcChannel.Receive}.${T}`;
-
-export enum IpcRoute {
-  SelectFolders = 'selectFolders',
-  Add = 'add',
-  Remove = 'remove',
-  Rebuild = 'rebuild',
-  Reindex = 'reindex',
-  Get = 'get',
-  Set = 'set',
-  Minimize = 'minimize',
-  Maximize = 'maximize',
-  Update = 'update',
-  Close = 'close',
-  Song = 'song',
-  Album = 'album',
-  Label = 'label',
-  Image = 'image',
-  Search = 'search',
-  Play = 'play',
-  Pause = 'pause',
-  Next = 'next',
-  Previous = 'previous',
-  Shuffle = 'shuffle',
-  Settings = 'settings'
-}
-
-/** Events */
-export type IpcEvent = {
-  action: IpcRoute
-  payload?: unknown
-};
-
-/** Payloads */
-export type IpcPayloadReceive = {
-  [IpcRoute.Song]: {
-    file: string
-    cur: number
-    size: number
-  },
-  [IpcRoute.Image]: {
-    file: string
-    cur: number
-    size: number
-  },
-  [IpcRoute.Play]: {},
-  [IpcRoute.Pause]: {},
-  [IpcRoute.Next]: {},
-  [IpcRoute.Previous]: {},
-  [IpcRoute.Shuffle]: {}
+export type Event = {
+  route: string
+  payload: unknown
 };
 
 /** Renderer to main (one-way) */
-export type IpcSendHandler<T = void> = (event: {
+export type ReceiveHandler<T = void> = (
   payload: T,
   window: BrowserWindow | null
-}) => void;
+) => void;
 
-export type IpcSendController = {
-  [IpcChannel.Window]: {
-    [IpcRoute.Minimize]: IpcSendHandler
-    [IpcRoute.Maximize]: IpcSendHandler
-    [IpcRoute.Close]: IpcSendHandler
+export type ReceiveController = {
+  window: {
+    minimize: ReceiveHandler
+    maximize: ReceiveHandler
+    close: ReceiveHandler
   }
-  [IpcChannel.Player]: {
-    [IpcRoute.Play]: IpcSendHandler
-    [IpcRoute.Pause]: IpcSendHandler
+  player: {
+    play: ReceiveHandler
+    pause: ReceiveHandler
   }
-  [IpcChannel.Router]: {
-    [IpcRoute.Settings]: IpcSendHandler
+  router: {
+    settings: ReceiveHandler
   }
 };
 
 /** Renderer to main (two-way) */
-export type IpcInvokeHandler<P, T> = (event: {
-  payload: T,
+export type TransferHandler<T, P> = (
+  payload: P,
   window: BrowserWindow | null
-}) => Promise<P>;
+) => Promise<T>;
 
-export type IpcControllerStorage<T extends Shape> = {
-  [IpcRoute.Get]: IpcInvokeHandler<T, void>
-  [IpcRoute.Set]: IpcInvokeHandler<T, T>
+export type StorageTransferController<T extends Shape> = {
+  get: TransferHandler<T, void>
+  set: TransferHandler<T, T>
 };
 
-export type IpcInvokeController = {
-  [IpcChannel.App]: {
-    [IpcRoute.SelectFolders]: IpcInvokeHandler<string[], void>
+export type TransferController = {
+  os: {
+    folders: TransferHandler<string[], void>
   }
-  [IpcChannel.Theme]: IpcControllerStorage<ThemeShape>
-  [IpcChannel.User]: IpcControllerStorage<UserShape>
-  [IpcChannel.Cache]: IpcControllerStorage<CacheShape>
-  [IpcChannel.Library]: {
-    [IpcRoute.Add]: IpcInvokeHandler<Library, string[]>
-    [IpcRoute.Remove]: IpcInvokeHandler<Library, string[]>
-    [IpcRoute.Get]: IpcInvokeHandler<Library, void>
-    [IpcRoute.Reindex]: IpcInvokeHandler<Library, string[]>
-    [IpcRoute.Rebuild]: IpcInvokeHandler<Library, void>
-    [IpcRoute.Search]: IpcInvokeHandler<Library, string>
+  theme: StorageTransferController<ThemeShape>
+  user: StorageTransferController<UserShape>
+  cache: StorageTransferController<CacheShape>
+  library: {
+    add: TransferHandler<Library, string[]>
+    remove: TransferHandler<Library, string[]>
+    get: TransferHandler<Library, void>
+    reindex: TransferHandler<Library, string[]>
+    rebuild: TransferHandler<Library, void>
+    search: TransferHandler<Library, string>
   }
-  [IpcChannel.Playlist]: {
-    [IpcRoute.Add]: IpcInvokeHandler<Playlist, string[]>
-    [IpcRoute.Update]: IpcInvokeHandler<Playlist[], Playlist>
-    [IpcRoute.Remove]: IpcInvokeHandler<Playlist[], string>
-    [IpcRoute.Get]: IpcInvokeHandler<Playlist[], void>
+  playlist: {
+    add: TransferHandler<Playlist, string[]>
+    update: TransferHandler<Playlist[], Playlist>
+    remove: TransferHandler<Playlist[], string>
+    get: TransferHandler<Playlist[], void>
   }
-  [IpcChannel.Search]: {
-    [IpcRoute.Album]: IpcInvokeHandler<Album, string>
+  search: {
+    album: TransferHandler<Album, string>
   }
 };
 
-/** Main to renderer (one-way) */
-export type IpcReceiveController = {
-  [T in keyof IpcPayloadReceive]: (cb: (payload: IpcPayloadReceive[T]) => void) => () => void
+/** Main to renderer */
+export type SubscriptionController = {
+  song: { file: string, cur: number, size: number }
+  image: { file: string, cur: number, size: number }
+  play: void
+  pause: void
+  next: void
+  previous: void
+  shuffle: void
 };
 
-export type IpcApi = {
-  [Channel in keyof IpcSendController]: {
-    [Route in keyof IpcSendController[Channel]]: (
-      payload: Parameters<IpcSendController[Channel][Route] extends IpcSendHandler ? IpcSendController[Channel][Route] : never>[0]['payload']
+/** Api */
+export type Api = {
+  [Channel in keyof ReceiveController]: {
+    [Route in keyof ReceiveController[Channel]]: (
+      payload: Parameters<ReceiveController[Channel][Route] extends ReceiveHandler ?
+        ReceiveController[Channel][Route] :
+        never
+      >[0]
     ) => void
   }
 } & {
-  [Channel in keyof IpcInvokeController]: {
-    [Route in keyof IpcInvokeController[Channel]]: (
-      payload: IpcInvokeController[Channel][Route] extends IpcInvokeHandler<infer T, infer K> ?
+  [Channel in keyof TransferController]: {
+    [Route in keyof TransferController[Channel]]: (
+      payload: TransferController[Channel][Route] extends TransferHandler<infer T, infer K> ?
         K :
         never
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ) => IpcInvokeController[Channel][Route] extends IpcInvokeHandler<infer T, infer K> ?
+    ) => TransferController[Channel][Route] extends TransferHandler<infer T, infer K> ?
       Promise<T> :
       never
   }
 } & {
-  [IpcChannel.Receive]: IpcReceiveController
+  on: {
+    [Channel in keyof SubscriptionController]: (
+      subscriber: (payload: SubscriptionController[Channel]) => void
+    ) => () => void
+  }
 };

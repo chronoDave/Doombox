@@ -1,9 +1,9 @@
-import type { IpcChannel, IpcSendController } from '@doombox/types/ipc';
+import type { ReceiveController } from '@doombox/types/ipc';
 
-const windowController: IpcSendController[IpcChannel.Window] = {
-  close: ({ window }) => window?.close(),
-  minimize: ({ window }) => window?.minimize(),
-  maximize: ({ window }) => window?.isMaximized() ?
+const windowController: ReceiveController['window'] = {
+  close: (_, window) => window?.close(),
+  minimize: (_, window) => window?.minimize(),
+  maximize: (_, window) => window?.isMaximized() ?
     window.unmaximize() :
     window?.maximize()
 };

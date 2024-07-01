@@ -1,4 +1,4 @@
-import type { IpcChannel, IpcInvokeController } from '../../types/ipc';
+import type { TransferController } from '../../types/ipc';
 import type { Album, Label, Song } from '../../types/library';
 import type LeafDB from 'leaf-db';
 
@@ -10,9 +10,9 @@ export type SearchControllerProps = {
   }
 };
 
-export default (props: SearchControllerProps): IpcInvokeController[IpcChannel.Search] =>
+export default (props: SearchControllerProps): TransferController['search'] =>
   ({
-    album: async ({ payload }) => props.db.album.select({
-      songs: { $has: payload }
+    album: async query => props.db.album.select({
+      songs: { $has: query }
     })[0]
   });

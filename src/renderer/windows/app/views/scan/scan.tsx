@@ -6,7 +6,6 @@ import Loader from '@doombox/components/loader/loader';
 import Progress from '@doombox/components/progress/progress';
 import Time from '@doombox/lib/time/time';
 import createMediaQuery from '@doombox/renderer/css/mediaQuery';
-import { IpcRoute } from '@doombox/types/ipc';
 
 import { useInterval } from '../../hooks/useInterval';
 import useIpc from '../../hooks/useIpc';
@@ -53,7 +52,7 @@ const ScanView: Component<ScanViewProps> = () => {
     }
   });
 
-  useIpc(IpcRoute.Image, payload => {
+  useIpc('image', payload => {
     if (state.process !== 'Scanning images...') {
       state.time.cur = 0;
       state.time.max = 0;
@@ -68,7 +67,7 @@ const ScanView: Component<ScanViewProps> = () => {
     }
   })(component);
 
-  useIpc(IpcRoute.Song, payload => {
+  useIpc('song', payload => {
     if (state.process !== 'Scanning songs...') {
       state.time.cur = 0;
       state.time.max = 0;
