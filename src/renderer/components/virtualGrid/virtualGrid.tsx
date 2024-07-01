@@ -1,6 +1,6 @@
 import * as forgo from 'forgo';
 
-import debounce from '../../lib/fn/debounce';
+import debounce from '../../../lib/function/debounce';
 
 import { createVirtualGrid } from './virtualGrid.utils';
 

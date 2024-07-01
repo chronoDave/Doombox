@@ -4,7 +4,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '@doombox/components/icon/icon';
-import debounce from '@doombox/renderer/fn/debounce';
+import debounce from '@doombox/lib/function/debounce';
 
 import { mute, setVolume } from '../../../actions/player.actions';
 

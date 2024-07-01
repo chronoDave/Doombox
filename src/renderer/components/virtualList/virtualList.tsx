@@ -1,7 +1,7 @@
 import * as forgo from 'forgo';
 
+import debounce from '@doombox/lib/function/debounce';
 import { sumSelect } from '@doombox/lib/math/sum';
-import debounce from '@doombox/renderer/fn/debounce';
 
 import { createVirtualList } from './virtualList.utils';
 

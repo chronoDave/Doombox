@@ -16,7 +16,7 @@ import {
 import { IpcChannel } from '@doombox/types/ipc';
 import windowShape from '@doombox/types/shapes/window.shape';
 
-import debounce from '../function/debounce';
+import debounce from '../../../lib/function/debounce';
 import ipcRouter from '../ipc/router';
 import Storage from '../storage/storage';
 
