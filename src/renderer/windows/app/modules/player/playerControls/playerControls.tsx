@@ -4,9 +4,9 @@ import * as forgo from 'forgo';
 
 import Icon from '@doombox/components/icon/icon';
 
+import { AudioStatus } from '../../../../../lib/audio/audio';
 import { next, pause, previous } from '../../../actions/player.actions';
 import { shuffleQueue } from '../../../actions/queue.actions';
-import { AudioStatus } from '../../../lib/audio/audio';
 import PlayerVolume from '../playerVolume/playerVolume';
 
 import subscribe from './playerControls.state';

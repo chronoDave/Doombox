@@ -7,7 +7,7 @@ import wrap from '@doombox/lib/math/wrap';
 import readFile from '@doombox/renderer/dom/fileReader/fileReader';
 import cacheShape from '@doombox/types/shapes/cache.shape';
 
-import Audio, { AudioStatus } from '../lib/audio/audio';
+import Audio, { AudioStatus } from '../../../lib/audio/audio';
 import { imageSelector } from '../selectors';
 import store from '../store';
 

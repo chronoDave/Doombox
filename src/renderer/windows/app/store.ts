@@ -5,7 +5,8 @@ import cacheShape from '@doombox/types/shapes/cache.shape';
 import themeShape from '@doombox/types/shapes/theme.shape';
 import userShape from '@doombox/types/shapes/user.shape';
 
-import { AudioStatus } from './lib/audio/audio';
+import { AudioStatus } from '../../lib/audio/audio';
+
 import * as Route from './types/route';
 
 export default new Store<State>({
