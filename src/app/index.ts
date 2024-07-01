@@ -6,6 +6,8 @@ import fs from 'fs';
 import LeafDB from 'leaf-db';
 
 import { IS_DEV } from '../lib/const';
+import Tokenizer from '../lib/tokenizer/tokenizer';
+import Transliterator from '../lib/transliterator/transliterator';
 import { IpcChannel } from '../types/ipc';
 import cacheShape from '../types/shapes/cache.shape';
 import themeShape from '../types/shapes/theme.shape';
@@ -25,8 +27,6 @@ import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
 import Storage from './lib/storage/storage';
-import createTokenizer from './lib/tokenizer/tokenizer';
-import Transliterator from './lib/transliterator/transliterator';
 import AppWindow from './windows/app/app';
 import SettingsWindow from './windows/settings/settings';
 
@@ -43,8 +43,8 @@ fs.mkdirSync(PATH.CACHE, { recursive: true });
 const run = async () => {
   /** Initialize entities */
   const logger = new Logger({ root: PATH.LOGS });
-  const tokenizer = await createTokenizer(PATH.DICT);
-  const transliterator = new Transliterator({ tokenizer });
+  const tokenizer = await Tokenizer.create(PATH.DICT);
+  const transliterator = new Transliterator(tokenizer);
 
   const db: {
     song: LeafDB<Song>,

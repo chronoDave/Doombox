@@ -1,14 +1,14 @@
 import path from 'path';
 
-import createTokenizer from '../tokenizer/tokenizer';
-import Transliterator from '../transliterator/transliterator';
+import Tokenizer from '../../../lib/tokenizer/tokenizer';
+import Transliterator from '../../../lib/transliterator/transliterator';
 
 import Parser from './parser';
 
 export default async () => {
   const root = path.resolve(__dirname, '../../../../../node_modules/kuromoji/dict');
-  const tokenizer = await createTokenizer(root);
-  const transliterator = new Transliterator({ tokenizer });
+  const tokenizer = await Tokenizer.create(root);
+  const transliterator = new Transliterator(tokenizer);
 
   return new Parser({ transliterator });
 };

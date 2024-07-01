@@ -1,21 +1,17 @@
-import type kuromoji from 'kuromoji';
+import type Tokenizer from '../tokenizer/tokenizer';
 
 import * as wanakana from 'wanakana';
 
-export type TransliteratorProps = {
-  tokenizer: kuromoji.Tokenizer<kuromoji.IpadicFeatures>
-};
-
 export default class Transliterator {
-  private readonly _tokenizer: kuromoji.Tokenizer<kuromoji.IpadicFeatures>;
+  private readonly _tokenizer: Tokenizer;
 
-  constructor(props: TransliteratorProps) {
-    this._tokenizer = props.tokenizer;
+  constructor(tokenizer: Tokenizer) {
+    this._tokenizer = tokenizer;
   }
 
   tokenizeKanji(kanji: string) {
     return this._tokenizer.tokenize(kanji)
-      .map(token => wanakana.toRomaji(token.reading ?? ''))
+      .map(token => wanakana.toRomaji(token))
       .join('');
   }
 
