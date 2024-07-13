@@ -70,7 +70,7 @@ const run = async () => {
   };
 
   const window = {
-    app: new AppWindow({ dir: { cache: PATH.CACHE, thumbs: PATH.THUMBS } }),
+    app: new AppWindow({ root: PATH.CACHE }),
     settings: new SettingsWindow({ root: PATH.CACHE, logger })
   };
 
@@ -79,7 +79,7 @@ const run = async () => {
   Object.values(db).forEach(x => x.open());
 
   ipcRouter
-    .transfer('os', osController)
+    .transfer('os', osController({ root: { thumbs: PATH.THUMBS } }))
     .transfer('user', createUserController({ storage: storage.user }))
     .transfer('theme', createThemeController({ storage: storage.theme }))
     .transfer('cache', createCacheController({ storage: storage.cache }))

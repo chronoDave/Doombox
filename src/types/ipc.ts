@@ -45,6 +45,7 @@ export type StorageTransferController<T extends Shape> = {
 
 export type TransferController = {
   os: {
+    image: TransferHandler<string, void>
     folders: TransferHandler<string[], void>
   }
   theme: StorageTransferController<ThemeShape>

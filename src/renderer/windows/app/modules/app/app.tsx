@@ -4,6 +4,7 @@ import * as forgo from 'forgo';
 
 import Window from '@doombox/components/window/window';
 
+import { fetchPath } from '../../actions/app.actions';
 import { fetchCache } from '../../actions/cache.actions';
 import { fetchLibrary } from '../../actions/library.actions';
 import { fetchPlaylists } from '../../actions/playlist.actions';
@@ -43,7 +44,8 @@ const App: Component<AppProps> = () => {
       fetchTheme(),
       fetchUser(),
       fetchCache(),
-      fetchPlaylists()
+      fetchPlaylists(),
+      fetchPath()
     ]);
 
     setRouteApp(Route.App.Home);

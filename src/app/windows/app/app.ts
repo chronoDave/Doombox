@@ -6,10 +6,7 @@ import createIpcSend from '../../lib/ipc/send';
 import Window from '../../lib/window/window';
 
 export type AppWindowProps = {
-  dir: {
-    cache: string
-    thumbs: string
-  }
+  root: string
 };
 
 export default class AppWindow extends Window {
@@ -46,15 +43,14 @@ export default class AppWindow extends Window {
   constructor(props: AppWindowProps) {
     super({
       cache: {
-        root: props.dir.cache,
+        root: props.root,
         name: 'app'
       },
       title: 'Doombox',
       file: {
         html: path.resolve(__dirname, 'renderer/app/index.html'),
         preload: path.resolve(__dirname, 'preload/app.js')
-      },
-      data: JSON.stringify({ dir: { thumbs: props.dir.thumbs } })
+      }
     });
 
     const router = new Router();

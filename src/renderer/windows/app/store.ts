@@ -15,6 +15,9 @@ export default new Store<State>({
     home: Route.Home.Library,
     search: Route.Search.Song
   },
+  dir: {
+    thumbs: ''
+  },
   queue: {
     title: 'Queue',
     index: 0,

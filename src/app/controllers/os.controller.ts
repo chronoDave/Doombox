@@ -2,7 +2,14 @@ import type { TransferController } from '../../types/ipc';
 
 import { dialog } from 'electron';
 
-const osController: TransferController['os'] = {
+export type OsControllerProps = {
+  root: {
+    thumbs: string
+  }
+};
+
+const osController = (props: OsControllerProps): TransferController['os'] => ({
+  image: async () => props.root.thumbs,
   folders: () => dialog.showOpenDialog({
     title: 'Select folder',
     properties: [
@@ -12,6 +19,6 @@ const osController: TransferController['os'] = {
     ]
   })
     .then(x => x.filePaths)
-};
+});
 
 export default osController;

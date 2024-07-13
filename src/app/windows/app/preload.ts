@@ -18,6 +18,7 @@ const ipc: Api = {
     settings: send('router', 'settings')
   },
   os: {
+    image: transfer('os', 'image'),
     folders: transfer('os', 'folders')
   },
   theme: {
@@ -61,10 +62,3 @@ const ipc: Api = {
 };
 
 contextBridge.exposeInMainWorld('ipc', ipc);
-
-const raw = process.argv.slice(-1)[0];
-if (raw) {
-  Object.entries(JSON.parse(raw)).forEach(([key, value]) => {
-    contextBridge.exposeInMainWorld(key, value);
-  });
-}
