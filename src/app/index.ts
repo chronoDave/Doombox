@@ -75,7 +75,11 @@ const run = async () => {
   };
 
   /** Initialize app */
+  storage.theme.on(theme => {
+    nativeTheme.themeSource = theme.theme;
+  });
   nativeTheme.themeSource = storage.theme.state.theme;
+
   Object.values(db).forEach(x => x.open());
 
   ipcRouter
