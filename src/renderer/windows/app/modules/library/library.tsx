@@ -4,8 +4,8 @@ import * as forgo from 'forgo';
 
 import VirtualGrid from '@doombox/components/virtual-grid/virtual-grid';
 
-import { addAlbumToQueue, playAlbum, playLabel } from '../../actions/queue.actions';
 import useMediaQuery from '../../hooks/useMediaQuery';
+import { addAlbumToQueue, playAlbum, playLabel } from '../../state/actions/queue.actions';
 
 import subscribe from './library.state';
 import LibraryAlbum from './libraryAlbum/libraryAlbum';

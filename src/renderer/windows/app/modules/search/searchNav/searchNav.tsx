@@ -5,8 +5,8 @@ import * as forgo from 'forgo';
 import Icon from '@doombox/components/icon/icon';
 import cx from '@doombox/renderer/css/cx';
 
-import { setRouteSearch } from '../../../actions/route.actions';
-import * as Route from '../../../types/route';
+import { setRouteSearch } from '../../../state/actions/route.actions';
+import * as Route from '../../../state/route';
 
 import subscribe from './searchNav.state';
 

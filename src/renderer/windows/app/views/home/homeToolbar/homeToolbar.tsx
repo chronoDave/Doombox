@@ -6,9 +6,9 @@ import Icon from '@doombox/components/icon/icon';
 import InputSearch from '@doombox/components/input-search/input-search';
 import cx from '@doombox/renderer/css/cx';
 
-import { search, shuffleLibrary } from '../../../actions/library.actions';
-import { setRouteHome } from '../../../actions/route.actions';
-import * as Route from '../../../types/route';
+import { search, shuffleLibrary } from '../../../state/actions/library.actions';
+import { setRouteHome } from '../../../state/actions/route.actions';
+import * as Route from '../../../state/route';
 
 import subscribe from './homeToolbar.state';
 

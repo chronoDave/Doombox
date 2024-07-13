@@ -4,14 +4,14 @@ import * as forgo from 'forgo';
 
 import Window from '@doombox/components/window/window';
 
-import { fetchPath } from '../../actions/app.actions';
-import { fetchCache } from '../../actions/cache.actions';
-import { fetchLibrary } from '../../actions/library.actions';
-import { fetchPlaylists } from '../../actions/playlist.actions';
-import { setRouteApp } from '../../actions/route.actions';
-import { fetchTheme } from '../../actions/theme.actions';
-import { fetchUser } from '../../actions/user.actions';
-import * as Route from '../../types/route';
+import { fetchPath } from '../../state/actions/app.actions';
+import { fetchCache } from '../../state/actions/cache.actions';
+import { fetchLibrary } from '../../state/actions/library.actions';
+import { fetchPlaylists } from '../../state/actions/playlist.actions';
+import { setRouteApp } from '../../state/actions/route.actions';
+import { fetchTheme } from '../../state/actions/theme.actions';
+import { fetchUser } from '../../state/actions/user.actions';
+import * as Route from '../../state/route';
 
 import subscribe from './app.state';
 import AppRouter from './appRouter/appRouter';

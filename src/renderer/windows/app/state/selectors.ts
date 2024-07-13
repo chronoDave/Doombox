@@ -1,7 +1,7 @@
-import type { State } from './types/state';
+import type { State } from './state';
 import type { Album, Label, Song } from '@doombox/types/library';
 
-import { AudioStatus } from '../../lib/audio/audio';
+import { AudioStatus } from '../../../lib/audio/audio';
 
 export const imageSelector = (state: State) => (id: string, size: number) =>
   new URL(`${id}/${size}.jpg`, `${state.dir.thumbs}/`).href;

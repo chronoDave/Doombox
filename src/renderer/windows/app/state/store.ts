@@ -1,13 +1,13 @@
-import type { State } from './types/state';
+import type { State } from './state';
 
 import Store from '@doombox/renderer/store/store';
 import cacheShape from '@doombox/types/shapes/cache.shape';
 import themeShape from '@doombox/types/shapes/theme.shape';
 import userShape from '@doombox/types/shapes/user.shape';
 
-import { AudioStatus } from '../../lib/audio/audio';
+import { AudioStatus } from '../../../lib/audio/audio';
 
-import * as Route from './types/route';
+import * as Route from './route';
 
 export default new Store<State>({
   route: {

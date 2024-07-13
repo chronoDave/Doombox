@@ -6,8 +6,8 @@ import * as forgo from 'forgo';
 import Icon from '@doombox/components/icon/icon';
 import cx from '@doombox/renderer/css/cx';
 
-import { imageSelector } from '../../../selectors';
-import store from '../../../store';
+import { imageSelector } from '../../../state/selectors';
+import store from '../../../state/store';
 
 import './libraryAlbum.scss';
 

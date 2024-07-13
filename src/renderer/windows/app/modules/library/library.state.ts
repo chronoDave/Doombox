@@ -1,5 +1,5 @@
-import { populateAlbums } from '../../selectors';
-import store from '../../store';
+import { populateAlbums } from '../../state/selectors';
+import store from '../../state/store';
 
 export default store.select(state => ({
   current: state.player.current.id,

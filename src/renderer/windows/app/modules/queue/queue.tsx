@@ -7,7 +7,7 @@ import { sumSelect } from '@doombox/lib/math/sum';
 import Time from '@doombox/lib/time/time';
 import cx from '@doombox/renderer/css/cx';
 
-import { setQueueIndex } from '../../actions/queue.actions';
+import { setQueueIndex } from '../../state/actions/queue.actions';
 
 import subscribe from './queue.state';
 

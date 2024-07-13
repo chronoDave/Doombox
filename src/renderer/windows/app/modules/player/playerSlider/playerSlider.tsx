@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 import Slider from '@doombox/components/slider/slider';
 import Time from '@doombox/lib/time/time';
 
-import { seek } from '../../../actions/player.actions';
+import { seek } from '../../../state/actions/player.actions';
 
 import subscribe from './playerSlider.state';
 

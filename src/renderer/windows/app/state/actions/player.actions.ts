@@ -7,7 +7,7 @@ import wrap from '@doombox/lib/math/wrap';
 import readFile from '@doombox/renderer/dom/fileReader/fileReader';
 import cacheShape from '@doombox/types/shapes/cache.shape';
 
-import Audio, { AudioStatus } from '../../../lib/audio/audio';
+import Audio, { AudioStatus } from '../../../../lib/audio/audio';
 import { imageSelector } from '../selectors';
 import store from '../store';
 
@@ -19,18 +19,18 @@ const updateCache = async (reducer: (state: CacheShape) => CacheShape) => {
 const audio = new Audio(cacheShape.player)
   .on('duration', duration => store.set(produce(draft => {
     draft.player.current.duration = duration;
-  }), 'player.duration'))
+  })))
   .on('position', position => store.set(produce(draft => {
     draft.player.current.position = position;
-  }), 'player.position'))
+  })))
   .on('status', status => store.set(produce(draft => {
     draft.player.status = status;
-  }), 'player.status'));
+  })));
 
 export const play = async (id: string) => {
   store.set(produce(draft => {
     draft.player.current.id = id;
-  }), 'player.play');
+  }));
 
   const song = store.state.entities.song.get(id);
 
@@ -66,7 +66,7 @@ export const play = async (id: string) => {
 export const pause = () => {
   store.set(produce(draft => {
     draft.player.muted = !draft.player.muted;
-  }), 'pause');
+  }));
 
   if (store.state.player.status === AudioStatus.Playing) {
     audio.pause();
@@ -80,14 +80,14 @@ export const pause = () => {
 export const seek = (position: number) => {
   store.set(produce(draft => {
     draft.player.current.position = position;
-  }), 'player.seek');
+  }));
   audio.seek(position);
 };
 
 export const mute = (muted?: boolean) => {
   store.set(produce(draft => {
     draft.player.muted = muted ?? !draft.player.muted;
-  }), 'mute');
+  }));
 
   audio.mute(store.state.player.muted);
   updateCache(produce(draft => {
@@ -100,7 +100,7 @@ export const setVolume = (n: number) => {
 
   store.set(produce(draft => {
     draft.player.volume = volume;
-  }), 'player.volume');
+  }));
   audio.volume = volume;
   updateCache(produce(draft => {
     draft.player.volume = volume;
@@ -110,7 +110,7 @@ export const setVolume = (n: number) => {
 export const skip = (n: number) => {
   store.set(produce(draft => {
     draft.queue.index = clamp(0, draft.queue.songs.length - 1, n);
-  }), 'player.skip');
+  }));
   const id = store.state.queue.songs[store.state.queue.index];
 
   play(id);
@@ -121,7 +121,7 @@ export const next = () => {
     draft.queue.index = draft.player.loop ?
       wrap(0, draft.queue.songs.length - 1, draft.queue.index + 1) :
       Math.max(draft.queue.songs.length - 1, draft.queue.index + 1);
-  }), 'player.next');
+  }));
   const id = store.state.queue.songs[store.state.queue.index];
 
   play(id);
@@ -132,7 +132,7 @@ export const previous = () => {
     draft.queue.index = draft.player.loop ?
       wrap(0, draft.queue.songs.length - 1, draft.queue.index - 1) :
       Math.min(0, draft.queue.index - 1);
-  }), 'player.previous');
+  }));
   const id = store.state.queue.songs[store.state.queue.index];
 
   play(id);

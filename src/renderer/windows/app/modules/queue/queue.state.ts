@@ -1,6 +1,6 @@
 import type { Song } from '@doombox/types/library';
 
-import store from '../../store';
+import store from '../../state/store';
 
 export default store.select(state => ({
   index: state.queue.index,

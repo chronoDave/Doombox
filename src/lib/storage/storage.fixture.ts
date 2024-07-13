@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import cacheShape from '../../../types/shapes/cache.shape';
+import cacheShape from '../../types/shapes/cache.shape';
 
 import Storage from './storage';
 

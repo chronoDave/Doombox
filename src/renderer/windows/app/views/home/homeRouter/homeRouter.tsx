@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 import Library from '../../../modules/library/library';
 import Playlist from '../../../modules/playlist/playlist';
 import Search from '../../../modules/search/search';
-import * as Route from '../../../types/route';
+import * as Route from '../../../state/route';
 
 import subscribe from './homeRouter.state';
 

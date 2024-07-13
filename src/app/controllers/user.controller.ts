@@ -1,6 +1,6 @@
+import type Storage from '../../lib/storage/storage';
 import type { TransferController } from '../../types/ipc';
 import type { UserShape } from '../../types/shapes/user.shape';
-import type Storage from '../lib/storage/storage';
 
 export type UserControllerProps = {
   storage: Storage<UserShape>

@@ -1,4 +1,4 @@
-import store from '../../store';
+import store from '../../state/store';
 
 export default store.select(state => {
   const current = state.entities.song.get(state.player.current.id ?? '');

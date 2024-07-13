@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import * as Route from '../../../types/route';
+import * as Route from '../../../state/route';
 import Home from '../../../views/home/home';
 import Load from '../../../views/load/load';
 import Scan from '../../../views/scan/scan';

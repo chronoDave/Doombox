@@ -4,8 +4,8 @@ import * as forgo from 'forgo';
 
 import VirtualList from '@doombox/components/virtual-list/virtual-list';
 
-import { play } from '../../../actions/player.actions';
-import { addToQueue } from '../../../actions/queue.actions';
+import { play } from '../../../state/actions/player.actions';
+import { addToQueue } from '../../../state/actions/queue.actions';
 
 import subscribe from './searchSong.state';
 

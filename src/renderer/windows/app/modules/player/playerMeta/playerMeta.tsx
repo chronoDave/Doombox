@@ -2,8 +2,8 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import { playAlbum } from '../../../actions/queue.actions';
-import { searchAlbum } from '../../../actions/search.actions';
+import { playAlbum } from '../../../state/actions/queue.actions';
+import { searchAlbum } from '../../../state/actions/search.actions';
 
 import subscribe from './playerMeta.state';
 

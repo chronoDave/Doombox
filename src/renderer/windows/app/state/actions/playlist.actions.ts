@@ -6,7 +6,7 @@ import store from '../store';
 
 const dispatchPlaylists = (playlists: Playlist[]) => store.set(produce(draft => {
   draft.entities.playlist = new Map(playlists.map(playlist => [playlist._id, playlist]));
-}), 'playlist.dispatchPlaylists');
+}));
 
 export const fetchPlaylists = async () => {
   const playlists = await window.ipc.playlist.get();
@@ -19,7 +19,7 @@ export const createPlaylist = async (songs?: string[]) => {
 
   store.set(produce(draft => {
     draft.entities.playlist.set(playlist._id, playlist);
-  }), 'playlist.createPlaylist');
+  }));
 };
 
 export const updatePlaylist = async (playlist: Playlist) => {
@@ -27,7 +27,7 @@ export const updatePlaylist = async (playlist: Playlist) => {
 
   store.set(produce(draft => {
     draft.entities.playlist.set(playlist._id, playlist);
-  }), 'playlist.updatePlaylist');
+  }));
 };
 
 export const deletePlaylist = async (id: string) => {
@@ -35,5 +35,5 @@ export const deletePlaylist = async (id: string) => {
 
   store.set(produce(draft => {
     draft.entities.playlist.delete(id);
-  }), 'playlist.deletePlaylist');
+  }));
 };

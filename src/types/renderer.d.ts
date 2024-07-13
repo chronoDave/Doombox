@@ -1,4 +1,4 @@
-import type { Api } from '@doombox/types/ipc';
+import type { Api } from './ipc';
 
 declare global {
   interface Window {

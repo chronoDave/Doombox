@@ -6,7 +6,7 @@ import * as forgo from 'forgo';
 import Icon from '@doombox/components/icon/icon';
 import debounce from '@doombox/lib/function/debounce';
 
-import { mute, setVolume } from '../../../actions/player.actions';
+import { mute, setVolume } from '../../../state/actions/player.actions';
 
 import subscribe from './playerVolume.state';
 

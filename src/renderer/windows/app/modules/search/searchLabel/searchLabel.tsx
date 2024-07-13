@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 import VirtualList from '@doombox/components/virtual-list/virtual-list';
 import Time from '@doombox/lib/time/time';
 
-import { addLabelToQueue, playLabel } from '../../../actions/queue.actions';
+import { addLabelToQueue, playLabel } from '../../../state/actions/queue.actions';
 
 import subscribe from './searchLabel.state';
 
