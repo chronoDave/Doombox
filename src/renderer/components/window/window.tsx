@@ -8,9 +8,6 @@ import './window.scss';
 
 export type WindowProps = {
   title: string
-  onminimize: () => void
-  onmaximize: () => void
-  onclose: () => void
 };
 
 const Window: Component<WindowProps> = () => {
@@ -33,7 +30,7 @@ const Window: Component<WindowProps> = () => {
             <button
               type='button'
               aria-label='minimize'
-              onclick={props.onminimize}
+              onclick={() => window.ipc.window.minimize()}
               class='button'
             >
               <Icon id='window-minimize' />
@@ -41,7 +38,7 @@ const Window: Component<WindowProps> = () => {
             <button
               type='button'
               aria-label='maximize'
-              onclick={props.onmaximize}
+              onclick={() => window.ipc.window.maximize()}
               class='button'
             >
               <Icon id='window-maximize' />
@@ -50,7 +47,7 @@ const Window: Component<WindowProps> = () => {
               type='button'
               class='button close'
               aria-label='close'
-              onclick={props.onclose}
+              onclick={() => window.ipc.window.close()}
             >
               <Icon id='window-close' />
             </button>

@@ -26,12 +26,7 @@ const App: Component<AppProps> = () => {
       const title = subscribe('App', component);
 
       return (
-        <Window
-          title={title}
-          onminimize={window.ipc.window.minimize}
-          onmaximize={window.ipc.window.maximize}
-          onclose={window.ipc.window.close}
-        >
+        <Window title={title}>
           <AppRouter />
         </Window>
       );

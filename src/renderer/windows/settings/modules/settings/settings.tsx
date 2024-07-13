@@ -15,12 +15,7 @@ const Settings: Component<SettingsProps> = () => {
   const component = new forgo.Component<SettingsProps>({
     render() {
       return (
-        <Window
-          title='Settings'
-          onclose={window.ipc.window.close}
-          onminimize={window.ipc.window.minimize}
-          onmaximize={window.ipc.window.maximize}
-        >
+        <Window title='Settings'>
           <main class='Settings'>
             <Navigation />
             <Router />
