@@ -1,21 +1,18 @@
+import type Storage from '../../lib/storage/storage';
 import type { TransferController } from '../../types/ipc';
 import type { Album, Label, Song } from '../../types/library';
 import type { UserShape } from '../../types/shapes/user.shape';
 import type Library from '../lib/library/library';
-import type Storage from '../lib/storage/storage';
-import type { BrowserWindow } from 'electron';
 import type LeafDB from 'leaf-db';
 
 import { glob } from 'fast-glob';
 
 import difference from '../../lib/list/difference';
 import levenshteinDistance from '../../lib/string/levenshteinDistance';
-import createIpcSend from '../lib/ipc/send';
 
 export type LibraryControllerProps = {
   storage: Storage<UserShape>
   library: Library
-  window: BrowserWindow
   db: {
     song: LeafDB<Song>
     album: LeafDB<Album>
@@ -27,12 +24,6 @@ export default (props: LibraryControllerProps): TransferController['library'] =>
   const getFiles = (folders: string[]) => Promise
     .all(folders.map(cwd => glob('**/*.mp3', { cwd, absolute: true })))
     .then(files => files.flat());
-
-  const ipcSend = createIpcSend(props.window.webContents);
-
-  props.library
-    .on('image', payload => ipcSend('image')(payload))
-    .on('song', payload => ipcSend('song')(payload));
 
   return ({
     get: () => props.library.all(),

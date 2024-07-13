@@ -6,6 +6,7 @@ import fs from 'fs';
 import LeafDB from 'leaf-db';
 
 import { IS_DEV } from '../lib/const';
+import Storage from '../lib/storage/storage';
 import Tokenizer from '../lib/tokenizer/tokenizer';
 import Transliterator from '../lib/transliterator/transliterator';
 import cacheShape from '../types/shapes/cache.shape';
@@ -16,6 +17,7 @@ import { PATH } from './const';
 import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
 import osController from './controllers/os.controller';
+import playerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
 import createRouterController from './controllers/router.controller';
 import createSearchController from './controllers/search.controller';
@@ -26,9 +28,8 @@ import IpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
-import Storage from './lib/storage/storage';
-import AppWindow from './windows/app/app';
-import SettingsWindow from './windows/settings/settings';
+import WindowApp from './windows/app/app';
+import createWindowSettings from './windows/settings/settings';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -58,11 +59,7 @@ const run = async () => {
     label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } }),
     playlist: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'playlists' } })
   };
-  const library = new Library({
-    parser: new Parser({ transliterator }),
-    root: PATH.THUMBS,
-    db
-  });
+
   const storage = {
     theme: new Storage({ file: { name: 'theme', root: PATH.USER_DATA }, shape: themeShape }),
     user: new Storage({ file: { name: 'user', root: PATH.USER_DATA }, shape: userShape }),
@@ -70,9 +67,17 @@ const run = async () => {
   };
 
   const window = {
-    app: new AppWindow({ root: PATH.CACHE }),
-    settings: new SettingsWindow({ root: PATH.CACHE, logger })
+    app: new WindowApp(PATH.CACHE),
+    settings: createWindowSettings(PATH.CACHE)
   };
+
+  const library = new Library({
+    parser: new Parser({ transliterator }),
+    root: PATH.THUMBS,
+    db
+  })
+    .on('image', window.app.send('image'))
+    .on('song', window.app.send('song'));
 
   /** Initialize app */
   storage.theme.on(theme => {
@@ -89,7 +94,6 @@ const run = async () => {
     .transfer('cache', createCacheController({ storage: storage.cache }))
     .transfer('library', createLibraryController({
       library,
-      window: window.app.window,
       storage: storage.user,
       db
     }))
@@ -97,6 +101,7 @@ const run = async () => {
     .transfer('search', createSearchController({ db }))
     .receive('router', createRouterController({ settings: window.settings }))
     .receive('window', windowController)
+    .receive('player', playerController)
     .on('error', logger.error);
 
   app.on('window-all-closed', () => {
@@ -119,7 +124,7 @@ const run = async () => {
 
   /** Launch */
   await app.whenReady();
-  await window.app.show();
+  window.app.show();
 };
 
 run();

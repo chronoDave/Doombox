@@ -6,8 +6,8 @@ export default store.select(state => {
   if (!current?._id) return Object.fromEntries(['xs', 'md', 'lg'].map(size => [size, '../icons/icon_light.png']));
 
   return ({
-    xs: new URL(`${current.image}/192.jpg`, `${window.dir.thumbs}/`).href,
-    md: new URL(`${current.image}/256.jpg`, `${window.dir.thumbs}/`).href,
-    lg: new URL(`${current.image}/384.jpg`, `${window.dir.thumbs}/`).href
+    xs: new URL(`${current.image}/192.jpg`, `${state.dir.thumbs}/`).href,
+    md: new URL(`${current.image}/256.jpg`, `${state.dir.thumbs}/`).href,
+    lg: new URL(`${current.image}/384.jpg`, `${state.dir.thumbs}/`).href
   });
 });

@@ -1,4 +1,4 @@
-import type { Path } from '@doombox/types/primitives';
+import type { SubscriptionController } from '@doombox/types/ipc';
 import type { WindowShape } from '@doombox/types/shapes/window.shape';
 
 import { BrowserWindow, nativeTheme } from 'electron';
@@ -12,46 +12,39 @@ import {
   THEME_DARK,
   THEME_LIGHT
 } from '@doombox/lib/const';
+import debounce from '@doombox/lib/function/debounce';
+import Storage from '@doombox/lib/storage/storage';
 import windowShape from '@doombox/types/shapes/window.shape';
 
-import debounce from '../../../lib/function/debounce';
-import Storage from '../storage/storage';
-
 export type WindowProps = {
-  cache: Path,
+  id: string
   title: string
-  file: {
-    html: string
-    preload: string
-  }
-  data?: string
+  root: string
 };
 
 export default class Window {
   private readonly _cache: Storage<WindowShape>;
-  private readonly _onresize: () => void;
-  private readonly _onmove: () => void;
-  private _ready?: boolean;
+  private readonly _file: string;
 
-  readonly window: BrowserWindow;
+  protected readonly _window: BrowserWindow;
 
   constructor(props: WindowProps) {
+    const preload = path.resolve(__dirname, `preload/${props.id}.js`);
+
+    this._file = path.resolve(__dirname, `renderer/${props.id}/index.html`);
     this._cache = new Storage({
-      file: props.cache,
+      file: { name: props.id, root: props.root },
       shape: windowShape
     });
 
-    this.window = new BrowserWindow({
+    this._window = new BrowserWindow({
+      ...this._cache.state,
       title: props.title,
       icon: process.platform === 'win32' ?
         path.resolve(__dirname, IS_DEV ? 'assets/dev.ico' : 'assets/app.ico') :
         path.resolve(__dirname, IS_DEV ? 'assets/dev.png' : 'assets/app.png'),
       minWidth: MIN_WIDTH,
       minHeight: MIN_HEIGHT,
-      width: this._cache.state.width,
-      height: this._cache.state.height,
-      x: this._cache.state.x,
-      y: this._cache.state.y,
       frame: false,
       show: false,
       darkTheme: nativeTheme.shouldUseDarkColors,
@@ -61,57 +54,43 @@ export default class Window {
       titleBarStyle: 'hidden',
       webPreferences: {
         enableWebSQL: false,
-        preload: props.file.preload,
-        additionalArguments: [props.data ?? '']
+        preload
       }
     });
 
-    this._onresize = debounce(() => {
-      const { width, height } = this.window.getBounds();
+    const handleResize = debounce(() => {
+      const { width, height } = this._window.getBounds();
       this._cache.set(produce(draft => {
         draft.width = width;
         draft.height = height;
       }));
     }, 100);
 
-    this._onmove = debounce(() => {
-      const [x, y] = this.window.getPosition();
+    const handleMove = debounce(() => {
+      const [x, y] = this._window.getPosition();
       this._cache.set(produce(draft => {
         draft.x = x;
         draft.y = y;
       }));
     }, 100);
 
-    this.window.on('ready-to-show', () => {
-      this._ready = true;
-    });
-
-    this.window.on('resize', () => this._onresize());
-    this.window.on('move', () => this._onmove());
+    this._window.on('resize', () => handleResize());
+    this._window.on('move', () => handleMove());
 
     if (IS_DEV) {
       // eslint-disable-next-line global-require
       require('chokidar')
-        .watch([
-          `${path.dirname(props.file.html)}/**/*`,
-          props.file.preload
-        ])
-        .on('change', () => this.window.reload());
+        .watch([`${path.dirname(this._file)}/**/*`, preload])
+        .on('change', () => this._window.reload());
     }
+  }
 
-    this.window.loadFile(props.file.html);
+  send<T extends keyof SubscriptionController>(channel: T) {
+    return (payload: SubscriptionController[T]) => this._window.webContents.send(channel, payload);
   }
 
   async show() {
-    if (!this._ready) {
-      return new Promise<void>(resolve => {
-        this.window.once('ready-to-show', () => {
-          this.window.show();
-          resolve();
-        });
-      });
-    }
-
-    return this.window.show();
+    await this._window.loadFile(this._file);
+    this._window.show();
   }
 }
