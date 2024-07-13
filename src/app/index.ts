@@ -29,7 +29,6 @@ import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
 import WindowApp from './windows/app/app';
-import createWindowSettings from './windows/settings/settings';
 
 /** Initialize directories */
 if (IS_DEV) {
@@ -66,18 +65,15 @@ const run = async () => {
     cache: new Storage({ file: { name: 'cache', root: PATH.APP_DATA }, shape: cacheShape })
   };
 
-  const window = {
-    app: new WindowApp(PATH.CACHE),
-    settings: createWindowSettings(PATH.CACHE)
-  };
+  const window = new WindowApp(PATH.CACHE);
 
   const library = new Library({
     parser: new Parser({ transliterator }),
     root: PATH.THUMBS,
     db
   })
-    .on('image', window.app.send('image'))
-    .on('song', window.app.send('song'));
+    .on('image', window.send('image'))
+    .on('song', window.send('song'));
 
   /** Initialize app */
   storage.theme.on(theme => {
@@ -99,7 +95,7 @@ const run = async () => {
     }))
     .transfer('playlist', createPlaylistController({ db: db.playlist }))
     .transfer('search', createSearchController({ db }))
-    .receive('router', createRouterController({ settings: window.settings }))
+    .receive('router', createRouterController({ root: PATH.CACHE }))
     .receive('window', windowController)
     .receive('player', playerController)
     .on('error', logger.error);
@@ -124,7 +120,7 @@ const run = async () => {
 
   /** Launch */
   await app.whenReady();
-  window.app.show();
+  window.show();
 };
 
 run();

@@ -1,10 +1,11 @@
 import type { ReceiveController } from '../../types/ipc';
-import type Window from '../lib/window/window';
+
+import createWindowSettings from '../windows/settings/settings';
 
 export type RouterControllerProps = {
-  settings: Window
+  root: string
 };
 
 export default (props: RouterControllerProps): ReceiveController['router'] => ({
-  settings: () => props.settings.show()
+  settings: () => createWindowSettings(props.root).show()
 });
