@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import './inputCheckbox.scss';
+import './input-checkbox.scss';
 
 export type InputCheckboxProps = {
   id: string
@@ -15,7 +15,7 @@ const InputCheckbox: Component<InputCheckboxProps> = () => {
   const component = new forgo.Component<InputCheckboxProps>({
     render(props) {
       return (
-        <label class='InputCheckbox'>
+        <label class='input-checkbox'>
           <input
             type='checkbox'
             name={props.id}

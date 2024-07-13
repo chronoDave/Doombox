@@ -17,7 +17,7 @@ const Progress: Component<ProgressProps> = () => {
       const valueText = `${Math.round(value * 100)}%`;
 
       return (
-        <div class='Progress'>
+        <div class='progress'>
           <progress
             value={props.value}
             max={props.max}

@@ -1,6 +1,6 @@
 @use 'transitions';
 
-.InputRadio {
+.input-radio {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -10,6 +10,7 @@
   > input {
     position: relative;
     border: 2px solid var(--text);
+    border-radius: 50%;
     width: 16px;
     flex-shrink: 0;
     aspect-ratio: 1/1;
@@ -23,18 +24,11 @@
       left: 50%;
       transform: translate(-50%, -50%);
       transition: background-color transitions.$fast;
+      border-radius: 50%;
     }
 
     &:checked::after {
       background-color: var(--text);
-    }
-  }
-
-  > input {
-    border-radius: 50%;
-
-    &:after {
-      border-radius: 50%;
     }
   }
 }

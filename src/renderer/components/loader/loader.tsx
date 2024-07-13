@@ -14,7 +14,7 @@ const Loader: Component<LoaderProps> = () => {
     render(props) {
       return (
         <div
-          class="Loader"
+          class="loader"
           aria-hidden="true"
           style={{ '--loader-bars': props.bars }}
           ref={ref}

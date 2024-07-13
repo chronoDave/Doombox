@@ -26,7 +26,7 @@ export type VirtualGridOptions<T> = {
   }
 };
 
-export const createVirtualGrid = <T>(options: VirtualGridOptions<T>): VirtualGrid<T> => {
+export default <T>(options: VirtualGridOptions<T>): VirtualGrid<T> => {
   const getWidth = (data: T) => {
     const width = options.cell.width(data);
     if (!width) return options.container.width;

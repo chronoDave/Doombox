@@ -3,9 +3,9 @@ import * as forgo from 'forgo';
 import debounce from '@doombox/lib/function/debounce';
 import { sumSelect } from '@doombox/lib/math/sum';
 
-import { createVirtualList } from './virtualList.utils';
+import virtualize from './virtual-list.lib';
 
-import './virtualList.scss';
+import './virtual-list.scss';
 
 export type VirtualListProps<T> = {
   data: T[]
@@ -56,7 +56,7 @@ const VirtualList = <T extends any>(
         width: ref.value?.clientWidth ?? 0,
         height: ref.value?.clientHeight ?? 0
       };
-      const list = createVirtualList({
+      const list = virtualize({
         data: props.data,
         scroll: ref.value?.scrollTop ?? 0,
         container,
@@ -74,7 +74,7 @@ const VirtualList = <T extends any>(
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
-          class='VirtualList'
+          class='virtual-list'
           ref={ref}
           onclick={event => handleClick(event.target as HTMLElement | null, event)}
           onkeydown={event => {

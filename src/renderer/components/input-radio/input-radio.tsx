@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import './inputRadio.scss';
+import './input-radio.scss';
 
 export type InputRadioProps = {
   id: string
@@ -15,7 +15,7 @@ const InputRadio: Component<InputRadioProps> = () => {
   const component = new forgo.Component<InputRadioProps>({
     render(props) {
       return (
-        <label class='InputRadio'>
+        <label class='input-radio'>
           <input
             type='radio'
             name={props.id}

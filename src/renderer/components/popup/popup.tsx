@@ -32,7 +32,7 @@ const Popup: Component<PopupProps> = () => {
 
       return (
         <div
-          class={cx('Popup', props.position)}
+          class={cx('popup', props.position)}
           style={{
             top: `${y}px`,
             left: `${x}px`

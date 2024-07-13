@@ -26,7 +26,7 @@ export type VirtualListOptions<T> = {
   }
 };
 
-export const createVirtualList = <T>(options: VirtualListOptions<T>): VirtualList<T> => {
+export default <T>(options: VirtualListOptions<T>): VirtualList<T> => {
   const columns = fill<Cell<T>>(options.data.length, (i, arr) => {
     const prev: Cell<T> | undefined = arr[i - 1];
     const data = options.data[i];

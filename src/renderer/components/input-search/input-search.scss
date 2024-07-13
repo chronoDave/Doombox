@@ -1,0 +1,9 @@
+.input-search {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+
+  > input::-webkit-search-cancel-button {
+    display: none;
+  }
+}

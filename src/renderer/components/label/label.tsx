@@ -13,8 +13,8 @@ const Label: Component<LabelProps> = () => {
   const component = new forgo.Component<LabelProps>({
     render(props) {
       return (
-        <label class='Label'>
-          <div class='label'>
+        <label>
+          <div>
             <span>{props.title}</span>
             {props.description && <span>{props.description}</span>}
           </div>

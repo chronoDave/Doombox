@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import VirtualGrid from '@doombox/components/virtualGrid/virtualGrid';
+import VirtualGrid from '@doombox/components/virtual-grid/virtual-grid';
 
 import { addAlbumToQueue, playAlbum, playLabel } from '../../actions/queue.actions';
 import useMediaQuery from '../../hooks/useMediaQuery';

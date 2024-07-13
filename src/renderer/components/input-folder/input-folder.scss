@@ -1,8 +1,8 @@
-.InputFolders {
-  > .options > .InputCheckbox {
+.Input-folder {
+  > .options > .input-checkbox {
     overflow-wrap: anywhere;
 
-    + .InputCheckbox {
+    + .input-checkbox {
       margin-top: 4px;
     }
   }

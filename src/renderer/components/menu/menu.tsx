@@ -48,10 +48,10 @@ const Menu: Component<MenuProps> = () => {
         id={`menu-${props.id}`}
         role='menu'
         aria-labelledby={`menu-button-${props.id}`}
-        class='Menu'
+        class='menu'
       >
         {props.items.map(item => (
-          <li class='MenuItem' role='none' key={item.label}>
+          <li role='none' key={item.label}>
             <button
               type='button'
               role='menuitem'
@@ -90,7 +90,7 @@ const Menu: Component<MenuProps> = () => {
         <button
           id={`menu-button-${props.id}`}
           type='button'
-          class='Menu button'
+          class='menu'
           aria-haspopup='true'
           aria-label={`opens ${props.id} menu`}
           aria-expanded={open}

@@ -3,7 +3,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '@doombox/components/icon/icon';
-import InputSearch from '@doombox/components/inputSearch/inputSearch';
+import InputSearch from '@doombox/components/input-search/input-search';
 import cx from '@doombox/renderer/css/cx';
 
 import { search, shuffleLibrary } from '../../../actions/library.actions';

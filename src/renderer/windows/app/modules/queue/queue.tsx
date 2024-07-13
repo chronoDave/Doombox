@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import VirtualList from '@doombox/components/virtualList/virtualList';
+import VirtualList from '@doombox/components/virtual-list/virtual-list';
 import { sumSelect } from '@doombox/lib/math/sum';
 import Time from '@doombox/lib/time/time';
 import cx from '@doombox/renderer/css/cx';

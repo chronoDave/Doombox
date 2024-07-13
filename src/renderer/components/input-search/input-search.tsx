@@ -4,7 +4,7 @@ import * as forgo from 'forgo';
 
 import Icon from '../icon/icon';
 
-import './inputSearch.scss';
+import './input-search.scss';
 
 export type InputSearchProps = {
   placeholder?: string
@@ -17,7 +17,7 @@ const InputSearch: Component<InputSearchProps> = () => {
   const component = new forgo.Component<InputSearchProps>({
     render(props) {
       return (
-        <div class='InputSearch' role='search'>
+        <div class='input-search' role='search'>
           <input
             ref={ref}
             type='search'

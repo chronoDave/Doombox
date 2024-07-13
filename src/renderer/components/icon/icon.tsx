@@ -2,8 +2,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import cx from '../../lib/css/cx';
-
 import './icon.scss';
 
 /** Icons from https://pictogrammers.com/library/mdi/ */
@@ -56,7 +54,8 @@ const Icon: Component<IconProps> = () => new forgo.Component({
         focusable="false"
         aria-hidden="true"
         viewBox="0 0 24 24"
-        class={cx('Icon', props.id)}
+        data-id={props.id}
+        class='icon'
       >
         <path d={icons[props.id]} />
       </svg>

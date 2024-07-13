@@ -2,9 +2,9 @@ import * as forgo from 'forgo';
 
 import debounce from '../../../lib/function/debounce';
 
-import { createVirtualGrid } from './virtualGrid.utils';
+import virtualize from './virtual-grid.lib';
 
-import './virtualGrid.scss';
+import './virtual-grid.scss';
 
 export type VirtualGridProps<T> = {
   data: T[]
@@ -45,7 +45,7 @@ const VirtualGrid = <T extends any>(
         ) props.onclick?.(closest.dataset, event);
       };
 
-      const grid = createVirtualGrid({
+      const grid = virtualize({
         data: props.data,
         scroll: ref.value?.scrollTop ?? 0,
         container: {
@@ -62,7 +62,7 @@ const VirtualGrid = <T extends any>(
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
           ref={ref}
-          class="VirtualGrid"
+          class="virtual-grid"
           onclick={event => handleClick(event.target as HTMLElement | null, event)}
           onkeydown={event => {
             if (event.key === 'Enter' && event.target) handleClick(event.target as HTMLElement, event);

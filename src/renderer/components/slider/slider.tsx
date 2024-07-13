@@ -65,7 +65,7 @@ const Slider: Component<SliderProps> = () => {
 
       return (
         <div
-          class='Slider'
+          class='slider'
           style={{ height: `${size.thumb}px` }}
           role='slider'
           tabindex={0}

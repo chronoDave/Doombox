@@ -3,9 +3,9 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../icon/icon';
-import InputCheckbox from '../inputCheckbox/inputCheckbox';
+import InputCheckbox from '../input-checkbox/input-checkbox';
 
-import './inputFolders.scss';
+import './input-folder.scss';
 
 export type InputFoldersProps = {
   label: string
@@ -24,7 +24,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
   const component = new forgo.Component<InputFoldersProps>({
     render(props) {
       return (
-        <fieldset class='InputFolders'>
+        <fieldset class='input-folder'>
           <legend>{props.label}</legend>
           <div
             class='options'

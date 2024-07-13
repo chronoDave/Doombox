@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import VirtualList from '@doombox/components/virtualList/virtualList';
+import VirtualList from '@doombox/components/virtual-list/virtual-list';
 
 import { play } from '../../../actions/player.actions';
 import { addToQueue } from '../../../actions/queue.actions';

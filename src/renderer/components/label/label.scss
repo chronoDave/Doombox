@@ -1,7 +1,7 @@
-.Label {
+label {
   display: block;
 
-  > .label {
+  > * {
     margin-bottom: 0.25em;
   }
 }

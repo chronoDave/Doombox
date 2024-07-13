@@ -2,7 +2,7 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import InputFolders from '@doombox/components/inputFolders/inputFolders';
+import InputFolders from '@doombox/components/input-folder/input-folder';
 
 import { add, remove } from '../../state/actions/user';
 
