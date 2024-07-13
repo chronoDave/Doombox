@@ -25,7 +25,7 @@ const Queue: Component<QueueProps> = () => {
         <div class='Queue panel column'>
           <div class='header'>
             <p class='nowrap'>{state.title}</p>
-            <p class='small nowrap'>{state.queue.length} tracks<span class='glyph dot' />{new Time(duration).toLong()}</p>
+            <p class='nowrap'>{state.queue.length} tracks<span class='glyph dot' />{new Time(duration).toLong()}</p>
           </div>
           <VirtualList
             data={state.queue}
@@ -47,7 +47,7 @@ const Queue: Component<QueueProps> = () => {
                       <dt class='sr-only'>Title</dt>
                       <dd class='nowrap'>{song.title}</dd>
                       <dt class='sr-only'>Artist</dt>
-                      <dd class='small nowrap'>{song.artist}</dd>
+                      <dd class='nowrap'>{song.artist}</dd>
                     </dl>
                   </button>
                 );

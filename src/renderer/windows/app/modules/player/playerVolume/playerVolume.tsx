@@ -36,7 +36,7 @@ const PlayerVolume: Component<PlayerVolumeProps> = () => {
           onclick={() => mute()}
           onwheel={handleScroll}
         >
-          <span class='label small'>{volume}</span>
+          <span class='label'>{volume}</span>
           <Icon id={getIcon()} />
         </button>
       );

@@ -1,20 +1,17 @@
 @use 'sass:meta';
 
-@include meta.load-css('./reset.scss');
+@include meta.load-css('./core/reset.scss');
 
 @include meta.load-css('./theme/fonts.scss');
 @include meta.load-css('./theme/colours.scss');
 
 @include meta.load-css('./components/text.scss');
 @include meta.load-css('./components/button.scss');
-@include meta.load-css('./components/fieldset.scss');
-@include meta.load-css('./components/image.scss');
+@include meta.load-css('./components/img.scss');
 @include meta.load-css('./components/scrollbar.scss');
-@include meta.load-css('./components/input.scss');
 @include meta.load-css('./components/panel.scss');
 @include meta.load-css('./components/glyph.scss');
-@include meta.load-css('./components/link.scss');
 
 @layer globals {
-  @include meta.load-css('./globals.scss')
+  @include meta.load-css('./core/globals.scss')
 }

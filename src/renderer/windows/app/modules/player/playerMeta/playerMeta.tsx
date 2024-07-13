@@ -29,11 +29,10 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
           <dt class='sr-only'>Title</dt>
           <dd class='nowrap'>{current.title ?? 'Unknown'}</dd>
           <dt class='sr-only'>Artist</dt>
-          <dd class='nowrap small'>{current.artist ?? 'Unknown'}</dd>
+          <dd class='nowrap'>{current.artist ?? 'Unknown'}</dd>
           <dt class='sr-only'>Album</dt>
-          <dd class='nowrap small'>
+          <dd class='nowrap'>
             <button
-              class='link'
               type='button'
               aria-label={`Play ${current.album}`}
               disabled={!current.album}

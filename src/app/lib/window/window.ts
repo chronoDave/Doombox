@@ -80,7 +80,11 @@ export default class Window {
     if (IS_DEV) {
       // eslint-disable-next-line global-require
       require('chokidar')
-        .watch([`${path.dirname(this._file)}/**/*`, preload])
+        .watch([
+          `${path.dirname(this._file)}/**/*`,
+          path.join(path.dirname(this._file), '../core.css'),
+          preload
+        ])
         .on('change', () => this._window.reload());
     }
   }

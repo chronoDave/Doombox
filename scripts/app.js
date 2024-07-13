@@ -62,7 +62,7 @@ esbuild({
   plugins: [
     log('renderer'),
     sass({
-      depedencies: ['src/renderer/scss/core'],
+      depedencies: ['src/renderer/scss/lib'],
       ignore: /\.ttf$/
     }),
     copy([{

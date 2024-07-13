@@ -2,7 +2,7 @@
 @use 'transitions';
 @use 'typography';
 
-.button {
+button, .button {
   display: inline-flex;
   justify-content: center;
   align-items: center;

@@ -2,37 +2,29 @@ html {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-}
-
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
-}
-
-h1, h2, h3, h4, h5, h6, p {
+  box-sizing: border-box;
   margin: unset;
+  padding: unset;
+  list-style: none;
 }
 
 button {
-  padding: unset;
   border: unset;
   background: unset;
   font: inherit;
   color: inherit;
 }
 
-ul, ol, dl {
+input {
+  font-family: inherit;
+  font-size: inherit;
   margin: unset;
   padding: unset;
-}
-
-dd {
-  margin: unset;
-}
-
-li {
-  list-style: none;
+  background-color: unset;
+  color: inherit;
+  border: unset;
+  min-width: 0;
 }
