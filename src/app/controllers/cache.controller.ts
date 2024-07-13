@@ -8,6 +8,9 @@ export type CacheControllerProps = {
 
 export default (props: CacheControllerProps): TransferController['cache'] =>
   ({
-    get: async () => props.storage.get(),
-    set: async cache => props.storage.set(cache)
+    get: async () => props.storage.state,
+    set: async cache => {
+      props.storage.set(() => cache);
+      return props.storage.state;
+    }
   });

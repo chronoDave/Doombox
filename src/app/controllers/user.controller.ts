@@ -7,6 +7,9 @@ export type UserControllerProps = {
 };
 
 export default (props: UserControllerProps): TransferController['user'] => ({
-  get: async () => props.storage.get(),
-  set: async user => props.storage.set(user)
+  get: async () => props.storage.state,
+  set: async user => {
+    props.storage.set(() => user);
+    return props.storage.state;
+  }
 });

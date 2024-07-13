@@ -1,31 +1,34 @@
-import { IS_DEV } from '../const';
+import freeze from '../object/freeze';
+import Stack from '../stack/stack';
 
-export type State = Record<string, any>;
+export type Subscriber<S extends object> = (cur: S, prev: S) => void;
+export type Reducer<S extends object> = (state: S) => S;
 
-export type Subscriber<S extends State> = (prev: S, cur: S) => void;
-export type Reducer<S extends State> = (state: S) => S;
-
-export default class Store<S extends State> {
+export default class Store<S extends object> {
   private readonly _subscribers: Set<Subscriber<S>>;
-  protected _state: S;
+  private readonly _state: Stack<S>;
 
-  constructor(state: S) {
-    this._state = state;
-    this._subscribers = new Set();
-
-    Object.preventExtensions(this._state);
+  get state() {
+    /** State is always defined as it's set in constructor */
+    return freeze(this._state.peek()!) as S;
   }
 
-  set(reducer: Reducer<S>, id: string) {
-    const prev = this._state;
+  constructor(state: S) {
+    this._state = new Stack(2);
+    this._subscribers = new Set();
 
-    if (IS_DEV) console.time(`[store] ${id}`);
-    this._state = reducer(this._state);
-    if (IS_DEV) console.timeEnd(`[store] ${id}`);
+    this._state.push(state);
+  }
 
-    this._subscribers.forEach(subscriber => subscriber(prev, this._state));
+  set(reducer: Reducer<S>) {
+    this._state.push(reducer(this.state));
+    this._subscribers.forEach(subscriber => subscriber(
+      this.state,
+      /** Prev is always defined as 1st state is set in constructor and 2nd state is set in previous statement */
+      freeze(this._state.peek(-1)!) as S
+    ));
 
-    return this._state;
+    return this;
   }
 
   on(subscriber: Subscriber<S>) {

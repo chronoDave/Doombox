@@ -12,9 +12,9 @@ export const fetchTheme = async () => {
 };
 
 export const setTheme = async (reducer: (state: ThemeShape) => ThemeShape) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.theme = reducer(draft.theme);
   }), 'theme.setTheme');
 
-  await window.ipc.theme.set(state.theme);
+  await window.ipc.theme.set(store.state.theme);
 };

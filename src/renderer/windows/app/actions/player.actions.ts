@@ -28,11 +28,11 @@ const audio = new Audio(cacheShape.player)
   }), 'player.status'));
 
 export const play = async (id: string) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.player.current.id = id;
   }), 'player.play');
 
-  const song = state.entities.song.get(id);
+  const song = store.state.entities.song.get(id);
 
   if (song) {
     window.ipc.player.play();
@@ -64,11 +64,11 @@ export const play = async (id: string) => {
 };
 
 export const pause = () => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.player.muted = !draft.player.muted;
   }), 'pause');
 
-  if (state.player.status === AudioStatus.Playing) {
+  if (store.state.player.status === AudioStatus.Playing) {
     audio.pause();
     window.ipc.player.pause();
   } else {
@@ -85,13 +85,13 @@ export const seek = (position: number) => {
 };
 
 export const mute = (muted?: boolean) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.player.muted = muted ?? !draft.player.muted;
   }), 'mute');
 
-  audio.mute(state.player.muted);
+  audio.mute(store.state.player.muted);
   updateCache(produce(draft => {
-    draft.player.muted = state.player.muted;
+    draft.player.muted = store.state.player.muted;
   }));
 };
 
@@ -108,37 +108,37 @@ export const setVolume = (n: number) => {
 };
 
 export const skip = (n: number) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.queue.index = clamp(0, draft.queue.songs.length - 1, n);
   }), 'player.skip');
-  const id = state.queue.songs[state.queue.index];
+  const id = store.state.queue.songs[store.state.queue.index];
 
   play(id);
 };
 
 export const next = () => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.queue.index = draft.player.loop ?
       wrap(0, draft.queue.songs.length - 1, draft.queue.index + 1) :
       Math.max(draft.queue.songs.length - 1, draft.queue.index + 1);
   }), 'player.next');
-  const id = state.queue.songs[state.queue.index];
+  const id = store.state.queue.songs[store.state.queue.index];
 
   play(id);
 };
 
 export const previous = () => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.queue.index = draft.player.loop ?
       wrap(0, draft.queue.songs.length - 1, draft.queue.index - 1) :
       Math.min(0, draft.queue.index - 1);
   }), 'player.previous');
-  const id = state.queue.songs[state.queue.index];
+  const id = store.state.queue.songs[store.state.queue.index];
 
   play(id);
 };
 
-store.on((prev, cur) => (
+store.on((cur, prev) => (
   prev.player.status !== cur.player.status &&
   cur.player.status === AudioStatus.Ended &&
   cur.user.player.autoplay

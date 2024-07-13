@@ -1,34 +1,39 @@
 import wrap from '../math/wrap';
 
 export default class Stack<T> {
-  private readonly _arr: Array<T | null>;
-  private _i: number;
+  private readonly _stack: Map<number, T | null>;
+  private readonly _size: number;
+  private _index: number;
 
   get size() {
-    return this._arr.filter(x => x !== null).length;
+    return Array.from(this._stack.values()).filter(x => x !== null).length;
   }
 
-  constructor(size: number) {
-    this._arr = Array(size).fill(null);
-    this._i = -1;
+  constructor(n: number) {
+    this._stack = new Map();
+    this._size = n;
+    this._index = 0;
+  }
+
+  /**
+   * @param i Relative index
+   */
+  peek(i?: number): T | null {
+    if (!i) return this._stack.get(wrap(0, this._size - 1, this._index - 1)) ?? null;
+    return this._stack.get(wrap(0, this._size - 1, this._index - (1 + i))) ?? null;
   }
 
   push(x: T) {
-    this._i = wrap(0, this._arr.length - 1, this._i + 1);
-    this._arr[this._i] = x;
+    this._stack.set(this._index, x);
+    this._index = wrap(0, this._size - 1, this._index + 1);
 
     return this;
   }
 
   pop() {
-    this._arr[this._i] = null;
-    this._i = wrap(0, this._arr.length - 1, this._i - 1);
+    this._index = wrap(0, this._size - 1, this._index - 1);
+    this._stack.set(this._index, null);
 
     return this;
-  }
-
-  peek(i: number) {
-    if (i >= this._arr.length) return null;
-    return this._arr[i];
   }
 }

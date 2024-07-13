@@ -64,9 +64,9 @@ const run = async () => {
     db
   });
   const storage = {
-    theme: new Storage({ name: 'theme', shape: themeShape, root: PATH.USER_DATA }),
-    user: new Storage({ name: 'user', shape: userShape, root: PATH.USER_DATA }),
-    cache: new Storage({ name: 'cache', shape: cacheShape, root: PATH.APP_DATA })
+    theme: new Storage({ file: { name: 'theme', root: PATH.USER_DATA }, shape: themeShape }),
+    user: new Storage({ file: { name: 'user', root: PATH.USER_DATA }, shape: userShape }),
+    cache: new Storage({ file: { name: 'cache', root: PATH.APP_DATA }, shape: cacheShape })
   };
 
   const window = {
@@ -75,7 +75,7 @@ const run = async () => {
   };
 
   /** Initialize app */
-  nativeTheme.themeSource = storage.theme.get().theme;
+  nativeTheme.themeSource = storage.theme.state.theme;
   Object.values(db).forEach(x => x.open());
 
   ipcRouter

@@ -3,15 +3,17 @@ import test from 'tape';
 import Store from './store';
 
 test('[store] listens and dispatches', t => {
-  const store = new Store({ x: 1 });
+  const state = { x: 1 };
+  const store = new Store(state);
 
   store
-    .on((prev, cur) => {
+    .on((cur, prev) => {
       t.pass('listens to dispatch');
       t.deepEqual(cur, { x: 2 }, 'updates state');
+      t.deepEqual(prev, state, 'returns previous state');
       t.end();
     })
-    .set(() => ({ x: 2 }), '');
+    .set(() => ({ x: 2 }));
 });
 
 test('[store] removes listeners', t => {
@@ -29,5 +31,5 @@ test('[store] removes listeners', t => {
       t.equal(x, 1, 'does not fire event');
       t.end();
     })
-    .set(() => ({ x }), '');
+    .set(() => ({ x }));
 });

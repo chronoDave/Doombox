@@ -1,3 +1,4 @@
+import type { Path } from '@doombox/types/primitives';
 import type { WindowShape } from '@doombox/types/shapes/window.shape';
 
 import { BrowserWindow, nativeTheme } from 'electron';
@@ -17,10 +18,7 @@ import debounce from '../../../lib/function/debounce';
 import Storage from '../storage/storage';
 
 export type WindowProps = {
-  cache: {
-    root: string
-    name: string
-  }
+  cache: Path,
   title: string
   file: {
     html: string
@@ -39,9 +37,8 @@ export default class Window {
 
   constructor(props: WindowProps) {
     this._cache = new Storage({
-      name: props.cache.name,
-      shape: windowShape,
-      root: props.cache.root
+      file: props.cache,
+      shape: windowShape
     });
 
     this.window = new BrowserWindow({
@@ -51,10 +48,10 @@ export default class Window {
         path.resolve(__dirname, IS_DEV ? 'assets/dev.png' : 'assets/app.png'),
       minWidth: MIN_WIDTH,
       minHeight: MIN_HEIGHT,
-      width: this._cache.get().width,
-      height: this._cache.get().height,
-      x: this._cache.get().x,
-      y: this._cache.get().y,
+      width: this._cache.state.width,
+      height: this._cache.state.height,
+      x: this._cache.state.x,
+      y: this._cache.state.y,
       frame: false,
       show: false,
       darkTheme: nativeTheme.shouldUseDarkColors,
@@ -71,18 +68,18 @@ export default class Window {
 
     this._onresize = debounce(() => {
       const { width, height } = this.window.getBounds();
-      this._cache.set(produce<WindowShape>(draft => {
+      this._cache.set(produce(draft => {
         draft.width = width;
         draft.height = height;
-      })(this._cache.get()));
+      }));
     }, 100);
 
     this._onmove = debounce(() => {
       const [x, y] = this.window.getPosition();
-      this._cache.set(produce<WindowShape>(draft => {
+      this._cache.set(produce(draft => {
         draft.x = x;
         draft.y = y;
-      })(this._cache.get()));
+      }));
     }, 100);
 
     this.window.on('ready-to-show', () => {

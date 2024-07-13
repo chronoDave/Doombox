@@ -8,20 +8,16 @@ test('[storage.read] should read file', t => {
   const { storage, init, cleanup } = fixture();
   init();
 
-  // @ts-expect-error: Ignore private
-  const json = storage._read();
-  t.true(typeof json === 'object', 'returns file');
+  t.true(typeof storage.state === 'object', 'returns file data');
 
   cleanup();
   t.end();
 });
 
-test('[storage.read] should return null if file does not exist', t => {
-  const { storage } = fixture();
-  // @ts-expect-error: Ignore private
-  const json = storage._read();
+test('[storage.read] should return default shape if file does not exist', t => {
+  const { storage, shape } = fixture();
 
-  t.equal(json, null, 'returns null');
+  t.deepEqual(storage.state, shape, 'returns shape');
 
   t.end();
 });
@@ -29,24 +25,24 @@ test('[storage.read] should return null if file does not exist', t => {
 test('[storage.set] sets data', t => {
   const { storage, cleanup } = fixture();
 
-  const x = 100;
   storage.set(produce(draft => {
-    draft.window.x = x;
-  })({ window: {} }));
+    draft.player.muted = true;
+  }));
 
-  // @ts-expect-error: Ignore private
-  t.equal(storage._data.window.x, x, 'sets data');
+  t.true(storage.state.player.muted, 'sets data');
 
   cleanup();
   t.end();
 });
 
 test('[storage.set] writes data', t => {
-  const { storage, cleanup } = fixture();
-  storage.set(produce(draft => draft)({}));
+  const { storage, file, cleanup } = fixture();
 
-  // @ts-expect-error: Ignore private
-  t.true(fs.existsSync(storage._file), 'writes data');
+  storage.set(produce(draft => {
+    draft.player.muted = true;
+  }));
+
+  t.true(fs.existsSync(file), 'writes data');
 
   cleanup();
   t.end();

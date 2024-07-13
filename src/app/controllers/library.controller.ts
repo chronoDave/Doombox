@@ -48,7 +48,7 @@ export default (props: LibraryControllerProps): TransferController['library'] =>
     },
     rebuild: async () => {
       props.library.drop();
-      const files = await getFiles(props.storage.get().library.folders);
+      const files = await getFiles(props.storage.state.library.folders);
       return props.library.insert(files);
     },
     add: async folders => {
@@ -59,7 +59,7 @@ export default (props: LibraryControllerProps): TransferController['library'] =>
     },
     remove: async folders => {
       const stale = await getFiles(folders);
-      const fresh = await getFiles(props.storage.get().library.folders);
+      const fresh = await getFiles(props.storage.state.library.folders);
 
       props.library.delete(stale);
       return props.library.insert(fresh);

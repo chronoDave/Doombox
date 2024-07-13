@@ -11,29 +11,29 @@ import { play } from './player.actions';
 export const addToQueue = (ids: string[]) => {
   if (ids.length === 0) return;
 
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.queue.songs.push(...ids);
   }), 'queue.add');
 
-  if (!state.player.current.id && hasAutoplay(state)) play(ids[0]);
+  if (!store.state.player.current.id && hasAutoplay(store.state)) play(ids[0]);
 };
 
 export const addLabelToQueue = (id: string) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     const label = draft.entities.label.get(id);
     if (label) draft.queue.songs.push(...label.songs);
   }), 'queue.addLabel');
 
-  if (!state.player.current.id && hasAutoplay(state)) play(state.queue.songs[0]);
+  if (!store.state.player.current.id && hasAutoplay(store.state)) play(store.state.queue.songs[0]);
 };
 
 export const addAlbumToQueue = (id: string) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     const album = draft.entities.album.get(id);
     if (album) draft.queue.songs.push(...album.songs);
   }), 'queue.addAlbum');
 
-  if (!state.player.current.id && hasAutoplay(state)) play(state.queue.songs[0]);
+  if (!store.state.player.current.id && hasAutoplay(store.state)) play(store.state.queue.songs[0]);
 };
 
 export const setQueue = (ids: string[], title?: string) => {
@@ -47,7 +47,7 @@ export const setQueue = (ids: string[], title?: string) => {
 };
 
 export const playLabel = (id: string) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     const label = draft.entities.label.get(id);
 
     if (label) {
@@ -61,11 +61,11 @@ export const playLabel = (id: string) => {
     }
   }), 'queue.playLabel');
 
-  play(state.queue.songs[0]);
+  play(store.state.queue.songs[0]);
 };
 
 export const playAlbum = (id: string) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     const album = draft.entities.album.get(id);
 
     if (album) {
@@ -79,25 +79,25 @@ export const playAlbum = (id: string) => {
     }
   }), 'queue.playAlbum');
 
-  play(state.queue.songs[0]);
+  play(store.state.queue.songs[0]);
 };
 
 export const setQueueIndex = (id: string) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     const i = Math.max(0, draft.queue.songs.findIndex(song => song === id));
 
     draft.queue.index = i;
   }), 'queue.setIndex');
 
-  play(state.queue.songs[state.queue.index]);
+  play(store.state.queue.songs[store.state.queue.index]);
 };
 
 export const shuffleQueue = () => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.queue.index = random(0, draft.queue.songs.length - 1);
   }), 'queue.shuffle');
 
-  play(state.queue.songs[0]);
+  play(store.state.queue.songs[0]);
 };
 
 window.ipc.on.shuffle(shuffleQueue);

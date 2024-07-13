@@ -12,6 +12,7 @@ const common = {
   outbase: 'src',
   bundle: true,
   outdir,
+  sourcemap: true,
   legalComments: 'none',
   define: {
     'process.env.NODE_ENV': '"development"',

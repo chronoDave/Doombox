@@ -9,10 +9,11 @@ export type ThemeControllerProps = {
 };
 
 export default (props: ThemeControllerProps): TransferController['theme'] => ({
-  get: async () => props.storage.get(),
-  set: async payload => {
-    const theme = props.storage.set(payload);
+  get: async () => props.storage.state,
+  set: async theme => {
+    props.storage.set(() => theme);
     nativeTheme.themeSource = theme.theme;
-    return theme;
+
+    return props.storage.state;
   }
 });

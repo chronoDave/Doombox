@@ -25,3 +25,8 @@ export type Rect = {
   width: number
   height: number
 };
+
+export type Path = {
+  root: string
+  name: string
+};

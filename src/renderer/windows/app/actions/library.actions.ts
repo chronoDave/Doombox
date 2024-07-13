@@ -33,11 +33,11 @@ export const fetchLibrary = async () => {
 };
 
 export const reindexLibrary = async () => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
   }), 'library.reindex');
 
-  const library = await window.ipc.library.reindex(state.user.library.folders);
+  const library = await window.ipc.library.reindex(store.state.user.library.folders);
 
   dispatch(library);
   store.set(produce(draft => {
@@ -59,11 +59,11 @@ export const rebuildLibrary = async () => {
 };
 
 export const addFolders = async (folders: string[]) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.user.library.folders = unique(draft.user.library.folders)(folders);
   }), 'library.addFolders');
 
-  const user = await window.ipc.user.set(state.user);
+  const user = await window.ipc.user.set(store.state.user);
   store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
     draft.user.library.folders = user.library.folders;
@@ -78,11 +78,11 @@ export const addFolders = async (folders: string[]) => {
 };
 
 export const removeFolders = async (folders: string[]) => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.user.library.folders = difference(draft.user.library.folders)(folders);
   }), 'library.removeFolders');
 
-  const user = await window.ipc.user.set(state.user);
+  const user = await window.ipc.user.set(store.state.user);
   store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
     draft.user.library.folders = user.library.folders;
@@ -127,11 +127,11 @@ export const search = async (query: string) => {
 };
 
 export const shuffleLibrary = () => {
-  const state = store.set(produce(draft => {
+  store.set(produce(draft => {
     draft.queue.songs = shuffle(Array.from(draft.entities.song.keys()));
     draft.queue.index = 0;
     draft.queue.title = 'Queue';
   }), 'library.shuffleLibrary');
 
-  play(state.queue.songs[0]);
+  play(store.state.queue.songs[0]);
 };
