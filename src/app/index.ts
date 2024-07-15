@@ -14,15 +14,13 @@ import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
 
 import { PATH } from './const';
-import createCacheController from './controllers/cache.controller';
 import createLibraryController from './controllers/library.controller';
 import osController from './controllers/os.controller';
 import playerController from './controllers/player.controller';
 import createPlaylistController from './controllers/playlist.controller';
 import createRouterController from './controllers/router.controller';
 import createSearchController from './controllers/search.controller';
-import createThemeController from './controllers/theme.controller';
-import createUserController from './controllers/user.controller';
+import createStorageController from './controllers/storage.controller';
 import windowController from './controllers/window.controller';
 import IpcRouter from './lib/ipc/router';
 import Library from './lib/library/library';
@@ -76,18 +74,18 @@ const run = async () => {
     .on('song', window.send('song'));
 
   /** Initialize app */
+  nativeTheme.themeSource = storage.theme.state.theme;
   storage.theme.on(theme => {
     nativeTheme.themeSource = theme.theme;
   });
-  nativeTheme.themeSource = storage.theme.state.theme;
 
   Object.values(db).forEach(x => x.open());
 
   ipcRouter
     .transfer('os', osController({ root: { thumbs: PATH.THUMBS } }))
-    .transfer('user', createUserController({ storage: storage.user }))
-    .transfer('theme', createThemeController({ storage: storage.theme }))
-    .transfer('cache', createCacheController({ storage: storage.cache }))
+    .transfer('user', createStorageController(storage.user))
+    .transfer('theme', createStorageController(storage.theme))
+    .transfer('cache', createStorageController(storage.cache))
     .transfer('library', createLibraryController({
       library,
       storage: storage.user,
