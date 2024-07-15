@@ -18,6 +18,7 @@ export type NavigationProps = {};
 const Navigation: Component<NavigationProps> = () => {
   const routes: Record<Route, IconProps['id']> = {
     [Route.Appearance]: 'palette',
+    [Route.Player]: 'play-circle',
     [Route.Library]: 'playlist-music'
   };
 

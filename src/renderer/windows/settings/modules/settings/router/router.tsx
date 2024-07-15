@@ -5,6 +5,7 @@ import * as forgo from 'forgo';
 import { Route } from '../../../state/state';
 import Appearance from '../../appearance/appearance';
 import Library from '../../library/library';
+import Player from '../../player/player';
 
 import subscribe from './router.state';
 
@@ -24,6 +25,10 @@ const Router: Component<RouterProps> = () => {
     [Route.Library]: {
       title: 'Library',
       view: <Library />
+    },
+    [Route.Player]: {
+      title: 'Player',
+      view: <Player />
     }
   };
 

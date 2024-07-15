@@ -3,7 +3,8 @@ import type { UserShape } from '@doombox/types/shapes/user.shape';
 
 export enum Route {
   Appearance = 'appearance',
-  Library = 'library'
+  Library = 'library',
+  Player = 'player'
 }
 
 export type State = {
