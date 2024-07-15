@@ -55,7 +55,7 @@ export type TransferController = {
     add: TransferHandler<Library, string[]>
     remove: TransferHandler<Library, string[]>
     get: TransferHandler<Library, void>
-    reindex: TransferHandler<Library, string[]>
+    reindex: TransferHandler<Library, void>
     rebuild: TransferHandler<Library, void>
     search: TransferHandler<Library, string>
   }

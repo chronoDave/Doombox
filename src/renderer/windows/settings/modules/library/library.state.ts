@@ -5,7 +5,7 @@ import unique from '@doombox/lib/list/unique';
 
 import store from '../../state/store';
 
-export default store.select(state => state.user.library);
+export default store.select(state => state.user.library.folders);
 
 export const addFolders = (folders: string[]) => store.set(produce(draft => {
   draft.user.library.folders = unique(draft.user.library.folders)(folders);

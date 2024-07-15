@@ -27,10 +27,10 @@ export default (props: LibraryControllerProps): TransferController['library'] =>
 
   return ({
     get: () => props.library.all(),
-    reindex: async folders => {
+    reindex: async () => {
       const oldSongs = props.library.songs();
       const oldFiles = oldSongs.map(song => song.file);
-      const files = await getFiles(folders);
+      const files = await getFiles(props.storage.state.library.folders);
       const stale = oldSongs.filter(song => !files.includes(song.file));
       const fresh = difference(files)(oldFiles);
 

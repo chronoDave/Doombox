@@ -14,6 +14,7 @@
 @include meta.load-css('./components/form-group.scss');
 @include meta.load-css('./components/list-vertical.scss');
 @include meta.load-css('./components/descriptive-list.scss');
+@include meta.load-css('./components/form.scss');
 
 @layer globals {
   @include meta.load-css('./core/globals.scss')

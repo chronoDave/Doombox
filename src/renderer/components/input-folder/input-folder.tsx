@@ -30,7 +30,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
       };
 
       return (
-        <div class='input-folder'>
+        <div class='input-folder form-group'>
           <fieldset name='folders'>
             <legend>{props.label}</legend>
             {props.folders.length === 0 ? (
