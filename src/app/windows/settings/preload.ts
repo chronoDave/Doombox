@@ -18,6 +18,10 @@ const ipc = {
   theme: {
     get: transfer('theme', 'get'),
     set: transfer('theme', 'set')
+  },
+  library: {
+    reindex: transfer('library', 'reindex'),
+    rebuild: transfer('library', 'rebuild')
   }
 };
 

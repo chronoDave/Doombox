@@ -37,7 +37,10 @@ const Library: Component<LibraryProps> = () => {
             <button
               class='primary'
               type='button'
-              onclick={() => window.ipc.library.reindex()}
+              onclick={() => {
+                window.ipc.library.reindex();
+                window.ipc.window.close();
+              }}
             >
               <Icon id='folder-sync' />
               Reindex library
@@ -47,7 +50,10 @@ const Library: Component<LibraryProps> = () => {
             <button
               class='primary'
               type='button'
-              onclick={() => window.ipc.library.rebuild()}
+              onclick={() => {
+                window.ipc.library.rebuild();
+                window.ipc.window.close();
+              }}
             >
               <Icon id='folder-search' />
               Rebuild library

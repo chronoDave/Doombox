@@ -1,5 +1,7 @@
 import type { State } from './state';
 
+import produce from 'immer';
+
 import Store from '@doombox/renderer/store/store';
 import cacheShape from '@doombox/types/shapes/cache.shape';
 import themeShape from '@doombox/types/shapes/theme.shape';
@@ -9,7 +11,7 @@ import { AudioStatus } from '../../../lib/audio/audio';
 
 import * as Route from './route';
 
-export default new Store<State>({
+const store = new Store<State>({
   route: {
     app: Route.App.Load,
     home: Route.Home.Library,
@@ -47,3 +49,11 @@ export default new Store<State>({
   theme: themeShape,
   user: userShape
 });
+
+window.ipc.on.song(() => {
+  store.set(produce(draft => {
+    draft.route.app = Route.App.Scan;
+  }));
+});
+
+export default store;
