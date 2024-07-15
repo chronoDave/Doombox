@@ -3,8 +3,13 @@ input {
   padding: 0.5em;
   flex-grow: 1;
   font-size: 1rem;
+  cursor: pointer;
 
   &::placeholder {
     color: var(--text-inactive);
+  }
+
+  ~ label {
+    cursor: pointer;
   }
 }

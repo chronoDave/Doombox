@@ -38,7 +38,7 @@ const InputFolders: Component<InputFoldersProps> = () => {
             ) : (
               <ul class='vertical' onchange={handleChange}>
                 {props.folders.map(folder => (
-                  <li key={folder}>
+                  <li key={folder} class='input-checkbox'>
                     <input id={folder} type='checkbox' />
                     <label for={folder}>{folder}</label>
                   </li>

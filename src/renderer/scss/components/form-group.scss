@@ -1,9 +1,9 @@
 .form-group {
-  > * + * {
-    margin-top: 0.5em;
+  > label {
+    display: block;
   }
 
-  label {
-    display: block;
+  > .description {
+    margin-top: 0.25em;
   }
 }
