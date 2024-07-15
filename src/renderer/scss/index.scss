@@ -13,6 +13,7 @@
 @include meta.load-css('./components/panel.scss');
 @include meta.load-css('./components/glyph.scss');
 @include meta.load-css('./components/form-group.scss');
+@include meta.load-css('./components/list-vertical.scss');
 
 @layer globals {
   @include meta.load-css('./core/globals.scss')

@@ -3,11 +3,11 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import Icon from '../icon/icon';
-import InputCheckbox from '../input-checkbox/input-checkbox';
 
 import './input-folder.scss';
 
 export type InputFoldersProps = {
+  id: string
   label: string
   folders: string[]
   onadd: (folders: string[]) => void
@@ -17,59 +17,61 @@ export type InputFoldersProps = {
 const InputFolders: Component<InputFoldersProps> = () => {
   const selected: Set<string> = new Set();
 
-  const setSelected = (folder: string) => selected.has(folder) ?
-    selected.delete(folder) :
-    selected.add(folder);
-
   const component = new forgo.Component<InputFoldersProps>({
     render(props) {
+      const handleChange = (event: forgo.JSX.TargetedEvent<HTMLUListElement, Event>) => {
+        const target = event.target as HTMLInputElement;
+        if (target.checked) {
+          selected.add(target.id);
+        } else {
+          selected.delete(target.id);
+        }
+        component.update();
+      };
+
       return (
-        <fieldset class='input-folder'>
-          <legend>{props.label}</legend>
-          <div
-            class='options'
-            role='presentation'
-            onchange={e => {
-              const { value } = e.target as HTMLInputElement;
-              if (value) setSelected(value);
-              component.update();
-            }}
-          >
-            {props.folders.map(folder => (
-              <InputCheckbox
-                id={folder}
-                label={folder}
-                value={folder}
-                checked={selected.has(folder)}
-              />
-            ))}
-          </div>
+        <div class='input-folder'>
+          <fieldset name='folders'>
+            <legend>{props.label}</legend>
+            {props.folders.length === 0 ? (
+              <span>No folders selected</span>
+            ) : (
+              <ul class='vertical' onchange={handleChange}>
+                {props.folders.map(folder => (
+                  <li key={folder}>
+                    <input id={folder} type='checkbox' />
+                    <label for={folder}>{folder}</label>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </fieldset>
           <div class='toolbar'>
             <button
-              class='button'
+              class='primary'
               type='button'
-              aria-label='remove selected folders'
-              disabled={selected.size === 0}
-              onclick={() => {
-                props.onremove(Array.from(selected));
-                selected.clear();
-              }}
-            >
-              <Icon id='folder-minus' />
-            </button>
-            <button
-              class='button'
-              type='button'
-              aria-label='add folders'
               onclick={async () => {
                 const folders = await window.ipc.os.folders();
                 if (folders.length > 0) props.onadd(folders);
               }}
             >
               <Icon id='folder-plus' />
+              <span>Add folder(s)</span>
+            </button>
+            <button
+              class='primary'
+              type='button'
+              disabled={selected.size === 0}
+              onclick={async () => {
+                props.onremove(Array.from(selected));
+                selected.clear();
+              }}
+            >
+              <Icon id='folder-minus' />
+              <span>Remove folder(s)</span>
             </button>
           </div>
-        </fieldset>
+        </div>
       );
     }
   });

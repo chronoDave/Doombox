@@ -9,6 +9,7 @@ html {
   margin: unset;
   padding: unset;
   list-style: none;
+  border: unset;
 }
 
 button {
@@ -26,5 +27,8 @@ input {
   background-color: unset;
   color: inherit;
   border: unset;
-  min-width: 0;
+}
+
+fieldset {
+  border: unset;
 }

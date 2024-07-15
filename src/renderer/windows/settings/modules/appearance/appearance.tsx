@@ -6,8 +6,6 @@ import Select from '@doombox/components/select/select';
 
 import subscribe, { setTheme } from './appearance.state';
 
-import './appearance.scss';
-
 export type AppearanceProps = {};
 
 const Appearance: Component<AppearanceProps> = () => {
@@ -16,7 +14,7 @@ const Appearance: Component<AppearanceProps> = () => {
       const { theme } = subscribe('Appearance', component);
 
       return (
-        <form class='Appearance'>
+        <form>
           <Select
             id='theme'
             label='Theme'

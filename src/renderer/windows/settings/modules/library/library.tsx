@@ -4,9 +4,7 @@ import * as forgo from 'forgo';
 
 import InputFolders from '@doombox/components/input-folder/input-folder';
 
-import { add, remove } from '../../state/actions/user';
-
-import subscribe from './library.state';
+import subscribe, { addFolders, removeFolders } from './library.state';
 
 export type LibraryProps = {};
 
@@ -16,12 +14,13 @@ const Library: Component<LibraryProps> = () => {
       const library = subscribe('Library', component);
 
       return (
-        <div class='Library'>
+        <form>
           <InputFolders
+            id='library-folders'
+            label='Library folders'
             folders={library.folders}
-            label='folders'
-            onadd={add}
-            onremove={remove}
+            onadd={addFolders}
+            onremove={removeFolders}
           />
           <button
             class='button'
@@ -37,7 +36,7 @@ const Library: Component<LibraryProps> = () => {
           >
             Rebuild library
           </button>
-        </div>
+        </form>
       );
     }
   });

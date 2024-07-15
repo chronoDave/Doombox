@@ -2,7 +2,8 @@
 @use 'transitions';
 @use 'typography';
 
-button, .button {
+button,
+.button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -17,11 +18,15 @@ button, .button {
     color: var(--text-inactive);
     transition: background-color transitions.$fast, color transitions.$fast;
     padding: 0.25em;
-    font-size: typography.pxToRem(18);
+    gap: 0.5em;
+    
+    > svg {
+      font-size: typography.pxToRem(18);
 
-    > svg > path {
-      fill: currentcolor;
-      transition: fill transitions.$fast;
+      > path {
+        fill: currentcolor;
+        transition: fill transitions.$fast;
+      }
     }
 
     @include mixins.hover {
@@ -32,5 +37,17 @@ button, .button {
   &.active {
     background-color: var(--primary);
     color: var(--text);
+  }
+
+  &.primary {
+    color: var(--text);
+    background-color: var(--primary);
+    padding: 0.5em 1em;
+    border-radius: 0.25rem;
+  }
+
+  &[disabled] {
+    color: var(--text-inactive);
+    background-color: unset;
   }
 }
