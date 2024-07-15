@@ -1,11 +1,5 @@
 form {
   > .form-group + .form-group {
     margin-top: 0.5rem;
-  }
-
-  > hr {
-    margin: 1rem 0;
-    height: 1px;
-    background-color: var(--text-inactive);
-  }
+  } 
 }

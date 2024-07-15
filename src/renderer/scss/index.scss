@@ -5,6 +5,7 @@
 @include meta.load-css('./theme/fonts.scss');
 @include meta.load-css('./theme/colours.scss');
 
+@include meta.load-css('./components/body.scss');
 @include meta.load-css('./components/input.scss');
 @include meta.load-css('./components/text.scss');
 @include meta.load-css('./components/button.scss');
@@ -12,9 +13,10 @@
 @include meta.load-css('./components/scrollbar.scss');
 @include meta.load-css('./components/panel.scss');
 @include meta.load-css('./components/form-group.scss');
-@include meta.load-css('./components/list-vertical.scss');
+@include meta.load-css('./components/list.scss');
 @include meta.load-css('./components/descriptive-list.scss');
 @include meta.load-css('./components/form.scss');
+@include meta.load-css('./components/hr.scss');
 
 @layer globals {
   @include meta.load-css('./core/globals.scss')

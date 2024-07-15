@@ -16,8 +16,6 @@ import * as Route from '../../state/route';
 import subscribe from './app.state';
 import AppRouter from './appRouter/appRouter';
 
-import './app.scss';
-
 export type AppProps = {};
 
 const App: Component<AppProps> = () => {

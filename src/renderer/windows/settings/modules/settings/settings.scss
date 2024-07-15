@@ -7,8 +7,9 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
 
-  > .body {
+  > section {
     padding: 1em;
+    overflow: auto;
   }
 
   > .actions {

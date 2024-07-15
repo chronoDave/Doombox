@@ -10,10 +10,21 @@ import subscribe from './router.state';
 
 export type RouterProps = {};
 
+export type Page = {
+  title: string
+  view: forgo.Component
+};
+
 const Router: Component<RouterProps> = () => {
-  const routes: Record<Route, forgo.Component> = {
-    [Route.Appearance]: <Appearance />,
-    [Route.Library]: <Library />
+  const routes: Record<Route, Page> = {
+    [Route.Appearance]: {
+      title: 'Appearance',
+      view: <Appearance />
+    },
+    [Route.Library]: {
+      title: 'Library',
+      view: <Library />
+    }
   };
 
   const component = new forgo.Component<RouterProps>({
@@ -21,9 +32,10 @@ const Router: Component<RouterProps> = () => {
       const route = subscribe('Router', component);
 
       return (
-        <div class='body'>
-          {routes[route]}
-        </div>
+        <section class='panel column'>
+          <h1>{routes[route].title}</h1>
+          {routes[route].view}
+        </section>
       );
     }
   });
