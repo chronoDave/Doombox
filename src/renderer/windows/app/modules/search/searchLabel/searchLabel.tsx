@@ -34,12 +34,25 @@ const SearchLabel: Component<SearchLabelProps> = () => {
             height: () => 48,
             render: ({ data: label }) => (
               <button
-                class='SearchLabel button'
+                class='SearchLabel'
                 type='button'
                 data-id={label._id}
               >
                 <p class='title nowrap'>{label.label}</p>
-                <p class='subtitle nowrap'>{label.albums.length} album{label.albums.length > 1 ? 's' : ''}<span class='glyph dot' />{label.songs.length} track{label.songs.length > 1 ? 's' : ''}<span class='glyph dot' />{new Time(label.duration ?? 0).toShort()}</p>
+                <dl class='horizontal reverse'>
+                  <div>
+                    <dd>Album(s)</dd>
+                    <dd>{label.albums.length}</dd>
+                  </div>
+                  <div>
+                    <dt>Track(s)</dt>
+                    <dd>{label.songs.length}</dd>
+                  </div>
+                  <div>
+                    <dt class='sr-only'>Duration</dt>
+                    <dd>{new Time(label.duration ?? 0).toShort()}</dd>
+                  </div>
+                </dl>
               </button>
             )
           }}

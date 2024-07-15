@@ -25,7 +25,16 @@ const Queue: Component<QueueProps> = () => {
         <div class='Queue panel column'>
           <div class='header'>
             <p class='nowrap'>{state.title}</p>
-            <p class='nowrap'>{state.queue.length} tracks<span class='glyph dot' />{new Time(duration).toLong()}</p>
+            <dl class='horizontal reverse'>
+              <div>
+                <dt>Track(s)</dt>
+                <dd>{state.queue.length}</dd>
+              </div>
+              <div>
+                <dt class='sr-only'>Duration</dt>
+                <dd>{new Time(duration).toLong()}</dd>
+              </div>
+            </dl>
           </div>
           <VirtualList
             data={state.queue}

@@ -20,14 +20,27 @@ const LibraryLabel: Component<LibraryLabelProps> = () => {
       return (
         <button
           type='button'
-          class={cx('LibraryLabel', 'button', props.current && props.label.songs.includes(props.current) && 'active')}
+          class={cx('library-label', props.current && props.label.songs.includes(props.current) && 'active')}
           data-id={props.label._id}
           data-action={props.action}
           aria-label={`Play ${props.label.label}`}
         >
           <div class='meta'>
             <p class='nowrap'>{props.label.label}</p>
-            <p class='nowrap'>{props.label.albums.length} albums<span class='glyph dot' />{props.label.songs.length} tracks<span class='glyph dot' />{new Time(props.label.duration ?? 0).toShort()}</p>
+            <dl class='horizontal reverse'>
+              <div>
+                <dt>Album(s)</dt>
+                <dd>{props.label.albums.length}</dd>
+              </div>
+              <div>
+                <dt>Track(s)</dt>
+                <dd>{props.label.songs.length}</dd>
+              </div>
+              <div>
+                <dt class='sr-only'>Duration</dt>
+                <dd>{new Time(props.label.duration ?? 0).toShort()}</dd>
+              </div>
+            </dl>
           </div>
           <span class='hr' />
         </button>

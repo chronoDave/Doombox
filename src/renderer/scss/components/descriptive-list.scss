@@ -1,0 +1,31 @@
+dl {
+  &.horizontal {
+    display: flex;
+    gap: 0.5em;
+
+    > div {
+      display: flex;
+      gap: 0.25em;
+
+      + div::before {
+        content: '•';
+        margin-right: 0.25em;
+      }
+    }
+
+    &.reverse > div {
+      flex-direction: row-reverse;
+
+      + div {
+        &::before {
+          content: unset;
+        }
+
+        &::after {
+          content: '•';
+          margin-right: 0.25em;
+        }
+      }
+    }
+  }
+}

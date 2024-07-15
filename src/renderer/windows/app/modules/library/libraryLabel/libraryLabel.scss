@@ -1,9 +1,13 @@
-.LibraryLabel {
+.library-label {
   width: 100%;
   gap: 1em;
   text-align: left;
   padding-left: 0.5em;
   height: 100%;
+
+  .meta dl {
+    text-transform: lowercase;
+  }
 
   > .hr {
     display: block;

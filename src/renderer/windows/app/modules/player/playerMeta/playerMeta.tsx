@@ -18,14 +18,14 @@ const PlayerMeta: Component<PlayerMetaProps> = () => {
 
       if (!current?.title || !current.artist) {
         return (
-          <div class='PlayerMeta center'>
-            <p class="muted">No song(s) selected</p>
+          <div class='PlayerMeta'>
+            <p>No song(s) selected</p>
           </div>
         );
       }
 
       return (
-        <dl class='PlayerMeta center'>
+        <dl class='PlayerMeta'>
           <dt class='sr-only'>Title</dt>
           <dd class='nowrap'>{current.title ?? 'Unknown'}</dd>
           <dt class='sr-only'>Artist</dt>
