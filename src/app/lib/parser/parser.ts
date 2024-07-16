@@ -14,7 +14,7 @@ export type ParserProps = {
 };
 
 export type ParserEvents = {
-  parse: (payload: SubscriptionController['song']) => void
+  parse: (payload: SubscriptionController['parser']['song']) => void
 };
 
 export default class Parser extends EventEmitter<ParserEvents> {
@@ -81,8 +81,8 @@ export default class Parser extends EventEmitter<ParserEvents> {
 
   async parse(files: string[]) {
     const images = new Map<string, string>();
-    const songs = await pMap(files, async (file, i) => {
-      this.emit('parse', { size: files.length, file, cur: i });
+    const songs = await pMap(files, async file => {
+      this.emit('parse', file);
 
       const song = await this.parseFile(file);
 

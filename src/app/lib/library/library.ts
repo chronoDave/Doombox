@@ -1,6 +1,7 @@
-import type { Album, Label, Song } from '../../../types/library';
+/* eslint-disable max-len */
 import type Parser from '../parser/parser';
 import type { SubscriptionController } from '@doombox/types/ipc';
+import type { Album, Label, Song } from '@doombox/types/library';
 
 import fs from 'fs';
 import LeafDB from 'leaf-db';
@@ -8,131 +9,203 @@ import pMap from 'p-map';
 import path from 'path';
 import sharp from 'sharp';
 
-import group from '../../../lib/collection/group';
-import EventEmitter from '../../../lib/eventEmitter/eventEmitter';
-import { sumSelect } from '../../../lib/math/sum';
+import group from '@doombox/lib/collection/group';
+import EventEmitter from '@doombox/lib/eventEmitter/eventEmitter';
+import levenshteinDistance from '@doombox/lib/string/levenshteinDistance';
 
 export type LibraryProps = {
+  root: string
   parser: Parser
-  root: string;
   db: {
     song: LeafDB<Song>
     album: LeafDB<Album>
     label: LeafDB<Label>
-  };
+  }
 };
 
 export type LibraryEvents = {
-  image: (payload: SubscriptionController['image']) => void
-  song: (payload: SubscriptionController['song']) => void
+  song: (payload: SubscriptionController['parser']['song']) => void
+  image: (payload: SubscriptionController['parser']['image']) => void
+  size: (payload: SubscriptionController['parser']['size']) => void
 };
 
 export default class Library extends EventEmitter<LibraryEvents> {
+  private readonly _sizes = [96, 128, 192, 256, 384, 512] as const;
+  private readonly _root: string;
+  private readonly _parser: Parser;
   private readonly _db: {
     song: LeafDB<Song>
     album: LeafDB<Album>
     label: LeafDB<Label>
   };
-  private readonly _root: string;
-  private readonly _parser: Parser;
 
-  private _insertImage(image: [b64: string, id: string]) {
-    const root = path.join(this._root, image[1]);
-    fs.mkdirSync(root);
-
-    const writeImage = (size: number) => sharp(Buffer.from(image[0], 'base64'))
-      .jpeg({ progressive: true })
-      .resize({ width: size, height: size })
-      .toFile(path.join(root, `${size}.jpg`));
-
-    return Promise.all([96, 128, 192, 256, 384, 512].map(writeImage));
+  private _all() {
+    return {
+      songs: this._db.song.select({}),
+      albums: this._db.album.select({}),
+      labels: this._db.label.select({})
+    };
   }
 
-  static groupAlbums(x: Song[]): Album[] {
-    return Object.entries(group(x, 'album')).map(([album, songs]) => ({
-      _id: LeafDB.id(),
-      image: songs[0].image,
-      songs: songs
-        .sort((a, b) => {
-          if (a.disc.no !== b.disc.no && a.disc.no && b.disc.no) {
-            return a.disc.no - b.disc.no;
-          }
-          if (a.track.no !== b.track.no && a.track.no && b.track.no) {
-            return a.track.no - b.track.no;
-          }
-
-          return 1;
-        })
-        .map(song => song._id),
-      duration: sumSelect(songs, song => song.duration ?? 0),
-      albumartist: songs[0].albumartist,
-      album,
-      label: songs[0].label,
-      date: songs[0].date,
-      year: songs[0].year,
-      cdid: songs[0].cdid,
-      romaji: {
-        album: songs[0].romaji.album,
-        albumartist: songs[0].romaji.albumartist,
-        label: songs[0].romaji.label
-      }
-    }));
+  private _image(id: string, size: number) {
+    return path.join(this._root, `${id}-${size}.jpg`);
   }
 
-  static groupLabels(x: Album[]): Label[] {
-    return Object.entries(group(x, 'label')).map(([label, albums]) => ({
-      _id: LeafDB.id(),
-      albums: albums
-        .sort((a, b) => {
-          if (a.label !== b.label && a.label && b.label) {
-            return a.label.localeCompare(b.label);
-          }
-          if (a.albumartist !== b.albumartist && a.albumartist && b.albumartist) {
-            return a.albumartist.localeCompare(b.albumartist);
-          }
-          if (a.year !== b.year && a.year && b.year) {
-            return a.year - b.year;
-          }
-          if (a.album !== b.album && a.album && b.album) {
-            return a.album.localeCompare(b.album);
-          }
+  private _build(songs: Song[]) {
+    this._db.song.insert(songs);
 
-          return 1;
-        })
-        .map(album => album._id),
-      songs: albums
-        .sort((a, b) => (
-          (b.year ?? Number.MAX_SAFE_INTEGER) -
-          (a.year ?? Number.MAX_SAFE_INTEGER)
-        ))
-        .map(album => album.songs)
-        .flat(),
-      label,
-      duration: sumSelect(albums, album => album.duration ?? 0),
-      romaji: {
-        label: albums[0].romaji.label
-      }
-    }));
+    this._db.album.drop();
+    const albums = this._db.album.insert(Array.from(group(songs, 'album').values())
+      .map(x => ({
+        _id: LeafDB.id(),
+        image: x[0].image,
+        songs: x
+          .sort((a, b) => {
+            if (a.disc.no && b.disc.no && a.disc.no !== b.disc.no) return a.disc.no - b.disc.no;
+            if (a.track.no && b.track.no && a.track.no !== b.track.no) return a.track.no - b.track.no;
+
+            return 1;
+          })
+          .map(song => song._id),
+        duration: x.reduce((acc, cur) => acc + (cur.duration ?? 0), 0),
+        album: x[0].album,
+        albumartist: x[0].albumartist,
+        label: x[0].label,
+        date: x[0].date,
+        year: x[0].year,
+        cdid: x[0].cdid,
+        romaji: {
+          album: x[0].romaji.album,
+          albumartist: x[0].romaji.albumartist,
+          label: x[0].romaji.label
+        }
+      })));
+
+    this._db.label.drop();
+    const labels = this._db.label.insert(Array.from(group(albums, 'label').values())
+      .map(x => ({
+        _id: LeafDB.id(),
+        albums: x
+          .sort((a, b) => {
+            if (a.label && b.label && a.label !== b.label) return a.label.localeCompare(b.label);
+            if (a.albumartist && b.albumartist && a.albumartist !== b.albumartist) return a.albumartist.localeCompare(b.albumartist);
+            if (a.year && b.year && a.year !== b.year) return a.year - b.year;
+            if (a.album && b.album && a.album !== b.album) return a.album.localeCompare(b.album);
+
+            return 1;
+          })
+          .map(album => album._id),
+        songs: x
+          .sort((a, b) => (b.year ?? Number.MAX_SAFE_INTEGER) - (a.year ?? Number.MAX_SAFE_INTEGER))
+          .map(album => album.songs)
+          .flat(),
+        label: x[0].label!,
+        duration: x.reduce((acc, cur) => acc + (cur.duration ?? 0), 0),
+        romaji: {
+          label: x[0].romaji.label
+        }
+      })));
+
+    return { albums, labels };
   }
 
   constructor(props: LibraryProps) {
     super();
 
     this._db = props.db;
-    this._root = props.root;
     this._parser = props.parser;
+    this._root = props.root;
 
-    this._parser.on('parse', payload => this.emit('song', payload));
+    this._parser.on('parse', file => this.emit('song', file));
 
-    fs.mkdirSync(this._root, { recursive: true });
+    fs.mkdirSync(this._root);
   }
 
-  songs() {
-    return this._db.song.select({});
+  async insert(files: string[]) {
+    this.emit('size', files.length);
+
+    const { songs, images } = await this._parser.parse(files);
+    const { albums, labels } = this._build(songs);
+
+    this.emit('size', images.size);
+    await pMap(images.entries(), ([src, id]) => {
+      this.emit('image', id);
+
+      return Promise.all(this._sizes.map(size => (
+        sharp(Buffer.from(src, 'base64'))
+          .jpeg({ progressive: true })
+          .resize({ width: size, height: size })
+          .toFile(this._image(id, size))
+      )));
+    }, { concurrency: 8 });
+
+    return { songs, albums, labels };
   }
 
-  delete(ids: string[]) {
-    return this._db.song.delete(...ids.map(_id => ({ _id })));
+  select(query?: string) {
+    if (!query) return this._all();
+
+    const distance = (x: string | null) => x ?
+      levenshteinDistance(x, query) :
+      Number.MAX_SAFE_INTEGER;
+
+    const songs = this._db.song.select(...[
+      { title: { $text: query } },
+      { artist: { $text: query } },
+      { romaji: { title: { $text: query } } },
+      { romaji: { artist: { $text: query } } }
+    ]).sort((a, b) => {
+      if (distance(a.title) !== distance(b.title)) return distance(a.title) - distance(b.title);
+      if (distance(a.artist) !== distance(b.artist)) return distance(a.artist) - distance(b.artist);
+      if (distance(a.romaji.title) !== distance(b.romaji.title)) return distance(a.romaji.title) - distance(b.romaji.title);
+      if (distance(a.romaji.artist) !== distance(b.romaji.artist)) return distance(a.romaji.artist) - distance(b.romaji.artist);
+
+      return 1;
+    });
+
+    const albums = this._db.album.select(...[
+      { album: { $text: query } },
+      { albumartist: { $text: query } },
+      { romaji: { album: { $text: query } } },
+      { romaji: { albumartist: { $text: query } } }
+    ]).sort((a, b) => {
+      if (distance(a.album) !== distance(b.album)) return distance(a.album) - distance(b.album);
+      if (distance(a.albumartist) !== distance(b.albumartist)) return distance(a.albumartist) - distance(b.albumartist);
+      if (distance(a.romaji.album) !== distance(b.romaji.album)) return distance(a.romaji.album) - distance(b.romaji.album);
+      if (distance(a.romaji.albumartist) !== distance(b.romaji.albumartist)) return distance(a.romaji.albumartist) - distance(b.romaji.albumartist);
+
+      return 1;
+    });
+
+    const labels = this._db.label.select(...[
+      { label: { $text: query } },
+      { romaji: { label: { $text: query } } }
+    ]).sort((a, b) => {
+      if (distance(a.label) !== distance(b.label)) return distance(a.label) - distance(b.label);
+      if (distance(a.romaji.label) !== distance(b.romaji.label)) return distance(a.romaji.label) - distance(b.romaji.label);
+
+      return 1;
+    });
+
+    return { songs, albums, labels };
+  }
+
+  async remove(ids: string[]) {
+    const queries = ids.map(_id => ({ _id }));
+    const stale = this._db.song.select(...queries);
+    const images = group(stale, 'image');
+
+    await pMap(
+      Array.from(images.keys()).filter(x => x),
+      id => Promise.all(this._sizes.map(size => fs.rmSync(this._image(id!, size))))
+    );
+
+    this._db.song.delete(...queries);
+
+    const songs = this._db.song.select({});
+    const { albums, labels } = this._build(songs);
+
+    return { songs, albums, labels };
   }
 
   drop() {
@@ -142,38 +215,5 @@ export default class Library extends EventEmitter<LibraryEvents> {
 
     fs.rmSync(this._root, { recursive: true, force: true });
     fs.mkdirSync(this._root, { recursive: true });
-  }
-
-  async all() {
-    return Promise.all([
-      this._db.song.select({}),
-      this._db.album.select({}),
-      this._db.label.select({})
-    ]).then(([songs, albums, labels]) => ({ songs, albums, labels }));
-  }
-
-  async insert(files: string[]) {
-    const { songs, images } = await this._parser.parse(files);
-    await pMap(images.entries(), (image, i) => {
-      this.emit('image', {
-        file: image[1],
-        cur: i,
-        size: images.size
-      });
-
-      return this._insertImage(image);
-    }, { concurrency: 16 });
-
-    const albums = Library.groupAlbums(songs);
-    const labels = Library.groupLabels(albums);
-
-    this._db.album.drop();
-    this._db.label.drop();
-
-    return ({
-      songs: this._db.song.insert(songs),
-      albums: this._db.album.insert(albums),
-      labels: this._db.label.insert(labels)
-    });
   }
 }

@@ -54,10 +54,9 @@ export type TransferController = {
   library: {
     add: TransferHandler<Library, string[]>
     remove: TransferHandler<Library, string[]>
-    get: TransferHandler<Library, void>
+    select: TransferHandler<Library, string | void>
     reindex: TransferHandler<Library, void>
     rebuild: TransferHandler<Library, void>
-    search: TransferHandler<Library, string>
   }
   playlist: {
     add: TransferHandler<Playlist, string[]>
@@ -72,13 +71,18 @@ export type TransferController = {
 
 /** Main to renderer */
 export type SubscriptionController = {
-  song: { file: string, cur: number, size: number }
-  image: { file: string, cur: number, size: number }
-  play: void
-  pause: void
-  next: void
-  previous: void
-  shuffle: void
+  parser: {
+    size: number
+    song: string
+    image: string
+  }
+  player: {
+    play: void
+    pause: void
+    next: void
+    previous: void
+    shuffle: void
+  }
 };
 
 /** Api */
@@ -104,8 +108,10 @@ export type Api = {
   }
 } & {
   on: {
-    [Channel in keyof SubscriptionController]: (
-      subscriber: (payload: SubscriptionController[Channel]) => void
-    ) => () => void
+    [Channel in keyof SubscriptionController]: {
+      [Route in keyof SubscriptionController[Channel]]: (
+        subscriber: (payload: SubscriptionController[Channel][Route]) => void
+      ) => () => void
+    }
   }
 };
