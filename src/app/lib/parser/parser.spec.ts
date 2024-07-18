@@ -44,7 +44,7 @@ test('[parser.parse] emits parse event', async t => {
   await parser.parse([file]);
 
   t.equal(events.length, 1, 'emits parse event');
-  t.equal(events[0].file, file, 'emits file');
+  t.equal(events[0], file, 'emits file');
 
   t.end();
 });
