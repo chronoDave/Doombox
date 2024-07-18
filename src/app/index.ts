@@ -14,6 +14,7 @@ import themeShape from '../types/shapes/theme.shape';
 import userShape from '../types/shapes/user.shape';
 
 import { PATH } from './const';
+import createEntityController from './controllers/entity.controller';
 import createLibraryController from './controllers/library.controller';
 import osController from './controllers/os.controller';
 import playerController from './controllers/player.controller';
@@ -88,6 +89,7 @@ const run = async () => {
     .transfer('library', createLibraryController({ library, storage: storage.user }))
     .transfer('playlist', createPlaylistController({ db: db.playlist }))
     .transfer('search', createSearchController({ db }))
+    .transfer('entity', createEntityController(db))
     .receive('router', createRouterController({ root: PATH.CACHE }))
     .receive('window', windowController)
     .receive('player', playerController);

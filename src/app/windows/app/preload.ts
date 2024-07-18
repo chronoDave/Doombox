@@ -33,6 +33,11 @@ const ipc: Api = {
     get: transfer('cache', 'get'),
     set: transfer('cache', 'set')
   },
+  entity: {
+    song: transfer('entity', 'song'),
+    album: transfer('entity', 'album'),
+    label: transfer('entity', 'label')
+  },
   library: {
     add: transfer('library', 'add'),
     select: transfer('library', 'select'),

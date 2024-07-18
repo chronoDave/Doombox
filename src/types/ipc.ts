@@ -1,4 +1,4 @@
-import type { Album, Library } from './library';
+import type { Album, Label, Library, Song } from './library';
 import type { Playlist } from './playlist';
 import type { Shape } from './primitives';
 import type { CacheShape } from './shapes/cache.shape';
@@ -57,6 +57,11 @@ export type TransferController = {
     select: TransferHandler<Library, string | void>
     reindex: TransferHandler<Library, void>
     rebuild: TransferHandler<Library, void>
+  }
+  entity: {
+    song: TransferHandler<Song, string>
+    album: TransferHandler<Album, string>
+    label: TransferHandler<Label, string>
   }
   playlist: {
     add: TransferHandler<Playlist, string[]>
