@@ -10,7 +10,7 @@ export type SelectOption<T extends string = string> = {
 export type SelectProps<T extends SelectOption> = {
   id: string
   label: string
-  options: T[]
+  options: Readonly<T[]>
   value: string
   onchange: (value: T['value'], event: Event) => void
 };

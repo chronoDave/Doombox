@@ -22,7 +22,7 @@ import createRouterController from './controllers/router.controller';
 import createSearchController from './controllers/search.controller';
 import createStorageController from './controllers/storage.controller';
 import windowController from './controllers/window.controller';
-import IpcRouter from './lib/ipc/router';
+import Router from './lib/ipc/router';
 import Library from './lib/library/library';
 import Logger from './lib/logger/logger';
 import Parser from './lib/parser/parser';
@@ -43,7 +43,7 @@ const run = async () => {
   const logger = new Logger({ root: PATH.LOGS });
   const tokenizer = await Tokenizer.create(PATH.DICT);
   const transliterator = new Transliterator(tokenizer);
-  const ipcRouter = new IpcRouter();
+  const router = new Router().on('error', err => logger.error(err));
 
   const db: {
     song: LeafDB<Song>,
@@ -56,6 +56,7 @@ const run = async () => {
     label: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'labels' } }),
     playlist: new LeafDB({ storage: { root: PATH.APP_DATA, name: 'playlists' } })
   };
+  Object.values(db).forEach(x => x.open());
 
   const storage = {
     theme: new Storage({ file: { name: 'theme', root: PATH.USER_DATA }, shape: themeShape }),
@@ -79,9 +80,7 @@ const run = async () => {
     nativeTheme.themeSource = theme.theme;
   });
 
-  Object.values(db).forEach(x => x.open());
-
-  ipcRouter
+  router
     .transfer('os', osController({ root: { thumbs: PATH.THUMBS } }))
     .transfer('user', createStorageController(storage.user))
     .transfer('theme', createStorageController(storage.theme))
@@ -91,8 +90,7 @@ const run = async () => {
     .transfer('search', createSearchController({ db }))
     .receive('router', createRouterController({ root: PATH.CACHE }))
     .receive('window', windowController)
-    .receive('player', playerController)
-    .on('error', logger.error);
+    .receive('player', playerController);
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
