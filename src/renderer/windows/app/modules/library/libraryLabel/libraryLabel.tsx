@@ -27,7 +27,7 @@ const LibraryLabel: Component<LibraryLabelProps> = () => {
         >
           <div class='meta'>
             <p class='nowrap'>{props.label.label}</p>
-            <dl class='horizontal reverse'>
+            <dl class='horizontal'>
               <div>
                 <dt>Album(s)</dt>
                 <dd>{props.label.albums.length}</dd>

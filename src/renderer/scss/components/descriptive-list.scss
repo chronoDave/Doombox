@@ -7,21 +7,10 @@ dl {
       display: flex;
       gap: 0.25em;
 
-      + div::before {
-        content: '•';
-        margin-right: 0.25em;
-      }
-    }
-
-    &.reverse > div {
-      flex-direction: row-reverse;
-
       + div {
-        &::before {
-          content: unset;
-        }
+        min-width: 0;
 
-        &::after {
+        &::before {
           content: '•';
           margin-right: 0.25em;
         }

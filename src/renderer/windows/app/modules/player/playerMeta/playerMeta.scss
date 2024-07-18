@@ -8,5 +8,9 @@
     &:last-of-type {
       margin-bottom: unset;
     }
+
+    > button {
+      display: contents;
+    }
   }
 }

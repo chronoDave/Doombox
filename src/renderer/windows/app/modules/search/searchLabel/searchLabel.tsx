@@ -39,7 +39,7 @@ const SearchLabel: Component<SearchLabelProps> = () => {
                 data-id={label._id}
               >
                 <p class='title nowrap'>{label.label}</p>
-                <dl class='horizontal reverse'>
+                <dl class='horizontal'>
                   <div>
                     <dd>Album(s)</dd>
                     <dd>{label.albums.length}</dd>

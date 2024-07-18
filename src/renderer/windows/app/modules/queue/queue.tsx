@@ -23,14 +23,14 @@ const Queue: Component<QueueProps> = () => {
         <div class='Queue panel column'>
           <div class='header'>
             <p class='nowrap'>{state.title}</p>
-            <dl class='horizontal reverse'>
+            <dl class='horizontal'>
               <div>
-                <dt>Track(s)</dt>
-                <dd>{state.queue.length}</dd>
+                <dt class='sr-only'>Track(s)</dt>
+                <dd class='nowrap'>{state.queue.length}<span aria-hidden='true'> Track(s)</span></dd>
               </div>
               <div>
                 <dt class='sr-only'>Duration</dt>
-                <dd>{new Time(state.duration).toLong()}</dd>
+                <dd class='nowrap'>{new Time(state.duration).toLong()}</dd>
               </div>
             </dl>
           </div>
