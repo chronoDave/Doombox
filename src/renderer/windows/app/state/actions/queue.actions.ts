@@ -96,7 +96,7 @@ export const shuffleQueue = () => {
     draft.queue.index = random(0, draft.queue.songs.length - 1);
   }));
 
-  play(store.state.queue.songs[0]);
+  play(store.state.queue.songs[store.state.queue.index]);
 };
 
 window.ipc.on.player.shuffle(shuffleQueue);

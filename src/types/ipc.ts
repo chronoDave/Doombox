@@ -60,8 +60,11 @@ export type TransferController = {
   }
   entity: {
     song: TransferHandler<Song, string>
+    songs: TransferHandler<Song[], string[]>
     album: TransferHandler<Album, string>
+    albums: TransferHandler<Album[], string[]>
     label: TransferHandler<Label, string>
+    labels: TransferHandler<Label[], string[]>
   }
   playlist: {
     add: TransferHandler<Playlist, string[]>

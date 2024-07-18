@@ -6,16 +6,19 @@ const initial = {
   lg: '../icons/icon_light.png'
 } as const;
 
-export default store.select(() => initial, async state => {
-  const current = state.player.current.id;
-  if (!current) return initial;
+export default store.select(() => initial, {
+  selector: async state => {
+    const current = state.player.current.id;
+    if (!current) return initial;
 
-  const song = await window.ipc.entity.song(current);
-  const dir = await window.ipc.os.image();
+    const song = await window.ipc.entity.song(current);
+    const dir = await window.ipc.os.image();
 
-  return ({
-    xs: new URL(`${song.image}/192.jpg`, `${dir}/`).href,
-    md: new URL(`${song.image}/256.jpg`, `${dir}/`).href,
-    lg: new URL(`${song.image}/384.jpg`, `${dir}/`).href
-  });
+    return ({
+      xs: new URL(`${song.image}/192.jpg`, `${dir}/`).href,
+      md: new URL(`${song.image}/256.jpg`, `${dir}/`).href,
+      lg: new URL(`${song.image}/384.jpg`, `${dir}/`).href
+    });
+  },
+  shouldUpdate: (cur, prev) => cur.player.current.id !== prev.player.current.id
 });

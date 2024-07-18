@@ -35,8 +35,11 @@ const ipc: Api = {
   },
   entity: {
     song: transfer('entity', 'song'),
+    songs: transfer('entity', 'songs'),
     album: transfer('entity', 'album'),
-    label: transfer('entity', 'label')
+    albums: transfer('entity', 'albums'),
+    label: transfer('entity', 'label'),
+    labels: transfer('entity', 'labels')
   },
   library: {
     add: transfer('library', 'add'),

@@ -9,7 +9,10 @@ export type EntityControllerProps = {
 };
 
 export default (props: EntityControllerProps): TransferController['entity'] => ({
-  song: async _id => props.song.select({ _id })[0],
-  album: async _id => props.album.select({ _id })[0],
-  label: async _id => props.label.select({ _id })[0]
+  song: async id => props.song.selectById(id)[0],
+  songs: async ids => props.song.selectById(...ids),
+  album: async id => props.album.selectById(id)[0],
+  albums: async ids => props.album.selectById(...ids),
+  label: async id => props.label.selectById(id)[0],
+  labels: async ids => props.label.selectById(...ids)
 });

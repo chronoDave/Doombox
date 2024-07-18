@@ -31,35 +31,33 @@ export const play = async (id: string) => {
     draft.player.current.id = id;
   }));
 
-  const song = store.state.entities.song.get(id);
+  const song = await window.ipc.entity.song(id);
 
-  if (song) {
-    window.ipc.player.play();
-    audio.play(song.file.replace(/#/g, '%23'));
+  window.ipc.player.play();
+  audio.play(song.file.replace(/#/g, '%23'));
 
-    const metadata = {
-      artist: song.artist ?? 'Unknown',
-      title: song.title ?? 'Unknown',
-      album: song.album ?? 'Unknown'
-    };
+  const metadata = {
+    artist: song.artist ?? 'Unknown',
+    title: song.title ?? 'Unknown',
+    album: song.album ?? 'Unknown'
+  };
 
-    if (song.image) {
-      const dir = await window.ipc.os.image();
-      const artwork = await Promise.all([96, 128, 192, 256, 384, 512].map(async size => {
-        const response = await fetch(new URL(`${song.image!}/${size}.jpg`, `${dir}/`).href);
-        const blob = await response.blob();
-        const src = await readFile(blob);
+  if (song.image) {
+    const dir = await window.ipc.os.image();
+    const artwork = await Promise.all([96, 128, 192, 256, 384, 512].map(async size => {
+      const response = await fetch(new URL(`${song.image!}/${size}.jpg`, `${dir}/`).href);
+      const blob = await response.blob();
+      const src = await readFile(blob);
 
-        return ({ src, sizes: `${size}x${size}`, type: blob.type });
-      }));
+      return ({ src, sizes: `${size}x${size}`, type: blob.type });
+    }));
 
-      navigator.mediaSession.metadata = new MediaMetadata({
-        ...metadata,
-        artwork: artwork ?? []
-      });
-    } else {
-      navigator.mediaSession.metadata = new MediaMetadata(metadata);
-    }
+    navigator.mediaSession.metadata = new MediaMetadata({
+      ...metadata,
+      artwork: artwork ?? []
+    });
+  } else {
+    navigator.mediaSession.metadata = new MediaMetadata(metadata);
   }
 };
 

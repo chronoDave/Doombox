@@ -8,17 +8,22 @@ import Store from '@doombox/lib/store/store';
 export default class RendererStore<S extends object> extends Store<S> {
   select<T>(
     selector: (state: S) => T,
-    thunk?: (state: S) => Promise<T>
+    thunk?: {
+      selector: (state: S) => Promise<T>,
+      shouldUpdate: (cur: S, prev: S) => boolean
+    }
   ) {
     let state = selector(this.state);
 
     return (component: Component): T => {
-      const subscriber: Subscriber<S> = async (x, y) => {
-        const [cur, prev] = await Promise.all([x, y].map(s => thunk?.(s) ?? selector(s)));
-        const updated = !deepEqual(cur, prev);
+      const subscriber: Subscriber<S> = async (cur, prev) => {
+        const updated = (
+          thunk?.shouldUpdate(cur, prev) ||
+          !deepEqual(selector(cur), selector(prev))
+        );
 
         if (updated) {
-          state = cur;
+          state = await thunk?.selector(cur) ?? selector(cur);
           component.update();
         }
       };
@@ -27,7 +32,7 @@ export default class RendererStore<S extends object> extends Store<S> {
       component.mount(async () => {
         this.on(subscriber);
 
-        state = await thunk?.(this.state) ?? selector(this.state);
+        state = await thunk?.selector(this.state) ?? selector(this.state);
         component.update();
       });
 

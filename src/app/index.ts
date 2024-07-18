@@ -1,7 +1,7 @@
 import type { Album, Label, Song } from '../types/library';
 import type { Playlist } from '../types/playlist';
 
-import { app, nativeTheme } from 'electron';
+import { app, Menu, nativeTheme } from 'electron';
 import fs from 'fs';
 import LeafDB from 'leaf-db';
 
@@ -35,6 +35,8 @@ if (IS_DEV) {
   fs.mkdirSync(PATH.APP_DATA, { recursive: true });
   fs.mkdirSync(PATH.ASSETS, { recursive: true });
   fs.mkdirSync(PATH.LOGS, { recursive: true });
+} else {
+  Menu.setApplicationMenu(null);
 }
 
 fs.mkdirSync(PATH.CACHE, { recursive: true });
