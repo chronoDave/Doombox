@@ -23,7 +23,7 @@ const Library: Component<LibraryProps> = () => {
 
   const component = new forgo.Component<LibraryProps>({
     render() {
-      const state = subscribe('Library', component);
+      const state = subscribe(component);
 
       return (
         <VirtualGrid
@@ -56,6 +56,7 @@ const Library: Component<LibraryProps> = () => {
                 <LibraryAlbum
                   action={Action.PlayAlbum}
                   album={cell}
+                  dir={state.dir}
                   current={state.current}
                 />
               );

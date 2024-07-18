@@ -89,6 +89,7 @@ export const search = async (query: string) => {
     }));
   } else {
     const library = await window.ipc.library.select(query);
+    const dir = await window.ipc.os.image();
 
     store.set(produce(draft => {
       draft.route.home = Route.Home.Search;
@@ -97,14 +98,14 @@ export const search = async (query: string) => {
         .map(song => ({
           ...song,
           image: song.image ?
-            imageSelector(draft)(song.image, 128) :
+            imageSelector(dir)(song.image, 128) :
             null
         }));
       draft.search.albums = library.albums
         .map(album => ({
           ...album,
           image: album.image ?
-            imageSelector(draft)(album.image, 128) :
+            imageSelector(dir)(album.image, 128) :
             null
         }));
       draft.search.labels = library.labels;

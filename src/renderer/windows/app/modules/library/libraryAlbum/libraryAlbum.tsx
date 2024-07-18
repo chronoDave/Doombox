@@ -7,12 +7,12 @@ import Icon from '@doombox/components/icon/icon';
 import cx from '@doombox/renderer/css/cx';
 
 import { imageSelector } from '../../../state/selectors';
-import store from '../../../state/store';
 
 import './libraryAlbum.scss';
 
 export type LibraryAlbumProps = {
   album: Album
+  dir: string | null
   current: string | null
   action: string
 };
@@ -35,19 +35,28 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
           {props.album.image ? (
             <picture>
               <source
-                srcset={imageSelector(store.state)(props.album.image, 256)}
+                srcset={(props.dir ?
+                  imageSelector(props.dir)(props.album.image, 256) :
+                  new URL('../icons/icon_light.png').href
+                )}
                 media="(min-width: 960px) and (min-height: 720px)"
                 width={256}
                 height={256}
               />
               <source
-                srcset={imageSelector(store.state)(props.album.image, 192)}
+                srcset={(props.dir ?
+                  imageSelector(props.dir)(props.album.image, 192) :
+                  new URL('../icons/icon_light.png').href
+                )}
                 media="(min-width: 720px) and (min-height: 480px)"
                 width={192}
                 height={192}
               />
               <img
-                srcset={imageSelector(store.state)(props.album.image, 128)}
+                srcset={(props.dir ?
+                  imageSelector(props.dir)(props.album.image, 128) :
+                  new URL('../icons/icon_light.png').href
+                )}
                 alt=''
                 width={128}
                 height={128}

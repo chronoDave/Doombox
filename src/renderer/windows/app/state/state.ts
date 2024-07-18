@@ -6,9 +6,6 @@ import type { ThemeShape } from '@doombox/types/shapes/theme.shape';
 import type { UserShape } from '@doombox/types/shapes/user.shape';
 
 export type State = {
-  dir: {
-    thumbs: string
-  }
   route: {
     app: Route.App
     home: Route.Home

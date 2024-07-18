@@ -45,8 +45,9 @@ export const play = async (id: string) => {
     };
 
     if (song.image) {
+      const dir = await window.ipc.os.image();
       const artwork = await Promise.all([96, 128, 192, 256, 384, 512].map(async size => {
-        const response = await fetch(imageSelector(store.state)(song.image!, size));
+        const response = await fetch(imageSelector(dir)(song.image!, size));
         const blob = await response.blob();
         const src = await readFile(blob);
 

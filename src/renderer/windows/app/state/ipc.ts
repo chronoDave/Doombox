@@ -10,14 +10,12 @@ const createEntity = <T extends object, K extends keyof T>(arr: T[], k: K): Map<
 
 export default async (store: Store<State>) => {
   const [
-    thumbs,
     user,
     cache,
     theme,
     playlists,
     library
   ] = await Promise.all([
-    window.ipc.os.image(),
     window.ipc.user.get(),
     window.ipc.cache.get(),
     window.ipc.theme.get(),
@@ -26,7 +24,6 @@ export default async (store: Store<State>) => {
   ]);
 
   store.set(produce(draft => {
-    draft.dir.thumbs = thumbs;
     draft.user = user;
     draft.player.muted = cache.player.muted;
     draft.player.volume = cache.player.volume;
