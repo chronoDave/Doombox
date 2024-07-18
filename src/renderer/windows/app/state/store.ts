@@ -9,6 +9,7 @@ import userShape from '@doombox/types/shapes/user.shape';
 
 import { AudioStatus } from '../../../lib/audio/audio';
 
+import fetch from './ipc';
 import * as Route from './route';
 
 const store = new Store<State>({
@@ -49,6 +50,8 @@ const store = new Store<State>({
   theme: themeShape,
   user: userShape
 });
+
+fetch(store);
 
 window.ipc.on.parser.song(() => {
   store.set(produce(draft => {

@@ -4,15 +4,6 @@ import * as forgo from 'forgo';
 
 import Window from '@doombox/components/window/window';
 
-import { fetchPath } from '../../state/actions/app.actions';
-import { fetchCache } from '../../state/actions/cache.actions';
-import { fetchLibrary } from '../../state/actions/library.actions';
-import { fetchPlaylists } from '../../state/actions/playlist.actions';
-import { setRouteApp } from '../../state/actions/route.actions';
-import { fetchTheme } from '../../state/actions/theme.actions';
-import { fetchUser } from '../../state/actions/user.actions';
-import * as Route from '../../state/route';
-
 import subscribe from './app.state';
 import AppRouter from './appRouter/appRouter';
 
@@ -29,19 +20,6 @@ const App: Component<AppProps> = () => {
         </Window>
       );
     }
-  });
-
-  component.mount(async () => {
-    await Promise.all([
-      fetchLibrary(),
-      fetchTheme(),
-      fetchUser(),
-      fetchCache(),
-      fetchPlaylists(),
-      fetchPath()
-    ]);
-
-    setRouteApp(Route.App.Home);
   });
 
   return component;

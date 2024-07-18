@@ -2,7 +2,6 @@ import produce from 'immer';
 
 import random from '@doombox/lib/math/random';
 
-import sortSongs from '../../lib/sort/sortSongs';
 import { hasAutoplay, populateSongs } from '../selectors';
 import store from '../store';
 
@@ -51,9 +50,7 @@ export const playLabel = (id: string) => {
     const label = draft.entities.label.get(id);
 
     if (label) {
-      const songs = populateSongs(draft)(label.songs)
-        .sort(sortSongs)
-        .map(song => song._id);
+      const songs = populateSongs(draft)(label.songs).map(song => song._id);
 
       draft.queue.songs = songs;
       draft.queue.index = 0;
@@ -69,9 +66,7 @@ export const playAlbum = (id: string) => {
     const album = draft.entities.album.get(id);
 
     if (album) {
-      const songs = populateSongs(draft)(album.songs)
-        .sort(sortSongs)
-        .map(song => song._id);
+      const songs = populateSongs(draft)(album.songs).map(song => song._id);
 
       draft.queue.songs = songs;
       draft.queue.index = 0;

@@ -4,15 +4,6 @@ import produce from 'immer';
 
 import store from '../store';
 
-const dispatchPlaylists = (playlists: Playlist[]) => store.set(produce(draft => {
-  draft.entities.playlist = new Map(playlists.map(playlist => [playlist._id, playlist]));
-}));
-
-export const fetchPlaylists = async () => {
-  const playlists = await window.ipc.playlist.get();
-  dispatchPlaylists(playlists);
-};
-
 export const createPlaylist = async (songs?: string[]) => {
   if (!songs) return;
   const playlist = await window.ipc.playlist.add(songs);

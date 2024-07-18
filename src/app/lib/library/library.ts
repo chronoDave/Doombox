@@ -41,9 +41,29 @@ export default class Library extends EventEmitter<LibraryEvents> {
 
   private _all() {
     return {
-      songs: this._db.song.select({}),
-      albums: this._db.album.select({}),
+      songs: this._db.song.select({})
+        .sort((a, b) => {
+          if (!a.label || !b.label) return 0;
+          if (a.label !== b.label) return a.label.localeCompare(b.label);
+          if (!a.year || !b.year) return 0;
+          if (a.year !== b.year) return a.year - b.year;
+          if (!a.album || !b.album) return 0;
+          if (a.album !== b.album) return a.album.localeCompare(b.album);
+          if (!a.track.no || !b.track.no) return 0;
+          return a.track.no - b.track.no;
+        }),
+      albums: this._db.album.select({})
+        .sort((a, b) => {
+          if (!a.label || !b.label) return 0;
+          if (a.label !== b.label) return a.label.localeCompare(b.label);
+          if (!a.year || !b.year) return 0;
+          return a.year - b.year;
+        }),
       labels: this._db.label.select({})
+        .sort((a, b) => {
+          if (!a.label || !b.label) return 0;
+          return a.label.localeCompare(b.label);
+        })
     };
   }
 
@@ -59,14 +79,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
       .map(x => ({
         _id: LeafDB.id(),
         image: x[0].image,
-        songs: x
-          .sort((a, b) => {
-            if (a.disc.no && b.disc.no && a.disc.no !== b.disc.no) return a.disc.no - b.disc.no;
-            if (a.track.no && b.track.no && a.track.no !== b.track.no) return a.track.no - b.track.no;
-
-            return 1;
-          })
-          .map(song => song._id),
+        songs: x.map(song => song._id),
         duration: x.reduce((acc, cur) => acc + (cur.duration ?? 0), 0),
         album: x[0].album,
         albumartist: x[0].albumartist,
@@ -85,20 +98,8 @@ export default class Library extends EventEmitter<LibraryEvents> {
     const labels = this._db.label.insert(Array.from(group(albums, 'label').values())
       .map(x => ({
         _id: LeafDB.id(),
-        albums: x
-          .sort((a, b) => {
-            if (a.label && b.label && a.label !== b.label) return a.label.localeCompare(b.label);
-            if (a.albumartist && b.albumartist && a.albumartist !== b.albumartist) return a.albumartist.localeCompare(b.albumartist);
-            if (a.year && b.year && a.year !== b.year) return a.year - b.year;
-            if (a.album && b.album && a.album !== b.album) return a.album.localeCompare(b.album);
-
-            return 1;
-          })
-          .map(album => album._id),
-        songs: x
-          .sort((a, b) => (b.year ?? Number.MAX_SAFE_INTEGER) - (a.year ?? Number.MAX_SAFE_INTEGER))
-          .map(album => album.songs)
-          .flat(),
+        albums: x.map(album => album._id),
+        songs: x.map(album => album.songs).flat(),
         label: x[0].label!,
         duration: x.reduce((acc, cur) => acc + (cur.duration ?? 0), 0),
         romaji: {

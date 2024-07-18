@@ -6,9 +6,6 @@ import difference from '@doombox/lib/list/difference';
 import shuffle from '@doombox/lib/list/shuffle';
 import unique from '@doombox/lib/list/unique';
 
-import sortAlbums from '../../lib/sort/sortAlbums';
-import sortLabels from '../../lib/sort/sortLabels';
-import sortSongs from '../../lib/sort/sortSongs';
 import * as Route from '../route';
 import { imageSelector } from '../selectors';
 import store from '../store';
@@ -16,21 +13,10 @@ import store from '../store';
 import { play } from './player.actions';
 
 const dispatch = (library: Library) => store.set(produce(draft => {
-  draft.entities.song = new Map(library.songs
-    .sort(sortSongs)
-    .map(song => [song._id, song]));
-  draft.entities.album = new Map(library.albums
-    .sort(sortAlbums)
-    .map(album => [album._id, album]));
-  draft.entities.label = new Map(library.labels
-    .sort(sortLabels)
-    .map(label => [label._id, label]));
+  draft.entities.song = new Map(library.songs.map(song => [song._id, song]));
+  draft.entities.album = new Map(library.albums.map(album => [album._id, album]));
+  draft.entities.label = new Map(library.labels.map(label => [label._id, label]));
 }));
-
-export const fetchLibrary = async () => {
-  const library = await window.ipc.library.select();
-  dispatch(library);
-};
 
 export const reindexLibrary = async () => {
   store.set(produce(draft => {
