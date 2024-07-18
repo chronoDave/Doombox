@@ -6,8 +6,6 @@ import * as forgo from 'forgo';
 import Icon from '@doombox/components/icon/icon';
 import cx from '@doombox/renderer/css/cx';
 
-import { imageSelector } from '../../../state/selectors';
-
 import './libraryAlbum.scss';
 
 export type LibraryAlbumProps = {
@@ -36,7 +34,7 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
             <picture>
               <source
                 srcset={(props.dir ?
-                  imageSelector(props.dir)(props.album.image, 256) :
+                  new URL(`${props.album.image}/${256}.jpg`, `${props.dir}/`).href :
                   new URL('../icons/icon_light.png').href
                 )}
                 media="(min-width: 960px) and (min-height: 720px)"
@@ -45,7 +43,7 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
               />
               <source
                 srcset={(props.dir ?
-                  imageSelector(props.dir)(props.album.image, 192) :
+                  new URL(`${props.album.image}/${192}.jpg`, `${props.dir}/`).href :
                   new URL('../icons/icon_light.png').href
                 )}
                 media="(min-width: 720px) and (min-height: 480px)"
@@ -54,7 +52,7 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
               />
               <img
                 srcset={(props.dir ?
-                  imageSelector(props.dir)(props.album.image, 128) :
+                  new URL(`${props.album.image}/${128}.jpg`, `${props.dir}/`).href :
                   new URL('../icons/icon_light.png').href
                 )}
                 alt=''

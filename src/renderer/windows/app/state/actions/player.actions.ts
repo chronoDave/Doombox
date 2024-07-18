@@ -8,7 +8,6 @@ import readFile from '@doombox/renderer/dom/fileReader/fileReader';
 import cacheShape from '@doombox/types/shapes/cache.shape';
 
 import Audio, { AudioStatus } from '../../../../lib/audio/audio';
-import { imageSelector } from '../selectors';
 import store from '../store';
 
 const updateCache = async (reducer: (state: CacheShape) => CacheShape) => {
@@ -47,7 +46,7 @@ export const play = async (id: string) => {
     if (song.image) {
       const dir = await window.ipc.os.image();
       const artwork = await Promise.all([96, 128, 192, 256, 384, 512].map(async size => {
-        const response = await fetch(imageSelector(dir)(song.image!, size));
+        const response = await fetch(new URL(`${song.image!}/${size}.jpg`, `${dir}/`).href);
         const blob = await response.blob();
         const src = await readFile(blob);
 

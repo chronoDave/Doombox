@@ -7,7 +7,6 @@ import shuffle from '@doombox/lib/list/shuffle';
 import unique from '@doombox/lib/list/unique';
 
 import * as Route from '../route';
-import { imageSelector } from '../selectors';
 import store from '../store';
 
 import { play } from './player.actions';
@@ -98,14 +97,14 @@ export const search = async (query: string) => {
         .map(song => ({
           ...song,
           image: song.image ?
-            imageSelector(dir)(song.image, 128) :
+            new URL(`${song.image}/${128}.jpg`, `${dir}/`).href :
             null
         }));
       draft.search.albums = library.albums
         .map(album => ({
           ...album,
           image: album.image ?
-            imageSelector(dir)(album.image, 128) :
+            new URL(`${album.image}/${128}.jpg`, `${dir}/`).href :
             null
         }));
       draft.search.labels = library.labels;

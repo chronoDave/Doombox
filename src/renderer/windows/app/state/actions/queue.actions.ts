@@ -1,8 +1,8 @@
 import produce from 'immer';
 
 import random from '@doombox/lib/math/random';
+import { AudioStatus } from '@doombox/renderer/audio/audio';
 
-import { hasAutoplay } from '../selectors';
 import store from '../store';
 
 import { play } from './player.actions';
@@ -14,7 +14,11 @@ export const addToQueue = (ids: string[]) => {
     draft.queue.songs.push(...ids);
   }));
 
-  if (!store.state.player.current.id && hasAutoplay(store.state)) play(ids[0]);
+  if (
+    !store.state.player.current.id &&
+    store.state.queue.songs.length === 0 &&
+    store.state.player.status !== AudioStatus.Playing
+  ) play(ids[0]);
 };
 
 export const addLabelToQueue = (id: string) => {
@@ -23,7 +27,11 @@ export const addLabelToQueue = (id: string) => {
     if (label) draft.queue.songs.push(...label.songs);
   }));
 
-  if (!store.state.player.current.id && hasAutoplay(store.state)) play(store.state.queue.songs[0]);
+  if (
+    !store.state.player.current.id &&
+    store.state.queue.songs.length === 0 &&
+    store.state.player.status !== AudioStatus.Playing
+  ) play(store.state.queue.songs[0]);
 };
 
 export const addAlbumToQueue = (id: string) => {
@@ -32,7 +40,11 @@ export const addAlbumToQueue = (id: string) => {
     if (album) draft.queue.songs.push(...album.songs);
   }));
 
-  if (!store.state.player.current.id && hasAutoplay(store.state)) play(store.state.queue.songs[0]);
+  if (
+    !store.state.player.current.id &&
+    store.state.queue.songs.length === 0 &&
+    store.state.player.status !== AudioStatus.Playing
+  ) play(store.state.queue.songs[0]);
 };
 
 export const setQueue = (ids: string[], title?: string) => {
