@@ -1,13 +1,21 @@
 import store from '../../../state/store';
 
-export default store.select(state => {
-  const current = state.entities.song.get(state.player.current.id ?? '');
+const initial = {
+  xs: '../icons/icon_light.png',
+  md: '../icons/icon_light.png',
+  lg: '../icons/icon_light.png'
+} as const;
 
-  if (!current?._id) return Object.fromEntries(['xs', 'md', 'lg'].map(size => [size, '../icons/icon_light.png']));
+export default store.selectAsync(initial, async state => {
+  const current = state.player.current.id;
+  if (!current) return initial;
+
+  const song = await window.ipc.entity.song(current);
+  const dir = await window.ipc.os.image();
 
   return ({
-    xs: new URL(`${current.image}/192.jpg`, `${state.dir.thumbs}/`).href,
-    md: new URL(`${current.image}/256.jpg`, `${state.dir.thumbs}/`).href,
-    lg: new URL(`${current.image}/384.jpg`, `${state.dir.thumbs}/`).href
+    xs: new URL(`${song.image}/192.jpg`, `${dir}/`).href,
+    md: new URL(`${song.image}/256.jpg`, `${dir}/`).href,
+    lg: new URL(`${song.image}/384.jpg`, `${dir}/`).href
   });
 });
