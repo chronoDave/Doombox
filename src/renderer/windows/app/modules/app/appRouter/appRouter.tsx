@@ -20,7 +20,7 @@ const AppRouter: Component<AppRouterProps> = () => {
 
   const component = new forgo.Component<AppRouterProps>({
     render() {
-      const view = subscribe('AppRouter', component);
+      const view = subscribe(component);
 
       return views[view];
     }

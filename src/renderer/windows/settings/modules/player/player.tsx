@@ -11,7 +11,7 @@ export type PlayerProps = {};
 const Player: Component<PlayerProps> = () => {
   const component = new forgo.Component<PlayerProps>({
     render() {
-      const { autoplay, loop } = subscribe('Player', component);
+      const { autoplay, loop } = subscribe(component);
 
       return (
         <form>

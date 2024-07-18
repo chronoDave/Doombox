@@ -8,56 +8,28 @@ import Store from '@doombox/lib/store/store';
 export default class RendererStore<S extends object> extends Store<S> {
   select<T>(
     selector: (state: S) => T,
-    shouldUpdate?: (cur: S, next: S) => boolean
+    thunk?: (state: S) => Promise<T>
   ) {
-    return (id: string, component: Component): T => {
-      const subscriber: Subscriber<S> = (cur, prev) => {
-        // console.time(`[shouldUpdate] ${id}`);
-        // console.log(cur, next);
-        const updated =
-          shouldUpdate?.(cur, prev) ||
-          !deepEqual(selector(cur), selector(prev));
-        // console.timeEnd(`[shouldUpdate] ${id}`);
-
-        // console.log(cur, prev);
-        if (updated) {
-          // console.log(`[update] ${id}`);
-          component.update();
-        }
-      };
-
-      component.mount(() => this.on(subscriber));
-      component.unmount(() => this.off(subscriber));
-
-      return selector(this.state);
-    };
-  }
-
-  selectAsync<T>(
-    initial: T,
-    selector: (state: S) => Promise<T>,
-    shouldUpdate?: (cur: S, next: S) => boolean
-  ) {
-    let state = initial;
+    let state = selector(this.state);
 
     return (component: Component): T => {
-      const subscriber: Subscriber<S> = async (cur, prev) => {
-        const [x, y] = await Promise.all([cur, prev].map(selector));
-        const updated = shouldUpdate?.(cur, prev) || !deepEqual(x, y);
+      const subscriber: Subscriber<S> = async (x, y) => {
+        const [cur, prev] = await Promise.all([x, y].map(s => thunk?.(s) ?? selector(s)));
+        const updated = !deepEqual(cur, prev);
 
         if (updated) {
-          state = x;
+          state = cur;
           component.update();
         }
       };
 
+      component.unmount(() => this.off(subscriber));
       component.mount(async () => {
         this.on(subscriber);
 
-        state = await selector(this.state);
+        state = await thunk?.(this.state) ?? selector(this.state);
         component.update();
       });
-      component.unmount(() => this.off(subscriber));
 
       return state;
     };

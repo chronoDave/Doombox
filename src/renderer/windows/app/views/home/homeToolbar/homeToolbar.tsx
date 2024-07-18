@@ -19,7 +19,7 @@ export type HomeToolbarProps = {};
 const HomeToolbar: Component<HomeToolbarProps> = () => {
   const component = new forgo.Component<HomeToolbarProps>({
     render() {
-      const state = subscribe('HomeToolbar', component);
+      const state = subscribe(component);
 
       return (
         <nav

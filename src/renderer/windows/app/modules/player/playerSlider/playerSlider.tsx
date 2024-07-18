@@ -16,7 +16,7 @@ export type PlayerSliderProps = {};
 const PlayerSlider: Component<PlayerSliderProps> = () => {
   const component = new forgo.Component<PlayerSliderProps>({
     render() {
-      const { position, duration } = subscribe('PlayerSlider', component);
+      const { position, duration } = subscribe(component);
 
       return (
         <div class='PlayerSlider'>

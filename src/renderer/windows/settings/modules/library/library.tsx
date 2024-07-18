@@ -13,7 +13,7 @@ export type LibraryProps = {};
 const Library: Component<LibraryProps> = () => {
   const component = new forgo.Component<LibraryProps>({
     render() {
-      const { folders, romaji } = subscribe('Library', component);
+      const { folders, romaji } = subscribe(component);
 
       return (
         <form>

@@ -11,7 +11,7 @@ export type AppearanceProps = {};
 const Appearance: Component<AppearanceProps> = () => {
   const component = new forgo.Component<AppearanceProps>({
     render() {
-      const { theme } = subscribe('Appearance', component);
+      const { theme } = subscribe(component);
 
       return (
         <form>

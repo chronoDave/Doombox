@@ -34,7 +34,7 @@ const Router: Component<RouterProps> = () => {
 
   const component = new forgo.Component<RouterProps>({
     render() {
-      const route = subscribe('Router', component);
+      const route = subscribe(component);
 
       return (
         <section class='panel column'>

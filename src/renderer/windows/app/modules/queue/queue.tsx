@@ -17,7 +17,7 @@ export type QueueProps = {};
 const Queue: Component<QueueProps> = () => {
   const component = new forgo.Component<QueueProps>({
     render() {
-      const state = subscribe('Queue', component);
+      const state = subscribe(component);
 
       return (
         <div class='Queue panel column'>

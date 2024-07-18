@@ -6,7 +6,7 @@ const initial = {
   lg: '../icons/icon_light.png'
 } as const;
 
-export default store.selectAsync(initial, async state => {
+export default store.select(() => initial, async state => {
   const current = state.player.current.id;
   if (!current) return initial;
 

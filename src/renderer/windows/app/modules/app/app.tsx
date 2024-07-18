@@ -12,7 +12,7 @@ export type AppProps = {};
 const App: Component<AppProps> = () => {
   const component = new forgo.Component<AppProps>({
     render() {
-      const title = subscribe('App', component);
+      const title = subscribe(component);
 
       return (
         <Window title={title}>

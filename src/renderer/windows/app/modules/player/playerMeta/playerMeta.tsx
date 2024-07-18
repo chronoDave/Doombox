@@ -14,7 +14,7 @@ export type PlayerMetaProps = {};
 const PlayerMeta: Component<PlayerMetaProps> = () => {
   const component = new forgo.Component<PlayerMetaProps>({
     render() {
-      const current = subscribe('PlayerMeta', component);
+      const current = subscribe(component);
 
       if (!current?.title || !current.artist) {
         return (

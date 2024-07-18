@@ -20,7 +20,7 @@ const HomeRouter: Component<HomeRouterProps> = () => {
 
   const component = new forgo.Component<HomeRouterProps>({
     render() {
-      const view = subscribe('HomeRouter', component);
+      const view = subscribe(component);
 
       return views[view];
     }
