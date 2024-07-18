@@ -52,7 +52,11 @@ const ScanView: Component<ScanViewProps> = () => {
     }
   });
 
-  useIpc('image', payload => {
+  useIpc('parser', 'size', payload => {
+    state.size = payload;
+  })(component);
+
+  useIpc('parser', 'image', payload => {
     if (state.process !== 'Scanning images...') {
       state.time.cur = 0;
       state.time.max = 0;
@@ -60,14 +64,11 @@ const ScanView: Component<ScanViewProps> = () => {
       state.process = 'Scanning images...';
     }
 
-    if (payload.size !== state.size) state.size = payload.size;
-    if (payload.file !== state.file) {
-      state.scanned += 1;
-      state.file = payload.file;
-    }
+    state.scanned += 1;
+    state.file = payload;
   })(component);
 
-  useIpc('song', payload => {
+  useIpc('parser', 'song', payload => {
     if (state.process !== 'Scanning songs...') {
       state.time.cur = 0;
       state.time.max = 0;
@@ -75,11 +76,8 @@ const ScanView: Component<ScanViewProps> = () => {
       state.process = 'Scanning songs...';
     }
 
-    if (payload.size !== state.size) state.size = payload.size;
-    if (payload.file !== state.file) {
-      state.scanned += 1;
-      state.file = payload.file;
-    }
+    state.scanned += 1;
+    state.file = payload;
   })(component);
 
   useInterval(() => {

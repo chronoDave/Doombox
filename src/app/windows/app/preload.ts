@@ -35,11 +35,10 @@ const ipc: Api = {
   },
   library: {
     add: transfer('library', 'add'),
+    select: transfer('library', 'select'),
     remove: transfer('library', 'remove'),
-    get: transfer('library', 'get'),
     reindex: transfer('library', 'reindex'),
-    rebuild: transfer('library', 'rebuild'),
-    search: transfer('library', 'search')
+    rebuild: transfer('library', 'rebuild')
   },
   playlist: {
     add: transfer('playlist', 'add'),
@@ -51,13 +50,18 @@ const ipc: Api = {
     album: transfer('search', 'album')
   },
   on: {
-    song: subscribe('song'),
-    image: subscribe('image'),
-    play: subscribe('play'),
-    pause: subscribe('pause'),
-    next: subscribe('next'),
-    previous: subscribe('previous'),
-    shuffle: subscribe('shuffle')
+    parser: {
+      song: subscribe('parser', 'song'),
+      image: subscribe('parser', 'image'),
+      size: subscribe('parser', 'size')
+    },
+    player: {
+      play: subscribe('player', 'play'),
+      pause: subscribe('player', 'pause'),
+      next: subscribe('player', 'next'),
+      previous: subscribe('player', 'previous'),
+      shuffle: subscribe('player', 'shuffle')
+    }
   }
 };
 

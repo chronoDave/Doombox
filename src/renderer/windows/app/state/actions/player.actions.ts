@@ -144,10 +144,10 @@ store.on((cur, prev) => (
   cur.user.player.autoplay
 ) && next());
 
-window.ipc.on.play(() => pause());
-window.ipc.on.pause(() => pause());
-window.ipc.on.previous(previous);
-window.ipc.on.next(next);
+window.ipc.on.player.play(() => pause());
+window.ipc.on.player.pause(() => pause());
+window.ipc.on.player.previous(previous);
+window.ipc.on.player.next(next);
 
 navigator.mediaSession.setActionHandler('play', () => pause());
 navigator.mediaSession.setActionHandler('pause', () => pause());

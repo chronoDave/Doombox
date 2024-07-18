@@ -50,7 +50,7 @@ const store = new Store<State>({
   user: userShape
 });
 
-window.ipc.on.song(() => {
+window.ipc.on.parser.song(() => {
   store.set(produce(draft => {
     draft.route.app = Route.App.Scan;
   }));

@@ -3,7 +3,6 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 import * as forgo from 'forgo';
 
 import VirtualList from '@doombox/components/virtual-list/virtual-list';
-import { sumSelect } from '@doombox/lib/math/sum';
 import Time from '@doombox/lib/time/time';
 import cx from '@doombox/renderer/css/cx';
 
@@ -19,7 +18,6 @@ const Queue: Component<QueueProps> = () => {
   const component = new forgo.Component<QueueProps>({
     render() {
       const state = subscribe('Queue', component);
-      const duration = sumSelect(state.queue, song => song.duration ?? 0);
 
       return (
         <div class='Queue panel column'>
@@ -32,7 +30,7 @@ const Queue: Component<QueueProps> = () => {
               </div>
               <div>
                 <dt class='sr-only'>Duration</dt>
-                <dd>{new Time(duration).toLong()}</dd>
+                <dd>{new Time(state.duration).toLong()}</dd>
               </div>
             </dl>
           </div>

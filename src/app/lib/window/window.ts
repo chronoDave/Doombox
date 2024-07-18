@@ -1,4 +1,4 @@
-import type { SubscriptionController } from '@doombox/types/ipc';
+import type { Event, SubscriptionController } from '@doombox/types/ipc';
 import type { WindowShape } from '@doombox/types/shapes/window.shape';
 
 import { BrowserWindow, nativeTheme } from 'electron';
@@ -90,7 +90,11 @@ export default class Window {
   }
 
   send<T extends keyof SubscriptionController>(channel: T) {
-    return (payload: SubscriptionController[T]) => this._window.webContents.send(channel, payload);
+    return <K extends keyof SubscriptionController[T]>(route: Extract<K, string>) =>
+      (payload: SubscriptionController[T][K]) => {
+        const event: Event = { route, payload };
+        this._window.webContents.send(channel, event);
+      };
   }
 
   async show() {

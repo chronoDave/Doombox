@@ -100,4 +100,4 @@ export const shuffleQueue = () => {
   play(store.state.queue.songs[0]);
 };
 
-window.ipc.on.shuffle(shuffleQueue);
+window.ipc.on.player.shuffle(shuffleQueue);

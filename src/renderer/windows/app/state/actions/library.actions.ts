@@ -28,7 +28,7 @@ const dispatch = (library: Library) => store.set(produce(draft => {
 }));
 
 export const fetchLibrary = async () => {
-  const library = await window.ipc.library.get();
+  const library = await window.ipc.library.select();
   dispatch(library);
 };
 
@@ -37,7 +37,7 @@ export const reindexLibrary = async () => {
     draft.route.app = Route.App.Scan;
   }));
 
-  const library = await window.ipc.library.reindex(store.state.user.library.folders);
+  const library = await window.ipc.library.reindex();
 
   dispatch(library);
   store.set(produce(draft => {
@@ -102,7 +102,7 @@ export const search = async (query: string) => {
       draft.route.home = Route.Home.Library;
     }));
   } else {
-    const library = await window.ipc.library.search(query);
+    const library = await window.ipc.library.select(query);
 
     store.set(produce(draft => {
       draft.route.home = Route.Home.Search;

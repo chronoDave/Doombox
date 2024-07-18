@@ -1,8 +1,10 @@
 import type { SubscriptionController } from '../../../types/ipc';
 import type { WebContents } from 'electron';
 
-const ipcSend = (sender: WebContents) =>
-  <T extends keyof SubscriptionController>(channel: T) =>
-    (payload: SubscriptionController[T]) => sender.send(channel, payload);
+const ipcSend = (sender: WebContents) => <
+  T extends keyof SubscriptionController,
+  K extends keyof SubscriptionController[T]
+>(channel: T, route: K) =>
+  (payload: SubscriptionController[T][K]) => sender.send(`${channel}.${route as string}`, payload);
 
 export default ipcSend;

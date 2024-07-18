@@ -24,10 +24,13 @@ export const transfer = <T extends keyof TransferController>(
   return ipcRenderer.invoke(channel, event);
 };
 
-export const subscribe = <T extends keyof SubscriptionController>(channel: T) =>
-  (subscriber: (payload: SubscriptionController[T]) => void): () => void => {
+export const subscribe = <
+  T extends keyof SubscriptionController,
+  K extends Extract<keyof SubscriptionController[T], string>
+>(channel: T, route: K) =>
+  (subscriber: (payload: SubscriptionController[T][K]) => void): () => void => {
     const listener = (...args: any[]) => subscriber(args[1]);
 
-    ipcRenderer.on(channel, listener);
-    return () => ipcRenderer.off(channel, listener);
+    ipcRenderer.on(`${channel}.${route}`, listener);
+    return () => ipcRenderer.off(`${channel}.${route}`, listener);
   };

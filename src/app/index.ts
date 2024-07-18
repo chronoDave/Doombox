@@ -70,8 +70,8 @@ const run = async () => {
     root: PATH.THUMBS,
     db
   })
-    .on('image', window.send('image'))
-    .on('song', window.send('song'));
+    .on('image', window.send('parser')('image'))
+    .on('song', window.send('parser')('song'));
 
   /** Initialize app */
   nativeTheme.themeSource = storage.theme.state.theme;
@@ -86,11 +86,7 @@ const run = async () => {
     .transfer('user', createStorageController(storage.user))
     .transfer('theme', createStorageController(storage.theme))
     .transfer('cache', createStorageController(storage.cache))
-    .transfer('library', createLibraryController({
-      library,
-      storage: storage.user,
-      db
-    }))
+    .transfer('library', createLibraryController({ library, storage: storage.user }))
     .transfer('playlist', createPlaylistController({ db: db.playlist }))
     .transfer('search', createSearchController({ db }))
     .receive('router', createRouterController({ root: PATH.CACHE }))

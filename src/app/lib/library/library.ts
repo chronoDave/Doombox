@@ -118,7 +118,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
 
     this._parser.on('parse', file => this.emit('song', file));
 
-    fs.mkdirSync(this._root);
+    fs.mkdirSync(this._root, { recursive: true });
   }
 
   async insert(files: string[]) {

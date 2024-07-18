@@ -1,7 +1,6 @@
 import * as forgo from 'forgo';
 
 import debounce from '@doombox/lib/function/debounce';
-import { sumSelect } from '@doombox/lib/math/sum';
 
 import virtualize from './virtual-list.lib';
 
@@ -100,8 +99,7 @@ const VirtualList = <T extends any>(
                       scrolled = n;
                       const top = (n === list.columns.length - 1 ?
                         list.height :
-                        sumSelect(list.columns.slice(0, n), x => x.height));
-
+                        list.columns.slice(0, n).reduce((acc, cur) => acc + cur.height, 0));
                       ref.value?.scrollTo({ top });
                     }
                   }

@@ -14,29 +14,29 @@ export default (window: BrowserWindow) => {
     createThumbarButton({
       tooltip: 'Previous',
       icon: 'skip_previous',
-      click: send('previous')
+      click: send('player', 'previous')
     }),
     createThumbarButton({
       tooltip: 'Play',
       hidden: !props?.paused,
       icon: 'play',
-      click: send('play')
+      click: send('player', 'play')
     }),
     createThumbarButton({
       tooltip: 'Pause',
       hidden: props?.paused,
       icon: 'pause',
-      click: send('pause')
+      click: send('player', 'pause')
     }),
     createThumbarButton({
       tooltip: 'Next',
       icon: 'skip_next',
-      click: send('next')
+      click: send('player', 'next')
     }),
     createThumbarButton({
       tooltip: 'Shuffle',
       icon: 'shuffle',
-      click: send('shuffle')
+      click: send('player', 'shuffle')
     })
   ]);
 };
