@@ -1,6 +1,5 @@
 import type { Label, Album } from '@doombox/types/library';
 
-import { populateAlbums } from '../../state/selectors';
 import store from '../../state/store';
 
 export default store.select<{
@@ -11,13 +10,17 @@ export default store.select<{
   current: null,
   dir: null,
   data: []
-}), async state => ({
-  dir: await window.ipc.os.image(),
-  current: state.player.current.id,
-  data: Array.from(state.entities.label.values())
-    .map(label => [
-      label,
-      populateAlbums(state)(label.albums)
-    ])
-    .flat(2)
-}));
+}), async state => {
+  const dir = await window.ipc.os.image();
+  const labels = Array.from(state.entities.label.values());
+  const data = await Promise.all(labels.map(async label => {
+    const albums = await Promise.all(label.albums.map(window.ipc.entity.album));
+    return [label, albums];
+  }));
+
+  return ({
+    dir,
+    current: state.player.current.id,
+    data: data.flat(2)
+  });
+});

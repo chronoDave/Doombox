@@ -2,7 +2,7 @@ import produce from 'immer';
 
 import random from '@doombox/lib/math/random';
 
-import { hasAutoplay, populateSongs } from '../selectors';
+import { hasAutoplay } from '../selectors';
 import store from '../store';
 
 import { play } from './player.actions';
@@ -45,33 +45,25 @@ export const setQueue = (ids: string[], title?: string) => {
   play(ids[0]);
 };
 
-export const playLabel = (id: string) => {
+export const playLabel = async (id: string) => {
+  const label = await window.ipc.entity.label(id);
+
   store.set(produce(draft => {
-    const label = draft.entities.label.get(id);
-
-    if (label) {
-      const songs = populateSongs(draft)(label.songs).map(song => song._id);
-
-      draft.queue.songs = songs;
-      draft.queue.index = 0;
-      draft.queue.title = label.label;
-    }
+    draft.queue.songs = label.songs;
+    draft.queue.index = 0;
+    draft.queue.title = label.label;
   }));
 
   play(store.state.queue.songs[0]);
 };
 
-export const playAlbum = (id: string) => {
+export const playAlbum = async (id: string) => {
+  const album = await window.ipc.entity.album(id);
+
   store.set(produce(draft => {
-    const album = draft.entities.album.get(id);
-
-    if (album) {
-      const songs = populateSongs(draft)(album.songs).map(song => song._id);
-
-      draft.queue.songs = songs;
-      draft.queue.index = 0;
-      draft.queue.title = album.album ?? '???';
-    }
+    draft.queue.songs = album.songs;
+    draft.queue.index = 0;
+    draft.queue.title = album.album ?? '???';
   }));
 
   play(store.state.queue.songs[0]);
