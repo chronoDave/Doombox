@@ -21,10 +21,11 @@ export const addToQueue = (ids: string[]) => {
   ) play(ids[0]);
 };
 
-export const addLabelToQueue = (id: string) => {
+export const addLabelToQueue = async (id: string) => {
+  const label = await window.ipc.entity.label(id);
+
   store.set(produce(draft => {
-    const label = draft.entities.label.get(id);
-    if (label) draft.queue.songs.push(...label.songs);
+    draft.queue.songs.push(...label.songs);
   }));
 
   if (
@@ -34,10 +35,11 @@ export const addLabelToQueue = (id: string) => {
   ) play(store.state.queue.songs[0]);
 };
 
-export const addAlbumToQueue = (id: string) => {
+export const addAlbumToQueue = async (id: string) => {
+  const album = await window.ipc.entity.album(id);
+
   store.set(produce(draft => {
-    const album = draft.entities.album.get(id);
-    if (album) draft.queue.songs.push(...album.songs);
+    draft.queue.songs.push(...album.songs);
   }));
 
   if (
