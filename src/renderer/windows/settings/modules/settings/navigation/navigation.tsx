@@ -6,10 +6,9 @@ import * as forgo from 'forgo';
 import Icon from '@doombox/components/icon/icon';
 import cx from '@doombox/renderer/css/cx';
 
-import { set } from '../../../state/actions/route';
 import { Route } from '../../../state/state';
 
-import subscribe from './navigation.state';
+import subscribe, { setRoute } from './navigation.state';
 
 import './navigation.scss';
 
@@ -20,7 +19,7 @@ const Navigation: Component<NavigationProps> = () => {
     [Route.Appearance]: 'palette',
     [Route.Player]: 'play-circle',
     [Route.Library]: 'playlist-music'
-  };
+  } as const;
 
   const component = new forgo.Component<NavigationProps>({
     render() {
@@ -34,7 +33,7 @@ const Navigation: Component<NavigationProps> = () => {
               class={cx('button', route === active && 'active')}
               type='button'
               aria-label={route}
-              onclick={() => set(route as Route)}
+              onclick={() => setRoute(route as Route)}
             >
               <Icon id={icon} />
             </button>
