@@ -1,6 +1,6 @@
 import type { State } from './state';
 
-import produce from 'immer';
+import produce, { enableMapSet } from 'immer';
 
 import Store from '@doombox/renderer/store/store';
 import cacheShape from '@doombox/types/shapes/cache.shape';
@@ -12,6 +12,7 @@ import { AudioStatus } from '../../../lib/audio/audio';
 import fetch from './ipc';
 import * as Route from './route';
 
+enableMapSet();
 const store = new Store<State>({
   route: {
     app: Route.App.Load,

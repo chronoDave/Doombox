@@ -5,7 +5,7 @@ import * as forgo from 'forgo';
 import Window from '@doombox/components/window/window';
 
 import subscribe from './app.state';
-import AppRouter from './appRouter/appRouter';
+import Router from './router/router';
 
 export type AppProps = {};
 
@@ -16,7 +16,7 @@ const App: Component<AppProps> = () => {
 
       return (
         <Window title={title}>
-          <AppRouter />
+          <Router />
         </Window>
       );
     }

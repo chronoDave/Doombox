@@ -10,27 +10,24 @@ import { search, shuffleLibrary } from '../../../state/actions/library.actions';
 import { setRouteHome } from '../../../state/actions/route.actions';
 import * as Route from '../../../state/route';
 
-import subscribe from './homeToolbar.state';
+import subscribe from './navigation.state';
 
-import './homeToolbar.scss';
+import './navigation.scss';
 
-export type HomeToolbarProps = {};
+export type NavigationProps = {};
 
-const HomeToolbar: Component<HomeToolbarProps> = () => {
-  const component = new forgo.Component<HomeToolbarProps>({
+const Navigation: Component<NavigationProps> = () => {
+  const component = new forgo.Component<NavigationProps>({
     render() {
-      const state = subscribe(component);
+      const route = subscribe(component);
 
       return (
-        <nav
-          aria-label="Library toolbar"
-          class='HomeToolbar'
-        >
+        <nav aria-label="Library toolbar">
           <button
             type='button'
             aria-label='library'
             onclick={() => setRouteHome(Route.Home.Library)}
-            class={cx('button', state.route.home === Route.Home.Library && 'active')}
+            class={cx('button', route === Route.Home.Library && 'active')}
           >
             <Icon id='music-box' />
           </button>
@@ -38,7 +35,7 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
             type='button'
             aria-label='playlist'
             onclick={() => setRouteHome(Route.Home.Playlist)}
-            class={cx('button', state.route.home === Route.Home.Playlist && 'active')}
+            class={cx('button', route === Route.Home.Playlist && 'active')}
           >
             <Icon id='playlist-music' />
           </button>
@@ -57,4 +54,4 @@ const HomeToolbar: Component<HomeToolbarProps> = () => {
   return component;
 };
 
-export default HomeToolbar;
+export default Navigation;

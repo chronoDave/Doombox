@@ -2,23 +2,23 @@ import type { ForgoNewComponentCtor as Component } from 'forgo';
 
 import * as forgo from 'forgo';
 
-import Library from '../../../modules/library/library';
-import Playlist from '../../../modules/playlist/playlist';
-import Search from '../../../modules/search/search';
 import * as Route from '../../../state/route';
+import Library from '../../library/library';
+import Playlist from '../../playlist/playlist';
+import Search from '../../search/search';
 
-import subscribe from './homeRouter.state';
+import subscribe from './router.state';
 
-export type HomeRouterProps = {};
+export type RouterProps = {};
 
-const HomeRouter: Component<HomeRouterProps> = () => {
+const Router: Component<RouterProps> = () => {
   const views: Record<Route.Home, forgo.Component> = {
     [Route.Home.Library]: <Library />,
     [Route.Home.Playlist]: <Playlist />,
     [Route.Home.Search]: <Search />
   };
 
-  const component = new forgo.Component<HomeRouterProps>({
+  const component = new forgo.Component<RouterProps>({
     render() {
       const view = subscribe(component);
 
@@ -29,4 +29,4 @@ const HomeRouter: Component<HomeRouterProps> = () => {
   return component;
 };
 
-export default HomeRouter;
+export default Router;
