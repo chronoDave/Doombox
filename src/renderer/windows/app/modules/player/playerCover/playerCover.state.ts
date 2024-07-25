@@ -15,9 +15,9 @@ export default store.select(() => initial, {
     const dir = await window.ipc.os.image();
 
     return ({
-      xs: new URL(`${song.image}/192.jpg`, `${dir}/`).href,
-      md: new URL(`${song.image}/256.jpg`, `${dir}/`).href,
-      lg: new URL(`${song.image}/384.jpg`, `${dir}/`).href
+      xs: new URL(`${song.image}-192.jpg`, `${dir}/`).href,
+      md: new URL(`${song.image}-256.jpg`, `${dir}/`).href,
+      lg: new URL(`${song.image}-384.jpg`, `${dir}/`).href
     });
   },
   shouldUpdate: (cur, prev) => cur.player.current.id !== prev.player.current.id

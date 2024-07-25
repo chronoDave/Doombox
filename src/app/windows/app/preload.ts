@@ -59,8 +59,7 @@ const ipc: Api = {
   },
   on: {
     parser: {
-      song: subscribe('parser', 'song'),
-      image: subscribe('parser', 'image'),
+      file: subscribe('parser', 'file'),
       size: subscribe('parser', 'size')
     },
     player: {

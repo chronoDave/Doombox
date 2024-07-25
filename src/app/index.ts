@@ -74,8 +74,7 @@ const run = async () => {
     root: PATH.THUMBS,
     db
   })
-    .on('image', window.send('parser')('image'))
-    .on('song', window.send('parser')('song'));
+    .on('file', window.send('parser')('file'));
 
   /** Initialize app */
   nativeTheme.themeSource = storage.theme.state.theme;

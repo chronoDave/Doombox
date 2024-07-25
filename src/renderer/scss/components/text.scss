@@ -10,7 +10,7 @@ html {
 
 $headings: h6, h5, h4, h3, h2, h1;
 @each $heading in $headings {
-  #{$heading}, .#{$heading} {
+  #{$heading} {
     font-weight: 400;
     font-size: 1em + (0.125em * list.index($headings, $heading));
     margin-bottom: 0.25em;

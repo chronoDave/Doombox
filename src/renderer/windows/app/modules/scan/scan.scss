@@ -1,6 +1,6 @@
 @use 'typography';
 
-.Scan {
+.scan {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,15 +8,6 @@
   padding: 16px;
   text-align: center;
   flex-grow: 1;
-
-  > .Loader {
-    height: 30px;
-    margin-bottom: 8px
-  }
-
-  > .title {
-    margin-bottom: 1em;
-  }
 
   > .file {
     @include typography.clamp(3);

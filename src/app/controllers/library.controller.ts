@@ -14,14 +14,14 @@ export type LibraryControllerProps = {
 
 export default (props: LibraryControllerProps): TransferController['library'] => ({
   add: async folders => {
-    const files = await globs('**/*.mp3')(folders);
+    const files = await globs('**/*.mp3', { absolute: true })(folders);
     const fresh = difference(files)(props.library.select().songs.map(x => x.file));
 
     return props.library.insert(Array.from(fresh));
   },
   remove: async folders => {
-    const stale = await globs('**/*.mp3')(folders);
-    const fresh = await globs('**/*.mp3')(props.storage.state.library.folders);
+    const stale = await globs('**/*.mp3', { absolute: true })(folders);
+    const fresh = await globs('**/*.mp3', { absolute: true })(props.storage.state.library.folders);
 
     props.library.remove(stale);
     return props.library.insert(fresh);
@@ -30,7 +30,7 @@ export default (props: LibraryControllerProps): TransferController['library'] =>
   reindex: async () => {
     const { songs } = props.library.select();
 
-    const files = await globs('**/*.mp3')(props.storage.state.library.folders);
+    const files = await globs('**/*.mp3', { absolute: true })(props.storage.state.library.folders);
     const stale = songs.filter(song => !files.includes(song.file));
     const fresh = difference(files)(songs.map(song => song.file));
 
@@ -41,7 +41,7 @@ export default (props: LibraryControllerProps): TransferController['library'] =>
   },
   rebuild: async () => {
     props.library.drop();
-    const files = await globs('**/*.mp3')(props.storage.state.library.folders);
+    const files = await globs('**/*.mp3', { absolute: true })(props.storage.state.library.folders);
 
     return props.library.insert(files);
   }

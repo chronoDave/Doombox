@@ -1,10 +1,10 @@
-.Load {
+.load {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  > .title {
-    margin-top: 8px;
+  p {
+    margin-top: 0.75rem;
   }
 }

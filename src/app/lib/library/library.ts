@@ -24,8 +24,7 @@ export type LibraryProps = {
 };
 
 export type LibraryEvents = {
-  song: (payload: SubscriptionController['parser']['song']) => void
-  image: (payload: SubscriptionController['parser']['image']) => void
+  file: (payload: SubscriptionController['parser']['file']) => void
   size: (payload: SubscriptionController['parser']['size']) => void
 };
 
@@ -117,7 +116,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
     this._parser = props.parser;
     this._root = props.root;
 
-    this._parser.on('parse', file => this.emit('song', file));
+    this._parser.on('parse', file => this.emit('file', file));
 
     fs.mkdirSync(this._root, { recursive: true });
   }
@@ -130,7 +129,7 @@ export default class Library extends EventEmitter<LibraryEvents> {
 
     this.emit('size', images.size);
     await pMap(images.entries(), ([src, id]) => {
-      this.emit('image', id);
+      this.emit('file', id);
 
       return Promise.all(this._sizes.map(size => (
         sharp(Buffer.from(src, 'base64'))

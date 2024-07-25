@@ -3,8 +3,7 @@
   grid-template-columns: repeat(var(--loader-bars), 1fr);
   align-items: flex-end;
   gap: 2px;
-  width: 25vw;
-  max-width: 240px;
+  width: 10rem;
   aspect-ratio: 2/1;
 
   > .bar {

@@ -14,6 +14,12 @@ import * as Route from './route';
 
 enableMapSet();
 const store = new Store<State>({
+  ipc: {
+    parser: {
+      size: null,
+      file: null
+    }
+  },
   route: {
     app: Route.App.Load,
     home: Route.Home.Library,
@@ -51,9 +57,15 @@ const store = new Store<State>({
 
 fetch(store);
 
-window.ipc.on.parser.song(() => {
+window.ipc.on.parser.file(file => {
   store.set(produce(draft => {
-    draft.route.app = Route.App.Scan;
+    draft.ipc.parser.file = file;
+  }));
+});
+
+window.ipc.on.parser.size(size => {
+  store.set(produce(draft => {
+    draft.ipc.parser.size = size;
   }));
 });
 

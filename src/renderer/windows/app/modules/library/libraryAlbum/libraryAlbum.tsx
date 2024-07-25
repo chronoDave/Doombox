@@ -34,7 +34,7 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
             <picture>
               <source
                 srcset={(props.dir ?
-                  new URL(`${props.album.image}/${256}.jpg`, `${props.dir}/`).href :
+                  new URL(`${props.album.image}-${256}.jpg`, `${props.dir}/`).href :
                   new URL('../icons/icon_light.png').href
                 )}
                 media="(min-width: 960px) and (min-height: 720px)"
@@ -43,7 +43,7 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
               />
               <source
                 srcset={(props.dir ?
-                  new URL(`${props.album.image}/${192}.jpg`, `${props.dir}/`).href :
+                  new URL(`${props.album.image}-${192}.jpg`, `${props.dir}/`).href :
                   new URL('../icons/icon_light.png').href
                 )}
                 media="(min-width: 720px) and (min-height: 480px)"
@@ -52,7 +52,7 @@ const LibraryAlbum: Component<LibraryAlbumProps> = () => {
               />
               <img
                 srcset={(props.dir ?
-                  new URL(`${props.album.image}/${128}.jpg`, `${props.dir}/`).href :
+                  new URL(`${props.album.image}-${128}.jpg`, `${props.dir}/`).href :
                   new URL('../icons/icon_light.png').href
                 )}
                 alt=''

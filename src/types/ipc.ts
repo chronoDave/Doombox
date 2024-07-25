@@ -81,8 +81,7 @@ export type TransferController = {
 export type SubscriptionController = {
   parser: {
     size: number
-    song: string
-    image: string
+    file: string
   }
   player: {
     play: void

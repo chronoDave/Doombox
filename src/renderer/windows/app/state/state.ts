@@ -6,6 +6,12 @@ import type { ThemeShape } from '@doombox/types/shapes/theme.shape';
 import type { UserShape } from '@doombox/types/shapes/user.shape';
 
 export type State = {
+  ipc: {
+    parser: {
+      size: number | null
+      file: string | null
+    }
+  }
   route: {
     app: Route.App
     home: Route.Home
