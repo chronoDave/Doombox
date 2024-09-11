@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import random from '@doombox/lib/math/random';
+import shuffle from '@doombox/lib/list/shuffle';
 import { AudioStatus } from '@doombox/renderer/audio/audio';
 
 import store from '../store';
@@ -95,7 +95,8 @@ export const setQueueIndex = (id: string) => {
 
 export const shuffleQueue = () => {
   store.set(produce(draft => {
-    draft.queue.index = random(0, draft.queue.songs.length - 1);
+    draft.queue.songs = shuffle(draft.queue.songs);
+    draft.queue.index = 0;
   }));
 
   play(store.state.queue.songs[store.state.queue.index]);
